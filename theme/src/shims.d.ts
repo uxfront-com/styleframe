@@ -20,4 +20,6 @@ declare module "culori" {
 				b: number;
 		  }
 		| undefined;
+
+	export const wcagContrast: (a: string, b: string) => number;
 }
