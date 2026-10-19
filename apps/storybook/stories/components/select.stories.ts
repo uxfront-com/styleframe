@@ -29,12 +29,22 @@ const meta = {
 		variant: {
 			control: "select",
 			options: variants,
+			// The inferred union type makes Storybook drop `variant` URL args.
+			type: { name: "enum", value: [...variants] },
 			description: "The visual style of the trigger (solid, soft, ghost)",
 		},
 		size: {
 			control: "select",
 			options: sizes,
 			description: "The size of the select",
+		},
+		invalid: {
+			control: "boolean",
+			description: "Whether the select is in an invalid state",
+		},
+		readonly: {
+			control: "boolean",
+			description: "Whether the select is read-only",
 		},
 	},
 	render: (args) => ({
@@ -194,6 +204,25 @@ export const Soft: Story = {
 
 export const Ghost: Story = {
 	args: { variant: "ghost" },
+};
+
+// State stories
+export const ReadOnly: Story = {
+	args: {
+		readonly: true,
+		modelValue: "United States",
+	},
+	render: (args) => ({
+		components: { Select },
+		setup() {
+			return { args };
+		},
+		template: `
+			<div class="select-wrapper">
+				<Select v-bind="args" />
+			</div>
+		`,
+	}),
 };
 
 // Size stories
