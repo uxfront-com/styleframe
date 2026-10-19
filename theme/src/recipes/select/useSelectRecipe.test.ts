@@ -20,7 +20,10 @@ function createInstance() {
 		"borderWidth",
 		"borderStyle",
 		"borderColor",
+		"borderBottomColor",
 		"borderRadius",
+		"borderBottomLeftRadius",
+		"borderBottomRightRadius",
 		"paddingTop",
 		"paddingBottom",
 		"paddingLeft",
@@ -152,18 +155,75 @@ describe("useSelectRecipe", () => {
 				match: { color: "neutral", variant: "solid" },
 				css: {
 					background: "@color.white",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": { borderColor: "@color.gray-300" },
+					"&:hover": { borderColor: "@color.gray-500" },
 					"&:dark": {
 						background: "@color.gray-900",
-						borderColor: "@color.gray-700",
+						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": { borderColor: "@color.gray-600" },
+					"&:dark:hover": { borderColor: "@color.gray-450" },
 				},
 			});
 		});
+
+		it.each([
+			["light", "solid", "gray-450", "gray-500", "gray-450", "gray-500"],
+			["light", "soft", "gray-450", "gray-500", "gray-450", "gray-500"],
+			["dark", "solid", "gray-500", "gray-450", "gray-500", "gray-450"],
+			["dark", "soft", "gray-500", "gray-450", "gray-500", "gray-450"],
+			["neutral", "solid", "gray-450", "gray-500", "gray-500", "gray-450"],
+			["neutral", "soft", "gray-450", "gray-500", "gray-500", "gray-450"],
+		])(
+			"should give the %s %s compound its rest and hover border tokens",
+			(color, variant, rest, hover, darkRest, darkHover) => {
+				const s = createInstance();
+				const recipe = useSelectRecipe(s);
+
+				const cv = recipe.compoundVariants!.find(
+					(v) => v.match.color === color && v.match.variant === variant,
+				);
+
+				expect(cv?.css).toMatchObject({
+					borderColor: `@color.${rest}`,
+					"&:hover": { borderColor: `@color.${hover}` },
+					"&:dark": { borderColor: `@color.${darkRest}` },
+					"&:dark:hover": { borderColor: `@color.${darkHover}` },
+				});
+			},
+		);
+
+		it.each([
+			["light", "gray-450", "gray-500", "gray-450", "gray-500"],
+			["dark", "gray-500", "gray-450", "gray-500", "gray-450"],
+			["neutral", "gray-450", "gray-500", "gray-500", "gray-450"],
+		])(
+			"should give the %s ghost compound a bottom border and square bottom corners",
+			(color, rest, hover, darkRest, darkHover) => {
+				const s = createInstance();
+				const recipe = useSelectRecipe(s);
+
+				const cv = recipe.compoundVariants!.find(
+					(v) => v.match.color === color && v.match.variant === "ghost",
+				);
+
+				expect(cv?.css).toMatchObject({
+					background: "transparent",
+					borderColor: "transparent",
+					borderBottomColor: `@color.${rest}`,
+					borderBottomLeftRadius: "0",
+					borderBottomRightRadius: "0",
+					"&:hover": { borderBottomColor: `@color.${hover}` },
+					"&:dark": {
+						background: "transparent",
+						borderColor: "transparent",
+						borderBottomColor: `@color.${darkRest}`,
+					},
+					"&:dark:hover": { borderBottomColor: `@color.${darkHover}` },
+				});
+			},
+		);
 
 		it("should have an invalid compound overriding the focus ring color", () => {
 			const s = createInstance();
@@ -173,9 +233,43 @@ describe("useSelectRecipe", () => {
 				(v) => v.match.invalid === "true",
 			);
 
-			expect(cv?.css).toMatchObject({
+			expect(cv?.css).toEqual({
 				borderColor: "@color.error",
+				borderBottomColor: "@color.error",
+				"&:hover": {
+					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
+				},
 				"&:focus-within": { outlineColor: "@color.error" },
+				"&:dark": {
+					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
+				},
+				"&:dark:hover": {
+					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
+				},
+			});
+		});
+
+		it("should have a read-only compound with a dashed border and a tinted fill", () => {
+			const s = createInstance();
+			const recipe = useSelectRecipe(s);
+
+			const cv = recipe.compoundVariants!.find(
+				(v) => v.match.readonly === "true",
+			);
+
+			expect(cv).toEqual({
+				match: { readonly: "true" },
+				css: {
+					background: "@color.gray-50",
+					borderStyle: "@border-style.dashed",
+					cursor: "default",
+					"&:dark": {
+						background: "@color.gray-800",
+					},
+				},
 			});
 		});
 
