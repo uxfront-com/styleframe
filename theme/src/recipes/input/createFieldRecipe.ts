@@ -31,18 +31,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "light", variant: "default" },
 			css: {
 				background: "@color.white",
-				borderColor: "@color.gray-200",
+				borderColor: "@color.gray-450",
 				color: "@color.text",
 				"&:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
 					background: "@color.white",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text-inverted",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 			},
 		},
@@ -50,18 +50,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "light", variant: "soft" },
 			css: {
 				background: "@color.gray-100",
-				borderColor: "@color.gray-200",
+				borderColor: "@color.gray-450",
 				color: "@color.text",
 				"&:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
 					background: "@color.gray-100",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text-inverted",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 			},
 		},
@@ -70,11 +70,21 @@ export function fieldSurfaceCompoundVariants({
 			css: {
 				background: "transparent",
 				borderColor: "transparent",
+				borderBottomColor: "@color.gray-450",
+				borderBottomLeftRadius: "0",
+				borderBottomRightRadius: "0",
 				color: "@color.text",
+				"&:hover": {
+					borderBottomColor: "@color.gray-500",
+				},
 				"&:dark": {
 					background: "transparent",
 					borderColor: "transparent",
+					borderBottomColor: "@color.gray-450",
 					color: "@color.text-inverted",
+				},
+				"&:dark:hover": {
+					borderBottomColor: "@color.gray-500",
 				},
 			},
 		},
@@ -84,18 +94,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "dark", variant: "default" },
 			css: {
 				background: "@color.gray-900",
-				borderColor: "@color.gray-700",
+				borderColor: "@color.gray-500",
 				color: "@color.white",
 				"&:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 				"&:dark": {
 					background: "@color.gray-900",
-					borderColor: "@color.gray-700",
+					borderColor: "@color.gray-500",
 					color: "@color.white",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 			},
 		},
@@ -103,18 +113,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "dark", variant: "soft" },
 			css: {
 				background: "@color.gray-800",
-				borderColor: "@color.gray-700",
+				borderColor: "@color.gray-500",
 				color: "@color.gray-300",
 				"&:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 				"&:dark": {
 					background: "@color.gray-800",
-					borderColor: "@color.gray-700",
+					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 			},
 		},
@@ -123,11 +133,21 @@ export function fieldSurfaceCompoundVariants({
 			css: {
 				background: "transparent",
 				borderColor: "transparent",
+				borderBottomColor: "@color.gray-500",
+				borderBottomLeftRadius: "0",
+				borderBottomRightRadius: "0",
 				color: "@color.gray-300",
+				"&:hover": {
+					borderBottomColor: "@color.gray-450",
+				},
 				"&:dark": {
 					background: "transparent",
 					borderColor: "transparent",
+					borderBottomColor: "@color.gray-500",
 					color: "@color.gray-300",
+				},
+				"&:dark:hover": {
+					borderBottomColor: "@color.gray-450",
 				},
 			},
 		},
@@ -137,18 +157,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "neutral", variant: "default" },
 			css: {
 				background: "@color.white",
-				borderColor: "@color.gray-200",
+				borderColor: "@color.gray-450",
 				color: "@color.text",
 				"&:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
 					background: "@color.gray-900",
-					borderColor: "@color.gray-700",
+					borderColor: "@color.gray-500",
 					color: "@color.white",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 			},
 		},
@@ -156,18 +176,18 @@ export function fieldSurfaceCompoundVariants({
 			match: { color: "neutral", variant: "soft" },
 			css: {
 				background: "@color.gray-100",
-				borderColor: "@color.gray-200",
+				borderColor: "@color.gray-450",
 				color: "@color.text",
 				"&:hover": {
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
 					background: "@color.gray-800",
-					borderColor: "@color.gray-700",
+					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
 				},
 				"&:dark:hover": {
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-450",
 				},
 			},
 		},
@@ -176,42 +196,58 @@ export function fieldSurfaceCompoundVariants({
 			css: {
 				background: "transparent",
 				borderColor: "transparent",
+				borderBottomColor: "@color.gray-450",
+				borderBottomLeftRadius: "0",
+				borderBottomRightRadius: "0",
 				color: "@color.text",
+				"&:hover": {
+					borderBottomColor: "@color.gray-500",
+				},
 				"&:dark": {
 					background: "transparent",
 					borderColor: "transparent",
+					borderBottomColor: "@color.gray-500",
 					color: "@color.white",
+				},
+				"&:dark:hover": {
+					borderBottomColor: "@color.gray-450",
 				},
 			},
 		},
 
-		// Invalid state — overrides border and focus ring to error color.
+		// Invalid state — overrides border and focus ring to error color. It sets
+		// the bottom color too, so it replaces the ghost underline's color.
 		{
 			match: { invalid: "true" },
 			css: {
 				borderColor: "@color.error",
+				borderBottomColor: "@color.error",
 				"&:hover": {
 					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
 				},
 				[`&:${focusModifier}`]: {
 					outlineColor: "@color.error",
 				},
 				"&:dark": {
 					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
 				},
 				"&:dark:hover": {
 					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
 				},
 			},
 		},
 
-		// Read-only state — subtle background shift, default cursor.
+		// Read-only state — dashed border, subtle background shift, default cursor.
 		...(includeReadonly
 			? [
 					{
 						match: { readonly: "true" },
 						css: {
 							background: "@color.gray-50",
+							borderStyle: "@border-style.dashed",
 							cursor: "default",
 							"&:dark": {
 								background: "@color.gray-800",

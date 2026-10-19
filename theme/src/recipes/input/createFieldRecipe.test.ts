@@ -7,6 +7,7 @@ import {
 import {
 	createFieldAddonRecipe,
 	createFieldRecipe,
+	fieldSurfaceCompoundVariants,
 	useFieldSelector,
 } from "./createFieldRecipe";
 
@@ -28,6 +29,9 @@ function createInstance() {
 		"borderStyle",
 		"borderColor",
 		"borderRadius",
+		"borderBottomColor",
+		"borderBottomLeftRadius",
+		"borderBottomRightRadius",
 		"padding",
 		"paddingTop",
 		"paddingBottom",
@@ -139,6 +143,83 @@ describe("createFieldRecipe", () => {
 			tone: "a",
 		});
 		expect(findSelector(s, ".demo-extra")).toBeDefined();
+	});
+});
+
+describe("fieldSurfaceCompoundVariants", () => {
+	const compounds = fieldSurfaceCompoundVariants();
+	const lastGhost = Math.max(
+		...compounds.flatMap((v, i) => (v.match.variant === "ghost" ? [i] : [])),
+	);
+
+	it.each([
+		[
+			"light",
+			"@color.gray-450",
+			"@color.gray-500",
+			"@color.gray-450",
+			"@color.gray-500",
+		],
+		[
+			"dark",
+			"@color.gray-500",
+			"@color.gray-450",
+			"@color.gray-500",
+			"@color.gray-450",
+		],
+		[
+			"neutral",
+			"@color.gray-450",
+			"@color.gray-500",
+			"@color.gray-500",
+			"@color.gray-450",
+		],
+	])(
+		"gives the %s ghost a bottom border and square bottom corners",
+		(color, rest, hover, darkRest, darkHover) => {
+			const cv = compounds.find(
+				(v) => v.match.color === color && v.match.variant === "ghost",
+			);
+
+			expect(cv?.css).toMatchObject({
+				background: "transparent",
+				borderColor: "transparent",
+				borderBottomColor: rest,
+				borderBottomLeftRadius: "0",
+				borderBottomRightRadius: "0",
+				"&:hover": { borderBottomColor: hover },
+				"&:dark": {
+					background: "transparent",
+					borderColor: "transparent",
+					borderBottomColor: darkRest,
+				},
+				"&:dark:hover": { borderBottomColor: darkHover },
+			});
+		},
+	);
+
+	it("paints a ghost invalid bottom border with the error color", () => {
+		const invalid = compounds.findIndex((v) => v.match.invalid === "true");
+
+		// A later compound replaces an earlier one's key, so invalid must follow every ghost.
+		expect(invalid).toBeGreaterThan(lastGhost);
+		expect(compounds[invalid]!.css).toMatchObject({
+			borderBottomColor: "@color.error",
+			"&:hover": { borderBottomColor: "@color.error" },
+			"&:dark": { borderBottomColor: "@color.error" },
+			"&:dark:hover": { borderBottomColor: "@color.error" },
+		});
+	});
+
+	it("gives the read-only state a dashed border after the ghost compounds", () => {
+		const readonly = compounds.findIndex((v) => v.match.readonly === "true");
+
+		expect(readonly).toBeGreaterThan(lastGhost);
+		expect(compounds[readonly]!.css).toMatchObject({
+			background: "@color.gray-50",
+			borderStyle: "@border-style.dashed",
+			"&:dark": { background: "@color.gray-800" },
+		});
 	});
 });
 

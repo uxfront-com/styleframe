@@ -19,6 +19,9 @@ function createInstance() {
 		"borderStyle",
 		"borderColor",
 		"borderRadius",
+		"borderBottomColor",
+		"borderBottomLeftRadius",
+		"borderBottomRightRadius",
 		"width",
 		"height",
 		"fontSize",
@@ -191,20 +194,74 @@ describe("useOtpCellRecipe", () => {
 				match: { color: "neutral", variant: "default" },
 				css: {
 					background: "@color.white",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text",
 					"&:hover": {
-						borderColor: "@color.gray-300",
+						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
 						background: "@color.gray-900",
-						borderColor: "@color.gray-700",
+						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
 					"&:dark:hover": {
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 				},
+			});
+		});
+
+		it("should give the neutral ghost compound variant an adaptive bottom border and square bottom corners", () => {
+			const s = createInstance();
+			const recipe = useOtpCellRecipe(s);
+
+			const cv = recipe.compoundVariants!.find(
+				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
+			);
+
+			expect(cv).toEqual({
+				match: { color: "neutral", variant: "ghost" },
+				css: {
+					background: "transparent",
+					borderColor: "transparent",
+					borderBottomColor: "@color.gray-450",
+					borderBottomLeftRadius: "0",
+					borderBottomRightRadius: "0",
+					color: "@color.text",
+					"&:hover": {
+						borderBottomColor: "@color.gray-500",
+					},
+					"&:dark": {
+						background: "transparent",
+						borderColor: "transparent",
+						borderBottomColor: "@color.gray-500",
+						color: "@color.white",
+					},
+					"&:dark:hover": {
+						borderBottomColor: "@color.gray-450",
+					},
+				},
+			});
+		});
+
+		it("should paint a ghost invalid bottom border with the error color", () => {
+			const s = createInstance();
+			const recipe = useOtpCellRecipe(s);
+
+			const ghost = recipe.compoundVariants!.findIndex(
+				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
+			);
+			const invalid = recipe.compoundVariants!.findIndex(
+				(v) => v.match.invalid === "true",
+			);
+
+			// A later compound replaces an earlier one's key, so invalid must follow ghost.
+			expect(invalid).toBeGreaterThan(ghost);
+			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
+				borderBottomColor: "@color.error",
+				"&:hover": { borderBottomColor: "@color.error" },
+				"&:dark": { borderBottomColor: "@color.error" },
+				"&:dark:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -220,17 +277,21 @@ describe("useOtpCellRecipe", () => {
 				match: { invalid: "true" },
 				css: {
 					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
 					"&:hover": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 					"&:focus-visible": {
 						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 					"&:dark:hover": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 				},
 			});

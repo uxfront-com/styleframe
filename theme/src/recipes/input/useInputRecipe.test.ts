@@ -23,6 +23,9 @@ function createInstance() {
 		"borderStyle",
 		"borderColor",
 		"borderRadius",
+		"borderBottomColor",
+		"borderBottomLeftRadius",
+		"borderBottomRightRadius",
 		"padding",
 		"paddingTop",
 		"paddingBottom",
@@ -214,18 +217,18 @@ describe("useInputRecipe", () => {
 				match: { color: "light", variant: "default" },
 				css: {
 					background: "@color.white",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text",
 					"&:hover": {
-						borderColor: "@color.gray-300",
+						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
 						background: "@color.white",
-						borderColor: "@color.gray-200",
+						borderColor: "@color.gray-450",
 						color: "@color.text-inverted",
 					},
 					"&:dark:hover": {
-						borderColor: "@color.gray-300",
+						borderColor: "@color.gray-500",
 					},
 				},
 			});
@@ -243,18 +246,18 @@ describe("useInputRecipe", () => {
 				match: { color: "dark", variant: "soft" },
 				css: {
 					background: "@color.gray-800",
-					borderColor: "@color.gray-700",
+					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
 					"&:hover": {
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 					"&:dark": {
 						background: "@color.gray-800",
-						borderColor: "@color.gray-700",
+						borderColor: "@color.gray-500",
 						color: "@color.gray-300",
 					},
 					"&:dark:hover": {
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 				},
 			});
@@ -272,24 +275,24 @@ describe("useInputRecipe", () => {
 				match: { color: "neutral", variant: "default" },
 				css: {
 					background: "@color.white",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					color: "@color.text",
 					"&:hover": {
-						borderColor: "@color.gray-300",
+						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
 						background: "@color.gray-900",
-						borderColor: "@color.gray-700",
+						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
 					"&:dark:hover": {
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 				},
 			});
 		});
 
-		it("should have correct ghost compound variant with transparent border", () => {
+		it("should give the neutral ghost compound variant an adaptive bottom border and square bottom corners", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
@@ -297,9 +300,49 @@ describe("useInputRecipe", () => {
 				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
 			);
 
-			expect(cv?.css).toMatchObject({
-				background: "transparent",
-				borderColor: "transparent",
+			expect(cv).toEqual({
+				match: { color: "neutral", variant: "ghost" },
+				css: {
+					background: "transparent",
+					borderColor: "transparent",
+					borderBottomColor: "@color.gray-450",
+					borderBottomLeftRadius: "0",
+					borderBottomRightRadius: "0",
+					color: "@color.text",
+					"&:hover": {
+						borderBottomColor: "@color.gray-500",
+					},
+					"&:dark": {
+						background: "transparent",
+						borderColor: "transparent",
+						borderBottomColor: "@color.gray-500",
+						color: "@color.white",
+					},
+					"&:dark:hover": {
+						borderBottomColor: "@color.gray-450",
+					},
+				},
+			});
+		});
+
+		it("should paint a ghost invalid bottom border with the error color", () => {
+			const s = createInstance();
+			const recipe = useInputRecipe(s);
+
+			const ghost = recipe.compoundVariants!.findIndex(
+				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
+			);
+			const invalid = recipe.compoundVariants!.findIndex(
+				(v) => v.match.invalid === "true",
+			);
+
+			// A later compound replaces an earlier one's key, so invalid must follow ghost.
+			expect(invalid).toBeGreaterThan(ghost);
+			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
+				borderBottomColor: "@color.error",
+				"&:hover": { borderBottomColor: "@color.error" },
+				"&:dark": { borderBottomColor: "@color.error" },
+				"&:dark:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -315,23 +358,27 @@ describe("useInputRecipe", () => {
 				match: { invalid: "true" },
 				css: {
 					borderColor: "@color.error",
+					borderBottomColor: "@color.error",
 					"&:hover": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 					"&:focus-within": {
 						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 					"&:dark:hover": {
 						borderColor: "@color.error",
+						borderBottomColor: "@color.error",
 					},
 				},
 			});
 		});
 
-		it("should have correct readonly compound variant with subtle background", () => {
+		it("should have correct readonly compound variant with a dashed border", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
@@ -343,6 +390,7 @@ describe("useInputRecipe", () => {
 				match: { readonly: "true" },
 				css: {
 					background: "@color.gray-50",
+					borderStyle: "@border-style.dashed",
 					cursor: "default",
 					"&:dark": {
 						background: "@color.gray-800",
