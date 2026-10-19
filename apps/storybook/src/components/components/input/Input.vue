@@ -57,6 +57,7 @@ function onInput(event: Event) {
 			:value="modelValue"
 			:disabled="disabled"
 			:readonly="readonly"
+			:aria-invalid="invalid || undefined"
 			@input="onInput"
 		/>
 		<span v-if="slots.suffix" :class="suffixClasses">
