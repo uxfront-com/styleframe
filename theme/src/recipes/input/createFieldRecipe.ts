@@ -221,13 +221,13 @@ export function fieldSurfaceCompoundVariants({
 				]
 			: []),
 
-		// Disabled state — dim, not-allowed cursor, block interaction.
+		// Disabled state — dim, not-allowed cursor. No `pointer-events: none`:
+		// it would hide the cursor too.
 		{
 			match: { disabled: "true" },
 			css: {
 				opacity: "0.5",
 				cursor: "not-allowed",
-				pointerEvents: "none",
 			},
 		},
 	];
@@ -444,6 +444,9 @@ export function useFieldSelector(s: Styleframe, query: string) {
 		lineHeight: "inherit",
 		"&::placeholder": {
 			color: "@color.text-weakest",
+		},
+		"&:disabled": {
+			cursor: "not-allowed",
 		},
 	});
 }

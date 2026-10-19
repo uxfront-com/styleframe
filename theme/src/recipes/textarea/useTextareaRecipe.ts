@@ -52,5 +52,7 @@ export const useTextareaRecipe = createFieldRecipe(
 			resize: "horizontal",
 		});
 		selector(".textarea.-resize-both .textarea-field", { resize: "both" });
+		// Same specificity as the resize selectors, so it wins by coming last.
+		selector(".textarea .textarea-field:disabled", { resize: "none" });
 	},
 );

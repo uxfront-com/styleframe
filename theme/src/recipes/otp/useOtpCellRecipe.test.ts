@@ -31,7 +31,6 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
-		"pointerEvents",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -248,7 +247,7 @@ describe("useOtpCellRecipe", () => {
 			expect(cv).toBeUndefined();
 		});
 
-		it("should dim and block interaction when disabled", () => {
+		it("should dim and show a not-allowed cursor when disabled", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
@@ -261,7 +260,6 @@ describe("useOtpCellRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
-					pointerEvents: "none",
 				},
 			});
 		});

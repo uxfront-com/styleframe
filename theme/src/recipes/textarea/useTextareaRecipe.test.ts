@@ -37,7 +37,6 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
-		"pointerEvents",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -287,7 +286,6 @@ describe("useTextareaRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
-					pointerEvents: "none",
 				},
 			});
 		});
@@ -343,6 +341,52 @@ describe("useTextareaRecipe", () => {
 						(child as { query: string }).query === query,
 				);
 				expect(rule, `missing resize selector: ${query}`).toBeDefined();
+			}
+		});
+
+		it("should give the disabled nested textarea a not-allowed cursor", () => {
+			const s = createInstance();
+			useTextareaRecipe(s);
+
+			const fieldSelector = s.root.children.find(
+				(child) =>
+					child.type === "selector" &&
+					(child as { query: string }).query === ".textarea-field",
+			) as
+				| {
+						children: {
+							query: string;
+							declarations: Record<string, unknown>;
+						}[];
+				  }
+				| undefined;
+
+			expect(
+				fieldSelector?.children.find((child) => child.query === "&:disabled")
+					?.declarations,
+			).toEqual({ cursor: "not-allowed" });
+		});
+
+		it("should turn the resize handle off on a disabled textarea, after every resize selector", () => {
+			const s = createInstance();
+			useTextareaRecipe(s);
+
+			const queries = s.root.children
+				.filter((child) => child.type === "selector")
+				.map((child) => (child as { query: string }).query);
+			const disabledIndex = queries.indexOf(
+				".textarea .textarea-field:disabled",
+			);
+			const disabledRule = s.root.children.find(
+				(child) =>
+					child.type === "selector" &&
+					(child as { query: string }).query ===
+						".textarea .textarea-field:disabled",
+			) as { declarations: Record<string, unknown> } | undefined;
+
+			expect(disabledRule?.declarations).toEqual({ resize: "none" });
+			for (const query of queries.filter((q) => q.includes("-resize-"))) {
+				expect(disabledIndex, query).toBeGreaterThan(queries.indexOf(query));
 			}
 		});
 	});
