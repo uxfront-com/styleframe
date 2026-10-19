@@ -152,49 +152,138 @@ describe("fieldSurfaceCompoundVariants", () => {
 		...compounds.flatMap((v, i) => (v.match.variant === "ghost" ? [i] : [])),
 	);
 
+	// Rest and hover borders per color: `light` and `dark` keep theirs in both
+	// modes, `neutral` takes the light pair plain and the dark pair under `&:dark`.
+	const light = { rest: "@color.gray-450", hover: "@color.gray-500" };
+	const dark = { rest: "@color.gray-500", hover: "@color.gray-450" };
+
+	function bordered(
+		[bg, fg, darkBg, darkFg]: string[],
+		plain: typeof light,
+		inDark: typeof light,
+	) {
+		return {
+			background: bg,
+			borderColor: plain.rest,
+			color: fg,
+			"&:hover": { borderColor: plain.hover },
+			"&:dark": { background: darkBg, borderColor: inDark.rest, color: darkFg },
+			"&:dark:hover": { borderColor: inDark.hover },
+		};
+	}
+
+	function ghost(
+		[fg, darkFg]: string[],
+		plain: typeof light,
+		inDark: typeof light,
+	) {
+		return {
+			background: "transparent",
+			borderColor: "transparent",
+			borderBottomColor: plain.rest,
+			borderBottomLeftRadius: "0",
+			borderBottomRightRadius: "0",
+			color: fg,
+			"&:hover": { borderBottomColor: plain.hover },
+			"&:dark": {
+				background: "transparent",
+				borderColor: "transparent",
+				borderBottomColor: inDark.rest,
+				color: darkFg,
+			},
+			"&:dark:hover": { borderBottomColor: inDark.hover },
+		};
+	}
+
 	it.each([
 		[
 			"light",
-			"@color.gray-450",
-			"@color.gray-500",
-			"@color.gray-450",
-			"@color.gray-500",
+			"default",
+			bordered(
+				["@color.white", "@color.text", "@color.white", "@color.text-inverted"],
+				light,
+				light,
+			),
+		],
+		[
+			"light",
+			"soft",
+			bordered(
+				[
+					"@color.gray-100",
+					"@color.text",
+					"@color.gray-100",
+					"@color.text-inverted",
+				],
+				light,
+				light,
+			),
+		],
+		[
+			"light",
+			"ghost",
+			ghost(["@color.text", "@color.text-inverted"], light, light),
 		],
 		[
 			"dark",
-			"@color.gray-500",
-			"@color.gray-450",
-			"@color.gray-500",
-			"@color.gray-450",
+			"default",
+			bordered(
+				["@color.gray-900", "@color.white", "@color.gray-900", "@color.white"],
+				dark,
+				dark,
+			),
+		],
+		[
+			"dark",
+			"soft",
+			bordered(
+				[
+					"@color.gray-800",
+					"@color.gray-300",
+					"@color.gray-800",
+					"@color.gray-300",
+				],
+				dark,
+				dark,
+			),
+		],
+		[
+			"dark",
+			"ghost",
+			ghost(["@color.gray-300", "@color.gray-300"], dark, dark),
 		],
 		[
 			"neutral",
-			"@color.gray-450",
-			"@color.gray-500",
-			"@color.gray-500",
-			"@color.gray-450",
+			"default",
+			bordered(
+				["@color.white", "@color.text", "@color.gray-900", "@color.white"],
+				light,
+				dark,
+			),
 		],
+		[
+			"neutral",
+			"soft",
+			bordered(
+				[
+					"@color.gray-100",
+					"@color.text",
+					"@color.gray-800",
+					"@color.gray-300",
+				],
+				light,
+				dark,
+			),
+		],
+		["neutral", "ghost", ghost(["@color.text", "@color.white"], light, dark)],
 	])(
-		"gives the %s ghost a bottom border and square bottom corners",
-		(color, rest, hover, darkRest, darkHover) => {
+		"paints the %s %s surface with the 3:1 border tokens",
+		(color, variant, css) => {
 			const cv = compounds.find(
-				(v) => v.match.color === color && v.match.variant === "ghost",
+				(v) => v.match.color === color && v.match.variant === variant,
 			);
 
-			expect(cv?.css).toMatchObject({
-				background: "transparent",
-				borderColor: "transparent",
-				borderBottomColor: rest,
-				borderBottomLeftRadius: "0",
-				borderBottomRightRadius: "0",
-				"&:hover": { borderBottomColor: hover },
-				"&:dark": {
-					background: "transparent",
-					borderColor: "transparent",
-					borderBottomColor: darkRest,
-				},
-				"&:dark:hover": { borderBottomColor: darkHover },
-			});
+			expect(cv).toEqual({ match: { color, variant }, css });
 		},
 	);
 
