@@ -39,7 +39,6 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
-		"pointerEvents",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -230,7 +229,7 @@ describe("useInputDateRecipe", () => {
 			});
 		});
 
-		it("should dim and block interaction when disabled", () => {
+		it("should dim and show a not-allowed cursor when disabled", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
@@ -243,7 +242,6 @@ describe("useInputDateRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
-					pointerEvents: "none",
 				},
 			});
 		});

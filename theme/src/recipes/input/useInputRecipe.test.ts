@@ -37,7 +37,6 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
-		"pointerEvents",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -365,7 +364,6 @@ describe("useInputRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
-					pointerEvents: "none",
 				},
 			});
 		});
@@ -384,6 +382,30 @@ describe("useInputRecipe", () => {
 
 			expect(inputFieldSelector).toBeDefined();
 			expect(inputFieldSelector?.query).toBe(".input-field");
+		});
+
+		it("should give the disabled nested input a not-allowed cursor", () => {
+			const s = createInstance();
+			useInputRecipe(s);
+
+			const inputFieldSelector = s.root.children.find(
+				(child) =>
+					child.type === "selector" &&
+					(child as { query: string }).query === ".input-field",
+			) as
+				| {
+						children: {
+							query: string;
+							declarations: Record<string, unknown>;
+						}[];
+				  }
+				| undefined;
+
+			expect(
+				inputFieldSelector?.children.find(
+					(child) => child.query === "&:disabled",
+				)?.declarations,
+			).toEqual({ cursor: "not-allowed" });
 		});
 	});
 

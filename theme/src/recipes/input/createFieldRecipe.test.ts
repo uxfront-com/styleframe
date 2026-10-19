@@ -42,7 +42,6 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
-		"pointerEvents",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -208,5 +207,20 @@ describe("useFieldSelector", () => {
 			border: "none",
 			padding: "0",
 		});
+	});
+
+	it("should give a disabled field a not-allowed cursor", () => {
+		for (const query of [".input-field", ".textarea-field"]) {
+			const s = createInstance();
+			useFieldSelector(s, query);
+
+			const disabled = (
+				findSelector(s, query) as unknown as {
+					children: { query: string; declarations: Record<string, unknown> }[];
+				}
+			).children.find((child) => child.query === "&:disabled");
+
+			expect(disabled?.declarations, query).toEqual({ cursor: "not-allowed" });
+		}
 	});
 });
