@@ -3,7 +3,13 @@ import { validate } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
-import { configFileExists, formatDiagnostic, pluralize } from "../utils";
+import { resolveTsc, typecheck } from "../typecheck";
+import {
+	type CheckDiagnostic,
+	formatDiagnostic,
+	pluralize,
+	resolveConfigFile,
+} from "../utils";
 
 export default defineCommand({
 	meta: {
@@ -23,10 +29,26 @@ export default defineCommand({
 			description: "Print the result as one JSON document on stdout",
 			default: false,
 		},
+		typecheck: {
+			type: "boolean",
+			description:
+				"Also type-check the entry file with the project's TypeScript",
+			default: false,
+		},
 	},
 	async run({ args }) {
-		if (!configFileExists(args.entry)) {
+		const file = resolveConfigFile(args.entry);
+		if (!file) {
 			consola.error(`Config file not found: ${args.entry}`);
+			process.exitCode = 1;
+			return;
+		}
+
+		const tsc = args.typecheck ? resolveTsc(file) : undefined;
+		if (args.typecheck && !tsc) {
+			consola.error(
+				"TypeScript not found: install `typescript` in your project to use --typecheck.",
+			);
 			process.exitCode = 1;
 			return;
 		}
@@ -38,7 +60,11 @@ export default defineCommand({
 		}
 
 		const instance = await loadConfiguration({ entry: args.entry });
-		const diagnostics = validate(instance);
+		const diagnostics: CheckDiagnostic[] = validate(instance);
+
+		if (tsc) {
+			diagnostics.push(...(await typecheck(file, tsc)));
+		}
 
 		if (diagnostics.length > 0) {
 			process.exitCode = 1;

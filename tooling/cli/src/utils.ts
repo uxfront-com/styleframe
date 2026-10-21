@@ -1,7 +1,12 @@
 import { access } from "node:fs/promises";
 import { constants, existsSync } from "node:fs";
 import path from "node:path";
-import type { Diagnostic } from "@styleframe/core";
+import type { Diagnostic, DiagnosticCode } from "@styleframe/core";
+
+/** A diagnostic from `validate()`, or a type error from `--typecheck` */
+export type CheckDiagnostic = Omit<Diagnostic, "code"> & {
+	code: DiagnosticCode | "typescript";
+};
 
 export async function fileExists(path: string) {
 	try {
@@ -70,7 +75,11 @@ export function parseJsonc(text: string): unknown {
  * Format a diagnostic as one line: its code, where it was made, and the
  * message, which carries the did-you-mean.
  */
-export function formatDiagnostic({ code, path, message }: Diagnostic): string {
+export function formatDiagnostic({
+	code,
+	path,
+	message,
+}: CheckDiagnostic): string {
 	return `${code} ${path}: ${message}`;
 }
 
@@ -81,20 +90,23 @@ export function pluralize(count: number, word: string): string {
 const CONFIG_EXTENSIONS = [".ts", ".mts", ".cts", ".js", ".mjs", ".cjs"];
 
 /**
- * Whether an entry resolves to a config file the way `loadConfiguration()`
+ * The config file an entry resolves to, the way `loadConfiguration()`
  * resolves it: as given when it has a known extension, otherwise with each
  * extension appended. The loader falls back to an empty instance instead.
  */
-export function configFileExists(entry: string, cwd = process.cwd()): boolean {
+export function resolveConfigFile(
+	entry: string,
+	cwd = process.cwd(),
+): string | undefined {
 	// `join`, not `resolve`: it keeps a trailing slash and leaves `..` to the
 	// file system, so an entry the loader can't find is never reported found
 	const basePath = path.isAbsolute(entry) ? entry : path.join(cwd, entry);
 
 	if (CONFIG_EXTENSIONS.some((extension) => basePath.endsWith(extension))) {
-		return existsSync(basePath);
+		return existsSync(basePath) ? basePath : undefined;
 	}
 
-	return CONFIG_EXTENSIONS.some((extension) =>
-		existsSync(`${basePath}${extension}`),
+	return CONFIG_EXTENSIONS.map((extension) => `${basePath}${extension}`).find(
+		(file) => existsSync(file),
 	);
 }
