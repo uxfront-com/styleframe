@@ -1,7 +1,9 @@
 import path from "node:path";
+import { validate } from "@styleframe/core";
 import { build, loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+import { formatDiagnostic, pluralize } from "../utils";
 
 export default defineCommand({
 	meta: {
@@ -35,6 +37,19 @@ export default defineCommand({
 
 		const instance = await loadConfiguration({ entry: args.entry });
 
+		const diagnostics = validate(instance);
+		for (const diagnostic of diagnostics) {
+			consola.warn(formatDiagnostic(diagnostic));
+		}
+
+		if (instance.options.strict && diagnostics.length > 0) {
+			consola.error(
+				`Failed to build Styleframe: strict mode found ${pluralize(diagnostics.length, "problem")}.`,
+			);
+			process.exitCode = 1;
+			return;
+		}
+
 		consola.info("Building styleframe...");
 
 		try {
@@ -46,6 +61,7 @@ export default defineCommand({
 			consola.success("Styleframe built successfully!");
 		} catch (error) {
 			consola.error("Failed to build Styleframe:", error);
+			process.exitCode = 1;
 		}
 	},
 });

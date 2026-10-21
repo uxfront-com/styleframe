@@ -8,6 +8,7 @@ import {
 	buildClassNameLookup,
 } from "@styleframe/transpiler";
 import { consola } from "consola";
+import { reportDiagnostics } from "../diagnostics";
 import type { PluginGlobalState } from "../state";
 import type { Options } from "../types";
 
@@ -53,6 +54,7 @@ export async function generateGlobalCSS(
 		minify,
 		minifyOptions,
 	});
+	reportDiagnostics(state, result.diagnostics, options.silent);
 	const css = result.files.map((f) => f.content).join("\n");
 
 	if (!options.silent) {

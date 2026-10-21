@@ -41,7 +41,13 @@
 		"magicast": "^0.5.3"
 	},
 	"peerDependencies": {
-		"@styleframe/loader": "workspace:^3.0.3"
+		"@styleframe/loader": "workspace:^3.0.3",
+		"typescript": ">=5"
+	},
+	"peerDependenciesMeta": {
+		"typescript": {
+			"optional": true
+		}
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
