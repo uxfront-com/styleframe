@@ -134,6 +134,12 @@ export default defineNuxtConfig({
 				"/docs/getting-started/introduction",
 				"/changelog",
 				...changelogRoutes,
+				// Nothing links these yet, and nothing ever links /pro or /pricing.
+				// The legal pages are crawled from the footers.
+				"/pro",
+				"/pricing",
+				"/scanner",
+				"/figma",
 			],
 			failOnError: true,
 		},

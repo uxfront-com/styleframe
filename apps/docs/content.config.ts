@@ -42,5 +42,11 @@ export default defineContentConfig({
 				releaseUrl: z.string().url().optional(),
 			}),
 		}),
+		// The legal pages, word for word as on main, served at /license,
+		// /privacy, /terms and /cookies by app/pages/.
+		legal: defineCollection({
+			type: "page",
+			source: { include: "legal/*.md", prefix: "/" },
+		}),
 	},
 });
