@@ -228,6 +228,12 @@ export function createUtilityFunction(parent: Container, root: Root) {
 									} satisfies Reference<string>;
 									root._usage.variables.add(key);
 								} else {
+									root._records?.push({
+										type: "unresolved-utility-value",
+										utility: name,
+										key,
+										reference: entryValue.name,
+									});
 									value = key;
 								}
 							}

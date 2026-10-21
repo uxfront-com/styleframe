@@ -93,7 +93,7 @@ describe("useChipIndicatorRecipe", () => {
 				xs: {
 					width: "@0.375",
 					height: "@0.375",
-					fontSize: "@font-size.4xs",
+					fontSize: "@font-size.3xs",
 				},
 				sm: {
 					minWidth: "@0.75",

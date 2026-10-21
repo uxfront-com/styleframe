@@ -8,6 +8,7 @@ export const zIndexValues = {
 	modal: "400",
 	popover: "500",
 	toast: "600",
+	tooltip: "700",
 	max: "9999",
 	auto: "auto",
 } as const;

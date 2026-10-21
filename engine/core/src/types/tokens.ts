@@ -204,6 +204,24 @@ export type Theme = {
 	children: ContainerChild[];
 };
 
+/**
+ * Facts kept at token-creation time that the finished tree no longer holds,
+ * read by `validate()`.
+ */
+export type RootRecord =
+	| {
+			type: "duplicate-variable";
+			scopeId: string;
+			name: string;
+			values: [TokenValue, TokenValue];
+	  }
+	| {
+			type: "unresolved-utility-value";
+			utility: string;
+			key: string;
+			reference: string;
+	  };
+
 export type Root = {
 	type: "root";
 	id: string;
@@ -222,4 +240,5 @@ export type Root = {
 		recipes: Set<string>;
 		recipeUtilities: Map<string, Set<string>>;
 	};
+	_records?: RootRecord[];
 };

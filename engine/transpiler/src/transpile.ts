@@ -1,4 +1,9 @@
-import type { Styleframe, StyleframeOptions } from "@styleframe/core";
+import type {
+	Diagnostic,
+	Styleframe,
+	StyleframeOptions,
+} from "@styleframe/core";
+import { validate } from "@styleframe/core";
 import {
 	isInstanceLicenseRequired,
 	getInstanceLicenseValidationInfo,
@@ -55,6 +60,12 @@ export async function transpile(
 		}
 	}
 
+	const diagnostics = validate(instance);
+	if (options.strict && diagnostics.length > 0) {
+		throw new Error(formatDiagnostics(diagnostics));
+	}
+	output.diagnostics = diagnostics;
+
 	if (type === "all" || type === "css") {
 		const cssOptions = createCSSOptions(options, context);
 		const indexFile = createFile(
@@ -81,6 +92,15 @@ export async function transpile(
 	}
 
 	return output;
+}
+
+function formatDiagnostics(diagnostics: Diagnostic[]): string {
+	const count = `${diagnostics.length} ${diagnostics.length === 1 ? "problem" : "problems"}`;
+	const lines = diagnostics.map(
+		({ code, path, message }) => `  ${code} ${path}: ${message}`,
+	);
+
+	return [`[styleframe] Strict mode found ${count}:`, ...lines].join("\n");
 }
 
 function createCSSOptions(

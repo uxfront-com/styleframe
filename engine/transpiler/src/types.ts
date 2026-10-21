@@ -1,4 +1,8 @@
-import type { ShorteningMap, StyleframeOptions } from "@styleframe/core";
+import type {
+	Diagnostic,
+	ShorteningMap,
+	StyleframeOptions,
+} from "@styleframe/core";
 
 export type OutputFile = {
 	name: string;
@@ -7,6 +11,8 @@ export type OutputFile = {
 
 export type Output = {
 	files: OutputFile[];
+	/** Problems `validate()` found in the instance */
+	diagnostics?: Diagnostic[];
 };
 
 export type TranspileContext = {

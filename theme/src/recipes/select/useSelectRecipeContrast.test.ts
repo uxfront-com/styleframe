@@ -6,10 +6,6 @@ import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useSelectRecipe } from "./useSelectRecipe";
 
-declare module "culori" {
-	export function wcagContrast(a: string, b: string): number;
-}
-
 type Slot = Record<string, unknown>;
 
 const MIN_CONTRAST = 3;

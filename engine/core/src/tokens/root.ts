@@ -19,6 +19,7 @@ export function createRoot(): Root {
 			recipes: new Set(),
 			recipeUtilities: new Map(),
 		},
+		_records: [],
 	};
 
 	root._registry.set(root.id, root);

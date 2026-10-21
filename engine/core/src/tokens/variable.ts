@@ -2,6 +2,9 @@ import type { Container, Root, TokenValue, Variable } from "../types";
 import { generateRandomId } from "../utils";
 import { createPropertyValueResolver } from "./resolve";
 
+/** Variables last set by a `variable()` call without `default: true`. */
+const explicitVariables = new WeakSet<Variable>();
+
 export function createVariableFunction(parent: Container, root: Root) {
 	return function variable<Name extends string>(
 		nameOrInstance: Name | Variable<Name>,
@@ -31,7 +34,17 @@ export function createVariableFunction(parent: Container, root: Root) {
 
 		// If default is false and the variable exists, update the value
 		if (existingVariable) {
+			if (explicitVariables.has(existingVariable)) {
+				root._records?.push({
+					type: "duplicate-variable",
+					scopeId: parent.id,
+					name,
+					values: [existingVariable.value, resolvedValue],
+				});
+			}
+
 			existingVariable.value = resolvedValue;
+			explicitVariables.add(existingVariable);
 			return existingVariable;
 		}
 
@@ -43,6 +56,10 @@ export function createVariableFunction(parent: Container, root: Root) {
 			name,
 			value: resolvedValue,
 		};
+
+		if (!options.default) {
+			explicitVariables.add(instance);
+		}
 
 		parent.variables.push(instance);
 		return instance;
