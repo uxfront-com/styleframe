@@ -202,8 +202,8 @@ npx styleframe figma export \\
 				class="figma__shot"
 				src="/assets/images/figma-import.png"
 				alt="Styleframe - Import Design Tokens into Figma"
-				width="1176"
-				height="1478"
+				width="1118"
+				height="1340"
 				loading="lazy"
 				decoding="async"
 			/>
@@ -228,8 +228,8 @@ npx styleframe figma export \\
 				class="figma__shot"
 				src="/assets/images/figma-export.png"
 				alt="Styleframe - Export Design Tokens from Figma"
-				width="1118"
-				height="1340"
+				width="1176"
+				height="1478"
 				loading="lazy"
 				decoding="async"
 			/>

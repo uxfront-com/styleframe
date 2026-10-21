@@ -6,8 +6,9 @@ import { describe, expect, it } from "vitest";
 /**
  * The product and legal pages are prerendered at main's URLs with main's
  * titles, each with one <main>, and the site's chrome keeps its links: the
- * docs footer links the legal pages, and the product pages' header and footer
- * link everything the docs header, footer and table of contents do.
+ * docs footer links the legal pages, and every page's header and footer link
+ * everything the docs header, footer and table of contents do. The legal
+ * pages' Markdown copies, which llms.txt links, are in the output too.
  *
  * Requires a prior build, like og-images.build.test.ts.
  */
@@ -40,6 +41,27 @@ const CHROME_LINKS = [
 	...LEGAL_LINKS,
 ];
 
+// The site header's own links, beside the footer's copies.
+const HEADER_LINKS = CHROME_LINKS.slice(0, 4);
+
+// The links each product page must keep from main.
+const PAGE_LINKS = {
+	pro: [
+		'href="/pricing"',
+		'href="https://buy.polar.sh/polar_cl_Emg2oNVEHjBUEHvxleSZxjHaCmlT9fgYtrACU4QVLUm"',
+		'href="https://buy.polar.sh/polar_cl_IiKynjOnqr8efgtVhbSaNSvWt6G6LbHW2Oqpq4KLobS"',
+	],
+	pricing: [
+		'href="https://buy.polar.sh/polar_cl_Emg2oNVEHjBUEHvxleSZxjHaCmlT9fgYtrACU4QVLUm"',
+		'href="https://buy.polar.sh/polar_cl_IiKynjOnqr8efgtVhbSaNSvWt6G6LbHW2Oqpq4KLobS"',
+		'href="mailto:support@styleframe.dev"',
+	],
+	scanner: ['href="/docs/getting-started/tooling/scanner"'],
+	figma: [
+		'href="https://www.figma.com/community/plugin/1597716416772135340/styleframe"',
+	],
+};
+
 const CREDIT = /Copyright © \d{4} styleframe/;
 
 /** A page's HTML, in either of the layouts Nitro writes. */
@@ -68,12 +90,30 @@ describe("product and legal pages", () => {
 		},
 	);
 
-	it.each(["pro", "pricing", "scanner", "figma"])(
+	it.each(Object.keys(PAGES))(
 		"%s links everything the docs chrome does",
 		(route) => {
-			const markup = chrome(readPage(route));
+			const html = readPage(route);
+			const markup = chrome(html);
 			for (const link of CHROME_LINKS) expect(markup).toContain(link);
 			expect(markup).toMatch(CREDIT);
+			const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+			for (const link of HEADER_LINKS) expect(header).toContain(link);
+		},
+	);
+
+	it.each(Object.entries(PAGE_LINKS))(
+		"%s keeps main's checkout, plugin and docs links",
+		(route, links) => {
+			const html = readPage(route);
+			for (const link of links) expect(html).toContain(link);
+		},
+	);
+
+	it.each(["license", "privacy", "terms", "cookies"])(
+		"%s has its Markdown copy at /raw/%s.md",
+		(route) => {
+			expect(existsSync(join(OUTPUT, "raw", `${route}.md`))).toBe(true);
 		},
 	);
 

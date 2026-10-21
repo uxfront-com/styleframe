@@ -17,6 +17,10 @@ if (!page.value) {
 	throw createError({ statusCode: 404, statusMessage: "Page not found" });
 }
 
+// Its Markdown copy, which llms.txt links. The crawler doesn't follow links to
+// .md files, so prerender it with the page, as Docus does for docs pages.
+prerenderRoutes(`/raw${route.path}.md`);
+
 useUxHead({
 	title,
 	// Main's legal pages have an empty description.
