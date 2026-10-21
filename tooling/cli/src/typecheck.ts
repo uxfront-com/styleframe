@@ -47,6 +47,7 @@ function findUp(directory: string, name: string): string | undefined {
 export function createTypecheckConfig(
 	file: string,
 	tsconfig: string | undefined,
+	composite = false,
 ) {
 	return {
 		...(tsconfig ? { extends: tsconfig } : {}),
@@ -63,7 +64,10 @@ export function createTypecheckConfig(
 			// Build info would overwrite the project's own, or land in its
 			// `outDir`, since `--noEmit` doesn't stop `tsc` from writing it
 			incremental: false,
-			composite: false,
+			// A composite project writes build info too, and rejects files
+			// the entry imports that aren't in `files`. Its implied
+			// `declaration` stays on, which `declarationMap` needs
+			...(composite ? { composite: false, declaration: true } : {}),
 			// TypeScript roots files at the config's directory by default,
 			// which is the temporary one
 			rootDir: path.parse(file).root,
@@ -71,6 +75,33 @@ export function createTypecheckConfig(
 		files: [file],
 		include: [],
 	};
+}
+
+const TEMPORARY_PREFIX = "styleframe-typecheck-";
+
+/**
+ * A temporary directory in the project's `node_modules/.cache`, or in the
+ * system's temporary directory when `node_modules` is missing or read-only,
+ * like under Nix or in a root-owned image.
+ */
+async function createTemporaryDirectory(
+	nodeModules: string | undefined,
+): Promise<{ directory: string; createdCache?: string }> {
+	if (nodeModules) {
+		const cache = path.join(nodeModules, ".cache");
+		const createdCache = existsSync(cache) ? undefined : cache;
+		try {
+			await mkdir(cache, { recursive: true });
+			const directory = await mkdtemp(path.join(cache, TEMPORARY_PREFIX));
+			return { directory, createdCache };
+		} catch {
+			if (createdCache) {
+				await rmdir(createdCache).catch(() => {});
+			}
+		}
+	}
+
+	return { directory: await mkdtemp(path.join(tmpdir(), TEMPORARY_PREFIX)) };
 }
 
 const LOCATED_ERROR = /^(.+)\((\d+),\d+\): (?:error|warning) (TS\d+): (.*)$/;
@@ -92,10 +123,19 @@ export async function typecheck(
 	// so the temporary config sits in the project's `node_modules/.cache`,
 	// which resolves the same packages as the project's own directory
 	const nodeModules = findUp(path.dirname(tsconfig ?? file), "node_modules");
-	const cache = nodeModules ? path.join(nodeModules, ".cache") : tmpdir();
-	const createdCache = !existsSync(cache);
-	await mkdir(cache, { recursive: true });
-	const directory = await mkdtemp(path.join(cache, "styleframe-typecheck-"));
+	const { directory, createdCache } =
+		await createTemporaryDirectory(nodeModules);
+
+	const runTsc = (...args: string[]) => {
+		const result = spawnSync(process.execPath, [tsc, ...args], {
+			cwd,
+			encoding: "utf8",
+		});
+		if (result.error) {
+			throw result.error;
+		}
+		return result;
+	};
 
 	try {
 		const configPath = path.join(directory, "tsconfig.json");
@@ -104,14 +144,19 @@ export async function typecheck(
 			JSON.stringify(createTypecheckConfig(file, tsconfig)),
 		);
 
-		const result = spawnSync(
-			process.execPath,
-			[tsc, "--noEmit", "--pretty", "false", "-p", configPath],
-			{ cwd, encoding: "utf8" },
-		);
-		if (result.error) {
-			throw result.error;
+		// `composite` may come from anywhere in the `extends` chain, so ask
+		// `tsc` for the resolved options
+		if (
+			tsconfig &&
+			isComposite(runTsc("--showConfig", "-p", configPath).stdout)
+		) {
+			await writeFile(
+				configPath,
+				JSON.stringify(createTypecheckConfig(file, tsconfig, true)),
+			);
 		}
+
+		const result = runTsc("--noEmit", "--pretty", "false", "-p", configPath);
 
 		return parseTscOutput(
 			`${result.stdout}${result.stderr}`,
@@ -122,8 +167,17 @@ export async function typecheck(
 		await rm(directory, { recursive: true, force: true });
 		if (createdCache) {
 			// Left alone when something else wrote to it meanwhile
-			await rmdir(cache).catch(() => {});
+			await rmdir(createdCache).catch(() => {});
 		}
+	}
+}
+
+function isComposite(showConfig: string): boolean {
+	try {
+		return JSON.parse(showConfig).compilerOptions?.composite === true;
+	} catch {
+		// An invalid tsconfig: the type check itself reports why
+		return false;
 	}
 }
 

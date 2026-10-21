@@ -136,6 +136,7 @@ describe("check", () => {
 		expect(await readdir(cwd)).toEqual([]);
 		expect(await readdir(fixturesDir)).toEqual([
 			"clean.config.ts",
+			"composite",
 			"inspect",
 			"problems.config.ts",
 			"strict.config.ts",
@@ -182,32 +183,38 @@ describe("check", () => {
 			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
 		});
 
-		it("uses the project's types and checks only the entry, writing nothing", async () => {
-			const projectDir = path.join(fixturesDir, "typecheck");
-			const cacheDir = path.join(
-				import.meta.dirname,
-				"../../node_modules/.cache",
+		const cacheDir = path.join(
+			import.meta.dirname,
+			"../../node_modules/.cache",
+		);
+		const temporaryEntries = async () =>
+			(await readdir(cacheDir).catch(() => [])).filter((name) =>
+				name.startsWith("styleframe-typecheck-"),
 			);
-			const entries = await readdir(projectDir);
 
-			expect(
-				await run(
-					path.join(projectDir, "styleframe.config.mts"),
-					"--typecheck",
-					"--json",
-				),
-			).toBeUndefined();
+		it.each([
+			// `vite/client` resolves only from the project, `broken.mts` beside
+			// the entry has a type error, and `incremental` writes build info
+			["typecheck", "styleframe.config.mts"],
+			// `declarationMap` needs the `declaration` that `composite` implies,
+			// and `composite` rejects imported files outside `files`
+			["composite", "styleframe.config.ts"],
+		])(
+			"type-checks the %s project as tsc does, writing nothing",
+			async (project, entry) => {
+				const projectDir = path.join(fixturesDir, project);
+				const entries = await readdir(projectDir);
+				const before = await temporaryEntries();
 
-			// `broken.mts` beside it has a type error, and `vite/client` resolves
-			// only from the project, not from a temporary directory
-			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
-			expect(await readdir(projectDir)).toEqual(entries);
-			expect(
-				(await readdir(cacheDir).catch(() => [])).filter((name) =>
-					name.startsWith("styleframe-typecheck-"),
-				),
-			).toEqual([]);
-		});
+				expect(
+					await run(path.join(projectDir, entry), "--typecheck", "--json"),
+				).toBeUndefined();
+
+				expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
+				expect(await readdir(projectDir)).toEqual(entries);
+				expect(await temporaryEntries()).toEqual(before);
+			},
+		);
 
 		it("keeps the validate() diagnostics under --typecheck", async () => {
 			expect(await run(fixture("problems"), "--typecheck", "--json")).toBe(1);

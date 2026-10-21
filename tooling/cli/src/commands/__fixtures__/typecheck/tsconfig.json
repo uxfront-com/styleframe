@@ -8,5 +8,6 @@
 		"types": ["vite/client"],
 		"incremental": true,
 		"tsBuildInfoFile": "./.cache/app.tsbuildinfo"
-	}
+	},
+	"include": ["*.mts"]
 }
