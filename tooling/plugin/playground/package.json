@@ -9,9 +9,9 @@
 	},
 	"devDependencies": {
 		"@styleframe/runtime": "workspace:^3.2.2",
-		"@styleframe/theme": "workspace:^3.9.0",
+		"@styleframe/theme": "workspace:^3.10.0",
 		"@vitejs/plugin-vue": "catalog:nuxt",
-		"styleframe": "workspace:^3.9.1",
+		"styleframe": "workspace:^3.9.2",
 		"vite": "catalog:",
 		"vite-plugin-inspect": "12.0.0-beta.3",
 		"vue": "catalog:nuxt"

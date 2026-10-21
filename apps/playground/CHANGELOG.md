@@ -1,5 +1,15 @@
 # @styleframe/playground
 
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [[`3e3c650`](https://github.com/uxfront-com/styleframe/commit/3e3c650485800bf1c304e6e0b144dd2f8474088f), [`a03a29b`](https://github.com/uxfront-com/styleframe/commit/a03a29b4e44e29f3ffe7acf94f493bed7d82cb02), [`dc08e92`](https://github.com/uxfront-com/styleframe/commit/dc08e92a22db0ec29c2837504d84e3401b0ae9e2), [`e325096`](https://github.com/uxfront-com/styleframe/commit/e3250963c8d3944dc9f36adb634aa3a4d542b9c8), [`b2ced65`](https://github.com/uxfront-com/styleframe/commit/b2ced65b574e426f9d9458fa9f1ae879d13a7de9), [`dafd9ac`](https://github.com/uxfront-com/styleframe/commit/dafd9ac24194eff14ef51cce79f17b0a1498c102), [`23efb06`](https://github.com/uxfront-com/styleframe/commit/23efb062135ca8e843466da372d90f4cb4173602), [`0f34e2b`](https://github.com/uxfront-com/styleframe/commit/0f34e2b436f0e6c0b45bfc5f4bc3c2ac7c5e9b7c), [`7db0e9e`](https://github.com/uxfront-com/styleframe/commit/7db0e9e18fc3463ad8c5651e7db6f706dda48630), [`f641f50`](https://github.com/uxfront-com/styleframe/commit/f641f5047b95e61db9b1d52e4d9add875dce45d2), [`80424a1`](https://github.com/uxfront-com/styleframe/commit/80424a166455b0566a321314f40216787d000feb), [`a22a813`](https://github.com/uxfront-com/styleframe/commit/a22a813a35742992212351f0d2b11eaac3360401), [`bae2d8b`](https://github.com/uxfront-com/styleframe/commit/bae2d8ba79a253e0643a946a933ca71e8624522e), [`1a556e8`](https://github.com/uxfront-com/styleframe/commit/1a556e87954fafa618207032c5f27a503a0f2925)]:
+  - @styleframe/theme@3.10.0
+  - @styleframe/core@3.7.0
+  - styleframe@3.9.2
+  - @styleframe/transpiler@3.5.0
+
 ## 0.1.7
 
 ### Patch Changes

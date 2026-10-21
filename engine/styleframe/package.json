@@ -1,6 +1,6 @@
 {
 	"name": "styleframe",
-	"version": "3.9.1",
+	"version": "3.9.2",
 	"bin": {
 		"styleframe": "./dist/cli.js"
 	},
@@ -163,10 +163,10 @@
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/cli": "workspace:^4.1.2",
-		"@styleframe/plugin": "workspace:^3.4.1",
-		"@styleframe/core": "workspace:^3.6.2",
+		"@styleframe/plugin": "workspace:^3.4.2",
+		"@styleframe/core": "workspace:^3.7.0",
 		"@styleframe/loader": "workspace:^3.0.4",
-		"@styleframe/transpiler": "workspace:^3.4.2",
+		"@styleframe/transpiler": "workspace:^3.5.0",
 		"@types/node": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"bumpp": "catalog:",

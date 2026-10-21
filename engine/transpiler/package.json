@@ -1,6 +1,6 @@
 {
 	"name": "@styleframe/transpiler",
-	"version": "3.4.2",
+	"version": "3.5.0",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/transpiler.js",
@@ -39,8 +39,8 @@
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
-		"@styleframe/config-vite": "workspace:^3.1.1",
-		"@styleframe/core": "workspace:^3.6.2",
+		"@styleframe/config-vite": "workspace:^3.1.2",
+		"@styleframe/core": "workspace:^3.7.0",
 		"@styleframe/license": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
