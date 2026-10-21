@@ -1,0 +1,42 @@
+/* Docus imports this after Tailwind CSS and Nuxt UI, into the global stylesheet
+   the docs pages load. */
+
+/* Docus has Tailwind scan content/ and its own layer, not this app: add the
+   content components the docs pages render, in components/content/, the header
+   and sidebar overrides in components/app/ and components/docs/, and the
+   changelog. */
+@source "./components/content";
+@source "./components/app";
+@source "./components/docs";
+@source "./components/changelog";
+@source "./pages/changelog";
+
+/* The brand teal, as the scale `ui.colors.primary: "teal"` in app.config.ts
+   picks. 500 is the brand colour. */
+@theme static {
+	--color-teal-50: hsl(189 53% 95%);
+	--color-teal-100: hsl(189 53% 90%);
+	--color-teal-200: hsl(189 53% 80%);
+	--color-teal-300: hsl(189 53% 68%);
+	--color-teal-400: hsl(189 53% 55%);
+	--color-teal-500: hsl(189 53% 41%);
+	--color-teal-600: hsl(189 53% 35%);
+	--color-teal-700: hsl(189 53% 28%);
+	--color-teal-800: hsl(189 53% 21%);
+	--color-teal-900: hsl(189 53% 15%);
+	--color-teal-950: hsl(189 53% 9%);
+}
+
+@layer theme {
+	/* Nuxt UI draws light-mode links in the 500 shade, below WCAG AA contrast on
+	   white. The rules below replace both of its defaults, so dark mode is
+	   restated. */
+	:root,
+	.light {
+		--ui-primary: var(--ui-color-primary-600);
+	}
+
+	.dark {
+		--ui-primary: var(--ui-color-primary-400);
+	}
+}

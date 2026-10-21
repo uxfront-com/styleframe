@@ -41,6 +41,22 @@ catalog:
   zod: ^4.4.3
 
 catalogs:
+  # The docs app (apps/docs) runs on Open Components' setup, at its versions: Docus
+  # on the UXFront layers. The other apps stay on `nuxt`, and share its `vue`.
+  docs:
+    '@iconify-json/lucide': ^1.2.137
+    '@iconify-json/simple-icons': ^1.2.95
+    '@iconify-json/vscode-icons': ^1.2.77
+    '@nuxt/content': ^3.16.1
+    '@nuxt/kit': ^4.5.2
+    '@uxfront/layer-docs': ^0.7.1
+    '@uxfront/layer-ui': ^0.1.6
+    '@uxfront/scene': ^0.4.1
+    '@uxfront/ui': ^0.5.0
+    '@vueuse/core': ^14.4.0
+    docus: ^5.13.0
+    nuxt: ^4.5.2
+    vue-router: ^5.3.1
   nuxt:
     '@iconify-json/devicon': 1.2.62
     '@iconify-json/lucide': 1.2.112
@@ -84,7 +100,7 @@ catalogs:
     ufo: 1.6.4
     unist-util-visit: 5.1.0
     vite: ^8.0.16
-    vue: ^3.5.38
+    vue: ^3.5.43
     vue-router: 4.5.1
     vue-tsc: ^3.3.5
 
@@ -97,3 +113,23 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
   - vue-demi
+
+# These modules import `nuxt` at runtime without depending on it, so they ran
+# whichever Nuxt pnpm hoisted, which needn't be the app's: the docs app runs a
+# newer one than the others. As peers, each resolves its app's.
+packageExtensions:
+  '@nuxt/content':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxt/scripts':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxtjs/mdc':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxtjs/robots':
+    peerDependencies:
+      nuxt: '*'
+  nuxt-og-image:
+    peerDependencies:
+      nuxt: '*'

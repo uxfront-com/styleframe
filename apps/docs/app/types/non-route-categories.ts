@@ -1,8 +1,8 @@
 /**
- * Duplicate of the layer's `app/types/non-route-categories.ts`, kept only
- * because `modules/nonRouteCategories.ts` imports it by relative path at build
- * time and the layer publishes no subpath export for it. Deletes itself the day
- * that module moves into `@uxfront/layer-docs`.
+ * A category folder under Elements or Components: a sidebar group whose name
+ * isn't part of its pages' URLs. `modules/nonRouteCategories.ts` reads them
+ * from the folders' `.navigation.yml`, and `app/utils/foldNonRouteCategories.ts`
+ * groups the sidebar by them.
  */
 export interface NonRouteCategoryMeta {
 	title: string;
