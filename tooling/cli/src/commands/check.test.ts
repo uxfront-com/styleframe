@@ -108,6 +108,27 @@ describe("check", () => {
 		expect(stderr).toContain("Config file not found: missing");
 	});
 
+	it("resolves the entry the way the loader does", async () => {
+		const warn = vi.spyOn(consola, "warn");
+
+		// Without an extension, each known extension is tried
+		expect(await run(fixture("problems").replace(/\.ts$/, ""))).toBe(1);
+		expect(warn).toHaveBeenCalledTimes(2);
+
+		for (const entry of [
+			`${fixture("problems")}/`,
+			`${fixture("problems").replace(/\.ts$/, "")}/`,
+			`${fixturesDir}/missing/../problems.config.ts`,
+		]) {
+			stdout = "";
+			stdout = "";
+			stderr = "";
+			expect(await run(entry, "--json")).toBe(1);
+			expect(stdout).toBe("");
+			expect(stderr).toContain(`Config file not found: ${entry}`);
+		}
+	});
+
 	it("writes no files", async () => {
 		await run(fixture("problems"));
 		await run(fixture("clean"), "--json");

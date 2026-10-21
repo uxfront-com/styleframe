@@ -86,7 +86,9 @@ const CONFIG_EXTENSIONS = [".ts", ".mts", ".cts", ".js", ".mjs", ".cjs"];
  * extension appended. The loader falls back to an empty instance instead.
  */
 export function configFileExists(entry: string, cwd = process.cwd()): boolean {
-	const basePath = path.resolve(cwd, entry);
+	// `join`, not `resolve`: it keeps a trailing slash and leaves `..` to the
+	// file system, so an entry the loader can't find is never reported found
+	const basePath = path.isAbsolute(entry) ? entry : path.join(cwd, entry);
 
 	if (CONFIG_EXTENSIONS.some((extension) => basePath.endsWith(extension))) {
 		return existsSync(basePath);
