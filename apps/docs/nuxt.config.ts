@@ -46,6 +46,10 @@ export default defineNuxtConfig({
 		// Drops the category folders under Elements and Components from the URLs,
 		// and keeps them as sidebar groups.
 		resolve("./modules/nonRouteCategories"),
+		// The changelog's raw Markdown, which llms.txt links and nothing crawls.
+		resolve("./modules/rawChangelog"),
+		// Docus's Markdown routes, split to fit Vercel's 4096-character limit.
+		resolve("./modules/vercelRouteLimit"),
 	],
 
 	// The docs sections in app/constants/sections.ts, auto-imported for the
@@ -57,6 +61,13 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			siteUrl: SITE_URL,
+			// Set from NUXT_PUBLIC_POSTHOG_*. Without a key, PostHog doesn't load
+			// (app/plugins/posthog.client.ts).
+			posthog: {
+				key: "",
+				host: "https://eu.i.posthog.com",
+				defaults: "2025-05-24",
+			},
 		},
 	},
 

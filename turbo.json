@@ -20,6 +20,24 @@
 			],
 			"dependsOn": ["^build"]
 		},
+		"@styleframe/docs#build": {
+			"cache": true,
+			"env": ["NITRO_PRESET"],
+			"inputs": [
+				"app/**",
+				"server/**",
+				"public/**",
+				"modules/**",
+				"content/**",
+				"nuxt.config.ts",
+				"app.config.ts",
+				"content.config.ts",
+				".env*",
+				"package.json"
+			],
+			"outputs": [".output/**", ".nuxt/**", ".vercel/output/**"],
+			"dependsOn": ["^build"]
+		},
 		"lint": {
 			"dependsOn": ["^lint"]
 		},
