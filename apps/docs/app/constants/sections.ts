@@ -46,6 +46,51 @@ export function findDocsSectionBySlug(slug: string): DocsSection | undefined {
 	return DOCS_SECTIONS.find((section) => section.slug === slug);
 }
 
+/** Every folder in `content/docs/`, in section order. */
+export const DOCS_FOLDERS = DOCS_SECTIONS.flatMap(
+	(section): readonly string[] =>
+		typeof section.folder === "string" ? [section.folder] : section.folder,
+);
+
+/**
+ * The URL a folder in `content/docs/` is served at. A section with one folder,
+ * and its `rootFolder`, mount at `/docs/<slug>`; every other folder mounts below
+ * it, without its number: `08.tooling` is at `/docs/getting-started/tooling`.
+ */
+export function docsFolderPrefix(folder: string): string | undefined {
+	for (const section of DOCS_SECTIONS) {
+		const folders: readonly string[] =
+			typeof section.folder === "string" ? [section.folder] : section.folder;
+		const index = folders.indexOf(folder);
+		if (index === -1) continue;
+		const base = `/docs/${section.slug}`;
+		const rootFolder = "rootFolder" in section ? section.rootFolder : -1;
+		return folders.length === 1 || index === rootFolder
+			? base
+			: `${base}/${folder.replace(/^\d+\./, "")}`;
+	}
+	return undefined;
+}
+
+/**
+ * The source file of a docs page, without its extension, from the page's
+ * `stem`. Nuxt Content builds stems from the URL prefixes above, so the page
+ * at `/docs/theme/components/button` has the stem
+ * `docs/theme/components/02.actions/00.button`, and its file is
+ * `docs/05.components/02.actions/00.button.md`.
+ */
+export function docsSourceStem(stem: string): string {
+	const match = DOCS_FOLDERS.map((folder) => ({
+		folder,
+		prefix: (docsFolderPrefix(folder) ?? "").slice(1),
+	}))
+		.filter(({ prefix }) => stem === prefix || stem.startsWith(`${prefix}/`))
+		.sort((a, b) => b.prefix.length - a.prefix.length)[0];
+	return match
+		? `docs/${match.folder}${stem.slice(match.prefix.length)}`
+		: stem;
+}
+
 /**
  * Sub-tabs rendered for the `theme` section. The single `theme` content
  * collection and its `/docs/theme/...` URLs are unchanged; these descriptors

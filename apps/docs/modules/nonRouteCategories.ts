@@ -2,7 +2,7 @@ import { defineNuxtModule, createResolver } from "@nuxt/kit";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { defu } from "defu";
-import { DOCS_SECTIONS } from "../app/constants/sections";
+import { docsFolderPrefix } from "../app/constants/sections";
 import type { NonRouteCategoryMeta } from "../app/types/non-route-categories";
 
 /** Minimal reader for the flat `key: value` `.navigation.yml` files we author. */
@@ -19,31 +19,13 @@ function readNavigationConfig(text: string): Record<string, string | boolean> {
 }
 
 /**
- * Map a top-level content folder ("05.components") to its URL stem prefix
- * ("docs/theme/components"), mirroring the collection `prefix` in content.config.ts.
- */
-function folderToStemPrefix(folder: string): string | undefined {
-	for (const section of DOCS_SECTIONS) {
-		const folders = Array.isArray(section.folder)
-			? section.folder
-			: [section.folder];
-		const idx = (folders as readonly string[]).indexOf(folder);
-		if (idx === -1) continue;
-		const rootIdx = (section as { rootFolder?: number }).rootFolder ?? -1;
-		const base = `docs/${section.slug}`;
-		return idx === rootIdx ? base : `${base}/${folder.replace(/^\d+\./, "")}`;
-	}
-	return undefined;
-}
-
-/**
  * Convert a filesystem-relative category dir ("docs/05.components/02.actions")
  * to the stem-structured dir nav items carry ("docs/theme/components/02.actions").
  */
 function toStemDir(fsDir: string): string | undefined {
 	const parts = fsDir.split("/");
 	if (parts[0] !== "docs" || parts.length < 3) return undefined;
-	const prefix = folderToStemPrefix(parts[1]!);
+	const prefix = docsFolderPrefix(parts[1]!)?.slice(1);
 	return prefix ? [prefix, ...parts.slice(2)].join("/") : undefined;
 }
 

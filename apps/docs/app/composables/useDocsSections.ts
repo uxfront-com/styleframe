@@ -1,87 +1,114 @@
 import type { ContentNavigationItem } from "@nuxt/content";
 
-export type DocsSectionLink = {
+/** A tab below the header, and the pages its sidebar shows. */
+export interface DocsSectionTab {
 	label: string;
 	icon: string;
-	slug: string;
 	to: string;
 	active: boolean;
-};
+	navigation: ContentNavigationItem[];
+}
 
-function findFirstLeafPath(
+/** The first page in a navigation tree, depth first. */
+function firstPagePath(
 	items: ContentNavigationItem[] | undefined,
 ): string | undefined {
-	if (!items?.length) return undefined;
-	for (const item of items) {
+	for (const item of items ?? []) {
 		if (item.page !== false && item.path) return item.path;
-		if (item.children?.length) {
-			const nested = findFirstLeafPath(item.children);
-			if (nested) return nested;
-		}
+		const nested = firstPagePath(item.children);
+		if (nested) return nested;
 	}
-	return items[0]?.path;
+	return undefined;
 }
 
 /**
- * Local override of the layer's `useDocsSections`.
- *
- * The delta is the `theme` branch: styleframe splits one content collection into
- * four sub-header tabs via `THEME_SUBSECTIONS`, which is a styleframe content
- * shape, not a theme feature. The rest of the shape — including
- * `hasSectionSwitcher` — must stay identical to the layer copy, since the
- * layer's `AppSubHeader` consumes it.
+ * Orders pages and folders as their files are. Nuxt Content orders them by
+ * `stem`, which follows the URL, so the folders a section mounts below its own
+ * come alphabetically: Integrations, Migrations, Tooling, and Modifiers before
+ * Utilities. Their files keep the folders' numbers (see docsSourceStem).
+ */
+function bySourceOrder(
+	items: ContentNavigationItem[] = [],
+): ContentNavigationItem[] {
+	return items
+		.map((item) => ({ item, source: docsSourceStem(item.stem ?? "") }))
+		.sort((a, b) => (a.source < b.source ? -1 : a.source > b.source ? 1 : 0))
+		.map(({ item }) =>
+			item.children
+				? { ...item, children: bySourceOrder(item.children) }
+				: item,
+		);
+}
+
+/**
+ * The docs' sections, as tabs below the header, and the sidebar of the one the
+ * reader is in. Docus makes a tab of each top-level folder of the navigation:
+ * Getting Started, API Reference and Theme. Theme splits into its four
+ * sub-sections here (`THEME_SUBSECTIONS`), each with its own sidebar, and the
+ * sidebar groups pages by their category folders (`foldNonRouteCategories`).
+ * The overrides of Docus's `AppHeaderBottom`, `DocsAsideLeftBody` and
+ * `DocsAsideMobileBar` read them.
  */
 export function useDocsSections() {
 	const route = useRoute();
+	const appConfig = useAppConfig();
 	const navigation =
-		inject<Ref<Record<string, ContentNavigationItem[]> | null>>("navigation");
+		inject<Ref<ContentNavigationItem[] | null | undefined>>("navigation");
 
-	const sections = computed<DocsSectionLink[]>(() =>
-		DOCS_SECTIONS.flatMap((section): DocsSectionLink[] => {
+	const isIn = (path: string) =>
+		route.path === path || route.path.startsWith(`${path}/`);
+
+	const sections = computed<DocsSectionTab[]>(() => {
+		const tree = navigation?.value ?? [];
+		return DOCS_SECTIONS.flatMap((section): DocsSectionTab[] => {
+			const base = `/docs/${section.slug}`;
+			const node = tree.find((item) => item.path === base);
+			const children = bySourceOrder(node?.children);
+
 			if (section.key === "theme") {
-				const tree = navigation?.value?.[section.key] ?? [];
-				const isThemeRoute = route.params.section === section.slug;
-				const activeSegment = themeSegmentFromPath(route.path);
+				const segment = themeSegmentFromPath(route.path) ?? "";
 				return THEME_SUBSECTIONS.map((sub) => {
-					const folders = sub.folders as readonly string[];
-					const groups = tree.filter((group) =>
-						folders.includes(themeSegmentFromPath(group.path ?? "") ?? ""),
+					const folders: readonly string[] = sub.folders;
+					const groups = children.filter((group) =>
+						folders.includes(themeSegmentFromPath(group.path) ?? ""),
 					);
-					const firstPath = findFirstLeafPath(groups);
 					return {
 						label: sub.label,
 						icon: sub.icon,
-						slug: sub.slug,
-						to: firstPath || `/docs/${section.slug}/${sub.folders[0]}`,
-						active: isThemeRoute && folders.includes(activeSegment ?? ""),
+						to: firstPagePath(groups) ?? `${base}/${sub.folders[0]}`,
+						active: isIn(base) && folders.includes(segment),
+						navigation: groups,
 					};
 				});
 			}
 
-			const tree = navigation?.value?.[section.key];
-			const firstPath = findFirstLeafPath(tree);
 			return [
 				{
 					label: section.label,
 					icon: section.icon,
-					slug: section.slug,
-					to: firstPath || `/docs/${section.slug}`,
-					active: route.params.section === section.slug,
+					to: firstPagePath(children) ?? base,
+					active: isIn(base),
+					// The section's folder, so the sidebar opens with its title.
+					navigation: node ? [{ ...node, children }] : [],
 				},
 			];
-		}),
+		});
+	});
+
+	const tabs = computed(() =>
+		sections.value.map(({ navigation: _, ...tab }) => tab),
 	);
 
-	const activeSection = computed(() =>
+	const currentSection = computed(() =>
 		sections.value.find((section) => section.active),
 	);
 
-	/**
-	 * Whether the section switcher is worth rendering. A single section (or none)
-	 * gives the reader nothing to switch between, so the sub-header is suppressed
-	 * entirely rather than rendering an empty bar.
-	 */
-	const hasSectionSwitcher = computed(() => sections.value.length > 1);
+	const sidebarNavigation = computed(() =>
+		foldNonRouteCategories(
+			currentSection.value?.navigation ?? [],
+			appConfig.nonRouteCategories ?? {},
+		),
+	);
 
-	return { sections, activeSection, hasSectionSwitcher };
+	return { tabs, currentSection, sidebarNavigation };
 }

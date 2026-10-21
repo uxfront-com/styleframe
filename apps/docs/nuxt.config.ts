@@ -1,121 +1,149 @@
 import { readdirSync } from "node:fs";
-import type { NuxtI18nOptions } from "@nuxtjs/i18n";
-import { createResolver, useNuxt } from "@nuxt/kit";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
+import { createResolver } from "@nuxt/kit";
+import { SECURITY_HEADERS } from "./server/lib/headers";
 
 const { resolve } = createResolver(import.meta.url);
+const require = createRequire(import.meta.url);
 
-// One prerendered detail route per changelog entry. The version-numbered slugs
-// (e.g. /changelog/1.0.0) end in what the Nitro crawler reads as a file
-// extension, so it skips them when following links — we list them explicitly so
-// every release page lands in the static output, readable with no JS.
+const SITE_URL = "https://www.styleframe.dev";
+
+// Docus reads the site URL from the environment: for canonical URLs, robots.txt
+// and llms.txt at build time, and for the sitemap when it's prerendered.
+process.env.NUXT_SITE_URL ||= SITE_URL;
+
+// One prerendered route per changelog entry. Their slugs, like /changelog/3.9.0,
+// end in what the prerender crawler reads as a file extension, so it skips them
+// when it follows the links on /changelog.
 const changelogRoutes = readdirSync(resolve("./content/changelog"))
 	.filter((file) => file.endsWith(".md"))
 	.map((file) => `/changelog/${file.replace(/\.md$/, "")}`);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	extends: ["@uxfront/layer-docs"],
-	compatibilityDate: "2025-07-22",
+	compatibilityDate: "2025-07-15",
+	devtools: { enabled: true },
+	ssr: true,
+
+	extends: [
+		// The homepage kit: components, fonts, head helpers and critical-path loading.
+		"@uxfront/layer-ui",
+		// The docs theme: Docus, which renders content/docs/ at /docs (see app/app.vue),
+		// plus the framework switcher (`docsTheme.frameworks` in app/app.config.ts).
+		"@uxfront/layer-docs",
+	],
+
+	// Docus installs the modules it runs, like @nuxt/ui and nuxt-og-image, at its
+	// own versions. The workspace's other apps use older ones, which pnpm hoists,
+	// and Nuxt looks a module up from this app first, then from its own package,
+	// which finds the hoisted ones. So look them up from Docus's package second.
+	modulesDir: [
+		join(dirname(require.resolve("docus/package.json")), "node_modules"),
+	],
+
 	modules: [
-		"@nuxtjs/sitemap",
-		"@nuxt/content",
+		// Drops the category folders under Elements and Components from the URLs,
+		// and keeps them as sidebar groups.
 		resolve("./modules/nonRouteCategories"),
 	],
-	content: {
-		build: {
-			markdown: {
-				highlight: {
-					langs: [
-						"bash",
-						"diff",
-						"json",
-						"js",
-						"ts",
-						"tsx",
-						"html",
-						"css",
-						"vue",
-						"shell",
-						"mdc",
-						"md",
-						"yaml",
-					],
-				},
-				remarkPlugins: {
-					"remark-mdc": {
-						options: {
-							autoUnwrap: true,
-						},
-					},
-				},
-			},
-		},
-	},
-	css: ["./app/assets/css/main.css"],
+
+	// The docs sections in app/constants/sections.ts, auto-imported for the
+	// sidebar and the section tabs.
 	imports: {
 		dirs: ["constants"],
 	},
-	nitro: {
-		prerender: {
-			crawlLinks: true,
-			failOnError: false,
-			autoSubfolderIndex: false,
+
+	runtimeConfig: {
+		public: {
+			siteUrl: SITE_URL,
 		},
 	},
-	hooks: {
-		"nitro:config"(nitroConfig) {
-			const nuxt = useNuxt();
 
-			const i18nOptions = nuxt.options.i18n as NuxtI18nOptions;
-
-			const routes: string[] = [];
-			if (!i18nOptions) {
-				routes.push("/");
-			} else {
-				routes.push(
-					...(i18nOptions.locales?.map((locale) =>
-						typeof locale === "string" ? `/${locale}` : `/${locale.code}`,
-					) || []),
-				);
-			}
-
-			nitroConfig.prerender = nitroConfig.prerender || {};
-			nitroConfig.prerender.routes = nitroConfig.prerender.routes || [];
-			nitroConfig.prerender.routes.push(...(routes || []));
-			nitroConfig.prerender.routes.push(...changelogRoutes);
-		},
-	},
+	// The title template and the social cards' site name.
 	site: {
-		url: "https://www.styleframe.dev",
 		name: "Styleframe — The Design Systems Styling Engine",
 	},
+
 	llms: {
 		domain: "https://styleframe.dev",
 		title: "Styleframe",
 	},
-	routeRules: {
-		"/docs": {
-			redirect: "/docs/getting-started/introduction",
-		},
-	},
-	runtimeConfig: {
-		public: {
-			baseUrl: "",
-			posthog: {
-				host: "",
-				key: "",
-				defaults: "",
+
+	content: {
+		build: {
+			markdown: {
+				highlight: {
+					// On top of Docus's and the layer's languages.
+					langs: ["tsx"],
+				},
 			},
 		},
 	},
-	/**
-	 * @docs https://nuxt.com/modules/sitemap
-	 */
-	sitemap: {
-		enabled: true,
-		discoverImages: true,
-		discoverVideos: true,
-		autoI18n: true,
-		exclude: ["/pricing", "/pro"],
+
+	docus: {
+		// The assistant answers from a server, and the site is static.
+		assistant: { enabled: false },
+	},
+
+	// Docus's MCP server needs a server too.
+	mcp: {
+		enabled: false,
+	},
+
+	// Images are served as they are. The site is static, and IPX, which resizes
+	// them otherwise, never answers the prerenderer, so the build stops before
+	// it writes the site.
+	image: {
+		provider: "none",
+	},
+
+	// Social cards at the size crawlers crop to. nuxt-og-image draws 1200×600
+	// by default.
+	ogImage: {
+		defaults: { width: 1200, height: 630 },
+	},
+
+	experimental: {
+		// Inline the payload on first load, and extract it for client-side
+		// navigation between docs pages.
+		payloadExtraction: "client",
+	},
+
+	routeRules: {
+		// The docs open on the introduction.
+		"/docs": { redirect: "/docs/getting-started/introduction" },
+		// The homepage isn't rebuilt yet, so the site opens on the docs too.
+		"/": { redirect: "/docs/getting-started/introduction" },
+		// Hashed build assets never change, so cache them forever.
+		"/_nuxt/**": {
+			headers: { "cache-control": "public, max-age=31536000, immutable" },
+		},
+		"/**": {
+			headers: SECURITY_HEADERS,
+		},
+	},
+
+	nitro: {
+		prerender: {
+			crawlLinks: true,
+			// /docs only redirects, so crawling the docs starts from the introduction.
+			routes: [
+				"/",
+				"/docs",
+				"/docs/getting-started/introduction",
+				"/changelog",
+				...changelogRoutes,
+			],
+			failOnError: true,
+		},
+	},
+
+	hooks: {
+		// Every page would otherwise prefetch the docs' lazy chunks, which delays
+		// the first page's fonts and stylesheet.
+		"build:manifest"(manifest) {
+			for (const chunk of Object.values(manifest)) chunk.prefetch = false;
+		},
 	},
 });
