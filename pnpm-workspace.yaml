@@ -113,3 +113,23 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
   - vue-demi
+
+# These modules import `nuxt` at runtime without depending on it, so they ran
+# whichever Nuxt pnpm hoisted, which needn't be the app's: the docs app runs a
+# newer one than the others. As peers, each resolves its app's.
+packageExtensions:
+  '@nuxt/content':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxt/scripts':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxtjs/mdc':
+    peerDependencies:
+      nuxt: '*'
+  '@nuxtjs/robots':
+    peerDependencies:
+      nuxt: '*'
+  nuxt-og-image:
+    peerDependencies:
+      nuxt: '*'

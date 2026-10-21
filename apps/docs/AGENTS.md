@@ -21,6 +21,7 @@ Run them from `apps/docs/`:
 - `pnpm build` runs `nuxt generate` and writes the static site to `.output/public`.
 - `pnpm test` runs the unit tests, and `pnpm test:build` checks the built site: every prerendered page has a 1200 × 630 social card.
 - `pnpm typecheck` checks the app's types. It leaves out errors inside Docus's own files, as Open Components does.
+- If a build fails with 500s on `/raw/…` pages after a change to how pages are parsed (like the stems in `modules/nonRouteCategories.ts`), delete `.data/`. Nuxt Content caches parsed pages there by their content, so the cache keeps the old stems.
 
 ## Directory Structure
 
