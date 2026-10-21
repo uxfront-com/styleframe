@@ -136,10 +136,11 @@ describe("check", () => {
 		expect(await readdir(cwd)).toEqual([]);
 		expect(await readdir(fixturesDir)).toEqual([
 			"clean.config.ts",
-			"inspect.config.ts",
+			"inspect",
 			"problems.config.ts",
 			"strict.config.ts",
 			"type-error.config.mts",
+			"typecheck",
 		]);
 	});
 
@@ -155,9 +156,8 @@ describe("check", () => {
 				{
 					code: "typescript",
 					severity: "error",
-					message: expect.stringMatching(
-						/^TS2322: Type '"medium"' is not assignable to type '"md" \| "sm"/,
-					),
+					message:
+						'TS2322: Type \'"medium"\' is not assignable to type \'"md" | "sm" | undefined\'.',
 					path: `${path.relative(process.cwd(), typeErrorFixture)}:12`,
 				},
 			]);
@@ -180,6 +180,33 @@ describe("check", () => {
 				await run(fixture("clean"), "--typecheck", "--json"),
 			).toBeUndefined();
 			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
+		});
+
+		it("uses the project's types and checks only the entry, writing nothing", async () => {
+			const projectDir = path.join(fixturesDir, "typecheck");
+			const cacheDir = path.join(
+				import.meta.dirname,
+				"../../node_modules/.cache",
+			);
+			const entries = await readdir(projectDir);
+
+			expect(
+				await run(
+					path.join(projectDir, "styleframe.config.mts"),
+					"--typecheck",
+					"--json",
+				),
+			).toBeUndefined();
+
+			// `broken.mts` beside it has a type error, and `vite/client` resolves
+			// only from the project, not from a temporary directory
+			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
+			expect(await readdir(projectDir)).toEqual(entries);
+			expect(
+				(await readdir(cacheDir).catch(() => [])).filter((name) =>
+					name.startsWith("styleframe-typecheck-"),
+				),
+			).toEqual([]);
 		});
 
 		it("keeps the validate() diagnostics under --typecheck", async () => {

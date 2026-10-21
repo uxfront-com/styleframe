@@ -6,11 +6,8 @@ import consola from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import inspectCommand from "./inspect";
 
-const fixture = path.join(
-	import.meta.dirname,
-	"__fixtures__",
-	"inspect.config.ts",
-);
+const fixtureDir = path.join(import.meta.dirname, "__fixtures__", "inspect");
+const fixture = path.join(fixtureDir, "styleframe.config.ts");
 
 const SNAPSHOT = {
 	variables: [
@@ -126,9 +123,14 @@ describe("inspect", () => {
 	});
 
 	it("reads a lone section name as the section, with the default entry", async () => {
-		expect(await run("modifiers", "--json")).toBe(1);
-		expect(stdout).toBe("");
-		expect(stderr).toContain("Config file not found: styleframe.config.ts");
+		process.chdir(fixtureDir);
+
+		expect(await run("themes", "--json")).toBeUndefined();
+		expect(JSON.parse(stdout)).toEqual({ themes: SNAPSHOT.themes });
+
+		stdout = "";
+		expect(await run("modifiers")).toBeUndefined();
+		expect(stdout).toBe("modifiers (1)\n  hover\n");
 	});
 
 	it("exits 1 on an unknown section", async () => {

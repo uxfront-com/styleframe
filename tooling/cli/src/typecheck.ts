@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, rmdir, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -27,16 +27,50 @@ export function resolveTsc(file: string): string | undefined {
 	return tscPath && path.resolve(path.dirname(packageJsonPath), tscPath);
 }
 
-function findTsconfig(directory: string): string | undefined {
+function findUp(directory: string, name: string): string | undefined {
 	for (let dir = directory; ; dir = path.dirname(dir)) {
-		const tsconfig = path.join(dir, "tsconfig.json");
-		if (existsSync(tsconfig)) {
-			return tsconfig;
+		const candidate = path.join(dir, name);
+		if (existsSync(candidate)) {
+			return candidate;
 		}
 		if (dir === path.dirname(dir)) {
 			return undefined;
 		}
 	}
+}
+
+/**
+ * The temporary tsconfig that type-checks one file: it extends the project's
+ * tsconfig, or uses `strict` defaults when there's none, and roots the
+ * program at the file alone.
+ */
+export function createTypecheckConfig(
+	file: string,
+	tsconfig: string | undefined,
+) {
+	return {
+		...(tsconfig ? { extends: tsconfig } : {}),
+		compilerOptions: {
+			...(tsconfig
+				? {}
+				: {
+						strict: true,
+						target: "es2022",
+						module: "esnext",
+						moduleResolution: "bundler",
+						skipLibCheck: true,
+					}),
+			// Build info would overwrite the project's own, or land in its
+			// `outDir`, since `--noEmit` doesn't stop `tsc` from writing it
+			incremental: false,
+			composite: false,
+			// TypeScript roots files at the config's directory by default,
+			// which is the temporary one
+			rootDir: path.parse(file).root,
+		},
+		files: [file],
+		include: [],
+	};
 }
 
 const LOCATED_ERROR = /^(.+)\((\d+),\d+\): (?:error|warning) (TS\d+): (.*)$/;
@@ -45,39 +79,29 @@ const GLOBAL_ERROR = /^(?:error|warning) (TS\d+): (.*)$/;
 /**
  * Type-check one config file, and none of the project's other files, with
  * the compiler options of the nearest `tsconfig.json`. It writes a temporary
- * tsconfig outside the project that extends it.
+ * tsconfig that extends it and removes it afterwards.
  */
 export async function typecheck(
 	file: string,
 	tsc: string,
 	cwd = process.cwd(),
 ): Promise<CheckDiagnostic[]> {
-	const tsconfig = findTsconfig(path.dirname(file));
-	const directory = await mkdtemp(path.join(tmpdir(), "styleframe-typecheck-"));
+	const tsconfig = findUp(path.dirname(file), "tsconfig.json");
+
+	// TypeScript resolves `types` and `@types` from the config's directory,
+	// so the temporary config sits in the project's `node_modules/.cache`,
+	// which resolves the same packages as the project's own directory
+	const nodeModules = findUp(path.dirname(tsconfig ?? file), "node_modules");
+	const cache = nodeModules ? path.join(nodeModules, ".cache") : tmpdir();
+	const createdCache = !existsSync(cache);
+	await mkdir(cache, { recursive: true });
+	const directory = await mkdtemp(path.join(cache, "styleframe-typecheck-"));
 
 	try {
 		const configPath = path.join(directory, "tsconfig.json");
 		await writeFile(
 			configPath,
-			JSON.stringify({
-				...(tsconfig ? { extends: tsconfig } : {}),
-				compilerOptions: {
-					...(tsconfig
-						? {}
-						: {
-								strict: true,
-								target: "es2022",
-								module: "esnext",
-								moduleResolution: "bundler",
-								skipLibCheck: true,
-							}),
-					// A composite config roots its files at its own directory,
-					// which is this temporary one
-					rootDir: path.parse(file).root,
-				},
-				files: [file],
-				include: [],
-			}),
+			JSON.stringify(createTypecheckConfig(file, tsconfig)),
 		);
 
 		const result = spawnSync(
@@ -96,10 +120,14 @@ export async function typecheck(
 		);
 	} finally {
 		await rm(directory, { recursive: true, force: true });
+		if (createdCache) {
+			// Left alone when something else wrote to it meanwhile
+			await rmdir(cache).catch(() => {});
+		}
 	}
 }
 
-function parseTscOutput(
+export function parseTscOutput(
 	output: string,
 	status: number,
 	file: string,
