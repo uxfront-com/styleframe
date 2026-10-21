@@ -3,7 +3,7 @@ import { validate } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
-import { formatDiagnostic, pluralize } from "../utils";
+import { configFileExists, formatDiagnostic, pluralize } from "../utils";
 
 export default defineCommand({
 	meta: {
@@ -25,6 +25,12 @@ export default defineCommand({
 		},
 	},
 	async run({ args }) {
+		if (!configFileExists(args.entry)) {
+			consola.error(`Config file not found: ${args.entry}`);
+			process.exitCode = 1;
+			return;
+		}
+
 		if (!args.json) {
 			consola.info(
 				`Loading configuration from "${path.relative(process.cwd(), path.resolve(args.entry))}"...`,

@@ -39,10 +39,14 @@ describe("build", () => {
 	it("prints each diagnostic once as a warning line and still builds", async () => {
 		expect(await run(fixture("problems"))).toBeUndefined();
 
-		expect(consola.warn).toHaveBeenCalledTimes(1);
-		expect(consola.warn).toHaveBeenCalledWith(
-			'unresolved-reference selector ".card" › color: Reference "@color.brnad" resolves to no variable. Did you mean "@color.brand"?',
-		);
+		expect(vi.mocked(consola.warn).mock.calls).toEqual([
+			[
+				'unresolved-reference selector ".card" › color: Reference "@color.brnad" resolves to no variable. Did you mean "@color.brand"?',
+			],
+			[
+				'unresolved-reference selector ".card" › border: Reference "@color.accnt" resolves to no variable.',
+			],
+		]);
 		expect(await readdir(outDir)).toEqual(["index.css", "index.ts"]);
 	});
 

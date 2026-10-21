@@ -13,7 +13,7 @@ export function reportDiagnostics(
 	silent = false,
 ): void {
 	for (const { code, path, message } of diagnostics) {
-		const key = `${code} ${path}`;
+		const key = `${code} ${path} ${message}`;
 		if (state.reportedDiagnostics.has(key)) continue;
 
 		state.reportedDiagnostics.add(key);

@@ -467,6 +467,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 						!state.files.has(file)
 					) {
 						try {
+							state.reportedDiagnostics.clear();
 							const loadOrder = state.files.size;
 							await loadStyleframeFile(
 								state,

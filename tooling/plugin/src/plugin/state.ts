@@ -31,7 +31,7 @@ export interface PluginGlobalState {
 	initialized: boolean;
 	/** Full-to-short class name lookup (populated during minified builds) */
 	classNameLookup: Record<string, string> | null;
-	/** Diagnostics already logged in the current build, keyed by code and path */
+	/** Diagnostics already logged in the current build, keyed by code, path, and message */
 	reportedDiagnostics: Set<string>;
 }
 

@@ -20,7 +20,10 @@ function createConfig({ strict = false } = {}) {
 const s = styleframe({ strict: ${strict} });
 
 s.variable("color.brand", "#6366f1");
-s.selector(".card", { color: s.ref("color.brnad"), background: s.ref("color.missing") });
+s.selector(".card", {
+	color: s.ref("color.brnad"),
+	border: s.css\`1px solid \${s.ref("color.accnt")} \${s.ref("color.missing")}\`,
+});
 
 export default s;
 `;
@@ -51,13 +54,20 @@ describe("reportDiagnostics", () => {
 		vi.restoreAllMocks();
 	});
 
-	it("logs each diagnostic once, by code and path", () => {
+	it("logs each diagnostic once, by code, path, and message", () => {
 		const state = createPluginState("styleframe.config.ts");
 
 		reportDiagnostics(state, [diagnostic, diagnostic]);
-		reportDiagnostics(state, [diagnostic, { ...diagnostic, path: "other" }]);
+		reportDiagnostics(state, [
+			diagnostic,
+			{ ...diagnostic, path: "other" },
+			{
+				...diagnostic,
+				message: 'Reference "@color.accnt" resolves to no variable.',
+			},
+		]);
 
-		expect(consola.warn).toHaveBeenCalledTimes(2);
+		expect(consola.warn).toHaveBeenCalledTimes(3);
 		expect(consola.warn).toHaveBeenCalledWith(
 			'[styleframe] unresolved-reference selector ".card" › color: Reference "@color.brnad" resolves to no variable.',
 		);
@@ -110,6 +120,18 @@ describe("plugin diagnostics", () => {
 		} as never) as unknown as Hooks;
 	}
 
+	function createServer() {
+		return {
+			watcher: { on: vi.fn(), add: vi.fn() },
+			moduleGraph: {
+				getModuleById: vi.fn(() => undefined),
+				getModuleByUrl: vi.fn(async () => undefined),
+				invalidateModule: vi.fn(),
+			},
+			ws: { send: vi.fn() },
+		};
+	}
+
 	async function runBuild(plugin: Hooks) {
 		await plugin.buildStart.call(context);
 		await plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID);
@@ -121,32 +143,56 @@ describe("plugin diagnostics", () => {
 		const plugin = createPlugin();
 
 		await runBuild(plugin);
-		expect(consola.warn).toHaveBeenCalledTimes(2);
-		expect(consola.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				'[styleframe] unresolved-reference selector ".card" › color: Reference "@color.brnad"',
-			),
-		);
+		expect(vi.mocked(consola.warn).mock.calls).toEqual([
+			[
+				'[styleframe] unresolved-reference selector ".card" › color: Reference "@color.brnad" resolves to no variable. Did you mean "@color.brand"?',
+			],
+			[
+				'[styleframe] unresolved-reference selector ".card" › border: Reference "@color.accnt" resolves to no variable.',
+			],
+			[
+				'[styleframe] unresolved-reference selector ".card" › border: Reference "@color.missing" resolves to no variable.',
+			],
+		]);
 
 		await runBuild(plugin);
-		expect(consola.warn).toHaveBeenCalledTimes(4);
+		expect(consola.warn).toHaveBeenCalledTimes(6);
+	});
+
+	it("logs warnings with type declarations off, and again after a reload", async () => {
+		await writeFile(configPath, createConfig());
+		const plugin = createPlugin({ dts: { enabled: false } });
+
+		await plugin.buildStart.call(context);
+		await plugin.load.call(context, RESOLVED_VIRTUAL_CONSUMER_ID);
+		expect(consola.warn).toHaveBeenCalledTimes(3);
+		await plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID);
+		expect(consola.warn).toHaveBeenCalledTimes(3);
+
+		await plugin.vite.handleHotUpdate({
+			file: configPath,
+			modules: [],
+			server: createServer(),
+		});
+		await plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID);
+		expect(consola.warn).toHaveBeenCalledTimes(6);
 	});
 
 	it("fails the build under strict", async () => {
 		await writeFile(configPath, createConfig({ strict: true }));
 
 		await expect(createPlugin().buildStart.call(context)).rejects.toThrow(
-			/Strict mode found 2 problems/,
+			/Strict mode found 3 problems/,
 		);
 
 		const plugin = createPlugin({ dts: { enabled: false } });
 		await plugin.buildStart.call(context);
 		await expect(
 			plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID),
-		).rejects.toThrow(/Strict mode found 2 problems/);
+		).rejects.toThrow(/Strict mode found 3 problems/);
 		await expect(
 			plugin.load.call(context, RESOLVED_VIRTUAL_CONSUMER_ID),
-		).rejects.toThrow(/Strict mode found 2 problems/);
+		).rejects.toThrow(/Strict mode found 3 problems/);
 		expect(consola.warn).not.toHaveBeenCalled();
 	});
 
@@ -155,15 +201,7 @@ describe("plugin diagnostics", () => {
 		const plugin = createPlugin();
 		await plugin.buildStart.call(context);
 
-		const server = {
-			watcher: { on: vi.fn(), add: vi.fn() },
-			moduleGraph: {
-				getModuleById: vi.fn(() => undefined),
-				getModuleByUrl: vi.fn(async () => undefined),
-				invalidateModule: vi.fn(),
-			},
-			ws: { send: vi.fn() },
-		};
+		const server = createServer();
 		plugin.vite.configureServer(server);
 
 		await writeFile(configPath, createConfig({ strict: true }));
@@ -177,7 +215,7 @@ describe("plugin diagnostics", () => {
 			expect(server.ws.send).toHaveBeenCalledWith({
 				type: "error",
 				err: expect.objectContaining({
-					message: expect.stringMatching(/Strict mode found 2 problems/),
+					message: expect.stringMatching(/Strict mode found 3 problems/),
 				}),
 			});
 		});

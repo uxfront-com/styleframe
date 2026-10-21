@@ -71,9 +71,9 @@ export function inspect(instance: Styleframe): InspectSnapshot {
 				]),
 			),
 			defaultVariants: Object.fromEntries(
-				Object.entries(recipe.defaultVariants ?? {}).filter(
-					(entry): entry is [string, string] => typeof entry[1] === "string",
-				),
+				Object.entries(recipe.defaultVariants ?? {})
+					.filter(([, option]) => option !== undefined && option !== null)
+					.map(([axis, option]) => [axis, String(option)]),
 			),
 		})),
 	};
@@ -83,15 +83,14 @@ function toProperty(name: string, options: StyleframeOptions): string {
 	const variableNameFn = options.variables?.name ?? defaultVariableNameFn;
 	const emitted = variableNameFn({ name });
 	const normalized = emitted.startsWith("--") ? emitted.slice(2) : emitted;
-	const safe = normalized.replace(/[^a-zA-Z0-9_\-\u0080-￿]/g, "-");
+	const safe = normalized.replace(/[^a-zA-Z0-9_\-\u0080-\uFFFF]/g, "-");
 
 	return `--${safe || "unknown-variable"}`;
 }
 
 function toValue(value: TokenValue, options: StyleframeOptions): string {
 	if (isRef(value)) {
-		const fallback =
-			value.fallback !== undefined ? toValue(value.fallback, options) : "";
+		const fallback = value.fallback ? toValue(value.fallback, options) : "";
 		return `var(${toProperty(value.name, options)}${fallback ? `, ${fallback}` : ""})`;
 	}
 

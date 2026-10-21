@@ -89,6 +89,21 @@ describe("inspect", () => {
 		]);
 	});
 
+	it("keeps non-string default variants from a JavaScript config", () => {
+		const s = styleframe();
+		s.utility("opacity", ({ value }) => ({ opacity: value }));
+		s.recipe({
+			name: "button",
+			base: {},
+			variants: { disabled: { true: { opacity: "0.5" }, false: {} } },
+			defaultVariants: { disabled: false } as never,
+		});
+
+		expect(inspect(s).recipes[0]?.defaultVariants).toEqual({
+			disabled: "false",
+		});
+	});
+
 	it("follows the instance's naming options", () => {
 		const snapshot = inspect(
 			createInstance({

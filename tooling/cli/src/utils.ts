@@ -1,5 +1,6 @@
 import { access } from "node:fs/promises";
-import { constants } from "node:fs";
+import { constants, existsSync } from "node:fs";
+import path from "node:path";
 import type { Diagnostic } from "@styleframe/core";
 
 export async function fileExists(path: string) {
@@ -75,4 +76,23 @@ export function formatDiagnostic({ code, path, message }: Diagnostic): string {
 
 export function pluralize(count: number, word: string): string {
 	return `${count} ${count === 1 ? word : `${word}s`}`;
+}
+
+const CONFIG_EXTENSIONS = [".ts", ".mts", ".cts", ".js", ".mjs", ".cjs"];
+
+/**
+ * Whether an entry resolves to a config file the way `loadConfiguration()`
+ * resolves it: as given when it has a known extension, otherwise with each
+ * extension appended. The loader falls back to an empty instance instead.
+ */
+export function configFileExists(entry: string, cwd = process.cwd()): boolean {
+	const basePath = path.resolve(cwd, entry);
+
+	if (CONFIG_EXTENSIONS.some((extension) => basePath.endsWith(extension))) {
+		return existsSync(basePath);
+	}
+
+	return CONFIG_EXTENSIONS.some((extension) =>
+		existsSync(`${basePath}${extension}`),
+	);
 }
