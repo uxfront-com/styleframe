@@ -1,5 +1,6 @@
 import type { TranspileOptions } from "@styleframe/transpiler";
 import { transpile } from "@styleframe/transpiler";
+import { reportDiagnostics } from "../diagnostics";
 import type { PluginGlobalState } from "../state";
 
 /**
@@ -10,6 +11,7 @@ export async function generateConsumerModule(
 	state: PluginGlobalState,
 	minify = false,
 	minifyOptions?: TranspileOptions["minifyOptions"],
+	silent = false,
 ): Promise<string> {
 	if (!state.globalInstance) {
 		return `// Styleframe not initialized`;
@@ -20,5 +22,6 @@ export async function generateConsumerModule(
 		minify,
 		minifyOptions,
 	});
+	reportDiagnostics(state, result.diagnostics, silent);
 	return result.files.find((f) => f.name === "index.ts")?.content ?? "";
 }

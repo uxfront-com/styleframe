@@ -68,6 +68,15 @@ const CSS_AND_CONSUMER_MODULE_IDS = [
 	RESOLVED_VIRTUAL_CONSUMER_ID,
 ];
 
+type DevServerErrorChannel = {
+	ws: {
+		send(payload: {
+			type: "error";
+			err: { message: string; stack: string };
+		}): void;
+	};
+};
+
 export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 	options = DEFAULT_OPTIONS,
 ) => {
@@ -102,6 +111,10 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 	// Debounce timeout for type generation
 	let typeGenTimeout: ReturnType<typeof setTimeout> | null = null;
 
+	// Vite dev server, set in configureServer, that strict-mode failures from
+	// the debounced type generation are sent to
+	let devServer: DevServerErrorChannel | null = null;
+
 	// Schedule type generation with debounce
 	const scheduleTypeGeneration = () => {
 		if (options.dts?.enabled === false) return;
@@ -111,6 +124,13 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				await generateTypeDeclarations(state, cwd, options.dts, options.silent);
 			} catch (error) {
 				consola.error(`[styleframe] Type generation failed:`, error);
+				// Under strict, the problems fail the dev build like a failed module
+				if (state.globalInstance?.options.strict && error instanceof Error) {
+					devServer?.ws.send({
+						type: "error",
+						err: { message: error.message, stack: error.stack ?? "" },
+					});
+				}
 			}
 		}, 100);
 	};
@@ -121,6 +141,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 		files: string[],
 		filesToInvalidate?: string[],
 	) => {
+		state.reportedDiagnostics.clear();
 		await reloadAll(
 			state,
 			files,
@@ -189,6 +210,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 		async buildStart() {
 			isBuildCommand = process.argv.includes("build");
+			state.reportedDiagnostics.clear();
 
 			if (!options.silent) {
 				console.log("");
@@ -381,7 +403,12 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				const minifyOptions =
 					typeof options.minify === "object" ? options.minify : undefined;
 				return {
-					code: await generateConsumerModule(state, minify, minifyOptions),
+					code: await generateConsumerModule(
+						state,
+						minify,
+						minifyOptions,
+						options.silent,
+					),
 				};
 			}
 
@@ -430,6 +457,8 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 			},
 
 			configureServer(server) {
+				devServer = server;
+
 				// Watch for new *.styleframe.ts files
 				server.watcher.on("add", async (file) => {
 					if (
@@ -438,6 +467,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 						!state.files.has(file)
 					) {
 						try {
+							state.reportedDiagnostics.clear();
 							const loadOrder = state.files.size;
 							await loadStyleframeFile(
 								state,
