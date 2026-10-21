@@ -46,6 +46,8 @@ export default defineNuxtConfig({
 		// Drops the category folders under Elements and Components from the URLs,
 		// and keeps them as sidebar groups.
 		resolve("./modules/nonRouteCategories"),
+		// The changelog's raw Markdown, which llms.txt links and nothing crawls.
+		resolve("./modules/rawChangelog"),
 	],
 
 	// The docs sections in app/constants/sections.ts, auto-imported for the
