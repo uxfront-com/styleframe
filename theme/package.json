@@ -1,6 +1,6 @@
 {
 	"name": "@styleframe/theme",
-	"version": "3.9.0",
+	"version": "3.10.0",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/theme.js",
@@ -32,9 +32,9 @@
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
-		"@styleframe/config-vite": "workspace:^3.1.1",
-		"@styleframe/core": "workspace:^3.6.2",
-		"@styleframe/transpiler": "workspace:^3.4.2",
+		"@styleframe/config-vite": "workspace:^3.1.2",
+		"@styleframe/core": "workspace:^3.7.0",
+		"@styleframe/transpiler": "workspace:^3.5.0",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",

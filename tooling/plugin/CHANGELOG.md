@@ -1,5 +1,14 @@
 # @styleframe/plugin
 
+## 3.4.2
+
+### Patch Changes
+
+- [#273](https://github.com/uxfront-com/styleframe/pull/273) [`04dcb53`](https://github.com/uxfront-com/styleframe/commit/04dcb53c6ae7e2bfdb3785231c02cd0863fcda61) Thanks [@jaasieldelgado131](https://github.com/jaasieldelgado131)! - Publish the `@styleframe/plugin/types` entry point.
+
+- Updated dependencies [[`23efb06`](https://github.com/uxfront-com/styleframe/commit/23efb062135ca8e843466da372d90f4cb4173602)]:
+  - @styleframe/transpiler@3.5.0
+
 ## 3.4.1
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @styleframe/core
 
+## 3.7.0
+
+### Minor Changes
+
+- [#301](https://github.com/uxfront-com/styleframe/pull/301) [`e325096`](https://github.com/uxfront-com/styleframe/commit/e3250963c8d3944dc9f36adb634aa3a4d542b9c8) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Add a first-class `property()` factory for typed custom properties. It composes `variable()` (the value declaration) with an `@property` at-rule (the registration) and returns the same `Variable` — one custom property in the graph, distinct at authoring:
+
+  ```ts
+  property("space", "0px", { syntax: "<length>", inherits: false });
+  // --space: 0px;
+  // @property --space { syntax: "<length>"; inherits: false; initial-value: 0px; }
+  ```
+
+  `initialValue` defaults to the value; the `@property` block is registered once per name. Purely additive — the raw `atRule('property', …)` hatch is unchanged, and output is byte-identical when `property()` is unused. The `syntax`→TS-type narrowing is a separate follow-up.
+
+- [#343](https://github.com/uxfront-com/styleframe/pull/343) [`23efb06`](https://github.com/uxfront-com/styleframe/commit/23efb062135ca8e843466da372d90f4cb4173602) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Report token references that resolve to nothing, theme overrides of undefined variables and duplicate variables when the build runs. The new `validate(instance)` returns every problem in one pass as a `Diagnostic` with a `code`, `severity`, `message`, `path` and, when a token name is within two edits, a `suggestion`. It reports an `@token` in a recipe, a utility value or a `css` template literal, and a `ref()` anywhere, that resolves to no variable (`unresolved-reference`), a theme variable that isn't defined at root (`undefined-theme-override`), and two `variable()` calls with the same name and without `default: true` (`duplicate-variable`). A plain `@token` string in a selector or theme declaration still throws when it's defined, as before. `transpile()` runs `validate()` once and returns the diagnostics as `diagnostics` beside `files`, and with the new `strict: true` option on `styleframe()` it throws one error that lists them all instead. Nested at-rules with a hyphen in their name, like `@starting-style` and `@font-feature-values`, now keep the whole name. The theme adds the `z-index.tooltip` token (`700`), which the tooltip recipe already referenced, and the `xs` chip indicator uses `@font-size.3xs` instead of the undefined `@font-size.4xs`. `styleframe` and `@styleframe/transpiler` now accept the `@styleframe/core` release that ships `validate()`.
+
+### Patch Changes
+
+- [#323](https://github.com/uxfront-com/styleframe/pull/323) [`a03a29b`](https://github.com/uxfront-com/styleframe/commit/a03a29b4e44e29f3ffe7acf94f493bed7d82cb02) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Boundary-guard `@`-reference parsing so a `@` mid-token is a literal, not a reference. `AT_VARIABLE_REGEX` matched `@` anywhere in a string, so a retina URL like `url("image@2x.png")` parsed `@2x.png` as a variable reference — silently emitting a dead `var(--2x--png)` before SF-13, and _throwing_ `Variable "2x.png" is not defined` after SF-13 tightened ref validation. The regex now requires a non-word boundary before `@` (`(?<!\w)`), so `@` only starts a reference when not preceded by a word character. Genuine leading-`@` refs (`@color.primary`, `1px solid @spacing.sm`, `@border.width solid @color.primary`) are unchanged, byte for byte; only `@`-mid-token literals change — from broken/throwing to passthrough.
+
+- [#316](https://github.com/uxfront-com/styleframe/pull/316) [`dc08e92`](https://github.com/uxfront-com/styleframe/commit/dc08e92a22db0ec29c2837504d84e3401b0ae9e2) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Validate variable references inside compound `@`-shorthand values. `resolvePropertyValue` already threw `Variable "X" is not defined` for a single exact ref (`padding: "@0.5"`), but the embedded/compound path (`padding: "@0.25 @0.5"`, `border: "1px solid @undefined"`) only recorded usage and skipped `validateReference`, so a compound ref to an undefined variable silently emitted a dead `var(--…)`. The embedded branch now calls `validateReference` for each ref part, matching the single-ref path. Compound refs whose variables are all defined are unchanged (byte-for-byte identical output); only compound refs to undefined variables change — from a silent dead `var(--…)` to a thrown error.
+
 ## 3.6.2
 
 ### Patch Changes
