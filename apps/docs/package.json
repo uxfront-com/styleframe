@@ -10,6 +10,7 @@
 		"typecheck": "nuxt prepare && vue-tsc -b --noEmit --pretty false 2>&1 | awk '/^[^ ]/ { own = !/node_modules\\/(.*\\/)?docus\\// } own { print; failed = 1 } END { exit failed }'",
 		"test": "vitest run",
 		"test:build": "vitest run --config vitest.build.config.ts",
+		"lighthouse": "pnpm dlx @lhci/cli@0.15.1 autorun",
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {

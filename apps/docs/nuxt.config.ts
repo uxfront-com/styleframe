@@ -26,6 +26,12 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	ssr: true,
 
+	app: {
+		head: {
+			htmlAttrs: { lang: "en" },
+		},
+	},
+
 	extends: [
 		// The homepage kit: components, fonts, head helpers and critical-path loading.
 		"@uxfront/layer-ui",
@@ -124,8 +130,6 @@ export default defineNuxtConfig({
 	routeRules: {
 		// The docs open on the introduction.
 		"/docs": { redirect: "/docs/getting-started/introduction" },
-		// The homepage isn't rebuilt yet, so the site opens on the docs too.
-		"/": { redirect: "/docs/getting-started/introduction" },
 		// Hashed build assets never change, so cache them forever.
 		"/_nuxt/**": {
 			headers: { "cache-control": "public, max-age=31536000, immutable" },
