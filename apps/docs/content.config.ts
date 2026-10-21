@@ -48,5 +48,16 @@ export default defineContentConfig({
 			type: "page",
 			source: { include: "legal/*.md", prefix: "/" },
 		}),
+		// The homepage's code samples, one per file, so Nuxt Content highlights
+		// them when the site is built and the page ships no highlighter. Data,
+		// not pages, so they get no route and stay out of llms.txt.
+		home: defineCollection({
+			type: "data",
+			source: "home/*.md",
+			schema: z.object({
+				title: z.string(),
+				body: z.object({}).passthrough(),
+			}),
+		}),
 	},
 });

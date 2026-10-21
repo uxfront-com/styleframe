@@ -95,6 +95,7 @@ const starCount = computed(() =>
 	gap: 0.5rem;
 	min-height: 2.75rem;
 	text-decoration: none;
+	white-space: nowrap;
 }
 
 .site-header__icon {
