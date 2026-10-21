@@ -73,22 +73,34 @@ export function docsFolderPrefix(folder: string): string | undefined {
 }
 
 /**
- * The source file of a docs page, without its extension, from the page's
- * `stem`. Nuxt Content builds stems from the URL prefixes above, so the page
- * at `/docs/theme/components/button` has the stem
- * `docs/theme/components/02.actions/00.button`, and its file is
- * `docs/05.components/02.actions/00.button.md`.
+ * The `stem` a docs page gets (see `modules/nonRouteCategories.ts`): its file,
+ * without its extension, with its section in front, numbered in section order.
+ * `docs/08.tooling/01.cli` becomes `docs/1.getting-started/08.tooling/01.cli`.
+ * Nuxt Content orders the sidebar and the previous and next links by stem, so
+ * pages follow their files, and each section's pages stay together, though
+ * `08.tooling` is numbered after `02.api`. Works for folders too.
  */
-export function docsSourceStem(stem: string): string {
-	const match = DOCS_FOLDERS.map((folder) => ({
+export function docsStem(file: string): string {
+	const [root, folder, ...rest] = file.split("/");
+	const index = DOCS_SECTIONS.findIndex((section) =>
+		(typeof section.folder === "string"
+			? [section.folder]
+			: (section.folder as readonly string[])
+		).includes(folder ?? ""),
+	);
+	if (root !== "docs" || index === -1) return file;
+	return [
+		root,
+		`${index + 1}.${DOCS_SECTIONS[index]!.slug}`,
 		folder,
-		prefix: (docsFolderPrefix(folder) ?? "").slice(1),
-	}))
-		.filter(({ prefix }) => stem === prefix || stem.startsWith(`${prefix}/`))
-		.sort((a, b) => b.prefix.length - a.prefix.length)[0];
-	return match
-		? `docs/${match.folder}${stem.slice(match.prefix.length)}`
-		: stem;
+		...rest,
+	].join("/");
+}
+
+/** The file of a docs page, without its extension, from its `stem` (see docsStem). */
+export function docsSourceStem(stem: string): string {
+	const [root, , ...rest] = stem.split("/");
+	return [root, ...rest].join("/");
 }
 
 /**

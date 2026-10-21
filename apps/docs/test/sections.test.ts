@@ -3,6 +3,7 @@ import {
 	DOCS_FOLDERS,
 	docsFolderPrefix,
 	docsSourceStem,
+	docsStem,
 } from "../app/constants/sections";
 
 describe("docsFolderPrefix", () => {
@@ -30,19 +31,43 @@ describe("docsFolderPrefix", () => {
 	});
 });
 
-describe("docsSourceStem", () => {
+describe("docsStem", () => {
 	it.each([
 		[
-			"docs/getting-started/01.introduction",
 			"docs/01.getting-started/01.introduction",
+			"docs/1.getting-started/01.getting-started/01.introduction",
 		],
-		["docs/getting-started/tooling/01.cli", "docs/08.tooling/01.cli"],
-		["docs/api/11.recipes/00.index", "docs/02.api/11.recipes/00.index"],
+		["docs/08.tooling/01.cli", "docs/1.getting-started/08.tooling/01.cli"],
 		[
-			"docs/theme/components/02.actions/00.button",
-			"docs/05.components/02.actions/00.button",
+			"docs/02.api/11.recipes/00.index",
+			"docs/2.api/02.api/11.recipes/00.index",
 		],
-	])("finds the file of %s", (stem, file) => {
+		["docs/05.components/02.actions", "docs/3.theme/05.components/02.actions"],
+	])("puts the section in front of %s", (file, stem) => {
+		expect(docsStem(file)).toBe(stem);
 		expect(docsSourceStem(stem)).toBe(file);
+	});
+
+	it("orders every section's pages together, in file order", () => {
+		const files = [
+			"docs/02.api/00.index",
+			"docs/10.migration/01.tailwind",
+			"docs/07.modifiers/00.index",
+			"docs/01.getting-started/07.licensing",
+			"docs/08.tooling/01.cli",
+			"docs/06.utilities/00.index",
+		];
+		expect(files.map(docsStem).sort().map(docsSourceStem)).toEqual([
+			"docs/01.getting-started/07.licensing",
+			"docs/08.tooling/01.cli",
+			"docs/10.migration/01.tailwind",
+			"docs/02.api/00.index",
+			"docs/06.utilities/00.index",
+			"docs/07.modifiers/00.index",
+		]);
+	});
+
+	it("leaves paths outside the docs sections as they are", () => {
+		expect(docsStem("changelog/3.9.0")).toBe("changelog/3.9.0");
 	});
 });

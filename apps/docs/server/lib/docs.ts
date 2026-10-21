@@ -13,8 +13,8 @@ interface DocsPage {
 
 /**
  * Finds the docs page served at `path`, like `/docs/theme/components/button`,
- * and reads its source file. Its `stem` follows the page's URL, not its file
- * (see docsSourceStem). The site is static: this runs on `pnpm dev` and when the
+ * and reads its source file. Its `stem` is its file with its section in front
+ * (see docsStem). The site is static: this runs on `pnpm dev` and when the
  * pages are prerendered, both from the app's directory.
  *
  * It's in server/lib rather than server/utils, which Nitro auto-imports: the app's

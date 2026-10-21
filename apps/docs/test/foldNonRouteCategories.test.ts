@@ -15,23 +15,26 @@ describe("foldNonRouteCategories", () => {
 				{
 					title: "Components",
 					path: "/docs/theme/components",
-					stem: "docs/theme/components/00.index",
+					stem: "docs/3.theme/05.components/00.index",
 					children: [
-						page("docs/theme/components/00.index", "/docs/theme/components"),
 						page(
-							"docs/theme/components/03.navigation/00.breadcrumb",
+							"docs/3.theme/05.components/00.index",
+							"/docs/theme/components",
+						),
+						page(
+							"docs/3.theme/05.components/03.navigation/00.breadcrumb",
 							"/docs/theme/components/breadcrumb",
 						),
 						page(
-							"docs/theme/components/02.actions/00.button",
+							"docs/3.theme/05.components/02.actions/00.button",
 							"/docs/theme/components/button",
 						),
 					],
 				},
 			],
 			{
-				"docs/theme/components/02.actions": { title: "Actions", order: 2 },
-				"docs/theme/components/03.navigation": {
+				"docs/3.theme/05.components/02.actions": { title: "Actions", order: 2 },
+				"docs/3.theme/05.components/03.navigation": {
 					title: "Navigation",
 					icon: "i-lucide-navigation",
 					defaultOpen: true,
@@ -78,7 +81,9 @@ describe("foldNonRouteCategories", () => {
 			{
 				title: "API Reference",
 				path: "/docs/api",
-				children: [page("docs/api/02.variables", "/docs/api/variables")],
+				children: [
+					page("docs/2.api/02.api/02.variables", "/docs/api/variables"),
+				],
 			},
 		];
 		expect(foldNonRouteCategories(tree, {})).toEqual(tree);

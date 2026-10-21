@@ -22,30 +22,12 @@ function firstPagePath(
 }
 
 /**
- * Orders pages and folders as their files are. Nuxt Content orders them by
- * `stem`, which follows the URL, so the folders a section mounts below its own
- * come alphabetically: Integrations, Migrations, Tooling, and Modifiers before
- * Utilities. Their files keep the folders' numbers (see docsSourceStem).
- */
-function bySourceOrder(
-	items: ContentNavigationItem[] = [],
-): ContentNavigationItem[] {
-	return items
-		.map((item) => ({ item, source: docsSourceStem(item.stem ?? "") }))
-		.sort((a, b) => (a.source < b.source ? -1 : a.source > b.source ? 1 : 0))
-		.map(({ item }) =>
-			item.children
-				? { ...item, children: bySourceOrder(item.children) }
-				: item,
-		);
-}
-
-/**
  * The docs' sections, as tabs below the header, and the sidebar of the one the
  * reader is in. Docus makes a tab of each top-level folder of the navigation:
  * Getting Started, API Reference and Theme. Theme splits into its four
  * sub-sections here (`THEME_SUBSECTIONS`), each with its own sidebar, and the
- * sidebar groups pages by their category folders (`foldNonRouteCategories`).
+ * sidebar groups pages by their category folders (`foldNonRouteCategories`)
+ * and lists a page like Z-Index as a page, not a group (`flattenNavigation`).
  * The overrides of Docus's `AppHeaderBottom`, `DocsAsideLeftBody` and
  * `DocsAsideMobileBar` read them.
  */
@@ -63,7 +45,7 @@ export function useDocsSections() {
 		return DOCS_SECTIONS.flatMap((section): DocsSectionTab[] => {
 			const base = `/docs/${section.slug}`;
 			const node = tree.find((item) => item.path === base);
-			const children = bySourceOrder(node?.children);
+			const children = node?.children ?? [];
 
 			if (section.key === "theme") {
 				const segment = themeSegmentFromPath(route.path) ?? "";
@@ -104,9 +86,11 @@ export function useDocsSections() {
 	);
 
 	const sidebarNavigation = computed(() =>
-		foldNonRouteCategories(
-			currentSection.value?.navigation ?? [],
-			appConfig.nonRouteCategories ?? {},
+		flattenNavigation(
+			foldNonRouteCategories(
+				currentSection.value?.navigation ?? [],
+				appConfig.nonRouteCategories ?? {},
+			),
 		),
 	);
 
