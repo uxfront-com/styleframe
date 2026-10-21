@@ -130,6 +130,52 @@ describe("validate", () => {
 			expect(validate(s)).toEqual([]);
 		});
 
+		it("names a variable defined after the utility that used it", () => {
+			const s = createInstance();
+			s.recipe({ name: "button", base: { backgroundColor: "@late" } });
+			s.variable("color.late", "#000");
+
+			expect(validate(s)).toEqual([
+				{
+					code: "unresolved-reference",
+					severity: "warning",
+					message:
+						'Reference "@color.late" was used before its variable was defined. Define "color.late" before the recipe or utility that uses it.',
+					path: 'recipe "button" › base › backgroundColor',
+				},
+			]);
+		});
+
+		it("gives no suggestion for a name three edits away", () => {
+			const s = createInstance();
+			s.selector(".a", { color: s.ref("color.bxxxd") });
+
+			expect(validate(s)).toEqual([
+				expect.not.objectContaining({ suggestion: expect.anything() }),
+			]);
+		});
+
+		it("suggests a variable from the enclosing selector", () => {
+			const s = createInstance();
+			s.selector(".a", ({ variable, selector }) => {
+				variable("gutter-size", "1px");
+				selector(".b", { width: s.ref("gutter-sise") });
+			});
+
+			expect(validate(s)).toEqual([
+				expect.objectContaining({ suggestion: "gutter-size" }),
+			]);
+		});
+
+		it("resolves root variables after merge()", () => {
+			const a = createInstance();
+			a.selector(".a", { color: a.ref("color.brand") });
+			const b = styleframe();
+			b.variable("spacing", "1rem");
+
+			expect(validate(merge(a, b))).toEqual([]);
+		});
+
 		it("accepts a reference with a fallback", () => {
 			const s = createInstance();
 			s.selector(".a", { color: s.ref("color.optional", "#333") });
@@ -181,6 +227,21 @@ describe("validate", () => {
 			s.variable("spacing", "3rem", { default: true });
 
 			expect(validate(s)).toEqual([]);
+		});
+
+		it("reports a second override after a default", () => {
+			const s = styleframe();
+			s.variable("spacing", "1rem", { default: true });
+			s.variable("spacing", "2rem");
+			s.variable("spacing", "3rem");
+
+			expect(validate(s)).toEqual([
+				expect.objectContaining({
+					code: "duplicate-variable",
+					message:
+						'Variable "spacing" is defined twice: "2rem", then "3rem". The last value wins.',
+				}),
+			]);
 		});
 
 		it("names the scope of a duplicate inside a theme", () => {

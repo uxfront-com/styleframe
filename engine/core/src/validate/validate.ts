@@ -42,6 +42,18 @@ export function validate(instance: Styleframe): Diagnostic[] {
 	const diagnostics: Diagnostic[] = [];
 
 	const reportUnresolved: ReportFn = (reference, path, scope) => {
+		// A namespace fallback resolves when the utility is created, so a
+		// variable defined after that point exists now but wasn't used
+		if (isDefined(reference, scope, root)) {
+			diagnostics.push({
+				code: "unresolved-reference",
+				severity,
+				message: `Reference "@${reference}" was used before its variable was defined. Define "${reference}" before the recipe or utility that uses it.`,
+				path: path.join(SEPARATOR),
+			});
+			return;
+		}
+
 		const suggestion = findSuggestion(
 			reference,
 			collectVisibleNames(scope, root),
