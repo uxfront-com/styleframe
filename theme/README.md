@@ -6,7 +6,10 @@ Ready-made building blocks for a Styleframe design system: design tokens, elemen
 
 ```bash
 pnpm add -D styleframe @styleframe/theme
+pnpm add @styleframe/runtime
 ```
+
+Once you use a recipe, the `index.ts` a build writes imports `@styleframe/runtime`, so your app needs it at runtime too.
 
 ## Usage
 

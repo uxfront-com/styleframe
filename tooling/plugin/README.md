@@ -2,7 +2,7 @@
 
 Builds your Styleframe config as part of your app's build, so your styles update while you work. It runs on Vite, Webpack, Rollup, Rspack, esbuild, Farm, Bun, Nuxt and Astro, and serves the result as the `virtual:styleframe.css` and `virtual:styleframe` modules.
 
-Most projects get it with the `styleframe` package, which re-exports the bundler entries, like `styleframe/plugin/vite`. Running `styleframe init` adds it to a Vite or Nuxt config for you.
+Most projects get it with the `styleframe` package, which re-exports every bundler entry except Bun's, like `styleframe/plugin/vite`. Running `styleframe init` adds it to your `vite.config.ts` or `nuxt.config.ts` for you.
 
 ## Install
 

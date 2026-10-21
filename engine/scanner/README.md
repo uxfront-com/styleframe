@@ -1,6 +1,6 @@
 # @styleframe/scanner
 
-Finds Styleframe utility class names, like `_margin:md`, in your source files, so a build can generate the CSS for the classes you actually use. The bundler plugin runs it for you.
+Finds Styleframe utility class names, like `_margin:md`, in your source files, so a build can generate the CSS for the classes you actually use. The bundler plugin runs it for you once you set its `scanner.content` option to the files to scan.
 
 Most projects get it with `@styleframe/plugin`. Install it directly only to scan files from your own tooling.
 

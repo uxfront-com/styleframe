@@ -1,6 +1,6 @@
 # @styleframe/core
 
-The core of Styleframe: the `styleframe()` instance you write your design system with, and the functions it gives you, like `variable()`, `ref()`, `selector()`, `utility()`, `recipe()` and `theme()`. It also exports `validate()`, which reports every token reference that resolves to nothing, theme override of an undefined token and duplicate token in one pass, and `inspect()`, which lists what an instance registers.
+The core of Styleframe: the `styleframe()` instance you write your design system with, and the functions it gives you, like `variable()`, `ref()`, `selector()`, `utility()`, `recipe()` and `theme()`. It also exports `validate()`, which reports in one pass the token references in recipes and utilities that resolve to nothing, the theme overrides of undefined tokens and the duplicate tokens, and `inspect()`, which lists what an instance registers.
 
 Most projects don't import it directly. The `styleframe` package re-exports it, so you write `import { styleframe } from "styleframe"`.
 
@@ -10,7 +10,7 @@ Most projects don't import it directly. The `styleframe` package re-exports it, 
 pnpm add -D styleframe
 ```
 
-To use the core on its own, without the CLI and the build tools:
+To use the core on its own, without the CLI and the build tools, install it and import from `@styleframe/core` instead of `styleframe`:
 
 ```bash
 pnpm add -D @styleframe/core
