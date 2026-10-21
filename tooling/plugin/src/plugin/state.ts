@@ -31,6 +31,8 @@ export interface PluginGlobalState {
 	initialized: boolean;
 	/** Full-to-short class name lookup (populated during minified builds) */
 	classNameLookup: Record<string, string> | null;
+	/** Diagnostics already logged in the current build, keyed by code and path */
+	reportedDiagnostics: Set<string>;
 }
 
 /**
@@ -49,6 +51,7 @@ export function createPluginState(configPath: string): PluginGlobalState {
 		loadingFiles: new Set(),
 		initialized: false,
 		classNameLookup: null,
+		reportedDiagnostics: new Set(),
 	};
 }
 

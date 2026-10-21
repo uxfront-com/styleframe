@@ -1,5 +1,6 @@
 import { access } from "node:fs/promises";
 import { constants } from "node:fs";
+import type { Diagnostic } from "@styleframe/core";
 
 export async function fileExists(path: string) {
 	try {
@@ -62,4 +63,16 @@ export function parseJsonc(text: string): unknown {
 	result = result.replace(/,(\s*[}\]])/g, "$1");
 
 	return JSON.parse(result);
+}
+
+/**
+ * Format a diagnostic as one line: its code, where it was made, and the
+ * message, which carries the did-you-mean.
+ */
+export function formatDiagnostic({ code, path, message }: Diagnostic): string {
+	return `${code} ${path}: ${message}`;
+}
+
+export function pluralize(count: number, word: string): string {
+	return `${count} ${count === 1 ? word : `${word}s`}`;
 }

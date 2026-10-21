@@ -10,6 +10,7 @@ const main = defineCommand({
 	subCommands: {
 		init: () => import("./commands/init").then((m) => m.default),
 		build: () => import("./commands/build").then((m) => m.default),
+		check: () => import("./commands/check").then((m) => m.default),
 		dtcg: () => import("./commands/dtcg").then((m) => m.default),
 		figma: () => import("./commands/figma").then((m) => m.default),
 	},

@@ -1,4 +1,5 @@
 export * from "./defaults";
+export * from "./inspect";
 export * from "./styleframe";
 export * from "./tokens";
 export * from "./typeGuards";

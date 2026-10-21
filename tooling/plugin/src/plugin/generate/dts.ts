@@ -3,6 +3,7 @@ import path from "node:path";
 import { transpile } from "@styleframe/transpiler";
 import { consola } from "consola";
 import { DEFAULT_DTS_OUT_DIR } from "../constants";
+import { reportDiagnostics } from "../diagnostics";
 import type { PluginGlobalState } from "../state";
 
 export interface TypeGeneratorOptions {
@@ -43,6 +44,7 @@ export async function generateTypeDeclarations(
 
 	// Use transpiler's dts mode to generate type declarations
 	const result = await transpile(state.globalInstance, { type: "dts" });
+	reportDiagnostics(state, result.diagnostics, silent);
 
 	await Promise.all(
 		result.files.map((file) =>
