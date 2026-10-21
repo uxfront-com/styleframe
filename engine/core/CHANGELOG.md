@@ -1,5 +1,15 @@
 # @styleframe/core
 
+## 3.8.0
+
+### Minor Changes
+
+- [#348](https://github.com/uxfront-com/styleframe/pull/348) [`e614db7`](https://github.com/uxfront-com/styleframe/commit/e614db75f3e192c8a19801c17ed057be37989c0d) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Add `inspect(instance)`, which returns a JSON-serialisable snapshot of what an instance defines: its root variables with the custom property and value they emit, its themes with their selector and overrides, its utilities with their values, class names and modifiers, its modifiers, and its recipes with their variant options and defaults. The CLI gains `styleframe check [entry] [--json]`, which runs `validate()` on your configuration without writing any files and exits with `1` when it finds a problem or the config file doesn't exist. With `--json`, it prints one `{ "ok", "diagnostics" }` document on stdout and nothing else. `styleframe build` now prints one warning line per diagnostic, exits with `1` under `strict: true` without writing anything, and exits with `1` when the build fails, where it used to log the error and exit with `0`. The bundler plugin logs each diagnostic once per build as a warning, so builds that use it, Inkline's included, will start showing them, and under `strict: true` it fails the build, including when it regenerates type declarations in the dev server.
+
+### Patch Changes
+
+- [#348](https://github.com/uxfront-com/styleframe/pull/348) [`e614db7`](https://github.com/uxfront-com/styleframe/commit/e614db75f3e192c8a19801c17ed057be37989c0d) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Add a `README.md` to each of these packages, so the npm page and the installed package say what the package is, how to install it and where its docs are. Each one links to the new "Using Styleframe with AI agents" page, which covers the `check`, `inspect` and `strict` loop and the mistakes that build without a warning. Until now these packages listed `README.md` in their `files` but shipped none.
+
 ## 3.7.0
 
 ### Minor Changes

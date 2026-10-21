@@ -28,7 +28,7 @@
 		"@playwright/test": "catalog:",
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/config-vite": "workspace:^3.1.2",
-		"@styleframe/theme": "workspace:^3.10.0",
+		"@styleframe/theme": "workspace:^3.10.1",
 		"@types/node": "catalog:",
 		"@types/shelljs": "^0.10.0",
 		"@vitest/coverage-v8": "catalog:",
