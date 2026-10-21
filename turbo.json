@@ -32,6 +32,7 @@
 				"nuxt.config.ts",
 				"app.config.ts",
 				"content.config.ts",
+				".env*",
 				"package.json"
 			],
 			"outputs": [".output/**", ".nuxt/**", ".vercel/output/**"],
