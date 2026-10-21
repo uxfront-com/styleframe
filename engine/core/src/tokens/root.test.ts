@@ -31,6 +31,7 @@ describe("createRoot", () => {
 					recipes: expect.any(Set),
 					recipeUtilities: expect.any(Map),
 				},
+				_records: [],
 				declarations: {},
 				utilities: [],
 				modifiers: [],

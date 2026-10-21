@@ -34,7 +34,7 @@
 		"scule": "catalog:"
 	},
 	"peerDependencies": {
-		"@styleframe/core": "workspace:^3.6.1",
+		"@styleframe/core": "workspace:^",
 		"@styleframe/license": "catalog:"
 	},
 	"devDependencies": {

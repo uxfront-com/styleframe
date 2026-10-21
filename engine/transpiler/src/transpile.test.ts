@@ -1310,4 +1310,82 @@ declare module "virtual:styleframe.css" {
 			expect(content).toContain("background: var(--color--primary)");
 		});
 	});
+
+	describe("diagnostics", () => {
+		it("emits as before and returns the diagnostics beside files", async () => {
+			variable("color.brand", "#6366f1");
+			variable("color.brand", "#f59e0b");
+			selector(".a", { color: ref("color.brnad") });
+
+			const output = await transpile(instance, { type: "css" });
+
+			expect(output.files[0]!.content).toContain("color: var(--color--brnad)");
+			expect(
+				output.diagnostics?.map(({ code, severity }) => [code, severity]),
+			).toEqual([
+				["unresolved-reference", "warning"],
+				["duplicate-variable", "warning"],
+			]);
+		});
+
+		it("returns no diagnostics for a valid instance", async () => {
+			const brand = variable("color.brand", "#6366f1");
+			selector(".a", { color: ref(brand) });
+
+			const output = await transpile(instance);
+
+			expect(output.diagnostics).toEqual([]);
+		});
+
+		it("throws one error listing every diagnostic under strict", async () => {
+			const strict = styleframe({ strict: true });
+			strict.variable("color.brand", "#6366f1");
+			strict.selector(".a", { color: strict.ref("color.brnad") });
+			strict.theme("dark", (ctx) => {
+				ctx.variable("color.missing", "#000");
+			});
+
+			const error = await transpile(strict).catch((e: unknown) => e);
+
+			expect(error).toBeInstanceOf(Error);
+			const { message } = error as Error;
+			expect(message).toContain("2 problems");
+			expect(message).toContain('selector ".a" › color');
+			expect(message).toContain('Did you mean "@color.brand"?');
+			expect(message).toContain('theme "dark" › variable "color.missing"');
+		});
+
+		it("builds under strict when there is nothing to report", async () => {
+			const strict = styleframe({ strict: true });
+			const brand = strict.variable("color.brand", "#6366f1");
+			strict.selector(".a", { color: strict.ref(brand) });
+
+			const output = await transpile(strict, { type: "css" });
+
+			expect(output.files).toHaveLength(1);
+			expect(output.diagnostics).toEqual([]);
+		});
+	});
+
+	describe("hyphenated at-rules", () => {
+		it("emits @starting-style nested in a selector", async () => {
+			selector(".a", { "@starting-style": { opacity: 0 } });
+
+			const output = await transpile(instance, { type: "css" });
+
+			expect(output.files[0]!.content).toContain("@starting-style {");
+		});
+
+		it("emits @font-feature-values with its rule", async () => {
+			selector(".a", {
+				"@font-feature-values Font One": { fontDisplay: "swap" },
+			});
+
+			const output = await transpile(instance, { type: "css" });
+
+			expect(output.files[0]!.content).toContain(
+				"@font-feature-values Font One {",
+			);
+		});
+	});
 });

@@ -227,6 +227,20 @@ describe("parseDeclarationsBlock", () => {
 				{ width: "50%" },
 			);
 		});
+
+		it.each([
+			["@starting-style", "starting-style", ""],
+			["@font-feature-values Font One", "font-feature-values", "Font One"],
+			["@-webkit-keyframes spin", "-webkit-keyframes", "spin"],
+		])("should keep the hyphens of %s", (key, identifier, rule) => {
+			const declarations = { [key]: { opacity: 0 } };
+
+			parseDeclarationsBlock(declarations, mockContext, root, root);
+
+			expect(mockContext.atRule).toHaveBeenCalledWith(identifier, rule, {
+				opacity: 0,
+			});
+		});
 	});
 
 	describe("edge cases", () => {

@@ -57,7 +57,7 @@ export function parseDeclarationsBlock(
 				atRuleDeclarations !== null &&
 				!isTokenValue(atRuleDeclarations)
 			) {
-				const identifier = key.replace(/^@(\w+).*/, "$1");
+				const identifier = key.replace(/^@([\w-]+).*/, "$1");
 				const rule = key.replace(`@${identifier}`, "").trim();
 				context.atRule(identifier, rule, atRuleDeclarations);
 				delete declarations[key];

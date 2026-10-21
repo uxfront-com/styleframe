@@ -156,7 +156,7 @@
 	},
 	"peerDependencies": {
 		"@styleframe/plugin": "workspace:^3.4.0",
-		"@styleframe/core": "workspace:^3.6.1",
+		"@styleframe/core": "workspace:^",
 		"@styleframe/loader": "workspace:^3.0.3",
 		"@styleframe/transpiler": "workspace:^3.4.1"
 	},
