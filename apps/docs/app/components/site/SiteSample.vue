@@ -95,9 +95,13 @@ Pre.inheritAttrs = false;
 }
 
 /* The page is always dark: take the dark theme's colours, whatever colour
-   mode the docs left on <html>. */
-.site-sample :deep(pre span) {
-	color: var(--shiki-default);
-	font-style: var(--shiki-default-font-style);
+   mode the docs left on <html>. Each sample's own styles set the colours with
+   `html.light .shiki span` and `html.dark .shiki span`, so this outranks them. */
+html .site-sample :deep(pre span) {
+	color: var(--shiki-dark);
+	background: none;
+	font-style: var(--shiki-dark-font-style);
+	font-weight: var(--shiki-dark-font-weight);
+	text-decoration: var(--shiki-dark-text-decoration);
 }
 </style>

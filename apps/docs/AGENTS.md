@@ -11,7 +11,7 @@ This directory contains the Styleframe documentation site, styleframe.dev. It ru
 - **The header and page menu are ours.** `app/components/app/` adds the Docs, Changelog and Log in links (`useHeaderLinks()`), and `DocsPageHeaderLinks.vue` leaves out Docus's MCP items, since the static site serves no MCP server. Shared URLs live in `app/data/site.ts`.
 - **The framework switcher comes from `@uxfront/layer-docs`.** `docsTheme.frameworks` in `app/app.config.ts` lists React, Vanilla (`other`) and Vue, which are the slot names `::framework-switcher` blocks use.
 - **The product and legal pages** (`/pro`, `/pricing`, `/scanner`, `/figma`, `/license`, `/privacy`, `/terms`, `/cookies`) are Vue pages in `app/pages/`, built from the UXFront kit and the site's header, footer and sections in `app/components/site/`. The legal pages render their Markdown from `content/legal/` word for word. `app/components/app/AppFooterLeft.vue` gives the docs footer the same legal links and credit.
-- **The homepage** (`app/pages/index.vue`) keeps main's homepage in the UXFront style: one `UxChapter` per section, each on its own formation, with the theming chapter on `tokens` and a button that re-themes it. Its code samples live in `content/home/`, a data collection, so Nuxt Content highlights them when the site is built and the page ships no highlighter. The AI chapter's waitlist (`SiteWaitlist.vue`) signs people up to the Loops group `ai`, at most once a minute per browser.
+- **The homepage** (`app/pages/index.vue`) keeps main's homepage in the UXFront style: one `UxChapter` per section, each holding a formation of the scene, with the theming chapter on `tokens` and a button that re-themes it. Its code samples live in `content/home/`, a data collection, so Nuxt Content highlights them when the site is built and the page ships no highlighter. The AI chapter's waitlist (`SiteWaitlist.vue`) signs people up to the Loops group `ai`, at most once a minute per browser.
 - **Unknown routes** get the UXFront error page, `app/error.vue`, which replaces Docus's.
 - **The first paint.** The UXFront pages inline every style they render, and `@uxfront/layer-ui` loads the entry stylesheet after their first paint. The docs make the app big enough that the build also writes chunk stylesheets, so `server/plugins/defer-stylesheets.ts` loads those without blocking it on the same pages.
 - **The changelog** is `content/changelog/<version>.md`, rendered by `app/pages/changelog/`. `nuxt.config.ts` lists every entry for prerendering, because the crawler skips links like `/changelog/3.9.0`.
@@ -44,6 +44,7 @@ content/docs/
 └── 10.migration/           # Migrating from other tools
 content/changelog/          # One release per file, at /changelog/<version>
 content/legal/              # The legal pages, at /license, /privacy, /terms and /cookies
+content/home/               # The homepage's code samples, highlighted at build time
 ```
 
 **Navigation sections:** The docs site groups these folders into three top-level navigation sections (see `apps/docs/app/constants/sections.ts`):
