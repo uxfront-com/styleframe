@@ -1,3 +1,8 @@
+---
+title: Terms
+description: ""
+---
+
 # Terms of Service
 
 ## 1. Introduction

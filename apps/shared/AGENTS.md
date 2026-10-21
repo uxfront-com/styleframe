@@ -165,8 +165,8 @@ Initializes PostHog analytics in production. Skipped entirely in dev mode
 - Scans content, layers, and app config for Tailwind classes
 - Defines `.prose-container` with `--ui-container: 760px`
 - **Palette-free.** The brand color scale and `--ui-primary` mapping are
-  consumer-supplied: each app's own css entrypoint (`apps/docs/app/assets/css/main.css`,
-  `apps/app/app/assets/css/main.css`) `@import`s this base and layers its
+  consumer-supplied: each app's own css entrypoint
+  (`apps/app/app/assets/css/main.css`) `@import`s this base and layers its
   `@theme` on top.
 
 ---

@@ -8,6 +8,7 @@ This directory contains the Styleframe documentation site, styleframe.dev. It ru
 - **URLs come from `app/constants/sections.ts`.** `content.config.ts` replaces Docus's `docs` collection with one source per folder, so `03.design-tokens/06.colors.md` is served at `/docs/theme/design-tokens/colors`. Keep the collection name `docs`: Docus's pages, `server/lib/docs.ts` and the sitemap query it. `modules/nonRouteCategories.ts` gives each page a `stem` from its file with its section in front (`docsStem()`), because Nuxt Content orders the sidebar and the previous and next links by stem.
 - **Category folders aren't in the URL.** A folder whose `.navigation.yml` sets `route: false`, like `05.components/02.actions/`, is a sidebar group only: `modules/nonRouteCategories.ts` drops it from its pages' paths, and `app/utils/foldNonRouteCategories.ts` groups the sidebar by it again.
 - **Sections are tabs below the header.** `useDocsSections()` turns the navigation into Getting Started, API Reference and Theme's four sub-sections (Design Tokens, Elements, Components, Utilities), and the overrides of Docus's `AppHeaderBottom`, `DocsAsideLeftBody` and `DocsAsideMobileBar` show them.
+- **The docs page is Docus's, with one change.** `app/pages/[[lang]]/[...slug].vue` builds "Edit this page" from the page's file (`docsSourceStem()`), not its section-prefixed `stem`.
 - **The header and page menu are ours.** `app/components/app/` adds the Docs, Changelog and Log in links (`useHeaderLinks()`), and `DocsPageHeaderLinks.vue` leaves out Docus's MCP items, since the static site serves no MCP server. Shared URLs live in `app/data/site.ts`.
 - **The framework switcher comes from `@uxfront/layer-docs`.** `docsTheme.frameworks` in `app/app.config.ts` lists React, Vanilla (`other`) and Vue, which are the slot names `::framework-switcher` blocks use.
 - **The product and legal pages** (`/pro`, `/pricing`, `/scanner`, `/figma`, `/license`, `/privacy`, `/terms`, `/cookies`) are Vue pages in `app/pages/`, built from the UXFront kit and the site's header, footer and sections in `app/components/site/`. The legal pages render their Markdown from `content/legal/` word for word. `app/components/app/AppFooterLeft.vue` gives the docs footer the same legal links and credit.
@@ -15,7 +16,7 @@ This directory contains the Styleframe documentation site, styleframe.dev. It ru
 - **Unknown routes** get the UXFront error page, `app/error.vue`, which replaces Docus's.
 - **The first paint.** The UXFront pages inline every style they render, and `@uxfront/layer-ui` loads the entry stylesheet after their first paint. The docs make the app big enough that the build also writes chunk stylesheets, so `server/plugins/defer-stylesheets.ts` loads those without blocking it on the same pages.
 - **The changelog** is `content/changelog/<version>.md`, rendered by `app/pages/changelog/`. `nuxt.config.ts` lists every entry for prerendering, because the crawler skips links like `/changelog/3.9.0`.
-- **Agents and SEO.** Docus writes `llms.txt`, `llms-full.txt` and the social cards, and `server/middleware/raw-markdown.ts` serves each page's source at `/raw/<path>.md`. `server/routes/sitemap.xml.ts` lists the site's own pages from `server/lib/pages.ts`, then the docs and the changelog.
+- **Agents and SEO.** Docus writes `llms.txt`, `llms-full.txt` and the social cards, and `server/middleware/raw-markdown.ts` serves each page's source at `/raw/<path>.md`. The homepage and the product pages are Vue pages, so their text for agents lives in `content/landing/`, one Markdown file per page that says what the page says: change both together. With the legal pages they make the `landing` collection, which `llms.txt` lists under "Landing", as on main. `server/routes/sitemap.xml.ts` lists the site's own pages from `server/lib/pages.ts`, then the docs and the changelog.
 - **Styling.** Docus's pages use Tailwind and Nuxt UI, with the brand teal in `app/app.css`. The site's UXFront pages use scoped CSS on the kit's `--ux-*` tokens: that's the owner's exception to "All apps must use Styleframe for styling" (`.claude/rules/apps.md`), until UXFront itself moves to Styleframe.
 
 ### Commands
@@ -39,11 +40,12 @@ content/docs/
 ├── 05.components/          # Component recipes, in category folders (actions, navigation, …)
 ├── 06.utilities/           # Utility categories (spacing, layout, typography, etc.)
 ├── 07.modifiers/           # Pseudo-state, form-state, aria, structural, etc.
-├── 08.tooling/             # CLI and scanner
+├── 08.tooling/             # CLI, scanner and agents
 ├── 09.integrations/        # DTCG, Figma plugin, Storybook
 └── 10.migration/           # Migrating from other tools
 content/changelog/          # One release per file, at /changelog/<version>
 content/legal/              # The legal pages, at /license, /privacy, /terms and /cookies
+content/landing/            # The homepage and product pages in Markdown, for llms.txt and /raw/<page>.md
 content/home/               # The homepage's code samples, highlighted at build time
 ```
 

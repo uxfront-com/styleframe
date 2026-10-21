@@ -20,6 +20,12 @@ const changelogRoutes = readdirSync(resolve("./content/changelog"))
 	.filter((file) => file.endsWith(".md"))
 	.map((file) => `/changelog/${file.replace(/\.md$/, "")}`);
 
+// The Markdown copies of the homepage and the product pages, which llms.txt
+// links and nothing on the site does (see server/middleware/raw-markdown.ts).
+const landingRawRoutes = readdirSync(resolve("./content/landing"))
+	.filter((file) => file.endsWith(".md"))
+	.map((file) => `/raw/${file}`);
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
@@ -29,6 +35,9 @@ export default defineNuxtConfig({
 	app: {
 		head: {
 			htmlAttrs: { lang: "en" },
+			// Main's favicon, here so the UXFront pages and the 404.html shell
+			// have it too. Docus adds it on the pages it mounts.
+			link: [{ rel: "icon", href: "/favicon.ico" }],
 		},
 	},
 
@@ -149,14 +158,29 @@ export default defineNuxtConfig({
 				"/docs/getting-started/introduction",
 				"/changelog",
 				...changelogRoutes,
-				// Nothing links these yet, and nothing ever links /pro or /pricing.
-				// The legal pages are crawled from the footers.
+				...landingRawRoutes,
+				// Nothing links /pro, or /pricing, which only /pro links. The homepage
+				// links /scanner and /figma; they're listed so they don't depend on
+				// the crawl. The legal pages are crawled from the footers.
 				"/pro",
 				"/pricing",
 				"/scanner",
 				"/figma",
 			],
 			failOnError: true,
+		},
+		// The image block main's Vercel build had, from @nuxt/image's Vercel
+		// provider. The READMEs, on npm too, load the logo through it:
+		// /_vercel/image?url=%2Flogotype-light.svg&w=1536&q=100.
+		vercel: {
+			config: {
+				images: {
+					domains: [],
+					minimumCacheTTL: 300,
+					sizes: [320, 640, 768, 1024, 1280, 1536],
+					formats: ["image/webp", "image/avif"],
+				},
+			},
 		},
 	},
 

@@ -13,7 +13,7 @@
 - Config: `apps/docs/nuxt.config.ts`, `apps/docs/app/app.config.ts`
 - Code examples must be runnable and tested
 - Public assets: `apps/docs/public/`
-- The site's UXFront pages use scoped CSS on `--ux-*` tokens, by the owner's decision, until UXFront moves to Styleframe
+- The site's UXFront pages use scoped CSS on `--ux-*` tokens, and the Docus overrides (`BrowserFrame.vue`, `app/components/app/*`, `app/pages/changelog/*`, `app/pages/[[lang]]/[...slug].vue`) use Docus's Tailwind classes, by the owner's decision, until UXFront moves to Styleframe
 - See `apps/docs/AGENTS.md`
 
 ## Storybook (`apps/storybook/`)

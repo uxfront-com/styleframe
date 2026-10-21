@@ -1,4 +1,5 @@
 import { readDocsPage } from "../lib/docs";
+import { readLandingPage } from "../lib/landing";
 import { rawPage } from "../lib/raw";
 
 /**
@@ -9,16 +10,20 @@ import { rawPage } from "../lib/raw";
  * "Copy page"), so they get the markdown as written: the title and description,
  * then the page without its frontmatter (see rawPage in server/lib/raw.ts).
  *
- * Runs before Nuxt Content's route, which still answers for anything that isn't
- * a docs page.
+ * The homepage and the product pages get theirs from content/landing/ the same
+ * way, at `/raw/index.md`, `/raw/pro.md` and so on (see readLandingPage).
+ *
+ * Runs before Nuxt Content's route, which still answers for anything else.
  */
 export default defineEventHandler(async (event) => {
 	const match = event.path.match(/^\/raw(\/.+?)(?:\/index)?\.md$/);
 	if (!match?.[1]) return;
 
-	const docs = await readDocsPage(event, match[1]);
-	if (!docs) return;
+	const path = match[1] === "/index" ? "/" : match[1];
+	const found =
+		(await readDocsPage(event, path)) ?? (await readLandingPage(event, path));
+	if (!found) return;
 
 	setHeader(event, "Content-Type", "text/markdown; charset=utf-8");
-	return rawPage(docs.page, docs.source);
+	return rawPage(found.page, found.source);
 });

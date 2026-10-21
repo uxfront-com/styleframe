@@ -42,11 +42,17 @@ export default defineContentConfig({
 				releaseUrl: z.string().url().optional(),
 			}),
 		}),
-		// The legal pages, word for word as on main, served at /license,
-		// /privacy, /terms and /cookies by app/pages/.
-		legal: defineCollection({
+		// The site's own pages, as llms.txt lists them under "Landing", as on
+		// main. The legal pages, word for word as on main, are rendered at
+		// /license, /privacy, /terms and /cookies by app/pages/. The homepage and
+		// the product pages are Vue pages: their Markdown in content/landing/ only
+		// feeds llms.txt, llms-full.txt and /raw/<page>.md.
+		landing: defineCollection({
 			type: "page",
-			source: { include: "legal/*.md", prefix: "/" },
+			source: [
+				{ include: "legal/*.md", prefix: "/" },
+				{ include: "landing/*.md", prefix: "/" },
+			],
 		}),
 		// The homepage's code samples, one per file, so Nuxt Content highlights
 		// them when the site is built and the page ships no highlighter. Data,

@@ -1,5 +1,3 @@
-export const DOCS_URL = "/docs";
-
 export const CHANGELOG_URL = "/changelog";
 
 export const LOGIN_URL = "https://app.styleframe.dev";

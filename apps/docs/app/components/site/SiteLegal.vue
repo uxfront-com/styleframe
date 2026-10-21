@@ -11,7 +11,7 @@ const { title } = defineProps<{
 
 const route = useRoute();
 const { data: page } = await useAsyncData(`legal-${route.path}`, () =>
-	queryCollection("legal").path(route.path).first(),
+	queryCollection("landing").path(route.path).first(),
 );
 if (!page.value) {
 	throw createError({ statusCode: 404, statusMessage: "Page not found" });

@@ -1,3 +1,8 @@
+---
+title: License
+description: ""
+---
+
 # Styleframe Pro License Agreement
 
 30 September 2025
