@@ -2,5 +2,5 @@
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"framework": "nuxtjs",
 	"installCommand": "pnpm install --frozen-lockfile",
-	"buildCommand": "cd ../.. && pnpm turbo run build --filter=@styleframe/docs"
+	"buildCommand": "cd ../.. && NITRO_PRESET=vercel_static pnpm turbo run build --filter=@styleframe/docs"
 }

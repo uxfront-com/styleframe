@@ -5,6 +5,7 @@
 .nitro
 .cache
 dist
+.vercel
 
 # Node dependencies
 node_modules
