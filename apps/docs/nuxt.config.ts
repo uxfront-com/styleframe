@@ -57,6 +57,13 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			siteUrl: SITE_URL,
+			// Set from NUXT_PUBLIC_POSTHOG_*. Without a key, PostHog doesn't load
+			// (app/plugins/posthog.client.ts).
+			posthog: {
+				key: "",
+				host: "https://eu.i.posthog.com",
+				defaults: "2025-05-24",
+			},
 		},
 	},
 
