@@ -48,6 +48,8 @@ export default defineNuxtConfig({
 		resolve("./modules/nonRouteCategories"),
 		// The changelog's raw Markdown, which llms.txt links and nothing crawls.
 		resolve("./modules/rawChangelog"),
+		// Docus's Markdown routes, split to fit Vercel's 4096-character limit.
+		resolve("./modules/vercelRouteLimit"),
 	],
 
 	// The docs sections in app/constants/sections.ts, auto-imported for the
