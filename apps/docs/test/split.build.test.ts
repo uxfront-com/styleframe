@@ -53,6 +53,14 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		expect(markup).toMatch(/<div class="site-split__aside"[^>]*>[\s\S]*<pre\b/);
 		expect(markup).not.toContain("<details");
 	});
+
+	// The code formation (code.ts) gathers around the panel, which only fades
+	// once the scene draws: the prerendered page shows the code.
+	it.each(ids)("marks the code panel of #%s, shown at once", (id) => {
+		const markup = section(html, id);
+		expect(markup).toMatch(/<figure\b[^>]*\bdata-code-panel\b/);
+		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
+	});
 });
 
 describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {

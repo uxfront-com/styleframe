@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-	<figure class="site-code">
+	<figure class="site-code" data-code-panel>
 		<figcaption class="ux-mono">{{ title }}</figcaption>
 		<pre><code>{{ code }}</code></pre>
 	</figure>

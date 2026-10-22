@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { STACKED_QUERY } from "@uxfront/scene";
+import { useExperience } from "@uxfront/ui";
 
 // A chapter with its code or a picture beside the copy: UxChapter's props and
 // slots, plus the aside. Like UxChapter, it holds a formation while it's on
@@ -28,6 +29,13 @@ defineSlots<{
 	aside?(): unknown;
 }>();
 
+// The code panel (`[data-code-panel]`) fades in as the chapter scrolls in,
+// while the code formation gathers around it. Only once the scene draws, and
+// with motion: the prerendered page, a loading scene and the fallback show the
+// code at once.
+const { state } = useExperience();
+const fade = computed(() => state.status === "ready" && state.motion);
+
 // Stacked screens are the scene's, and a scoped style can't import the query,
 // so the columns are set here.
 const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
@@ -41,6 +49,7 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 		:class="{ 'site-split--center': align === 'center' }"
 		data-stage
 		:data-steps="steps"
+		:data-fade="fade || undefined"
 		:aria-labelledby="`${id}-title`"
 	>
 		<component :is="'style'">{{ columns }}</component>
@@ -126,6 +135,27 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 .site-split__aside {
 	min-width: 0;
+}
+
+/* In as the formation (code.ts) settles: while the chapter's top rises from
+   48% of the screen to 32%. Without scroll-driven animations, it's there at
+   once. */
+@supports (animation-timeline: view()) {
+	.site-split {
+		view-timeline-name: --site-split;
+	}
+
+	.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
+		animation: site-split-fade linear both;
+		animation-timeline: --site-split;
+		animation-range: entry 52% entry 68%;
+	}
+}
+
+@keyframes site-split-fade {
+	from {
+		opacity: 0;
+	}
 }
 
 .site-split--center .site-split__grid {
