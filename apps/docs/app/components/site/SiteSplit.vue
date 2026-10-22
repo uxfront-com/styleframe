@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { STACKED_QUERY } from "@uxfront/scene";
 
-// A chapter with its code beside the copy: UxChapter's props and slots, plus
-// the code. Like UxChapter, it holds a formation while it's on screen.
-defineProps<{
+// A chapter with its code or a picture beside the copy: UxChapter's props and
+// slots, plus the aside. Like UxChapter, it holds a formation while it's on
+// screen.
+const { align = "start" } = defineProps<{
 	id: string;
 	/** Eyebrow before the rule, like `01`. */
 	index?: string;
@@ -15,14 +16,16 @@ defineProps<{
 	linkLabel?: string;
 	/** Items (`data-step-item="0"`, `"1"`, …) highlighted one after another as the chapter scrolls by. */
 	steps?: number;
+	/** "center" centres the copy in one column, for a section with no aside. */
+	align?: "start" | "center";
 }>();
 
 defineSlots<{
 	lead?(): unknown;
 	/** Details below the lead, like `UxTraits` or `SiteFeatures`. */
 	default?(): unknown;
-	/** The code, beside the copy, or below it on stacked screens. */
-	code(): unknown;
+	/** The code or a picture, beside the copy, or below it on stacked screens. */
+	aside?(): unknown;
 }>();
 
 // Stacked screens are the scene's, and a scoped style can't import the query,
@@ -35,6 +38,7 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	<section
 		:id="id"
 		class="site-split"
+		:class="{ 'site-split--center': align === 'center' }"
 		data-stage
 		:data-steps="steps"
 		:aria-labelledby="`${id}-title`"
@@ -57,8 +61,8 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 					:label="linkLabel ?? href.replace(/^https?:\/\//, '')"
 				/>
 			</div>
-			<div class="site-split__code">
-				<slot name="code" />
+			<div v-if="$slots.aside" class="site-split__aside">
+				<slot name="aside" />
 			</div>
 		</div>
 	</section>
@@ -78,8 +82,7 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	display: grid;
 	align-items: center;
 	gap: clamp(2rem, 1rem + 3vw, 4rem);
-	width: min(100%, 84rem);
-	margin: 0 auto;
+	width: 100%;
 }
 
 .site-split__eyebrow {
@@ -121,8 +124,34 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	margin-top: 2.25rem;
 }
 
-.site-split__code {
+.site-split__aside {
 	min-width: 0;
+}
+
+.site-split--center .site-split__grid {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+/* The eyebrow, title, lead and link are centred; the details below keep
+   their own alignment. */
+.site-split--center .site-split__copy {
+	justify-self: center;
+	width: min(100%, 48rem);
+}
+
+.site-split--center .site-split__eyebrow {
+	justify-content: center;
+}
+
+.site-split--center .site-split__title,
+.site-split--center .site-split__lead {
+	text-align: center;
+}
+
+.site-split--center .site-split__link {
+	display: flex;
+	width: fit-content;
+	margin-inline: auto;
 }
 
 /* Short screens: tighter, like UxChapter. */
