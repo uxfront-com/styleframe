@@ -287,13 +287,12 @@ npx styleframe figma export \\
 	margin-top: 2rem;
 }
 
-/* Portrait screenshots fit the screen's height beside the copy. */
+/* Portrait screenshots fit the screen's height beside the copy. A definite
+   width lets the image's attributes reserve its box before it loads. */
 .figma__shot {
 	display: block;
-	width: auto;
-	max-width: 100%;
+	width: min(100%, 56svh);
 	height: auto;
-	max-height: 70svh;
 	margin-left: auto;
 	border: 1px solid var(--ux-line-strong);
 	border-radius: 6px;

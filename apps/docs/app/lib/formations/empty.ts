@@ -1,11 +1,6 @@
 import { defineFormation } from "@uxfront/scene";
 import type { Formation, FormationShader, StageView } from "@uxfront/scene";
 
-/**
- * Formations the catalog doesn't have. They only rely on the shader contract
- * (`$main`, and `$name` identifiers namespaced to `key_name`).
- */
-
 // The corridor's framing, so the camera holds still into the finale.
 const VIEW: StageView = {
 	eye: [0, 0, 7],

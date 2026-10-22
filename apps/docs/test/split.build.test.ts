@@ -33,11 +33,12 @@ const CODE: Record<string, string[]> = {
 	figma: ["cli"],
 };
 
-// The chapters with an image or a video.
+// The chapters with an image or a video, and which of them is a video.
 const MEDIA: Record<string, string[]> = {
 	index: ["figma", "ai"],
 	figma: ["plugin", "import", "export"],
 };
+const VIDEOS = ["ai", "plugin"];
 
 describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 	const html = read(page);
@@ -62,11 +63,13 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 		expect(markup).toMatch(/^<section\b[^>]*\bclass="site-split\b/);
 		const aside =
 			markup.match(/<div class="site-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
-		expect(aside).toMatch(/<(img|video)\b/);
-		for (const video of aside.match(/<video\b[^>]*>/g) ?? []) {
-			expect(video).toContain('preload="none"');
-			expect(video).toMatch(/\bposter="[^"]+"/);
+		if (!VIDEOS.includes(id)) {
+			expect(aside).toMatch(/<img\b/);
+			return;
 		}
+		const video = aside.match(/<video\b[^>]*>/)?.[0] ?? "";
+		expect(video).toContain('preload="none"');
+		expect(video).toMatch(/\bposter="[^"]+"/);
 	});
 });
 

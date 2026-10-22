@@ -16,7 +16,7 @@ const { align = "start" } = defineProps<{
 	linkLabel?: string;
 	/** Items (`data-step-item="0"`, `"1"`, …) highlighted one after another as the chapter scrolls by. */
 	steps?: number;
-	/** "center" centres the copy, with no aside, over the formation behind it. */
+	/** "center" centres the copy in one column, for a section with no aside. */
 	align?: "start" | "center";
 }>();
 
@@ -132,8 +132,8 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	grid-template-columns: minmax(0, 1fr);
 }
 
-/* The heading and the link are centred; the details below keep their own
-   alignment. */
+/* The eyebrow, title, lead and link are centred; the details below keep
+   their own alignment. */
 .site-split--center .site-split__copy {
 	justify-self: center;
 	width: min(100%, 48rem);
