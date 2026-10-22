@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { codeBlock, device, empty, HERO_VIEWS } from "~/lib/formations";
 import {
 	FIGMA_URL,
 	GITHUB_URL,
@@ -30,19 +30,18 @@ useUxHead({
 });
 
 // One formation per section, in order: the hero, a chapter per section of
-// main's homepage, the finale. Only the hero and the finale draw one; the
-// hero's tokens re-theme on click.
+// main's homepage, the finale. The hero's tokens re-theme on click.
 const theme = tokens({ label: "Styleframe", views: HERO_VIEWS });
 const scene = [
 	theme,
-	empty({ key: "config", label: "One config" }),
-	empty({ key: "compose", label: "Compose" }),
-	empty({ key: "themes", label: "Themes" }),
-	empty({ key: "output", label: "Zero-runtime" }),
-	empty({ key: "scanner", label: "Scanner" }),
+	codeBlock({ key: "config", label: "One config" }),
+	codeBlock({ key: "compose", label: "Compose" }),
+	codeBlock({ key: "themes", label: "Themes" }),
+	codeBlock({ key: "output", label: "Zero-runtime" }),
+	codeBlock({ key: "scanner", label: "Scanner" }),
 	empty({ key: "figma", label: "Figma" }),
 	empty({ key: "ai", label: "AI" }),
-	empty({ key: "fluid", label: "Fluid design" }),
+	device({ label: "Fluid design" }),
 	corridor({ label: "Get started" }),
 ];
 
@@ -233,7 +232,7 @@ const fluid = [
 				theme, and recipe that references it.
 			</template>
 			<SiteFeatures :items="config" />
-			<template #code><SiteSample name="config" /></template>
+			<template #aside><SiteSample name="config" /></template>
 		</SiteSplit>
 
 		<SiteSplit
@@ -251,7 +250,7 @@ const fluid = [
 				theme, typography from another, all resolving through one source.
 			</template>
 			<UxTraits :items="compose" />
-			<template #code><SiteSample name="compose" /></template>
+			<template #aside><SiteSample name="compose" /></template>
 		</SiteSplit>
 
 		<SiteSplit
@@ -269,7 +268,7 @@ const fluid = [
 				keep in sync.
 			</template>
 			<SiteFeatures :items="themes" />
-			<template #code><SiteSample name="themes" /></template>
+			<template #aside><SiteSample name="themes" /></template>
 		</SiteSplit>
 
 		<SiteSplit
@@ -287,7 +286,7 @@ const fluid = [
 				handles Recipes.
 			</template>
 			<SiteFeatures :items="output" />
-			<template #code><SiteSample name="output" /></template>
+			<template #aside><SiteSample name="output" /></template>
 		</SiteSplit>
 
 		<SiteSplit
@@ -306,10 +305,10 @@ const fluid = [
 				and generates only the CSS you actually use at build time. Zero waste.
 			</template>
 			<UxTraits :items="scanner" />
-			<template #code><SiteSample name="scanner" /></template>
+			<template #aside><SiteSample name="scanner" /></template>
 		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="figma"
 			index="06"
 			role="Figma"
@@ -317,7 +316,6 @@ const fluid = [
 			:href="FIGMA_URL"
 			link-label="Learn more about the Figma Plugin"
 			:steps="figma.length"
-			valign="end"
 		>
 			<template #lead>
 				The engine reaches into your design tool too. Export your Styleframe
@@ -325,19 +323,21 @@ const fluid = [
 				your code and design files in perfect sync with full multi-mode support
 				for light and dark themes.
 			</template>
-			<img
-				class="home__shot"
-				src="/assets/images/figma-import.png"
-				alt="Styleframe - Import Design Tokens into Figma"
-				width="1118"
-				height="1340"
-				loading="lazy"
-				decoding="async"
-			/>
 			<UxTraits :items="figma" />
-		</UxChapter>
+			<template #aside>
+				<img
+					class="home__shot"
+					src="/assets/images/figma-import.png"
+					alt="Styleframe - Import Design Tokens into Figma"
+					width="1118"
+					height="1340"
+					loading="lazy"
+					decoding="async"
+				/>
+			</template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="ai"
 			index="07"
 			role="Coming Soon"
@@ -348,19 +348,21 @@ const fluid = [
 				Use styleframe for Agents. Choose from a variety of AI agents and start
 				delegating work, from code generation to other technical tasks.
 			</template>
-			<SiteVideo
-				class="home__video"
-				src="/assets/video/styleframe-ai.mp4"
-				poster="/assets/images/styleframe-ai.webp"
-				:width="2048"
-				:height="2048"
-				label="styleframe AI writing type-safe composable CSS"
-			/>
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
-		</UxChapter>
+			<template #aside>
+				<SiteVideo
+					class="home__video"
+					src="/assets/video/styleframe-ai.mp4"
+					poster="/assets/images/styleframe-ai.webp"
+					:width="2048"
+					:height="2048"
+					label="styleframe AI writing type-safe composable CSS"
+				/>
+			</template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="fluid"
 			index="08"
 			role="Fluid design"
@@ -368,7 +370,7 @@ const fluid = [
 			:href="FLUID_DESIGN_URL"
 			link-label="Fluid Responsive Design"
 			:steps="fluid.length"
-			valign="end"
+			align="center"
 		>
 			<template #lead>
 				Say goodbye to cluttered breakpoint logic. Styleframe's fluid responsive
@@ -376,7 +378,7 @@ const fluid = [
 				mathematical precision.
 			</template>
 			<UxPillars :items="fluid" />
-		</UxChapter>
+		</SiteSplit>
 
 		<UxFinale kicker="styleframe">
 			<template #title>
@@ -404,17 +406,20 @@ const fluid = [
 	margin-top: 2rem;
 }
 
+/* Portrait and square media fit the screen's height beside the copy. */
 .home__shot {
 	display: block;
-	width: min(100%, 16rem);
+	width: auto;
+	max-width: 100%;
 	height: auto;
-	margin: 0 0 1.5rem;
+	max-height: 70svh;
+	margin-left: auto;
 	border: 1px solid var(--ux-line-strong);
 	border-radius: 6px;
 }
 
 .home__video {
-	width: min(100%, 20rem);
-	margin-bottom: 1.5rem;
+	width: min(100%, 70svh);
+	margin-left: auto;
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { codeBlock, empty, HERO_VIEWS } from "~/lib/formations";
 import { INTRODUCTION_URL, SCANNER_URL, SITE_NAME } from "~/data/site";
 
 const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
@@ -22,8 +22,8 @@ useUxHead({
 const scene = [
 	tokens({ label: "Utility Scanner", views: HERO_VIEWS }),
 	empty({ key: "scanner", label: "Write classes" }),
-	empty({ key: "templates", label: "Templates" }),
-	empty({ key: "output", label: "Output" }),
+	codeBlock({ key: "templates", label: "Templates" }),
+	codeBlock({ key: "output", label: "Output" }),
 	corridor({ label: "Get started" }),
 ];
 
@@ -169,7 +169,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 				build time.
 			</template>
 			<SiteFeatures :items="extraction" />
-			<template #code>
+			<template #aside>
 				<SiteCode title="Button.vue" :code="template" />
 			</template>
 		</SiteSplit>
@@ -188,7 +188,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 			<p class="scanner__note">
 				What you write is what you get — predictable, readable output.
 			</p>
-			<template #code>
+			<template #aside>
 				<SiteCode title="Output CSS" :code="output" />
 			</template>
 		</SiteSplit>

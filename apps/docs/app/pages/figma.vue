@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { codeBlock, empty, HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
@@ -19,15 +19,14 @@ useUxHead({
 	},
 });
 
-// Only the hero and the finale draw a formation. `key` tells the empty ones
-// apart.
+// `key` tells the repeated formations apart.
 const scene = [
 	tokens({ label: "Figma Plugin", views: HERO_VIEWS }),
 	empty({ key: "plugin", label: "Plugin" }),
 	empty({ key: "sync", label: "Sync" }),
 	empty({ key: "import", label: "Import" }),
 	empty({ key: "export", label: "Export" }),
-	empty({ key: "cli", label: "CLI" }),
+	codeBlock({ key: "cli", label: "CLI" }),
 	corridor({ label: "Install" }),
 ];
 
@@ -155,7 +154,7 @@ npx styleframe figma export \\
 			</template>
 		</UxHero>
 
-		<UxChapter
+		<SiteSplit
 			id="plugin"
 			index="01"
 			role="Plugin"
@@ -163,14 +162,16 @@ npx styleframe figma export \\
 			:href="FIGMA_PLUGIN_URL"
 			link-label="Install Figma plugin"
 		>
-			<SiteVideo
-				src="/assets/video/styleframe-figma.mp4"
-				poster="/assets/images/styleframe-figma-poster.jpg"
-				:width="2204"
-				:height="1080"
-				label="The Styleframe Figma plugin syncing design tokens"
-			/>
-		</UxChapter>
+			<template #aside>
+				<SiteVideo
+					src="/assets/video/styleframe-figma.mp4"
+					poster="/assets/images/styleframe-figma-poster.jpg"
+					:width="2204"
+					:height="1080"
+					label="The Styleframe Figma plugin syncing design tokens"
+				/>
+			</template>
+		</SiteSplit>
 
 		<UxChapter
 			id="sync"
@@ -187,7 +188,7 @@ npx styleframe figma export \\
 			<SiteFeatures :items="sync" />
 		</UxChapter>
 
-		<UxChapter
+		<SiteSplit
 			id="import"
 			index="03"
 			role="Import"
@@ -199,19 +200,21 @@ npx styleframe figma export \\
 				modes before importing, then create a Figma variable collection with one
 				click. All types mapped correctly.
 			</template>
-			<img
-				class="figma__shot"
-				src="/assets/images/figma-import.png"
-				alt="Styleframe - Import Design Tokens into Figma"
-				width="1118"
-				height="1340"
-				loading="lazy"
-				decoding="async"
-			/>
 			<SiteFeatures :items="importing" />
-		</UxChapter>
+			<template #aside>
+				<img
+					class="figma__shot"
+					src="/assets/images/figma-import.png"
+					alt="Styleframe - Import Design Tokens into Figma"
+					width="1118"
+					height="1340"
+					loading="lazy"
+					decoding="async"
+				/>
+			</template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="export"
 			index="04"
 			role="Export"
@@ -225,17 +228,19 @@ npx styleframe figma export \\
 				DTCG format. Copy the JSON or save it as a file. Aliases are preserved
 				as proper token references.
 			</template>
-			<img
-				class="figma__shot"
-				src="/assets/images/figma-export.png"
-				alt="Styleframe - Export Design Tokens from Figma"
-				width="1176"
-				height="1478"
-				loading="lazy"
-				decoding="async"
-			/>
 			<SiteFeatures :items="exporting" />
-		</UxChapter>
+			<template #aside>
+				<img
+					class="figma__shot"
+					src="/assets/images/figma-export.png"
+					alt="Styleframe - Export Design Tokens from Figma"
+					width="1176"
+					height="1478"
+					loading="lazy"
+					decoding="async"
+				/>
+			</template>
+		</SiteSplit>
 
 		<SiteSplit
 			id="cli"
@@ -252,7 +257,7 @@ npx styleframe figma export \\
 				exports, no drift.
 			</template>
 			<SiteFeatures :items="workflow" />
-			<template #code>
+			<template #aside>
 				<SiteCode title="Terminal" :code="terminal" />
 			</template>
 		</SiteSplit>
@@ -282,11 +287,14 @@ npx styleframe figma export \\
 	margin-top: 2rem;
 }
 
+/* Portrait screenshots fit the screen's height beside the copy. */
 .figma__shot {
 	display: block;
-	width: min(100%, 22rem);
+	width: auto;
+	max-width: 100%;
 	height: auto;
-	margin: 0 0 1.5rem;
+	max-height: 70svh;
+	margin-left: auto;
 	border: 1px solid var(--ux-line-strong);
 	border-radius: 6px;
 }
