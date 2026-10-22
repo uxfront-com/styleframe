@@ -12,8 +12,8 @@ const MAX_LINES = 48;
 /**
  * The scroll offset the scene is at, from the stage formation `k` sees and
  * the sections' spans (the inverse of `stageAt` around section `k`). The
- * scene follows the scroll with some easing, so this is where its particles
- * are, which can trail the page by a few frames.
+ * scene eases its scroll (a time constant of about 0.2 s), so this is where
+ * its particles are: while the page scrolls fast, they trail it.
  */
 export function scrollAt(
 	spans: readonly SectionSpan[],
