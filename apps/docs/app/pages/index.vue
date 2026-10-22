@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import {
-	corridor,
-	ink,
-	plates,
-	prism,
-	stack,
-	threshold,
-	tokens,
-} from "@uxfront/scene/formations";
+import { corridor, tokens } from "@uxfront/scene/formations";
+import { empty } from "~/lib/formations";
 import {
 	FIGMA_URL,
 	GITHUB_URL,
@@ -37,18 +30,19 @@ useUxHead({
 });
 
 // One formation per section, in order: the hero, a chapter per section of
-// main's homepage, the finale. The theming chapter's tokens re-theme on click.
-const theme = tokens({ label: "Themes" });
+// main's homepage, the finale. Only the hero and the finale draw one; the
+// hero's tokens re-theme on click.
+const theme = tokens({ label: "Styleframe" });
 const scene = [
-	prism({ label: "Styleframe" }),
-	threshold({ label: "One config" }),
-	stack({ label: "Compose" }),
 	theme,
-	ink({ label: "Zero-runtime" }),
-	plates({ label: "Scanner" }),
-	prism({ key: "figma", label: "Figma" }),
-	stack({ key: "ai", label: "AI" }),
-	ink({ key: "fluid", label: "Fluid design" }),
+	empty({ key: "config", label: "One config" }),
+	empty({ key: "compose", label: "Compose" }),
+	empty({ key: "themes", label: "Themes" }),
+	empty({ key: "output", label: "Zero-runtime" }),
+	empty({ key: "scanner", label: "Scanner" }),
+	empty({ key: "figma", label: "Figma" }),
+	empty({ key: "ai", label: "AI" }),
+	empty({ key: "fluid", label: "Fluid design" }),
 	corridor({ label: "Get started" }),
 ];
 
@@ -226,7 +220,7 @@ const fluid = [
 			</template>
 		</UxHero>
 
-		<UxChapter
+		<SiteSplit
 			id="config"
 			index="01"
 			role="One config"
@@ -239,10 +233,10 @@ const fluid = [
 				theme, and recipe that references it.
 			</template>
 			<SiteFeatures :items="config" />
-			<SiteSample name="config" />
-		</UxChapter>
+			<template #code><SiteSample name="config" /></template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="compose"
 			index="02"
 			role="Compose"
@@ -250,7 +244,6 @@ const fluid = [
 			href="/docs/theme/design-tokens"
 			link-label="Explore the default theme"
 			:steps="compose.length"
-			align="end"
 		>
 			<template #lead>
 				Assemble your design system out of composables you already have. Plug
@@ -258,10 +251,10 @@ const fluid = [
 				theme, typography from another, all resolving through one source.
 			</template>
 			<UxTraits :items="compose" />
-			<SiteSample name="compose" />
-		</UxChapter>
+			<template #code><SiteSample name="compose" /></template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="themes"
 			index="03"
 			role="Themes"
@@ -269,7 +262,6 @@ const fluid = [
 			:href="THEMES_URL"
 			link-label="Learn about themes"
 			:steps="themes.length"
-			align="end"
 		>
 			<template #lead>
 				Light, dark, and custom themes come from the same token source. Defining
@@ -277,10 +269,10 @@ const fluid = [
 				keep in sync.
 			</template>
 			<SiteFeatures :items="themes" />
-			<SiteSample name="themes" />
-		</UxChapter>
+			<template #code><SiteSample name="themes" /></template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="output"
 			index="04"
 			role="Output"
@@ -288,7 +280,6 @@ const fluid = [
 			:href="RECIPES_URL"
 			link-label="Learn more about Recipes"
 			:steps="output.length"
-			valign="end"
 		>
 			<template #lead>
 				The engine compiles your system to static CSS at build time for maximum
@@ -296,10 +287,10 @@ const fluid = [
 				handles Recipes.
 			</template>
 			<SiteFeatures :items="output" />
-			<SiteSample name="output" />
-		</UxChapter>
+			<template #code><SiteSample name="output" /></template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="scanner"
 			index="05"
 			role="Scanner"
@@ -315,8 +306,8 @@ const fluid = [
 				and generates only the CSS you actually use at build time. Zero waste.
 			</template>
 			<UxTraits :items="scanner" />
-			<SiteSample name="scanner" />
-		</UxChapter>
+			<template #code><SiteSample name="scanner" /></template>
+		</SiteSplit>
 
 		<UxChapter
 			id="figma"
