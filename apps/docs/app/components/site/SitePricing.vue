@@ -45,7 +45,7 @@ const tiers = [
 		description: "For growing teams and large organizations.",
 		button: {
 			label: "Contact sales",
-			to: "mailto:hello@styleframe.com?subject=Enterprise License Inquiry",
+			to: "mailto:hello@styleframe.dev?subject=Enterprise License Inquiry",
 		},
 	},
 ] as const;

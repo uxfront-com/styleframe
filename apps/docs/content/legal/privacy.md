@@ -1,3 +1,8 @@
+---
+title: Privacy
+description: ""
+---
+
 # Privacy Policy
 
 ## 1. Introduction

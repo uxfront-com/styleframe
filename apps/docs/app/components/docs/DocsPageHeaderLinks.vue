@@ -3,8 +3,8 @@
  * Replaces Docus's page menu (docus/app/components/docs/DocsPageHeaderLinks.vue)
  * to leave out "Copy MCP Server URL" and "Add MCP Server": the site is static,
  * so it serves no MCP server at /mcp, where Docus's point. Keep the rest in step
- * with Docus's. It copies with the Clipboard API, since VueUse, which Docus's
- * uses, isn't the app's to import.
+ * with Docus's. It copies with the Clipboard API, where Docus's uses VueUse's
+ * useClipboard.
  */
 import { useRuntimeConfig } from "#imports";
 

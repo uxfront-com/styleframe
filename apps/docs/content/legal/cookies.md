@@ -1,3 +1,8 @@
+---
+title: Cookies
+description: ""
+---
+
 # Cookie Policy
 
 ## 1. Introduction
