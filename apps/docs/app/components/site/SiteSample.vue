@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FunctionalComponent } from "vue";
 
-// A code sample from content/home/, highlighted when the site is built,
-// behind a disclosure named after its file.
+// A code sample from content/home/, highlighted when the site is built, in a
+// window frame named after its file.
 const { name } = defineProps<{
 	/** The sample's file name in content/home/, without `.md`. */
 	name: string;
@@ -20,22 +20,19 @@ Pre.inheritAttrs = false;
 </script>
 
 <template>
-	<details v-if="sample" class="site-sample">
-		<summary>
-			<span>View code</span>
-			<span class="ux-mono">{{ sample.title }}</span>
-		</summary>
+	<figure v-if="sample" class="site-sample">
+		<figcaption class="ux-mono">{{ sample.title }}</figcaption>
 		<ContentRenderer
 			:value="sample"
 			:prose="false"
 			:components="{ pre: Pre }"
 		/>
-	</details>
+	</figure>
 </template>
 
 <style scoped>
 .site-sample {
-	margin: 1.5rem 0 0;
+	margin: 0;
 	border: 1px solid var(--ux-line-strong);
 	border-radius: 6px;
 	background: rgb(5 5 7 / 0.85);
@@ -44,38 +41,14 @@ Pre.inheritAttrs = false;
 	text-shadow: none;
 }
 
-.site-sample summary {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	min-height: 2.75rem;
-	padding: 0 1rem;
-	font-size: 0.875rem;
-	color: var(--ux-fg);
-	cursor: pointer;
-}
-
-.site-sample summary::marker {
-	content: "";
-}
-
-.site-sample summary span:first-child::before {
-	content: "+ ";
-	color: var(--ux-fg-3);
-}
-
-.site-sample[open] summary span:first-child::before {
-	content: "– ";
-}
-
-.site-sample summary .ux-mono {
+.site-sample figcaption {
+	padding: 0.6rem 1rem;
 	font-size: 0.75rem;
 	color: var(--ux-fg-3);
 }
 
 .site-sample :deep(pre) {
-	max-height: 50svh;
+	max-height: 70svh;
 	margin: 0;
 	padding: 1rem;
 	overflow: auto;
@@ -96,9 +69,10 @@ Pre.inheritAttrs = false;
 
 /* The page is always dark: take the dark theme's colours, whatever colour
    mode the docs left on <html>. Each sample's own styles set the colours with
-   `html.light .shiki span` and `html.dark .shiki span`, so this outranks them. */
+   `html.light .shiki span` and `html.dark .shiki span`, so this outranks them.
+   A touch of the foreground lifts the theme's comments (#676e95) to 4.5:1. */
 html .site-sample :deep(pre span) {
-	color: var(--shiki-dark);
+	color: color-mix(in srgb, var(--shiki-dark), var(--ux-fg) 12%);
 	background: none;
 	font-style: var(--shiki-dark-font-style);
 	font-weight: var(--shiki-dark-font-weight);

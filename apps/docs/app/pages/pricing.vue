@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { corridor, ink, stack, threshold } from "@uxfront/scene/formations";
+import { corridor, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import {
 	DISCORD_URL,
 	INTRODUCTION_URL,
@@ -23,9 +24,9 @@ useUxHead({
 });
 
 const scene = [
-	threshold({ label: "Pricing" }),
-	stack({ label: "Plans" }),
-	ink({ label: "FAQ" }),
+	tokens({ label: "Pricing", views: HERO_VIEWS }),
+	empty({ key: "plans", label: "Plans" }),
+	empty({ key: "faq", label: "FAQ" }),
 	corridor({ label: "Get started" }),
 ];
 

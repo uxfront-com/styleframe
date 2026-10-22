@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { corridor, prism, stack, threshold } from "@uxfront/scene/formations";
+import { corridor, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { PRICING_URL, PRO_URL, SITE_NAME } from "~/data/site";
 
 useUxHead({
@@ -17,9 +18,9 @@ useUxHead({
 });
 
 const scene = [
-	stack({ label: "styleframe Pro" }),
-	prism({ label: "Features" }),
-	threshold({ label: "Pricing" }),
+	tokens({ label: "styleframe Pro", views: HERO_VIEWS }),
+	empty({ key: "features", label: "Features" }),
+	empty({ key: "pricing", label: "Pricing" }),
 	corridor({ label: "Get Pro" }),
 ];
 

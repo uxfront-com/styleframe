@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { corridor, ink, prism, stack, threshold } from "@uxfront/scene/formations";
+import { corridor, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { INTRODUCTION_URL, SCANNER_URL, SITE_NAME } from "~/data/site";
 
 const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
@@ -19,10 +20,10 @@ useUxHead({
 });
 
 const scene = [
-	prism({ label: "Utility Scanner" }),
-	stack({ label: "Write classes" }),
-	ink({ label: "Templates" }),
-	threshold({ label: "Output" }),
+	tokens({ label: "Utility Scanner", views: HERO_VIEWS }),
+	empty({ key: "scanner", label: "Write classes" }),
+	empty({ key: "templates", label: "Templates" }),
+	empty({ key: "output", label: "Output" }),
 	corridor({ label: "Get started" }),
 ];
 
@@ -154,7 +155,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 			<SiteFeatures :items="features" />
 		</UxChapter>
 
-		<UxChapter
+		<SiteSplit
 			id="templates"
 			index="02"
 			role="Templates"
@@ -167,11 +168,13 @@ const output = String.raw`/* Only the utilities your templates reference */
 				<code>_property:value</code> class, and generates the matching CSS at
 				build time.
 			</template>
-			<SiteCode title="Button.vue" :code="template" />
 			<SiteFeatures :items="extraction" />
-		</UxChapter>
+			<template #code>
+				<SiteCode title="Button.vue" :code="template" />
+			</template>
+		</SiteSplit>
 
-		<UxChapter
+		<SiteSplit
 			id="output"
 			index="03"
 			role="Output"
@@ -185,8 +188,10 @@ const output = String.raw`/* Only the utilities your templates reference */
 			<p class="scanner__note">
 				What you write is what you get — predictable, readable output.
 			</p>
-			<SiteCode title="Output CSS" :code="output" />
-		</UxChapter>
+			<template #code>
+				<SiteCode title="Output CSS" :code="output" />
+			</template>
+		</SiteSplit>
 
 		<UxFinale kicker="Utility Scanner">
 			<template #title>

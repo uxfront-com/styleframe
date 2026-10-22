@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { corridor, ink, prism, stack, threshold } from "@uxfront/scene/formations";
+import { corridor, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
@@ -18,15 +19,15 @@ useUxHead({
 	},
 });
 
-// The copy sits on the left in every chapter, so the formations keep their
-// default framing on the right. `key` tells repeated formations apart.
+// Only the hero and the finale draw a formation. `key` tells the empty ones
+// apart.
 const scene = [
-	ink({ label: "Figma Plugin" }),
-	stack({ label: "Plugin" }),
-	prism({ label: "Sync" }),
-	threshold({ label: "Import" }),
-	prism({ key: "export", label: "Export" }),
-	stack({ key: "cli", label: "CLI" }),
+	tokens({ label: "Figma Plugin", views: HERO_VIEWS }),
+	empty({ key: "plugin", label: "Plugin" }),
+	empty({ key: "sync", label: "Sync" }),
+	empty({ key: "import", label: "Import" }),
+	empty({ key: "export", label: "Export" }),
+	empty({ key: "cli", label: "CLI" }),
 	corridor({ label: "Install" }),
 ];
 
@@ -236,7 +237,7 @@ npx styleframe figma export \\
 			<SiteFeatures :items="exporting" />
 		</UxChapter>
 
-		<UxChapter
+		<SiteSplit
 			id="cli"
 			index="05"
 			role="Developer Workflow"
@@ -250,9 +251,11 @@ npx styleframe figma export \\
 				pipelines to keep Figma tokens in sync with every code change. No manual
 				exports, no drift.
 			</template>
-			<SiteCode title="Terminal" :code="terminal" />
 			<SiteFeatures :items="workflow" />
-		</UxChapter>
+			<template #code>
+				<SiteCode title="Terminal" :code="terminal" />
+			</template>
+		</SiteSplit>
 
 		<UxFinale kicker="Figma Plugin">
 			<template #title>
