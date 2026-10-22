@@ -102,9 +102,9 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 .site-split__title {
 	margin: 0 0 1.5rem;
-	font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.5rem);
+	font-size: clamp(2.75rem, 1.2rem + 4.6vw, 5.75rem);
 	font-weight: 500;
-	line-height: 0.95;
+	line-height: 0.92;
 	letter-spacing: -0.055em;
 	text-wrap: balance;
 }
@@ -132,9 +132,13 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 		padding-bottom: 4rem;
 	}
 
-	.site-split__eyebrow,
+	.site-split__eyebrow {
+		margin-bottom: 1rem;
+	}
+
 	.site-split__title {
 		margin-bottom: 1rem;
+		font-size: clamp(2.5rem, 8vh, 5.75rem);
 	}
 
 	.site-split__lead {

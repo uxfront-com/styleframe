@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty } from "~/lib/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import {
 	FIGMA_URL,
 	GITHUB_URL,
@@ -32,7 +32,7 @@ useUxHead({
 // One formation per section, in order: the hero, a chapter per section of
 // main's homepage, the finale. Only the hero and the finale draw one; the
 // hero's tokens re-theme on click.
-const theme = tokens({ label: "Styleframe" });
+const theme = tokens({ label: "Styleframe", views: HERO_VIEWS });
 const scene = [
 	theme,
 	empty({ key: "config", label: "One config" }),

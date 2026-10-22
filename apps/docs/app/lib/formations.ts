@@ -1,10 +1,23 @@
 import { defineFormation } from "@uxfront/scene";
-import type { Formation, FormationShader, StageView } from "@uxfront/scene";
+import type {
+	Formation,
+	FormationViews,
+	FormationShader,
+	StageView,
+} from "@uxfront/scene";
 
 /**
  * Formations the catalog doesn't have. They only rely on the shader contract
  * (`$main`, and `$name` identifiers namespaced to `key_name`).
  */
+
+/**
+ * The hero's framing for `tokens`, on the right of UxHero's copy. Its own
+ * framing puts it on the left, for a chapter whose copy is on the right.
+ */
+export const HERO_VIEWS = {
+	desktop: { shift: [0.42, 0.02] },
+} satisfies Partial<Record<keyof FormationViews, Partial<StageView>>>;
 
 // The corridor's framing, so the camera holds still into the finale.
 const VIEW: StageView = {
@@ -15,9 +28,9 @@ const VIEW: StageView = {
 	shift: [0, 0],
 };
 
-// Every particle waits far down the view, where the fog darkens it to nothing
-// and the scene skips it. Between two empty sections the particles stay out
-// there, so a morph between them doesn't light up either.
+// Every particle has no colour, so the scene skips it. It also waits far down
+// the view, past the far plane: a morph lights particles up on their way, and
+// between two empty sections that light stays out of sight.
 const EMPTY: FormationShader = {
 	glsl: /* glsl */ `
 Particle $main(uint id, float sel, Frame f) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty } from "~/lib/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
@@ -22,7 +22,7 @@ useUxHead({
 // Only the hero and the finale draw a formation. `key` tells the empty ones
 // apart.
 const scene = [
-	tokens({ label: "Figma Plugin" }),
+	tokens({ label: "Figma Plugin", views: HERO_VIEWS }),
 	empty({ key: "plugin", label: "Plugin" }),
 	empty({ key: "sync", label: "Sync" }),
 	empty({ key: "import", label: "Import" }),

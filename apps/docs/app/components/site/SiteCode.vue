@@ -15,7 +15,7 @@ defineProps<{
 
 <style scoped>
 .site-code {
-	margin: 0 0 1.5rem;
+	margin: 0;
 	border: 1px solid var(--ux-line-strong);
 	border-radius: 6px;
 	background: rgb(5 5 7 / 0.85);
