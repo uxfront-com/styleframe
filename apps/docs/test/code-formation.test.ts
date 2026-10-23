@@ -3,26 +3,33 @@ import type { FormationFrame, Uniforms } from "@uxfront/scene";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { codeBlock } from "../app/lib/formations";
 import {
+	REVEAL_PROPERTY,
 	createShader,
 	gatherOf,
 	revealOf,
 } from "../app/lib/formations/code.shader";
 
 describe("gatherOf and revealOf", () => {
-	it.each([0, 0.2, 0.5, 0.69])(
-		"keeps the code hidden while the particles gather (approach %f)",
+	// The engine moves particles into the formation until approach 1.
+	it.each([0, 0.5, 0.7, 0.9, 0.999])(
+		"keeps the code hidden while the morph is under way (approach %f)",
 		(approach) => {
 			expect(gatherOf(approach)).toBeLessThan(1);
-			expect(revealOf(approach)).toBe(0);
+			expect(revealOf(approach, 1, 0.1)).toBe(0);
 		},
 	);
 
-	it("fades the code in once the particles have gathered", () => {
-		expect(gatherOf(0.7)).toBe(1);
-		expect(revealOf(0.7)).toBe(0);
-		expect(revealOf(0.85)).toBeGreaterThan(0);
-		expect(revealOf(0.85)).toBeLessThan(1);
-		expect(revealOf(1)).toBe(1);
+	it("fades the code in over the start of the hold", () => {
+		expect(gatherOf(1)).toBe(1);
+		expect(revealOf(1, 0, 0.1)).toBe(0);
+		expect(revealOf(1, 0.05, 0.1)).toBeGreaterThan(0);
+		expect(revealOf(1, 0.05, 0.1)).toBeLessThan(1);
+		expect(revealOf(1, 0.1, 0.1)).toBe(1);
+		expect(revealOf(1, 0.6, 0.1)).toBe(1);
+	});
+
+	it("shows the code at approach 1 when the section has no hold", () => {
+		expect(revealOf(1, 0, 0)).toBe(1);
 	});
 });
 
@@ -31,10 +38,13 @@ describe("createShader", () => {
 		vi.unstubAllGlobals();
 	});
 
-	// A panel 300px down the page, and only as much DOM as the shader reads.
+	// A section whose stage starts 1000px down the page and is 1200px tall, on
+	// a 900px screen, with a panel 300px down; only as much DOM as the shader
+	// reads. Its hold runs from 775 to 1525: 750px, so the 72px fade (8% of
+	// the screen) takes 0.096 of it.
 	const stubPage = () => {
 		const props = new Map<string, string>();
-		const panel = {
+		const makePanel = () => ({
 			dataset: {} as Record<string, string>,
 			style: {
 				setProperty: (name: string, value: string) => props.set(name, value),
@@ -47,28 +57,42 @@ describe("createShader", () => {
 			}),
 			querySelectorAll: () => [],
 			querySelector: () => null,
+		});
+		let panel = makePanel();
+		const stage = {
+			getBoundingClientRect: () => ({ top: 1000 - page.scrollY, height: 1200 }),
 		};
 		const page = { scrollY: 0, innerHeight: 900 };
 		vi.stubGlobal("window", page);
 		vi.stubGlobal("document", {
-			getElementById: () => ({ querySelector: () => panel }),
+			documentElement: { scrollHeight: 5000 },
+			getElementById: () => ({
+				isConnected: true,
+				querySelector: (selector: string) =>
+					selector === "[data-stage]" ? stage : panel,
+			}),
 			querySelector: () => ({ clientWidth: 1440, clientHeight: 900 }),
 		});
 		const rects: number[][] = [];
 		const uniforms = {
 			gl: {
+				uniform1f: () => {},
 				uniform2f: () => {},
 				uniform4f: (_: unknown, ...rect: number[]) => rects.push(rect),
 			},
 			get: (name: string) => name,
 		} as unknown as Uniforms;
-		return { panel, props, page, rects, uniforms };
+		const replacePanel = () => {
+			panel = makePanel();
+			return panel;
+		};
+		return { panel, props, page, rects, uniforms, replacePanel };
 	};
 
-	const frame = (approach: number) =>
+	const frame = (approach: number, local = 0) =>
 		({
 			stage: 1,
-			local: 0,
+			local,
 			approach,
 			presence: 1,
 			time: 0,
@@ -92,15 +116,42 @@ describe("createShader", () => {
 		}
 	});
 
-	it("puts the gather on the panel and reveals the code after it", () => {
+	it("puts the gather on the panel and reveals the code after the morph", () => {
 		const { panel, props, uniforms } = stubPage();
 		const shader = createShader("config");
-		shader.update?.(uniforms, frame(0.35));
-		expect(panel.dataset.gather).toBe("0.500");
-		expect(props.get("--code-reveal")).toBe("0.000");
-		shader.update?.(uniforms, frame(1));
+		shader.update?.(uniforms, frame(0.99));
+		expect(panel.dataset.gather).toBe("0.990");
+		expect(props.get(REVEAL_PROPERTY)).toBe("0.000");
+		shader.update?.(uniforms, frame(1, 0));
 		expect(panel.dataset.gather).toBe("1.000");
-		expect(props.get("--code-reveal")).toBe("1.000");
+		expect(props.get(REVEAL_PROPERTY)).toBe("0.000");
+		shader.update?.(uniforms, frame(1, 0.048));
+		expect(Number(props.get(REVEAL_PROPERTY))).toBeGreaterThan(0);
+		expect(Number(props.get(REVEAL_PROPERTY))).toBeLessThan(1);
+		shader.update?.(uniforms, frame(1, 0.096));
+		expect(props.get(REVEAL_PROPERTY)).toBe("1.000");
+	});
+
+	it("writes the gather again on a panel the page re-rendered", () => {
+		const { page, uniforms, replacePanel } = stubPage();
+		const listeners: (() => void)[] = [];
+		Object.assign(page, {
+			addEventListener: (_: string, listener: () => void) =>
+				listeners.push(listener),
+		});
+		vi.stubGlobal(
+			"ResizeObserver",
+			class {
+				observe() {}
+			},
+		);
+		const shader = createShader("config");
+		shader.setup?.({} as Uniforms);
+		shader.update?.(uniforms, frame(1, 1));
+		const next = replacePanel();
+		for (const listener of listeners) listener();
+		shader.update?.(uniforms, frame(1, 1));
+		expect(next.dataset.gather).toBe("1.000");
 	});
 });
 

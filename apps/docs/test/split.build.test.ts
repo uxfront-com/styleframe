@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { REVEAL_PROPERTY } from "../app/lib/formations/code.shader";
 
 /**
  * Every chapter with a code sample or a picture shows it beside its copy
@@ -60,6 +61,20 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		const markup = section(html, id);
 		expect(markup).toMatch(/<figure\b[^>]*\bdata-code-panel\b/);
 		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
+	});
+
+	// The formation holds from the stage inside the section, which starts
+	// above it, and writes the reveal SiteSplit fades the panel by.
+	it.each(ids)("holds #%s's formation from its stage", (id) => {
+		const markup = section(html, id);
+		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-stage\b/);
+		expect(markup).toMatch(/<div class="site-split__stage" data-stage\b/);
+	});
+
+	it("fades the code panels by the code formation's reveal", () => {
+		expect(html).toContain(
+			`[data-code-panel]{opacity:var(${REVEAL_PROPERTY},0)}`,
+		);
 	});
 });
 

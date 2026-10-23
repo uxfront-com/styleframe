@@ -1,20 +1,30 @@
-import { clamp, smoothstep } from "@uxfront/scene";
+import { clamp, sectionSpan, smoothstep } from "@uxfront/scene";
 import type { FormationShader, Uniforms } from "@uxfront/scene";
 
 /** Lines of code the particles draw, at most: four to a `vec4`. */
 const MAX_LINES = 48;
 
+/** How far the page scrolls while the code fades in, in screen heights. */
+const FADE = 0.08;
+
+/** The custom property on the panel that SiteSplit fades the code by. */
+export const REVEAL_PROPERTY = "--code-reveal";
+
 /**
- * How far the formation has morphed in (`approach`) when every particle has
- * reached its place: the last one sets off at 0.2 and takes 0.5 (`$main`).
+ * How far the particles have gathered into the panel, 0 → 1. The engine
+ * moves them in from the formation before until `approach` reaches 1, so the
+ * gather is only complete then, whatever `$main`'s own schedule.
  */
-const GATHERED = 0.7;
+export const gatherOf = (approach: number) => clamp(approach, 0, 1);
 
-/** How far the particles have gathered into the panel, 0 → 1. */
-export const gatherOf = (approach: number) => clamp(approach / GATHERED, 0, 1);
-
-/** How far the code has faded in: only once the particles have gathered. */
-export const revealOf = (approach: number) => smoothstep(GATHERED, 1, approach);
+/**
+ * How far the code has faded in: nothing until the gather is complete, then
+ * in over the first `span` of the section's hold (`local`).
+ */
+export const revealOf = (approach: number, local: number, span: number) => {
+	if (approach < 1) return 0;
+	return span > 0 ? smoothstep(0, span, local) : 1;
+};
 
 const glsl = /* glsl */ `
 const int $MAX_LINES = ${MAX_LINES};
@@ -28,6 +38,8 @@ uniform vec2 $screen;
 uniform vec4 $text;
 // The rule under the panel's caption, from its top, and the code's width.
 uniform vec2 $frame;
+// How far the code has faded in (revealOf).
+uniform float $reveal;
 // Each line, packed as indent + 64 * length + 8192 * row, in characters and
 // rows of the line height.
 uniform vec4 $lines[${MAX_LINES / 4}];
@@ -74,9 +86,9 @@ Particle $main(uint id, float sel, Frame f) {
   Particle P = blank();
 
   // Gathered as the chapter comes in, each particle on its own beat; then
-  // the code fades in over them (revealOf), and they dim.
+  // the code fades in over them, and they dim.
   float gather = smoothstep(d * 0.2, d * 0.2 + 0.5, f.approach);
-  float settle = smoothstep(${GATHERED.toFixed(1)}, 1.0, f.approach);
+  float settle = $reveal;
 
   vec2 size = $rect.zw;
   vec2 px;
@@ -119,8 +131,11 @@ Particle $main(uint id, float sel, Frame f) {
 `;
 
 interface Layout {
+	/** The chapter's code panel, which gets `data-gather` and the reveal. */
 	panel: HTMLElement | null;
-	/** The panel: its page offset, so its top on screen follows the scroll. */
+	/** The part of the section's hold the code fades in over (`revealOf`). */
+	span: number;
+	/** The panel's page offset, so its top on screen follows the scroll. */
 	left: number;
 	top: number;
 	width: number;
@@ -128,14 +143,16 @@ interface Layout {
 }
 
 /**
- * The GPU half of `codeBlock`. It measures the chapter's code panel when the
- * page resizes, never per frame: each frame only moves the panel by the
- * page's own scroll, which the page renders with in the same frame, so the
- * outline can't trail it. The scene's eased scroll only drives the gather.
+ * The GPU half of `codeBlock`. It measures the chapter's code panel and its
+ * section when the page resizes, never per frame. Each frame, it moves the
+ * panel by the page's own scroll, which the page renders with in the same
+ * frame, so the outline can't trail it, and writes the gather and the reveal
+ * on the panel. The scene's eased scroll drives those two.
  */
 export function createShader(key: string): FormationShader {
 	const layout: Layout = {
 		panel: null,
+		span: 0,
 		left: 0,
 		top: 0,
 		width: 0,
@@ -147,12 +164,29 @@ export function createShader(key: string): FormationShader {
 	let reveal = "";
 
 	const measure = ({ gl, get }: Uniforms) => {
-		const panel = document
-			.getElementById(key)
-			?.querySelector<HTMLElement>("[data-code-panel]");
+		const section = document.getElementById(key);
+		const panel = section?.querySelector<HTMLElement>("[data-code-panel]");
 		const canvas =
 			document.querySelector<HTMLCanvasElement>(".ux-stage__canvas");
-		if (!panel || !canvas) return;
+		if (!section || !panel || !canvas) return;
+
+		// The section's hold, as the scene measures it (createExperience), from
+		// its `[data-stage]` element.
+		const stage = section.querySelector("[data-stage]") ?? section;
+		const viewport = window.innerHeight;
+		const maxScroll = Math.max(
+			1,
+			document.documentElement.scrollHeight - viewport,
+		);
+		const rect = stage.getBoundingClientRect();
+		const hold = sectionSpan(
+			rect.top + window.scrollY,
+			rect.height,
+			viewport,
+			maxScroll,
+		);
+		const length = hold.end - hold.start;
+		layout.span = length > 0 ? Math.min(1, (FADE * viewport) / length) : 0;
 
 		// A new panel (the page re-rendered) gets the gather written again.
 		if (panel !== layout.panel) gather = reveal = "";
@@ -239,19 +273,21 @@ export function createShader(key: string): FormationShader {
 				layout.height,
 			);
 
-			// SiteSplit fades the code in by `--code-reveal`, once the scene draws
+			// SiteSplit fades the code in by REVEAL_PROPERTY, once the scene draws
 			// with motion on; `data-gather` lets a check read the gather.
+			const amount = revealOf(frame.approach, frame.local, layout.span);
+			uniforms.gl.uniform1f(uniforms.get("reveal"), amount);
 			const { panel } = layout;
 			if (!panel) return;
 			const nextGather = gatherOf(frame.approach).toFixed(3);
-			const nextReveal = revealOf(frame.approach).toFixed(3);
+			const nextReveal = amount.toFixed(3);
 			if (nextGather !== gather) {
 				gather = nextGather;
 				panel.dataset.gather = gather;
 			}
 			if (nextReveal !== reveal) {
 				reveal = nextReveal;
-				panel.style.setProperty("--code-reveal", reveal);
+				panel.style.setProperty(REVEAL_PROPERTY, reveal);
 			}
 		},
 	};
