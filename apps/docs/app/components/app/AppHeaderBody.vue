@@ -1,11 +1,12 @@
 <script setup lang="ts">
 // Replaces @uxfront/layer-docs's to start the header's menu with the Docs,
 // Changelog and Log in links below 768px, where AppHeaderCTA has no room for
-// them beside the header's buttons. The rest is the layer's, which its package
-// doesn't export: the Framework select, then Docus's navigation.
-import DocusAppHeaderBody from "docus/app/components/app/AppHeaderBody.vue";
-
+// them beside the header's buttons. Then the layer's Framework select, which
+// its package doesn't export, and the docs' sections, from the same source as
+// AppHeaderBottom's tabs: in their place, Docus's navigation would list Theme
+// as one section.
 const links = useHeaderLinks();
+const { tabs } = useDocsSections();
 const { frameworks } = useFramework();
 const labelId = useId();
 </script>
@@ -25,5 +26,10 @@ const labelId = useId();
 		</span>
 		<DocsFrameworkSelect :aria-labelledby="labelId" class="mb-2" />
 	</div>
-	<DocusAppHeaderBody />
+	<UNavigationMenu
+		:items="tabs"
+		orientation="vertical"
+		aria-label="Sections"
+		class="-mx-2.5"
+	/>
 </template>

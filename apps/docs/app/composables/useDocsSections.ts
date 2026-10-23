@@ -28,8 +28,8 @@ function firstPagePath(
  * sub-sections here (`THEME_SUBSECTIONS`), each with its own sidebar, and the
  * sidebar groups pages by their category folders (`foldNonRouteCategories`)
  * and lists a page like Z-Index as a page, not a group (`flattenNavigation`).
- * The overrides of Docus's `AppHeaderBottom`, `DocsAsideLeftBody` and
- * `DocsAsideMobileBar` read them.
+ * The overrides of Docus's `AppHeaderBottom`, `AppHeaderBody`,
+ * `DocsAsideLeftBody` and `DocsAsideMobileBar` read them.
  */
 export function useDocsSections() {
 	const route = useRoute();
