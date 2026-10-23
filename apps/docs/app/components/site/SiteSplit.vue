@@ -29,10 +29,10 @@ defineSlots<{
 	aside?(): unknown;
 }>();
 
-// The code panel (`[data-code-panel]`) fades in as the chapter scrolls in,
-// while the code formation gathers around it. Only once the scene draws, and
-// with motion: the prerendered page, a loading scene and the fallback show the
-// code at once.
+// The code panel (`[data-code-panel]`) fades in once the code formation has
+// gathered around it (`--code-reveal`, set by code.shader.ts). Only once the
+// scene draws, and with motion: the prerendered page, a loading scene and the
+// fallback show the code at once.
 const { state } = useExperience();
 const fade = computed(() => state.status === "ready" && state.motion);
 
@@ -137,25 +137,11 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	min-width: 0;
 }
 
-/* In as the formation (code.ts) settles: while the chapter's top rises from
-   48% of the screen to 32%. Without scroll-driven animations, it's there at
-   once. */
-@supports (animation-timeline: view()) {
-	.site-split {
-		view-timeline-name: --site-split;
-	}
-
-	.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
-		animation: site-split-fade linear both;
-		animation-timeline: --site-split;
-		animation-range: entry 52% entry 68%;
-	}
-}
-
-@keyframes site-split-fade {
-	from {
-		opacity: 0;
-	}
+/* In once the formation (code.ts) has gathered: hidden until its first
+   frame sets `--code-reveal`. Only the opacity changes, so the panel stays
+   put. */
+.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
+	opacity: var(--code-reveal, 0);
 }
 
 .site-split--center .site-split__grid {
