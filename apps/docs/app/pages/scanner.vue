@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, tokens } from "@uxfront/scene/formations";
-import { codeBlock, empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, outline, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { INTRODUCTION_URL, SCANNER_URL, SITE_NAME } from "~/data/site";
 
 const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
@@ -22,8 +22,8 @@ useUxHead({
 const scene = [
 	tokens({ label: "Utility Scanner", views: HERO_VIEWS }),
 	empty({ key: "scanner", label: "Write classes" }),
-	codeBlock({ key: "templates", label: "Templates" }),
-	codeBlock({ key: "output", label: "Output" }),
+	outline({ key: "templates", label: "Templates", lines: true }),
+	outline({ key: "output", label: "Output", lines: true }),
 	corridor({ label: "Get started" }),
 ];
 

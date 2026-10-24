@@ -33,10 +33,10 @@ defineSlots<{
 	aside?(): unknown;
 }>();
 
-// The code panel (`[data-code-panel]`) fades in once the code formation has
-// gathered around it (`--code-reveal`, set by code.shader.ts). Only once the
-// scene draws, and with motion: the prerendered page, a loading scene and the
-// fallback show the code at once.
+// The code panel or picture (`[data-outline]`) fades in once the `outline`
+// formation has gathered around it (`--ux-reveal`, set by the scene). Only
+// once the scene draws, and with motion: the prerendered page, a loading scene
+// and the fallback show it at once.
 const { state } = useExperience();
 const fade = computed(() => state.status === "ready" && state.motion);
 
@@ -156,11 +156,11 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	min-width: 0;
 }
 
-/* In once the formation (code.ts) has gathered: hidden until its first
-   frame sets `--code-reveal`. Only the opacity changes, so the panel stays
+/* In once the `outline` formation has gathered: hidden until its first
+   frame sets `--ux-reveal`. Only the opacity changes, so the panel stays
    put. */
-.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
-	opacity: var(--code-reveal, 0);
+.site-split[data-fade] .site-split__aside :deep([data-outline]) {
+	opacity: var(--ux-reveal, 0);
 }
 
 .site-split--center .site-split__grid {

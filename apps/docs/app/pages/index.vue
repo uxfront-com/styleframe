@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, tokens } from "@uxfront/scene/formations";
-import { codeBlock, device, empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, outline, tokens } from "@uxfront/scene/formations";
+import { device, HERO_VIEWS } from "~/lib/formations";
 import {
 	FIGMA_URL,
 	GITHUB_URL,
@@ -34,13 +34,13 @@ useUxHead({
 const theme = tokens({ label: "Styleframe", views: HERO_VIEWS });
 const scene = [
 	theme,
-	codeBlock({ key: "config", label: "One config" }),
-	codeBlock({ key: "compose", label: "Compose" }),
-	codeBlock({ key: "themes", label: "Themes" }),
-	codeBlock({ key: "output", label: "Zero-runtime" }),
-	codeBlock({ key: "scanner", label: "Scanner" }),
-	empty({ key: "figma", label: "Figma" }),
-	empty({ key: "ai", label: "AI" }),
+	outline({ key: "config", label: "One config", lines: true }),
+	outline({ key: "compose", label: "Compose", lines: true }),
+	outline({ key: "themes", label: "Themes", lines: true }),
+	outline({ key: "output", label: "Zero-runtime", lines: true }),
+	outline({ key: "scanner", label: "Scanner", lines: true }),
+	outline({ key: "figma", label: "Figma" }),
+	outline({ key: "ai", label: "AI" }),
 	device({ label: "Fluid design" }),
 	corridor({ label: "Get started" }),
 ];
@@ -327,6 +327,7 @@ const fluid = [
 			<template #aside>
 				<img
 					class="home__shot"
+					data-outline
 					src="/assets/images/figma-import.png"
 					alt="Styleframe - Import Design Tokens into Figma"
 					width="1118"
@@ -353,6 +354,7 @@ const fluid = [
 			<template #aside>
 				<SiteVideo
 					class="home__video"
+					data-outline
 					src="/assets/video/styleframe-ai.mp4"
 					poster="/assets/images/styleframe-ai.webp"
 					:width="2048"

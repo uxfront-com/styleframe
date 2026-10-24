@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, tokens } from "@uxfront/scene/formations";
-import { codeBlock, empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, outline, tokens } from "@uxfront/scene/formations";
+import { empty, HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
@@ -22,11 +22,11 @@ useUxHead({
 // `key` tells the repeated formations apart.
 const scene = [
 	tokens({ label: "Figma Plugin", views: HERO_VIEWS }),
-	empty({ key: "plugin", label: "Plugin" }),
+	outline({ key: "plugin", label: "Plugin" }),
 	empty({ key: "sync", label: "Sync" }),
-	empty({ key: "import", label: "Import" }),
-	empty({ key: "export", label: "Export" }),
-	codeBlock({ key: "cli", label: "CLI" }),
+	outline({ key: "import", label: "Import" }),
+	outline({ key: "export", label: "Export" }),
+	outline({ key: "cli", label: "CLI", lines: true }),
 	corridor({ label: "Install" }),
 ];
 
@@ -164,6 +164,7 @@ npx styleframe figma export \\
 		>
 			<template #aside>
 				<SiteVideo
+					data-outline
 					src="/assets/video/styleframe-figma.mp4"
 					poster="/assets/images/styleframe-figma-poster.jpg"
 					:width="2204"
@@ -204,6 +205,7 @@ npx styleframe figma export \\
 			<template #aside>
 				<img
 					class="figma__shot"
+					data-outline
 					src="/assets/images/figma-import.png"
 					alt="Styleframe - Import Design Tokens into Figma"
 					width="1118"
@@ -232,6 +234,7 @@ npx styleframe figma export \\
 			<template #aside>
 				<img
 					class="figma__shot"
+					data-outline
 					src="/assets/images/figma-export.png"
 					alt="Styleframe - Export Design Tokens from Figma"
 					width="1176"
