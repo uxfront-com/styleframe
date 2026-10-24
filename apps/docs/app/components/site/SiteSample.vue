@@ -20,7 +20,7 @@ Pre.inheritAttrs = false;
 </script>
 
 <template>
-	<figure v-if="sample" class="site-sample" data-code-panel>
+	<figure v-if="sample" class="site-sample" data-outline>
 		<figcaption class="ux-mono">{{ sample.title }}</figcaption>
 		<ContentRenderer
 			:value="sample"

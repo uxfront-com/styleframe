@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { REVEAL_PROPERTY } from "../app/lib/formations/code.shader";
 
 /**
  * Every chapter with a code sample or a picture shows it beside its copy
@@ -62,11 +61,12 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		expect(markup).not.toContain("<details");
 	});
 
-	// The code formation (code.ts) gathers around the panel, which only fades
-	// once the scene draws: the prerendered page shows the code.
+	// The outline formation gathers around the panel, which only fades once
+	// the scene draws: the prerendered page shows the code.
 	it.each(ids)("marks the code panel of #%s, shown at once", (id) => {
 		const markup = section(html, id);
-		expect(markup).toMatch(/<figure\b[^>]*\bdata-code-panel\b/);
+		expect(markup).toMatch(/<figure\b[^>]*\bdata-outline\b/);
+		expect(markup).not.toContain("data-code-panel");
 		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
 	});
 
@@ -78,10 +78,8 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		expect(markup).toMatch(/<div [^>]*class="site-split__stage" data-stage\b/);
 	});
 
-	it("fades the code panels by the code formation's reveal", () => {
-		expect(html).toContain(
-			`[data-code-panel]{opacity:var(${REVEAL_PROPERTY},0)}`,
-		);
+	it("fades the code panels by the outline formation's reveal", () => {
+		expect(html).toContain("[data-outline]{opacity:var(--ux-reveal,0)}");
 	});
 });
 
@@ -100,6 +98,15 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 		const video = aside.match(/<video\b[^>]*>/)?.[0] ?? "";
 		expect(video).toContain('preload="none"');
 		expect(video).toMatch(/\bposter="[^"]+"/);
+	});
+
+	// The outline formation gathers around the medium too, which fades like
+	// the code: the prerendered page shows it.
+	it.each(ids)("marks the medium of #%s, shown at once", (id) => {
+		const markup = section(html, id);
+		const tag = VIDEOS.includes(id) ? "video" : "img";
+		expect(markup).toMatch(new RegExp(`<${tag}\\b[^>]*\\bdata-outline\\b`));
+		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
 	});
 });
 
