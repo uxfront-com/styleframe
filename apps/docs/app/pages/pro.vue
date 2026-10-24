@@ -32,7 +32,7 @@ const nav = [
 const features = [
 	{
 		title: "Premium Composables",
-		text: "Advanced design system tools built on styleframe's type-safe API. Production-ready, fully tested.",
+		text: "Design system tools on styleframe's type-safe API, production-ready and fully tested.",
 		to: "/docs/theme/design-tokens/fluid-design",
 	},
 	{
@@ -45,12 +45,12 @@ const features = [
 	},
 	{
 		title: "Performance Optimized",
-		text: "Smaller CSS bundles mean faster page loads. All of our composables are optimized for best performance.",
+		text: "Smaller CSS bundles mean faster page loads.",
 		to: "/docs/theme/design-tokens/fluid-design/viewport",
 	},
 	{
 		title: "Complete Documentation",
-		text: "In-depth guides, examples, and best practices. Get up and running in minutes with clear instructions.",
+		text: "Guides, examples and best practices that get you running in minutes.",
 		to: "/docs/theme/design-tokens/fluid-design",
 	},
 ];
@@ -74,8 +74,7 @@ const features = [
 				<UxHeroLine>with styleframe <em class="ux-serif">Pro</em></UxHeroLine>
 			</template>
 			<template #lead>
-				Create beautiful design systems with mathematical precision. Premium
-				composables and advanced features built on top of styleframe.
+				Premium composables and advanced features, built on top of styleframe.
 				<br />
 				<UxPillLink class="pro__cta" :href="PRICING_URL" label="Get it now" />
 			</template>

@@ -56,32 +56,32 @@ const nav = [
 const config = [
 	{
 		title: "The compiler is your design-system reviewer",
-		text: "Autocomplete runs from a token all the way to a recipe variant. Rename a token and the build fails at the reference — not in production.",
+		text: "Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.",
 		to: "/docs/api",
 	},
 	{
-		title: "Easily Composable",
-		text: "Compose and reuse styles with functions, variables, arrays, or objects. Every part references the same source.",
+		title: "Composable",
+		text: "Compose and reuse styles with functions, variables, arrays or objects.",
 		to: "/docs/api/composables",
 	},
 	{
-		title: "Built-in Theming Support",
-		text: "Create and manage light, dark, and custom themes for your design system from the same token source.",
+		title: "Built-in Theming",
+		text: "Light, dark and custom themes, all from the same tokens.",
 		to: THEMES_URL,
 	},
 	{
 		title: "One plugin, every major bundler",
-		text: "The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro, and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, and Astro.",
+		text: "The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.",
 		to: "/docs/getting-started/installation",
 	},
 	{
 		title: "Fully Configurable",
-		text: "Build your system with composables, variables, selectors, variants, and utilities — every knob typed and in one place.",
+		text: "Every option is typed and in one place.",
 		to: CONFIGURATION_URL,
 	},
 	{
 		title: "Intuitive Developer Experience",
-		text: "Get auto-complete, in-editor documentation, and powerful static analysis for your CSS.",
+		text: "Autocomplete, in-editor docs and static analysis for your CSS.",
 		to: "/docs/getting-started/guides",
 	},
 ];
@@ -89,23 +89,23 @@ const config = [
 const compose = [
 	{
 		title: "Infinitely Customizable",
-		text: "Make your design system your own. Start from the default theme and customize every token to fit your needs.",
+		text: "Make it your own. Start from the default theme and customize every token.",
 	},
 	{
 		title: "Mix and Match Composables",
-		text: "Colors from one theme, typography from another. Styleframe lets you combine composables seamlessly.",
+		text: "Colors from one theme, typography from another.",
 	},
 ];
 
 const themes = [
 	{
 		title: "Intuitive API",
-		text: "Writing CSS for different themes is as easy as defining a variable. No complex syntax or class names to remember.",
+		text: "A theme is as easy to write as a variable, with no special syntax or class names to remember.",
 		to: THEMES_URL,
 	},
 	{
 		title: "Mix and Match Themes",
-		text: "Colors from one theme, typography from another. Styleframe lets you combine themes seamlessly.",
+		text: "Take colors from one theme and typography from another.",
 		to: THEMES_URL,
 	},
 ];
@@ -113,50 +113,50 @@ const themes = [
 const output = [
 	{
 		title: "Static Generation",
-		text: "CSS is generated at build time, resulting in zero runtime overhead for your base styles.",
+		text: "Your base styles cost nothing at runtime.",
 	},
 	{
 		title: "Dual Output",
-		text: "The transpiler outputs both CSS and TypeScript. Configure output on a per-token basis to control exactly what gets generated.",
+		text: "The transpiler outputs both CSS and TypeScript, and you control exactly what each token generates.",
 		to: CONFIGURATION_URL,
 	},
 	{
 		title: "Optional Runtime",
-		text: "Need prop-based class generation? Use Recipes for dynamic component variants without sacrificing the static benefits.",
+		text: "Recipes turn props into dynamic component variants, built on the static CSS.",
 		to: RECIPES_URL,
 	},
 ];
 
 const scanner = [
 	{
-		title: "Automatic Detection & Generation",
-		text: "Use utility classes in your markup without pre-defining every value. The scanner matches class names against registered factories, resolves design tokens, and generates the CSS.",
+		title: "Automatic Detection",
+		text: "No need to pre-define every value: the scanner matches each class to your factories and resolves your tokens.",
 	},
 	{
 		title: "Framework Agnostic",
-		text: "Built-in extractors for HTML, Vue, React, Svelte, Astro, MDX, and more. Add custom extractors for any file type.",
+		text: "Built-in extractors for HTML, Vue, React, Svelte, Astro, MDX and more, or add your own.",
 	},
 ];
 
 const figma = [
 	{
 		title: "Bidirectional Sync",
-		text: "Import tokens into Figma or export Figma Variables back to JSON. Both directions preserve structure, aliases, and semantics.",
+		text: "Import tokens into Figma, or export Figma Variables back to JSON, with structure and aliases intact.",
 	},
 	{
 		title: "Multi-Mode Support",
-		text: "Light, dark, and custom themes are preserved as Figma modes. Your theme structure stays intact across every sync.",
+		text: "Light, dark and custom themes become Figma modes, on every sync.",
 	},
 ];
 
 const ai = [
 	{
 		title: "Styleframe MCP",
-		text: "Connect styleframe to your favorite tools including Cursor, Claude, ChatGPT, and more.",
+		text: "Connect styleframe to Cursor, Claude, ChatGPT and more.",
 	},
 	{
-		title: "Useful AI natively built in",
-		text: "Styleframe uses the latest language models to power AI workflows that build your Design System for you.",
+		title: "Useful AI, built in",
+		text: "AI workflows that build your design system for you.",
 	},
 ];
 
@@ -164,12 +164,12 @@ const fluid = [
 	{
 		code: "01",
 		title: "Step 1",
-		text: "Define your minimum scale for mobile viewports",
+		text: "Set the scale for phones",
 	},
 	{
 		code: "02",
 		title: "Step 2",
-		text: "Set your maximum scale for desktop displays",
+		text: "Set the scale for desktops",
 	},
 	{
 		code: "03",
@@ -208,9 +208,9 @@ const fluid = [
 				<UxHeroLine><em class="ux-serif">Design Systems</em></UxHeroLine>
 			</template>
 			<template #lead>
-				Author design tokens, themes, utilities, and component recipes in
-				TypeScript and compile them to zero-runtime CSS and type declarations.
-				Catch a renamed token before your users do.
+				Write tokens, themes, utilities and recipes in TypeScript, and compile
+				them to zero-runtime CSS and types. Catch a renamed token before your
+				users do.
 				<br />
 				<span class="home__actions">
 					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -227,9 +227,8 @@ const fluid = [
 			:steps="config.length"
 		>
 			<template #lead>
-				Tokens, themes, utilities, and component recipes come from a single
-				TypeScript source. Change a token once, and it flows to every selector,
-				theme, and recipe that references it.
+				Change a token once, and it flows to every selector, theme and recipe
+				that uses it.
 			</template>
 			<SiteFeatures :items="config" />
 			<template #aside><SiteSample name="config" /></template>
@@ -245,9 +244,8 @@ const fluid = [
 			:steps="compose.length"
 		>
 			<template #lead>
-				Assemble your design system out of composables you already have. Plug
-				and play variables, selectors, variants, and utilities — colors from one
-				theme, typography from another, all resolving through one source.
+				Build your design system from composables you already have, all
+				resolving through one source.
 			</template>
 			<UxTraits :items="compose" />
 			<template #aside><SiteSample name="compose" /></template>
@@ -263,9 +261,8 @@ const fluid = [
 			:steps="themes.length"
 		>
 			<template #lead>
-				Light, dark, and custom themes come from the same token source. Defining
-				a theme is as easy as declaring a variable — no separate stylesheet to
-				keep in sync.
+				Light, dark and custom themes come from the same tokens, with no
+				separate stylesheet to keep in sync.
 			</template>
 			<SiteFeatures :items="themes" />
 			<template #aside><SiteSample name="themes" /></template>
@@ -281,9 +278,8 @@ const fluid = [
 			:steps="output.length"
 		>
 			<template #lead>
-				The engine compiles your system to static CSS at build time for maximum
-				performance. When you need prop-based styling, an optional runtime
-				handles Recipes.
+				Your system compiles to static CSS at build time. When you need
+				prop-based styling, an optional runtime handles Recipes.
 			</template>
 			<SiteFeatures :items="output" />
 			<template #aside><SiteSample name="output" /></template>
@@ -299,10 +295,9 @@ const fluid = [
 			:steps="scanner.length"
 		>
 			<template #lead>
-				The engine reaches into your markup. Our Utility Scanner is like
-				Tailwind JIT, but type-safe and built on your own design system — write
-				utility classes directly in your markup, and the scanner detects them
-				and generates only the CSS you actually use at build time. Zero waste.
+				Our Utility Scanner is like Tailwind JIT, but type-safe and built on
+				your own design system. Write utility classes in your markup, and it
+				generates only the CSS you use.
 			</template>
 			<UxTraits :items="scanner" />
 			<template #aside><SiteSample name="scanner" /></template>
@@ -318,10 +313,8 @@ const fluid = [
 			:steps="figma.length"
 		>
 			<template #lead>
-				The engine reaches into your design tool too. Export your Styleframe
-				design tokens to the W3C DTCG format and import them into Figma. Keep
-				your code and design files in perfect sync with full multi-mode support
-				for light and dark themes.
+				Export your Styleframe design tokens to the W3C DTCG format and import
+				them into Figma, with a mode for each theme.
 			</template>
 			<UxTraits :items="figma" />
 			<template #aside>
@@ -346,8 +339,8 @@ const fluid = [
 			:steps="ai.length"
 		>
 			<template #lead>
-				Use styleframe for Agents. Choose from a variety of AI agents and start
-				delegating work, from code generation to other technical tasks.
+				Delegate work to AI agents, from code generation to other technical
+				tasks.
 			</template>
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
@@ -375,9 +368,8 @@ const fluid = [
 			align="center"
 		>
 			<template #lead>
-				Say goodbye to cluttered breakpoint logic. Styleframe's fluid responsive
-				design automatically scales your typography and spacing using
-				mathematical precision.
+				Skip the breakpoints. Styleframe scales your typography and spacing
+				fluidly from phone to desktop.
 			</template>
 			<UxPillars :items="fluid" />
 		</SiteSplit>
@@ -385,11 +377,6 @@ const fluid = [
 		<UxFinale kicker="styleframe">
 			<template #title>
 				The Design Systems <em class="ux-serif">Styling Engine</em>
-			</template>
-			<template #lead>
-				Styleframe turns your design system into a type-safe TypeScript source
-				of truth and compiles it to CSS — one engine behind tokens, themes,
-				utilities, and recipes.
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
