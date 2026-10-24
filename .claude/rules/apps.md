@@ -4,14 +4,17 @@
 
 ## Documentation Site (`apps/docs/`)
 
-- Content: `apps/docs/content/docs/` (Markdown files)
-- Pages: `apps/docs/pages/` (Vue components)
-- Components: `apps/docs/components/` (Nuxt components)
-- Config: `apps/docs/nuxt.config.ts`
-- Use Nuxt Content with Markdown
+- Docus on `@uxfront/layer-ui` and `@uxfront/layer-docs`, the same setup as the Open Components site
+- Content: `apps/docs/content/docs/` (Markdown files); release notes: `apps/docs/content/changelog/`
+- URLs and sections: `apps/docs/app/constants/sections.ts` and `apps/docs/content.config.ts`
+- Pages: `apps/docs/app/pages/` (Vue components)
+- Components: `apps/docs/app/components/` (Nuxt components; `app/` and `docs/` override Docus's)
+- Server routes: `apps/docs/server/` (raw Markdown, sitemap)
+- Config: `apps/docs/nuxt.config.ts`, `apps/docs/app/app.config.ts`
 - Code examples must be runnable and tested
 - Public assets: `apps/docs/public/`
-- See `apps/docs/content/docs/AGENTS.md`
+- The site's UXFront pages use scoped CSS on `--ux-*` tokens, and the Docus overrides (`BrowserFrame.vue`, `app/components/app/*`, `app/pages/changelog/*`, `app/pages/[[lang]]/[...slug].vue`) use Docus's Tailwind classes, by the owner's decision, until UXFront moves to Styleframe
+- See `apps/docs/AGENTS.md`
 
 ## Storybook (`apps/storybook/`)
 

@@ -1,0 +1,99 @@
+<script setup lang="ts">
+// Replaces Docus's so the menu below 1024px shows the same pages as the
+// sidebar: the section the reader is in, grouped by category folder
+// (useDocsSections). The rest is Docus's.
+import type { ContentTocLink } from "#ui/components/content/ContentToc.vue";
+
+defineProps<{
+	links?: ContentTocLink[];
+}>();
+
+const { currentSection, sidebarNavigation } = useDocsSections();
+const { t } = useDocusI18n();
+
+const contentNavVariants = useUIConfig("contentNavigation");
+const contentTocVariants = useUIConfig("contentToc");
+
+const menuDrawerOpen = ref(false);
+const tocDrawerOpen = ref(false);
+</script>
+
+<template>
+	<div
+		class="lg:hidden sticky top-(--ui-header-height) z-10 bg-default/75 backdrop-blur -mx-4 p-2 border-b border-dashed border-default flex justify-between"
+	>
+		<UDrawer
+			v-model:open="menuDrawerOpen"
+			direction="left"
+			:title="currentSection?.label"
+			:handle="false"
+			inset
+			side="left"
+			:ui="{ content: 'w-full max-w-2/3' }"
+		>
+			<UButton
+				:label="t('docs.menu')"
+				icon="i-lucide-text-align-start"
+				color="neutral"
+				variant="ghost"
+				square
+				:aria-label="t('docs.menu')"
+			/>
+
+			<template #body>
+				<UContentNavigation
+					:navigation="sidebarNavigation"
+					:highlight="contentNavVariants.highlight ?? true"
+					:highlight-color="contentNavVariants.highlightColor"
+					:variant="contentNavVariants.variant ?? 'link'"
+					:color="contentNavVariants.color"
+					default-open
+					trailing-icon="i-lucide-chevron-right"
+					:ui="{ linkTrailingIcon: 'group-data-[state=open]:rotate-90' }"
+				/>
+			</template>
+		</UDrawer>
+
+		<UDrawer
+			v-model:open="tocDrawerOpen"
+			direction="right"
+			:handle="false"
+			inset
+			side="right"
+			no-body-styles
+			:ui="{ content: 'w-full max-w-2/3' }"
+		>
+			<UButton
+				:label="t('docs.toc')"
+				trailing-icon="i-lucide-chevron-right"
+				color="neutral"
+				variant="link"
+				square
+				:aria-label="t('docs.toc')"
+			/>
+
+			<template #body>
+				<UContentToc
+					v-if="links?.length"
+					:highlight="contentTocVariants.highlight ?? true"
+					:highlight-color="contentTocVariants.highlightColor"
+					:highlight-variant="contentTocVariants.highlightVariant ?? 'circuit'"
+					:color="contentTocVariants.color"
+					:links="links"
+					:open="true"
+					default-open
+					:ui="{
+						root: '!mx-0 !px-1 top-0 overflow-visible',
+						container: '!pt-0 border-b-0',
+						trailingIcon: 'hidden',
+						bottom: 'flex flex-col',
+					}"
+				>
+					<template #bottom>
+						<DocsAsideRightBottom />
+					</template>
+				</UContentToc>
+			</template>
+		</UDrawer>
+	</div>
+</template>

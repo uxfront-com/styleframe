@@ -2,7 +2,7 @@ import { defineNuxtModule, createResolver } from "@nuxt/kit";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { defu } from "defu";
-import { DOCS_SECTIONS } from "../app/constants/sections";
+import { docsStem } from "../app/constants/sections";
 import type { NonRouteCategoryMeta } from "../app/types/non-route-categories";
 
 /** Minimal reader for the flat `key: value` `.navigation.yml` files we author. */
@@ -19,35 +19,6 @@ function readNavigationConfig(text: string): Record<string, string | boolean> {
 }
 
 /**
- * Map a top-level content folder ("05.components") to its URL stem prefix
- * ("docs/theme/components"), mirroring the collection `prefix` in content.config.ts.
- */
-function folderToStemPrefix(folder: string): string | undefined {
-	for (const section of DOCS_SECTIONS) {
-		const folders = Array.isArray(section.folder)
-			? section.folder
-			: [section.folder];
-		const idx = (folders as readonly string[]).indexOf(folder);
-		if (idx === -1) continue;
-		const rootIdx = (section as { rootFolder?: number }).rootFolder ?? -1;
-		const base = `docs/${section.slug}`;
-		return idx === rootIdx ? base : `${base}/${folder.replace(/^\d+\./, "")}`;
-	}
-	return undefined;
-}
-
-/**
- * Convert a filesystem-relative category dir ("docs/05.components/02.actions")
- * to the stem-structured dir nav items carry ("docs/theme/components/02.actions").
- */
-function toStemDir(fsDir: string): string | undefined {
-	const parts = fsDir.split("/");
-	if (parts[0] !== "docs" || parts.length < 3) return undefined;
-	const prefix = folderToStemPrefix(parts[1]!);
-	return prefix ? [prefix, ...parts.slice(2)].join("/") : undefined;
-}
-
-/**
  * Makes category folders "non-route": a folder whose `.navigation.yml` sets
  * `route: false` still groups its pages in the sidebar, but its name is dropped
  * from the page URL (e.g. `/docs/theme/components/actions/button` -> `/docs/theme/components/button`).
@@ -55,6 +26,10 @@ function toStemDir(fsDir: string): string | undefined {
  * The non-route segment is removed from each page's `path` at parse time, and the
  * category metadata is published to `appConfig` so the client can rebuild the
  * groups (see `app/utils/foldNonRouteCategories.ts`).
+ *
+ * It also gives every docs page its `stem` from its file, with its section in
+ * front (see `docsStem` in `app/constants/sections.ts`), so the sidebar and the
+ * previous and next links follow the files, a section at a time.
  */
 export default defineNuxtModule({
 	meta: { name: "non-route-categories" },
@@ -77,15 +52,13 @@ export default defineNuxtModule({
 						const dir = relative(contentRoot, abs).replaceAll("\\", "/");
 						const last = dir.split("/").pop() ?? "";
 						nonRouteDirs.add(dir); // filesystem key, used by the parse hook
-						const stemDir = toStemDir(dir); // stem key, used by the client fold
-						if (stemDir) {
-							categories[stemDir] = {
-								title: String(cfg.title ?? last.replace(/^\d+\./, "")),
-								icon: cfg.icon as string | false | undefined,
-								defaultOpen: cfg.defaultOpen as boolean | undefined,
-								order: Number(last.match(/^(\d+)\./)?.[1] ?? 0),
-							};
-						}
+						// Keyed by stem, which navigation items carry (see docsStem).
+						categories[docsStem(dir)] = {
+							title: String(cfg.title ?? last.replace(/^\d+\./, "")),
+							icon: cfg.icon as string | false | undefined,
+							defaultOpen: cfg.defaultOpen as boolean | undefined,
+							order: Number(last.match(/^(\d+)\./)?.[1] ?? 0),
+						};
 					}
 				}
 			}
@@ -99,12 +72,11 @@ export default defineNuxtModule({
 			categories,
 		);
 
-		// Drop the non-route segment(s) from each page's URL. The folder is matched
-		// from the real source path (`ctx.file.path`), since `content.stem` is
-		// URL-structured (e.g. "docs/theme/components/02.actions/..") and would not
-		// match the filesystem-relative keys collected above.
+		// Set each docs page's stem, and drop the non-route segment(s) from its URL.
+		// Both come from the real source path (`ctx.file.path`): Nuxt Content builds
+		// `content.stem` from the URL prefixes in content.config.ts.
 		nuxt.hook("content:file:afterParse", (ctx) => {
-			const content = ctx.content as { path?: string };
+			const content = ctx.content as { path?: string; stem?: string };
 			const file = ctx.file as { path?: string } | undefined;
 			if (!content.path || !file?.path) {
 				return;
@@ -115,7 +87,10 @@ export default defineNuxtModule({
 				.replaceAll("\\", "/")
 				.replace(/\.[^/.]+$/, "")
 				.split("/");
-			// Never rewrite the folder config files themselves.
+			if (relParts[0] === "docs") {
+				content.stem = docsStem(relParts.join("/"));
+			}
+			// Never rewrite the folder config files' paths.
 			if (relParts[relParts.length - 1] === ".navigation") {
 				return;
 			}
