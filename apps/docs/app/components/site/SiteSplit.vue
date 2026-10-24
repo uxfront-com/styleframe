@@ -6,7 +6,9 @@ import { useExperience } from "@uxfront/ui";
 // slots, plus the aside. Like UxChapter, it holds a formation while it's on
 // screen, from its stage (`data-stage`), which starts 15vh above the section:
 // the formation morphs in by the time the section's top is 40% down the
-// screen, which leaves the code room to fade in once it has.
+// screen, which leaves the code room to fade in once it has. The stage
+// carries the chapter's `id`, since the scene names the active chapter after
+// it and the header marks the link to it.
 const { align = "start" } = defineProps<{
 	id: string;
 	/** Eyebrow before the rule, like `01`. */
@@ -46,14 +48,13 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 <template>
 	<section
-		:id="id"
 		class="site-split"
 		:class="{ 'site-split--center': align === 'center' }"
 		:data-fade="fade || undefined"
 		:aria-labelledby="`${id}-title`"
 	>
 		<component :is="'style'">{{ columns }}</component>
-		<div class="site-split__stage" data-stage :data-steps="steps">
+		<div :id="id" class="site-split__stage" data-stage :data-steps="steps">
 			<div class="site-split__grid">
 				<div class="site-split__copy" data-reveal>
 					<p v-if="index || role" class="site-split__eyebrow">
@@ -92,8 +93,10 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 }
 
 /* The whole section, and 15vh above it, over the end of the one before,
-   without moving the copy; the part above takes no clicks. */
+   without moving the copy; the part above takes no clicks. A link to the
+   chapter still lands on the section's top. */
 .site-split__stage {
+	scroll-margin-top: calc(-1 * var(--site-split-lead));
 	display: flex;
 	align-items: center;
 	width: 100%;

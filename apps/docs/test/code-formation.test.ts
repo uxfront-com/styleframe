@@ -38,11 +38,11 @@ describe("createShader", () => {
 		vi.unstubAllGlobals();
 	});
 
-	// A section whose stage starts 1000px down the page and is 1200px tall, on
-	// a 900px screen, with a panel 300px down; only as much DOM as the shader
-	// reads. Its hold runs from 775 to 1525: 750px, so the 72px fade (8% of
-	// the screen) takes 0.096 of it.
-	const stubPage = () => {
+	// A chapter whose stage (the element with its id) starts 1000px down the
+	// page and is 1200px tall, on a 900px screen, with a panel 300px down;
+	// only as much DOM as the shader reads. Its hold runs from 775 to 1525:
+	// 750px, so the 72px fade (8% of the screen) takes 0.096 of it.
+	const stubPage = (stageTop = 1000) => {
 		const props = new Map<string, string>();
 		const makePanel = () => ({
 			dataset: {} as Record<string, string>,
@@ -59,24 +59,26 @@ describe("createShader", () => {
 			querySelector: () => null,
 		});
 		let panel = makePanel();
-		const stage = {
-			getBoundingClientRect: () => ({ top: 1000 - page.scrollY, height: 1200 }),
-		};
 		const page = { scrollY: 0, innerHeight: 900 };
+		const stage = {
+			isConnected: true,
+			getBoundingClientRect: () => ({
+				top: stageTop - page.scrollY,
+				height: 1200,
+			}),
+			querySelector: () => panel,
+		};
 		vi.stubGlobal("window", page);
 		vi.stubGlobal("document", {
 			documentElement: { scrollHeight: 5000 },
-			getElementById: () => ({
-				isConnected: true,
-				querySelector: (selector: string) =>
-					selector === "[data-stage]" ? stage : panel,
-			}),
+			getElementById: (id: string) => (id === "config" ? stage : null),
 			querySelector: () => ({ clientWidth: 1440, clientHeight: 900 }),
 		});
 		const rects: number[][] = [];
+		const floats = new Map<string, number>();
 		const uniforms = {
 			gl: {
-				uniform1f: () => {},
+				uniform1f: (name: string, value: number) => floats.set(name, value),
 				uniform2f: () => {},
 				uniform4f: (_: unknown, ...rect: number[]) => rects.push(rect),
 			},
@@ -86,7 +88,7 @@ describe("createShader", () => {
 			panel = makePanel();
 			return panel;
 		};
-		return { panel, props, page, rects, uniforms, replacePanel };
+		return { panel, props, floats, page, rects, uniforms, replacePanel };
 	};
 
 	const frame = (approach: number, local = 0) =>
@@ -130,6 +132,28 @@ describe("createShader", () => {
 		expect(Number(props.get(REVEAL_PROPERTY))).toBeLessThan(1);
 		shader.update?.(uniforms, frame(1, 0.096));
 		expect(props.get(REVEAL_PROPERTY)).toBe("1.000");
+	});
+
+	it("dims the particles with the code's fade", () => {
+		const { floats, uniforms } = stubPage();
+		const shader = createShader("config");
+		shader.update?.(uniforms, frame(0.99));
+		expect(floats.get("reveal")).toBe(0);
+		shader.update?.(uniforms, frame(1, 0.096));
+		expect(floats.get("reveal")).toBe(1);
+	});
+
+	// A stage 150px down the page: its hold runs from 0 (the top of the page)
+	// to 675, so the fade takes 72 / 675 of it, wherever the page is when it's
+	// measured.
+	it("measures the hold from the stage's place on the page, not on screen", () => {
+		const { page, props, uniforms } = stubPage(150);
+		page.scrollY = 600;
+		const shader = createShader("config");
+		shader.update?.(uniforms, frame(1, 72 / 675));
+		expect(props.get(REVEAL_PROPERTY)).toBe("1.000");
+		shader.update?.(uniforms, frame(1, 36 / 675));
+		expect(props.get(REVEAL_PROPERTY)).toBe("0.500");
 	});
 
 	it("writes the gather again on a panel the page re-rendered", () => {

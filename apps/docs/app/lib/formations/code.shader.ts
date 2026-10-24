@@ -164,15 +164,14 @@ export function createShader(key: string): FormationShader {
 	let reveal = "";
 
 	const measure = ({ gl, get }: Uniforms) => {
-		const section = document.getElementById(key);
-		const panel = section?.querySelector<HTMLElement>("[data-code-panel]");
+		// The chapter's `[data-stage]` element, which carries its id.
+		const stage = document.getElementById(key);
+		const panel = stage?.querySelector<HTMLElement>("[data-code-panel]");
 		const canvas =
 			document.querySelector<HTMLCanvasElement>(".ux-stage__canvas");
-		if (!section || !panel || !canvas) return;
+		if (!stage || !panel || !canvas) return;
 
-		// The section's hold, as the scene measures it (createExperience), from
-		// its `[data-stage]` element.
-		const stage = section.querySelector("[data-stage]") ?? section;
+		// The section's hold, as the scene measures it (createExperience).
 		const viewport = window.innerHeight;
 		const maxScroll = Math.max(
 			1,
@@ -249,10 +248,10 @@ export function createShader(key: string): FormationShader {
 		setup() {
 			// The scene has no teardown for a formation: once the chapter has
 			// gone (another page), the next resize stops listening.
-			const section = document.getElementById(key);
+			const stage = document.getElementById(key);
 			const invalidate = () => {
 				dirty = true;
-				if (section?.isConnected) return;
+				if (stage?.isConnected) return;
 				observer.disconnect();
 				window.removeEventListener("resize", invalidate);
 			};
