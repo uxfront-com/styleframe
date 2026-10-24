@@ -4,7 +4,11 @@ import { useExperience } from "@uxfront/ui";
 
 // A chapter with its code or a picture beside the copy: UxChapter's props and
 // slots, plus the aside. Like UxChapter, it holds a formation while it's on
-// screen.
+// screen, from its stage (`data-stage`), which starts 15vh above the section:
+// the formation morphs in by the time the section's top is 40% down the
+// screen, which leaves the code room to fade in once it has. The stage
+// carries the chapter's `id`, since the scene names the active chapter after
+// it and the header marks the link to it.
 const { align = "start" } = defineProps<{
 	id: string;
 	/** Eyebrow before the rule, like `01`. */
@@ -29,10 +33,10 @@ defineSlots<{
 	aside?(): unknown;
 }>();
 
-// The code panel (`[data-code-panel]`) fades in as the chapter scrolls in,
-// while the code formation gathers around it. Only once the scene draws, and
-// with motion: the prerendered page, a loading scene and the fallback show the
-// code at once.
+// The code panel (`[data-code-panel]`) fades in once the code formation has
+// gathered around it (`--code-reveal`, set by code.shader.ts). Only once the
+// scene draws, and with motion: the prerendered page, a loading scene and the
+// fallback show the code at once.
 const { state } = useExperience();
 const fade = computed(() => state.status === "ready" && state.motion);
 
@@ -44,34 +48,35 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 <template>
 	<section
-		:id="id"
 		class="site-split"
 		:class="{ 'site-split--center': align === 'center' }"
-		data-stage
-		:data-steps="steps"
 		:data-fade="fade || undefined"
 		:aria-labelledby="`${id}-title`"
 	>
 		<component :is="'style'">{{ columns }}</component>
-		<div class="site-split__grid">
-			<div class="site-split__copy" data-reveal>
-				<p v-if="index || role" class="site-split__eyebrow">
-					<span>{{ index }}</span>
-					<span class="site-split__rule" />
-					<span>{{ role }}</span>
-				</p>
-				<h2 :id="`${id}-title`" class="site-split__title">{{ title }}</h2>
-				<p v-if="$slots.lead" class="site-split__lead"><slot name="lead" /></p>
-				<slot />
-				<UxPillLink
-					v-if="href"
-					class="site-split__link"
-					:href="href"
-					:label="linkLabel ?? href.replace(/^https?:\/\//, '')"
-				/>
-			</div>
-			<div v-if="$slots.aside" class="site-split__aside">
-				<slot name="aside" />
+		<div :id="id" class="site-split__stage" data-stage :data-steps="steps">
+			<div class="site-split__grid">
+				<div class="site-split__copy" data-reveal>
+					<p v-if="index || role" class="site-split__eyebrow">
+						<span>{{ index }}</span>
+						<span class="site-split__rule" />
+						<span>{{ role }}</span>
+					</p>
+					<h2 :id="`${id}-title`" class="site-split__title">{{ title }}</h2>
+					<p v-if="$slots.lead" class="site-split__lead">
+						<slot name="lead" />
+					</p>
+					<slot />
+					<UxPillLink
+						v-if="href"
+						class="site-split__link"
+						:href="href"
+						:label="linkLabel ?? href.replace(/^https?:\/\//, '')"
+					/>
+				</div>
+				<div v-if="$slots.aside" class="site-split__aside">
+					<slot name="aside" />
+				</div>
 			</div>
 		</div>
 	</section>
@@ -79,12 +84,25 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 <style scoped>
 .site-split {
+	--site-split-lead: 15vh;
 	position: relative;
 	display: flex;
-	align-items: center;
 	min-height: 100vh;
 	min-height: 100svh;
-	padding: 6rem var(--ux-gutter) 5rem;
+	padding: 0 var(--ux-gutter);
+}
+
+/* The whole section, and 15vh above it, over the end of the one before,
+   without moving the copy; the part above takes no clicks. A link to the
+   chapter still lands on the section's top. */
+.site-split__stage {
+	scroll-margin-top: calc(-1 * var(--site-split-lead));
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin-top: calc(-1 * var(--site-split-lead));
+	padding: calc(var(--site-split-lead) + 6rem) 0 5rem;
+	pointer-events: none;
 }
 
 .site-split__grid {
@@ -92,6 +110,7 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	align-items: center;
 	gap: clamp(2rem, 1rem + 3vw, 4rem);
 	width: 100%;
+	pointer-events: auto;
 }
 
 .site-split__eyebrow {
@@ -137,25 +156,11 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 	min-width: 0;
 }
 
-/* In as the formation (code.ts) settles: while the chapter's top rises from
-   48% of the screen to 32%. Without scroll-driven animations, it's there at
-   once. */
-@supports (animation-timeline: view()) {
-	.site-split {
-		view-timeline-name: --site-split;
-	}
-
-	.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
-		animation: site-split-fade linear both;
-		animation-timeline: --site-split;
-		animation-range: entry 52% entry 68%;
-	}
-}
-
-@keyframes site-split-fade {
-	from {
-		opacity: 0;
-	}
+/* In once the formation (code.ts) has gathered: hidden until its first
+   frame sets `--code-reveal`. Only the opacity changes, so the panel stays
+   put. */
+.site-split[data-fade] .site-split__aside :deep([data-code-panel]) {
+	opacity: var(--code-reveal, 0);
 }
 
 .site-split--center .site-split__grid {
@@ -186,8 +191,8 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 
 /* Short screens: tighter, like UxChapter. */
 @media (max-height: 860px) {
-	.site-split {
-		padding-top: 5rem;
+	.site-split__stage {
+		padding-top: calc(var(--site-split-lead) + 5rem);
 		padding-bottom: 4rem;
 	}
 

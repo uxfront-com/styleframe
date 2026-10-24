@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { REVEAL_PROPERTY } from "../app/lib/formations/code.shader";
 
 /**
  * Every chapter with a code sample or a picture shows it beside its copy
@@ -21,10 +22,17 @@ const read = (page: string) => {
 	return file ? readFileSync(file, "utf8") : "";
 };
 
-const section = (html: string, id: string) =>
-	html.match(
-		new RegExp(`<section\\b[^>]*\\bid="${id}"[^>]*>[\\s\\S]*?</section>`),
-	)?.[0] ?? "";
+// The <section> around the element with the chapter's id: a SiteSplit puts
+// the id on its stage, inside the section.
+const section = (html: string, id: string) => {
+	const at = html.indexOf(` id="${id}"`);
+	if (at < 0) return "";
+	const start = html.lastIndexOf("<section", at);
+	const end = html.indexOf("</section>", at);
+	return start < 0 || end < 0
+		? ""
+		: html.slice(start, end + "</section>".length);
+};
 
 // The chapters with a code sample, by page and section id.
 const CODE: Record<string, string[]> = {
@@ -61,6 +69,20 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		expect(markup).toMatch(/<figure\b[^>]*\bdata-code-panel\b/);
 		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
 	});
+
+	// The formation holds from the stage inside the section, which starts
+	// above it, and writes the reveal SiteSplit fades the panel by.
+	it.each(ids)("holds #%s's formation from its stage", (id) => {
+		const markup = section(html, id);
+		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-stage\b/);
+		expect(markup).toMatch(/<div [^>]*class="site-split__stage" data-stage\b/);
+	});
+
+	it("fades the code panels by the code formation's reveal", () => {
+		expect(html).toContain(
+			`[data-code-panel]{opacity:var(${REVEAL_PROPERTY},0)}`,
+		);
+	});
 });
 
 describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
@@ -78,6 +100,28 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 		const video = aside.match(/<video\b[^>]*>/)?.[0] ?? "";
 		expect(video).toContain('preload="none"');
 		expect(video).toMatch(/\bposter="[^"]+"/);
+	});
+});
+
+// The scene names the active chapter after its stage's id, and the header
+// marks the link to it (UxHeader), so the chapter's id is on the stage, not
+// on the section around it.
+describe.each(
+	Object.entries({
+		index: [...CODE.index, ...MEDIA.index, "fluid"],
+		scanner: CODE.scanner,
+		figma: [...CODE.figma, ...MEDIA.figma],
+	}),
+)("/%s", (page, ids) => {
+	const html = read(page);
+
+	it.each(ids)("puts #%s's id on its stage", (id) => {
+		const markup = section(html, id);
+		expect(markup).toMatch(/^<section\b/);
+		expect(markup.match(/^<section\b[^>]*>/)?.[0]).not.toMatch(/\bid=/);
+		expect(markup).toMatch(
+			new RegExp(`<div id="${id}" class="site-split__stage" data-stage\\b`),
+		);
 	});
 });
 

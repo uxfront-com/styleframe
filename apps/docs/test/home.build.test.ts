@@ -115,6 +115,13 @@ describe("homepage", () => {
 		expect(chrome).toMatch(/Copyright © \d{4} styleframe/);
 	});
 
+	// The hero lists the chapters; the header doesn't repeat them.
+	it("links no chapter from its header", () => {
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		expect(header).not.toBe("");
+		expect(header).not.toMatch(/href="#/);
+	});
+
 	it("keeps the AI waitlist and its video", () => {
 		expect(html).toContain("Join waitlist for styleframe AI");
 		expect(html).toContain('src="/assets/video/styleframe-ai.mp4"');

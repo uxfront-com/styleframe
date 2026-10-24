@@ -45,7 +45,7 @@ const scene = [
 	corridor({ label: "Get started" }),
 ];
 
-// Four of the eight chapters, as many as the header fits beside its links.
+// The hero's index: four of the eight chapters.
 const nav = [
 	{ href: "#config", label: "Config", index: "01" },
 	{ href: "#themes", label: "Themes", index: "03" },
@@ -193,7 +193,7 @@ const fluid = [
 			</UxAnchor>
 		</template>
 		<template #header>
-			<SiteHeader :nav="nav" nav-label="Features" />
+			<SiteHeader />
 		</template>
 
 		<UxHero

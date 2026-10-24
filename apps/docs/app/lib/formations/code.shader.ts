@@ -1,35 +1,30 @@
-import { lerp, sectionSpan } from "@uxfront/scene";
-import type {
-	FormationProgress,
-	FormationShader,
-	SectionSpan,
-	Uniforms,
-} from "@uxfront/scene";
+import { clamp, sectionSpan, smoothstep } from "@uxfront/scene";
+import type { FormationShader, Uniforms } from "@uxfront/scene";
 
 /** Lines of code the particles draw, at most: four to a `vec4`. */
 const MAX_LINES = 48;
 
+/** How far the page scrolls while the code fades in, in screen heights. */
+const FADE = 0.08;
+
+/** The custom property on the panel that SiteSplit fades the code by. */
+export const REVEAL_PROPERTY = "--code-reveal";
+
 /**
- * The scroll offset the scene is at, from the stage formation `k` sees and
- * the sections' spans (the inverse of `stageAt` around section `k`). The
- * scene eases its scroll (a time constant of about 0.2 s), so this is where
- * its particles are: while the page scrolls fast, they trail it.
+ * How far the particles have gathered into the panel, 0 → 1. The engine
+ * moves them in from the formation before until `approach` reaches 1, so the
+ * gather is only complete then, whatever `$main`'s own schedule.
  */
-export function scrollAt(
-	spans: readonly SectionSpan[],
-	k: number,
-	frame: Pick<FormationProgress, "stage" | "local" | "approach" | "presence">,
-): number {
-	const span = spans[k];
-	if (!span) return 0;
-	// Morphing in from the section before.
-	if (frame.stage < k - 1e-4)
-		return lerp(spans[k - 1]?.end ?? span.start, span.start, frame.approach);
-	// Morphing out into the section after.
-	if (frame.stage > k + 1e-4)
-		return lerp(span.end, spans[k + 1]?.start ?? span.end, 1 - frame.presence);
-	return lerp(span.start, span.end, frame.local);
-}
+export const gatherOf = (approach: number) => clamp(approach, 0, 1);
+
+/**
+ * How far the code has faded in: nothing until the gather is complete, then
+ * in over the first `span` of the section's hold (`local`).
+ */
+export const revealOf = (approach: number, local: number, span: number) => {
+	if (approach < 1) return 0;
+	return span > 0 ? smoothstep(0, span, local) : 1;
+};
 
 const glsl = /* glsl */ `
 const int $MAX_LINES = ${MAX_LINES};
@@ -43,6 +38,8 @@ uniform vec2 $screen;
 uniform vec4 $text;
 // The rule under the panel's caption, from its top, and the code's width.
 uniform vec2 $frame;
+// How far the code has faded in (revealOf).
+uniform float $reveal;
 // Each line, packed as indent + 64 * length + 8192 * row, in characters and
 // rows of the line height.
 uniform vec4 $lines[${MAX_LINES / 4}];
@@ -89,9 +86,9 @@ Particle $main(uint id, float sel, Frame f) {
   Particle P = blank();
 
   // Gathered as the chapter comes in, each particle on its own beat; then
-  // the code fades in over them (SiteSplit), and they dim.
+  // the code fades in over them, and they dim.
   float gather = smoothstep(d * 0.2, d * 0.2 + 0.5, f.approach);
-  float settle = smoothstep(0.7, 1.0, f.approach);
+  float settle = $reveal;
 
   vec2 size = $rect.zw;
   vec2 px;
@@ -134,11 +131,11 @@ Particle $main(uint id, float sel, Frame f) {
 `;
 
 interface Layout {
-	/** The sections' spans, as the scene measures them. */
-	spans: SectionSpan[];
-	/** This formation's section. */
-	index: number;
-	/** The panel: its page offset, so its top on screen follows the scroll. */
+	/** The chapter's code panel, which gets `data-gather` and the reveal. */
+	panel: HTMLElement | null;
+	/** The part of the section's hold the code fades in over (`revealOf`). */
+	span: number;
+	/** The panel's page offset, so its top on screen follows the scroll. */
 	left: number;
 	top: number;
 	width: number;
@@ -146,14 +143,16 @@ interface Layout {
 }
 
 /**
- * The GPU half of `codeBlock`. It measures the chapter's code panel when the
- * page resizes, never per frame: each frame only moves the panel by the
- * scroll offset the scene is at.
+ * The GPU half of `codeBlock`. It measures the chapter's code panel and its
+ * section when the page resizes, never per frame. Each frame, it moves the
+ * panel by the page's own scroll, which the page renders with in the same
+ * frame, so the outline can't trail it, and writes the gather and the reveal
+ * on the panel. The scene's eased scroll drives those two.
  */
 export function createShader(key: string): FormationShader {
 	const layout: Layout = {
-		spans: [],
-		index: -1,
+		panel: null,
+		span: 0,
 		left: 0,
 		top: 0,
 		width: 0,
@@ -161,36 +160,38 @@ export function createShader(key: string): FormationShader {
 	};
 	let dirty = true;
 
+	let gather = "";
+	let reveal = "";
+
 	const measure = ({ gl, get }: Uniforms) => {
-		const sections = Array.from(
-			document.querySelectorAll<HTMLElement>("[data-stage]"),
-		);
-		const panel = document
-			.getElementById(key)
-			?.querySelector<HTMLElement>("[data-code-panel]");
+		// The chapter's `[data-stage]` element, which carries its id.
+		const stage = document.getElementById(key);
+		const panel = stage?.querySelector<HTMLElement>("[data-code-panel]");
 		const canvas =
 			document.querySelector<HTMLCanvasElement>(".ux-stage__canvas");
-		if (!panel || !canvas) return;
+		if (!stage || !panel || !canvas) return;
 
-		// As the scene measures its sections (createExperience).
+		// The section's hold, as the scene measures it (createExperience).
 		const viewport = window.innerHeight;
 		const maxScroll = Math.max(
 			1,
 			document.documentElement.scrollHeight - viewport,
 		);
-		layout.spans = sections.map((el) => {
-			const rect = el.getBoundingClientRect();
-			return sectionSpan(
-				rect.top + window.scrollY,
-				rect.height,
-				viewport,
-				maxScroll,
-			);
-		});
-		layout.index = sections.findIndex((el) => el.id === key);
+		const rect = stage.getBoundingClientRect();
+		const hold = sectionSpan(
+			rect.top + window.scrollY,
+			rect.height,
+			viewport,
+			maxScroll,
+		);
+		const length = hold.end - hold.start;
+		layout.span = length > 0 ? Math.min(1, (FADE * viewport) / length) : 0;
 
+		// A new panel (the page re-rendered) gets the gather written again.
+		if (panel !== layout.panel) gather = reveal = "";
 		const box = panel.getBoundingClientRect();
 		Object.assign(layout, {
+			panel,
 			left: box.left,
 			top: box.top + window.scrollY,
 			width: box.width,
@@ -247,10 +248,10 @@ export function createShader(key: string): FormationShader {
 		setup() {
 			// The scene has no teardown for a formation: once the chapter has
 			// gone (another page), the next resize stops listening.
-			const section = document.getElementById(key);
+			const stage = document.getElementById(key);
 			const invalidate = () => {
 				dirty = true;
-				if (section?.isConnected) return;
+				if (stage?.isConnected) return;
 				observer.disconnect();
 				window.removeEventListener("resize", invalidate);
 			};
@@ -263,14 +264,30 @@ export function createShader(key: string): FormationShader {
 				dirty = false;
 				measure(uniforms);
 			}
-			const top = layout.top - scrollAt(layout.spans, layout.index, frame);
 			uniforms.gl.uniform4f(
 				uniforms.get("rect"),
 				layout.left,
-				top,
+				layout.top - window.scrollY,
 				layout.width,
 				layout.height,
 			);
+
+			// SiteSplit fades the code in by REVEAL_PROPERTY, once the scene draws
+			// with motion on; `data-gather` lets a check read the gather.
+			const amount = revealOf(frame.approach, frame.local, layout.span);
+			uniforms.gl.uniform1f(uniforms.get("reveal"), amount);
+			const { panel } = layout;
+			if (!panel) return;
+			const nextGather = gatherOf(frame.approach).toFixed(3);
+			const nextReveal = amount.toFixed(3);
+			if (nextGather !== gather) {
+				gather = nextGather;
+				panel.dataset.gather = gather;
+			}
+			if (nextReveal !== reveal) {
+				reveal = nextReveal;
+				panel.style.setProperty(REVEAL_PROPERTY, reveal);
+			}
 		},
 	};
 }
