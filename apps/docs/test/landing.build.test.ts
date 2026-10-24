@@ -47,7 +47,7 @@ const LANDING = {
 // A line of each Vue page's own text, which its Markdown copy must say too.
 const PAGE_TEXT = {
 	index:
-		"Say goodbye to cluttered breakpoint logic. Styleframe's fluid responsive design automatically scales your typography and spacing using mathematical precision.",
+		"Skip the breakpoints. Styleframe scales your typography and spacing fluidly from phone to desktop.",
 	pro: "| Prioritized feature requests        | Not included | Not included | Included     |",
 	pricing:
 		"| Number of developers                | 1            | 5            | Unlimited    |",

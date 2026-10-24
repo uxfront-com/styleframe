@@ -15,7 +15,7 @@ useUxHead({
 		path: "/og/scanner.png",
 		width: 1200,
 		height: 630,
-		alt: "Next Generation Utility-First Integration",
+		alt: "Utility-First Markup to CSS at Build Time",
 	},
 });
 
@@ -36,38 +36,38 @@ const nav = [
 const features = [
 	{
 		title: "Zero Registration",
-		text: "Use utility classes directly in your markup without pre-defining every value. The scanner detects and registers them for you.",
+		text: "Use utility classes without pre-defining every value. The scanner registers them for you.",
 	},
 	{
 		title: "Only Used CSS",
-		text: "Unused utilities produce no output. Your stylesheet contains exactly what your templates reference — nothing more, nothing less.",
+		text: "Your stylesheet holds exactly what your templates reference.",
 	},
 	{
 		title: "Arbitrary Values",
-		text: "Need a one-off value? Use bracket syntax like _padding:[2.5rem]. No need to register a design token for every edge case.",
+		text: "Write a one-off value in brackets, like _padding:[2.5rem], without a token for it.",
 	},
 	{
 		title: "Stacked Modifiers",
-		text: "Chain modifiers freely. _dark:hover:color:primary just works — detected and generated automatically.",
+		text: "Chain modifiers freely, like _dark:hover:color:primary.",
 	},
 	{
 		title: "Your Syntax, Your Rules",
-		text: "Unlike fixed utility catalogs, you define the factories behind your classes. Control naming conventions, allowed values, and generation behavior — the scanner adapts to your system.",
+		text: "You define the factories behind your classes: their names, allowed values and output.",
 	},
 	{
 		title: "Instant HMR",
-		text: "Template changes trigger incremental rescans during development. Only changed files are re-processed — your feedback loop stays instant.",
+		text: "In development, only the files you change are rescanned.",
 	},
 ];
 
 const extraction = [
 	{
 		title: "12+ File Types",
-		text: "Vue, React, Svelte, Astro, MDX, PHP, ERB, Twig, Blade, and plain HTML — each with a specialized extractor optimized for its syntax.",
+		text: "Vue, React, Svelte, Astro, MDX, PHP, ERB, Twig, Blade and plain HTML, each with its own extractor.",
 	},
 	{
 		title: "Custom Extractors",
-		text: "Working with an unsupported file type? Write a custom extractor function in a few lines and plug it in.",
+		text: "For any other file type, write an extractor in a few lines and plug it in.",
 	},
 ];
 
@@ -113,22 +113,20 @@ const output = String.raw`/* Only the utilities your templates reference */
 
 		<UxHero
 			kicker="Utility Scanner"
-			title="Next Generation Utility-First Integration"
+			title="Utility-First Markup to CSS at Build Time"
 			:index="nav"
 			index-label="Utility Scanner"
 			scroll-href="#scanner"
 		>
 			<template #lines>
-				<UxHeroLine>Next Generation</UxHeroLine>
 				<UxHeroLine><em class="ux-serif">Utility-First</em></UxHeroLine>
-				<UxHeroLine>Integration</UxHeroLine>
+				<UxHeroLine>Markup to CSS</UxHeroLine>
+				<UxHeroLine>at Build Time</UxHeroLine>
 			</template>
 			<template #lead>
-				If you've used Tailwind JIT, you already know the workflow. Write
-				utility classes in your markup, and the utility scanner generates only
-				the CSS you use at build time. The difference: your classes are backed
-				by type-safe factories and your own design tokens — with complete
-				control over syntax, naming, and generation behavior.
+				If you've used Tailwind JIT, you already know the workflow. The
+				difference: your classes are backed by type-safe factories and your own
+				design tokens, and you control their syntax and naming.
 				<br />
 				<span class="scanner__actions">
 					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -147,11 +145,6 @@ const output = String.raw`/* Only the utilities your templates reference */
 			title="Write Classes. The Utility Scanner Handles the Rest"
 			:steps="features.length"
 		>
-			<template #lead>
-				Use utility classes directly in your templates — no need to pre-define
-				every value. The scanner reads your source files, detects your classes,
-				and generates only the CSS you actually use.
-			</template>
 			<SiteFeatures :items="features" />
 		</UxChapter>
 
@@ -163,8 +156,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 			:steps="extraction.length"
 		>
 			<template #lead>
-				Use utility classes in your markup like you would with Tailwind. The
-				scanner reads your source files, extracts every
+				The scanner reads your source files, extracts every
 				<code>_property:value</code> class, and generates the matching CSS at
 				build time.
 			</template>
@@ -185,9 +177,6 @@ const output = String.raw`/* Only the utilities your templates reference */
 				produce literal CSS. Modifiers wrap declarations in the correct
 				pseudo-selectors and media queries.
 			</template>
-			<p class="scanner__note">
-				What you write is what you get — predictable, readable output.
-			</p>
 			<template #aside>
 				<SiteCode title="Output CSS" :code="output" />
 			</template>
@@ -199,8 +188,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 			</template>
 			<template #lead>
 				Enable the scanner, register your factories, and let your templates
-				drive your CSS output. Type-safe, JIT, and built on your own design
-				tokens.
+				drive your CSS output.
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -220,11 +208,6 @@ const output = String.raw`/* Only the utilities your templates reference */
 	flex-wrap: wrap;
 	gap: 0.75rem;
 	margin-top: 2rem;
-}
-
-.scanner__note {
-	margin: 0 0 1.5rem;
-	color: var(--ux-fg-2);
 }
 
 code {

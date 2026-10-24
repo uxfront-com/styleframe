@@ -5,7 +5,7 @@ description: Styleframe turns your design system into a type-safe TypeScript sou
 
 ## Type-safe Styling Engine for Design Systems
 
-Author design tokens, themes, utilities, and component recipes in TypeScript and compile them to zero-runtime CSS and type declarations. Catch a renamed token before your users do.
+Write tokens, themes, utilities and recipes in TypeScript, and compile them to zero-runtime CSS and types. Catch a renamed token before your users do.
 
 [Get started](/docs/getting-started/introduction) · [Star on GitHub](https://github.com/styleframe-dev/styleframe)
 
@@ -33,21 +33,21 @@ export default s;
 
 ## Your whole design system, from one config
 
-Tokens, themes, utilities, and component recipes come from a single TypeScript source. Change a token once, and it flows to every selector, theme, and recipe that references it.
+Change a token once, and it flows to every selector, theme and recipe that uses it.
 
-- **[The compiler is your design-system reviewer](/docs/api)**: Autocomplete runs from a token all the way to a recipe variant. Rename a token and the build fails at the reference — not in production.
-- **[Easily Composable](/docs/api/composables)**: Compose and reuse styles with functions, variables, arrays, or objects. Every part references the same source.
-- **[Built-in Theming Support](/docs/api/themes)**: Create and manage light, dark, and custom themes for your design system from the same token source.
-- **[One plugin, every major bundler](/docs/getting-started/installation)**: The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro, and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, and Astro.
-- **[Fully Configurable](/docs/api/instance#configuration-options)**: Build your system with composables, variables, selectors, variants, and utilities — every knob typed and in one place.
-- **[Intuitive Developer Experience](/docs/getting-started/guides)**: Get auto-complete, in-editor documentation, and powerful static analysis for your CSS.
+- **[The compiler is your design-system reviewer](/docs/api)**: Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.
+- **[Composable](/docs/api/composables)**: Compose and reuse styles with functions, variables, arrays or objects.
+- **[Built-in Theming](/docs/api/themes)**: Light, dark and custom themes, all from the same tokens.
+- **[One plugin, every major bundler](/docs/getting-started/installation)**: The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.
+- **[Fully Configurable](/docs/api/instance#configuration-options)**: Every option is typed and in one place.
+- **[Intuitive Developer Experience](/docs/getting-started/guides)**: Autocomplete, in-editor docs and static analysis for your CSS.
 
 ## Compose your system from existing parts
 
-Assemble your design system out of composables you already have. Plug and play variables, selectors, variants, and utilities — colors from one theme, typography from another, all resolving through one source.
+Build your design system from composables you already have, all resolving through one source.
 
-- **Infinitely Customizable**: Make your design system your own. Start from the default theme and customize every token to fit your needs.
-- **Mix and Match Composables**: Colors from one theme, typography from another. Styleframe lets you combine composables seamlessly.
+- **Infinitely Customizable**: Make it your own. Start from the default theme and customize every token.
+- **Mix and Match Composables**: Colors from one theme, typography from another.
 
 ```ts [styleframe.config.ts]
 import { styleframe } from 'styleframe';
@@ -77,10 +77,10 @@ export default s;
 
 ## One source, every theme
 
-Light, dark, and custom themes come from the same token source. Defining a theme is as easy as declaring a variable — no separate stylesheet to keep in sync.
+Light, dark and custom themes come from the same tokens, with no separate stylesheet to keep in sync.
 
-- **[Intuitive API](/docs/api/themes)**: Writing CSS for different themes is as easy as defining a variable. No complex syntax or class names to remember.
-- **[Mix and Match Themes](/docs/api/themes)**: Colors from one theme, typography from another. Styleframe lets you combine themes seamlessly.
+- **[Intuitive API](/docs/api/themes)**: A theme is as easy to write as a variable, with no special syntax or class names to remember.
+- **[Mix and Match Themes](/docs/api/themes)**: Take colors from one theme and typography from another.
 
 ```ts [styleframe.config.ts]
 import { styleframe } from 'styleframe';
@@ -109,11 +109,11 @@ export default s;
 
 ## Zero-Runtime by Default, Dynamic When You Need It
 
-The engine compiles your system to static CSS at build time for maximum performance. When you need prop-based styling, an optional runtime handles Recipes.
+Your system compiles to static CSS at build time. When you need prop-based styling, an optional runtime handles Recipes.
 
-- **Static Generation**: CSS is generated at build time, resulting in zero runtime overhead for your base styles.
-- **[Dual Output](/docs/api/instance#configuration-options)**: The transpiler outputs both CSS and TypeScript. Configure output on a per-token basis to control exactly what gets generated.
-- **[Optional Runtime](/docs/api/recipes)**: Need prop-based class generation? Use Recipes for dynamic component variants without sacrificing the static benefits.
+- **Static Generation**: Your base styles cost nothing at runtime.
+- **[Dual Output](/docs/api/instance#configuration-options)**: The transpiler outputs both CSS and TypeScript, and you control exactly what each token generates.
+- **[Optional Runtime](/docs/api/recipes)**: Recipes turn props into dynamic component variants, built on the static CSS.
 
 ```css [Output]
 /* Static CSS generated at build time */
@@ -143,10 +143,10 @@ recipe({
 
 ## Write Markup, Skip the CSS
 
-The engine reaches into your markup. Our Utility Scanner is like Tailwind JIT, but type-safe and built on your own design system — write utility classes directly in your markup, and the scanner detects them and generates only the CSS you actually use at build time. Zero waste.
+Our Utility Scanner is like Tailwind JIT, but type-safe and built on your own design system. Write utility classes in your markup, and it generates only the CSS you use.
 
-- **Automatic Detection & Generation**: Use utility classes in your markup without pre-defining every value. The scanner matches class names against registered factories, resolves design tokens, and generates the CSS.
-- **Framework Agnostic**: Built-in extractors for HTML, Vue, React, Svelte, Astro, MDX, and more. Add custom extractors for any file type.
+- **Automatic Detection**: No need to pre-define every value: the scanner matches each class to your factories and resolves your tokens.
+- **Framework Agnostic**: Built-in extractors for HTML, Vue, React, Svelte, Astro, MDX and more, or add your own.
 
 ```html [Component]
 <!-- Write utility classes in your markup -->
@@ -161,12 +161,12 @@ The engine reaches into your markup. Our Utility Scanner is like Tailwind JIT, b
 
 ## Sync Design Tokens with Figma
 
-The engine reaches into your design tool too. Export your Styleframe design tokens to the W3C DTCG format and import them into Figma. Keep your code and design files in perfect sync with full multi-mode support for light and dark themes.
+Export your Styleframe design tokens to the W3C DTCG format and import them into Figma, with a mode for each theme.
 
 ![Styleframe - Import Design Tokens into Figma](/assets/images/figma-import.png)
 
-- **Bidirectional Sync**: Import tokens into Figma or export Figma Variables back to JSON. Both directions preserve structure, aliases, and semantics.
-- **Multi-Mode Support**: Light, dark, and custom themes are preserved as Figma modes. Your theme structure stays intact across every sync.
+- **Bidirectional Sync**: Import tokens into Figma, or export Figma Variables back to JSON, with structure and aliases intact.
+- **Multi-Mode Support**: Light, dark and custom themes become Figma modes, on every sync.
 
 [Learn more about the Figma Plugin](/figma)
 
@@ -174,17 +174,17 @@ The engine reaches into your design tool too. Export your Styleframe design toke
 
 Coming Soon
 
-Use styleframe for Agents. Choose from a variety of AI agents and start delegating work, from code generation to other technical tasks.
+Delegate work to AI agents, from code generation to other technical tasks.
 
-- **Styleframe MCP**: Connect styleframe to your favorite tools including Cursor, Claude, ChatGPT, and more.
-- **Useful AI natively built in**: Styleframe uses the latest language models to power AI workflows that build your Design System for you.
+- **Styleframe MCP**: Connect styleframe to Cursor, Claude, ChatGPT and more.
+- **Useful AI, built in**: AI workflows that build your design system for you.
 
 Join waitlist for styleframe AI.
 
 ## Typography that flows naturally across every screen size
 
-Say goodbye to cluttered breakpoint logic. Styleframe's fluid responsive design automatically scales your typography and spacing using mathematical precision.
+Skip the breakpoints. Styleframe scales your typography and spacing fluidly from phone to desktop.
 
-1. Define your minimum scale for mobile viewports
-2. Set your maximum scale for desktop displays
+1. Set the scale for phones
+2. Set the scale for desktops
 3. Watch as everything scales fluidly in between

@@ -53,7 +53,7 @@ If you can't find what you're looking for, email our support team and someone wi
 
 #### What is the difference between styleframe and styleframe Pro?
 
-Styleframe Pro is a **collection of premium composables** built on top of styleframe. It includes advanced features designed ot help you build web applications faster.
+Styleframe Pro is a **collection of premium composables** built on top of styleframe. It includes advanced features designed to help you build web applications faster.
 
 #### What does "Unlimited minor & patch updates" include?
 
