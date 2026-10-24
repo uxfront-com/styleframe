@@ -5,17 +5,17 @@ description: Build beautiful design systems in minutes with styleframe Pro's pre
 
 ## Build Faster with styleframe Pro
 
-Create beautiful design systems with mathematical precision. Premium composables and advanced features built on top of styleframe.
+Premium composables and advanced features, built on top of styleframe.
 
 [Get it now](/pricing)
 
 ## Premium Features for Professional Design Systems
 
-- **[Premium Composables](/docs/theme/design-tokens/fluid-design)**: Advanced design system tools built on styleframe's type-safe API. Production-ready, fully tested.
+- **[Premium Composables](/docs/theme/design-tokens/fluid-design)**: Design system tools on styleframe's type-safe API, production-ready and fully tested.
 - **Unlimited Projects**: Use styleframe Pro on unlimited personal and commercial projects. Build websites, apps, and client work.
 - **Commercial License**: Includes commercial usage rights for client projects, SaaS applications, and commercial websites.
-- **[Performance Optimized](/docs/theme/design-tokens/fluid-design/viewport)**: Smaller CSS bundles mean faster page loads. All of our composables are optimized for best performance.
-- **[Complete Documentation](/docs/theme/design-tokens/fluid-design)**: In-depth guides, examples, and best practices. Get up and running in minutes with clear instructions.
+- **[Performance Optimized](/docs/theme/design-tokens/fluid-design/viewport)**: Smaller CSS bundles mean faster page loads.
+- **[Complete Documentation](/docs/theme/design-tokens/fluid-design)**: Guides, examples and best practices that get you running in minutes.
 
 ## Simple, Transparent Pricing
 

@@ -89,7 +89,7 @@ const support = "mailto:support@styleframe.dev";
 							Styleframe Pro is a
 							<strong>collection of premium composables</strong>
 							built on top of styleframe. It includes advanced features designed
-							ot help you build web applications faster.
+							to help you build web applications faster.
 						</p>
 					</details>
 					<details>

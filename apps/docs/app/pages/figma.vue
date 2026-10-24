@@ -40,24 +40,16 @@ const nav = [
 
 const sync = [
 	{
-		title: "Code-First Architecture",
-		text: "Your Styleframe config is the single source of truth. Define tokens in TypeScript, export to Figma. When code changes, designers stay in sync.",
-	},
-	{
 		title: "Type-Safe Tokens",
-		text: "Full TypeScript support means autocomplete, refactoring, and compile-time errors. Catch token mismatches before they reach production.",
+		text: "Full TypeScript support, with autocomplete, refactoring and compile-time errors that catch token mismatches before production.",
 	},
 	{
 		title: "Multi-Mode by Design",
-		text: "Light, dark, and custom themes are modeled using DTCG modifiers. Modes remain explicit, structured, and code-friendly.",
+		text: "Light, dark and custom themes are DTCG modifiers, so modes stay explicit.",
 	},
 	{
 		title: "True Bidirectional Sync",
-		text: "Import DTCG tokens into Figma or export Figma Variables back to JSON. Both directions preserve structure, aliases, and semantics.",
-	},
-	{
-		title: "Automation-Ready",
-		text: "Export tokens from code via CLI for CI/CD, reviews, and version control. Built for modern developer workflows.",
+		text: "Import DTCG tokens into Figma or export Figma Variables back to JSON, with structure and aliases intact.",
 	},
 	{
 		title: "Free Forever",
@@ -67,42 +59,38 @@ const sync = [
 
 const importing = [
 	{
-		title: "Drag & Drop",
-		text: "Drop your tokens.json file into the plugin. Preview everything before committing to the import.",
-	},
-	{
 		title: "Auto-Create Collections",
-		text: "The plugin creates Figma collections with modes for Light, Dark, and any custom themes defined in your tokens.",
+		text: "Each collection gets a mode for Light, Dark and every custom theme in your tokens.",
 	},
 	{
 		title: "Type Validation",
-		text: "Color, dimension, number, and string types are validated before import. Invalid tokens are flagged, not silently dropped.",
+		text: "Color, dimension, number and string types are checked before import, and invalid tokens are flagged, not dropped.",
 	},
 ];
 
 const exporting = [
 	{
 		title: "One-Click Export",
-		text: "Select a collection, click export. The plugin handles type conversion, alias mapping, and mode organization automatically.",
+		text: "The plugin converts types, maps aliases and organizes modes for you.",
 	},
 	{
 		title: "Clipboard Ready",
-		text: "Copy the generated JSON directly to your clipboard. Paste into your codebase or save as a file for version control.",
+		text: "Copy the JSON to your clipboard, or save it as a file for version control.",
 	},
 	{
 		title: "Reference Syntax",
-		text: "Variable aliases become DTCG references ({token.path}). Token relationships are preserved across every export.",
+		text: "Variable aliases become DTCG references ({token.path}).",
 	},
 ];
 
 const workflow = [
 	{
 		title: "Git-Integrated Workflow",
-		text: "Export tokens on every commit. Track changes in version control alongside your code. Review token updates in pull requests.",
+		text: "Export tokens on every commit, and review token updates in pull requests.",
 	},
 	{
 		title: "CI/CD Ready",
-		text: "Add the export command to your build pipeline. Automatically sync tokens from your Styleframe config to Figma-compatible format.",
+		text: "Add the export command to your build pipeline.",
 	},
 ];
 
@@ -140,9 +128,8 @@ npx styleframe figma export \\
 				<UxHeroLine><em class="ux-serif">to Figma</em> and Back</UxHeroLine>
 			</template>
 			<template #lead>
-				Sync your design tokens between Figma and code. Import and export W3C
-				DTCG format JSON with full multi-mode support for light and dark themes,
-				completely free.
+				Sync your design tokens between Figma and code as W3C DTCG JSON, with a
+				mode for each theme, completely free.
 				<br />
 				<span class="figma__actions">
 					<UxPillLink :href="FIGMA_PLUGIN_URL" label="Install Figma plugin" />
@@ -182,9 +169,9 @@ npx styleframe figma export \\
 			:steps="sync.length"
 		>
 			<template #lead>
-				Your code is your source of truth. Export it to the industry-standard
-				Design Tokens Community Group format. Compatible with Figma, Style
-				Dictionary, Tokens Studio, and other tools.
+				Your code is your source of truth. Export it to the Design Tokens
+				Community Group format, which Figma, Style Dictionary, Tokens Studio and
+				other tools read.
 			</template>
 			<SiteFeatures :items="sync" />
 		</UxChapter>
@@ -197,9 +184,8 @@ npx styleframe figma export \\
 			:steps="importing.length"
 		>
 			<template #lead>
-				Drop a Styleframe DTCG JSON file into the plugin. Preview variables and
-				modes before importing, then create a Figma variable collection with one
-				click. All types mapped correctly.
+				Drop a Styleframe DTCG JSON file into the plugin, preview its variables
+				and modes, and create a Figma variable collection with one click.
 			</template>
 			<SiteFeatures :items="importing" />
 			<template #aside>
@@ -227,8 +213,7 @@ npx styleframe figma export \\
 		>
 			<template #lead>
 				Select a Figma variable collection and export it to the Styleframe W3C
-				DTCG format. Copy the JSON or save it as a file. Aliases are preserved
-				as proper token references.
+				DTCG format.
 			</template>
 			<SiteFeatures :items="exporting" />
 			<template #aside>
@@ -256,8 +241,7 @@ npx styleframe figma export \\
 		>
 			<template #lead>
 				Export design tokens directly from your Styleframe config. Run in CI/CD
-				pipelines to keep Figma tokens in sync with every code change. No manual
-				exports, no drift.
+				pipelines to keep Figma tokens in sync with every code change.
 			</template>
 			<SiteFeatures :items="workflow" />
 			<template #aside>
@@ -271,7 +255,7 @@ npx styleframe figma export \\
 			</template>
 			<template #lead>
 				Install the Figma plugin, export your Styleframe config, and sync your
-				design tokens. No subscriptions, no setup complexity.
+				design tokens. No subscriptions.
 			</template>
 			<template #actions>
 				<UxPillLink :href="FIGMA_PLUGIN_URL" label="Install Figma plugin" />
