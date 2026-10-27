@@ -403,7 +403,8 @@ jobs:
 
     integration-tests:
         name: Integration Tests
-        runs-on: ubuntu-latest
+        # Playwright's Chromium doesn't support ubuntu-26.04, which ubuntu-latest became in October 2026
+        runs-on: ubuntu-24.04
         needs: [build, detect-changes]
         if: needs.detect-changes.outputs.run-integration == 'true'
         steps:
