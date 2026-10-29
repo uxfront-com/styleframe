@@ -44,6 +44,43 @@ selector(".tooltip-wrapper", {
 	alignItems: "center",
 });
 
+// Rich content in the freeform example, without inline styles.
+selector(".tooltip-freeform", {
+	display: "flex",
+	flexDirection: "column",
+	gap: "@spacing.2xs",
+});
+
+selector(".tooltip-freeform-text", {
+	fontWeight: "@font-weight.normal",
+});
+
+// Room around the triggers, so each top-layer tooltip opens on its own side:
+// above and below the first column, before the third and after the fifth.
+selector(".tooltip-stage", {
+	display: "grid",
+	gridTemplateColumns: "auto 12rem auto @spacing.md auto",
+	gridTemplateAreas: '"top . start . end" "bottom . start . end"',
+	rowGap: "@spacing.3xl",
+	justifyContent: "center",
+	alignItems: "center",
+	paddingBlock: "@spacing.3xl",
+	paddingInline: "12rem",
+	// Keeps each story's anchor names to itself on the docs page.
+	anchorScope: "all",
+});
+
+// Each trigger anchors the tooltip it shows.
+for (const placement of ["top", "bottom", "start", "end"]) {
+	selector(`.tooltip-anchor-${placement}`, {
+		anchorName: `--tooltip-anchor-${placement}`,
+		gridArea: placement,
+	});
+	selector(`.tooltip-at-${placement}`, {
+		positionAnchor: `--tooltip-anchor-${placement}`,
+	});
+}
+
 selector(".tooltip-arrow-position", {
 	bottom: "calc(@tooltip.arrow.size * -1)",
 	left: "calc(50% - @tooltip.arrow.size)",
