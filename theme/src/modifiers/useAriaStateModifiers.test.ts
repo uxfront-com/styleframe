@@ -13,6 +13,7 @@ describe("useAriaStateModifiers", () => {
 		expect(modifiers.ariaDisabled.key).toEqual(["aria-disabled"]);
 		expect(modifiers.ariaExpanded.key).toEqual(["aria-expanded"]);
 		expect(modifiers.ariaHidden.key).toEqual(["aria-hidden"]);
+		expect(modifiers.ariaInvalid.key).toEqual(["aria-invalid"]);
 		expect(modifiers.ariaPressed.key).toEqual(["aria-pressed"]);
 		expect(modifiers.ariaReadonly.key).toEqual(["aria-readonly"]);
 		expect(modifiers.ariaRequired.key).toEqual(["aria-required"]);
@@ -23,7 +24,7 @@ describe("useAriaStateModifiers", () => {
 		const s = styleframe();
 		useAriaStateModifiers(s);
 
-		expect(s.root.modifiers).toHaveLength(9);
+		expect(s.root.modifiers).toHaveLength(10);
 	});
 
 	it("should generate correct CSS class names for aria-expanded modifier", () => {
@@ -66,6 +67,20 @@ describe("useAriaStateModifiers", () => {
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._background-color\\:blue {");
 		expect(css).toContain("._aria-selected\\:background-color\\:blue {");
+	});
+
+	it("should target aria-invalid true with the aria-invalid modifier", () => {
+		const s = styleframe();
+		const { ariaInvalid } = useAriaStateModifiers(s);
+
+		const create = s.utility("border-color", ({ value }) => ({
+			borderColor: value,
+		}));
+		create({ error: "red" }, [ariaInvalid]);
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._aria-invalid\\:border-color\\:error {");
+		expect(css).toContain('&[aria-invalid="true"] {');
 	});
 
 	it("should work with utility creation", () => {

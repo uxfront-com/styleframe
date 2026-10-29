@@ -5,6 +5,7 @@ import {
 	useAnchorNameUtility,
 	usePositionAnchorUtility,
 	usePositionAreaUtility,
+	usePositionTryFallbacksUtility,
 } from "./useAnchorUtility";
 
 describe("useAnchorNameUtility", () => {
@@ -90,6 +91,34 @@ describe("usePositionAreaUtility", () => {
 	it("should ship without defaults", () => {
 		const s = styleframe();
 		usePositionAreaUtility(s);
+
+		expect(s.root.children).toHaveLength(0);
+	});
+});
+
+describe("usePositionTryFallbacksUtility", () => {
+	it("should set correct declarations", () => {
+		const s = styleframe();
+		usePositionTryFallbacksUtility(s, { flip: "flip-block, flip-inline" });
+
+		const utility = s.root.children[0] as Utility;
+		expect(utility.declarations).toEqual({
+			positionTryFallbacks: "flip-block, flip-inline",
+		});
+	});
+
+	it("should compile to correct CSS output", () => {
+		const s = styleframe();
+		usePositionTryFallbacksUtility(s, { "flip-block": "flip-block" });
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._position-try-fallbacks\\:flip-block {");
+		expect(css).toContain("position-try-fallbacks: flip-block;");
+	});
+
+	it("should ship without defaults", () => {
+		const s = styleframe();
+		usePositionTryFallbacksUtility(s);
 
 		expect(s.root.children).toHaveLength(0);
 	});

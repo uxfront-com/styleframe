@@ -13,6 +13,7 @@ export interface FormStateModifiers {
 	autofill: ModifierFactory;
 	readOnly: ModifierFactory;
 	readonly: ModifierFactory;
+	readonlyAttr: ModifierFactory;
 }
 
 export function useDisabledModifier(s: Styleframe): ModifierFactory {
@@ -93,6 +94,15 @@ export function useReadonlyModifier(s: Styleframe): ModifierFactory {
 	}));
 }
 
+export function useReadonlyAttrModifier(s: Styleframe): ModifierFactory {
+	return s.modifier(
+		"readonly-attr",
+		({ declarations, variables, children }) => ({
+			"&[readonly]": { declarations, variables, children },
+		}),
+	);
+}
+
 /**
  * Register form state modifiers for form element pseudo-classes.
  *
@@ -119,5 +129,6 @@ export function useFormStateModifiers(s: Styleframe): FormStateModifiers {
 		autofill: useAutofillModifier(s),
 		readOnly: useReadOnlyModifier(s),
 		readonly: useReadonlyModifier(s),
+		readonlyAttr: useReadonlyAttrModifier(s),
 	};
 }

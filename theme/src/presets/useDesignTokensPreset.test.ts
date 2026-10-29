@@ -1457,6 +1457,38 @@ describe("useDesignTokensPreset", () => {
 		});
 	});
 
+	describe("focus color", () => {
+		it("should emit color.focus as a reference to color.primary", () => {
+			const s = styleframe();
+			const result = useDesignTokensPreset(s);
+
+			expect(result.colorFocus.value).toEqual({
+				type: "reference",
+				name: "color.primary",
+			});
+
+			const css = consumeCSS(s.root, s.options);
+			const [rootCss, darkCss] = css.split(
+				'.dark-theme, [data-theme="dark"] {',
+			);
+			expect(rootCss).toContain("--color--focus: var(--color--primary);");
+			expect(darkCss).toContain("--color--focus: var(--color--primary);");
+		});
+
+		it("should not generate levels, shades or tints for color.focus", () => {
+			const s = styleframe();
+			const result = useDesignTokensPreset(s);
+
+			expect(
+				Object.keys(result).filter((k) => k.startsWith("colorFocus")),
+			).toEqual(["colorFocus"]);
+			expectTypeOf(result).not.toHaveProperty("colorFocus100");
+			expectTypeOf(result).not.toHaveProperty("colorFocusShade50");
+			expectTypeOf(result).not.toHaveProperty("colorFocusTint50");
+			expectTypeOf(result).toHaveProperty("colorPrimary100");
+		});
+	});
+
 	describe("themes", () => {
 		it("should create a theme block with color overrides", () => {
 			const s = styleframe();

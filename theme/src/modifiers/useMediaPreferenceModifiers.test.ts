@@ -17,13 +17,15 @@ describe("useMediaPreferenceModifiers", () => {
 		expect(modifiers.landscape.key).toEqual(["landscape"]);
 		expect(modifiers.print.key).toEqual(["print"]);
 		expect(modifiers.forcedColors.key).toEqual(["forced-colors"]);
+		expect(modifiers.hoverCapable.key).toEqual(["hover-capable"]);
+		expect(modifiers.anyPointerCoarse.key).toEqual(["any-pointer-coarse"]);
 	});
 
 	it("should add modifiers to root.modifiers", () => {
 		const s = styleframe();
 		useMediaPreferenceModifiers(s);
 
-		expect(s.root.modifiers).toHaveLength(9);
+		expect(s.root.modifiers).toHaveLength(11);
 	});
 
 	it("should generate correct CSS class names for dark modifier", () => {
@@ -95,6 +97,34 @@ describe("useMediaPreferenceModifiers", () => {
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._display\\:flex {");
 		expect(css).toContain("._portrait\\:display\\:flex {");
+	});
+
+	it("should wrap hover-capable styles in a hover media query", () => {
+		const s = styleframe();
+		const { hoverCapable } = useMediaPreferenceModifiers(s);
+
+		const create = s.utility("background-color", ({ value }) => ({
+			backgroundColor: value,
+		}));
+		create({ primary: "#006cff" }, [hoverCapable]);
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._hover-capable\\:background-color\\:primary {");
+		expect(css).toContain("@media (hover: hover) {");
+	});
+
+	it("should wrap any-pointer-coarse styles in a coarse pointer media query", () => {
+		const s = styleframe();
+		const { anyPointerCoarse } = useMediaPreferenceModifiers(s);
+
+		const create = s.utility("min-height", ({ value }) => ({
+			minHeight: value,
+		}));
+		create({ touch: "44px" }, [anyPointerCoarse]);
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._any-pointer-coarse\\:min-height\\:touch {");
+		expect(css).toContain("@media (any-pointer: coarse) {");
 	});
 
 	it("should work with utility creation", () => {
