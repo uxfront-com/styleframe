@@ -7,7 +7,6 @@ const props = withDefaults(
 		color?: "light" | "dark" | "neutral";
 		variant?: "solid" | "soft" | "subtle";
 		size?: "sm" | "md" | "lg";
-		placement?: "top" | "bottom" | "start" | "end";
 		label?: string;
 	}>(),
 	{},
@@ -18,7 +17,6 @@ const classes = computed(() =>
 		color: props.color,
 		variant: props.variant,
 		size: props.size,
-		placement: props.placement,
 	}),
 );
 
@@ -26,7 +24,6 @@ const arrowClasses = computed(() =>
 	tooltipArrow({
 		color: props.color,
 		variant: props.variant,
-		placement: props.placement,
 	}),
 );
 </script>

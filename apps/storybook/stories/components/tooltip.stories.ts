@@ -33,11 +33,6 @@ const meta = {
 			options: sizes,
 			description: "The size of the tooltip",
 		},
-		placement: {
-			control: "select",
-			options: placements,
-			description: "The side of its trigger the tooltip opens on",
-		},
 		label: {
 			control: "text",
 			description: "The text content of the tooltip",

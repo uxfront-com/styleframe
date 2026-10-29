@@ -66,6 +66,8 @@ selector(".tooltip-stage", {
 	alignItems: "center",
 	paddingBlock: "@spacing.3xl",
 	paddingInline: "12rem",
+	// Keeps each story's anchor names to itself on the docs page.
+	anchorScope: "all",
 });
 
 // Each trigger anchors the tooltip it shows.

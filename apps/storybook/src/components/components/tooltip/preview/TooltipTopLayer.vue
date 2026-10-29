@@ -1,3 +1,8 @@
+<script lang="ts">
+// Counts across every story on a page, since each one mounts its own app.
+let stages = 0;
+</script>
+
 <script setup lang="ts">
 import { onMounted, useTemplateRef } from "vue";
 import { tooltip, tooltipArrow } from "virtual:styleframe";
@@ -26,6 +31,8 @@ const labels: Record<Placement, string> = {
 };
 
 const stage = useTemplateRef<HTMLElement>("stage");
+// Unique per story, since the docs page renders several of them at once.
+const id = `tooltip-stage-${++stages}`;
 
 // Like the reference implementation, each tooltip is a `manual` popover, shown
 // while its trigger has focus.
@@ -54,12 +61,12 @@ onMounted(() => {
 				color="neutral"
 				variant="outline"
 				:label="`${labels[placement]} the button`"
-				:aria-describedby="`tooltip-${placement}`"
+				:aria-describedby="`${id}-tooltip-${placement}`"
 				@focus="show"
 				@blur="hide"
 			/>
 			<span
-				:id="`tooltip-${placement}`"
+				:id="`${id}-tooltip-${placement}`"
 				:class="[
 					tooltip({
 						color: props.color,

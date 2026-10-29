@@ -572,6 +572,7 @@ describe("tooltip Open Components rules", () => {
 			position: "fixed",
 			inset: "auto",
 			margin: "@tooltip.offset",
+			width: "max-content",
 			overflow: "visible",
 		});
 		expect(
@@ -636,6 +637,12 @@ describe("tooltip Open Components rules", () => {
 			"opacity @duration.fast @easing.ease-out, scale @duration.fast @easing.ease-out",
 		);
 
+		const growing = opening?.children.find(
+			(child): child is AtRule =>
+				child.type === "at-rule" && child.identifier === "starting-style",
+		);
+		expect(growing?.declarations).toEqual({ opacity: "0", scale: "0.96" });
+
 		const media = opening?.children.find(
 			(child): child is AtRule =>
 				child.type === "at-rule" && child.identifier === "media",
@@ -673,12 +680,104 @@ describe("tooltip-arrow Open Components rules", () => {
 
 		expect(Object.keys(placement)).toEqual(["top", "bottom", "start", "end"]);
 		expect(recipe.defaultVariants!.placement).toBe("top");
-		// The coloured side of the triangle is the one that faces the tooltip, so
-		// its point faces the trigger.
-		expect(placement.top.borderTopColor).toBe("currentColor");
-		expect(placement.bottom.borderBottomColor).toBe("currentColor");
-		expect(placement.start.borderInlineStartColor).toBe("currentColor");
-		expect(placement.end.borderInlineEndColor).toBe("currentColor");
+		// Only the side that faces the tooltip is coloured, on both triangles, so
+		// the point faces the trigger. The inner one sits 1px inside the outer.
+		expect(placement.top).toEqual({
+			borderInlineStartWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineStartStyle: "@border-style.solid",
+			borderInlineStartColor: "transparent",
+			borderInlineEndWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineEndStyle: "@border-style.solid",
+			borderInlineEndColor: "transparent",
+			borderTopWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderTopStyle: "@border-style.solid",
+			borderTopColor: "currentColor",
+			"&:after": {
+				borderInlineStartWidth: "@tooltip.arrow.size",
+				borderInlineStartStyle: "@border-style.solid",
+				borderInlineStartColor: "transparent",
+				borderInlineEndWidth: "@tooltip.arrow.size",
+				borderInlineEndStyle: "@border-style.solid",
+				borderInlineEndColor: "transparent",
+				borderTopWidth: "@tooltip.arrow.size",
+				borderTopStyle: "@border-style.solid",
+				borderTopColor: "currentColor",
+				insetInlineStart: "calc(@tooltip.arrow.size * -1)",
+				top: "calc(@tooltip.arrow.size * -1 - 1px)",
+			},
+		});
+		expect(placement.bottom).toEqual({
+			borderInlineStartWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineStartStyle: "@border-style.solid",
+			borderInlineStartColor: "transparent",
+			borderInlineEndWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineEndStyle: "@border-style.solid",
+			borderInlineEndColor: "transparent",
+			borderBottomWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderBottomStyle: "@border-style.solid",
+			borderBottomColor: "currentColor",
+			"&:after": {
+				borderInlineStartWidth: "@tooltip.arrow.size",
+				borderInlineStartStyle: "@border-style.solid",
+				borderInlineStartColor: "transparent",
+				borderInlineEndWidth: "@tooltip.arrow.size",
+				borderInlineEndStyle: "@border-style.solid",
+				borderInlineEndColor: "transparent",
+				borderBottomWidth: "@tooltip.arrow.size",
+				borderBottomStyle: "@border-style.solid",
+				borderBottomColor: "currentColor",
+				insetInlineStart: "calc(@tooltip.arrow.size * -1)",
+				top: "1px",
+			},
+		});
+		expect(placement.start).toEqual({
+			borderTopWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderTopStyle: "@border-style.solid",
+			borderTopColor: "transparent",
+			borderBottomWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderBottomStyle: "@border-style.solid",
+			borderBottomColor: "transparent",
+			borderInlineStartWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineStartStyle: "@border-style.solid",
+			borderInlineStartColor: "currentColor",
+			"&:after": {
+				borderTopWidth: "@tooltip.arrow.size",
+				borderTopStyle: "@border-style.solid",
+				borderTopColor: "transparent",
+				borderBottomWidth: "@tooltip.arrow.size",
+				borderBottomStyle: "@border-style.solid",
+				borderBottomColor: "transparent",
+				borderInlineStartWidth: "@tooltip.arrow.size",
+				borderInlineStartStyle: "@border-style.solid",
+				borderInlineStartColor: "currentColor",
+				insetInlineStart: "calc(@tooltip.arrow.size * -1 - 1px)",
+				top: "calc(@tooltip.arrow.size * -1)",
+			},
+		});
+		expect(placement.end).toEqual({
+			borderTopWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderTopStyle: "@border-style.solid",
+			borderTopColor: "transparent",
+			borderBottomWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderBottomStyle: "@border-style.solid",
+			borderBottomColor: "transparent",
+			borderInlineEndWidth: "calc(@tooltip.arrow.size + 1px)",
+			borderInlineEndStyle: "@border-style.solid",
+			borderInlineEndColor: "currentColor",
+			"&:after": {
+				borderTopWidth: "@tooltip.arrow.size",
+				borderTopStyle: "@border-style.solid",
+				borderTopColor: "transparent",
+				borderBottomWidth: "@tooltip.arrow.size",
+				borderBottomStyle: "@border-style.solid",
+				borderBottomColor: "transparent",
+				borderInlineEndWidth: "@tooltip.arrow.size",
+				borderInlineEndStyle: "@border-style.solid",
+				borderInlineEndColor: "currentColor",
+				insetInlineStart: "1px",
+				top: "calc(@tooltip.arrow.size * -1)",
+			},
+		});
 		for (const placement of ["top", "bottom", "start", "end"] as const) {
 			expect(
 				recipe.compoundVariants!.find((cv) => cv.match.placement === placement),
