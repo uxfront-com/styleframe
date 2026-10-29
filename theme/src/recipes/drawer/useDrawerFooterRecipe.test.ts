@@ -19,6 +19,11 @@ function createInstance() {
 		"borderBottomWidth",
 		"borderBottomStyle",
 		"borderBottomColor",
+		"flexShrink",
+		"minHeight",
+		"overflowY",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}

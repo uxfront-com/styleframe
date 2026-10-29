@@ -23,7 +23,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-	<div :class="classes">
+	<div :class="classes" role="dialog">
 		<slot />
 	</div>
 </template>

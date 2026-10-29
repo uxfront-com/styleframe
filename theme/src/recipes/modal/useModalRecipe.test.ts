@@ -1,5 +1,8 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import { useModalRecipe } from "./index";
 
 function createInstance() {
@@ -33,11 +36,31 @@ function createInstance() {
 		"borderTopWidth",
 		"borderTopStyle",
 		"borderTopColor",
+		"flexShrink",
+		"maxHeight",
+		"overflowWrap",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
+	useForcedColorsModifier(s);
 	return s;
+}
+
+function findSelector(s: ReturnType<typeof styleframe>, query: string) {
+	return s.root.children.find(
+		(child) =>
+			child.type === "selector" && (child as { query: string }).query === query,
+	) as
+		| {
+				declarations: Record<string, unknown>;
+				children: Array<{
+					identifier: string;
+					rule: string;
+					declarations: Record<string, unknown>;
+				}>;
+		  }
+		| undefined;
 }
 
 describe("useModalRecipe", () => {
@@ -57,13 +80,18 @@ describe("useModalRecipe", () => {
 			display: "flex",
 			flexDirection: "column",
 			flexBasis: "100%",
+			maxHeight: "calc(100% - 2rem)",
 			borderWidth: "@border-width.thin",
 			borderStyle: "@border-style.solid",
 			borderColor: "transparent",
 			borderRadius: "@border-radius.md",
 			overflow: "hidden",
+			overflowWrap: "anywhere",
 			lineHeight: "@line-height.normal",
 			boxShadow: "@box-shadow.sm",
+			"&:forced-colors": {
+				borderColor: "CanvasText",
+			},
 		});
 	});
 
@@ -96,12 +124,15 @@ describe("useModalRecipe", () => {
 
 			expect(recipe.variants!.size).toEqual({
 				sm: {
+					maxWidth: "min(24rem, 100% - 2rem)",
 					borderRadius: "@border-radius.sm",
 				},
 				md: {
+					maxWidth: "min(32rem, 100% - 2rem)",
 					borderRadius: "@border-radius.md",
 				},
 				lg: {
+					maxWidth: "min(48rem, 100% - 2rem)",
 					borderRadius: "@border-radius.lg",
 				},
 			});
@@ -126,6 +157,7 @@ describe("useModalRecipe", () => {
 					width: "100%",
 					height: "100%",
 					maxWidth: "none",
+					maxHeight: "none",
 					borderRadius: "0",
 				},
 				false: {},
@@ -304,6 +336,91 @@ describe("useModalRecipe", () => {
 			expect(recipe.defaultVariants?.color).toBeUndefined();
 			expect(recipe.defaultVariants?.variant).toBe("solid");
 			expect(recipe.defaultVariants?.size).toBe("md");
+		});
+	});
+
+	describe("Dialog rules", () => {
+		it("dialog/fits-screen keeps the panel within the screen, less a margin", () => {
+			const s = createInstance();
+			const recipe = useModalRecipe(s);
+
+			expect(recipe.base!.maxHeight).toBe("calc(100% - 2rem)");
+			for (const size of Object.values(recipe.variants!.size)) {
+				expect(size.maxWidth).toMatch(/^min\(\d+rem, 100% - 2rem\)$/);
+			}
+		});
+
+		it("dialog/resizable sizes the panel in rem and wraps a long title", () => {
+			const s = createInstance();
+			const recipe = useModalRecipe(s);
+
+			expect(recipe.variants!.size.sm.maxWidth).toBe("min(24rem, 100% - 2rem)");
+			expect(recipe.variants!.size.md.maxWidth).toBe("min(32rem, 100% - 2rem)");
+			expect(recipe.variants!.size.lg.maxWidth).toBe("min(48rem, 100% - 2rem)");
+			expect(recipe.base!.overflowWrap).toBe("anywhere");
+		});
+
+		it("dialog/actions-in-view caps the panel's height so the body scrolls inside it", () => {
+			const s = createInstance();
+			const recipe = useModalRecipe(s);
+
+			expect(recipe.base).toMatchObject({
+				display: "flex",
+				flexDirection: "column",
+				maxHeight: "calc(100% - 2rem)",
+				overflow: "hidden",
+			});
+		});
+
+		it("dialog/scroll-lock stops the page scrolling while an overlay is on it", () => {
+			const s = createInstance();
+			useModalRecipe(s);
+
+			expect(
+				findSelector(s, ":root:has(.modal-overlay)")?.declarations,
+			).toEqual({
+				overflow: "hidden",
+				scrollbarGutter: "stable",
+			});
+		});
+
+		it("dialog/reduced-motion adds no animation or transition", () => {
+			const s = createInstance();
+			const recipe = useModalRecipe(s);
+
+			const keys = JSON.stringify([
+				recipe.base,
+				recipe.variants,
+				recipe.compoundVariants,
+			]);
+			expect(keys).not.toMatch(/animation|transition/i);
+		});
+
+		it("dialog/forced-colors keeps the panel's border in the system text color", () => {
+			const s = createInstance();
+			const recipe = useModalRecipe(s);
+
+			expect(recipe.base).toMatchObject({
+				borderWidth: "@border-width.thin",
+				borderStyle: "@border-style.solid",
+				"&:forced-colors": { borderColor: "CanvasText" },
+			});
+			expect(recipe.variants!.fullscreen.true).not.toHaveProperty(
+				"borderWidth",
+			);
+		});
+
+		it("dialog/more-contrast draws the panel's border at full strength", () => {
+			const s = createInstance();
+			useModalRecipe(s);
+
+			expect(findSelector(s, ".modal")?.children).toEqual([
+				expect.objectContaining({
+					identifier: "media",
+					rule: "(prefers-contrast: more)",
+					declarations: { borderColor: "currentColor !important" },
+				}),
+			]);
 		});
 	});
 });

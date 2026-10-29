@@ -12,26 +12,18 @@ const sizeTitles: Record<string, string> = {
 	md: "Medium",
 	lg: "Large",
 };
-const sizeWidths: Record<string, string> = {
-	sm: "320px",
-	md: "480px",
-	lg: "640px",
-};
 </script>
 
 <template>
 	<div class="modal-section">
 		<div v-for="size in sizes" :key="size">
 			<div class="modal-label">{{ sizeTitles[size] }} ({{ size }})</div>
-			<div
-				style="position: relative; background: rgba(0, 0, 0, 0.75); border-radius: 8px; padding: 24px; display: flex; align-items: center; justify-content: center;"
-			>
-				<Modal
-					:size="size"
-					:style="{ maxWidth: sizeWidths[size], width: '100%' }"
-				>
+			<div class="modal-stage">
+				<Modal :size="size" :aria-labelledby="`modal-size-${size}`">
 					<ModalHeader :size="size">
-						<ModalTitle>{{ sizeTitles[size] }} Modal</ModalTitle>
+						<ModalTitle :id="`modal-size-${size}`"
+							>{{ sizeTitles[size] }} Modal</ModalTitle
+						>
 					</ModalHeader>
 					<ModalBody :size="size">
 						<ModalDescription

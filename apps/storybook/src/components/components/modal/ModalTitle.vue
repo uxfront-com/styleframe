@@ -1,5 +1,5 @@
 <template>
-	<strong class="modal-title">
+	<h2 class="modal-title">
 		<slot />
-	</strong>
+	</h2>
 </template>

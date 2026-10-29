@@ -36,6 +36,11 @@ function createInstance() {
 		"zIndex",
 		"color",
 		"borderColor",
+		"flexShrink",
+		"minHeight",
+		"overflowY",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
@@ -129,8 +134,8 @@ describe("createOverlayRecipes", () => {
 			expect(recipe.variants!.size.sm).toEqual({
 				paddingTop: "@0.5",
 				paddingBottom: "@0.5",
-				paddingLeft: "@0.75",
-				paddingRight: "@0.75",
+				paddingInlineStart: "@0.75",
+				paddingInlineEnd: "@0.75",
 				gap: "@0.375",
 			});
 			expect(recipe.compoundVariants ?? []).toHaveLength(0);
@@ -156,6 +161,66 @@ describe("createOverlayRecipes", () => {
 				zIndex: "1000",
 			});
 			expect(Object.keys(recipe.variants ?? {})).toHaveLength(0);
+		});
+	});
+
+	describe("Dialog rules", () => {
+		it("dialog/backdrop dims the page, and every panel has a border in the dark theme", () => {
+			const s = createInstance();
+			const backdrop = createBackdropRecipe("demo")(s);
+
+			expect(backdrop.base!.background).toBe("rgba(0, 0, 0, 0.75)");
+			for (const cv of overlaySurfaceCompoundVariants) {
+				const dark = (cv.css as Record<string, Record<string, string>>)[
+					"&:dark"
+				];
+				expect(
+					dark?.borderColor,
+					`${cv.match.color} ${cv.match.variant}`,
+				).toMatch(/^@color\./);
+			}
+		});
+
+		it("dialog/actions-in-view keeps the header and footer in view while the body scrolls", () => {
+			const s = createInstance();
+			const header = createOverlayHeaderRecipe("demo")(s);
+			const footer = createOverlayFooterRecipe("demo")(s);
+			const body = createOverlayBodyRecipe("demo")(s);
+
+			expect(header.base!.flexShrink).toBe("0");
+			expect(footer.base!.flexShrink).toBe("0");
+			expect(body.base).toMatchObject({ minHeight: "0", overflowY: "auto" });
+		});
+
+		it("dialog/mirrors-in-rtl pads the sections with logical properties", () => {
+			const s = createInstance();
+			const recipes = [
+				createOverlayHeaderRecipe("demo")(s),
+				createOverlayFooterRecipe("demo")(s),
+				createOverlayBodyRecipe("demo")(s),
+			];
+
+			for (const recipe of recipes) {
+				const json = JSON.stringify([recipe.base, recipe.variants]);
+				expect(json).not.toMatch(/"(paddingLeft|paddingRight|left|right)"/);
+				expect(recipe.base).toMatchObject({
+					paddingInlineStart: "@1",
+					paddingInlineEnd: "@1",
+				});
+			}
+			expect(recipes[1]!.base!.justifyContent).toBe("flex-end");
+		});
+
+		it("dialog/reduced-motion adds no animation or transition to the sections or backdrop", () => {
+			const s = createInstance();
+			const recipes = [
+				createOverlayHeaderRecipe("demo")(s),
+				createOverlayFooterRecipe("demo")(s),
+				createOverlayBodyRecipe("demo")(s),
+				createBackdropRecipe("demo")(s),
+			];
+
+			expect(JSON.stringify(recipes)).not.toMatch(/animation|transition/i);
 		});
 	});
 });

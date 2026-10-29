@@ -31,6 +31,11 @@ function createInstance() {
 		"borderTopWidth",
 		"borderTopStyle",
 		"borderTopColor",
+		"flexShrink",
+		"minHeight",
+		"overflowY",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
@@ -54,11 +59,13 @@ describe("useModalBodyRecipe", () => {
 		expect(recipe.base).toEqual({
 			display: "flex",
 			flexDirection: "column",
+			minHeight: "0",
+			overflowY: "auto",
 			gap: "@0.5",
 			paddingTop: "@0.75",
 			paddingBottom: "@0.75",
-			paddingLeft: "@1",
-			paddingRight: "@1",
+			paddingInlineStart: "@1",
+			paddingInlineEnd: "@1",
 		});
 	});
 
@@ -70,22 +77,22 @@ describe("useModalBodyRecipe", () => {
 			sm: {
 				paddingTop: "@0.5",
 				paddingBottom: "@0.5",
-				paddingLeft: "@0.75",
-				paddingRight: "@0.75",
+				paddingInlineStart: "@0.75",
+				paddingInlineEnd: "@0.75",
 				gap: "@0.375",
 			},
 			md: {
 				paddingTop: "@0.75",
 				paddingBottom: "@0.75",
-				paddingLeft: "@1",
-				paddingRight: "@1",
+				paddingInlineStart: "@1",
+				paddingInlineEnd: "@1",
 				gap: "@0.5",
 			},
 			lg: {
 				paddingTop: "@1",
 				paddingBottom: "@1",
-				paddingLeft: "@1.25",
-				paddingRight: "@1.25",
+				paddingInlineStart: "@1.25",
+				paddingInlineEnd: "@1.25",
 				gap: "@0.75",
 			},
 		});

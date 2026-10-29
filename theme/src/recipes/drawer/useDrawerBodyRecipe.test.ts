@@ -13,6 +13,11 @@ function createInstance() {
 		"paddingBottom",
 		"paddingLeft",
 		"paddingRight",
+		"flexShrink",
+		"minHeight",
+		"overflowY",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
