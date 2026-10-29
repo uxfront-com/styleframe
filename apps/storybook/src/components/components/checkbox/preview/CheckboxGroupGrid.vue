@@ -8,8 +8,10 @@ const orientations = ["vertical", "horizontal"] as const;
 <template>
 	<div class="checkbox-section">
 		<div v-for="orientation in orientations" :key="orientation">
-			<div class="checkbox-label">{{ orientation }}</div>
-			<CheckboxGroup :orientation="orientation">
+			<CheckboxGroup
+				:orientation="orientation"
+				:legend="`Which notifications would you like? (${orientation})`"
+			>
 				<Checkbox checked label="Email" />
 				<Checkbox label="SMS" />
 				<Checkbox label="Push notifications" />
