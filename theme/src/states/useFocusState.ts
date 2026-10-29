@@ -83,6 +83,15 @@ export function useFocusState(
 		options,
 	);
 
+	// Projects that replace the default colors may not define `color.focus`,
+	// so the default falls back to the primary color it references.
+	if (
+		config.outlineColor === defaultFocusOptions.outlineColor &&
+		!s.root.variables.some((variable) => variable.name === "color.focus")
+	) {
+		config.outlineColor = "@color.primary";
+	}
+
 	const result = useFocusSelectors(s, config as Required<FocusStateConfig>);
 
 	registerElementThemes(s, themes, useFocusDesignTokens);
