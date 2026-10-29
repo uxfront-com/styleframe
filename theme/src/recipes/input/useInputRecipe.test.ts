@@ -1,10 +1,22 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { consumeCSS } from "@styleframe/transpiler";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
+import {
+	useDesignTokensPreset,
+	useModifiersPreset,
+	useUtilitiesPreset,
+} from "../../presets";
+import { useInputPrefixRecipe } from "./useInputPrefixRecipe";
 import { useInputRecipe } from "./useInputRecipe";
+import { useInputSuffixRecipe } from "./useInputSuffixRecipe";
 
 function createInstance() {
 	const s = styleframe();
@@ -40,6 +52,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -47,7 +61,12 @@ function createInstance() {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	s.variable("color.text-weakest", "#64748B", { default: true });
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
+	s.variable("spacing", "1rem", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -90,8 +109,11 @@ describe("useInputRecipe", () => {
 			"&:focus-within": {
 				outlineWidth: "2px",
 				outlineStyle: "solid",
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 				outlineOffset: "2px",
+			},
+			"&:forced-colors:focus-within": {
+				outlineColor: "Highlight",
 			},
 		});
 	});
@@ -126,6 +148,7 @@ describe("useInputRecipe", () => {
 			expect(recipe.variants!.size).toEqual({
 				sm: {
 					fontSize: "@font-size.xs",
+					minHeight: "2rem",
 					paddingTop: "@0.375",
 					paddingBottom: "@0.375",
 					paddingLeft: "@0.625",
@@ -134,6 +157,7 @@ describe("useInputRecipe", () => {
 				},
 				md: {
 					fontSize: "@font-size.sm",
+					minHeight: "2.25rem",
 					paddingTop: "@0.5",
 					paddingBottom: "@0.5",
 					paddingLeft: "@0.75",
@@ -142,6 +166,7 @@ describe("useInputRecipe", () => {
 				},
 				lg: {
 					fontSize: "@font-size.md",
+					minHeight: "2.5rem",
 					paddingTop: "@0.625",
 					paddingBottom: "@0.625",
 					paddingLeft: "@0.875",
@@ -219,7 +244,7 @@ describe("useInputRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -227,7 +252,7 @@ describe("useInputRecipe", () => {
 						borderColor: "@color.gray-450",
 						color: "@color.text-inverted",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 				},
@@ -248,7 +273,7 @@ describe("useInputRecipe", () => {
 					background: "@color.gray-800",
 					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 					"&:dark": {
@@ -256,7 +281,7 @@ describe("useInputRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.gray-300",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -277,7 +302,7 @@ describe("useInputRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -285,7 +310,7 @@ describe("useInputRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -309,7 +334,7 @@ describe("useInputRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -318,7 +343,7 @@ describe("useInputRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -340,13 +365,13 @@ describe("useInputRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
-		it("should have correct invalid compound variant overriding border and focus-within ring", () => {
+		it("should have correct invalid compound variant with an error border and inset shadow", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
@@ -359,18 +384,16 @@ describe("useInputRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-within": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -389,12 +412,8 @@ describe("useInputRecipe", () => {
 			expect(cv).toEqual({
 				match: { readonly: "true" },
 				css: {
-					background: "@color.gray-50",
 					borderStyle: "@border-style.dashed",
 					cursor: "default",
-					"&:dark": {
-						background: "@color.gray-800",
-					},
 				},
 			});
 		});
@@ -412,6 +431,15 @@ describe("useInputRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});
@@ -516,5 +544,259 @@ describe("useInputRecipe", () => {
 			expect(recipe.defaultVariants?.variant).toBe("default");
 			expect(recipe.defaultVariants?.size).toBe("md");
 		});
+	});
+});
+
+/**
+ * One test per stylesheet rule on the Open Components Input page. The
+ * contrast rules (`input/contrast`, `input/boundary-contrast`) are in
+ * `fieldSurfaceContrast.test.ts`.
+ */
+describe("Open Components rules", () => {
+	type Node = {
+		type: string;
+		query?: string;
+		rule?: string;
+		declarations: Record<string, unknown>;
+		children: Node[];
+	};
+
+	function createPresetInstance(options?: Parameters<typeof styleframe>[0]) {
+		const s = styleframe(options);
+		useDesignTokensPreset(s);
+		useModifiersPreset(s);
+		useUtilitiesPreset(s);
+		const recipe = useInputRecipe(s);
+		return { s, recipe };
+	}
+
+	const selectors = (s: ReturnType<typeof styleframe>) =>
+		s.root.children.filter((child) => child.type === "selector") as Node[];
+
+	function find(s: ReturnType<typeof styleframe>, query: string) {
+		return selectors(s).filter((child) => child.query === query);
+	}
+
+	function media(nodes: Node[], rule: string) {
+		return nodes
+			.flatMap((node) => node.children)
+			.find((child) => child.type === "at-rule" && child.rule === rule);
+	}
+
+	// The input's touch-screen declarations, from every `.input-field` rule.
+	function coarse(s: ReturnType<typeof styleframe>) {
+		return Object.assign(
+			{},
+			...find(s, ".input-field")
+				.flatMap((node) => node.children)
+				.filter((child) => child.rule === "(any-pointer: coarse)")
+				.map((child) => child.declarations),
+		) as Record<string, unknown>;
+	}
+
+	const state = (attribute: string) => `.input:has(> .input-field${attribute})`;
+
+	const css = (cv: { css?: unknown }) => cv.css as Record<string, unknown>;
+
+	// Every key of a declarations block, nested blocks included.
+	function keys(block: Record<string, unknown>): string[] {
+		return Object.entries(block).flatMap(([key, value]) =>
+			value && typeof value === "object" && !("type" in value)
+				? [key, ...keys(value as Record<string, unknown>)]
+				: [key],
+		);
+	}
+
+	it("input/focus-visible draws a 2px @color.focus ring outside the field in every state", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.base!["&:focus-within"]).toEqual({
+			outlineWidth: "2px",
+			outlineStyle: "solid",
+			outlineColor: "@color.focus",
+			outlineOffset: "2px",
+		});
+		for (const cv of recipe.compoundVariants!) {
+			expect(keys(css(cv)).filter((key) => key.includes("outline"))).toEqual(
+				[],
+			);
+		}
+		for (const node of selectors(s).filter((n) =>
+			n.query!.startsWith(".input:has"),
+		)) {
+			expect(JSON.stringify(node)).not.toContain("outline");
+		}
+	});
+
+	it("input/target-size keeps the field at least 24px tall and gives the input a 44px hit area on touch screens", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.variants!.size.sm.minHeight).toBe("2rem");
+		// 16px text on a 1.5 line is 24px, and 10px above and below make 44px.
+		expect(coarse(s)).toMatchObject({ backgroundClip: "padding-box" });
+		const output = consumeCSS(s.root, s.options);
+		expect(output).toContain("margin-block: calc(var(--spacing) * -0.625);");
+		expect(output).toContain(
+			"border-block: calc(var(--spacing) * 0.625) solid transparent;",
+		);
+	});
+
+	it("input/no-zoom-on-focus sets the input's text to at least 16px on touch screens", () => {
+		const { s } = createPresetInstance();
+
+		expect(coarse(s).fontSize).toBe("max(1em, 1rem)");
+	});
+
+	it("input/resizable sizes the field with a min-height in rem and no fixed height", () => {
+		const { recipe } = createPresetInstance();
+
+		for (const size of Object.values(recipe.variants!.size)) {
+			expect(size.minHeight).toMatch(/^[\d.]+rem$/);
+			expect(size).not.toHaveProperty("height");
+		}
+		expect(recipe.base).not.toHaveProperty("height");
+	});
+
+	it("input/stable-size changes no size in any state", () => {
+		const { s, recipe } = createPresetInstance();
+		const sizing =
+			/^(padding|margin|width|height|minHeight|fontSize|lineHeight|borderWidth)/;
+
+		const states = recipe.compoundVariants!.filter(
+			(cv) => !cv.match.color && !cv.match.variant,
+		);
+		expect(states).toHaveLength(3);
+		for (const cv of states) {
+			expect(keys(css(cv)).filter((key) => sizing.test(key))).toEqual([]);
+		}
+		for (const node of selectors(s).filter((n) =>
+			n.query!.startsWith(".input:has"),
+		)) {
+			expect(keys(node.declarations).filter((key) => sizing.test(key))).toEqual(
+				[],
+			);
+		}
+	});
+
+	it("input/state-selectors styles states from the native input's attributes, never :invalid or :read-only", () => {
+		const { s } = createPresetInstance();
+
+		for (const attribute of [
+			'[aria-invalid="true"]',
+			"[readonly]",
+			":disabled",
+		]) {
+			expect(find(s, state(attribute)), attribute).toHaveLength(1);
+		}
+		const all = JSON.stringify([
+			selectors(s).map((node) => node.query),
+			createPresetInstance().recipe,
+		]);
+		expect(all).not.toMatch(/:(user-)?invalid|:read-only|&:readonly"/);
+	});
+
+	it("input/invalid-state shows invalid through the border and an inset shadow, from aria-invalid or the class", () => {
+		const { s, recipe } = createPresetInstance();
+		const shadow = "inset 0 0 0 1px @color.error";
+
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!),
+		).toMatchObject({ borderColor: "@color.error", boxShadow: shadow });
+		const [invalid] = find(s, state('[aria-invalid="true"]'));
+		expect(invalid!.declarations).toMatchObject({
+			borderColor: expect.objectContaining({ name: "color.error" }),
+			boxShadow: expect.objectContaining({ type: "css" }),
+		});
+	});
+
+	it("input/hover-capable puts every hover style behind @media (hover: hover)", () => {
+		const { s, recipe } = createPresetInstance();
+
+		const recipeKeys = [
+			...keys(recipe.base!),
+			...recipe.compoundVariants!.flatMap((cv) => keys(css(cv))),
+		];
+		const hovers = recipeKeys.filter((key) => key.includes(":hover"));
+		expect(hovers.length).toBeGreaterThan(0);
+		for (const key of hovers) {
+			expect(key).toMatch(/:hover-capable:hover$/);
+		}
+		const [invalid] = find(s, state('[aria-invalid="true"]'));
+		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe(
+			"&:hover",
+		);
+	});
+
+	it("input/forced-colors keeps the focus, disabled and read-only states visible", () => {
+		const { s, recipe } = createPresetInstance();
+		const visible = {
+			borderColor: "GrayText",
+			color: "GrayText",
+			opacity: "1",
+		};
+
+		expect(recipe.base!["&:forced-colors:focus-within"]).toEqual({
+			outlineColor: "Highlight",
+		});
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)[
+				"&:forced-colors"
+			],
+		).toEqual(visible);
+		expect(
+			media(find(s, state(":disabled")), "(forced-colors: active)")
+				?.declarations,
+		).toEqual(visible);
+		// A dashed border survives forced colors, so read-only needs no override.
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!),
+		).toMatchObject({ borderStyle: "@border-style.dashed" });
+	});
+
+	it("input/more-contrast draws every border in the text color with prefers-contrast: more", () => {
+		const { s, recipe } = createPresetInstance();
+
+		const borders = new Set(
+			recipe
+				.compoundVariants!.filter((cv) => cv.match.color)
+				.flatMap((cv) =>
+					JSON.stringify(cv.css).match(
+						/@color\.gray-4[0-9]+|@color\.gray-5[0-9]+/g,
+					),
+				),
+		);
+		expect([...borders].sort()).toEqual(["@color.gray-450", "@color.gray-500"]);
+		expect(media(find(s, ".input"), "(prefers-contrast: more)")).toBeDefined();
+	});
+
+	it("input/more-contrast overrides the border colors under the instance's own variable names", () => {
+		const { s } = createPresetInstance({
+			variables: { name: ({ name }) => `sf-${name.replace(/\./g, "-")}` },
+		});
+
+		const output = consumeCSS(s.root, s.options);
+		expect(output).toContain("var(--sf-color-gray-450)");
+		expect(output).toMatch(
+			/@media \(prefers-contrast: more\) \{\s+--sf-color-gray-450: currentColor;\s+--sf-color-gray-500: currentColor;/,
+		);
+	});
+
+	it("input/mirrors-in-rtl uses logical padding for the prefix and suffix, and the same padding on both sides", () => {
+		const { s, recipe } = createPresetInstance();
+		const prefix = useInputPrefixRecipe(s);
+		const suffix = useInputSuffixRecipe(s);
+
+		for (const size of Object.values(prefix.variants!.size)) {
+			expect(Object.keys(size)).toContain("paddingInlineEnd");
+		}
+		for (const size of Object.values(suffix.variants!.size)) {
+			expect(Object.keys(size)).toContain("paddingInlineStart");
+		}
+		for (const block of [
+			recipe.base!,
+			...Object.values(recipe.variants!.size),
+		]) {
+			expect(block.paddingLeft).toBe(block.paddingRight);
+		}
 	});
 });

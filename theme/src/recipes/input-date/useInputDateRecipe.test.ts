@@ -1,5 +1,9 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
@@ -42,6 +46,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -52,7 +58,11 @@ function createInstance() {
 	s.variable("color.text-weak", "#475569", { default: true });
 	s.variable("color.gray-400", "#94A3B8", { default: true });
 	s.variable("spacing", "1rem", { default: true });
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -95,8 +105,11 @@ describe("useInputDateRecipe", () => {
 			"&:focus-within": {
 				outlineWidth: "2px",
 				outlineStyle: "solid",
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 				outlineOffset: "2px",
+			},
+			"&:forced-colors:focus-within": {
+				outlineColor: "Highlight",
 			},
 		});
 	});
@@ -189,7 +202,7 @@ describe("useInputDateRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -197,7 +210,7 @@ describe("useInputDateRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -221,7 +234,7 @@ describe("useInputDateRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -230,7 +243,7 @@ describe("useInputDateRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -252,9 +265,9 @@ describe("useInputDateRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -269,17 +282,13 @@ describe("useInputDateRecipe", () => {
 			expect(cv).toEqual({
 				match: { readonly: "true" },
 				css: {
-					background: "@color.gray-50",
 					borderStyle: "@border-style.dashed",
 					cursor: "default",
-					"&:dark": {
-						background: "@color.gray-800",
-					},
 				},
 			});
 		});
 
-		it("should override the focus-within ring when invalid", () => {
+		it("should keep the focus-within ring and add an inset error shadow when invalid", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
@@ -292,18 +301,16 @@ describe("useInputDateRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-within": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -324,6 +331,15 @@ describe("useInputDateRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});
@@ -354,6 +370,27 @@ describe("useInputDateRecipe", () => {
 			);
 
 			expect(found).toBeDefined();
+		});
+
+		it("should keep the segments and separators at one font size on touch screens", () => {
+			const s = createInstance();
+			useInputDateRecipe(s);
+
+			// The touch-screen text size belongs to text inputs. On the segment
+			// container it would grow only the separators.
+			const touch = (
+				s.root.children.filter(
+					(child) =>
+						child.type === "selector" &&
+						(child as { query: string }).query === ".input-date-field",
+				) as unknown as {
+					children: { rule?: string; declarations: Record<string, unknown> }[];
+				}[]
+			)
+				.flatMap((selector) => selector.children)
+				.filter((child) => child.rule === "(any-pointer: coarse)");
+
+			expect(touch.map((child) => child.declarations.fontSize)).toEqual([]);
 		});
 	});
 

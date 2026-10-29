@@ -1,5 +1,9 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
@@ -37,6 +41,8 @@ function createInstance() {
 		"paddingBottom",
 		"paddingLeft",
 		"paddingRight",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 		"background",
 		"color",
 		"outline",
@@ -46,6 +52,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -57,7 +65,12 @@ function createInstance() {
 	}
 	s.variable("color.text-weakest", "#64748B", { default: true });
 
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
+	s.variable("spacing", "1rem", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -87,7 +100,7 @@ describe("createFieldRecipe", () => {
 			borderRadius: "@border-radius.md",
 			color: "@color.text",
 			"&:focus-within": {
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 			},
 		});
 
@@ -166,32 +179,35 @@ describe("fieldSurfaceCompoundVariants", () => {
 			background: bg,
 			borderColor: plain.rest,
 			color: fg,
-			"&:hover": { borderColor: plain.hover },
+			"&:hover-capable:hover": { borderColor: plain.hover },
 			"&:dark": { background: darkBg, borderColor: inDark.rest, color: darkFg },
-			"&:dark:hover": { borderColor: inDark.hover },
+			"&:dark:hover-capable:hover": { borderColor: inDark.hover },
 		};
 	}
 
+	// A ghost has no fill, so `light` and `dark` take their own fill on a page
+	// of the other mode: `fills` is the plain and the `&:dark` background.
 	function ghost(
 		[fg, darkFg]: string[],
 		plain: typeof light,
 		inDark: typeof light,
+		fills = ["transparent", "transparent"],
 	) {
 		return {
-			background: "transparent",
+			background: fills[0],
 			borderColor: "transparent",
 			borderBottomColor: plain.rest,
 			borderBottomLeftRadius: "0",
 			borderBottomRightRadius: "0",
 			color: fg,
-			"&:hover": { borderBottomColor: plain.hover },
+			"&:hover-capable:hover": { borderBottomColor: plain.hover },
 			"&:dark": {
-				background: "transparent",
+				background: fills[1],
 				borderColor: "transparent",
 				borderBottomColor: inDark.rest,
 				color: darkFg,
 			},
-			"&:dark:hover": { borderBottomColor: inDark.hover },
+			"&:dark:hover-capable:hover": { borderBottomColor: inDark.hover },
 		};
 	}
 
@@ -222,7 +238,10 @@ describe("fieldSurfaceCompoundVariants", () => {
 		[
 			"light",
 			"ghost",
-			ghost(["@color.text", "@color.text-inverted"], light, light),
+			ghost(["@color.text", "@color.text-inverted"], light, light, [
+				"transparent",
+				"@color.white",
+			]),
 		],
 		[
 			"dark",
@@ -250,7 +269,10 @@ describe("fieldSurfaceCompoundVariants", () => {
 		[
 			"dark",
 			"ghost",
-			ghost(["@color.gray-300", "@color.gray-300"], dark, dark),
+			ghost(["@color.gray-300", "@color.gray-300"], dark, dark, [
+				"@color.gray-900",
+				"transparent",
+			]),
 		],
 		[
 			"neutral",
@@ -294,9 +316,9 @@ describe("fieldSurfaceCompoundVariants", () => {
 		expect(invalid).toBeGreaterThan(lastGhost);
 		expect(compounds[invalid]!.css).toMatchObject({
 			borderBottomColor: "@color.error",
-			"&:hover": { borderBottomColor: "@color.error" },
+			"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 			"&:dark": { borderBottomColor: "@color.error" },
-			"&:dark:hover": { borderBottomColor: "@color.error" },
+			"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 		});
 	});
 
@@ -304,10 +326,9 @@ describe("fieldSurfaceCompoundVariants", () => {
 		const readonly = compounds.findIndex((v) => v.match.readonly === "true");
 
 		expect(readonly).toBeGreaterThan(lastGhost);
-		expect(compounds[readonly]!.css).toMatchObject({
-			background: "@color.gray-50",
+		expect(compounds[readonly]!.css).toEqual({
 			borderStyle: "@border-style.dashed",
-			"&:dark": { background: "@color.gray-800" },
+			cursor: "default",
 		});
 	});
 });
@@ -315,23 +336,26 @@ describe("fieldSurfaceCompoundVariants", () => {
 describe("createFieldAddonRecipe", () => {
 	it("uses the trailing padding edge for a prefix", () => {
 		const s = createInstance();
-		const recipe = createFieldAddonRecipe("demo-prefix", "paddingRight")(s);
+		const recipe = createFieldAddonRecipe("demo-prefix", "paddingInlineEnd")(s);
 
 		expect(recipe.name).toBe("demo-prefix");
 		expect(recipe.variants!.size.md).toEqual({
 			fontSize: "@font-size.sm",
-			paddingRight: "@0.5",
+			paddingInlineEnd: "@0.5",
 			gap: "@0.375",
 		});
 	});
 
 	it("uses the leading padding edge for a suffix", () => {
 		const s = createInstance();
-		const recipe = createFieldAddonRecipe("demo-suffix", "paddingLeft")(s);
+		const recipe = createFieldAddonRecipe(
+			"demo-suffix",
+			"paddingInlineStart",
+		)(s);
 
 		expect(recipe.variants!.size.md).toEqual({
 			fontSize: "@font-size.sm",
-			paddingLeft: "@0.5",
+			paddingInlineStart: "@0.5",
 			gap: "@0.375",
 		});
 	});

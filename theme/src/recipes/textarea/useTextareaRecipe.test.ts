@@ -1,5 +1,9 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
@@ -40,6 +44,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -47,7 +53,11 @@ function createInstance() {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	s.variable("color.text-weakest", "#64748B", { default: true });
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -90,8 +100,11 @@ describe("useTextareaRecipe", () => {
 			"&:focus-within": {
 				outlineWidth: "2px",
 				outlineStyle: "solid",
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 				outlineOffset: "2px",
+			},
+			"&:forced-colors:focus-within": {
+				outlineColor: "Highlight",
 			},
 		});
 	});
@@ -126,6 +139,7 @@ describe("useTextareaRecipe", () => {
 			expect(recipe.variants!.size).toEqual({
 				sm: {
 					fontSize: "@font-size.xs",
+					minHeight: "2rem",
 					paddingTop: "@0.375",
 					paddingBottom: "@0.375",
 					paddingLeft: "@0.625",
@@ -134,6 +148,7 @@ describe("useTextareaRecipe", () => {
 				},
 				md: {
 					fontSize: "@font-size.sm",
+					minHeight: "2.25rem",
 					paddingTop: "@0.5",
 					paddingBottom: "@0.5",
 					paddingLeft: "@0.75",
@@ -142,6 +157,7 @@ describe("useTextareaRecipe", () => {
 				},
 				lg: {
 					fontSize: "@font-size.md",
+					minHeight: "2.5rem",
 					paddingTop: "@0.625",
 					paddingBottom: "@0.625",
 					paddingLeft: "@0.875",
@@ -233,7 +249,7 @@ describe("useTextareaRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -241,7 +257,7 @@ describe("useTextareaRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -265,7 +281,7 @@ describe("useTextareaRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -274,7 +290,7 @@ describe("useTextareaRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -296,9 +312,9 @@ describe("useTextareaRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -313,17 +329,13 @@ describe("useTextareaRecipe", () => {
 			expect(cv).toEqual({
 				match: { readonly: "true" },
 				css: {
-					background: "@color.gray-50",
 					borderStyle: "@border-style.dashed",
 					cursor: "default",
-					"&:dark": {
-						background: "@color.gray-800",
-					},
 				},
 			});
 		});
 
-		it("should have correct invalid compound variant overriding border and focus-within ring", () => {
+		it("should have correct invalid compound variant with an error border and inset shadow", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
@@ -336,18 +348,16 @@ describe("useTextareaRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-within": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -368,6 +378,15 @@ describe("useTextareaRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});
