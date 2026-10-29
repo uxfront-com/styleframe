@@ -18,8 +18,9 @@ export const FIELD_MUTED_TEXT =
  * optionally the `readonly` state. Extracted so sibling recipes can paint the
  * exact same surface without re-declaring it — the Input/Textarea wrappers
  * consume it with the read-only state, while the OTP cell consumes it directly
- * on the `<input>` without one. Each consumer draws its own focus ring, in
- * `@color.focus` whatever the state.
+ * on the `<input>` without one. Each consumer draws its own focus ring, and the
+ * surface sets none: the Input and Textarea wrappers draw `@color.focus` in
+ * every state, while the OTP cell keeps its own ring.
  *
  * Hover styles sit behind `hover-capable`, so a tap doesn't leave a field
  * looking hovered. Order matters: `invalid` precedes `readonly`/`disabled` so
@@ -266,8 +267,9 @@ export function fieldSurfaceCompoundVariants({
 			: []),
 
 		// Disabled state — dim, not-allowed cursor. No `pointer-events: none`:
-		// it would hide the cursor too. Forced colors mode can't show opacity,
-		// so the field turns `GrayText` there instead.
+		// it would hide the cursor too. In forced colors mode opacity alone
+		// loses the contrast that sets it apart, so the field turns `GrayText`
+		// there instead.
 		{
 			match: { disabled: "true" },
 			css: {
@@ -515,11 +517,6 @@ export function useFieldSelector(s: Styleframe, query: string) {
 		"&:disabled": {
 			cursor: "not-allowed",
 		},
-		// On touch screens the text is at least 16px, or Safari on iOS zooms in
-		// when the field gets focus.
-		"@media (any-pointer: coarse)": {
-			fontSize: "max(1em, 1rem)",
-		},
 	});
 }
 
@@ -528,8 +525,9 @@ export function useFieldSelector(s: Styleframe, query: string) {
  * its nested native control, beside the `invalid`, `readonly` and `disabled`
  * class variants: `[aria-invalid="true"]`, `[readonly]` and `:disabled`. They
  * read the attributes that assistive technologies report, so what people see
- * and what they hear can't drift apart. `:invalid` and `:read-only` aren't
- * used, since they match a required field before anyone has typed in it.
+ * and what they hear can't drift apart. `:invalid` isn't used, since it
+ * matches a required field before anyone has typed in it, and neither is
+ * `:read-only`, since it also matches every element that isn't editable.
  *
  * `:has()` has no modifier, so these are raw selectors, and their nested
  * blocks are plain CSS. The invalid hover repeats the error border because the

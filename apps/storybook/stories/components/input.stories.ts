@@ -10,19 +10,22 @@ const colors = ["neutral", "light", "dark"] as const;
 const variants = ["default", "soft", "ghost"] as const;
 const sizes = ["sm", "md", "lg"] as const;
 
-// Every example has a visible <label>, linked to the native input by its id.
-const labelled = (label: string) => (args: Record<string, unknown>) => ({
-	components: { Input },
-	setup() {
-		return { args, label };
-	},
-	template: `
+// Every example has a visible <label>, linked to the native input by an id
+// made from the story's own, so the ids stay unique on the docs page too.
+const labelled =
+	(label: string) =>
+	(args: Record<string, unknown>, { id }: { id: string }) => ({
+		components: { Input },
+		setup() {
+			return { args, label, id };
+		},
+		template: `
 		<div class="input-stack">
-			<label for="input-story" class="input-story-label">{{ label }}</label>
-			<Input id="input-story" v-bind="args" />
+			<label :for="id" class="input-story-label">{{ label }}</label>
+			<Input :id="id" v-bind="args" />
 		</div>
 	`,
-});
+	});
 
 const meta = {
 	title: "Theme/Recipes/Forms/Input",
@@ -169,16 +172,16 @@ export const Focus: Story = {
 
 // An invalid input sets aria-invalid and points to its error message.
 export const Invalid: Story = {
-	render: (args) => ({
+	render: (args, { id }) => ({
 		components: { Input },
 		setup() {
-			return { args };
+			return { args, id };
 		},
 		template: `
 			<div class="input-stack">
-				<label for="input-story" class="input-story-label">Email address</label>
-				<Input id="input-story" describedby="input-story-error" v-bind="args" />
-				<p id="input-story-error" class="input-story-message">
+				<label :for="id" class="input-story-label">Email address</label>
+				<Input :id="id" :describedby="id + '-error'" v-bind="args" />
+				<p :id="id + '-error'" class="input-story-message">
 					Enter an email address, like name@example.com
 				</p>
 			</div>
@@ -206,15 +209,15 @@ export const ReadOnly: Story = {
 
 // Inline addon stories — demonstrate prefix/suffix INSIDE the input wrapper
 export const WithPrefix: StoryObj = {
-	render: (args) => ({
+	render: (args, { id }) => ({
 		components: { Input },
 		setup() {
-			return { args };
+			return { args, id };
 		},
 		template: `
 			<div class="input-stack">
-				<label for="input-story" class="input-story-label">Price, in US dollars</label>
-				<Input id="input-story" v-bind="args" placeholder="0.00">
+				<label :for="id" class="input-story-label">Price, in US dollars</label>
+				<Input :id="id" v-bind="args" placeholder="0.00">
 					<template #prefix>$</template>
 				</Input>
 			</div>
@@ -226,15 +229,15 @@ export const WithPrefix: StoryObj = {
 };
 
 export const WithSuffix: StoryObj = {
-	render: (args) => ({
+	render: (args, { id }) => ({
 		components: { Input },
 		setup() {
-			return { args };
+			return { args, id };
 		},
 		template: `
 			<div class="input-stack">
-				<label for="input-story" class="input-story-label">Search, or press ⌘K</label>
-				<Input id="input-story" v-bind="args" placeholder="search...">
+				<label :for="id" class="input-story-label">Search, or press ⌘K</label>
+				<Input :id="id" v-bind="args" placeholder="search...">
 					<template #suffix>⌘K</template>
 				</Input>
 			</div>
@@ -246,15 +249,15 @@ export const WithSuffix: StoryObj = {
 };
 
 export const WithPrefixAndSuffix: StoryObj = {
-	render: (args) => ({
+	render: (args, { id }) => ({
 		components: { Input },
 		setup() {
-			return { args };
+			return { args, id };
 		},
 		template: `
 			<div class="input-stack">
-				<label for="input-story" class="input-story-label">Price, in whole US dollars</label>
-				<Input id="input-story" v-bind="args" placeholder="0">
+				<label :for="id" class="input-story-label">Price, in whole US dollars</label>
+				<Input :id="id" v-bind="args" placeholder="0">
 					<template #prefix>$</template>
 					<template #suffix>.00</template>
 				</Input>
@@ -269,17 +272,17 @@ export const WithPrefixAndSuffix: StoryObj = {
 // Attached controls — group the input with buttons (or any bordered control)
 // as direct children of a FieldGroup; the seams merge into one unit.
 export const WithFieldGroup: StoryObj = {
-	render: (args) => ({
+	render: (args, { id }) => ({
 		components: { Button, Input, FieldGroup },
 		setup() {
-			return { args };
+			return { args, id };
 		},
 		template: `
 			<div class="input-stack">
-				<label for="input-story" class="input-story-label">Amount, in US dollars</label>
+				<label :for="id" class="input-story-label">Amount, in US dollars</label>
 				<FieldGroup>
 					<Button color="neutral" variant="outline" :size="args.size" label="USD" />
-					<Input id="input-story" v-bind="args" placeholder="0.00" />
+					<Input :id="id" v-bind="args" placeholder="0.00" />
 					<Button color="primary" variant="solid" :size="args.size" label="Submit" />
 				</FieldGroup>
 			</div>

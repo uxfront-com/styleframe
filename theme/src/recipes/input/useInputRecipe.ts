@@ -29,13 +29,15 @@ export const useInputRecipe = createFieldRecipe(
 	(s) => {
 		const { selector } = s;
 
-		// On touch screens the nested input reaches past the field to a hit area
-		// at least 44px tall: its 16px text sets a 24px line, and a transparent
-		// 10px border above and below, pulled back by a negative margin, adds the
-		// rest without moving anything. The padding-box clip keeps the browser's
-		// autofill color off that border.
+		// On touch screens the input's text is at least 16px, or Safari on iOS
+		// zooms in when it gets focus. The input also reaches past the field to a
+		// hit area at least 44px tall: its 16px text sets a 24px line, and a
+		// transparent 10px border above and below, pulled back by a negative
+		// margin, adds the rest without moving anything. The padding-box clip
+		// keeps the browser's autofill color off that border.
 		selector(".input-field", {
 			"@media (any-pointer: coarse)": {
+				fontSize: "max(1em, 1rem)",
 				marginBlock: "calc(@spacing * -0.625)",
 				borderBlock: "calc(@spacing * 0.625) solid transparent",
 				backgroundClip: "padding-box",

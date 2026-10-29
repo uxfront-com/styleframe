@@ -371,6 +371,27 @@ describe("useInputDateRecipe", () => {
 
 			expect(found).toBeDefined();
 		});
+
+		it("should keep the segments and separators at one font size on touch screens", () => {
+			const s = createInstance();
+			useInputDateRecipe(s);
+
+			// The touch-screen text size belongs to text inputs. On the segment
+			// container it would grow only the separators.
+			const touch = (
+				s.root.children.filter(
+					(child) =>
+						child.type === "selector" &&
+						(child as { query: string }).query === ".input-date-field",
+				) as unknown as {
+					children: { rule?: string; declarations: Record<string, unknown> }[];
+				}[]
+			)
+				.flatMap((selector) => selector.children)
+				.filter((child) => child.rule === "(any-pointer: coarse)");
+
+			expect(touch.map((child) => child.declarations.fontSize)).toEqual([]);
+		});
 	});
 
 	describe("filter", () => {
