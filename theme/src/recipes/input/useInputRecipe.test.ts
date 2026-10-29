@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+import { consumeCSS } from "@styleframe/transpiler";
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
@@ -560,8 +561,8 @@ describe("Open Components rules", () => {
 		children: Node[];
 	};
 
-	function createPresetInstance() {
-		const s = styleframe();
+	function createPresetInstance(options?: Parameters<typeof styleframe>[0]) {
+		const s = styleframe(options);
 		useDesignTokensPreset(s);
 		useModifiersPreset(s);
 		useUtilitiesPreset(s);
@@ -627,15 +628,17 @@ describe("Open Components rules", () => {
 		}
 	});
 
-	it("input/target-size keeps the field 24px tall and gives the input a 44px hit area on touch screens", () => {
+	it("input/target-size keeps the field at least 24px tall and gives the input a 44px hit area on touch screens", () => {
 		const { s, recipe } = createPresetInstance();
 
 		expect(recipe.variants!.size.sm.minHeight).toBe("2rem");
-		expect(coarse(s)).toMatchObject({
-			marginBlock: expect.objectContaining({ type: "css" }),
-			borderBlock: expect.objectContaining({ type: "css" }),
-			backgroundClip: "padding-box",
-		});
+		// 16px text on a 1.5 line is 24px, and 10px above and below make 44px.
+		expect(coarse(s)).toMatchObject({ backgroundClip: "padding-box" });
+		const output = consumeCSS(s.root, s.options);
+		expect(output).toContain("margin-block: calc(var(--spacing) * -0.625);");
+		expect(output).toContain(
+			"border-block: calc(var(--spacing) * 0.625) solid transparent;",
+		);
 	});
 
 	it("input/no-zoom-on-focus sets the input's text to at least 16px on touch screens", () => {
@@ -763,12 +766,19 @@ describe("Open Components rules", () => {
 				),
 		);
 		expect([...borders].sort()).toEqual(["@color.gray-450", "@color.gray-500"]);
-		expect(
-			media(find(s, ".input"), "(prefers-contrast: more)")?.declarations,
-		).toEqual({
-			"--color--gray-450": "currentColor",
-			"--color--gray-500": "currentColor",
+		expect(media(find(s, ".input"), "(prefers-contrast: more)")).toBeDefined();
+	});
+
+	it("input/more-contrast overrides the border colors under the instance's own variable names", () => {
+		const { s } = createPresetInstance({
+			variables: { name: ({ name }) => `sf-${name.replace(/\./g, "-")}` },
 		});
+
+		const output = consumeCSS(s.root, s.options);
+		expect(output).toContain("var(--sf-color-gray-450)");
+		expect(output).toMatch(
+			/@media \(prefers-contrast: more\) \{\s+--sf-color-gray-450: currentColor;\s+--sf-color-gray-500: currentColor;/,
+		);
 	});
 
 	it("input/mirrors-in-rtl uses logical padding for the prefix and suffix, and the same padding on both sides", () => {

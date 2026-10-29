@@ -570,10 +570,10 @@ export function useFieldStateSelectors(s: Styleframe, name: string) {
 		},
 	});
 
-	selector(`.${name}`, {
-		"@media (prefers-contrast: more)": {
-			"--color--gray-450": "currentColor",
-			"--color--gray-500": "currentColor",
-		},
+	selector(`.${name}`, ({ media }) => {
+		media("(prefers-contrast: more)", ({ variable }) => {
+			variable("color.gray-450", "currentColor", { default: true });
+			variable("color.gray-500", "currentColor", { default: true });
+		});
 	});
 }
