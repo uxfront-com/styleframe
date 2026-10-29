@@ -12,6 +12,7 @@ function createInstance() {
 		"flexShrink",
 		"fontSize",
 		"lineHeight",
+		"verticalAlign",
 		"color",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
@@ -79,7 +80,7 @@ describe("useSpinnerRecipe", () => {
 				sm: {},
 				md: {},
 				lg: {},
-				em: { fontSize: "inherit" },
+				em: { fontSize: "inherit", verticalAlign: "-0.125em" },
 			});
 		});
 	});
@@ -111,6 +112,9 @@ describe("useSpinnerRecipe", () => {
 			);
 			expect(cv?.css).toEqual({
 				color: "@color.primary",
+				"&:dark": {
+					color: "@color.primary-400",
+				},
 			});
 		});
 
@@ -159,11 +163,14 @@ describe("useSpinnerRecipe", () => {
 	});
 
 	describe("Open Components rules", () => {
-		it("spinner/em-sized adds an em size that takes the font size of the text around it", () => {
+		it("spinner/em-sized adds an em size that takes the font size of the text around it and centres on it", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			expect(recipe.variants!.size.em).toEqual({ fontSize: "inherit" });
+			expect(recipe.variants!.size.em).toEqual({
+				fontSize: "inherit",
+				verticalAlign: "-0.125em",
+			});
 			expect(recipe.defaultVariants?.size).toBe("md");
 		});
 

@@ -28,6 +28,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			lg: {},
 			em: {
 				fontSize: "inherit",
+				verticalAlign: "-0.125em",
 			},
 		},
 	},
@@ -36,6 +37,9 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			match: { color: "primary" as const },
 			css: {
 				color: "@color.primary",
+				"&:dark": {
+					color: "@color.primary-400",
+				},
 			},
 		},
 		{

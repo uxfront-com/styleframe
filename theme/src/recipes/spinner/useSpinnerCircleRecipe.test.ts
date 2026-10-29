@@ -51,7 +51,7 @@ describe("useSpinnerCircleRecipe", () => {
 			"&:motion-reduce": {
 				animationName: "spinner-pulse",
 				animationDuration: "1.6s !important",
-				animationTimingFunction: "ease-in-out",
+				animationTimingFunction: "@easing.ease-in-out",
 				animationIterationCount: "infinite !important",
 			},
 		});
@@ -138,7 +138,7 @@ describe("useSpinnerCircleRecipe", () => {
 			expect(recipe.base?.["&:motion-reduce"]).toEqual({
 				animationName: "spinner-pulse",
 				animationDuration: "1.6s !important",
-				animationTimingFunction: "ease-in-out",
+				animationTimingFunction: "@easing.ease-in-out",
 				animationIterationCount: "infinite !important",
 			});
 			const pulse = expectKeyframesRegistered(s, "spinner-pulse");

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Spinner from "../../src/components/components/spinner/Spinner.vue";
+import SpinnerOverlay from "../../src/components/components/spinner/SpinnerOverlay.vue";
 import SpinnerGrid from "../../src/components/components/spinner/preview/SpinnerGrid.vue";
 import SpinnerSizeGrid from "../../src/components/components/spinner/preview/SpinnerSizeGrid.vue";
 
@@ -65,8 +66,22 @@ export const Light: Story = {
 	args: { color: "light" },
 };
 
+// dark is for dark surfaces, so it's shown on the overlay's backdrop.
 export const Dark: Story = {
 	args: { color: "dark" },
+	render: (args) => ({
+		components: { Spinner, SpinnerOverlay },
+		setup() {
+			return { args };
+		},
+		template: `
+			<div class="spinner-backdrop">
+				<SpinnerOverlay>
+					<Spinner v-bind="args" />
+				</SpinnerOverlay>
+			</div>
+		`,
+	}),
 };
 
 export const Neutral: Story = {

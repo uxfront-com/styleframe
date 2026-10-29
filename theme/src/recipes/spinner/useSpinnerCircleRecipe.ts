@@ -21,7 +21,7 @@ export const useSpinnerCircleRecipe = createUseRecipe(
 			"&:motion-reduce": {
 				animationName: "spinner-pulse",
 				animationDuration: "1.6s !important",
-				animationTimingFunction: "ease-in-out",
+				animationTimingFunction: "@easing.ease-in-out",
 				animationIterationCount: "infinite !important",
 			},
 		},
