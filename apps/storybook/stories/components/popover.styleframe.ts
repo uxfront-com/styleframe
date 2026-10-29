@@ -53,6 +53,40 @@ selector(".popover-wrapper", {
 	alignItems: "center",
 });
 
+// Inline examples keep a readable width without inline styles.
+selector(".popover-demo", {
+	maxWidth: "25rem",
+});
+
+selector(".popover-demo-narrow", {
+	maxWidth: "18.75rem",
+});
+
+// Room around the triggers, so each top-layer popover opens on its own side:
+// above and below the first column, before the third and after the fifth.
+selector(".popover-stage", {
+	display: "grid",
+	gridTemplateColumns: "auto 19rem auto @spacing.md auto",
+	gridTemplateAreas: '"top . start . end" "bottom . start . end"',
+	rowGap: "@spacing.md",
+	justifyContent: "center",
+	alignItems: "center",
+	paddingBlock: "14rem",
+	paddingInline: "@spacing.md",
+});
+
+// Each trigger anchors the popover it opens.
+for (const placement of ["top", "bottom", "start", "end"]) {
+	selector(`.popover-anchor-${placement}`, {
+		anchorName: `--popover-anchor-${placement}`,
+		gridArea: placement,
+	});
+	selector(`.popover-at-${placement}`, {
+		positionAnchor: `--popover-anchor-${placement}`,
+		width: "15rem",
+	});
+}
+
 selector(".popover-arrow-position", {
 	bottom: "calc(@popover.arrow.size * -1)",
 	left: "calc(50% - @popover.arrow.size)",
