@@ -11,11 +11,11 @@ const sizeTitles: Record<string, string> = {
 
 <template>
 	<div class="input-section">
-		<div v-for="size in sizes" :key="size">
-			<div class="input-label">{{ size }}</div>
-			<div class="input-row">
-				<Input :size="size" :placeholder="sizeTitles[size]" />
-			</div>
+		<div v-for="size in sizes" :key="size" class="input-stack">
+			<label :for="`input-${size}`" class="input-story-label">
+				{{ sizeTitles[size] }}
+			</label>
+			<Input :id="`input-${size}`" :size="size" placeholder="Ada Lovelace" />
 		</div>
 	</div>
 </template>

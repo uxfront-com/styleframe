@@ -5,24 +5,32 @@ import {
 } from "../../utils/createUseRecipe";
 
 /**
+ * The muted text of a field (its placeholder, prefix and suffix): the field's
+ * own text color at 75%, which keeps 4.5:1 on every color, variant and mode
+ * (`fieldSurfaceContrast.test.ts`).
+ */
+export const FIELD_MUTED_TEXT =
+	"color-mix(in srgb, currentColor 75%, transparent)";
+
+/**
  * The shared field surface as a compound-variant array: the nine color×variant
  * combinations plus the `invalid` and `disabled` state overrides, and
  * optionally the `readonly` state. Extracted so sibling recipes can paint the
  * exact same surface without re-declaring it — the Input/Textarea wrappers
- * consume it with the `:focus-within` ring and the read-only state, while the
- * OTP cell consumes it directly on the `<input>` with a `:focus-visible` ring
- * and no read-only state.
+ * consume it with the read-only state, while the OTP cell consumes it directly
+ * on the `<input>` without one. Each consumer draws its own focus ring, in
+ * `@color.focus` whatever the state.
  *
- * Order matters: `invalid` precedes `readonly`/`disabled` so its error border
- * wins over the color/variant rules but can still be dimmed by the disabled
- * state. Like the builders below, it is intentionally not re-exported from the
- * package barrel — it is internal to the field recipes family.
+ * Hover styles sit behind `hover-capable`, so a tap doesn't leave a field
+ * looking hovered. Order matters: `invalid` precedes `readonly`/`disabled` so
+ * its error border wins over the color/variant rules but can still be dimmed by
+ * the disabled state. Like the builders below, it is intentionally not
+ * re-exported from the package barrel — it is internal to the field recipes
+ * family.
  */
 export function fieldSurfaceCompoundVariants({
-	focusModifier = "focus-within",
 	includeReadonly = true,
 }: {
-	focusModifier?: "focus-within" | "focus-visible";
 	includeReadonly?: boolean;
 } = {}): NonNullable<RecipeConfig["compoundVariants"]> {
 	return [
@@ -33,7 +41,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.white",
 				borderColor: "@color.gray-450",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
@@ -41,7 +49,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-450",
 					color: "@color.text-inverted",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 			},
@@ -52,7 +60,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.gray-100",
 				borderColor: "@color.gray-450",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
@@ -60,7 +68,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-450",
 					color: "@color.text-inverted",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 			},
@@ -74,16 +82,18 @@ export function fieldSurfaceCompoundVariants({
 				borderBottomLeftRadius: "0",
 				borderBottomRightRadius: "0",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderBottomColor: "@color.gray-500",
 				},
+				// A ghost has no fill, so on a dark page the light color takes its
+				// own white fill to keep its dark text readable.
 				"&:dark": {
-					background: "transparent",
+					background: "@color.white",
 					borderColor: "transparent",
 					borderBottomColor: "@color.gray-450",
 					color: "@color.text-inverted",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderBottomColor: "@color.gray-500",
 				},
 			},
@@ -96,7 +106,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.gray-900",
 				borderColor: "@color.gray-500",
 				color: "@color.white",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 				"&:dark": {
@@ -104,7 +114,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-500",
 					color: "@color.white",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 			},
@@ -115,7 +125,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.gray-800",
 				borderColor: "@color.gray-500",
 				color: "@color.gray-300",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 				"&:dark": {
@@ -123,7 +133,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 			},
@@ -131,13 +141,15 @@ export function fieldSurfaceCompoundVariants({
 		{
 			match: { color: "dark", variant: "ghost" },
 			css: {
-				background: "transparent",
+				// On a light page the dark color takes its own fill to keep its light
+				// text readable, and goes transparent on a dark page.
+				background: "@color.gray-900",
 				borderColor: "transparent",
 				borderBottomColor: "@color.gray-500",
 				borderBottomLeftRadius: "0",
 				borderBottomRightRadius: "0",
 				color: "@color.gray-300",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderBottomColor: "@color.gray-450",
 				},
 				"&:dark": {
@@ -146,7 +158,7 @@ export function fieldSurfaceCompoundVariants({
 					borderBottomColor: "@color.gray-500",
 					color: "@color.gray-300",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderBottomColor: "@color.gray-450",
 				},
 			},
@@ -159,7 +171,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.white",
 				borderColor: "@color.gray-450",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
@@ -167,7 +179,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-500",
 					color: "@color.white",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 			},
@@ -178,7 +190,7 @@ export function fieldSurfaceCompoundVariants({
 				background: "@color.gray-100",
 				borderColor: "@color.gray-450",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderColor: "@color.gray-500",
 				},
 				"&:dark": {
@@ -186,7 +198,7 @@ export function fieldSurfaceCompoundVariants({
 					borderColor: "@color.gray-500",
 					color: "@color.gray-300",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.gray-450",
 				},
 			},
@@ -200,7 +212,7 @@ export function fieldSurfaceCompoundVariants({
 				borderBottomLeftRadius: "0",
 				borderBottomRightRadius: "0",
 				color: "@color.text",
-				"&:hover": {
+				"&:hover-capable:hover": {
 					borderBottomColor: "@color.gray-500",
 				},
 				"&:dark": {
@@ -209,61 +221,67 @@ export function fieldSurfaceCompoundVariants({
 					borderBottomColor: "@color.gray-500",
 					color: "@color.white",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderBottomColor: "@color.gray-450",
 				},
 			},
 		},
 
-		// Invalid state — overrides border and focus ring to error color. It sets
-		// the bottom color too, so it replaces the ghost underline's color.
+		// Invalid state — an error border, doubled by an inset shadow so the field
+		// doesn't grow. It sets the bottom color too, so it replaces the ghost
+		// underline's color. The focus ring keeps `@color.focus`.
 		{
 			match: { invalid: "true" },
 			css: {
 				borderColor: "@color.error",
 				borderBottomColor: "@color.error",
-				"&:hover": {
+				boxShadow: "inset 0 0 0 1px @color.error",
+				"&:hover-capable:hover": {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-				},
-				[`&:${focusModifier}`]: {
-					outlineColor: "@color.error",
 				},
 				"&:dark": {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
 				},
-				"&:dark:hover": {
+				"&:dark:hover-capable:hover": {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
 				},
 			},
 		},
 
-		// Read-only state — dashed border, subtle background shift, default cursor.
+		// Read-only state — dashed border and default cursor. The fill stays, so
+		// the value keeps its contrast on every color.
 		...(includeReadonly
 			? [
 					{
 						match: { readonly: "true" },
 						css: {
-							background: "@color.gray-50",
 							borderStyle: "@border-style.dashed",
 							cursor: "default",
-							"&:dark": {
-								background: "@color.gray-800",
-							},
 						},
 					},
 				]
 			: []),
 
 		// Disabled state — dim, not-allowed cursor. No `pointer-events: none`:
-		// it would hide the cursor too.
+		// it would hide the cursor too. Forced colors mode can't show opacity,
+		// so the field turns `GrayText` there instead.
 		{
 			match: { disabled: "true" },
 			css: {
 				opacity: "0.5",
 				cursor: "not-allowed",
+				"&:forced-colors": {
+					borderColor: "GrayText",
+					color: "GrayText",
+					opacity: "1",
+				},
+				"&:dark:forced-colors": {
+					borderColor: "GrayText",
+					color: "GrayText",
+				},
 			},
 		},
 	];
@@ -294,7 +312,12 @@ export function createFieldRecipe<
 	} = {},
 	setup?: (s: Styleframe) => void,
 ) {
-	/** Shared variant axes: color, visual style, size, and the three boolean states. */
+	/**
+	 * Shared variant axes: color, visual style, size, and the three boolean
+	 * states. Sizes set a `min-height` in rem, so a field grows with its text
+	 * instead of clipping it. The padding is the same on both sides, so it
+	 * mirrors in right-to-left layouts as it is.
+	 */
 	const fieldRecipeVariants = {
 		color: {
 			light: {},
@@ -309,6 +332,7 @@ export function createFieldRecipe<
 		size: {
 			sm: {
 				fontSize: "@font-size.xs",
+				minHeight: "2rem",
 				paddingTop: "@0.375",
 				paddingBottom: "@0.375",
 				paddingLeft: "@0.625",
@@ -317,6 +341,7 @@ export function createFieldRecipe<
 			},
 			md: {
 				fontSize: "@font-size.sm",
+				minHeight: "2.25rem",
 				paddingTop: "@0.5",
 				paddingBottom: "@0.5",
 				paddingLeft: "@0.75",
@@ -325,6 +350,7 @@ export function createFieldRecipe<
 			},
 			lg: {
 				fontSize: "@font-size.md",
+				minHeight: "2.5rem",
 				paddingTop: "@0.625",
 				paddingBottom: "@0.625",
 				paddingLeft: "@0.875",
@@ -383,8 +409,11 @@ export function createFieldRecipe<
 				"&:focus-within": {
 					outlineWidth: "2px",
 					outlineStyle: "solid",
-					outlineColor: "@color.primary",
+					outlineColor: "@color.focus",
 					outlineOffset: "2px",
+				},
+				"&:forced-colors:focus-within": {
+					outlineColor: "Highlight",
 				},
 				...extras.base,
 			},
@@ -395,7 +424,7 @@ export function createFieldRecipe<
 			/**
 			 * The 12 compound variants: 9 color×variant combinations plus the invalid,
 			 * read-only, and disabled state overrides, from the shared field surface
-			 * (`:focus-within` ring, read-only included), then any per-field extras.
+			 * (read-only included), then any per-field extras.
 			 */
 			compoundVariants: [
 				...fieldSurfaceCompoundVariants(),
@@ -414,6 +443,7 @@ export function createFieldRecipe<
 		},
 		(s) => {
 			useFieldSelector(s, `.${name}-field`);
+			useFieldStateSelectors(s, name);
 			setup?.(s);
 		},
 	);
@@ -422,23 +452,22 @@ export function createFieldRecipe<
 /**
  * Builds an inline addon recipe (prefix/suffix) rendered inside the field
  * wrapper, sharing its surface. `side` selects the inner padding edge:
- * `paddingRight` for a leading prefix, `paddingLeft` for a trailing suffix.
+ * `paddingInlineEnd` for a leading prefix, `paddingInlineStart` for a trailing
+ * suffix, so the gap follows the text in right-to-left layouts. The text is the
+ * field's own color at {@link FIELD_MUTED_TEXT}, like the placeholder.
  */
 export function createFieldAddonRecipe(
 	name: string,
-	side: "paddingLeft" | "paddingRight",
+	side: "paddingInlineStart" | "paddingInlineEnd",
 ) {
 	return createUseRecipe(name, {
 		base: {
 			display: "inline-flex",
 			alignItems: "center",
 			flexShrink: "0",
-			color: "@color.text-weak",
+			color: FIELD_MUTED_TEXT,
 			whiteSpace: "nowrap",
 			userSelect: "none",
-			"&:dark": {
-				color: "@color.gray-400",
-			},
 		},
 		variants: {
 			size: {
@@ -479,10 +508,72 @@ export function useFieldSelector(s: Styleframe, query: string) {
 		fontWeight: "inherit",
 		lineHeight: "inherit",
 		"&::placeholder": {
-			color: "@color.text-weakest",
+			color: FIELD_MUTED_TEXT,
+			// Firefox lowers the placeholder's opacity on its own.
+			opacity: "1",
 		},
 		"&:disabled": {
 			cursor: "not-allowed",
+		},
+		// On touch screens the text is at least 16px, or Safari on iOS zooms in
+		// when the field gets focus.
+		"@media (any-pointer: coarse)": {
+			fontSize: "max(1em, 1rem)",
+		},
+	});
+}
+
+/**
+ * Registers the state hooks that style a field wrapper from the attributes on
+ * its nested native control, beside the `invalid`, `readonly` and `disabled`
+ * class variants: `[aria-invalid="true"]`, `[readonly]` and `:disabled`. They
+ * read the attributes that assistive technologies report, so what people see
+ * and what they hear can't drift apart. `:invalid` and `:read-only` aren't
+ * used, since they match a required field before anyone has typed in it.
+ *
+ * `:has()` has no modifier, so these are raw selectors, and their nested
+ * blocks are plain CSS. The invalid hover repeats the error border because the
+ * dark hover utilities have the same specificity as `:has()` and come later.
+ *
+ * With `prefers-contrast: more`, the two gray levels the borders use resolve
+ * to the field's text color inside the wrapper, so every border, at rest and
+ * on hover, in either mode, is drawn at full strength.
+ */
+export function useFieldStateSelectors(s: Styleframe, name: string) {
+	const { selector } = s;
+	const control = (state: string) => `.${name}:has(> .${name}-field${state})`;
+
+	selector(control('[aria-invalid="true"]'), {
+		borderColor: "@color.error",
+		borderBottomColor: "@color.error",
+		boxShadow: "inset 0 0 0 1px @color.error",
+		"@media (hover: hover)": {
+			"&:hover": {
+				borderColor: "@color.error",
+				borderBottomColor: "@color.error",
+			},
+		},
+	});
+
+	selector(control("[readonly]"), {
+		borderStyle: "@border-style.dashed",
+		cursor: "default",
+	});
+
+	selector(control(":disabled"), {
+		opacity: "0.5",
+		cursor: "not-allowed",
+		"@media (forced-colors: active)": {
+			borderColor: "GrayText",
+			color: "GrayText",
+			opacity: "1",
+		},
+	});
+
+	selector(`.${name}`, {
+		"@media (prefers-contrast: more)": {
+			"--color--gray-450": "currentColor",
+			"--color--gray-500": "currentColor",
 		},
 	});
 }

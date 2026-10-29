@@ -9,5 +9,5 @@ import { createFieldAddonRecipe } from "./createFieldRecipe";
  */
 export const useInputSuffixRecipe = createFieldAddonRecipe(
 	"input-suffix",
-	"paddingLeft",
+	"paddingInlineStart",
 );

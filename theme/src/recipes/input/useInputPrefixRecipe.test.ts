@@ -1,5 +1,4 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useInputPrefixRecipe } from "./useInputPrefixRecipe";
 
 function createInstance() {
@@ -12,12 +11,11 @@ function createInstance() {
 		"whiteSpace",
 		"userSelect",
 		"fontSize",
-		"paddingRight",
+		"paddingInlineEnd",
 		"gap",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
-	useDarkModifier(s);
 	return s;
 }
 
@@ -38,12 +36,9 @@ describe("useInputPrefixRecipe", () => {
 			display: "inline-flex",
 			alignItems: "center",
 			flexShrink: "0",
-			color: "@color.text-weak",
+			color: "color-mix(in srgb, currentColor 75%, transparent)",
 			whiteSpace: "nowrap",
 			userSelect: "none",
-			"&:dark": {
-				color: "@color.gray-400",
-			},
 		});
 	});
 
@@ -61,7 +56,7 @@ describe("useInputPrefixRecipe", () => {
 
 			expect(recipe.variants!.size.md).toEqual({
 				fontSize: "@font-size.sm",
-				paddingRight: "@0.5",
+				paddingInlineEnd: "@0.5",
 				gap: "@0.375",
 			});
 		});

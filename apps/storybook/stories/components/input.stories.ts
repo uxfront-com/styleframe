@@ -10,6 +10,20 @@ const colors = ["neutral", "light", "dark"] as const;
 const variants = ["default", "soft", "ghost"] as const;
 const sizes = ["sm", "md", "lg"] as const;
 
+// Every example has a visible <label>, linked to the native input by its id.
+const labelled = (label: string) => (args: Record<string, unknown>) => ({
+	components: { Input },
+	setup() {
+		return { args, label };
+	},
+	template: `
+		<div class="input-stack">
+			<label for="input-story" class="input-story-label">{{ label }}</label>
+			<Input id="input-story" v-bind="args" />
+		</div>
+	`,
+});
+
 const meta = {
 	title: "Theme/Recipes/Forms/Input",
 	component: Input,
@@ -17,6 +31,7 @@ const meta = {
 	parameters: {
 		layout: "padded",
 	},
+	render: labelled("Full name"),
 	argTypes: {
 		color: {
 			control: "select",
@@ -146,24 +161,46 @@ export const Large: Story = {
 };
 
 // State stories
+export const Focus: Story = {
+	args: {
+		placeholder: "Ada Lovelace",
+	},
+};
+
+// An invalid input sets aria-invalid and points to its error message.
 export const Invalid: Story = {
+	render: (args) => ({
+		components: { Input },
+		setup() {
+			return { args };
+		},
+		template: `
+			<div class="input-stack">
+				<label for="input-story" class="input-story-label">Email address</label>
+				<Input id="input-story" describedby="input-story-error" v-bind="args" />
+				<p id="input-story-error" class="input-story-message">
+					Enter an email address, like name@example.com
+				</p>
+			</div>
+		`,
+	}),
 	args: {
 		invalid: true,
-		placeholder: "Invalid input",
+		modelValue: "ada@",
 	},
 };
 
 export const Disabled: Story = {
 	args: {
 		disabled: true,
-		placeholder: "Disabled input",
+		modelValue: "Ada Lovelace",
 	},
 };
 
 export const ReadOnly: Story = {
 	args: {
 		readonly: true,
-		modelValue: "Read-only value",
+		modelValue: "Ada Lovelace",
 	},
 };
 
@@ -175,9 +212,12 @@ export const WithPrefix: StoryObj = {
 			return { args };
 		},
 		template: `
-			<Input v-bind="args" placeholder="0.00">
-				<template #prefix>$</template>
-			</Input>
+			<div class="input-stack">
+				<label for="input-story" class="input-story-label">Price, in US dollars</label>
+				<Input id="input-story" v-bind="args" placeholder="0.00">
+					<template #prefix>$</template>
+				</Input>
+			</div>
 		`,
 	}),
 	args: {
@@ -192,9 +232,12 @@ export const WithSuffix: StoryObj = {
 			return { args };
 		},
 		template: `
-			<Input v-bind="args" placeholder="search...">
-				<template #suffix>⌘K</template>
-			</Input>
+			<div class="input-stack">
+				<label for="input-story" class="input-story-label">Search, or press ⌘K</label>
+				<Input id="input-story" v-bind="args" placeholder="search...">
+					<template #suffix>⌘K</template>
+				</Input>
+			</div>
 		`,
 	}),
 	args: {
@@ -209,10 +252,13 @@ export const WithPrefixAndSuffix: StoryObj = {
 			return { args };
 		},
 		template: `
-			<Input v-bind="args" placeholder="0.00">
-				<template #prefix>$</template>
-				<template #suffix>.00</template>
-			</Input>
+			<div class="input-stack">
+				<label for="input-story" class="input-story-label">Price, in whole US dollars</label>
+				<Input id="input-story" v-bind="args" placeholder="0">
+					<template #prefix>$</template>
+					<template #suffix>.00</template>
+				</Input>
+			</div>
 		`,
 	}),
 	args: {
@@ -229,11 +275,14 @@ export const WithFieldGroup: StoryObj = {
 			return { args };
 		},
 		template: `
-			<FieldGroup>
-				<Button color="neutral" variant="outline" :size="args.size" label="USD" />
-				<Input v-bind="args" placeholder="0.00" />
-				<Button color="primary" variant="solid" :size="args.size" label="Submit" />
-			</FieldGroup>
+			<div class="input-stack">
+				<label for="input-story" class="input-story-label">Amount, in US dollars</label>
+				<FieldGroup>
+					<Button color="neutral" variant="outline" :size="args.size" label="USD" />
+					<Input id="input-story" v-bind="args" placeholder="0.00" />
+					<Button color="primary" variant="solid" :size="args.size" label="Submit" />
+				</FieldGroup>
+			</div>
 		`,
 	}),
 	args: {

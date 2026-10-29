@@ -9,5 +9,5 @@ import { createFieldAddonRecipe } from "../input/createFieldRecipe";
  */
 export const useTextareaSuffixRecipe = createFieldAddonRecipe(
 	"textarea-suffix",
-	"paddingLeft",
+	"paddingInlineStart",
 );
