@@ -1,0 +1,5 @@
+---
+"@styleframe/theme": minor
+---
+
+Add a `useCardMediaRecipe` for an image at the top of a card, and make the card recipes meet the Open Components Card standard. A link in a heading inside the card header now stretches over the whole card, actions in the card stay clickable above it, and the card shows a 2px `color.focus` ring outside its border when that link has keyboard focus, through `useCardRecipe`'s setup selectors. Hover strengthens the border and underlines the heading only inside `@media (hover: hover)`, the border goes to full strength with `prefers-contrast: more` and stays a system colour in forced colours mode. The card no longer sets `overflow: hidden`, so content and the focus ring are never clipped, and it wraps long words with `overflow-wrap: break-word`. `useCardHeaderRecipe`, `useCardBodyRecipe` and `useCardFooterRecipe` pad their inline sides with `paddingInline` instead of `paddingLeft` and `paddingRight`, so cards mirror in right-to-left layouts. The media part shows above the header with `order: -1` and keeps a `16 / 9` aspect ratio. Every recipe name, axis, value and default stays the same.
