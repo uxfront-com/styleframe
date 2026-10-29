@@ -663,18 +663,22 @@ describe("Open Components rules", () => {
 		}
 	});
 
-	it("textarea/target-size keeps the field at least 24px tall, and 44px tall on touch screens", () => {
+	it("textarea/target-size keeps the field at least 24px tall, and the textarea itself 44px tall on touch screens", () => {
 		const { s, recipe } = createPresetInstance();
 
 		expect(recipe.variants!.size.sm.minHeight).toBe("2rem");
-		// The `:has()` outranks the size's min-height utility class.
-		expect(
-			declarations(
-				s,
-				".textarea:has(> .textarea-field)",
-				"(any-pointer: coarse)",
-			),
-		).toEqual({ minHeight: "2.75rem" });
+		// The textarea takes the pointer, so it gets the 44px itself: 2.75rem
+		// first, then the larger of that and its rows, where typed attr() works.
+		const coarse = find(s, ".textarea-field")
+			.flatMap((node) => node.children)
+			.filter((child) => child.rule === "(any-pointer: coarse)")
+			.map((child) => child.declarations.minHeight)
+			.filter(Boolean);
+		expect(coarse).toEqual([
+			"2.75rem",
+			`max(${lines("rows", ", 2")}, 2.75rem)`,
+		]);
+		expect(find(s, ".textarea:has(> .textarea-field)")).toEqual([]);
 	});
 
 	it("textarea/no-zoom-on-focus sets the textarea's text to at least 16px on touch screens", () => {
@@ -716,9 +720,18 @@ describe("Open Components rules", () => {
 		const { s, recipe } = createPresetInstance();
 
 		expect(recipe.defaultVariants!.resize).toBe("vertical");
+		// `block` follows the writing mode, and `vertical` is for browsers that
+		// don't know it.
 		expect(
 			declarations(s, ".textarea.-resize-vertical .textarea-field"),
 		).toEqual({ resize: "vertical" });
+		expect(
+			declarations(
+				s,
+				".textarea.-resize-vertical .textarea-field",
+				"(resize: block)",
+			),
+		).toEqual({ resize: "block" });
 		const off = selectors(s)
 			.filter(
 				(node) =>

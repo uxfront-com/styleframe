@@ -243,7 +243,7 @@ export const AutoGrow: Story = {
 		rows: 2,
 		maxRows: 6,
 		modelValue:
-			"Write a few more lines here, and the field grows with them until it reaches six rows.",
+			"Thanks for the quick reply.\nThe parcel arrived on Monday.\nOne of the cups was cracked.\nCould you send a new one?\nThe order number is on the box.\nI can send a photo too.\nThanks again.",
 	},
 };
 

@@ -58,23 +58,32 @@ export const useTextareaRecipe = createFieldRecipe(
 		// declaration: there `rows` still sets the starting height, except with
 		// `autogrow`, which then starts at the height of its text. On touch
 		// screens its text is at least 16px, or Safari on iOS zooms in when it
-		// gets focus, and the field is at least 44px tall, whatever its rows:
-		// the `:has()` outranks the size's min-height.
+		// gets focus. The textarea takes the pointer, so it is the one that is
+		// at least 44px tall there, whatever its rows: the second rule keeps
+		// its rows too where typed `attr()` works, and the first holds where
+		// it doesn't.
 		selector(".textarea-field", {
 			minHeight: "calc(attr(rows type(<number>), 2) * 1lh)",
 			"@media (any-pointer: coarse)": {
 				fontSize: "max(1em, 1rem)",
+				minHeight: "2.75rem",
 			},
 		});
-		selector(".textarea:has(> .textarea-field)", {
+		selector(".textarea-field", {
 			"@media (any-pointer: coarse)": {
-				minHeight: "2.75rem",
+				minHeight: "max(calc(attr(rows type(<number>), 2) * 1lh), 2.75rem)",
 			},
 		});
 
 		selector(".textarea.-resize-none .textarea-field", { resize: "none" });
+		// Only taller or shorter, so it never outgrows its column. `block`
+		// follows the writing mode, and `vertical` is for browsers that don't
+		// know it.
 		selector(".textarea.-resize-vertical .textarea-field", {
 			resize: "vertical",
+			"@supports (resize: block)": {
+				resize: "block",
+			},
 		});
 		selector(".textarea.-resize-horizontal .textarea-field", {
 			resize: "horizontal",
