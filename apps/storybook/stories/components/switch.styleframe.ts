@@ -37,4 +37,17 @@ selector(".switch-label", {
 	minWidth: "120px",
 });
 
+selector(".switch-stack", {
+	display: "flex",
+	flexDirection: "column",
+	gap: "@spacing.xs",
+	alignItems: "flex-start",
+});
+
+selector(".switch-story-message", {
+	margin: "0",
+	fontSize: "@font-size.sm",
+	color: "@color.text",
+});
+
 export default s;
