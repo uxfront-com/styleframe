@@ -75,16 +75,19 @@ selector(".popover-stage", {
 	paddingInline: "@spacing.md",
 });
 
-// Each trigger anchors the popover it opens.
-for (const placement of ["top", "bottom", "start", "end"]) {
-	selector(`.popover-anchor-${placement}`, {
-		anchorName: `--popover-anchor-${placement}`,
-		gridArea: placement,
-	});
-	selector(`.popover-at-${placement}`, {
-		positionAnchor: `--popover-anchor-${placement}`,
-		width: "15rem",
-	});
+// Each trigger anchors the popover it opens, per story, so stories that
+// share the docs page don't share anchors.
+for (const story of ["top-layer", "placements", "focus"]) {
+	for (const placement of ["top", "bottom", "start", "end"]) {
+		selector(`.popover-anchor-${story}-${placement}`, {
+			anchorName: `--popover-anchor-${story}-${placement}`,
+			gridArea: placement,
+		});
+		selector(`.popover-at-${story}-${placement}`, {
+			positionAnchor: `--popover-anchor-${story}-${placement}`,
+			width: "15rem",
+		});
+	}
 }
 
 selector(".popover-arrow-position", {

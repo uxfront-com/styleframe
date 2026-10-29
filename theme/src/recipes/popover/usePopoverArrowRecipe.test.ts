@@ -231,26 +231,57 @@ describe("usePopoverArrowRecipe", () => {
 			end: "InlineEnd",
 		} as const;
 
-		it.each(Object.entries(drawn))(
+		// The triangle's three drawn sides, and where its `:after` fill sits.
+		const triangle = (
+			sides: readonly string[],
+			colored: string,
+			after: Record<string, string>,
+		) => {
+			const draw = (width: string) =>
+				Object.fromEntries(
+					sides.flatMap((side) => [
+						[`border${side}Width`, width],
+						[`border${side}Style`, "@border-style.solid"],
+						[
+							`border${side}Color`,
+							side === colored ? "currentColor" : "transparent",
+						],
+					]),
+				);
+			return {
+				...draw("calc(@popover.arrow.size + 1px)"),
+				"&:after": { ...draw("@popover.arrow.size"), ...after },
+			};
+		};
+
+		const expected = {
+			top: triangle(["InlineStart", "InlineEnd", "Top"], drawn.top, {
+				insetInlineStart: "calc(@popover.arrow.size * -1)",
+				top: "calc(@popover.arrow.size * -1 - 1px)",
+			}),
+			bottom: triangle(["InlineStart", "InlineEnd", "Bottom"], drawn.bottom, {
+				insetInlineStart: "calc(@popover.arrow.size * -1)",
+				top: "1px",
+			}),
+			start: triangle(["Top", "Bottom", "InlineStart"], drawn.start, {
+				insetInlineStart: "calc(@popover.arrow.size * -1 - 1px)",
+				top: "calc(@popover.arrow.size * -1)",
+			}),
+			end: triangle(["Top", "Bottom", "InlineEnd"], drawn.end, {
+				insetInlineStart: "1px",
+				top: "calc(@popover.arrow.size * -1)",
+			}),
+		};
+
+		it.each(Object.keys(drawn) as (keyof typeof drawn)[])(
 			"popover/points-at-trigger turns the arrow back at the anchor for %s",
-			(placement, colored) => {
+			(placement) => {
 				const s = createInstance();
 				const recipe = usePopoverArrowRecipe(s);
-				const block = recipe.variants!.placement[
-					placement as keyof typeof drawn
-				] as Record<string, unknown>;
-				const after = block["&:after"] as Record<string, unknown>;
 
-				for (const side of sides) {
-					const expected =
-						side === colored
-							? "currentColor"
-							: block[`border${side}Width`]
-								? "transparent"
-								: undefined;
-					expect(block[`border${side}Color`]).toBe(expected);
-					expect(after[`border${side}Color`]).toBe(expected);
-				}
+				expect(recipe.variants!.placement[placement]).toEqual(
+					expected[placement],
+				);
 				expect(
 					recipe.compoundVariants!.find(
 						(cv) => cv.match.placement === placement,
@@ -266,8 +297,15 @@ describe("usePopoverArrowRecipe", () => {
 			const s = createInstance();
 			usePopoverArrowRecipe(s);
 
-			// Calculated values resolve to `css` tokens, so the test reads their keys.
-			const centred = expect.objectContaining({ type: "css" });
+			// Centred on the edge: half the panel, less half the outer triangle.
+			const centred = {
+				type: "css",
+				value: [
+					"calc(50% - ",
+					{ type: "reference", name: "popover.arrow.size" },
+					" - 1px)",
+				],
+			};
 			expect(
 				findSelector(s, ".popover[popover] > .popover-arrow.-placement-top")
 					?.declarations,

@@ -217,6 +217,8 @@ export const usePopoverRecipe = createUseRecipe(
 		selector(".popover[popover]", {
 			position: "fixed",
 			inset: "auto",
+			// The browser's own `[popover]` padding would inset the header and footer.
+			padding: "0",
 			margin: "@popover.offset",
 			// The arrow sits half outside the panel, and the body scrolls instead.
 			overflow: "visible",

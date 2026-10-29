@@ -351,12 +351,18 @@ describe("usePopoverRecipe", () => {
 			expect(recipe.base!.borderWidth).toBe("@border-width.thin");
 			expect(recipe.base!.borderStyle).toBe("@border-style.solid");
 			expect(recipe.base!.boxShadow).toBe("@box-shadow.md");
-			for (const cv of recipe.compoundVariants!.filter(
+			const edged = recipe.compoundVariants!.filter(
 				(cv) => cv.match.variant === "solid" || cv.match.variant === "subtle",
-			)) {
-				const css = cv.css as Record<string, Record<string, string>>;
-				expect(css.borderColor).toMatch(/^@color\./);
-				expect(css["&:dark"]!.borderColor).toMatch(/^@color\./);
+			);
+			expect(edged).toHaveLength(6);
+			for (const cv of edged) {
+				const css = cv.css as Record<string, string> & {
+					"&:dark": Record<string, string>;
+				};
+				for (const theme of [css, css["&:dark"]]) {
+					expect(theme.borderColor).toMatch(/^@color\./);
+					expect(theme.borderColor).not.toBe(theme.background);
+				}
 			}
 		});
 
@@ -368,13 +374,16 @@ describe("usePopoverRecipe", () => {
 			expect(topLayer?.declarations).toMatchObject({
 				position: "fixed",
 				inset: "auto",
+				padding: "0",
+				margin: { type: "reference", name: "popover.offset" },
 				overflow: "visible",
 			});
-			expect(String(topLayer?.declarations.margin)).not.toBe("");
 			expect(
 				findSelector(s, ".popover[popover]:not(:popover-open)")?.declarations,
 			).toEqual({ display: "none" });
-			expect(s.root.variables.map((v) => v.name)).toContain("popover.offset");
+			expect(
+				s.root.variables.find((v) => v.name === "popover.offset")?.value,
+			).toEqual({ type: "reference", name: "spacing.xs" });
 		});
 
 		it("popover/top-layer leaves an element without the popover attribute in place", () => {
@@ -476,6 +485,11 @@ describe("usePopoverRecipe", () => {
 			expect(media?.identifier).toBe("media");
 			expect(media?.rule).toBe("(prefers-reduced-motion: no-preference)");
 			expect(Object.keys(media!.declarations)).toEqual(["transition"]);
+			const starting = media!.children.find(
+				(child): child is AtRule => child.type === "at-rule",
+			);
+			expect(starting?.identifier).toBe("starting-style");
+			expect(starting?.declarations).toEqual({ opacity: "0", scale: "0.96" });
 			expect(opening?.declarations).toEqual({});
 		});
 

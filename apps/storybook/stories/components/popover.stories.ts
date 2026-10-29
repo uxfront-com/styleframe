@@ -171,7 +171,8 @@ export const Placements: StoryObj = {
 		setup() {
 			return { placements };
 		},
-		template: '<PopoverTopLayer :placements="[...placements]" />',
+		template:
+			'<PopoverTopLayer name="placements" :placements="[...placements]" />',
 	}),
 };
 
@@ -180,6 +181,6 @@ export const Focus: StoryObj = {
 	parameters: { layout: "fullscreen" },
 	render: () => ({
 		components: { PopoverTopLayer },
-		template: '<PopoverTopLayer :open="false" />',
+		template: '<PopoverTopLayer name="focus" :open="false" />',
 	}),
 };
