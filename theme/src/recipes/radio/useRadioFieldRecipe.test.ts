@@ -1,11 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useCheckedModifier,
-	useDisabledModifier,
-} from "../../modifiers/useFormStateModifiers";
-import { useFocusVisibleModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
@@ -13,39 +7,9 @@ import { useRadioFieldRecipe } from "./useRadioFieldRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"appearance",
-		"WebkitAppearance",
-		"boxSizing",
-		"display",
-		"flexShrink",
-		"borderWidth",
-		"borderStyle",
-		"borderColor",
-		"borderRadius",
-		"backgroundColor",
-		"backgroundImage",
-		"backgroundRepeat",
-		"backgroundPosition",
-		"backgroundSize",
-		"cursor",
-		"transitionProperty",
-		"transitionDuration",
-		"transitionTimingFunction",
-		"width",
-		"height",
-		"opacity",
-		"outlineWidth",
-		"outlineStyle",
-		"outlineColor",
-		"outlineOffset",
-	]) {
-		s.utility(name, ({ value }) => ({ [name]: value }));
-	}
-	useDarkModifier(s);
-	useCheckedModifier(s);
-	useDisabledModifier(s);
-	useFocusVisibleModifier(s);
+	useDesignTokensPreset(s);
+	useModifiersPreset(s);
+	useUtilitiesPreset(s);
 	return s;
 }
 
@@ -111,7 +75,7 @@ describe("useRadioFieldRecipe", () => {
 		const recipe = useRadioFieldRecipe(s);
 
 		expect(recipe.base?.["&:focus-visible"]).toMatchObject({
-			outlineColor: "@color.primary",
+			outlineColor: "@color.focus",
 		});
 		expect(recipe.base?.["&:disabled"]).toEqual({
 			opacity: "0.5",
@@ -137,8 +101,8 @@ describe("useRadioFieldRecipe", () => {
 
 			expect(Object.keys(recipe.variants!.size)).toEqual(["sm", "md", "lg"]);
 			expect(recipe.variants!.size.md).toEqual({
-				width: "16px",
-				height: "16px",
+				width: "1rem",
+				height: "1rem",
 				borderRadius: "@border-radius.full",
 			});
 		});
@@ -171,10 +135,12 @@ describe("useRadioFieldRecipe", () => {
 			);
 			expect(cv?.css).toEqual({
 				backgroundColor: "@color.white",
-				borderColor: "@color.gray-300",
+				borderColor: "@color.gray-450",
+				color: "@color.gray-900",
 				"&:dark": {
 					backgroundColor: "@color.gray-900",
-					borderColor: "@color.gray-600",
+					borderColor: "@color.gray-500",
+					color: "@color.white",
 				},
 				"&:dark:checked": {
 					backgroundColor: "@color.primary",
@@ -192,7 +158,8 @@ describe("useRadioFieldRecipe", () => {
 			);
 			expect(light?.css).toEqual({
 				backgroundColor: "@color.white",
-				borderColor: "@color.gray-300",
+				borderColor: "@color.gray-450",
+				color: "@color.gray-900",
 			});
 		});
 	});
