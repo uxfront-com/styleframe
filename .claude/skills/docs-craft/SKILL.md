@@ -18,7 +18,7 @@ Markdown lives in `apps/docs/content/docs/`, categories numbered for order:
 ```
 
 - Component (recipe) docs: `05.components/<category>/` where category ∈ actions, navigation, feedback, forms, overlays, layout, ai-chat. (Older references to a `04.components/02.composables/` path are stale — do not use it.)
-- Vue demo components: `apps/docs/app/components/` (note the Pro components under `pro/`). Pages in `apps/docs/pages/`; config `nuxt.config.ts`.
+- Vue demo components: `apps/docs/app/components/` (note the Pro components under `pro/`). Pages in `apps/docs/app/pages/`, and the site chrome (header, footer, sections) in `apps/docs/app/components/site/`; config `nuxt.config.ts`.
 
 ## Anatomy of a component doc page
 

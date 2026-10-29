@@ -102,7 +102,50 @@ jobs:
                   path: |
                       apps/docs/.nuxt
                       apps/docs/.output
+                  # Both directories are hidden, which upload-artifact skips by default.
+                  include-hidden-files: true
+                  if-no-files-found: error
                   retention-days: 7
+
+    # Lighthouse on the homepage, from the docs build
+    lighthouse:
+        name: Lighthouse
+        runs-on: ubuntu-latest
+        needs: build-docs
+        timeout-minutes: 10
+        steps:
+            # For lighthouserc.json and the `lighthouse` script; no install needed.
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: Download docs build
+              uses: actions/download-artifact@v5
+              with:
+                  name: docs-build
+                  path: apps/docs
+
+            # Serves the static output and fails below 0.95 in any category,
+            # using the runner's Chrome.
+            - name: Run Lighthouse
+              run: pnpm --filter '@styleframe/docs' lighthouse
+
+            - name: Upload Lighthouse reports
+              if: ${{ !cancelled() }}
+              uses: actions/upload-artifact@v4
+              with:
+                  name: lighthouse-reports
+                  path: apps/docs/.lighthouseci
+                  include-hidden-files: true
+                  if-no-files-found: ignore
+                  retention-days: 14
 
     # Build playground separately
     build-playground:
@@ -360,7 +403,8 @@ jobs:
 
     integration-tests:
         name: Integration Tests
-        runs-on: ubuntu-latest
+        # Playwright's Chromium doesn't support ubuntu-26.04, which ubuntu-latest became in October 2026
+        runs-on: ubuntu-24.04
         needs: [build, detect-changes]
         if: needs.detect-changes.outputs.run-integration == 'true'
         steps:
@@ -406,6 +450,7 @@ jobs:
             [
                 build,
                 build-docs,
+                lighthouse,
                 build-playground,
                 build-storybook,
                 build-app,

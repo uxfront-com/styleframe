@@ -1,7 +1,12 @@
 {
 	"extends": "../../config/typescript/tsconfig.json",
 	"compilerOptions": {
-		"tsBuildInfoFile": ".tsbuildinfo"
+		"tsBuildInfoFile": ".tsbuildinfo",
+		// `@nuxt/kit` imports `@nuxt/schema` in its types without depending on it,
+		// so TypeScript finds whichever version pnpm hoisted. Point it at ours.
+		"paths": {
+			"@nuxt/schema": ["./node_modules/@nuxt/schema"]
+		}
 	},
 	"include": ["src/**/*.ts", "tsdown.config.ts", "vite.config.ts"]
 }

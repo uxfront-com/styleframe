@@ -1,30 +1,59 @@
 # Styleframe Documentation Site
 
-This directory contains the source content for the Styleframe documentation site. It uses Nuxt Content with Markdown files organized into numbered sections. An AI agent working here should understand the site structure, formatting conventions, and content patterns to write or modify documentation pages that are indistinguishable from existing ones.
+This directory contains the Styleframe documentation site, styleframe.dev. It runs on the same setup as the Open Components site: [Docus](https://docus.dev) renders the Markdown in `content/docs/`, on top of the `@uxfront/layer-ui` and `@uxfront/layer-docs` layers. An AI agent working here should understand the site's structure, formatting conventions and content patterns, so the pages it writes or changes are indistinguishable from the existing ones.
+
+## How the site is built
+
+- **Docus only on the docs and the changelog.** `app/app.vue` mounts Docus's shell (header, sidebar, search) on `/docs/**` and `/changelog/**`. Every other page brings its own layout, built from the UXFront kit (`@uxfront/ui`, `@uxfront/scene`).
+- **URLs come from `app/constants/sections.ts`.** `content.config.ts` replaces Docus's `docs` collection with one source per folder, so `03.design-tokens/06.colors.md` is served at `/docs/theme/design-tokens/colors`. Keep the collection name `docs`: Docus's pages, `server/lib/docs.ts` and the sitemap query it. `modules/nonRouteCategories.ts` gives each page a `stem` from its file with its section in front (`docsStem()`), because Nuxt Content orders the sidebar and the previous and next links by stem.
+- **Category folders aren't in the URL.** A folder whose `.navigation.yml` sets `route: false`, like `05.components/02.actions/`, is a sidebar group only: `modules/nonRouteCategories.ts` drops it from its pages' paths, and `app/utils/foldNonRouteCategories.ts` groups the sidebar by it again.
+- **Sections are tabs below the header.** `useDocsSections()` turns the navigation into Getting Started, API Reference and Theme's four sub-sections (Design Tokens, Elements, Components, Utilities), and the overrides of Docus's `AppHeaderBottom`, `AppHeaderBody` (the header's menu on smaller screens), `DocsAsideLeftBody` and `DocsAsideMobileBar` show them.
+- **The docs page is Docus's, with one change.** `app/pages/[[lang]]/[...slug].vue` builds "Edit this page" from the page's file (`docsSourceStem()`), not its section-prefixed `stem`.
+- **The header and page menu are ours.** `app/components/app/` adds the Docs, Changelog and Log in links (`useHeaderLinks()`), and `DocsPageHeaderLinks.vue` leaves out Docus's MCP items, since the static site serves no MCP server. Shared URLs live in `app/data/site.ts`.
+- **The framework switcher comes from `@uxfront/layer-docs`.** `docsTheme.frameworks` in `app/app.config.ts` lists React, Vanilla (`other`) and Vue, which are the slot names `::framework-switcher` blocks use.
+- **The product and legal pages** (`/pro`, `/pricing`, `/scanner`, `/figma`, `/license`, `/privacy`, `/terms`, `/cookies`) are Vue pages in `app/pages/`, built from the UXFront kit and the site's header, footer and sections in `app/components/site/`. The legal pages render their Markdown from `content/legal/` word for word. `app/components/app/AppFooterLeft.vue` gives the docs footer the same legal links and credit.
+- **The homepage** (`app/pages/index.vue`) keeps main's homepage in the UXFront style: one chapter per section. The hero and the finale draw formations from the catalog: `tokens`, with a button that re-themes it, and `corridor`. The scene needs one formation per section. A chapter with a code sample, an image or a video holds the catalog's `outline`, with `lines: true` for code, and every other section holds one from `app/lib/formations/`: `device()` on the fluid section, and `empty()` everywhere else. `outline` gathers the particles around the chapter's code panel or medium (its `[data-outline]` element) as it scrolls in, and the code or medium fades in once the engine has moved every particle in, over the start of the section's hold. The formation writes the gather on the element as `data-gather` and the fade as `--ux-reveal`, which `SiteSplit` applies once the scene is drawing with motion on. `SiteSplit` holds its formation from an inner stage (`data-stage`) that starts 15vh above the section, so the code is in by the time the section's top is 30% down the screen. The particles keep to the element by the page's own scroll, so the outline's position never lags it. `device()` draws a device that grows from a phone to a desktop as the fluid section scrolls by, and `empty()` draws nothing. The product pages do the same. A chapter with a code sample or a picture is a `SiteSplit`, which shows it beside the copy (its `aside` slot), and stacks them on the screens the scene stacks (`STACKED_QUERY`). The fluid section is a `SiteSplit` with `align="center"`, and nothing beside it. Its code samples live in `content/home/`, a data collection, so Nuxt Content highlights them when the site is built and the page ships no highlighter. The AI chapter's waitlist (`SiteWaitlist.vue`) signs people up to the Loops group `ai`, at most once a minute per browser.
+- **Unknown routes** get the UXFront error page, `app/error.vue`, which replaces Docus's.
+- **The first paint.** The UXFront pages inline every style they render, and `@uxfront/layer-ui` loads the entry stylesheet after their first paint. The docs make the app big enough that the build also writes chunk stylesheets, so `server/plugins/defer-stylesheets.ts` loads those without blocking it on the same pages.
+- **The changelog** is `content/changelog/<version>.md`, rendered by `app/pages/changelog/`. `nuxt.config.ts` lists every entry for prerendering, because the crawler skips links like `/changelog/3.9.0`.
+- **Agents and SEO.** Docus writes `llms.txt`, `llms-full.txt` and the social cards, and `server/middleware/raw-markdown.ts` serves each page's source at `/raw/<path>.md`. The homepage and the product pages are Vue pages, so their text for agents lives in `content/landing/`, one Markdown file per page that says what the page says: change both together. With the legal pages they make the `landing` collection, which `llms.txt` lists under "Landing", as on main. `server/routes/sitemap.xml.ts` lists the site's own pages from `server/lib/pages.ts`, then the docs and the changelog.
+- **Styling.** Docus's pages use Tailwind and Nuxt UI, with the brand teal in `app/app.css`. The site's UXFront pages use scoped CSS on the kit's `--ux-*` tokens: that's the owner's exception to "All apps must use Styleframe for styling" (`.claude/rules/apps.md`), until UXFront itself moves to Styleframe.
+
+### Commands
+
+Run them from `apps/docs/`:
+
+- `pnpm build` runs `nuxt generate` and writes the static site to `.output/public`.
+- `pnpm test` runs the unit tests, and `pnpm test:build` checks the built site: every prerendered page has a 1200 × 630 social card, and the product and legal pages keep main's titles, links and Markdown copies (`test/pages.build.test.ts`).
+- `pnpm typecheck` checks the app's types. It leaves out errors inside Docus's own files, as Open Components does.
+- `pnpm lighthouse` runs Lighthouse on the built homepage (`lighthouserc.json`) and fails below 0.95 in any category. CI runs it in the `Lighthouse` job, on the docs build.
+- If a build fails with 500s on `/raw/…` pages after a change to how pages are parsed (like the stems in `modules/nonRouteCategories.ts`), delete `.data/`. Nuxt Content caches parsed pages there by their content, so the cache keeps the old stems.
 
 ## Directory Structure
 
 ```
 content/docs/
-├── 01.getting-started/     # Introduction, installation, guides, comparisons, tooling, licensing
+├── 01.getting-started/     # Introduction, installation, guides, comparisons, licensing
 ├── 02.api/                 # Core API reference (variables, selectors, utilities, recipes, etc.)
 ├── 03.design-tokens/       # Color, spacing, typography, scale, breakpoint tokens
-│   └── 02.composables/     # Individual design token composable pages
-├── 04.elements/            # HTML element base styles (body, headings, links, lists, etc.)
-│   └── 02.composables/     # Individual element composable pages
-├── 05.components/          # Component recipes (Badge, Button, etc.)
-│   └── 02.composables/     # Individual component composable pages
+├── 04.elements/            # HTML element base styles, in category folders (base, typography, …)
+├── 05.components/          # Component recipes, in category folders (actions, navigation, …)
 ├── 06.utilities/           # Utility categories (spacing, layout, typography, etc.)
-│   └── 02.composables/     # Individual utility composable pages
-└── 07.modifiers/           # Pseudo-state, form-state, aria, structural, etc.
-    └── 02.composables/     # Individual modifier composable pages
+├── 07.modifiers/           # Pseudo-state, form-state, aria, structural, etc.
+├── 08.tooling/             # CLI, scanner and agents
+├── 09.integrations/        # DTCG, Figma plugin, Storybook
+└── 10.migration/           # Migrating from other tools
+content/changelog/          # One release per file, at /changelog/<version>
+content/legal/              # The legal pages, at /license, /privacy, /terms and /cookies
+content/landing/            # The homepage and product pages in Markdown, for llms.txt and /raw/<page>.md
+content/home/               # The homepage's code samples, highlighted at build time
 ```
 
 **Navigation sections:** The docs site groups these folders into three top-level navigation sections (see `apps/docs/app/constants/sections.ts`):
 
-- **Getting Started** → `01.getting-started/`
+- **Getting Started** → `01.getting-started/`, with `08.tooling/`, `09.integrations/` and `10.migration/` below it
 - **API Reference** → `02.api/`
-- **Theme** → bundles `03.design-tokens/`, `04.elements/`, `05.components/`, `06.utilities/`, `07.modifiers/`
+- **Theme** → `03.design-tokens/`, `04.elements/`, `05.components/`, `06.utilities/` and `07.modifiers/`, shown as four tabs: Design Tokens, Elements, Components, and Utilities (with Modifiers)
 
 **Numbering convention:** Directories and files use `NN.` prefixes for ordering (e.g., `01.introduction.md`, `06.colors.md`). Index files use `00.index.md`. Subdirectories follow the same pattern.
 

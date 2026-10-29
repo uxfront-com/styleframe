@@ -101,7 +101,7 @@ All `*.styleframe.ts` extension files share one `Styleframe` instance from `styl
 - @styleframe/config-typescript, @styleframe/config-vite — Shared build configs
 
 **Applications** (`apps/`):
-- `docs/` — Documentation site (Nuxt Content + Markdown)
+- `docs/` — Documentation site (Docus on the UXFront layers, Nuxt Content + Markdown)
 - `app/` — Customer dashboard (Nuxt 3 + Supabase)
 - `shared/` — Shared Nuxt layer for doc apps
 - `storybook/` — Storybook 10 + Vue 3 design system showcase
@@ -574,7 +574,7 @@ Each package has its own AGENTS.md with detailed API reference, types, and conve
 | Figma | `tooling/figma/AGENTS.md` |
 | Integration tests | `testing/integration/AGENTS.md` |
 | Storybook | `apps/storybook/AGENTS.md` |
-| Documentation site | `apps/docs/content/docs/AGENTS.md` |
+| Documentation site | `apps/docs/AGENTS.md` |
 | Customer app | `apps/app/AGENTS.md` |
 | Shared Nuxt layer | `apps/shared/AGENTS.md` |
 | Build config | `config/AGENTS.md` |
