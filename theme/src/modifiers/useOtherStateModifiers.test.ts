@@ -10,13 +10,14 @@ describe("useOtherStateModifiers", () => {
 
 		expect(modifiers.open.key).toEqual(["open"]);
 		expect(modifiers.inert.key).toEqual(["inert"]);
+		expect(modifiers.dataLoading.key).toEqual(["data-loading"]);
 	});
 
 	it("should add modifiers to root.modifiers", () => {
 		const s = styleframe();
 		useOtherStateModifiers(s);
 
-		expect(s.root.modifiers).toHaveLength(2);
+		expect(s.root.modifiers).toHaveLength(3);
 	});
 
 	it("should generate correct CSS class names for open modifier", () => {
@@ -45,6 +46,20 @@ describe("useOtherStateModifiers", () => {
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._opacity\\:50 {");
 		expect(css).toContain("._inert\\:opacity\\:50 {");
+	});
+
+	it("should target the data-loading attribute with the data-loading modifier", () => {
+		const s = styleframe();
+		const { dataLoading } = useOtherStateModifiers(s);
+
+		const create = s.utility("cursor", ({ value }) => ({
+			cursor: value,
+		}));
+		create({ progress: "progress" }, [dataLoading]);
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._data-loading\\:cursor\\:progress {");
+		expect(css).toContain("&[data-loading] {");
 	});
 
 	it("should work with utility creation", () => {

@@ -20,13 +20,14 @@ describe("useFormStateModifiers", () => {
 		expect(modifiers.autofill.key).toEqual(["autofill"]);
 		expect(modifiers.readOnly.key).toEqual(["read-only"]);
 		expect(modifiers.readonly.key).toEqual(["readonly"]);
+		expect(modifiers.readonlyAttr.key).toEqual(["readonly-attr"]);
 	});
 
 	it("should add modifiers to root.modifiers", () => {
 		const s = styleframe();
 		useFormStateModifiers(s);
 
-		expect(s.root.modifiers).toHaveLength(12);
+		expect(s.root.modifiers).toHaveLength(13);
 	});
 
 	it("should generate correct CSS class names for disabled modifier", () => {
@@ -83,6 +84,20 @@ describe("useFormStateModifiers", () => {
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._opacity\\:50 {");
 		expect(css).toContain("._readonly\\:opacity\\:50 {");
+	});
+
+	it("should target the readonly attribute with the readonly-attr modifier", () => {
+		const s = styleframe();
+		const { readonlyAttr } = useFormStateModifiers(s);
+
+		const create = s.utility("cursor", ({ value }) => ({
+			cursor: value,
+		}));
+		create({ text: "text" }, [readonlyAttr]);
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("._readonly-attr\\:cursor\\:text {");
+		expect(css).toContain("&[readonly] {");
 	});
 
 	it("should work with utility creation", () => {

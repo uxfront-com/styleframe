@@ -330,6 +330,7 @@ import {
 	useOverscrollYUtility,
 	usePositionAnchorUtility,
 	usePositionAreaUtility,
+	usePositionTryFallbacksUtility,
 	usePositionUtility,
 	useRightUtility,
 	useTopUtility,
@@ -588,6 +589,7 @@ export interface UtilitiesPresetConfig {
 	position?: Record<string, string> | false;
 	positionAnchor?: Record<string, string> | false;
 	positionArea?: Record<string, string> | false;
+	positionTryFallbacks?: Record<string, string> | false;
 	visibility?: Record<string, string> | false;
 	zIndex?: Record<string, string> | false;
 
@@ -837,6 +839,7 @@ export function useUtilitiesPreset(
 	const position = resolveValues(config.position, positionValues);
 	const positionAnchor = resolveValues(config.positionAnchor, {});
 	const positionArea = resolveValues(config.positionArea, {});
+	const positionTryFallbacks = resolveValues(config.positionTryFallbacks, {});
 	const visibility = resolveValues(config.visibility, visibilityValues);
 	const zIndex = resolveValues(config.zIndex, zIndexValues);
 	const width = resolveValues(config.width, widthValues);
@@ -1404,6 +1407,15 @@ export function useUtilitiesPreset(
 		resolveUtilityOptions("position-area"),
 	);
 	if (positionArea) createPositionAreaUtility(positionArea);
+
+	const createPositionTryFallbacksUtility = usePositionTryFallbacksUtility(
+		s,
+		undefined,
+		undefined,
+		resolveUtilityOptions("position-try-fallbacks"),
+	);
+	if (positionTryFallbacks)
+		createPositionTryFallbacksUtility(positionTryFallbacks);
 
 	const createVisibilityUtility = useVisibilityUtility(
 		s,
@@ -2664,6 +2676,7 @@ export function useUtilitiesPreset(
 		createPositionUtility,
 		createPositionAnchorUtility,
 		createPositionAreaUtility,
+		createPositionTryFallbacksUtility,
 		createRightUtility: useRightUtility(
 			s,
 			undefined,

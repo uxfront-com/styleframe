@@ -10,6 +10,8 @@ export interface MediaPreferenceModifiers {
 	landscape: ModifierFactory;
 	print: ModifierFactory;
 	forcedColors: ModifierFactory;
+	hoverCapable: ModifierFactory;
+	anyPointerCoarse: ModifierFactory;
 }
 
 export function useDarkModifier(s: Styleframe): ModifierFactory {
@@ -90,6 +92,24 @@ export function useForcedColorsModifier(s: Styleframe): ModifierFactory {
 	);
 }
 
+export function useHoverCapableModifier(s: Styleframe): ModifierFactory {
+	return s.modifier(
+		"hover-capable",
+		({ declarations, variables, children }) => ({
+			"@media (hover: hover)": { declarations, variables, children },
+		}),
+	);
+}
+
+export function useAnyPointerCoarseModifier(s: Styleframe): ModifierFactory {
+	return s.modifier(
+		"any-pointer-coarse",
+		({ declarations, variables, children }) => ({
+			"@media (any-pointer: coarse)": { declarations, variables, children },
+		}),
+	);
+}
+
 /**
  * Register media/preference query modifiers for adaptive styling.
  *
@@ -115,5 +135,7 @@ export function useMediaPreferenceModifiers(
 		landscape: useLandscapeModifier(s),
 		print: usePrintModifier(s),
 		forcedColors: useForcedColorsModifier(s),
+		hoverCapable: useHoverCapableModifier(s),
+		anyPointerCoarse: useAnyPointerCoarseModifier(s),
 	};
 }

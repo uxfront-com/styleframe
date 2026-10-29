@@ -27,6 +27,19 @@ describe("useFocusState", () => {
 		expect(css).toContain("var(--focus--outline-offset)");
 	});
 
+	it("should point the outline color at color.focus by default", () => {
+		const s = createInstance();
+		const result = useFocusState(s);
+
+		expect(result.focusOutlineColor.value).toEqual({
+			type: "reference",
+			name: "color.focus",
+		});
+
+		const css = consumeCSS(s.root, s.options);
+		expect(css).toContain("--focus--outline-color: var(--color--focus);");
+	});
+
 	it("should use custom outline values", () => {
 		const s = createInstance();
 		const result = useFocusState(s, {

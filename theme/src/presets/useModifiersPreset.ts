@@ -48,7 +48,7 @@ export interface ModifiersConfig {
 	ariaStates?: boolean;
 	/** Directional modifiers (rtl, ltr) */
 	directional?: boolean;
-	/** Other state modifiers (open, inert) */
+	/** Other state modifiers (open, inert, data-loading) */
 	otherStates?: boolean;
 }
 

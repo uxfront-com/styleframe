@@ -29,6 +29,12 @@ export const colorValues = {
 	"text-weak": "#334155",
 	"text-weaker": "#475569",
 	"text-weakest": "#64748B",
+
+	/**
+	 * Focus
+	 */
+
+	focus: "@color.primary",
 } as const;
 
 export const darkModeColorValues = {
@@ -60,4 +66,10 @@ export const darkModeColorValues = {
 	"text-weak": "#CBD5E1",
 	"text-weaker": "#94A3B8",
 	"text-weakest": "#64748B",
+
+	/**
+	 * Focus
+	 */
+
+	focus: "@color.primary",
 };

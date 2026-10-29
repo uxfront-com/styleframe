@@ -8,7 +8,7 @@ import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
 export const defaultFocusOptions: WithThemes<FocusStateConfig> = {
-	outlineColor: "@color.primary",
+	outlineColor: "@color.focus",
 	outlineWidth: "2px",
 	outlineStyle: "solid",
 	outlineOffset: "2px",

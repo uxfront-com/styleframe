@@ -6,6 +6,7 @@ export interface AriaStateModifiers {
 	ariaDisabled: ModifierFactory;
 	ariaExpanded: ModifierFactory;
 	ariaHidden: ModifierFactory;
+	ariaInvalid: ModifierFactory;
 	ariaPressed: ModifierFactory;
 	ariaReadonly: ModifierFactory;
 	ariaRequired: ModifierFactory;
@@ -49,6 +50,15 @@ export function useAriaHiddenModifier(s: Styleframe): ModifierFactory {
 	return s.modifier("aria-hidden", ({ declarations, variables, children }) => ({
 		'&[aria-hidden="true"]': { declarations, variables, children },
 	}));
+}
+
+export function useAriaInvalidModifier(s: Styleframe): ModifierFactory {
+	return s.modifier(
+		"aria-invalid",
+		({ declarations, variables, children }) => ({
+			'&[aria-invalid="true"]': { declarations, variables, children },
+		}),
+	);
 }
 
 export function useAriaPressedModifier(s: Styleframe): ModifierFactory {
@@ -106,6 +116,7 @@ export function useAriaStateModifiers(s: Styleframe): AriaStateModifiers {
 		ariaDisabled: useAriaDisabledModifier(s),
 		ariaExpanded: useAriaExpandedModifier(s),
 		ariaHidden: useAriaHiddenModifier(s),
+		ariaInvalid: useAriaInvalidModifier(s),
 		ariaPressed: useAriaPressedModifier(s),
 		ariaReadonly: useAriaReadonlyModifier(s),
 		ariaRequired: useAriaRequiredModifier(s),
