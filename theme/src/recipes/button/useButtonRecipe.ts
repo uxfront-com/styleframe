@@ -66,6 +66,10 @@ function withStateColors<T extends Compound>(compounds: T[]): T[] {
 				"&:aria-disabled": rest,
 				"&:dark:disabled": darkRest,
 				"&:dark:aria-disabled": darkRest,
+				// The `active` modifier also emits `&:focus:active`, which a focused
+				// `aria-disabled` button matches, so these outrank it.
+				"&:aria-disabled:active": rest,
+				"&:dark:aria-disabled:active": darkRest,
 			},
 		});
 
@@ -1182,20 +1186,18 @@ export const useButtonRecipe = createUseRecipe(
 		// expanded and disabled states use system colors, as in the Open
 		// Components reference CSS: a disabled toggle keeps its pressed
 		// background and turns `GrayText`. Setup rules come before the recipe's
-		// utilities in the stylesheet, so these selectors must outrank the dark
-		// theme's state rules (0,3,0): that's why they start with `:root` and
-		// repeat `.button`.
-		selector(
-			':root .button.button:is([aria-pressed="true"], [aria-expanded="true"])',
-			{
-				"@media (forced-colors: active)": {
-					forcedColorAdjust: "none",
-					background: "Highlight",
-					color: "HighlightText",
-				},
+		// utilities in the stylesheet, so these selectors must outrank every state
+		// rule, up to the dark theme's `aria-disabled` press reset (0,5,0): that's
+		// why they start with `:root` and repeat `.button`, for (0,6,0).
+		const outrank = `:root ${".button".repeat(4)}`;
+		selector(`${outrank}:is([aria-pressed="true"], [aria-expanded="true"])`, {
+			"@media (forced-colors: active)": {
+				forcedColorAdjust: "none",
+				background: "Highlight",
+				color: "HighlightText",
 			},
-		);
-		selector(':root .button.button:is(:disabled, [aria-disabled="true"])', {
+		});
+		selector(`${outrank}:is(:disabled, [aria-disabled="true"])`, {
 			"@media (forced-colors: active)": {
 				borderColor: "GrayText",
 				color: "GrayText",

@@ -317,6 +317,16 @@ describe("useButtonRecipe", () => {
 		// The resets tie with the state rules on specificity, so they must come
 		// after every one of them in the stylesheet.
 		const css = consumeCSS(s.root, s.options);
+		// The `active` modifier emits `&:focus:active` (0,3,0, or 0,4,0 in the dark
+		// theme), which a focused `aria-disabled` button matches. The resets that
+		// answer it chain `:active` after the attribute, one class higher.
+		expect(css).toMatch(
+			/\._aria-disabled\\:active\\:background\\:[^{]+\{\s*&\[aria-disabled="true"\] \{\s*&:active, &:focus:active \{/,
+		);
+		expect(css).toMatch(
+			/\._dark\\:aria-disabled\\:active\\:color\\:[^{]+\{\s*:is\(\.dark-theme, \[data-theme="dark"\]\) & \{\s*&\[aria-disabled="true"\] \{\s*&:active, &:focus:active \{/,
+		);
+
 		for (const utility of ["background", "color"]) {
 			for (const [state, reset] of [
 				["hover-capable\\:hover", "disabled"],
@@ -356,6 +366,8 @@ describe("useButtonRecipe", () => {
 				"&:aria-disabled": rest,
 				"&:dark:disabled": darkRest,
 				"&:dark:aria-disabled": darkRest,
+				"&:aria-disabled:active": rest,
+				"&:dark:aria-disabled:active": darkRest,
 			});
 		}
 	});
@@ -408,16 +420,20 @@ describe("useButtonRecipe", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toMatch(
-			/:root \.button\.button:is\(:disabled, \[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
+			/:root \.button\.button\.button\.button:is\(:disabled, \[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
 		);
 		expect(css).toMatch(
-			/:root \.button\.button:is\(\[aria-pressed="true"\], \[aria-expanded="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
+			/:root \.button\.button\.button\.button:is\(\[aria-pressed="true"\], \[aria-expanded="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
 		);
 		// A disabled toggle keeps the pressed background and turns GrayText, so
 		// the disabled rule follows the pressed one.
 		expect(
-			css.indexOf(':root .button.button:is([aria-pressed="true"]'),
-		).toBeLessThan(css.indexOf(":root .button.button:is(:disabled"));
+			css.indexOf(
+				':root .button.button.button.button:is([aria-pressed="true"]',
+			),
+		).toBeLessThan(
+			css.indexOf(":root .button.button.button.button:is(:disabled"),
+		);
 	});
 
 	it("button/more-contrast draws the outline and subtle borders at full strength", () => {
