@@ -149,9 +149,11 @@ describe("useCardRecipe", () => {
 
 			const interactive =
 				":is(a[href], button, input, select, textarea, summary, [tabindex])";
+			// Zero specificity, so a recipe or utility class that positions the
+			// element itself, like the slider thumb's, still wins.
 			const actions = findSelector(
 				s,
-				`.card > :is(.card-media, .card-body, .card-footer) ${interactive}, .card > .card-header ${interactive}:not(${heading} *)`,
+				`:where(.card > :is(.card-media, .card-body, .card-footer) ${interactive}, .card > .card-header ${interactive}:not(${heading} *))`,
 			);
 			expect(actions.declarations).toEqual({
 				position: "relative",
@@ -235,6 +237,11 @@ describe("useCardRecipe", () => {
 				"(hover: hover)",
 				"(hover: hover) and (prefers-contrast: more)",
 			]);
+			expect(
+				findChild(hover, "at-rule", "(hover: hover)")?.declarations,
+			).toEqual({
+				borderColor: "color-mix(in srgb, currentColor 45%, transparent)",
+			});
 
 			const link = findSelector(s, `.card ${headerLink}`);
 			const underline = findChild(link, "at-rule", "(hover: hover)");

@@ -208,8 +208,10 @@ export const useCardRecipe = createUseRecipe(
 		});
 
 		// Everything else people can press sits above the stretched link.
+		// `:where()` keeps this at zero specificity, so a recipe or utility class
+		// that positions the element itself, like the slider thumb's, still wins.
 		selector(
-			`.card > :is(.card-media, .card-body, .card-footer) ${interactive}, .card > .card-header ${interactive}:not(${heading} *)`,
+			`:where(.card > :is(.card-media, .card-body, .card-footer) ${interactive}, .card > .card-header ${interactive}:not(${heading} *))`,
 			{
 				position: "relative",
 				zIndex: "1",

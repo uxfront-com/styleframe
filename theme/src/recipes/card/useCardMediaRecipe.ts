@@ -5,7 +5,9 @@ import { createUseRecipe } from "../../utils/createUseRecipe";
  *
  * It's shown first while it comes after the header in the DOM, so heading
  * navigation lands at the start of the card. Its aspect ratio holds its space
- * while the image loads, and the text always sits below it.
+ * while the image loads, and the text always sits below it. Its start corners
+ * sit inside the card's 1px border, so they're rounded 1px less than the card.
+ * The border-width.thin token is the `thin` keyword, which calc() can't use.
  */
 export const useCardMediaRecipe = createUseRecipe(
 	"card-media",
@@ -15,8 +17,8 @@ export const useCardMediaRecipe = createUseRecipe(
 			overflow: "hidden",
 			aspectRatio: "16 / 9",
 			background: "color-mix(in srgb, currentColor 8%, transparent)",
-			borderStartStartRadius: "calc(@border-radius.md - @border-width.thin)",
-			borderStartEndRadius: "calc(@border-radius.md - @border-width.thin)",
+			borderStartStartRadius: "calc(@border-radius.md - 1px)",
+			borderStartEndRadius: "calc(@border-radius.md - 1px)",
 		},
 		variants: {
 			color: {
@@ -31,19 +33,16 @@ export const useCardMediaRecipe = createUseRecipe(
 			},
 			size: {
 				sm: {
-					borderStartStartRadius:
-						"calc(@border-radius.sm - @border-width.thin)",
-					borderStartEndRadius: "calc(@border-radius.sm - @border-width.thin)",
+					borderStartStartRadius: "calc(@border-radius.sm - 1px)",
+					borderStartEndRadius: "calc(@border-radius.sm - 1px)",
 				},
 				md: {
-					borderStartStartRadius:
-						"calc(@border-radius.md - @border-width.thin)",
-					borderStartEndRadius: "calc(@border-radius.md - @border-width.thin)",
+					borderStartStartRadius: "calc(@border-radius.md - 1px)",
+					borderStartEndRadius: "calc(@border-radius.md - 1px)",
 				},
 				lg: {
-					borderStartStartRadius:
-						"calc(@border-radius.lg - @border-width.thin)",
-					borderStartEndRadius: "calc(@border-radius.lg - @border-width.thin)",
+					borderStartStartRadius: "calc(@border-radius.lg - 1px)",
+					borderStartEndRadius: "calc(@border-radius.lg - 1px)",
 				},
 			},
 		},

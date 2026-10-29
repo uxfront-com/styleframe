@@ -3,7 +3,6 @@ import { useCardMediaRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	s.variable("border-width.thin", "1px");
 	for (const size of ["sm", "md", "lg"]) {
 		s.variable(`border-radius.${size}`, "0.5rem");
 	}
@@ -38,8 +37,8 @@ describe("useCardMediaRecipe", () => {
 			overflow: "hidden",
 			aspectRatio: "16 / 9",
 			background: "color-mix(in srgb, currentColor 8%, transparent)",
-			borderStartStartRadius: "calc(@border-radius.md - @border-width.thin)",
-			borderStartEndRadius: "calc(@border-radius.md - @border-width.thin)",
+			borderStartStartRadius: "calc(@border-radius.md - 1px)",
+			borderStartEndRadius: "calc(@border-radius.md - 1px)",
 		});
 	});
 
@@ -59,16 +58,16 @@ describe("useCardMediaRecipe", () => {
 		]);
 		expect(recipe.variants!.size).toEqual({
 			sm: {
-				borderStartStartRadius: "calc(@border-radius.sm - @border-width.thin)",
-				borderStartEndRadius: "calc(@border-radius.sm - @border-width.thin)",
+				borderStartStartRadius: "calc(@border-radius.sm - 1px)",
+				borderStartEndRadius: "calc(@border-radius.sm - 1px)",
 			},
 			md: {
-				borderStartStartRadius: "calc(@border-radius.md - @border-width.thin)",
-				borderStartEndRadius: "calc(@border-radius.md - @border-width.thin)",
+				borderStartStartRadius: "calc(@border-radius.md - 1px)",
+				borderStartEndRadius: "calc(@border-radius.md - 1px)",
 			},
 			lg: {
-				borderStartStartRadius: "calc(@border-radius.lg - @border-width.thin)",
-				borderStartEndRadius: "calc(@border-radius.lg - @border-width.thin)",
+				borderStartStartRadius: "calc(@border-radius.lg - 1px)",
+				borderStartEndRadius: "calc(@border-radius.lg - 1px)",
 			},
 		});
 	});
