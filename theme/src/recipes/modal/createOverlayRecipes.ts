@@ -344,8 +344,8 @@ export function createOverlayHeaderRecipe(name: string) {
 
 /**
  * Footer recipe (`${name}-footer`) — bottom section with end-aligned actions
- * and a top separator. It never shrinks, so the actions stay in view while the
- * body scrolls.
+ * and a top separator. Its actions wrap onto a new row on a narrow screen, and
+ * it never shrinks, so the actions stay in view while the body scrolls.
  */
 export function createOverlayFooterRecipe(name: string) {
 	return createUseRecipe(
@@ -355,6 +355,7 @@ export function createOverlayFooterRecipe(name: string) {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "flex-end",
+				flexWrap: "wrap",
 				flexShrink: "0",
 				gap: "@0.75",
 				paddingTop: "@0.75",

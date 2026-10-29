@@ -8,6 +8,7 @@ function createInstance() {
 		"display",
 		"alignItems",
 		"justifyContent",
+		"flexWrap",
 		"gap",
 		"paddingTop",
 		"paddingBottom",

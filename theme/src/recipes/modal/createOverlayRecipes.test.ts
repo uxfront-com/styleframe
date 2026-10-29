@@ -16,6 +16,7 @@ function createInstance() {
 		"flexGrow",
 		"alignItems",
 		"justifyContent",
+		"flexWrap",
 		"gap",
 		"paddingTop",
 		"paddingBottom",
@@ -189,6 +190,7 @@ describe("createOverlayRecipes", () => {
 
 			expect(header.base!.flexShrink).toBe("0");
 			expect(footer.base!.flexShrink).toBe("0");
+			expect(footer.base!.flexWrap).toBe("wrap");
 			expect(body.base).toMatchObject({ minHeight: "0", overflowY: "auto" });
 		});
 

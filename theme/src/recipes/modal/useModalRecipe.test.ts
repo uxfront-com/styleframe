@@ -85,7 +85,7 @@ describe("useModalRecipe", () => {
 			borderStyle: "@border-style.solid",
 			borderColor: "transparent",
 			borderRadius: "@border-radius.md",
-			overflow: "hidden",
+			overflow: "auto",
 			overflowWrap: "anywhere",
 			lineHeight: "@line-height.normal",
 			boxShadow: "@box-shadow.sm",
@@ -360,7 +360,7 @@ describe("useModalRecipe", () => {
 			expect(recipe.base!.overflowWrap).toBe("anywhere");
 		});
 
-		it("dialog/actions-in-view caps the panel's height so the body scrolls inside it", () => {
+		it("dialog/actions-in-view caps the panel's height, and scrolls it whole only when even the header and footer don't fit", () => {
 			const s = createInstance();
 			const recipe = useModalRecipe(s);
 
@@ -368,7 +368,7 @@ describe("useModalRecipe", () => {
 				display: "flex",
 				flexDirection: "column",
 				maxHeight: "calc(100% - 2rem)",
-				overflow: "hidden",
+				overflow: "auto",
 			});
 		});
 
@@ -392,6 +392,7 @@ describe("useModalRecipe", () => {
 				recipe.base,
 				recipe.variants,
 				recipe.compoundVariants,
+				s.root.children.filter((child) => child.type === "selector"),
 			]);
 			expect(keys).not.toMatch(/animation|transition/i);
 		});

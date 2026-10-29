@@ -23,7 +23,7 @@ export const useModalRecipe = createUseRecipe(
 			borderStyle: "@border-style.solid",
 			borderColor: "transparent",
 			borderRadius: "@border-radius.md",
-			overflow: "hidden",
+			overflow: "auto",
 			overflowWrap: "anywhere",
 			lineHeight: "@line-height.normal",
 			boxShadow: "@box-shadow.sm",

@@ -182,7 +182,7 @@ export const Fullscreen: Story = {
 			ModalDescription,
 		},
 		setup() {
-			const isOpen = ref(false);
+			const isOpen = ref(true);
 			return { args, isOpen };
 		},
 		template: `
@@ -253,7 +253,7 @@ export const LongContent: Story = {
 					<ModalHeader v-bind="args">
 						<ModalTitle id="modal-long-title">Terms of service</ModalTitle>
 					</ModalHeader>
-					<ModalBody v-bind="args" tabindex="0" aria-label="Terms">
+					<ModalBody v-bind="args" tabindex="0" role="region" aria-label="Terms">
 						<ModalDescription v-for="paragraph in paragraphs" :key="paragraph">
 							Paragraph {{ paragraph }} of the terms, long enough to need scrolling.
 						</ModalDescription>
