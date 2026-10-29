@@ -8,12 +8,20 @@ const props = withDefaults(
 		variant?: "default" | "soft" | "ghost";
 		size?: "sm" | "md" | "lg";
 		resize?: "none" | "vertical" | "horizontal" | "both";
+		/** Grows with its text, up to `maxRows`. */
+		autogrow?: boolean;
+		/** The rows an auto-growing textarea stops at, then scrolls. */
+		maxRows?: number;
 		invalid?: boolean;
 		placeholder?: string;
 		modelValue?: string;
 		disabled?: boolean;
 		readonly?: boolean;
 		rows?: number;
+		/** The native textarea's `id`, for the `for` of its `<label>`. */
+		id?: string;
+		/** The `id` of the hint or error message that describes the textarea. */
+		describedby?: string;
 	}>(),
 	{
 		size: "md",
@@ -33,6 +41,7 @@ const wrapperClasses = computed(() =>
 		variant: props.variant,
 		size: props.size,
 		resize: props.resize,
+		autogrow: props.autogrow ? "true" : "false",
 		invalid: props.invalid ? "true" : "false",
 		disabled: props.disabled ? "true" : "false",
 		readonly: props.readonly ? "true" : "false",
@@ -53,13 +62,17 @@ function onInput(event: Event) {
 			<slot name="prefix" />
 		</span>
 		<textarea
+			:id="id"
 			class="textarea-field"
+			dir="auto"
 			:rows="rows"
+			:data-max-rows="maxRows"
 			:placeholder="placeholder"
 			:value="modelValue"
 			:disabled="disabled"
 			:readonly="readonly"
 			:aria-invalid="invalid || undefined"
+			:aria-describedby="describedby"
 			@input="onInput"
 		/>
 		<span v-if="slots.suffix" :class="suffixClasses">
