@@ -31,8 +31,8 @@ const linkHoverText = (color: Color) =>
  * Inspired by Nuxt UI Button with solid, outline, soft, subtle, ghost, and link variants.
  *
  * States are styled from the attributes that expose them (`:disabled`,
- * `aria-disabled`, `aria-pressed`, `data-loading`), hover styles apply only on
- * devices that can hover, and focus shows a `color.focus` ring. The `light`
+ * `aria-disabled`, `aria-pressed`, `aria-expanded`, `data-loading`), hover
+ * styles apply only on devices that can hover, and focus shows a `color.focus` ring. The `light`
  * color is made for dark surfaces and the `dark` color for light surfaces, in
  * either theme.
  *
@@ -59,6 +59,7 @@ export const useButtonRecipe = createUseRecipe(
 			paddingBottom: "@0.5",
 			paddingInline: "@0.75",
 			minHeight: "@2.25",
+			minWidth: "@2.25",
 			cursor: "pointer",
 			transitionProperty: "color, background-color, border-color",
 			transitionTimingFunction: "@easing.ease-in-out",
@@ -136,6 +137,7 @@ export const useButtonRecipe = createUseRecipe(
 					paddingBottom: "@0.25",
 					paddingInline: "@0.5",
 					minHeight: "@1.5",
+					minWidth: "@1.5",
 					gap: "@0.25",
 					borderRadius: "@border-radius.md",
 				},
@@ -145,6 +147,7 @@ export const useButtonRecipe = createUseRecipe(
 					paddingBottom: "@0.375",
 					paddingInline: "@0.625",
 					minHeight: "@2",
+					minWidth: "@2",
 					gap: "@0.375",
 					borderRadius: "@border-radius.md",
 				},
@@ -154,6 +157,7 @@ export const useButtonRecipe = createUseRecipe(
 					paddingBottom: "@0.5",
 					paddingInline: "@0.75",
 					minHeight: "@2.25",
+					minWidth: "@2.25",
 					gap: "@0.375",
 					borderRadius: "@border-radius.md",
 				},
@@ -163,6 +167,7 @@ export const useButtonRecipe = createUseRecipe(
 					paddingBottom: "@0.625",
 					paddingInline: "@0.875",
 					minHeight: "@2.5",
+					minWidth: "@2.5",
 					gap: "@0.5",
 					borderRadius: "@border-radius.md",
 				},
@@ -172,6 +177,7 @@ export const useButtonRecipe = createUseRecipe(
 					paddingBottom: "@0.75",
 					paddingInline: "@1",
 					minHeight: "@3",
+					minWidth: "@3",
 					gap: "@0.5",
 					borderRadius: "@border-radius.lg",
 				},
@@ -192,6 +198,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: solidActive(color),
 					},
 					"&:aria-pressed": {
+						background: solidActive(color),
+					},
+					"&:aria-expanded": {
 						background: solidActive(color),
 					},
 					"&:dark": {
@@ -217,6 +226,10 @@ export const useButtonRecipe = createUseRecipe(
 						color: `@color.${color}-700`,
 						background: `@color.${color}-200`,
 					},
+					"&:aria-expanded": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
 					"&:dark": {
 						color: `@color.${color}-400`,
 					},
@@ -229,6 +242,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: `@color.${color}-750`,
 					},
 					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-750`,
+					},
+					"&:dark:aria-expanded": {
 						color: `@color.${color}-300`,
 						background: `@color.${color}-750`,
 					},
@@ -249,6 +266,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: `@color.${color}-200`,
 					},
+					"&:aria-expanded": {
+						background: `@color.${color}-200`,
+					},
 					"&:dark": {
 						background: `@color.${color}-800`,
 						color: `@color.${color}-400`,
@@ -262,6 +282,10 @@ export const useButtonRecipe = createUseRecipe(
 						color: `@color.${color}-300`,
 					},
 					"&:dark:aria-pressed": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-expanded": {
 						background: `@color.${color}-700`,
 						color: `@color.${color}-300`,
 					},
@@ -283,6 +307,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: `@color.${color}-200`,
 					},
+					"&:aria-expanded": {
+						background: `@color.${color}-200`,
+					},
 					"&:dark": {
 						background: `@color.${color}-800`,
 						color: `@color.${color}-400`,
@@ -297,6 +324,10 @@ export const useButtonRecipe = createUseRecipe(
 						color: `@color.${color}-300`,
 					},
 					"&:dark:aria-pressed": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-expanded": {
 						background: `@color.${color}-700`,
 						color: `@color.${color}-300`,
 					},
@@ -319,6 +350,10 @@ export const useButtonRecipe = createUseRecipe(
 						color: `@color.${color}-700`,
 						background: `@color.${color}-200`,
 					},
+					"&:aria-expanded": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
 					"&:dark": {
 						color: `@color.${color}-400`,
 					},
@@ -331,6 +366,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: `@color.${color}-700`,
 					},
 					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-700`,
+					},
+					"&:dark:aria-expanded": {
 						color: `@color.${color}-300`,
 						background: `@color.${color}-700`,
 					},
@@ -350,6 +389,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						color: linkHoverText(color),
 					},
+					"&:aria-expanded": {
+						color: linkHoverText(color),
+					},
 					"&:dark": {
 						color: `@color.${color}-400`,
 					},
@@ -360,6 +402,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: `@color.${color}-300`,
 					},
 					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-expanded": {
 						color: `@color.${color}-300`,
 					},
 				},
@@ -381,6 +426,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.white",
 						color: "@color.text-inverted",
@@ -393,6 +441,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-200",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-200",
 					},
 				},
@@ -414,6 +465,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-200",
 						color: "@color.text",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
 					"&:dark": {
 						color: "@color.text",
 						borderColor: "@color.gray-300",
@@ -425,6 +480,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.text-inverted",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.text-inverted",
 					},
 				},
@@ -443,6 +501,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.gray-100",
 						color: "@color.gray-700",
@@ -454,6 +515,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-200",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-200",
 					},
 				},
@@ -473,6 +537,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.gray-100",
 						color: "@color.gray-700",
@@ -485,6 +552,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-200",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-200",
 					},
 				},
@@ -505,6 +575,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-200",
 						color: "@color.text",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
 					"&:dark": {
 						color: "@color.text",
 					},
@@ -515,6 +589,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.text-inverted",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.text-inverted",
 					},
 				},
@@ -532,6 +609,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						color: "@color.white",
 					},
+					"&:aria-expanded": {
+						color: "@color.white",
+					},
 					"&:dark": {
 						color: "@color.text",
 					},
@@ -542,6 +622,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.white",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.white",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.white",
 					},
 				},
@@ -563,6 +646,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-750",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-750",
+					},
 					"&:dark": {
 						background: "@color.gray-900",
 						color: "@color.white",
@@ -575,6 +661,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-750",
 					},
 				},
@@ -596,6 +685,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 						color: "@color.text-inverted",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
 					"&:dark": {
 						color: "@color.text-inverted",
 						borderColor: "@color.gray-600",
@@ -607,6 +700,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.text",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.text",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.text",
 					},
 				},
@@ -625,6 +721,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-700",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-700",
+					},
 					"&:dark": {
 						background: "@color.gray-800",
 						color: "@color.gray-300",
@@ -636,6 +735,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-700",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-700",
 					},
 				},
@@ -655,6 +757,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-700",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-700",
+					},
 					"&:dark": {
 						background: "@color.gray-800",
 						color: "@color.gray-300",
@@ -667,6 +772,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-700",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-700",
 					},
 				},
@@ -687,6 +795,10 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 						color: "@color.text-inverted",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
 					"&:dark": {
 						color: "@color.text-inverted",
 					},
@@ -697,6 +809,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.text",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.text",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.text",
 					},
 				},
@@ -714,6 +829,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						color: "@color.gray-900",
 					},
+					"&:aria-expanded": {
+						color: "@color.gray-900",
+					},
 					"&:dark": {
 						color: "@color.text-inverted",
 					},
@@ -724,6 +842,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.gray-900",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.gray-900",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.gray-900",
 					},
 				},
@@ -745,6 +866,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.gray-900",
 						color: "@color.white",
@@ -757,6 +881,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-750",
 					},
 				},
@@ -775,6 +902,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						color: "@color.gray-200",
 						borderColor: "@color.gray-600",
@@ -786,6 +916,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-750",
 					},
 				},
@@ -804,6 +937,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.gray-800",
 						color: "@color.gray-300",
@@ -815,6 +951,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-700",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-700",
 					},
 				},
@@ -834,6 +973,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						background: "@color.gray-800",
 						color: "@color.gray-300",
@@ -846,6 +988,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-700",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-700",
 					},
 				},
@@ -863,6 +1008,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						background: "@color.gray-200",
 					},
+					"&:aria-expanded": {
+						background: "@color.gray-200",
+					},
 					"&:dark": {
 						color: "@color.gray-200",
 					},
@@ -873,6 +1021,9 @@ export const useButtonRecipe = createUseRecipe(
 						background: "@color.gray-750",
 					},
 					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-expanded": {
 						background: "@color.gray-750",
 					},
 				},
@@ -890,6 +1041,9 @@ export const useButtonRecipe = createUseRecipe(
 					"&:aria-pressed": {
 						color: "@color.gray-900",
 					},
+					"&:aria-expanded": {
+						color: "@color.gray-900",
+					},
 					"&:dark": {
 						color: "@color.gray-200",
 					},
@@ -900,6 +1054,9 @@ export const useButtonRecipe = createUseRecipe(
 						color: "@color.white",
 					},
 					"&:dark:aria-pressed": {
+						color: "@color.white",
+					},
+					"&:dark:aria-expanded": {
 						color: "@color.white",
 					},
 				},
@@ -943,14 +1100,19 @@ export const useButtonRecipe = createUseRecipe(
 		selector(".button[data-loading] > .spinner", {
 			position: "absolute",
 			inset: "0",
+			width: "1em",
+			height: "1em",
 			margin: "auto",
+			color: "currentColor",
 		});
 
-		// Forced colors mode drops backgrounds and opacity cues, so the disabled
-		// and pressed states use system colors. These selectors outrank the
-		// dark theme's state rules.
+		// Forced colors mode drops backgrounds and opacity cues, so the disabled,
+		// pressed and expanded states use system colors. Setup rules come before
+		// the recipe's utilities in the stylesheet, so these selectors must
+		// outrank the dark theme's state rules (0,3,0): that's why `.button`
+		// repeats.
 		selector(
-			'.button:is(:disabled, [aria-disabled="true"]):not([data-loading])',
+			'.button.button:is(:disabled, [aria-disabled="true"]):not([data-loading])',
 			{
 				"@media (forced-colors: active)": {
 					borderColor: "GrayText",
@@ -960,7 +1122,7 @@ export const useButtonRecipe = createUseRecipe(
 			},
 		);
 		selector(
-			'.button[aria-pressed="true"]:not(:disabled):not([aria-disabled="true"])',
+			'.button:is([aria-pressed="true"], [aria-expanded="true"]):not(:disabled):not([aria-disabled="true"])',
 			{
 				"@media (forced-colors: active)": {
 					forcedColorAdjust: "none",

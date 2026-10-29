@@ -51,6 +51,8 @@ const stateKeys = [
 	"&:dark:active",
 	"&:aria-pressed",
 	"&:dark:aria-pressed",
+	"&:aria-expanded",
+	"&:dark:aria-expanded",
 	"&:focus-visible",
 	"&:disabled",
 	"&:aria-disabled",
@@ -151,7 +153,7 @@ describe("useButtonRecipe", () => {
 		}
 	});
 
-	it("button/target-size keeps every size at least 24px tall, with a 44px hit area on touch screens", () => {
+	it("button/target-size keeps every size at least 24 × 24px, with a 44px hit area on touch screens", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
@@ -159,6 +161,9 @@ describe("useButtonRecipe", () => {
 			(size) => (size as Slot).minHeight,
 		);
 		expect(minHeights).toEqual(["@1.5", "@2", "@2.25", "@2.5", "@3"]);
+		for (const size of Object.values(recipe.variants!.size)) {
+			expect((size as Slot).minWidth).toBe((size as Slot).minHeight);
+		}
 		expect(recipe.base!.position).toBe("relative");
 		expect(recipe.base!["&:any-pointer-coarse:before"]).toEqual({
 			position: "absolute",
@@ -228,7 +233,7 @@ describe("useButtonRecipe", () => {
 		}
 	});
 
-	it("button/state-selectors styles disabled, pressed and loading from their attributes", () => {
+	it("button/state-selectors styles disabled, pressed, expanded and loading from their attributes", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
@@ -245,11 +250,20 @@ describe("useButtonRecipe", () => {
 				css["&:dark:aria-pressed"],
 				`${cv.match.color}/${cv.match.variant}`,
 			).toEqual(css["&:dark:active"]);
+			expect(
+				css["&:aria-expanded"],
+				`${cv.match.color}/${cv.match.variant}`,
+			).toEqual(css["&:aria-pressed"]);
+			expect(
+				css["&:dark:aria-expanded"],
+				`${cv.match.color}/${cv.match.variant}`,
+			).toEqual(css["&:dark:aria-pressed"]);
 		}
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain('&[aria-disabled="true"] {');
 		expect(css).toContain('&[aria-pressed="true"] {');
+		expect(css).toContain('&[aria-expanded="true"] {');
 		expect(css).toContain("&[data-loading] {");
 		expect(css).not.toContain(":invalid");
 		expect(css).not.toContain(":read-only");
@@ -267,7 +281,7 @@ describe("useButtonRecipe", () => {
 			/\.button\[data-loading\] > :not\(\.spinner\) \{\s*opacity: 0;/,
 		);
 		expect(css).toMatch(
-			/\.button\[data-loading\] > \.spinner \{\s*position: absolute;\s*inset: 0;\s*margin: auto;/,
+			/\.button\[data-loading\] > \.spinner \{\s*position: absolute;\s*inset: 0;\s*width: 1em;\s*height: 1em;\s*margin: auto;\s*color: currentColor;/,
 		);
 	});
 
@@ -284,7 +298,7 @@ describe("useButtonRecipe", () => {
 		expect(css).toContain("@media (hover: hover)");
 	});
 
-	it("button/forced-colors keeps the boundary, focus, disabled and pressed states visible", () => {
+	it("button/forced-colors keeps the boundary, focus, disabled, pressed and expanded states visible", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
@@ -297,10 +311,10 @@ describe("useButtonRecipe", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toMatch(
-			/\.button:is\(:disabled, \[aria-disabled="true"\]\):not\(\[data-loading\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
+			/\.button\.button:is\(:disabled, \[aria-disabled="true"\]\):not\(\[data-loading\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
 		);
 		expect(css).toMatch(
-			/\.button\[aria-pressed="true"\]:not\(:disabled\):not\(\[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
+			/\.button:is\(\[aria-pressed="true"\], \[aria-expanded="true"\]\):not\(:disabled\):not\(\[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
 		);
 	});
 

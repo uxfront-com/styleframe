@@ -18,9 +18,10 @@ const props = withDefaults(
 		label?: string;
 		disabled?: boolean;
 		pressed?: boolean;
+		expanded?: boolean;
 		loading?: boolean;
 	}>(),
-	{ pressed: undefined },
+	{ pressed: undefined, expanded: undefined },
 );
 </script>
 
@@ -30,6 +31,7 @@ const props = withDefaults(
 		:class="button({ color: props.color, variant: props.variant, size: props.size })"
 		:disabled="props.disabled"
 		:aria-pressed="props.pressed"
+		:aria-expanded="props.expanded"
 		:aria-disabled="props.loading ? 'true' : undefined"
 		:data-loading="props.loading ? '' : undefined"
 	>

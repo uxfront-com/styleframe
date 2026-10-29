@@ -60,6 +60,11 @@ const meta = {
 			control: "boolean",
 			description: "Whether a toggle button is pressed (aria-pressed)",
 		},
+		expanded: {
+			control: "boolean",
+			description:
+				"Whether the popup the button opens is expanded (aria-expanded)",
+		},
 		loading: {
 			control: "boolean",
 			description:
@@ -261,6 +266,13 @@ export const Pressed: Story = {
 	args: {
 		label: "Pressed",
 		pressed: true,
+	},
+};
+
+export const Expanded: Story = {
+	args: {
+		label: "Expanded",
+		expanded: true,
 	},
 };
 

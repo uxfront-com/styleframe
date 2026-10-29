@@ -16,12 +16,13 @@ const states = [
 	{ name: "hover", key: "&:hover-capable:hover" },
 	{ name: "active", key: "&:active" },
 	{ name: "pressed", key: "&:aria-pressed" },
+	{ name: "expanded", key: "&:aria-expanded" },
 ] as const;
 
 /**
  * WCAG 1.4.3 asks for 4.5:1 between a label and its background, and WCAG
  * 1.4.11 for 3:1 between the focus ring and the page. Every color × variant
- * compound is checked at rest, on hover, when active and when pressed, in the
+ * compound is checked at rest, on hover, when active, pressed and expanded, in the
  * light and dark themes. A variant without a fill sits on the page: the
  * theme's page for the semantic and `neutral` colors, a dark surface (the dark
  * theme's page, or `gray-900`) for `light` and a light surface for `dark`,
@@ -94,9 +95,9 @@ describe("useButtonRecipe contrast", () => {
 		);
 	});
 
-	it("button/contrast covers the nine colors × six variants in four states and two themes", () => {
+	it("button/contrast covers the nine colors × six variants in five states and two themes", () => {
 		expect(compounds).toHaveLength(54);
-		expect(cases).toHaveLength(432);
+		expect(cases).toHaveLength(540);
 	});
 
 	it.each(cases)("button/contrast keeps the $name label at 4.5:1", (entry) => {
