@@ -384,6 +384,12 @@ describe("useCheckboxFieldRecipe", () => {
 				borderColor: "@color.error",
 				boxShadow: "inset 0 0 0 1px @color.error",
 			});
+			expect(recipe.base?.["&:aria-invalid:checked"]).toEqual({
+				borderColor: "@color.error",
+			});
+			expect(recipe.base?.["&:aria-invalid:indeterminate"]).toEqual({
+				borderColor: "@color.error",
+			});
 			const neutral = recipe.compoundVariants!.find(
 				(v) => v.match.color === "neutral",
 			)?.css as Block;
@@ -397,7 +403,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const recipe = useCheckboxFieldRecipe(s);
 
 			expect(recipe.base?.["&:aria-readonly"]).toEqual({
-				borderStyle: "dashed",
+				borderStyle: "@border-style.dashed",
 				backgroundClip: "padding-box",
 				cursor: "default",
 			});
@@ -408,20 +414,31 @@ describe("useCheckboxFieldRecipe", () => {
 			const recipe = useCheckboxFieldRecipe(s);
 			const base = recipe.base as Record<string, Block>;
 
-			expect(base["&:forced-colors:checked"]).toMatchObject({
+			// The outlined marks: a black stroke under the white one, on the same path.
+			const outlinedCheck = expect.stringMatching(
+				/M3\.5 8\.5l3 3 6-6' stroke='black'.*M3\.5 8\.5l3 3 6-6' stroke='white'/,
+			);
+			const outlinedDash = expect.stringMatching(
+				/M4 8h8' stroke='black'.*M4 8h8' stroke='white'/,
+			);
+			const gray = { backgroundColor: "GrayText", borderColor: "GrayText" };
+
+			expect(base["&:forced-colors:checked"]).toEqual({
 				backgroundColor: "Highlight",
 				borderColor: "Highlight",
+				backgroundImage: outlinedCheck,
 			});
-			expect(base["&:forced-colors:checked"]).toMatchObject({
-				backgroundImage: expect.stringContaining("stroke='black'"),
-			});
-			expect(base["&:forced-colors:indeterminate"]).toMatchObject({
+			expect(base["&:forced-colors:checked"]?.backgroundImage).not.toContain(
+				"M4 8h8",
+			);
+			expect(base["&:forced-colors:indeterminate"]).toEqual({
 				backgroundColor: "Highlight",
 				borderColor: "Highlight",
+				backgroundImage: outlinedDash,
 			});
-			expect(base["&:forced-colors:indeterminate"]).toMatchObject({
-				backgroundImage: expect.stringContaining("M4 8h8"),
-			});
+			expect(
+				base["&:forced-colors:indeterminate"]?.backgroundImage,
+			).not.toContain("M3.5 8.5l3 3 6-6");
 			expect(base["&:forced-colors:focus-visible"]).toEqual({
 				outlineColor: "Highlight",
 			});
@@ -429,20 +446,27 @@ describe("useCheckboxFieldRecipe", () => {
 				opacity: "1",
 				borderColor: "GrayText",
 			});
-			expect(base["&:forced-colors:disabled:checked"]).toEqual({
-				backgroundColor: "GrayText",
-				borderColor: "GrayText",
-			});
+			expect(base["&:forced-colors:disabled:checked"]).toEqual(gray);
+			expect(base["&:forced-colors:disabled:indeterminate"]).toEqual(gray);
 
+			// The neutral dark surface out-specifies the base rules, so each one is
+			// re-asserted under `&:dark`.
 			const neutral = recipe.compoundVariants!.find(
 				(v) => v.match.color === "neutral",
 			)?.css as Record<string, Block>;
-			expect(neutral["&:dark:forced-colors:checked"]).toMatchObject({
+			const highlight = {
 				backgroundColor: "Highlight",
-			});
+				borderColor: "Highlight",
+			};
+			expect(neutral["&:dark:forced-colors:checked"]).toEqual(highlight);
+			expect(neutral["&:dark:forced-colors:indeterminate"]).toEqual(highlight);
 			expect(neutral["&:dark:forced-colors:disabled"]).toEqual({
 				borderColor: "GrayText",
 			});
+			expect(neutral["&:dark:forced-colors:disabled:checked"]).toEqual(gray);
+			expect(neutral["&:dark:forced-colors:disabled:indeterminate"]).toEqual(
+				gray,
+			);
 		});
 
 		it("checkbox/more-contrast draws the border at full strength for every color", () => {

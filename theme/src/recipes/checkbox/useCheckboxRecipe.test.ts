@@ -136,9 +136,14 @@ describe("useCheckboxRecipe", () => {
 				width: "1.5rem",
 				height: "1.5rem",
 			});
+			// The label is padded to the hit area, so the hit area starts at its top
+			// edge unless the first line is taller, and half the difference between
+			// box and hit area before the box.
 			for (const [size, css] of Object.entries(recipe.variants!.size)) {
 				const box = boxSizes[size as keyof typeof boxSizes];
-				expect(css["&:before"]).toMatchObject({
+				const font = fontSizes[size as keyof typeof fontSizes];
+				expect(css["&:before"]).toEqual({
+					top: `max(0px, calc((@font-size.${font} * @line-height.normal - 1.5rem) / 2))`,
 					insetInlineStart: `calc((${box} - 1.5rem) / 2)`,
 				});
 			}
@@ -234,9 +239,9 @@ describe("useCheckboxRecipe", () => {
 			expect(
 				find(".checkbox:has(.checkbox-field:disabled)")?.declarations,
 			).toMatchObject({ opacity: "0.5", cursor: "not-allowed" });
-			expect(
-				find(".checkbox > .checkbox-field:disabled")?.declarations,
-			).toEqual({ opacity: "1" });
+			expect(find(".checkbox .checkbox-field:disabled")?.declarations).toEqual({
+				opacity: "1",
+			});
 		});
 
 		it("checkbox/hover-capable gives the label no hover style", () => {

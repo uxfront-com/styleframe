@@ -87,7 +87,7 @@ export const useCheckboxFieldRecipe = createUseRecipe("checkbox-field", {
 		// Read-only: a dashed border, with the fill kept inside it, so a checked
 		// box still shows its mark without looking like one you can change.
 		"&:aria-readonly": {
-			borderStyle: "dashed",
+			borderStyle: "@border-style.dashed",
 			backgroundClip: "padding-box",
 			cursor: "default",
 		},
@@ -95,6 +95,14 @@ export const useCheckboxFieldRecipe = createUseRecipe("checkbox-field", {
 		"&:aria-invalid": {
 			borderColor: "@color.error",
 			boxShadow: "inset 0 0 0 1px @color.error",
+		},
+		// The checked border ties with the invalid one on specificity, so invalid
+		// is re-asserted on checked and indeterminate boxes.
+		"&:aria-invalid:checked": {
+			borderColor: "@color.error",
+		},
+		"&:aria-invalid:indeterminate": {
+			borderColor: "@color.error",
 		},
 		"&:forced-colors:checked": {
 			backgroundColor: "Highlight",

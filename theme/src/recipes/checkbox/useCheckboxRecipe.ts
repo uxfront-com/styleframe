@@ -87,7 +87,7 @@ export const useCheckboxRecipe = createUseRecipe(
 		});
 
 		// The label already dims the box, so the box doesn't dim twice.
-		selector(".checkbox > .checkbox-field:disabled", {
+		selector(".checkbox .checkbox-field:disabled", {
 			opacity: "1",
 		});
 
