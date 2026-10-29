@@ -25,6 +25,67 @@ const pageText = (color: Color) =>
 	color === "warning" ? "@color.warning-700" : `@color.${color}`;
 const linkHoverText = (color: Color) =>
 	color === "warning" ? "@color.warning-750" : `@color.${color}-shade-50`;
+// Borders keep 3:1 against the page: level 450 does in both themes.
+const solidBorder = (color: Color) =>
+	color === "warning" ? "@color.warning-450" : `@color.${color}-shade-50`;
+const outlineBorder = (color: Color) =>
+	color === "warning" ? "@color.warning-450" : `@color.${color}`;
+
+type Compound = {
+	match: Record<string, string>;
+	css: Record<string, unknown>;
+};
+type Slot = Record<string, unknown>;
+
+/**
+ * Finishes the color × variant compounds in two ways. Each hover block repeats
+ * the label color, so an `<a href>` button keeps it over the global `a:hover`
+ * color. Then a trailing compound per pair puts the resting colors back while
+ * the button is disabled, so it shows no hover, active or pressed look. Those
+ * come last, so their rules follow every state rule in the stylesheet.
+ */
+function withStateColors<T extends Compound>(compounds: T[]): T[] {
+	const resets: Compound[] = [];
+	const finished = compounds.map((compound) => {
+		const { match, css } = compound;
+		if (!match.color || !match.variant) return compound;
+
+		const dark = (css["&:dark"] ?? {}) as Slot;
+		const rest = {
+			background: css.background ?? "transparent",
+			color: css.color,
+		};
+		const darkRest = {
+			background: dark.background ?? rest.background,
+			color: dark.color ?? rest.color,
+		};
+		resets.push({
+			match,
+			css: {
+				"&:disabled": rest,
+				"&:aria-disabled": rest,
+				"&:dark:disabled": darkRest,
+				"&:dark:aria-disabled": darkRest,
+			},
+		});
+
+		const next: Slot = {
+			...css,
+			"&:hover-capable:hover": {
+				color: rest.color,
+				...(css["&:hover-capable:hover"] as Slot),
+			},
+		};
+		if ("color" in dark) {
+			next["&:dark:hover-capable:hover"] = {
+				color: darkRest.color,
+				...(css["&:dark:hover-capable:hover"] as Slot),
+			};
+		}
+		return { ...compound, css: next };
+	});
+	return [...finished, ...(resets as T[])];
+}
 
 /**
  * Full button recipe with color, variant, and size variants.
@@ -38,6 +99,8 @@ const linkHoverText = (color: Color) =>
  *
  * Selectors a recipe key can't express (the loading overlay, and the forced
  * colors states that must outrank the dark theme) are declared in `setup`.
+ * Disabled buttons keep their pointer events, so their cursor shows and
+ * clicks don't fall through to what's underneath.
  */
 export const useButtonRecipe = createUseRecipe(
 	"button",
@@ -76,15 +139,17 @@ export const useButtonRecipe = createUseRecipe(
 			"&:disabled": {
 				cursor: "not-allowed",
 				opacity: "0.75",
-				pointerEvents: "none",
 			},
 			"&:aria-disabled": {
 				cursor: "not-allowed",
 				opacity: "0.75",
-				pointerEvents: "none",
 			},
 			"&:data-loading": {
 				cursor: "progress",
+			},
+			// An `<a href>` button keeps its look over the global `a:hover` styles.
+			"&:hover-capable:hover": {
+				textDecorationLine: "none",
 			},
 			"&:forced-colors:focus-visible": {
 				outlineColor: "Highlight",
@@ -122,7 +187,14 @@ export const useButtonRecipe = createUseRecipe(
 					textDecoration: "underline",
 					textUnderlineOffset: "4px",
 					"&:hover-capable:hover": {
+						textDecorationLine: "underline",
 						textDecorationThickness: "2px",
+					},
+					"&:disabled": {
+						textDecorationThickness: "auto",
+					},
+					"&:aria-disabled": {
+						textDecorationThickness: "auto",
 					},
 					// Forced colors mode draws the border, so the link keeps a boundary.
 					"&:forced-colors": {
@@ -183,14 +255,14 @@ export const useButtonRecipe = createUseRecipe(
 				},
 			},
 		},
-		compoundVariants: [
+		compoundVariants: withStateColors([
 			// Solid variants
 			...colors.map((color) => ({
 				match: { color, variant: "solid" as const },
 				css: {
 					background: `@color.${color}`,
 					color: solidLabel(color),
-					borderColor: `@color.${color}-shade-50`,
+					borderColor: solidBorder(color),
 					"&:hover-capable:hover": {
 						background: solidHover(color),
 					},
@@ -213,7 +285,7 @@ export const useButtonRecipe = createUseRecipe(
 				match: { color, variant: "outline" as const },
 				css: {
 					color: pageText(color),
-					borderColor: `@color.${color}`,
+					borderColor: outlineBorder(color),
 					"&:hover-capable:hover": {
 						color: `@color.${color}-700`,
 						background: `@color.${color}-150`,
@@ -297,7 +369,7 @@ export const useButtonRecipe = createUseRecipe(
 				css: {
 					background: `@color.${color}-100`,
 					color: `@color.${color}-700`,
-					borderColor: `@color.${color}-300`,
+					borderColor: `@color.${color}-450`,
 					"&:hover-capable:hover": {
 						background: `@color.${color}-150`,
 					},
@@ -313,7 +385,7 @@ export const useButtonRecipe = createUseRecipe(
 					"&:dark": {
 						background: `@color.${color}-800`,
 						color: `@color.${color}-400`,
-						borderColor: `@color.${color}-600`,
+						borderColor: `@color.${color}-450`,
 					},
 					"&:dark:hover-capable:hover": {
 						background: `@color.${color}-750`,
@@ -856,7 +928,7 @@ export const useButtonRecipe = createUseRecipe(
 				css: {
 					background: "@color.white",
 					color: "@color.text",
-					borderColor: "@color.gray-200",
+					borderColor: "@color.gray-450",
 					"&:hover-capable:hover": {
 						background: "@color.gray-100",
 					},
@@ -872,7 +944,7 @@ export const useButtonRecipe = createUseRecipe(
 					"&:dark": {
 						background: "@color.gray-900",
 						color: "@color.white",
-						borderColor: "@color.gray-800",
+						borderColor: "@color.gray-450",
 					},
 					"&:dark:hover-capable:hover": {
 						background: "@color.gray-800",
@@ -892,7 +964,7 @@ export const useButtonRecipe = createUseRecipe(
 				match: { color: "neutral" as const, variant: "outline" as const },
 				css: {
 					color: "@color.text",
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-450",
 					"&:hover-capable:hover": {
 						background: "@color.gray-100",
 					},
@@ -907,7 +979,7 @@ export const useButtonRecipe = createUseRecipe(
 					},
 					"&:dark": {
 						color: "@color.gray-200",
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 					"&:dark:hover-capable:hover": {
 						background: "@color.gray-800",
@@ -963,7 +1035,7 @@ export const useButtonRecipe = createUseRecipe(
 				css: {
 					background: "@color.gray-100",
 					color: "@color.gray-700",
-					borderColor: "@color.gray-300",
+					borderColor: "@color.gray-450",
 					"&:hover-capable:hover": {
 						background: "@color.gray-150",
 					},
@@ -979,7 +1051,7 @@ export const useButtonRecipe = createUseRecipe(
 					"&:dark": {
 						background: "@color.gray-800",
 						color: "@color.gray-300",
-						borderColor: "@color.gray-600",
+						borderColor: "@color.gray-450",
 					},
 					"&:dark:hover-capable:hover": {
 						background: "@color.gray-750",
@@ -1076,7 +1148,7 @@ export const useButtonRecipe = createUseRecipe(
 					},
 				},
 			})),
-		],
+		]),
 		defaultVariants: {
 			color: "neutral",
 			variant: "solid",
@@ -1106,23 +1178,15 @@ export const useButtonRecipe = createUseRecipe(
 			color: "currentColor",
 		});
 
-		// Forced colors mode drops backgrounds and opacity cues, so the disabled,
-		// pressed and expanded states use system colors. Setup rules come before
-		// the recipe's utilities in the stylesheet, so these selectors must
-		// outrank the dark theme's state rules (0,3,0): that's why `.button`
-		// repeats.
+		// Forced colors mode drops backgrounds and opacity cues, so the pressed,
+		// expanded and disabled states use system colors, as in the Open
+		// Components reference CSS: a disabled toggle keeps its pressed
+		// background and turns `GrayText`. Setup rules come before the recipe's
+		// utilities in the stylesheet, so these selectors must outrank the dark
+		// theme's state rules (0,3,0): that's why they start with `:root` and
+		// repeat `.button`.
 		selector(
-			'.button.button:is(:disabled, [aria-disabled="true"]):not([data-loading])',
-			{
-				"@media (forced-colors: active)": {
-					borderColor: "GrayText",
-					color: "GrayText",
-					opacity: "1",
-				},
-			},
-		);
-		selector(
-			'.button:is([aria-pressed="true"], [aria-expanded="true"]):not(:disabled):not([aria-disabled="true"])',
+			':root .button.button:is([aria-pressed="true"], [aria-expanded="true"])',
 			{
 				"@media (forced-colors: active)": {
 					forcedColorAdjust: "none",
@@ -1131,5 +1195,12 @@ export const useButtonRecipe = createUseRecipe(
 				},
 			},
 		);
+		selector(':root .button.button:is(:disabled, [aria-disabled="true"])', {
+			"@media (forced-colors: active)": {
+				borderColor: "GrayText",
+				color: "GrayText",
+				opacity: "1",
+			},
+		});
 	},
 );

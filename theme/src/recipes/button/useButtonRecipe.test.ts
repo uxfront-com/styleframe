@@ -112,11 +112,11 @@ describe("useButtonRecipe", () => {
 			});
 		});
 
-		it("should have a compound variant for every color and variant, plus the more contrast borders", () => {
+		it("should have a compound variant for every color and variant, the more contrast borders and a disabled reset for every pair", () => {
 			const s = createInstance();
 			const recipe = useButtonRecipe(s);
 
-			expect(recipe.compoundVariants).toHaveLength(56);
+			expect(recipe.compoundVariants).toHaveLength(54 + 2 + 54);
 		});
 	});
 
@@ -237,6 +237,10 @@ describe("useButtonRecipe", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
+		expect(recipe.base!["&:disabled"]).toEqual({
+			cursor: "not-allowed",
+			opacity: "0.75",
+		});
 		expect(recipe.base!["&:aria-disabled"]).toEqual(recipe.base!["&:disabled"]);
 		expect(recipe.base!["&:data-loading"]).toEqual({ cursor: "progress" });
 		for (const cv of recipe.compoundVariants!) {
@@ -285,6 +289,99 @@ describe("useButtonRecipe", () => {
 		);
 	});
 
+	it("button/state-selectors shows no hover, active or pressed look on a disabled button, and keeps its pointer events", () => {
+		const s = createInstance();
+		const recipe = useButtonRecipe(s);
+
+		for (const block of blocks(recipe)) {
+			expect(block.declarations, block.name).not.toHaveProperty(
+				"pointerEvents",
+			);
+		}
+
+		const pairs = recipe.compoundVariants!.filter(
+			(cv) => cv.match.color && cv.match.variant && "color" in (cv.css as Slot),
+		);
+		const resets = recipe.compoundVariants!.filter(
+			(cv) =>
+				cv.match.color && cv.match.variant && "&:disabled" in (cv.css as Slot),
+		);
+		expect(resets).toHaveLength(pairs.length);
+		expect(recipe.variants!.variant.link["&:disabled"]).toEqual({
+			textDecorationThickness: "auto",
+		});
+		expect(recipe.variants!.variant.link["&:aria-disabled"]).toEqual({
+			textDecorationThickness: "auto",
+		});
+
+		// The resets tie with the state rules on specificity, so they must come
+		// after every one of them in the stylesheet.
+		const css = consumeCSS(s.root, s.options);
+		for (const utility of ["background", "color"]) {
+			for (const [state, reset] of [
+				["hover-capable\\:hover", "disabled"],
+				["active", "disabled"],
+				["aria-pressed", "aria-disabled"],
+				["dark\\:hover-capable\\:hover", "dark\\:disabled"],
+				["dark\\:aria-pressed", "dark\\:aria-disabled"],
+			]) {
+				const lastState = css.lastIndexOf(`._${state}\\:${utility}\\:`);
+				const firstReset = css.indexOf(`._${reset}\\:${utility}\\:`);
+				expect(lastState, `${state} ${utility}`).toBeGreaterThan(-1);
+				expect(firstReset, `${reset} ${utility}`).toBeGreaterThan(lastState);
+			}
+		}
+		expect(
+			css.lastIndexOf("._hover-capable\\:hover\\:text-decoration-thickness"),
+		).toBeLessThan(css.indexOf("._disabled\\:text-decoration-thickness"));
+		expect(recipe.compoundVariants!.slice(-resets.length)).toEqual(resets);
+		for (const cv of pairs) {
+			const css = cv.css as Slot;
+			const dark = (css["&:dark"] ?? {}) as Slot;
+			const reset = resets.find(
+				(r) =>
+					r.match.color === cv.match.color &&
+					r.match.variant === cv.match.variant,
+			)!.css as Slot;
+			const rest = {
+				background: css.background ?? "transparent",
+				color: css.color,
+			};
+			const darkRest = {
+				background: dark.background ?? rest.background,
+				color: dark.color ?? rest.color,
+			};
+			expect(reset).toEqual({
+				"&:disabled": rest,
+				"&:aria-disabled": rest,
+				"&:dark:disabled": darkRest,
+				"&:dark:aria-disabled": darkRest,
+			});
+		}
+	});
+
+	it("button/contrast keeps the label color on hover over the global a:hover styles", () => {
+		const s = createInstance();
+		const recipe = useButtonRecipe(s);
+
+		expect(recipe.base!["&:hover-capable:hover"]).toEqual({
+			textDecorationLine: "none",
+		});
+		expect(recipe.variants!.variant.link["&:hover-capable:hover"]).toEqual({
+			textDecorationLine: "underline",
+			textDecorationThickness: "2px",
+		});
+		for (const cv of recipe.compoundVariants!) {
+			const css = cv.css as Slot;
+			if (!("color" in css)) continue;
+			const name = `${cv.match.color}/${cv.match.variant}`;
+			expect(css["&:hover-capable:hover"], name).toHaveProperty("color");
+			if ("color" in ((css["&:dark"] ?? {}) as Slot)) {
+				expect(css["&:dark:hover-capable:hover"], name).toHaveProperty("color");
+			}
+		}
+	});
+
 	it("button/hover-capable applies every hover style inside @media (hover: hover)", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
@@ -311,18 +408,23 @@ describe("useButtonRecipe", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toMatch(
-			/\.button\.button:is\(:disabled, \[aria-disabled="true"\]\):not\(\[data-loading\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
+			/:root \.button\.button:is\(:disabled, \[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*border-color: GrayText;\s*color: GrayText;\s*opacity: 1;/,
 		);
 		expect(css).toMatch(
-			/\.button:is\(\[aria-pressed="true"\], \[aria-expanded="true"\]\):not\(:disabled\):not\(\[aria-disabled="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
+			/:root \.button\.button:is\(\[aria-pressed="true"\], \[aria-expanded="true"\]\) \{\s*@media \(forced-colors: active\) \{\s*forced-color-adjust: none;\s*background: Highlight;\s*color: HighlightText;/,
 		);
+		// A disabled toggle keeps the pressed background and turns GrayText, so
+		// the disabled rule follows the pressed one.
+		expect(
+			css.indexOf(':root .button.button:is([aria-pressed="true"]'),
+		).toBeLessThan(css.indexOf(":root .button.button:is(:disabled"));
 	});
 
 	it("button/more-contrast draws the outline and subtle borders at full strength", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
-		const trailing = recipe.compoundVariants!.slice(-2);
+		const trailing = recipe.compoundVariants!.filter((cv) => !cv.match.color);
 		expect(trailing.map((cv) => cv.match)).toEqual([
 			{ variant: "outline" },
 			{ variant: "subtle" },
@@ -349,7 +451,10 @@ describe("useButtonRecipe", () => {
 			for (const property of [
 				"animation",
 				"animationName",
+				"transition",
 				"transitionProperty",
+				"transform",
+				"rotate",
 			]) {
 				if (block.name === "base" && block.key === "") continue;
 				expect(block.declarations, block.name).not.toHaveProperty(property);

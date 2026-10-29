@@ -27,6 +27,11 @@ const states = [
  * theme's page for the semantic and `neutral` colors, a dark surface (the dark
  * theme's page, or `gray-900`) for `light` and a light surface for `dark`,
  * since those two keep their look in either theme.
+ *
+ * WCAG 1.4.11 asks for 3:1 between a boundary and what it sits on, so every
+ * border a variant draws is checked against the same surfaces. The border is
+ * the button's outer edge, so it's measured against the page rather than the
+ * button's own fill.
  */
 describe("useButtonRecipe contrast", () => {
 	const s = styleframe();
@@ -68,8 +73,9 @@ describe("useButtonRecipe contrast", () => {
 		return pages[theme];
 	}
 
+	// The color × variant compounds, without the trailing disabled resets.
 	const compounds = recipe.compoundVariants!.filter(
-		(cv) => cv.match.color && cv.match.variant,
+		(cv) => cv.match.color && cv.match.variant && "color" in (cv.css as Slot),
 	);
 
 	const cases = compounds.flatMap((cv) => {
@@ -118,6 +124,45 @@ describe("useButtonRecipe contrast", () => {
 			).toBeGreaterThanOrEqual(4.5);
 		}
 	});
+
+	const borders = compounds.flatMap((cv) => {
+		const css = cv.css as Slot;
+		return (["light", "dark"] as const).flatMap((theme) => {
+			const declarations: Slot = Object.fromEntries(
+				Object.entries(css).filter(([, value]) => typeof value !== "object"),
+			);
+			if (theme === "dark") Object.assign(declarations, css["&:dark"]);
+			const border = declarations.borderColor;
+			if (typeof border !== "string" || !border.startsWith("@color.")) {
+				return [];
+			}
+			return [
+				{
+					name: `${cv.match.color} ${cv.match.variant} in ${theme}`,
+					color: cv.match.color as string,
+					theme,
+					border,
+				},
+			];
+		});
+	});
+
+	it("button/contrast checks every border a variant draws", () => {
+		// solid, outline and subtle, for nine colors in two themes
+		expect(borders).toHaveLength(54);
+	});
+
+	it.each(borders)(
+		"button/contrast keeps the $name border at 3:1 against what it sits on",
+		({ color, theme, border }) => {
+			for (const surface of surfaces(color, theme)) {
+				expect(
+					wcagContrast(resolve(border, theme), surface),
+					`${border} against ${surface}`,
+				).toBeGreaterThanOrEqual(3);
+			}
+		},
+	);
 
 	it("button/contrast resolves every dark state without relying on rule order", () => {
 		for (const cv of compounds) {
