@@ -9,777 +9,965 @@ const colors = [
 	"error",
 ] as const;
 
+type Color = (typeof colors)[number];
+
+/**
+ * Warning is a light colour, so a white label on it, or warning text on the
+ * page, would fall below 4.5:1. It takes a dark label and darker levels.
+ */
+const solidLabel = (color: Color) =>
+	color === "warning" ? "@color.warning-900" : "@color.white";
+const solidHover = (color: Color) =>
+	color === "warning" ? "@color.warning-tint-50" : `@color.${color}-shade-50`;
+const solidActive = (color: Color) =>
+	color === "warning" ? "@color.warning-tint-100" : `@color.${color}-shade-100`;
+const pageText = (color: Color) =>
+	color === "warning" ? "@color.warning-700" : `@color.${color}`;
+const linkHoverText = (color: Color) =>
+	color === "warning" ? "@color.warning-750" : `@color.${color}-shade-50`;
+
 /**
  * Full button recipe with color, variant, and size variants.
  * Inspired by Nuxt UI Button with solid, outline, soft, subtle, ghost, and link variants.
+ *
+ * States are styled from the attributes that expose them (`:disabled`,
+ * `aria-disabled`, `aria-pressed`, `data-loading`), hover styles apply only on
+ * devices that can hover, and focus shows a `color.focus` ring. The `light`
+ * color is made for dark surfaces and the `dark` color for light surfaces, in
+ * either theme.
+ *
+ * Selectors a recipe key can't express (the loading overlay, and the forced
+ * colors states that must outrank the dark theme) are declared in `setup`.
  */
-export const useButtonRecipe = createUseRecipe("button", {
-	base: {
-		display: "inline-flex",
-		alignItems: "center",
-		justifyContent: "center",
-		fontWeight: "@font-weight.medium",
-		fontSize: "@font-size.sm",
-		borderWidth: "@border-width.thin",
-		borderStyle: "@border-style.solid",
-		borderColor: "transparent",
-		borderRadius: "@border-radius.md",
-		lineHeight: "@line-height.normal",
-		paddingTop: "@0.5",
-		paddingBottom: "@0.5",
-		paddingLeft: "@0.75",
-		paddingRight: "@0.75",
-		cursor: "pointer",
-		transitionProperty: "color, background-color, border-color",
-		transitionTimingFunction: "@easing.ease-in-out",
-		transitionDuration: "150ms",
-		textDecoration: "none",
-		whiteSpace: "nowrap",
-		userSelect: "none",
-		outline: "none",
-		"&:focus-visible": {
-			outlineWidth: "2px",
-			outlineStyle: "solid",
-			outlineColor: "@color.primary",
-			outlineOffset: "2px",
-		},
-		"&:disabled": {
-			cursor: "not-allowed",
-			opacity: "0.75",
-			pointerEvents: "none",
-		},
-	},
-	variants: {
-		color: {
-			primary: {},
-			secondary: {},
-			success: {},
-			info: {},
-			warning: {},
-			error: {},
-			light: {},
-			dark: {},
-			neutral: {},
-		},
-		variant: {
-			solid: {},
-			outline: {},
-			soft: {},
-			subtle: {},
-			ghost: {
-				background: "transparent",
+export const useButtonRecipe = createUseRecipe(
+	"button",
+	{
+		base: {
+			position: "relative",
+			display: "inline-flex",
+			alignItems: "center",
+			justifyContent: "center",
+			fontWeight: "@font-weight.medium",
+			fontSize: "@font-size.sm",
+			borderWidth: "@border-width.thin",
+			borderStyle: "@border-style.solid",
+			borderColor: "transparent",
+			borderRadius: "@border-radius.md",
+			lineHeight: "@line-height.normal",
+			textAlign: "center",
+			paddingTop: "@0.5",
+			paddingBottom: "@0.5",
+			paddingInline: "@0.75",
+			minHeight: "@2.25",
+			cursor: "pointer",
+			transitionProperty: "color, background-color, border-color",
+			transitionTimingFunction: "@easing.ease-in-out",
+			transitionDuration: "150ms",
+			textDecoration: "none",
+			userSelect: "none",
+			outline: "none",
+			"&:focus-visible": {
+				outlineWidth: "2px",
+				outlineStyle: "solid",
+				outlineColor: "@color.focus",
+				outlineOffset: "2px",
 			},
-			link: {
-				background: "transparent",
-				borderColor: "transparent",
-				borderWidth: "0",
+			"&:disabled": {
+				cursor: "not-allowed",
+				opacity: "0.75",
+				pointerEvents: "none",
+			},
+			"&:aria-disabled": {
+				cursor: "not-allowed",
+				opacity: "0.75",
+				pointerEvents: "none",
+			},
+			"&:data-loading": {
+				cursor: "progress",
+			},
+			"&:forced-colors:focus-visible": {
+				outlineColor: "Highlight",
+			},
+			// On touch screens, every size gets a hit area of at least 44 × 44px.
+			"&:any-pointer-coarse:before": {
+				position: "absolute",
+				inset: "min(0px, calc((100% - 2.75rem) / 2))",
 			},
 		},
-		size: {
-			xs: {
-				fontSize: "@font-size.xs",
-				paddingTop: "@0.25",
-				paddingBottom: "@0.25",
-				paddingLeft: "@0.5",
-				paddingRight: "@0.5",
-				gap: "@0.25",
-				borderRadius: "@border-radius.md",
+		variants: {
+			color: {
+				primary: {},
+				secondary: {},
+				success: {},
+				info: {},
+				warning: {},
+				error: {},
+				light: {},
+				dark: {},
+				neutral: {},
 			},
-			sm: {
-				fontSize: "@font-size.sm",
-				paddingTop: "@0.375",
-				paddingBottom: "@0.375",
-				paddingLeft: "@0.625",
-				paddingRight: "@0.625",
-				gap: "@0.375",
-				borderRadius: "@border-radius.md",
+			variant: {
+				solid: {},
+				outline: {},
+				soft: {},
+				subtle: {},
+				ghost: {
+					background: "transparent",
+				},
+				link: {
+					background: "transparent",
+					borderColor: "transparent",
+					borderWidth: "0",
+					textDecoration: "underline",
+					textUnderlineOffset: "4px",
+					"&:hover-capable:hover": {
+						textDecorationThickness: "2px",
+					},
+					// Forced colors mode draws the border, so the link keeps a boundary.
+					"&:forced-colors": {
+						borderWidth: "@border-width.thin",
+					},
+				},
 			},
-			md: {
-				fontSize: "@font-size.sm",
-				paddingTop: "@0.5",
-				paddingBottom: "@0.5",
-				paddingLeft: "@0.75",
-				paddingRight: "@0.75",
-				gap: "@0.375",
-				borderRadius: "@border-radius.md",
-			},
-			lg: {
-				fontSize: "@font-size.md",
-				paddingTop: "@0.625",
-				paddingBottom: "@0.625",
-				paddingLeft: "@0.875",
-				paddingRight: "@0.875",
-				gap: "@0.5",
-				borderRadius: "@border-radius.md",
-			},
-			xl: {
-				fontSize: "@font-size.lg",
-				paddingTop: "@0.75",
-				paddingBottom: "@0.75",
-				paddingLeft: "@1",
-				paddingRight: "@1",
-				gap: "@0.5",
-				borderRadius: "@border-radius.lg",
+			size: {
+				xs: {
+					fontSize: "@font-size.xs",
+					paddingTop: "@0.25",
+					paddingBottom: "@0.25",
+					paddingInline: "@0.5",
+					minHeight: "@1.5",
+					gap: "@0.25",
+					borderRadius: "@border-radius.md",
+				},
+				sm: {
+					fontSize: "@font-size.sm",
+					paddingTop: "@0.375",
+					paddingBottom: "@0.375",
+					paddingInline: "@0.625",
+					minHeight: "@2",
+					gap: "@0.375",
+					borderRadius: "@border-radius.md",
+				},
+				md: {
+					fontSize: "@font-size.sm",
+					paddingTop: "@0.5",
+					paddingBottom: "@0.5",
+					paddingInline: "@0.75",
+					minHeight: "@2.25",
+					gap: "@0.375",
+					borderRadius: "@border-radius.md",
+				},
+				lg: {
+					fontSize: "@font-size.md",
+					paddingTop: "@0.625",
+					paddingBottom: "@0.625",
+					paddingInline: "@0.875",
+					minHeight: "@2.5",
+					gap: "@0.5",
+					borderRadius: "@border-radius.md",
+				},
+				xl: {
+					fontSize: "@font-size.lg",
+					paddingTop: "@0.75",
+					paddingBottom: "@0.75",
+					paddingInline: "@1",
+					minHeight: "@3",
+					gap: "@0.5",
+					borderRadius: "@border-radius.lg",
+				},
 			},
 		},
-	},
-	compoundVariants: [
-		// Solid variants
-		...colors.map((color) => ({
-			match: { color, variant: "solid" as const },
-			css: {
-				background: `@color.${color}`,
-				color: "@color.white",
-				borderColor: `@color.${color}-shade-50`,
-				"&:hover": {
-					background: `@color.${color}-tint-50`,
+		compoundVariants: [
+			// Solid variants
+			...colors.map((color) => ({
+				match: { color, variant: "solid" as const },
+				css: {
+					background: `@color.${color}`,
+					color: solidLabel(color),
+					borderColor: `@color.${color}-shade-50`,
+					"&:hover-capable:hover": {
+						background: solidHover(color),
+					},
+					"&:active": {
+						background: solidActive(color),
+					},
+					"&:aria-pressed": {
+						background: solidActive(color),
+					},
+					"&:dark": {
+						borderColor: `@color.${color}-tint-50`,
+					},
 				},
-				"&:focus": {
-					background: `@color.${color}-tint-50`,
+			})),
+			// Outline variants
+			...colors.map((color) => ({
+				match: { color, variant: "outline" as const },
+				css: {
+					color: pageText(color),
+					borderColor: `@color.${color}`,
+					"&:hover-capable:hover": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-150`,
+					},
+					"&:active": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
+					"&:aria-pressed": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
+					"&:dark": {
+						color: `@color.${color}-400`,
+					},
+					"&:dark:hover-capable:hover": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-800`,
+					},
+					"&:dark:active": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-750`,
+					},
+					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-750`,
+					},
 				},
-				"&:active": {
-					background: `@color.${color}-tint-100`,
-				},
-				"&:dark": {
-					borderColor: `@color.${color}-tint-50`,
-				},
-			},
-		})),
-		// Outline variants
-		...colors.map((color) => ({
-			match: { color, variant: "outline" as const },
-			css: {
-				color: `@color.${color}`,
-				borderColor: `@color.${color}`,
-				"&:hover": {
-					color: `@color.${color}-700`,
-					background: `@color.${color}-150`,
-				},
-				"&:focus": {
-					color: `@color.${color}-700`,
-					background: `@color.${color}-150`,
-				},
-				"&:active": {
-					color: `@color.${color}-700`,
-					background: `@color.${color}-200`,
-				},
-				"&:dark:hover": {
-					color: `@color.${color}-300`,
-					background: `@color.${color}-800`,
-				},
-				"&:dark:focus": {
-					color: `@color.${color}-300`,
-					background: `@color.${color}-800`,
-				},
-				"&:dark:active": {
-					color: `@color.${color}-300`,
-					background: `@color.${color}-750`,
-				},
-			},
-		})),
-		// Soft variants
-		...colors.map((color) => ({
-			match: { color, variant: "soft" as const },
-			css: {
-				background: `@color.${color}-100`,
-				color: `@color.${color}-700`,
-				"&:hover": {
-					background: `@color.${color}-150`,
-				},
-				"&:focus": {
-					background: `@color.${color}-150`,
-				},
-				"&:active": {
-					background: `@color.${color}-200`,
-				},
-				"&:dark": {
-					background: `@color.${color}-800`,
-					color: `@color.${color}-400`,
-				},
-				"&:dark:hover": {
-					background: `@color.${color}-750`,
-				},
-				"&:dark:focus": {
-					background: `@color.${color}-750`,
-				},
-				"&:dark:active": {
-					background: `@color.${color}-700`,
-				},
-			},
-		})),
-		// Subtle variants
-		...colors.map((color) => ({
-			match: { color, variant: "subtle" as const },
-			css: {
-				background: `@color.${color}-100`,
-				color: `@color.${color}-700`,
-				borderColor: `@color.${color}-300`,
-				"&:hover": {
-					background: `@color.${color}-150`,
-				},
-				"&:focus": {
-					background: `@color.${color}-150`,
-				},
-				"&:active": {
-					background: `@color.${color}-200`,
-				},
-				"&:dark": {
-					background: `@color.${color}-800`,
-					color: `@color.${color}-400`,
-					borderColor: `@color.${color}-600`,
-				},
-				"&:dark:hover": {
-					background: `@color.${color}-750`,
-				},
-				"&:dark:focus": {
-					background: `@color.${color}-750`,
-				},
-				"&:dark:active": {
-					background: `@color.${color}-700`,
-				},
-			},
-		})),
-		// Ghost variants
-		...colors.map((color) => ({
-			match: { color, variant: "ghost" as const },
-			css: {
-				color: `@color.${color}`,
-				"&:hover": {
-					color: `@color.${color}-700`,
+			})),
+			// Soft variants
+			...colors.map((color) => ({
+				match: { color, variant: "soft" as const },
+				css: {
 					background: `@color.${color}-100`,
-				},
-				"&:focus": {
 					color: `@color.${color}-700`,
+					"&:hover-capable:hover": {
+						background: `@color.${color}-150`,
+					},
+					"&:active": {
+						background: `@color.${color}-200`,
+					},
+					"&:aria-pressed": {
+						background: `@color.${color}-200`,
+					},
+					"&:dark": {
+						background: `@color.${color}-800`,
+						color: `@color.${color}-400`,
+					},
+					"&:dark:hover-capable:hover": {
+						background: `@color.${color}-750`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:active": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-pressed": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
+				},
+			})),
+			// Subtle variants
+			...colors.map((color) => ({
+				match: { color, variant: "subtle" as const },
+				css: {
 					background: `@color.${color}-100`,
+					color: `@color.${color}-700`,
+					borderColor: `@color.${color}-300`,
+					"&:hover-capable:hover": {
+						background: `@color.${color}-150`,
+					},
+					"&:active": {
+						background: `@color.${color}-200`,
+					},
+					"&:aria-pressed": {
+						background: `@color.${color}-200`,
+					},
+					"&:dark": {
+						background: `@color.${color}-800`,
+						color: `@color.${color}-400`,
+						borderColor: `@color.${color}-600`,
+					},
+					"&:dark:hover-capable:hover": {
+						background: `@color.${color}-750`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:active": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-pressed": {
+						background: `@color.${color}-700`,
+						color: `@color.${color}-300`,
+					},
 				},
-				"&:active": {
-					background: `@color.${color}-200`,
+			})),
+			// Ghost variants
+			...colors.map((color) => ({
+				match: { color, variant: "ghost" as const },
+				css: {
+					color: pageText(color),
+					"&:hover-capable:hover": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-100`,
+					},
+					"&:active": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
+					"&:aria-pressed": {
+						color: `@color.${color}-700`,
+						background: `@color.${color}-200`,
+					},
+					"&:dark": {
+						color: `@color.${color}-400`,
+					},
+					"&:dark:hover-capable:hover": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-750`,
+					},
+					"&:dark:active": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-700`,
+					},
+					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+						background: `@color.${color}-700`,
+					},
 				},
-				"&:dark:hover": {
-					color: `@color.${color}-400`,
-					background: `@color.${color}-750`,
+			})),
+			// Link variants
+			...colors.map((color) => ({
+				match: { color, variant: "link" as const },
+				css: {
+					color: pageText(color),
+					"&:hover-capable:hover": {
+						color: linkHoverText(color),
+					},
+					"&:active": {
+						color: linkHoverText(color),
+					},
+					"&:aria-pressed": {
+						color: linkHoverText(color),
+					},
+					"&:dark": {
+						color: `@color.${color}-400`,
+					},
+					"&:dark:hover-capable:hover": {
+						color: `@color.${color}-300`,
+					},
+					"&:dark:active": {
+						color: `@color.${color}-300`,
+					},
+					"&:dark:aria-pressed": {
+						color: `@color.${color}-300`,
+					},
 				},
-				"&:dark:focus": {
-					color: `@color.${color}-400`,
-					background: `@color.${color}-750`,
-				},
-				"&:dark:active": {
-					background: `@color.${color}-700`,
-				},
-			},
-		})),
-		// Link variants
-		...colors.map((color) => ({
-			match: { color, variant: "link" as const },
-			css: {
-				color: `@color.${color}`,
-				"&:hover": {
-					color: `@color.${color}-shade-50`,
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:focus": {
-					color: `@color.${color}-shade-50`,
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:active": {
-					color: `@color.${color}-shade-50`,
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-			},
-		})),
+			})),
 
-		// Light color (neutral light-mode values, fixed across themes)
-		{
-			match: { color: "light" as const, variant: "solid" as const },
-			css: {
-				background: "@color.white",
-				color: "@color.text",
-				borderColor: "@color.gray-200",
-				"&:hover": {
-					background: "@color.gray-100",
-				},
-				"&:focus": {
-					background: "@color.gray-100",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
+			// Light color (neutral light-mode values, fixed across themes, for dark surfaces)
+			{
+				match: { color: "light" as const, variant: "solid" as const },
+				css: {
 					background: "@color.white",
-					color: "@color.text-inverted",
+					color: "@color.text",
 					borderColor: "@color.gray-200",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.white",
+						color: "@color.text-inverted",
+						borderColor: "@color.gray-200",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-100",
+					},
+					"&:dark:active": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "light" as const, variant: "outline" as const },
-			css: {
-				color: "@color.text-inverted",
-				borderColor: "@color.gray-300",
-				"&:hover": {
-					background: "@color.gray-100",
-					color: "@color.text",
-				},
-				"&:focus": {
-					background: "@color.gray-100",
-					color: "@color.text",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-					color: "@color.text",
-				},
-				"&:dark": {
-					color: "@color.text",
+			{
+				match: { color: "light" as const, variant: "outline" as const },
+				css: {
+					color: "@color.text-inverted",
 					borderColor: "@color.gray-300",
-				},
-				"&:dark:hover": {
-					color: "@color.text-inverted",
-				},
-				"&:dark:focus": {
-					color: "@color.text-inverted",
-				},
-				"&:dark:active": {
-					color: "@color.text-inverted",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+						color: "@color.text",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
+					"&:dark": {
+						color: "@color.text",
+						borderColor: "@color.gray-300",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:active": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.text-inverted",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "light" as const, variant: "soft" as const },
-			css: {
-				background: "@color.gray-100",
-				color: "@color.gray-700",
-				"&:hover": {
-					background: "@color.gray-150",
-				},
-				"&:focus": {
-					background: "@color.gray-150",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
+			{
+				match: { color: "light" as const, variant: "soft" as const },
+				css: {
 					background: "@color.gray-100",
 					color: "@color.gray-700",
+					"&:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.gray-100",
+						color: "@color.gray-700",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:dark:active": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "light" as const, variant: "subtle" as const },
-			css: {
-				background: "@color.gray-100",
-				color: "@color.gray-700",
-				borderColor: "@color.gray-300",
-				"&:hover": {
-					background: "@color.gray-150",
-				},
-				"&:focus": {
-					background: "@color.gray-150",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
+			{
+				match: { color: "light" as const, variant: "subtle" as const },
+				css: {
 					background: "@color.gray-100",
 					color: "@color.gray-700",
 					borderColor: "@color.gray-300",
+					"&:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.gray-100",
+						color: "@color.gray-700",
+						borderColor: "@color.gray-300",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:dark:active": {
+						background: "@color.gray-200",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-200",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "light" as const, variant: "ghost" as const },
-			css: {
-				color: "@color.text-inverted",
-				"&:hover": {
-					background: "@color.gray-100",
-					color: "@color.text",
-				},
-				"&:focus": {
-					background: "@color.gray-100",
-					color: "@color.text",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-					color: "@color.text",
-				},
-				"&:dark": {
-					color: "@color.text",
-				},
-				"&:dark:hover": {
+			{
+				match: { color: "light" as const, variant: "ghost" as const },
+				css: {
 					color: "@color.text-inverted",
-				},
-				"&:dark:focus": {
-					color: "@color.text-inverted",
-				},
-				"&:dark:active": {
-					color: "@color.text-inverted",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+						color: "@color.text",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+						color: "@color.text",
+					},
+					"&:dark": {
+						color: "@color.text",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:active": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.text-inverted",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "light" as const, variant: "link" as const },
-			css: {
-				color: "@color.text-inverted",
-				"&:hover": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:focus": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:active": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:dark": {
-					color: "@color.text",
+			{
+				match: { color: "light" as const, variant: "link" as const },
+				css: {
+					color: "@color.text-inverted",
+					"&:hover-capable:hover": {
+						color: "@color.white",
+					},
+					"&:active": {
+						color: "@color.white",
+					},
+					"&:aria-pressed": {
+						color: "@color.white",
+					},
+					"&:dark": {
+						color: "@color.text",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.white",
+					},
+					"&:dark:active": {
+						color: "@color.white",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.white",
+					},
 				},
 			},
-		},
 
-		// Dark color (neutral dark-mode values, fixed across themes)
-		{
-			match: { color: "dark" as const, variant: "solid" as const },
-			css: {
-				background: "@color.gray-900",
-				color: "@color.white",
-				borderColor: "@color.gray-800",
-				"&:hover": {
-					background: "@color.gray-800",
-				},
-				"&:focus": {
-					background: "@color.gray-800",
-				},
-				"&:active": {
-					background: "@color.gray-750",
-				},
-				"&:dark": {
+			// Dark color (neutral dark-mode values, fixed across themes, for light surfaces)
+			{
+				match: { color: "dark" as const, variant: "solid" as const },
+				css: {
 					background: "@color.gray-900",
 					color: "@color.white",
 					borderColor: "@color.gray-800",
+					"&:hover-capable:hover": {
+						background: "@color.gray-800",
+					},
+					"&:active": {
+						background: "@color.gray-750",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-750",
+					},
+					"&:dark": {
+						background: "@color.gray-900",
+						color: "@color.white",
+						borderColor: "@color.gray-800",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-800",
+					},
+					"&:dark:active": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "dark" as const, variant: "outline" as const },
-			css: {
-				color: "@color.text",
-				borderColor: "@color.gray-600",
-				"&:hover": {
-					background: "@color.gray-800",
-					color: "@color.text-inverted",
-				},
-				"&:focus": {
-					background: "@color.gray-800",
-					color: "@color.text-inverted",
-				},
-				"&:active": {
-					background: "@color.gray-750",
-					color: "@color.text-inverted",
-				},
-				"&:dark": {
-					color: "@color.text-inverted",
+			{
+				match: { color: "dark" as const, variant: "outline" as const },
+				css: {
+					color: "@color.text",
 					borderColor: "@color.gray-600",
-				},
-				"&:dark:hover": {
-					color: "@color.text",
-				},
-				"&:dark:focus": {
-					color: "@color.text",
-				},
-				"&:dark:active": {
-					color: "@color.text",
+					"&:hover-capable:hover": {
+						background: "@color.gray-800",
+						color: "@color.text-inverted",
+					},
+					"&:active": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
+					"&:dark": {
+						color: "@color.text-inverted",
+						borderColor: "@color.gray-600",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.text",
+					},
+					"&:dark:active": {
+						color: "@color.text",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.text",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "dark" as const, variant: "soft" as const },
-			css: {
-				background: "@color.gray-800",
-				color: "@color.gray-300",
-				"&:hover": {
-					background: "@color.gray-750",
-				},
-				"&:focus": {
-					background: "@color.gray-750",
-				},
-				"&:active": {
-					background: "@color.gray-700",
-				},
-				"&:dark": {
+			{
+				match: { color: "dark" as const, variant: "soft" as const },
+				css: {
 					background: "@color.gray-800",
 					color: "@color.gray-300",
+					"&:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:active": {
+						background: "@color.gray-700",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark": {
+						background: "@color.gray-800",
+						color: "@color.gray-300",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:dark:active": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "dark" as const, variant: "subtle" as const },
-			css: {
-				background: "@color.gray-800",
-				color: "@color.gray-300",
-				borderColor: "@color.gray-600",
-				"&:hover": {
-					background: "@color.gray-750",
-				},
-				"&:focus": {
-					background: "@color.gray-750",
-				},
-				"&:active": {
-					background: "@color.gray-700",
-				},
-				"&:dark": {
+			{
+				match: { color: "dark" as const, variant: "subtle" as const },
+				css: {
 					background: "@color.gray-800",
 					color: "@color.gray-300",
 					borderColor: "@color.gray-600",
+					"&:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:active": {
+						background: "@color.gray-700",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-700",
+					},
+					"&:dark": {
+						background: "@color.gray-800",
+						color: "@color.gray-300",
+						borderColor: "@color.gray-600",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:dark:active": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "dark" as const, variant: "ghost" as const },
-			css: {
-				color: "@color.text",
-				"&:hover": {
-					background: "@color.gray-800",
-					color: "@color.text-inverted",
-				},
-				"&:focus": {
-					background: "@color.gray-800",
-					color: "@color.text-inverted",
-				},
-				"&:active": {
-					background: "@color.gray-750",
-					color: "@color.text-inverted",
-				},
-				"&:dark": {
-					color: "@color.text-inverted",
-				},
-				"&:dark:hover": {
+			{
+				match: { color: "dark" as const, variant: "ghost" as const },
+				css: {
 					color: "@color.text",
-				},
-				"&:dark:focus": {
-					color: "@color.text",
-				},
-				"&:dark:active": {
-					color: "@color.text",
+					"&:hover-capable:hover": {
+						background: "@color.gray-800",
+						color: "@color.text-inverted",
+					},
+					"&:active": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-750",
+						color: "@color.text-inverted",
+					},
+					"&:dark": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.text",
+					},
+					"&:dark:active": {
+						color: "@color.text",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.text",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "dark" as const, variant: "link" as const },
-			css: {
-				color: "@color.text",
-				"&:hover": {
-					color: "@color.white",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:focus": {
-					color: "@color.white",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:active": {
-					color: "@color.white",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:dark": {
-					color: "@color.text-inverted",
+			{
+				match: { color: "dark" as const, variant: "link" as const },
+				css: {
+					color: "@color.text",
+					"&:hover-capable:hover": {
+						color: "@color.gray-900",
+					},
+					"&:active": {
+						color: "@color.gray-900",
+					},
+					"&:aria-pressed": {
+						color: "@color.gray-900",
+					},
+					"&:dark": {
+						color: "@color.text-inverted",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.gray-900",
+					},
+					"&:dark:active": {
+						color: "@color.gray-900",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.gray-900",
+					},
 				},
 			},
-		},
 
-		// Neutral color (light in light mode, dark in dark mode)
-		{
-			match: { color: "neutral" as const, variant: "solid" as const },
-			css: {
-				background: "@color.white",
-				color: "@color.text",
-				borderColor: "@color.gray-200",
-				"&:hover": {
-					background: "@color.gray-100",
-				},
-				"&:focus": {
-					background: "@color.gray-100",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
-					background: "@color.gray-900",
-					color: "@color.white",
-					borderColor: "@color.gray-800",
-				},
-				"&:dark:hover": {
-					background: "@color.gray-800",
-				},
-				"&:dark:focus": {
-					background: "@color.gray-800",
-				},
-				"&:dark:active": {
-					background: "@color.gray-750",
-				},
-			},
-		},
-		{
-			match: { color: "neutral" as const, variant: "outline" as const },
-			css: {
-				color: "@color.text",
-				borderColor: "@color.gray-300",
-				"&:hover": {
-					background: "@color.gray-100",
-				},
-				"&:focus": {
-					background: "@color.gray-100",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
-					color: "@color.gray-200",
-					borderColor: "@color.gray-600",
-				},
-				"&:dark:hover": {
-					background: "@color.gray-800",
-				},
-				"&:dark:focus": {
-					background: "@color.gray-800",
-				},
-				"&:dark:active": {
-					background: "@color.gray-750",
+			// Neutral color (light in light mode, dark in dark mode)
+			{
+				match: { color: "neutral" as const, variant: "solid" as const },
+				css: {
+					background: "@color.white",
+					color: "@color.text",
+					borderColor: "@color.gray-200",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.gray-900",
+						color: "@color.white",
+						borderColor: "@color.gray-800",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-800",
+					},
+					"&:dark:active": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "neutral" as const, variant: "soft" as const },
-			css: {
-				background: "@color.gray-100",
-				color: "@color.gray-700",
-				"&:hover": {
-					background: "@color.gray-150",
-				},
-				"&:focus": {
-					background: "@color.gray-150",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
-					background: "@color.gray-800",
-					color: "@color.gray-300",
-				},
-				"&:dark:hover": {
-					background: "@color.gray-750",
-				},
-				"&:dark:focus": {
-					background: "@color.gray-750",
-				},
-				"&:dark:active": {
-					background: "@color.gray-700",
-				},
-			},
-		},
-		{
-			match: { color: "neutral" as const, variant: "subtle" as const },
-			css: {
-				background: "@color.gray-100",
-				color: "@color.gray-700",
-				borderColor: "@color.gray-300",
-				"&:hover": {
-					background: "@color.gray-150",
-				},
-				"&:focus": {
-					background: "@color.gray-150",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
-					background: "@color.gray-800",
-					color: "@color.gray-300",
-					borderColor: "@color.gray-600",
-				},
-				"&:dark:hover": {
-					background: "@color.gray-750",
-				},
-				"&:dark:focus": {
-					background: "@color.gray-750",
-				},
-				"&:dark:active": {
-					background: "@color.gray-700",
+			{
+				match: { color: "neutral" as const, variant: "outline" as const },
+				css: {
+					color: "@color.text",
+					borderColor: "@color.gray-300",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						color: "@color.gray-200",
+						borderColor: "@color.gray-600",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-800",
+					},
+					"&:dark:active": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
 				},
 			},
-		},
-		{
-			match: { color: "neutral" as const, variant: "ghost" as const },
-			css: {
-				color: "@color.text",
-				"&:hover": {
+			{
+				match: { color: "neutral" as const, variant: "soft" as const },
+				css: {
 					background: "@color.gray-100",
+					color: "@color.gray-700",
+					"&:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.gray-800",
+						color: "@color.gray-300",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:dark:active": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
 				},
-				"&:focus": {
+			},
+			{
+				match: { color: "neutral" as const, variant: "subtle" as const },
+				css: {
 					background: "@color.gray-100",
-				},
-				"&:active": {
-					background: "@color.gray-200",
-				},
-				"&:dark": {
-					color: "@color.gray-200",
-				},
-				"&:dark:hover": {
-					background: "@color.gray-800",
-				},
-				"&:dark:focus": {
-					background: "@color.gray-800",
-				},
-				"&:dark:active": {
-					background: "@color.gray-750",
-				},
-			},
-		},
-		{
-			match: { color: "neutral" as const, variant: "link" as const },
-			css: {
-				color: "@color.text",
-				"&:hover": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:focus": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:active": {
-					color: "@color.gray-900",
-					textDecoration: "underline",
-					textUnderlineOffset: "4px",
-				},
-				"&:dark": {
-					color: "@color.gray-200",
-				},
-				"&:dark:hover": {
-					color: "@color.white",
-				},
-				"&:dark:focus": {
-					color: "@color.white",
-				},
-				"&:dark:active": {
-					color: "@color.white",
+					color: "@color.gray-700",
+					borderColor: "@color.gray-300",
+					"&:hover-capable:hover": {
+						background: "@color.gray-150",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						background: "@color.gray-800",
+						color: "@color.gray-300",
+						borderColor: "@color.gray-600",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-750",
+					},
+					"&:dark:active": {
+						background: "@color.gray-700",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-700",
+					},
 				},
 			},
+			{
+				match: { color: "neutral" as const, variant: "ghost" as const },
+				css: {
+					color: "@color.text",
+					"&:hover-capable:hover": {
+						background: "@color.gray-100",
+					},
+					"&:active": {
+						background: "@color.gray-200",
+					},
+					"&:aria-pressed": {
+						background: "@color.gray-200",
+					},
+					"&:dark": {
+						color: "@color.gray-200",
+					},
+					"&:dark:hover-capable:hover": {
+						background: "@color.gray-800",
+					},
+					"&:dark:active": {
+						background: "@color.gray-750",
+					},
+					"&:dark:aria-pressed": {
+						background: "@color.gray-750",
+					},
+				},
+			},
+			{
+				match: { color: "neutral" as const, variant: "link" as const },
+				css: {
+					color: "@color.text",
+					"&:hover-capable:hover": {
+						color: "@color.gray-900",
+					},
+					"&:active": {
+						color: "@color.gray-900",
+					},
+					"&:aria-pressed": {
+						color: "@color.gray-900",
+					},
+					"&:dark": {
+						color: "@color.gray-200",
+					},
+					"&:dark:hover-capable:hover": {
+						color: "@color.white",
+					},
+					"&:dark:active": {
+						color: "@color.white",
+					},
+					"&:dark:aria-pressed": {
+						color: "@color.white",
+					},
+				},
+			},
+
+			// With more contrast, the outline and subtle borders take the label's
+			// color at full strength. These come last so their rules follow every
+			// border color above in the stylesheet.
+			...(["outline", "subtle"] as const).map((variant) => ({
+				match: { variant },
+				css: {
+					"&:contrast-more": {
+						borderColor: "currentColor",
+					},
+					"&:dark:contrast-more": {
+						borderColor: "currentColor",
+					},
+				},
+			})),
+		],
+		defaultVariants: {
+			color: "neutral",
+			variant: "solid",
+			size: "md",
 		},
-	],
-	defaultVariants: {
-		color: "neutral",
-		variant: "solid",
-		size: "md",
 	},
-});
+	(s) => {
+		const { selector } = s;
+
+		// A disabled button that is loading keeps its full opacity, since the
+		// spinner shows why it can't be used.
+		selector('.button[data-loading]:is(:disabled, [aria-disabled="true"])', {
+			opacity: "1",
+		});
+
+		// While loading, the content stays in place, so the size and the name
+		// don't change, and a spinner is centered over it.
+		selector(".button[data-loading] > :not(.spinner)", {
+			opacity: "0",
+		});
+		selector(".button[data-loading] > .spinner", {
+			position: "absolute",
+			inset: "0",
+			margin: "auto",
+		});
+
+		// Forced colors mode drops backgrounds and opacity cues, so the disabled
+		// and pressed states use system colors. These selectors outrank the
+		// dark theme's state rules.
+		selector(
+			'.button:is(:disabled, [aria-disabled="true"]):not([data-loading])',
+			{
+				"@media (forced-colors: active)": {
+					borderColor: "GrayText",
+					color: "GrayText",
+					opacity: "1",
+				},
+			},
+		);
+		selector(
+			'.button[aria-pressed="true"]:not(:disabled):not([aria-disabled="true"])',
+			{
+				"@media (forced-colors: active)": {
+					forcedColorAdjust: "none",
+					background: "Highlight",
+					color: "HighlightText",
+				},
+			},
+		);
+	},
+);

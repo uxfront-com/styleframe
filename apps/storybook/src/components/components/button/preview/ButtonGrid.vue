@@ -8,8 +8,6 @@ const colors = [
 	"info",
 	"warning",
 	"error",
-	"light",
-	"dark",
 	"neutral",
 ] as const;
 const variants = [
@@ -34,6 +32,12 @@ const variants = [
 					:variant="variant"
 					:label="color"
 				/>
+				<span class="button-surface-dark">
+					<Button color="light" :variant="variant" label="light" />
+				</span>
+				<span class="button-surface-light">
+					<Button color="dark" :variant="variant" label="dark" />
+				</span>
 			</div>
 		</div>
 	</div>
