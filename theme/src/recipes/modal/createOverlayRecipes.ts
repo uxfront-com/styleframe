@@ -15,7 +15,8 @@ import {
 
 /**
  * Container surface colors — background / text / border for the panel itself.
- * Shared by the modal and drawer container recipes.
+ * Shared by the modal and drawer container recipes. The `soft` panels gain a
+ * border in the dark theme, where the backdrop barely dims a dark page.
  */
 export const overlaySurfaceCompoundVariants: NonNullable<
 	RecipeConfig["compoundVariants"]
@@ -42,6 +43,7 @@ export const overlaySurfaceCompoundVariants: NonNullable<
 			"&:dark": {
 				background: "@color.gray-50",
 				color: "@color.gray-700",
+				borderColor: "@color.gray-200",
 			},
 		},
 	},
@@ -81,6 +83,7 @@ export const overlaySurfaceCompoundVariants: NonNullable<
 			"&:dark": {
 				background: "@color.gray-800",
 				color: "@color.gray-300",
+				borderColor: "@color.gray-700",
 			},
 		},
 	},
@@ -120,6 +123,7 @@ export const overlaySurfaceCompoundVariants: NonNullable<
 			"&:dark": {
 				background: "@color.gray-800",
 				color: "@color.gray-300",
+				borderColor: "@color.gray-700",
 			},
 		},
 	},
@@ -256,22 +260,22 @@ const sectionSizeVariants = {
 	sm: {
 		paddingTop: "@0.5",
 		paddingBottom: "@0.5",
-		paddingLeft: "@0.75",
-		paddingRight: "@0.75",
+		paddingInlineStart: "@0.75",
+		paddingInlineEnd: "@0.75",
 		gap: "@0.5",
 	},
 	md: {
 		paddingTop: "@0.75",
 		paddingBottom: "@0.75",
-		paddingLeft: "@1",
-		paddingRight: "@1",
+		paddingInlineStart: "@1",
+		paddingInlineEnd: "@1",
 		gap: "@0.75",
 	},
 	lg: {
 		paddingTop: "@1",
 		paddingBottom: "@1",
-		paddingLeft: "@1.25",
-		paddingRight: "@1.25",
+		paddingInlineStart: "@1.25",
+		paddingInlineEnd: "@1.25",
 		gap: "@1",
 	},
 };
@@ -296,6 +300,7 @@ const sectionDefaultVariants = {
 
 /**
  * Header recipe (`${name}-header`) — top section with a bottom separator.
+ * It never shrinks, so the title stays in view while the body scrolls.
  * The setup callback hides separators when the header is the first/last child.
  */
 export function createOverlayHeaderRecipe(name: string) {
@@ -305,11 +310,12 @@ export function createOverlayHeaderRecipe(name: string) {
 			base: {
 				display: "flex",
 				alignItems: "center",
+				flexShrink: "0",
 				gap: "@0.75",
 				paddingTop: "@0.75",
 				paddingBottom: "@0.75",
-				paddingLeft: "@1",
-				paddingRight: "@1",
+				paddingInlineStart: "@1",
+				paddingInlineEnd: "@1",
 				borderTopWidth: "@border-width.thin",
 				borderTopStyle: "@border-style.solid",
 				borderTopColor: "transparent",
@@ -337,8 +343,9 @@ export function createOverlayHeaderRecipe(name: string) {
 }
 
 /**
- * Footer recipe (`${name}-footer`) — bottom section with right-aligned actions
- * and a top separator.
+ * Footer recipe (`${name}-footer`) — bottom section with end-aligned actions
+ * and a top separator. Its actions wrap onto a new row on a narrow screen, and
+ * it never shrinks, so the actions stay in view while the body scrolls.
  */
 export function createOverlayFooterRecipe(name: string) {
 	return createUseRecipe(
@@ -348,11 +355,13 @@ export function createOverlayFooterRecipe(name: string) {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "flex-end",
+				flexWrap: "wrap",
+				flexShrink: "0",
 				gap: "@0.75",
 				paddingTop: "@0.75",
 				paddingBottom: "@0.75",
-				paddingLeft: "@1",
-				paddingRight: "@1",
+				paddingInlineStart: "@1",
+				paddingInlineEnd: "@1",
 				borderTopWidth: "@border-width.thin",
 				borderTopStyle: "@border-style.solid",
 				borderTopColor: "transparent",
@@ -381,18 +390,21 @@ export function createOverlayFooterRecipe(name: string) {
 
 /**
  * Body recipe (`${name}-body`) — main content area. No separators or compound
- * variants; size controls padding and gap.
+ * variants; size controls padding and gap. When the panel reaches its maximum
+ * height, the body is the part that shrinks and scrolls.
  */
 export function createOverlayBodyRecipe(name: string) {
 	return createUseRecipe(`${name}-body`, {
 		base: {
 			display: "flex",
 			flexDirection: "column",
+			minHeight: "0",
+			overflowY: "auto",
 			gap: "@0.5",
 			paddingTop: "@0.75",
 			paddingBottom: "@0.75",
-			paddingLeft: "@1",
-			paddingRight: "@1",
+			paddingInlineStart: "@1",
+			paddingInlineEnd: "@1",
 		},
 		variants: {
 			color: colorVariants,
@@ -401,22 +413,22 @@ export function createOverlayBodyRecipe(name: string) {
 				sm: {
 					paddingTop: "@0.5",
 					paddingBottom: "@0.5",
-					paddingLeft: "@0.75",
-					paddingRight: "@0.75",
+					paddingInlineStart: "@0.75",
+					paddingInlineEnd: "@0.75",
 					gap: "@0.375",
 				},
 				md: {
 					paddingTop: "@0.75",
 					paddingBottom: "@0.75",
-					paddingLeft: "@1",
-					paddingRight: "@1",
+					paddingInlineStart: "@1",
+					paddingInlineEnd: "@1",
 					gap: "@0.5",
 				},
 				lg: {
 					paddingTop: "@1",
 					paddingBottom: "@1",
-					paddingLeft: "@1.25",
-					paddingRight: "@1.25",
+					paddingInlineStart: "@1.25",
+					paddingInlineEnd: "@1.25",
 					gap: "@0.75",
 				},
 			},

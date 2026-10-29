@@ -8,6 +8,9 @@ import ModalDescription from "../ModalDescription.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const variants = ["solid", "soft", "subtle"] as const;
+
+const capitalize = (value: string) =>
+	value.charAt(0).toUpperCase() + value.slice(1);
 </script>
 
 <template>
@@ -18,13 +21,16 @@ const variants = ["solid", "soft", "subtle"] as const;
 				<div
 					v-for="color in colors"
 					:key="`${variant}-${color}`"
-					style="position: relative; background: rgba(0, 0, 0, 0.75); border-radius: 8px; padding: 24px; display: flex; align-items: center; justify-content: center;"
+					class="modal-stage"
 				>
-					<Modal :color="color" :variant="variant" style="max-width: 300px">
+					<Modal
+						:color="color"
+						:variant="variant"
+						:aria-labelledby="`modal-grid-${variant}-${color}`"
+					>
 						<ModalHeader :color="color" :variant="variant">
-							<ModalTitle
-								>{{ variant.charAt(0).toUpperCase() + variant.slice(1) }}
-								{{ color.charAt(0).toUpperCase() + color.slice(1) }}</ModalTitle
+							<ModalTitle :id="`modal-grid-${variant}-${color}`"
+								>{{ capitalize(variant) }} {{ capitalize(color) }}</ModalTitle
 							>
 						</ModalHeader>
 						<ModalBody>

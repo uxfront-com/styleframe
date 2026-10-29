@@ -34,10 +34,31 @@ selector(".modal-section", {
 });
 
 selector(".modal-row", {
-	display: "flex",
-	flexWrap: "wrap",
+	display: "grid",
+	gridTemplateColumns: "repeat(auto-fill, minmax(20rem, 1fr))",
 	gap: "@spacing.sm",
-	alignItems: "flex-start",
+	alignItems: "start",
+});
+
+/**
+ * A preview "stage" that dims like the modal overlay, so a grid of panels can
+ * render side by side. It isn't the overlay itself, since an overlay on the
+ * page stops it scrolling.
+ */
+selector(".modal-stage", {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	padding: "@spacing.lg",
+	background: "rgba(0, 0, 0, 0.75)",
+	borderRadius: "@border-radius.lg",
+});
+
+// The title is an <h2>: reset its margin and size it like the panel's text.
+selector(".modal-title", {
+	margin: "0",
+	fontSize: "@font-size.lg",
+	fontWeight: "@font-weight.semibold",
 });
 
 selector(".modal-label", {
