@@ -1,5 +1,9 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import type { AtRule, Selector } from "@styleframe/core";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import { useAfterModifier } from "../../modifiers/usePseudoElementModifiers";
 import { useTooltipRecipe, useTooltipArrowRecipe } from "./useTooltipRecipe";
 
@@ -38,12 +42,55 @@ function createInstance() {
 		"position",
 		"left",
 		"top",
+		"overflowWrap",
+		"borderInlineStartWidth",
+		"borderInlineStartStyle",
+		"borderInlineStartColor",
+		"borderInlineEndWidth",
+		"borderInlineEndStyle",
+		"borderInlineEndColor",
+		"borderBottomWidth",
+		"borderBottomStyle",
+		"borderBottomColor",
+		"insetInlineStart",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
+	useForcedColorsModifier(s);
 	useAfterModifier(s);
+	s.variable("spacing.xs", "0.5rem");
+	s.variable("duration.fast", "150ms");
+	s.variable("easing.ease-out", "ease-out");
 	return s;
+}
+
+function findSelector(
+	s: ReturnType<typeof createInstance>,
+	query: string,
+): Selector | undefined {
+	return s.root.children.find(
+		(child): child is Selector =>
+			child.type === "selector" && child.query === query,
+	);
+}
+
+// Writes a resolved declaration value back as the `@token` string it came from.
+function toText(value: unknown): string {
+	if (typeof value === "string") return value;
+	const token = value as { type: string; name?: string; value?: unknown[] };
+	if (token.type === "reference") return `@${token.name}`;
+	if (token.type === "css") return token.value!.map(toText).join("");
+	return String(value);
+}
+
+function declarationsOf(selector: { declarations: object } | undefined) {
+	return Object.fromEntries(
+		Object.entries(selector?.declarations ?? {}).map(([key, value]) => [
+			key,
+			toText(value),
+		]),
+	);
 }
 
 describe("useTooltipRecipe", () => {
@@ -75,7 +122,13 @@ describe("useTooltipRecipe", () => {
 			borderRadius: "@border-radius.md",
 			boxShadow: "@box-shadow.sm",
 			zIndex: "@z-index.tooltip",
-			maxWidth: "240px",
+			maxWidth: "32ch",
+			overflowWrap: "anywhere",
+			"&:forced-colors": {
+				borderColor: "CanvasText",
+				background: "Canvas",
+				color: "CanvasText",
+			},
 		});
 	});
 
@@ -143,16 +196,17 @@ describe("useTooltipRecipe", () => {
 			color: "dark",
 			variant: "solid",
 			size: "md",
+			placement: "top",
 		});
 	});
 
 	describe("compound variants", () => {
-		it("should have 9 compound variants total", () => {
+		it("should have 13 compound variants total", () => {
 			const s = createInstance();
 			const recipe = useTooltipRecipe(s);
 
-			// 3 colors × 3 variants = 9
-			expect(recipe.compoundVariants).toHaveLength(9);
+			// 3 colors × 3 variants = 9, plus 4 placement classes
+			expect(recipe.compoundVariants).toHaveLength(13);
 		});
 
 		it("should have correct dark/solid compound variant", () => {
@@ -276,10 +330,13 @@ describe("useTooltipRecipe", () => {
 				filter: { color: ["dark"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "dark"),
-			).toBe(true);
-			expect(recipe.compoundVariants).toHaveLength(3);
+			const colorCompounds = recipe.compoundVariants!.filter(
+				(cv) => cv.match.color,
+			);
+			expect(colorCompounds.every((cv) => cv.match.color === "dark")).toBe(
+				true,
+			);
+			expect(colorCompounds).toHaveLength(3);
 		});
 
 		it("should filter variant axis", () => {
@@ -290,9 +347,11 @@ describe("useTooltipRecipe", () => {
 
 			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft"]);
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => cv.match.variant === "solid" || cv.match.variant === "soft",
-				),
+				recipe
+					.compoundVariants!.filter((cv) => cv.match.variant)
+					.every(
+						(cv) => cv.match.variant === "solid" || cv.match.variant === "soft",
+					),
 			).toBe(true);
 		});
 
@@ -325,31 +384,14 @@ describe("useTooltipArrowRecipe", () => {
 		expect(recipe.base).toEqual({
 			width: "0",
 			height: "0",
-			borderLeftWidth: "calc(@tooltip.arrow.size + 1px)",
-			borderLeftStyle: "@border-style.solid",
-			borderLeftColor: "transparent",
-			borderRightWidth: "calc(@tooltip.arrow.size + 1px)",
-			borderRightStyle: "@border-style.solid",
-			borderRightColor: "transparent",
-			borderTopWidth: "calc(@tooltip.arrow.size + 1px)",
-			borderTopStyle: "@border-style.solid",
-			borderTopColor: "transparent",
 			position: "absolute",
 			zIndex: "@z-index.tooltip",
 			"&:after": {
-				borderLeftWidth: "@tooltip.arrow.size",
-				borderLeftStyle: "@border-style.solid",
-				borderLeftColor: "transparent",
-				borderRightWidth: "@tooltip.arrow.size",
-				borderRightStyle: "@border-style.solid",
-				borderRightColor: "transparent",
-				borderTopWidth: "@tooltip.arrow.size",
-				borderTopStyle: "@border-style.solid",
-				borderTopColor: "transparent",
 				position: "absolute",
-				left: "calc(@tooltip.arrow.size * -1)",
-				top: "calc(@tooltip.arrow.size * -1 - 1px)",
 				zIndex: "0",
+			},
+			"&:forced-colors": {
+				display: "none",
 			},
 		});
 	});
@@ -385,16 +427,17 @@ describe("useTooltipArrowRecipe", () => {
 		expect(recipe.defaultVariants).toEqual({
 			color: "dark",
 			variant: "solid",
+			placement: "top",
 		});
 	});
 
 	describe("compound variants", () => {
-		it("should have 9 compound variants total", () => {
+		it("should have 13 compound variants total", () => {
 			const s = createInstance();
 			const recipe = useTooltipArrowRecipe(s);
 
-			// 3 colors × 3 variants = 9
-			expect(recipe.compoundVariants).toHaveLength(9);
+			// 3 colors × 3 variants = 9, plus 4 placement classes
+			expect(recipe.compoundVariants).toHaveLength(13);
 		});
 
 		it("should have correct dark/solid compound variant", () => {
@@ -408,15 +451,15 @@ describe("useTooltipArrowRecipe", () => {
 			expect(darkSolid).toEqual({
 				match: { color: "dark", variant: "solid" },
 				css: {
-					borderTopColor: "@color.gray-800",
+					color: "@color.gray-800",
 					"&:after": {
-						borderTopColor: "@color.gray-900",
+						color: "@color.gray-900",
 					},
 					"&:dark": {
-						borderTopColor: "@color.gray-800",
+						color: "@color.gray-800",
 					},
 					"&:dark:after": {
-						borderTopColor: "@color.gray-900",
+						color: "@color.gray-900",
 					},
 				},
 			});
@@ -433,15 +476,15 @@ describe("useTooltipArrowRecipe", () => {
 			expect(neutralSolid).toEqual({
 				match: { color: "neutral", variant: "solid" },
 				css: {
-					borderTopColor: "@color.gray-200",
+					color: "@color.gray-200",
 					"&:after": {
-						borderTopColor: "@color.white",
+						color: "@color.white",
 					},
 					"&:dark": {
-						borderTopColor: "@color.gray-800",
+						color: "@color.gray-800",
 					},
 					"&:dark:after": {
-						borderTopColor: "@color.gray-900",
+						color: "@color.gray-900",
 					},
 				},
 			});
@@ -458,15 +501,15 @@ describe("useTooltipArrowRecipe", () => {
 			expect(neutralSubtle).toEqual({
 				match: { color: "neutral", variant: "subtle" },
 				css: {
-					borderTopColor: "@color.gray-300",
+					color: "@color.gray-300",
 					"&:after": {
-						borderTopColor: "@color.gray-50",
+						color: "@color.gray-50",
 					},
 					"&:dark": {
-						borderTopColor: "@color.gray-600",
+						color: "@color.gray-600",
 					},
 					"&:dark:after": {
-						borderTopColor: "@color.gray-800",
+						color: "@color.gray-800",
 					},
 				},
 			});
@@ -493,7 +536,9 @@ describe("useTooltipArrowRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["dark"]);
-			expect(recipe.compoundVariants).toHaveLength(3);
+			expect(
+				recipe.compoundVariants!.filter((cv) => cv.match.color),
+			).toHaveLength(3);
 		});
 
 		it("should adjust default variants when filtered out", () => {
@@ -505,5 +550,176 @@ describe("useTooltipArrowRecipe", () => {
 			expect(recipe.defaultVariants?.color).toBeUndefined();
 			expect(recipe.defaultVariants?.variant).toBe("solid");
 		});
+	});
+});
+
+describe("tooltip Open Components rules", () => {
+	it("tooltip/wraps wraps long text at a maximum width in ch", () => {
+		const s = createInstance();
+		const recipe = useTooltipRecipe(s);
+
+		expect(recipe.base!.maxWidth).toBe("32ch");
+		expect(recipe.base!.overflowWrap).toBe("anywhere");
+		expect(recipe.base!.overflow).toBeUndefined();
+		expect(recipe.base!.whiteSpace).toBeUndefined();
+	});
+
+	it("tooltip/top-layer positions a [popover] element as fixed, with the offset as margin", () => {
+		const s = createInstance();
+		const recipe = useTooltipRecipe(s);
+
+		expect(declarationsOf(findSelector(s, ".tooltip[popover]"))).toMatchObject({
+			position: "fixed",
+			inset: "auto",
+			margin: "@tooltip.offset",
+			overflow: "visible",
+		});
+		expect(
+			findSelector(s, ".tooltip[popover]:not(:popover-open)")?.declarations,
+		).toEqual({ display: "none" });
+		expect(s.root.variables.map((v) => v.name)).toContain("tooltip.offset");
+		expect(recipe.base!.zIndex).toBe("@z-index.tooltip");
+	});
+
+	it("tooltip/top-layer leaves an element without the popover attribute in place", () => {
+		const s = createInstance();
+		const recipe = useTooltipRecipe(s);
+
+		expect(recipe.base!.position).toBeUndefined();
+		expect(findSelector(s, ".tooltip")).toBeUndefined();
+	});
+
+	it("tooltip/flips sets position-area from the placement axis and flips with position-try-fallbacks", () => {
+		const s = createInstance();
+		const recipe = useTooltipRecipe(s);
+
+		expect(Object.keys(recipe.variants!.placement)).toEqual([
+			"top",
+			"bottom",
+			"start",
+			"end",
+		]);
+		expect(recipe.defaultVariants!.placement).toBe("top");
+		for (const placement of ["top", "bottom", "start", "end"] as const) {
+			expect(
+				recipe.compoundVariants!.find((cv) => cv.match.placement === placement),
+			).toEqual({
+				match: { placement },
+				className: `-placement-${placement}`,
+			});
+		}
+
+		expect(findSelector(s, ".tooltip[popover]")?.declarations).toMatchObject({
+			positionArea: "top",
+			positionTryFallbacks: "flip-block, flip-inline",
+		});
+		expect(
+			findSelector(s, ".tooltip[popover].-placement-top")?.declarations,
+		).toEqual({ positionArea: "top" });
+		expect(
+			findSelector(s, ".tooltip[popover].-placement-bottom")?.declarations,
+		).toEqual({ positionArea: "bottom" });
+		expect(
+			findSelector(s, ".tooltip[popover].-placement-start")?.declarations,
+		).toEqual({ positionArea: "self-inline-start" });
+		expect(
+			findSelector(s, ".tooltip[popover].-placement-end")?.declarations,
+		).toEqual({ positionArea: "self-inline-end" });
+	});
+
+	it("tooltip/reduced-motion fades in without growing under prefers-reduced-motion: reduce", () => {
+		const s = createInstance();
+		useTooltipRecipe(s);
+
+		const opening = findSelector(s, ".tooltip[popover]:popover-open");
+		expect(toText(opening?.declarations.transition)).toBe(
+			"opacity @duration.fast @easing.ease-out, scale @duration.fast @easing.ease-out",
+		);
+
+		const media = opening?.children.find(
+			(child): child is AtRule =>
+				child.type === "at-rule" && child.identifier === "media",
+		);
+		expect(media?.rule).toBe("(prefers-reduced-motion: reduce)");
+		expect(declarationsOf(media)).toEqual({
+			transition: "opacity @duration.fast @easing.ease-out",
+		});
+		const startingStyle = media?.children.find(
+			(child): child is AtRule =>
+				child.type === "at-rule" && child.identifier === "starting-style",
+		);
+		expect(startingStyle?.declarations).toEqual({ scale: "1" });
+	});
+
+	it("tooltip/forced-colors marks its edge with a border in the system's text colour", () => {
+		const s = createInstance();
+		const recipe = useTooltipRecipe(s);
+
+		expect(recipe.base!.borderWidth).toBe("@border-width.thin");
+		expect(recipe.base!.borderStyle).toBe("@border-style.solid");
+		expect(recipe.base!["&:forced-colors"]).toEqual({
+			borderColor: "CanvasText",
+			background: "Canvas",
+			color: "CanvasText",
+		});
+	});
+});
+
+describe("tooltip-arrow Open Components rules", () => {
+	it("tooltip/points-at-trigger turns the arrow with the placement axis", () => {
+		const s = createInstance();
+		const recipe = useTooltipArrowRecipe(s);
+		const placement = recipe.variants!.placement;
+
+		expect(Object.keys(placement)).toEqual(["top", "bottom", "start", "end"]);
+		expect(recipe.defaultVariants!.placement).toBe("top");
+		// The coloured side of the triangle is the one that faces the tooltip, so
+		// its point faces the trigger.
+		expect(placement.top.borderTopColor).toBe("currentColor");
+		expect(placement.bottom.borderBottomColor).toBe("currentColor");
+		expect(placement.start.borderInlineStartColor).toBe("currentColor");
+		expect(placement.end.borderInlineEndColor).toBe("currentColor");
+		for (const placement of ["top", "bottom", "start", "end"] as const) {
+			expect(
+				recipe.compoundVariants!.find((cv) => cv.match.placement === placement),
+			).toEqual({
+				match: { placement },
+				className: `-placement-${placement}`,
+			});
+		}
+	});
+
+	it("tooltip/points-at-trigger centres the arrow on the edge that faces the trigger", () => {
+		const s = createInstance();
+		useTooltipArrowRecipe(s);
+
+		const centred = "calc(50% - @tooltip.arrow.size - 1px)";
+		expect(
+			declarationsOf(
+				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-top"),
+			),
+		).toEqual({ top: "100%", insetInlineStart: centred });
+		expect(
+			declarationsOf(
+				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-bottom"),
+			),
+		).toEqual({ bottom: "100%", insetInlineStart: centred });
+		expect(
+			declarationsOf(
+				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-start"),
+			),
+		).toEqual({ top: centred, insetInlineStart: "100%" });
+		expect(
+			declarationsOf(
+				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-end"),
+			),
+		).toEqual({ top: centred, insetInlineEnd: "100%" });
+	});
+
+	it("tooltip/forced-colors hides the arrow, whose transparent sides would show", () => {
+		const s = createInstance();
+		const recipe = useTooltipArrowRecipe(s);
+
+		expect(recipe.base!["&:forced-colors"]).toEqual({ display: "none" });
 	});
 });
