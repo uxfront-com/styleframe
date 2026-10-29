@@ -96,6 +96,11 @@ export const DisabledChecked: Story = {
 	args: { disabled: true, checked: true, label: "Disabled selected" },
 };
 
+// The focus story's radio is the one the harness focuses.
+export const Focus: Story = {
+	args: { checked: true, label: "Email notifications" },
+};
+
 // Sizes
 export const Small: Story = {
 	args: { size: "sm", checked: true, label: "Small" },

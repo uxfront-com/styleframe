@@ -1,24 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
+import { useModifiersPreset } from "../../presets/useModifiersPreset";
+import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useRadioRecipe } from "./useRadioRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"alignItems",
-		"cursor",
-		"userSelect",
-		"color",
-		"lineHeight",
-		"opacity",
-		"gap",
-		"fontSize",
-	]) {
-		s.utility(name, ({ value }) => ({ [name]: value }));
-	}
-	useDarkModifier(s);
+	useDesignTokensPreset(s);
+	useModifiersPreset(s);
+	useUtilitiesPreset(s);
 	return s;
 }
 
@@ -53,6 +44,7 @@ describe("useRadioRecipe", () => {
 			expect(recipe.variants!.size.md).toEqual({
 				gap: "@0.5",
 				fontSize: "@font-size.sm",
+				minHeight: "2.25rem",
 			});
 		});
 	});
