@@ -54,6 +54,7 @@ describe("useCheckboxGroupRecipe", () => {
 				flexDirection: "row",
 				flexWrap: "wrap",
 				alignItems: "center",
+				alignContent: "flex-start",
 				gapX: "@1.5",
 			});
 		});
@@ -234,6 +235,20 @@ describe("Open Components rules", () => {
 		}
 	});
 
+	it("checkbox-group/select-all-indent keeps the options right under the select-all box in a group taller than its content", () => {
+		const { s, group } = createAll();
+
+		// A flex basis would set their height in a column, and pull them apart.
+		const parts = find(
+			s,
+			'.checkbox-group > [data-slot="select-all"], .checkbox-group > [data-slot="options"]',
+		).declarations;
+		expect(parts).toEqual({ boxSizing: "border-box", width: "100%" });
+		expect(group.variants!.orientation.horizontal.alignContent).toBe(
+			"flex-start",
+		);
+	});
+
 	it("checkbox-group/resizable sizes the legend, gaps and indent in rem, and lets the legend and a row wrap", () => {
 		const { s, group } = createAll();
 
@@ -255,6 +270,7 @@ describe("Open Components rules", () => {
 			).toMatchObject({ name: font });
 		}
 		const legend = find(s, ".checkbox-group > legend").declarations;
+		expect(legend.marginBlockEnd).toMatchObject({ name: "spacing.xs" });
 		expect(legend).not.toHaveProperty("whiteSpace");
 		expect(legend).not.toHaveProperty("overflow");
 		expect(group.variants!.orientation.horizontal.flexWrap).toBe("wrap");
@@ -270,6 +286,21 @@ describe("Open Components rules", () => {
 				child.type === "at-rule" && child.rule === "(forced-colors: active)",
 		);
 		expect(forced?.declarations).toEqual({ opacity: "1", color: "GrayText" });
+	});
+
+	it("checkbox-group/disabled-look keeps a disabled box's GrayText border in an invalid group in forced colors mode", () => {
+		const { s } = createAll();
+
+		const disabled = find(
+			s,
+			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field:disabled',
+		);
+		expect(disabled.declarations).toEqual({});
+		const forced = disabled.children.find(
+			(child) =>
+				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+		);
+		expect(forced?.declarations).toEqual({ borderColor: "GrayText" });
 	});
 
 	it("checkbox-group/stable-size changes no size or position in any state", () => {
@@ -302,9 +333,10 @@ describe("Open Components rules", () => {
 			borderColor: expect.objectContaining({ name: "color.error" }),
 			boxShadow: expect.objectContaining({ type: "css" }),
 		});
-		expect(JSON.stringify(invalid.declarations.boxShadow)).toContain(
-			"inset 0 0 0 1px",
-		);
+		expect(invalid.declarations.boxShadow).toEqual({
+			type: "css",
+			value: ["inset 0 0 0 1px ", { type: "reference", name: "color.error" }],
+		});
 		expect(JSON.stringify(invalid)).not.toContain("outline");
 		const all = JSON.stringify([
 			own(s).map((node) => node.query),

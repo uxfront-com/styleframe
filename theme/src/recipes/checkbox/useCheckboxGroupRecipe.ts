@@ -45,6 +45,8 @@ export const useCheckboxGroupRecipe = createUseRecipe(
 					flexDirection: "row",
 					flexWrap: "wrap",
 					alignItems: "center",
+					// Wrapped lines stay together in a group taller than its content.
+					alignContent: "flex-start",
 					gapX: "@1.5",
 				},
 			},
@@ -93,11 +95,14 @@ export const useCheckboxGroupRecipe = createUseRecipe(
 		}
 
 		// The select-all box and the options each take a line of their own, and
-		// the options take the group's direction and gaps.
+		// the options take the group's direction and gaps. A width rather than a
+		// flex basis, which would set their height in a column and pull them
+		// apart in a group taller than its content.
 		selector(
 			'.checkbox-group > [data-slot="select-all"], .checkbox-group > [data-slot="options"]',
 			{
-				flexBasis: "100%",
+				boxSizing: "border-box",
+				width: "100%",
 			},
 		);
 
@@ -135,6 +140,17 @@ export const useCheckboxGroupRecipe = createUseRecipe(
 			{
 				borderColor: "@color.error",
 				boxShadow: "inset 0 0 0 1px @color.error",
+			},
+		);
+
+		// The invalid border outranks the box's own forced colors disabled
+		// border, so a disabled box keeps its `GrayText` border here.
+		selector(
+			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field:disabled',
+			{
+				"@media (forced-colors: active)": {
+					borderColor: "GrayText",
+				},
 			},
 		);
 	},
