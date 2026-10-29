@@ -22,9 +22,10 @@ function firstPagePath(
 }
 
 /**
- * The docs' sections, as tabs below the header, and the sidebar of the one the
- * reader is in. Docus makes a tab of each top-level folder of the navigation:
- * Getting Started, API Reference and Theme. Theme splits into its four
+ * The docs' sections, as tabs below the header, the sidebar of the one the
+ * reader is in, and every section's sidebar for the header's menu. Docus
+ * makes a tab of each top-level folder of the navigation: Getting Started,
+ * API Reference and Theme. Theme splits into its four
  * sub-sections here (`THEME_SUBSECTIONS`), each with its own sidebar, and the
  * sidebar groups pages by their category folders (`foldNonRouteCategories`)
  * and lists a page like Z-Index as a page, not a group (`flattenNavigation`).
@@ -85,14 +86,22 @@ export function useDocsSections() {
 		sections.value.find((section) => section.active),
 	);
 
-	const sidebarNavigation = computed(() =>
+	const sidebarOf = (navigation: ContentNavigationItem[]) =>
 		flattenNavigation(
-			foldNonRouteCategories(
-				currentSection.value?.navigation ?? [],
-				appConfig.nonRouteCategories ?? {},
-			),
-		),
+			foldNonRouteCategories(navigation, appConfig.nonRouteCategories ?? {}),
+		);
+
+	const sidebarNavigation = computed(() =>
+		sidebarOf(currentSection.value?.navigation ?? []),
 	);
 
-	return { tabs, currentSection, sidebarNavigation };
+	// Every section with the sidebar it shows, for the header's menu.
+	const sidebars = computed(() =>
+		sections.value.map((section) => ({
+			...section,
+			navigation: sidebarOf(section.navigation),
+		})),
+	);
+
+	return { tabs, currentSection, sidebarNavigation, sidebars };
 }
