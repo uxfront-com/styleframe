@@ -81,6 +81,32 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 	it("fades the code panels by the outline formation's reveal", () => {
 		expect(html).toContain("[data-outline]{opacity:var(--ux-reveal,0)}");
 	});
+
+	// Side by side, the copy keeps UxChapter's width at the gutter, and the
+	// aside is centred on three quarters of the 1920px frame, at most 52rem
+	// wide: the right half, less the kit's gutter on its left.
+	it("frames the page at 1920px", () => {
+		expect(html).toMatch(
+			/\.ux-site\s*\{\s*--ux-gutter:\s*max\(var\(--site-gutter\),/,
+		);
+	});
+
+	it("places the copy at the gutter and the aside on three quarters of the frame", () => {
+		const side = html.match(/@media not \([^{]*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+		expect(side).toContain(
+			".site-split__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }",
+		);
+		expect(side).toContain(
+			".site-split__copy { width: min(100%, 33rem, 40vw); }",
+		);
+		expect(side).toContain(
+			".site-split__aside { padding-left: var(--site-gutter); }",
+		);
+		expect(side).toContain(
+			".site-split .site-split__aside [data-outline] { max-width: 52rem; margin-inline: auto; }",
+		);
+		expect(html).not.toContain("minmax(0, 5fr) minmax(0, 6fr)");
+	});
 });
 
 describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
@@ -137,5 +163,5 @@ it("centres the homepage's fluid section", () => {
 	expect(markup).toMatch(
 		/^<section\b[^>]*\bclass="site-split site-split--center\b/,
 	);
-	expect(markup).not.toContain("site-split__aside");
+	expect(markup).not.toContain('class="site-split__aside"');
 });

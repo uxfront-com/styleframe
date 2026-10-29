@@ -41,8 +41,19 @@ const { state } = useExperience();
 const fade = computed(() => state.status === "ready" && state.motion);
 
 // Stacked screens are the scene's, and a scoped style can't import the query,
-// so the columns are set here.
-const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+// so the columns are set here. Side by side, the copy takes UxChapter's width
+// at the gutter, and the aside is centred on three quarters of the frame, at
+// most 52rem wide: the right half, less the kit's gutter (`--site-gutter`) on
+// its left. Its media and code panels centre in it, whatever their own margins.
+const sideBySide = `not (${STACKED_QUERY.split(/\s*,\s*/)
+	.map((query) => `(${query})`)
+	.join(" or ")})`;
+const columns = `@media ${sideBySide} {
+.site-split__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.site-split__copy { width: min(100%, 33rem, 40vw); }
+.site-split__aside { padding-left: var(--site-gutter); }
+.site-split .site-split__aside [data-outline] { max-width: 52rem; margin-inline: auto; }
+}
 @media ${STACKED_QUERY} { .site-split__grid { grid-template-columns: minmax(0, 1fr); } }`;
 </script>
 
@@ -108,7 +119,7 @@ const columns = `.site-split__grid { grid-template-columns: minmax(0, 5fr) minma
 .site-split__grid {
 	display: grid;
 	align-items: center;
-	gap: clamp(2rem, 1rem + 3vw, 4rem);
+	row-gap: clamp(2rem, 1rem + 3vw, 4rem);
 	width: 100%;
 	pointer-events: auto;
 }
