@@ -21,7 +21,11 @@ const variants = ["solid", "soft", "subtle"] as const;
 					:key="`${variant}-${color}`"
 					class="popover-wrapper"
 				>
-					<Popover :color="color" :variant="variant" style="max-width: 300px">
+					<Popover
+						:color="color"
+						:variant="variant"
+						class="popover-demo-narrow"
+					>
 						<PopoverHeader :color="color" :variant="variant">
 							<PopoverTitle
 								>{{ variant.charAt(0).toUpperCase() + variant.slice(1) }}

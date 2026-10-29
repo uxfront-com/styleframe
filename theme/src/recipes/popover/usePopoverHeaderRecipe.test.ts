@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+import type { Selector } from "@styleframe/core";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { usePopoverHeaderRecipe } from "./index";
 
@@ -135,5 +136,22 @@ describe("usePopoverHeaderRecipe", () => {
 				},
 			});
 		});
+	});
+
+	it("popover/edge drops the top separator after a leading arrow, like a first child", () => {
+		const s = createInstance();
+		usePopoverHeaderRecipe(s);
+
+		const queries = s.root.children
+			.filter((child) => child.type === "selector")
+			.map((child) => child as Selector);
+		for (const query of [
+			".popover-header:first-child",
+			".popover-arrow:first-child + .popover-header",
+		]) {
+			expect(
+				queries.find((child) => child.query === query)?.declarations,
+			).toEqual({ borderTopColor: "transparent" });
+		}
 	});
 });

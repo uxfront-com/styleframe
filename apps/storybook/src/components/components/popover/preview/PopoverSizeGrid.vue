@@ -25,7 +25,7 @@ const sizeTitles: Record<string, string> = {
 					:key="`${size}-${color}`"
 					:color="color"
 					:size="size"
-					style="max-width: 300px"
+					class="popover-demo-narrow"
 				>
 					<PopoverHeader :color="color" :size="size">
 						<PopoverTitle

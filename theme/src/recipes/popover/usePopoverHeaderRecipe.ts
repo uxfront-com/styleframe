@@ -172,6 +172,11 @@ export const usePopoverHeaderRecipe = createUseRecipe(
 		s.selector(".popover-header:first-child", {
 			borderTopColor: "transparent",
 		});
+		// A top-layer popover's arrow comes first, so the header after it is the
+		// first part of the panel too.
+		s.selector(".popover-arrow:first-child + .popover-header", {
+			borderTopColor: "transparent",
+		});
 		s.selector(".popover-header:last-child", {
 			borderBottomColor: "transparent",
 		});

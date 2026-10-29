@@ -8,6 +8,9 @@ export const usePopoverBodyRecipe = createUseRecipe("popover-body", {
 		display: "flex",
 		flexDirection: "column",
 		gap: "@0.5",
+		// The body scrolls when the popover can't grow, so the header stays in view.
+		minHeight: "0",
+		overflowY: "auto",
 		paddingTop: "@0.75",
 		paddingBottom: "@0.75",
 		paddingLeft: "@1",
