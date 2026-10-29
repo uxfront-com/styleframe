@@ -178,6 +178,14 @@ export const Linked: StoryObj = {
 	}),
 };
 
+// Focuses the heading's link, so the ring shows around the whole card.
+export const Focused: StoryObj = {
+	...Linked,
+	play: ({ canvasElement }) => {
+		canvasElement.querySelector<HTMLAnchorElement>("h3 a[href]")?.focus();
+	},
+};
+
 export const WithActions: StoryObj = {
 	render: () => ({
 		components: linkedComponents,

@@ -1,13 +1,13 @@
 import { styleframe } from "@styleframe/core";
-import {
-	useDarkModifier,
-	useForcedColorsModifier,
-} from "../../modifiers/useMediaPreferenceModifiers";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useCardRecipe } from "./index";
 
-function createInstance() {
+function createInstance({ focus = true } = {}) {
 	const s = styleframe();
-	s.variable("color.focus", "#1e6fd9");
+	s.variable("color.primary", "#007a99");
+	if (focus) {
+		s.variable("color.focus", "@color.primary");
+	}
 	for (const name of [
 		"position",
 		"display",
@@ -41,7 +41,6 @@ function createInstance() {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
-	useForcedColorsModifier(s);
 	return s;
 }
 
@@ -97,9 +96,6 @@ describe("useCardRecipe", () => {
 			lineHeight: "@line-height.normal",
 			boxShadow: "@box-shadow.sm",
 			overflowWrap: "break-word",
-			"&:forced-colors": {
-				borderColor: "CanvasText",
-			},
 		});
 	});
 
@@ -114,6 +110,17 @@ describe("useCardRecipe", () => {
 				outlineStyle: "solid",
 				outlineColor: { type: "reference", name: "color.focus" },
 				outlineOffset: "2px",
+			});
+		});
+
+		it("card/focus-visible falls back to the primary colour when color.focus is absent", () => {
+			const s = createInstance({ focus: false });
+			useCardRecipe(s);
+
+			const focus = findSelector(s, `.card:has(${headerLink}:focus-visible)`);
+			expect(focus.declarations.outlineColor).toEqual({
+				type: "reference",
+				name: "color.primary",
 			});
 		});
 
@@ -132,7 +139,7 @@ describe("useCardRecipe", () => {
 			expect(findChild(link, "selector", "&::after")?.declarations).toEqual({
 				content: '""',
 				position: "absolute",
-				inset: "0",
+				inset: "-1px",
 			});
 		});
 
@@ -241,11 +248,12 @@ describe("useCardRecipe", () => {
 
 		it("card/forced-colors keeps the border and the focus ring in system colours", () => {
 			const s = createInstance();
-			const recipe = useCardRecipe(s);
+			useCardRecipe(s);
 
-			expect(recipe.base!["&:forced-colors"]).toEqual({
-				borderColor: "CanvasText",
-			});
+			const card = findSelector(s, ".card.card.card");
+			expect(
+				findChild(card, "at-rule", "(forced-colors: active)")?.declarations,
+			).toEqual({ borderColor: "CanvasText" });
 
 			const focus = findSelector(s, `.card:has(${headerLink}:focus-visible)`);
 			expect(

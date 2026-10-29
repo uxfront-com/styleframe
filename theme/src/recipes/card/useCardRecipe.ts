@@ -28,10 +28,6 @@ export const useCardRecipe = createUseRecipe(
 			boxShadow: "@box-shadow.sm",
 			// Long words, like a web address, wrap rather than overflow the card.
 			overflowWrap: "break-word",
-			// The system draws the border in a colour of its own.
-			"&:forced-colors": {
-				borderColor: "CanvasText",
-			},
 		},
 		variants: {
 			color: {
@@ -198,7 +194,10 @@ export const useCardRecipe = createUseRecipe(
 			"&::after": {
 				content: '""',
 				position: "absolute",
-				inset: "0",
+				// Over the border too, so the whole card follows the link. The
+				// border-width.thin token is the `thin` keyword, which calc() can't
+				// negate, so this is the 1px browsers draw for it.
+				inset: "-1px",
 			},
 			"@media (hover: hover)": {
 				"&:hover": {
@@ -218,12 +217,15 @@ export const useCardRecipe = createUseRecipe(
 		);
 
 		// With more contrast, the border is drawn in the text colour at full
-		// strength. The color compounds' border classes come later in the
-		// stylesheet, and the dark theme's are more specific, so this repeats
-		// the class to win over both.
+		// strength, and in forced colours mode in a system colour. The color
+		// compounds' border classes come later in the stylesheet, and the dark
+		// theme's are more specific, so this repeats the class to win over both.
 		selector(".card.card.card", {
 			"@media (prefers-contrast: more)": {
 				borderColor: "currentColor",
+			},
+			"@media (forced-colors: active)": {
+				borderColor: "CanvasText",
 			},
 		});
 
@@ -238,11 +240,19 @@ export const useCardRecipe = createUseRecipe(
 			},
 		});
 
+		// Projects that replace the default colors may not define `color.focus`,
+		// so the ring falls back to the primary color it references.
+		const focusColor = s.root.variables.some(
+			(variable) => variable.name === "color.focus",
+		)
+			? "@color.focus"
+			: "@color.primary";
+
 		// Focus is drawn around the whole card, outside its border.
 		selector(`.card:has(${headerLink}:focus-visible)`, {
 			outlineWidth: "2px",
 			outlineStyle: "solid",
-			outlineColor: "@color.focus",
+			outlineColor: focusColor,
 			outlineOffset: "2px",
 			"@media (forced-colors: active)": {
 				outlineColor: "Highlight",
