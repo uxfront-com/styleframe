@@ -10,6 +10,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 		position: "relative",
 		alignItems: "center",
 		justifyContent: "center",
+		flexShrink: "0",
 		fontSize: "@font-size.sm",
 		lineHeight: "@line-height.normal",
 	},
@@ -25,6 +26,10 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			sm: {},
 			md: {},
 			lg: {},
+			em: {
+				fontSize: "inherit",
+				verticalAlign: "-0.125em",
+			},
 		},
 	},
 	compoundVariants: [
@@ -32,6 +37,9 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			match: { color: "primary" as const },
 			css: {
 				color: "@color.primary",
+				"&:dark": {
+					color: "@color.primary-400",
+				},
 			},
 		},
 		{
@@ -39,7 +47,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			css: {
 				color: "@color.gray-700",
 				"&:dark": {
-					color: "@color.gray-700",
+					color: "@color.white",
 				},
 			},
 		},
