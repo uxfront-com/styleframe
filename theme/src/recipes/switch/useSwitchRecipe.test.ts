@@ -72,6 +72,33 @@ describe("useSwitchRecipe", () => {
 		expect(selector?.declarations).toEqual({ cursor: "default" });
 	});
 
+	it("switch/forced-colors keeps the disabled label at full opacity", () => {
+		const s = createInstance();
+		useSwitchRecipe(s);
+
+		const selector = s.root.children.find(
+			(child) =>
+				child.type === "selector" &&
+				(child as { query: string }).query ===
+					".switch:has(.switch-field:disabled)",
+		) as
+			| {
+					declarations: Record<string, unknown>;
+					children: {
+						type: string;
+						rule?: string;
+						declarations: Record<string, unknown>;
+					}[];
+			  }
+			| undefined;
+		expect(selector?.declarations).toMatchObject({ opacity: "0.5" });
+		const forced = selector?.children.find(
+			(child) =>
+				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+		);
+		expect(forced?.declarations).toEqual({ opacity: "1" });
+	});
+
 	describe("variants", () => {
 		it("should have size variants with correct styles", () => {
 			const s = createInstance();

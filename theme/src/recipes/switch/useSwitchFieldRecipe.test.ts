@@ -182,10 +182,30 @@ describe("useSwitchFieldRecipe", () => {
 			"padding",
 			"margin",
 		];
-		for (const [key, value] of Object.entries(recipe.base!)) {
-			if (typeof value === "object") {
+		const stateBlocks = [
+			recipe.base!,
+			...recipe.compoundVariants!.map((v) => v.css ?? {}),
+		].flatMap((block) =>
+			Object.entries(block).filter(([, value]) => typeof value === "object"),
+		);
+		expect(stateBlocks.length).toBeGreaterThan(0);
+		for (const [key, value] of stateBlocks) {
+			for (const property of sizing) {
+				expect(value, key).not.toHaveProperty(property);
+			}
+		}
+		// The forced colors rules in the setup callback change no size either.
+		const forced = s.root.children.filter(
+			(child): child is Selector =>
+				child.type === "selector" && child.query.startsWith(".switch-field"),
+		);
+		expect(forced.length).toBeGreaterThan(0);
+		for (const selector of forced) {
+			for (const atRule of selector.children as AtRule[]) {
 				for (const property of sizing) {
-					expect(value, key).not.toHaveProperty(property);
+					expect(atRule.declarations, selector.query).not.toHaveProperty(
+						property,
+					);
 				}
 			}
 		}
@@ -246,19 +266,21 @@ describe("useSwitchFieldRecipe", () => {
 			...Object.keys(recipe.base!),
 			...recipe.compoundVariants!.flatMap((v) => Object.keys(v.css ?? {})),
 		];
-		for (const key of keys) {
-			if (key.includes("hover")) {
-				expect(key).toMatch(/hover-capable:hover/);
-			}
-		}
+		expect(keys.length).toBeGreaterThan(0);
+		expect(
+			keys.filter(
+				(key) => key.includes("hover") && !key.includes("hover-capable:hover"),
+			),
+		).toEqual([]);
 	});
 
 	it("switch/reduced-motion stops the thumb sliding", () => {
 		const s = createInstance();
 		const recipe = useSwitchFieldRecipe(s);
 
-		const reduced = recipe.base?.["&:motion-reduce"] as Block;
-		expect(reduced.transitionProperty).not.toContain("background-position");
+		expect(recipe.base?.["&:motion-reduce"]).toEqual({
+			transitionProperty: "background-color, border-color",
+		});
 	});
 
 	it("switch/forced-colors opts out and draws the track and thumb in system colors", () => {
@@ -302,11 +324,13 @@ describe("useSwitchFieldRecipe", () => {
 			boxShadow: "inset 0 0 0 1px CanvasText",
 		});
 		const disabled = mediaDeclarations(s, `${field}:disabled`, media)!;
-		expect(disabled).toMatchObject({
+		expect(disabled).toEqual({
+			backgroundColor: "Canvas",
 			borderColor: "GrayText",
+			backgroundImage: expect.stringContaining("GrayText"),
+			boxShadow: "none",
 			opacity: "1",
 		});
-		expect(disabled.backgroundImage).toContain("GrayText");
 	});
 
 	it("switch/more-contrast draws the unchecked border in the text color", () => {

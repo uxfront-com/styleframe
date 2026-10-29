@@ -52,10 +52,14 @@ export const useSwitchRecipe = createUseRecipe(
 	(s) => {
 		const { selector } = s;
 
-		// Dim the label when the nested field is disabled.
+		// Dim the label when the nested field is disabled. Forced colors mode
+		// shows the disabled state in `GrayText` instead, at full opacity.
 		selector(".switch:has(.switch-field:disabled)", {
 			opacity: "0.5",
 			cursor: "not-allowed",
+			"@media (forced-colors: active)": {
+				opacity: "1",
+			},
 		});
 
 		// A read-only switch can't be flipped from its label either.
