@@ -115,6 +115,25 @@ describe("homepage", () => {
 		expect(chrome).toMatch(/Copyright © \d{4} styleframe/);
 	});
 
+	it("shows the docs' logotype in its header, with the byline after it", () => {
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		const home =
+			header.match(
+				/<a\b[^>]*aria-label="styleframe, home"[\s\S]*?<\/a>/,
+			)?.[0] ?? "";
+		expect(home).not.toBe("");
+		expect(home).toMatch(
+			/<img\b(?=[^>]*\bsrc="\/logotype-dark\.svg")(?=[^>]*\balt="")[^>]*>/,
+		);
+		// No mark: neither the old one, nor the UxFrontMark UxHeader defaults to.
+		expect(home).not.toContain('src="/logo.svg"');
+		expect(home).not.toContain("<svg");
+		expect(home).not.toContain("ux-header__mark");
+		expect(header.indexOf('href="https://uxfront.com"')).toBeGreaterThan(
+			header.indexOf(home),
+		);
+	});
+
 	// The hero lists the chapters; the header doesn't repeat them.
 	it("links no chapter from its header", () => {
 		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
