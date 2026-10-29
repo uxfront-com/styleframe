@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useAnyPointerCoarseModifier,
+	useDarkModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import { useSwitchRecipe } from "./useSwitchRecipe";
 
 function createInstance() {
@@ -15,10 +18,12 @@ function createInstance() {
 		"opacity",
 		"gap",
 		"fontSize",
+		"minHeight",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
+	useAnyPointerCoarseModifier(s);
 	return s;
 }
 
@@ -42,6 +47,56 @@ describe("useSwitchRecipe", () => {
 			userSelect: "none",
 			color: "@color.text",
 		});
+	});
+
+	it("switch/target-size makes the label a hit area at least 24px tall, and 44px on touch screens", () => {
+		const s = createInstance();
+		const recipe = useSwitchRecipe(s);
+
+		expect(recipe.base?.minHeight).toBe("1.5rem");
+		expect(recipe.base?.["&:any-pointer-coarse"]).toEqual({
+			minHeight: "2.75rem",
+		});
+	});
+
+	it("switch/read-only keeps the label from looking clickable", () => {
+		const s = createInstance();
+		useSwitchRecipe(s);
+
+		const selector = s.root.children.find(
+			(child) =>
+				child.type === "selector" &&
+				(child as { query: string }).query ===
+					'.switch:has(.switch-field[aria-readonly="true"])',
+		) as { declarations: Record<string, unknown> } | undefined;
+		expect(selector?.declarations).toEqual({ cursor: "default" });
+	});
+
+	it("switch/forced-colors keeps the disabled label at full opacity", () => {
+		const s = createInstance();
+		useSwitchRecipe(s);
+
+		const selector = s.root.children.find(
+			(child) =>
+				child.type === "selector" &&
+				(child as { query: string }).query ===
+					".switch:has(.switch-field:disabled)",
+		) as
+			| {
+					declarations: Record<string, unknown>;
+					children: {
+						type: string;
+						rule?: string;
+						declarations: Record<string, unknown>;
+					}[];
+			  }
+			| undefined;
+		expect(selector?.declarations).toMatchObject({ opacity: "0.5" });
+		const forced = selector?.children.find(
+			(child) =>
+				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+		);
+		expect(forced?.declarations).toEqual({ opacity: "1" });
 	});
 
 	describe("variants", () => {

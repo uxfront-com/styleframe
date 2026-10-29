@@ -33,6 +33,14 @@ const meta = {
 			control: "boolean",
 			description: "Whether the switch is disabled",
 		},
+		readonly: {
+			control: "boolean",
+			description: "Whether the switch can be focused but not flipped",
+		},
+		invalid: {
+			control: "boolean",
+			description: "Whether the switch sets aria-invalid",
+		},
 		label: {
 			control: "text",
 			description: "The switch label",
@@ -94,6 +102,38 @@ export const Disabled: Story = {
 
 export const DisabledChecked: Story = {
 	args: { disabled: true, checked: true, label: "Disabled on" },
+};
+
+export const ReadOnly: Story = {
+	args: { readonly: true, label: "Single sign-on" },
+};
+
+export const ReadOnlyChecked: Story = {
+	args: { readonly: true, checked: true, label: "Single sign-on" },
+};
+
+// An invalid switch sets aria-invalid and points to its error message.
+export const Invalid: Story = {
+	render: (args) => ({
+		components: { Switch },
+		setup() {
+			return { args };
+		},
+		template: `
+			<div class="switch-stack">
+				<Switch describedby="switch-story-error" v-bind="args" />
+				<p id="switch-story-error" class="switch-story-message">
+					Couldn't turn on price alerts. Try again.
+				</p>
+			</div>
+		`,
+	}),
+	args: { invalid: true, label: "Price alerts" },
+};
+
+// The harness focuses the switch to show its focus ring.
+export const Focus: Story = {
+	args: { label: "Wi-Fi" },
 };
 
 // Sizes

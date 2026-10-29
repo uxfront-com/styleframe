@@ -6,8 +6,13 @@ import { createUseRecipe } from "../../utils/createUseRecipe";
  * (gap, alignment), label typography, and dims the label when the nested
  * field is disabled. The visual switch lives on `switch-field`.
  *
- * The disabled-label dimming uses `:has()`, which is a raw CSS selector rather
- * than a registered modifier, so it is declared via the `setup` callback.
+ * The label is the switch's hit area: it's at least 24px tall, and 44px on
+ * touch screens, however small the track is, and a click anywhere on it flips
+ * the switch.
+ *
+ * The disabled and read-only label states use `:has()`, which is a raw CSS
+ * selector rather than a registered modifier, so they are declared via the
+ * `setup` callback.
  */
 export const useSwitchRecipe = createUseRecipe(
 	"switch",
@@ -19,6 +24,10 @@ export const useSwitchRecipe = createUseRecipe(
 			userSelect: "none",
 			color: "@color.text",
 			lineHeight: "@line-height.normal",
+			minHeight: "1.5rem",
+			"&:any-pointer-coarse": {
+				minHeight: "2.75rem",
+			},
 		},
 		variants: {
 			size: {
@@ -43,10 +52,19 @@ export const useSwitchRecipe = createUseRecipe(
 	(s) => {
 		const { selector } = s;
 
-		// Dim the label when the nested field is disabled.
+		// Dim the label when the nested field is disabled. Forced colors mode
+		// shows the disabled state in `GrayText` instead, at full opacity.
 		selector(".switch:has(.switch-field:disabled)", {
 			opacity: "0.5",
 			cursor: "not-allowed",
+			"@media (forced-colors: active)": {
+				opacity: "1",
+			},
+		});
+
+		// A read-only switch can't be flipped from its label either.
+		selector('.switch:has(.switch-field[aria-readonly="true"])', {
+			cursor: "default",
 		});
 	},
 );
