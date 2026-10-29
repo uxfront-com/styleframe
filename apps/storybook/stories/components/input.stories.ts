@@ -11,7 +11,8 @@ const variants = ["default", "soft", "ghost"] as const;
 const sizes = ["sm", "md", "lg"] as const;
 
 // Every example has a visible <label>, linked to the native input by an id
-// made from the story's own, so the ids stay unique on the docs page too.
+// made from the story's own. The docs page renders the primary story twice,
+// so its id appears on two inputs there.
 const labelled =
 	(label: string) =>
 	(args: Record<string, unknown>, { id }: { id: string }) => ({
