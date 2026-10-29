@@ -28,6 +28,7 @@ export const useSpinnerTextRecipe = createUseRecipe("spinner-text", {
 			lg: {
 				fontSize: "@font-size.sm",
 			},
+			em: {},
 		},
 	},
 	defaultVariants: {

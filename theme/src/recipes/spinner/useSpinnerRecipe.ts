@@ -10,6 +10,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 		position: "relative",
 		alignItems: "center",
 		justifyContent: "center",
+		flexShrink: "0",
 		fontSize: "@font-size.sm",
 		lineHeight: "@line-height.normal",
 	},
@@ -25,6 +26,9 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			sm: {},
 			md: {},
 			lg: {},
+			em: {
+				fontSize: "inherit",
+			},
 		},
 	},
 	compoundVariants: [
@@ -39,7 +43,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			css: {
 				color: "@color.gray-700",
 				"&:dark": {
-					color: "@color.gray-700",
+					color: "@color.white",
 				},
 			},
 		},

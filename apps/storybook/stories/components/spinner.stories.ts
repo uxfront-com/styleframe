@@ -5,7 +5,7 @@ import SpinnerGrid from "../../src/components/components/spinner/preview/Spinner
 import SpinnerSizeGrid from "../../src/components/components/spinner/preview/SpinnerSizeGrid.vue";
 
 const colors = ["primary", "light", "dark", "neutral"] as const;
-const sizes = ["auto", "sm", "md", "lg"] as const;
+const sizes = ["auto", "sm", "md", "lg", "em"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Feedback/Spinner",
@@ -67,9 +67,6 @@ export const Light: Story = {
 
 export const Dark: Story = {
 	args: { color: "dark" },
-	parameters: {
-		backgrounds: { default: "dark" },
-	},
 };
 
 export const Neutral: Story = {
@@ -95,6 +92,19 @@ export const Medium: Story = {
 
 export const Large: Story = {
 	args: { size: "lg" },
+};
+
+// The em size follows the text around it, in a paragraph or a heading.
+export const Em: StoryObj = {
+	render: () => ({
+		components: { Spinner },
+		template: `
+			<div class="spinner-section">
+				<p class="spinner-text-sample"><Spinner size="em" color="neutral" /> Saving draft</p>
+				<h2 class="spinner-heading-sample"><Spinner size="em" color="neutral" /> Loading results</h2>
+			</div>
+		`,
+	}),
 };
 
 // Feature stories

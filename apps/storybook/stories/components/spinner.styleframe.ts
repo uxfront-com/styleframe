@@ -42,4 +42,20 @@ selector(".spinner-label", {
 	minWidth: "80px",
 });
 
+selector(".spinner-text-sample", {
+	display: "flex",
+	alignItems: "center",
+	gap: "@spacing.xs",
+	margin: "0",
+	fontSize: "@font-size.md",
+});
+
+selector(".spinner-heading-sample", {
+	display: "flex",
+	alignItems: "center",
+	gap: "@spacing.xs",
+	margin: "0",
+	fontSize: "@font-size.2xl",
+});
+
 export default s;

@@ -9,6 +9,7 @@ function createInstance() {
 		"position",
 		"alignItems",
 		"justifyContent",
+		"flexShrink",
 		"fontSize",
 		"lineHeight",
 		"color",
@@ -37,6 +38,7 @@ describe("useSpinnerRecipe", () => {
 			position: "relative",
 			alignItems: "center",
 			justifyContent: "center",
+			flexShrink: "0",
 			fontSize: "@font-size.sm",
 			lineHeight: "@line-height.normal",
 		});
@@ -64,6 +66,7 @@ describe("useSpinnerRecipe", () => {
 				"sm",
 				"md",
 				"lg",
+				"em",
 			]);
 		});
 
@@ -76,6 +79,7 @@ describe("useSpinnerRecipe", () => {
 				sm: {},
 				md: {},
 				lg: {},
+				em: { fontSize: "inherit" },
 			});
 		});
 	});
@@ -120,7 +124,7 @@ describe("useSpinnerRecipe", () => {
 			expect(cv?.css).toEqual({
 				color: "@color.gray-700",
 				"&:dark": {
-					color: "@color.gray-700",
+					color: "@color.white",
 				},
 			});
 		});
@@ -151,6 +155,23 @@ describe("useSpinnerRecipe", () => {
 					color: "@color.white",
 				},
 			});
+		});
+	});
+
+	describe("Open Components rules", () => {
+		it("spinner/em-sized adds an em size that takes the font size of the text around it", () => {
+			const s = createInstance();
+			const recipe = useSpinnerRecipe(s);
+
+			expect(recipe.variants!.size.em).toEqual({ fontSize: "inherit" });
+			expect(recipe.defaultVariants?.size).toBe("md");
+		});
+
+		it("spinner/stable-layout keeps the spinner from shrinking in a row", () => {
+			const s = createInstance();
+			const recipe = useSpinnerRecipe(s);
+
+			expect(recipe.base?.flexShrink).toBe("0");
 		});
 	});
 
