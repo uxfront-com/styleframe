@@ -20,7 +20,7 @@ const variants = ["solid", "soft", "subtle"] as const;
 					:key="`${variant}-${color}`"
 					:color="color"
 					:variant="variant"
-					style="max-width: 300px"
+					class="card-preview"
 				>
 					<CardHeader :color="color" :variant="variant">
 						<CardTitle

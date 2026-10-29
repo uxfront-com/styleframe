@@ -21,8 +21,7 @@ function createInstance() {
 		"color",
 		"paddingTop",
 		"paddingBottom",
-		"paddingLeft",
-		"paddingRight",
+		"paddingInline",
 		"gap",
 		"borderBottomWidth",
 		"borderBottomStyle",
@@ -56,8 +55,7 @@ describe("useCardBodyRecipe", () => {
 			gap: "@0.5",
 			paddingTop: "@0.75",
 			paddingBottom: "@0.75",
-			paddingLeft: "@1",
-			paddingRight: "@1",
+			paddingInline: "@1",
 		});
 	});
 
@@ -69,22 +67,19 @@ describe("useCardBodyRecipe", () => {
 			sm: {
 				paddingTop: "@0.5",
 				paddingBottom: "@0.5",
-				paddingLeft: "@0.75",
-				paddingRight: "@0.75",
+				paddingInline: "@0.75",
 				gap: "@0.375",
 			},
 			md: {
 				paddingTop: "@0.75",
 				paddingBottom: "@0.75",
-				paddingLeft: "@1",
-				paddingRight: "@1",
+				paddingInline: "@1",
 				gap: "@0.5",
 			},
 			lg: {
 				paddingTop: "@1",
 				paddingBottom: "@1",
-				paddingLeft: "@1.25",
-				paddingRight: "@1.25",
+				paddingInline: "@1.25",
 				gap: "@0.75",
 			},
 		});
@@ -106,5 +101,22 @@ describe("useCardBodyRecipe", () => {
 		const recipe = useCardBodyRecipe(s);
 
 		expect(recipe.compoundVariants).toBeUndefined();
+	});
+});
+
+describe("useCardBodyRecipe Open Components rules", () => {
+	it("card/mirrors-in-rtl pads the inline sides with logical properties", () => {
+		const s = createInstance();
+		const recipe = useCardBodyRecipe(s);
+
+		const blocks: Record<string, unknown>[] = [
+			recipe.base!,
+			...Object.values(recipe.variants!.size),
+		];
+		for (const block of blocks) {
+			expect(block.paddingInline).toBeDefined();
+			expect(block.paddingLeft).toBeUndefined();
+			expect(block.paddingRight).toBeUndefined();
+		}
 	});
 });
