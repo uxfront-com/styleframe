@@ -1,0 +1,5 @@
+---
+"@styleframe/theme": patch
+---
+
+Bring `useCheckboxRecipe` and `useCheckboxFieldRecipe` in line with the Open Components Checkbox standard. The focus ring now uses `@color.focus`, and the unchecked border is `@color.gray-450` on light surfaces and `@color.gray-500` on dark ones, up from `gray-300` and `gray-600`, so it has 3:1 against the page. The box is sized in `rem`, the wrapper draws a `1.5rem` hit area around it and pads each label to that height, and a wrapping label keeps the box beside its first line, in either direction. The field styles `[aria-readonly="true"]` with a dashed border and `[aria-invalid="true"]` with an `@color.error` border and a second inset pixel, and never `:read-only` or `:invalid`. With `prefers-contrast: more` the border is drawn at full strength, and in forced colors mode a checked box is filled with `Highlight`, its mark gets a dark outline and a disabled box shows `GrayText` instead of an opacity. A disabled box inside the wrapper no longer dims twice. Variant names, values and defaults are unchanged.

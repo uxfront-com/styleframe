@@ -9,6 +9,8 @@ const props = withDefaults(
 		checked?: boolean;
 		indeterminate?: boolean;
 		disabled?: boolean;
+		readonly?: boolean;
+		invalid?: boolean;
 		label?: string;
 	}>(),
 	{
@@ -29,6 +31,14 @@ function syncIndeterminate() {
 	}
 }
 
+// HTML ignores `readonly` on a checkbox, so a read-only box cancels the click
+// that would toggle it, whether it comes from the box, its label or Space.
+function onClick(event: MouseEvent) {
+	if (props.readonly) {
+		event.preventDefault();
+	}
+}
+
 onMounted(syncIndeterminate);
 watch(() => props.indeterminate, syncIndeterminate);
 </script>
@@ -41,6 +51,9 @@ watch(() => props.indeterminate, syncIndeterminate);
 			:class="fieldClasses"
 			:checked="checked"
 			:disabled="disabled"
+			:aria-readonly="readonly ? 'true' : undefined"
+			:aria-invalid="invalid ? 'true' : undefined"
+			@click="onClick"
 		/>
 		<span v-if="$slots.default || label"
 			><slot>{{ label }}</slot></span
