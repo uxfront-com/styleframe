@@ -8,8 +8,9 @@ import {
 	LOGIN_URL,
 } from "~/data/site";
 
-// The header of the site's UXFront pages: the brand, signed "by UXFront" as in
-// the docs, the page's sections, and the links the docs header has.
+// The header of the site's UXFront pages: the docs' logotype, signed "by
+// UXFront" as in the docs, the page's sections, and the links the docs header
+// has.
 defineProps<{
 	nav?: UxNavItem[];
 	navLabel?: string;
@@ -41,12 +42,14 @@ const starCount = computed(() =>
 		:nav="nav"
 		:nav-label="navLabel"
 	>
-		<template #mark>
+		<!-- The logotype holds the mark, so UxHeader's default mark stays out. -->
+		<template #mark />
+		<template #brand>
 			<img
-				class="site-header__mark"
-				src="/logo.svg"
+				class="site-header__logotype"
+				src="/logotype-dark.svg"
 				alt=""
-				width="24"
+				width="155"
 				height="24"
 			/>
 		</template>
@@ -80,10 +83,16 @@ const starCount = computed(() =>
 </template>
 
 <style scoped>
-.site-header__mark {
+/* The docs header's logo size, at every width: the SVG's own width is 100%,
+   and UxHeader's start group lets its brand link shrink. */
+.site-header__logotype {
 	display: block;
-	width: 1.5rem;
+	width: 9.6875rem;
 	height: 1.5rem;
+}
+
+:deep(.ux-header__brand) {
+	flex-shrink: 0;
 }
 
 /* UxHeader styles its own links, not slotted ones, and the first frame has
@@ -122,10 +131,13 @@ const starCount = computed(() =>
 }
 
 /* Phones can't fit the byline beside the links. The footer repeats them, and
-   the GitHub link's aria-label still names it without the label. */
+   the GitHub link's aria-label still names it without the label. The byline
+   hides too, as the docs header's does: from the header, so it outweighs
+   UxHeader's own rule whichever stylesheet comes first. */
 @media (max-width: 639px) {
 	a.site-header__link,
-	.site-header__label {
+	.site-header__label,
+	.ux-header :deep(.ux-header__byline) {
 		display: none;
 	}
 }
