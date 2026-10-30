@@ -1,9 +1,9 @@
 ---
-title: The Styling Engine for the AI Era
-description: Styleframe is the styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.
+title: Type-safe Styling Engine for the AI Era
+description: Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.
 ---
 
-## The styling engine for the AI era
+## Type-safe styling engine for the AI era
 
 Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS. The types catch a renamed token before your users do, whether you or an agent made the change.
 

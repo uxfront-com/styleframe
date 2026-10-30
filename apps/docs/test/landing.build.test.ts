@@ -25,8 +25,8 @@ const LANDING = {
 		"Styleframe is the source of truth for your design tokens. Sync variables between code and Figma using the W3C DTCG format, with full multi-mode support.",
 	],
 	index: [
-		"The Styling Engine for the AI Era",
-		"Styleframe is the styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
+		"Type-safe Styling Engine for the AI Era",
+		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
 	],
 	license: ["License", ""],
 	pricing: [

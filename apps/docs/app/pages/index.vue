@@ -16,9 +16,9 @@ const CONFIGURATION_URL = "/docs/api/instance#configuration-options";
 const FLUID_DESIGN_URL = "/docs/theme/design-tokens/fluid-design";
 
 useUxHead({
-	title: "The Styling Engine for the AI Era - styleframe",
+	title: "Type-safe Styling Engine for the AI Era - styleframe",
 	description:
-		"Styleframe is the styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
+		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
 	siteName: SITE_NAME,
 	image: {
 		path: "/og/index.png",
@@ -197,15 +197,15 @@ const fluid = [
 		</template>
 
 		<UxHero
-			title="The styling engine for the AI era"
+			title="Type-safe styling engine for the AI era"
 			:index="nav"
 			index-label="Features"
 			scroll-href="#config"
 		>
 			<template #lines>
-				<UxHeroLine>The styling engine</UxHeroLine>
-				<UxHeroLine>for the</UxHeroLine>
-				<UxHeroLine><em class="ux-serif">AI era</em></UxHeroLine>
+				<UxHeroLine>Type-safe</UxHeroLine>
+				<UxHeroLine>styling engine for</UxHeroLine>
+				<UxHeroLine><em class="ux-serif">the AI era</em></UxHeroLine>
 			</template>
 			<template #lead>
 				Author tokens, themes, utilities and recipes in TypeScript, and ship
@@ -379,7 +379,7 @@ const fluid = [
 
 		<UxFinale kicker="styleframe">
 			<template #title>
-				The styling engine for the <em class="ux-serif">AI era</em>
+				Type-safe styling engine <em class="ux-serif">for the AI era</em>
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />

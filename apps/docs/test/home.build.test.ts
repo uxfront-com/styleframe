@@ -17,9 +17,9 @@ const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 const read = (file: string) => readFileSync(join(OUTPUT, file), "utf8");
 
 // The homepage's title and description, as rendered.
-const TITLE = "The Styling Engine for the AI Era - styleframe";
+const TITLE = "Type-safe Styling Engine for the AI Era - styleframe";
 const DESCRIPTION =
-	"Styleframe is the styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.";
+	"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.";
 
 // The calls to action, in order: the hero's, one per chapter that had one on
 // main (the fluid-design docs page replaces its demo), and the finale's.
