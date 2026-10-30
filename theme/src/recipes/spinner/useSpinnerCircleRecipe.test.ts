@@ -67,7 +67,7 @@ describe("useSpinnerCircleRecipe", () => {
 				"sm",
 				"md",
 				"lg",
-				"em",
+				"inherit",
 			]);
 		});
 
@@ -80,7 +80,7 @@ describe("useSpinnerCircleRecipe", () => {
 				sm: { width: "@2", height: "@2" },
 				md: { width: "@3", height: "@3" },
 				lg: { width: "@4", height: "@4" },
-				em: { width: "1em", height: "1em" },
+				inherit: { width: "1em", height: "1em" },
 			});
 		});
 	});
@@ -111,11 +111,11 @@ describe("useSpinnerCircleRecipe", () => {
 	});
 
 	describe("Open Components rules", () => {
-		it("spinner/em-sized adds a 1em size, and keeps md as the default", () => {
+		it("spinner/em-sized adds an inherit size of 1em, and keeps md as the default", () => {
 			const s = createInstance();
 			const recipe = useSpinnerCircleRecipe(s);
 
-			expect(recipe.variants!.size.em).toEqual({
+			expect(recipe.variants!.size.inherit).toEqual({
 				width: "1em",
 				height: "1em",
 			});
@@ -166,7 +166,7 @@ describe("useSpinnerCircleRecipe", () => {
 			const recipe = useSpinnerCircleRecipe(s);
 
 			expect(recipe.base?.flexShrink).toBe("0");
-			for (const size of ["sm", "md", "lg", "em"] as const) {
+			for (const size of ["sm", "md", "lg", "inherit"] as const) {
 				const { width, height } = recipe.variants!.size[size] as Record<
 					string,
 					string

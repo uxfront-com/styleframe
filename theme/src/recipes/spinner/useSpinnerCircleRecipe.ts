@@ -43,7 +43,7 @@ export const useSpinnerCircleRecipe = createUseRecipe(
 					width: "@4",
 					height: "@4",
 				},
-				em: {
+				inherit: {
 					width: "1em",
 					height: "1em",
 				},

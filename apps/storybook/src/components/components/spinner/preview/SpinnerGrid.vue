@@ -16,6 +16,10 @@ const colors = ["primary", "light", "dark", "neutral"] as const;
 						<Spinner :color="color" />
 					</SpinnerOverlay>
 				</div>
+				<!-- light is for light surfaces, so it's shown on one in both themes. -->
+				<span v-else-if="color === 'light'" class="spinner-surface-light">
+					<Spinner :color="color" />
+				</span>
 				<Spinner v-else :color="color" />
 			</div>
 		</div>

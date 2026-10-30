@@ -52,6 +52,15 @@ selector(".spinner-heading-sample", {
 	fontSize: "@font-size.2xl",
 });
 
+// light keeps one color in both themes and is for light surfaces, so a story
+// shows it on one.
+selector(".spinner-surface-light", {
+	display: "inline-flex",
+	padding: "@spacing.xs",
+	borderRadius: "@border-radius.md",
+	background: "@color.white",
+});
+
 // A box the overlay fills, so a story shows the backdrop without covering the page.
 selector(".spinner-backdrop", {
 	position: "relative",

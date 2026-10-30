@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
 
-const sizes = ["auto", "sm", "md", "lg", "em"] as const;
+const sizes = ["auto", "sm", "md", "lg", "inherit"] as const;
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const sizes = ["auto", "sm", "md", "lg", "em"] as const;
 				<div v-if="size === 'auto'" class="_width:[100px] _height:[100px]">
 					<Spinner :size="size" />
 				</div>
-				<p v-else-if="size === 'em'" class="spinner-text-sample">
+				<p v-else-if="size === 'inherit'" class="spinner-text-sample">
 					<Spinner :size="size" /> Saving draft
 				</p>
 				<Spinner v-else :size="size" />

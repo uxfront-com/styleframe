@@ -67,7 +67,7 @@ describe("useSpinnerRecipe", () => {
 				"sm",
 				"md",
 				"lg",
-				"em",
+				"inherit",
 			]);
 		});
 
@@ -80,7 +80,7 @@ describe("useSpinnerRecipe", () => {
 				sm: {},
 				md: {},
 				lg: {},
-				em: { fontSize: "inherit", verticalAlign: "-0.125em" },
+				inherit: { fontSize: "inherit", verticalAlign: "-0.125em" },
 			});
 		});
 	});
@@ -128,7 +128,7 @@ describe("useSpinnerRecipe", () => {
 			expect(cv?.css).toEqual({
 				color: "@color.gray-700",
 				"&:dark": {
-					color: "@color.white",
+					color: "@color.gray-700",
 				},
 			});
 		});
@@ -163,11 +163,11 @@ describe("useSpinnerRecipe", () => {
 	});
 
 	describe("Open Components rules", () => {
-		it("spinner/em-sized adds an em size that takes the font size of the text around it and centres on it", () => {
+		it("spinner/em-sized adds an inherit size that takes the font size of the text around it and centres on it", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			expect(recipe.variants!.size.em).toEqual({
+			expect(recipe.variants!.size.inherit).toEqual({
 				fontSize: "inherit",
 				verticalAlign: "-0.125em",
 			});

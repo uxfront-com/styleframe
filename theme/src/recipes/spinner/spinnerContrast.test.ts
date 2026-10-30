@@ -13,8 +13,11 @@ type Slot = Record<string, unknown>;
  * (WCAG 1.4.11), and the label is text, so it needs 4.5:1 (WCAG 1.4.3). The
  * label has no color of its own and takes the spinner's. The spinner has no
  * fill either, so each color is checked against what it sits on, in the light
- * and the dark theme: both page backgrounds, or for `dark`, which is for dark
- * surfaces, the overlay's backdrop over both page backgrounds.
+ * and the dark theme. `primary` and `neutral` adapt, so they sit on the
+ * theme's own page backgrounds. `light` and `dark` keep one color in either
+ * theme: `light` is a dark stroke for light surfaces (the light theme's page
+ * backgrounds), and `dark` a white one for dark surfaces (the dark theme's
+ * page backgrounds, and the overlay's backdrop over every page background).
  */
 describe("spinner contrast", () => {
 	const s = styleframe();
@@ -46,17 +49,27 @@ describe("spinner contrast", () => {
 	};
 	type Theme = keyof typeof themes;
 
+	const darkTheme = s.root.themes.find((theme) => theme.name === "dark");
+
+	// Each token is read from the theme's own variables, falling back to the
+	// root, and references are followed in the same theme.
 	function resolve(token: string, theme: Theme): string {
-		const name = token.slice("@color.".length);
-		const themed = themes[theme][name];
-		if (themed) {
-			return themed.startsWith("@") ? resolve(themed, theme) : themed;
-		}
-		const variable = s.root.variables.find((v) => v.name === `color.${name}`);
+		const name = token.slice(1);
+		const variable =
+			(theme === "dark" && darkTheme?.variables.find((v) => v.name === name)) ||
+			s.root.variables.find((v) => v.name === name);
 		if (!variable) {
 			throw new Error(`Unknown token ${token}`);
 		}
-		return String(variable.value);
+		const value = variable.value as unknown;
+		if (
+			typeof value === "object" &&
+			value !== null &&
+			(value as Slot).type === "reference"
+		) {
+			return resolve(`@${(value as Slot).name}`, theme);
+		}
+		return String(value);
 	}
 
 	// The backdrop is translucent, so it's composited over the page in sRGB.
@@ -84,25 +97,43 @@ describe("spinner contrast", () => {
 		expect(overlay("#ffffff")).toBe("#404040");
 	});
 
+	const pages: Record<Theme, string[]> = {
+		light: [themes.light.background!, themes.light.surface!],
+		dark: [themes.dark.background!, themes.dark.surface!],
+	};
+
+	function surfaces(color: string, theme: Theme): string[] {
+		if (color === "light") return pages.light;
+		if (color === "dark") {
+			return [...pages.dark, ...[...pages.light, ...pages.dark].map(overlay)];
+		}
+		return pages[theme];
+	}
+
 	const cases = useSpinnerRecipe(s).compoundVariants!.flatMap((cv) => {
 		const css = cv.css as Slot;
 		const inDark = { ...css, ...(css["&:dark"] as Slot) };
-		return (["light", "dark"] as const).map((theme) => {
-			const pages = [themes[theme].background!, themes[theme].surface!];
-			return {
-				name: `${cv.match.color} in the ${theme} theme`,
-				color: resolve(
-					(theme === "light" ? css : inDark).color as string,
-					theme,
-				),
-				surfaces: cv.match.color === "dark" ? pages.map(overlay) : pages,
-			};
-		});
+		return (["light", "dark"] as const).map((theme) => ({
+			name: `${cv.match.color} in the ${theme} theme`,
+			variant: cv.match.color as string,
+			color: resolve((theme === "light" ? css : inDark).color as string, theme),
+			surfaces: surfaces(cv.match.color as string, theme),
+		}));
 	});
 
 	it("covers the four colors in both themes", () => {
 		expect(cases).toHaveLength(8);
 	});
+
+	it.each(["light", "dark"])(
+		"keeps the %s color the same in the light and the dark theme",
+		(variant) => {
+			const [inLight, inDark] = cases
+				.filter((entry) => entry.variant === variant)
+				.map((entry) => entry.color);
+			expect(inDark).toBe(inLight);
+		},
+	);
 
 	it.each(cases)(
 		"spinner/contrast gives the indicator of $name at least 3:1 against what it sits on",
