@@ -131,6 +131,7 @@ describe("spinner contrast", () => {
 			const [inLight, inDark] = cases
 				.filter((entry) => entry.variant === variant)
 				.map((entry) => entry.color);
+			expect(inLight).toBeDefined();
 			expect(inDark).toBe(inLight);
 		},
 	);
