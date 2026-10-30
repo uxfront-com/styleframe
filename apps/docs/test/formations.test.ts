@@ -1,8 +1,9 @@
+import { empty } from "@uxfront/scene/formations";
 import { describe, expect, it } from "vitest";
-import { device, deviceAt, empty } from "../app/lib/formations";
+import { device, deviceAt } from "../app/lib/formations";
 
 describe("formations", () => {
-	it("gives the device formation its own key", () => {
+	it("gives the device formation a key of its own, apart from the scene's empty", () => {
 		const keys = [
 			empty({ label: "Empty" }),
 			device({ label: "Fluid design" }),

@@ -98,7 +98,7 @@ describe("homepage", () => {
 	});
 
 	it.each(FEATURE_LINKS)("links the feature at %s", (link) => {
-		expect(content).toContain(`<a href="${link}" class="site-features__item"`);
+		expect(content).toContain(`<a class="ux-traits__link" href="${link}"`);
 	});
 
 	it("links everything the docs chrome does in its header and footer", () => {
@@ -154,11 +154,13 @@ describe("homepage", () => {
 	});
 
 	it("blocks its first paint on no stylesheet", () => {
-		// @uxfront/layer-ui takes the entry stylesheet out of the head, and
-		// server/plugins/defer-stylesheets.ts defers the chunk ones.
-		const links = head.match(/<link rel="stylesheet"[^>]*>/g) ?? [];
-		expect(links.length).toBeGreaterThan(0);
-		for (const link of links) expect(link).toContain('media="print"');
+		// @uxfront/layer-ui takes the stylesheets out of the head and loads them
+		// after the first paint: the entry one, and the chunk ones the docs make
+		// the build write.
+		expect(head).not.toMatch(/<link rel="stylesheet"/);
+		const deferred = html.match(/\["\/_nuxt\/[^\]]*\.css"\]/)?.[0] ?? "";
+		expect(deferred).toMatch(/"\/_nuxt\/entry\.[\w-]+\.css"/);
+		expect(deferred).toMatch(/"\/_nuxt\/(?!entry\.)[\w.-]+\.css"/);
 	});
 });
 

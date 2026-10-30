@@ -1,5 +1,5 @@
 import type { ContentNavigationItem } from "@nuxt/content";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { computed, ref } from "vue";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -16,7 +16,9 @@ import { foldNonRouteCategories } from "../app/utils/foldNonRouteCategories";
  * wherever the tabs are hidden: the tabs show from Nuxt UI's `lg`, and the
  * menu only opens below it, so the menu's list has no breakpoint of its own.
  * Each section in the menu holds the tree its sidebar (DocsAsideLeftBody)
- * shows, rendered the same way.
+ * shows, rendered the same way. Above them, the menu keeps the header links
+ * and Framework select of @uxfront/layer-docs, which also shows the links in
+ * the header bar.
  */
 
 const read = (name: string) =>
@@ -39,6 +41,50 @@ const contentNavProps = (source: string) =>
 				!prop.startsWith(":navigation=") &&
 				!prop.startsWith(":aria-label="),
 		);
+
+describe("the header's links", () => {
+	const body = read("app/AppHeaderBody");
+
+	// app.config.ts with Nuxt's auto-import in place.
+	const appConfig = async () => {
+		vi.stubGlobal("defineAppConfig", <T>(config: T) => config);
+		const { default: config } = await import("../app/app.config");
+		vi.unstubAllGlobals();
+		return config;
+	};
+
+	it("are the layer's docsTheme.headerLinks, each marking the part of the site it stands for", async () => {
+		const { docsTheme } = await appConfig();
+		expect(docsTheme.headerLinks).toEqual([
+			{
+				label: "Docs",
+				to: "/docs/getting-started/introduction",
+				activeFor: "/docs",
+			},
+			{ label: "Changelog", to: "/changelog", activeFor: "/changelog" },
+			{ label: "Log in", to: "https://app.styleframe.dev" },
+		]);
+	});
+
+	it("show in the bar from the layer's own AppHeaderCTA", () => {
+		expect(
+			existsSync(
+				new URL("../app/components/app/AppHeaderCTA.vue", import.meta.url),
+			),
+		).toBe(false);
+	});
+
+	it("start the menu below md, then the Framework select, then the sections", () => {
+		const links = body.indexOf(
+			'<AppHeaderLinks orientation="vertical" class="mb-4 -mx-2.5 md:hidden" />',
+		);
+		const framework = body.indexOf("<AppHeaderFramework />");
+		const sections = body.indexOf('<nav aria-label="Sections"');
+		expect(links).toBeGreaterThan(-1);
+		expect(framework).toBeGreaterThan(links);
+		expect(sections).toBeGreaterThan(framework);
+	});
+});
 
 describe("the docs' sections", () => {
 	const body = read("app/AppHeaderBody");

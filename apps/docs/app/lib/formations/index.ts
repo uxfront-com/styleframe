@@ -3,5 +3,4 @@
  * (`$main`, and `$name` identifiers namespaced to `key_name`).
  */
 export * from "./device";
-export * from "./empty";
 export * from "./views";

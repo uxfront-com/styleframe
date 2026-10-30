@@ -183,12 +183,4 @@ export default defineNuxtConfig({
 			},
 		},
 	},
-
-	hooks: {
-		// Every page would otherwise prefetch the docs' lazy chunks, which delays
-		// the first page's fonts and stylesheet.
-		"build:manifest"(manifest) {
-			for (const chunk of Object.values(manifest)) chunk.prefetch = false;
-		},
-	},
 });
