@@ -88,7 +88,7 @@ describe("useSwitchFieldRecipe", () => {
 			recipe.compoundVariants!.find((v) => v.match.color === color)
 				?.css as Block;
 
-		expect(css("neutral")).toEqual({
+		expect(css("neutral")).toMatchObject({
 			backgroundColor: "@color.gray-450",
 			borderColor: "@color.gray-450",
 		});
@@ -333,22 +333,18 @@ describe("useSwitchFieldRecipe", () => {
 		});
 	});
 
-	it("switch/more-contrast draws the unchecked border in the text color", () => {
+	it("switch/more-contrast draws the neutral border in the text color, and keeps the light and dark borders", () => {
 		const s = createInstance();
-		useSwitchFieldRecipe(s);
+		const recipe = useSwitchFieldRecipe(s);
+		const css = (color: string) =>
+			recipe.compoundVariants!.find((cv) => cv.match.color === color)
+				?.css as Record<string, unknown>;
 
-		expect(
-			mediaDeclarations(
-				s,
-				'.switch-field:not(:checked, [aria-invalid="true"])',
-				"(prefers-contrast: more)",
-			),
-		).toEqual({
-			borderColor: expect.objectContaining({
-				type: "reference",
-				name: "color.text",
-			}),
+		expect(css("neutral")["&:contrast-more"]).toEqual({
+			borderColor: "@color.text",
 		});
+		expect(css("light")).not.toHaveProperty("&:contrast-more");
+		expect(css("dark")).not.toHaveProperty("&:contrast-more");
 	});
 
 	it("switch/mirrors-in-rtl starts the thumb at the inline start", () => {

@@ -19,8 +19,9 @@ type Slot = Record<string, unknown>;
  * count goes in the suffix, which shares the placeholder's muted color. Every
  * color × variant compound of the textarea recipe is checked in the light and
  * the dark theme, since the `light` and `dark` colors keep their look in
- * either mode. A transparent fill shows the page, so it is checked against
- * both page backgrounds of its theme.
+ * either mode. A transparent fill shows the page, so it is checked
+ * against both page backgrounds: those of its theme for `neutral`, and the
+ * light or dark ones `light` and `dark` are documented for.
  */
 describe("useTextareaRecipe contrast", () => {
 	const s = styleframe();
@@ -52,6 +53,12 @@ describe("useTextareaRecipe contrast", () => {
 		themes[theme].background!,
 		themes[theme].surface!,
 	];
+
+	// `light` and `dark` keep one look in both themes, so each sits on the page
+	// it is documented for in either theme: a light page for `light` and a dark
+	// page for `dark`. `neutral` sits on the page of its theme.
+	const surfaces = (color: string, theme: Theme) =>
+		color === "light" || color === "dark" ? pages(color) : pages(theme);
 
 	// The muted text is the text color at this share, composited in sRGB over
 	// the fill, as `color-mix(in srgb, currentColor n%, transparent)` paints it.
@@ -88,9 +95,10 @@ describe("useTextareaRecipe contrast", () => {
 						? css["&:hover-capable:hover"]
 						: css["&:dark:hover-capable:hover"]
 				) as Slot;
+				const color = cv.match.color as string;
 				const fills =
 					slot.background === "transparent"
-						? pages(theme)
+						? surfaces(color, theme)
 						: [resolve(slot.background as string, theme)];
 				const borders = [slot, hover]
 					.flatMap((block) => [block.borderColor, block.borderBottomColor])
@@ -102,6 +110,7 @@ describe("useTextareaRecipe contrast", () => {
 				return {
 					name: `${cv.match.color} ${cv.match.variant} in the ${theme} theme`,
 					theme,
+					color,
 					text: resolve(slot.color as string, theme),
 					fills,
 					borders,
@@ -163,10 +172,10 @@ describe("useTextareaRecipe contrast", () => {
 
 	it.each(cases)(
 		"textarea/boundary-contrast gives the border 3:1 at rest and on hover on $name",
-		({ theme, fills, borders }) => {
+		({ theme, color, fills, borders }) => {
 			expect(borders.length).toBeGreaterThan(0);
 			for (const border of borders) {
-				for (const neighbour of [...pages(theme), ...fills]) {
+				for (const neighbour of [...surfaces(color, theme), ...fills]) {
 					expect(
 						wcagContrast(border, neighbour),
 						`${border} against ${neighbour}`,
@@ -178,9 +187,9 @@ describe("useTextareaRecipe contrast", () => {
 
 	it.each(cases)(
 		"textarea/boundary-contrast gives the invalid border 3:1 on $name",
-		({ theme, fills }) => {
+		({ theme, color, fills }) => {
 			const error = resolve(invalid.borderColor as string, theme);
-			for (const neighbour of [...pages(theme), ...fills]) {
+			for (const neighbour of [...surfaces(color, theme), ...fills]) {
 				expect(
 					wcagContrast(error, neighbour),
 					neighbour,

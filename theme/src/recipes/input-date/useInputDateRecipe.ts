@@ -1,4 +1,7 @@
-import { createFieldRecipe } from "../input/createFieldRecipe";
+import {
+	FIELD_MUTED_TEXT,
+	createFieldRecipe,
+} from "../input/createFieldRecipe";
 
 /**
  * InputDate wrapper recipe. The `.input-date` class sits on a wrapper element
@@ -39,15 +42,14 @@ export const useInputDateRecipe = createFieldRecipe(
 			gap: "calc(@spacing * 0.125)",
 		});
 
-		// Muted, non-selectable date/range separator glyph (e.g. "/" or "–").
+		// Muted, non-selectable date/range separator glyph (e.g. "/" or "–"),
+		// in the field's muted text color. It follows the field's own text, so it
+		// keeps one color on `light` and `dark` fields and adapts on `neutral`.
 		selector(".input-date-separator", {
-			color: "@color.text-weak",
+			color: FIELD_MUTED_TEXT,
 			userSelect: "none",
 			paddingLeft: "calc(@spacing * 0.125)",
 			paddingRight: "calc(@spacing * 0.125)",
-			"&:dark": {
-				color: "@color.gray-400",
-			},
 		});
 	},
 );

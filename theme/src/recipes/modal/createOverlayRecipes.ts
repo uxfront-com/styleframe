@@ -15,8 +15,8 @@ import {
 
 /**
  * Container surface colors — background / text / border for the panel itself.
- * Shared by the modal and drawer container recipes. The `soft` panels gain a
- * border in the dark theme, where the backdrop barely dims a dark page.
+ * Shared by the modal and drawer container recipes. The `neutral` soft panel
+ * gains a border in the dark theme, where the backdrop barely dims a dark page.
  */
 export const overlaySurfaceCompoundVariants: NonNullable<
 	RecipeConfig["compoundVariants"]
@@ -43,7 +43,6 @@ export const overlaySurfaceCompoundVariants: NonNullable<
 			"&:dark": {
 				background: "@color.gray-50",
 				color: "@color.gray-700",
-				borderColor: "@color.gray-200",
 			},
 		},
 	},
@@ -83,7 +82,6 @@ export const overlaySurfaceCompoundVariants: NonNullable<
 			"&:dark": {
 				background: "@color.gray-800",
 				color: "@color.gray-300",
-				borderColor: "@color.gray-700",
 			},
 		},
 	},

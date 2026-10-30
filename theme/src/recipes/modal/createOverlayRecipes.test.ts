@@ -166,19 +166,20 @@ describe("createOverlayRecipes", () => {
 	});
 
 	describe("Dialog rules", () => {
-		it("dialog/backdrop dims the page, and every panel has a border in the dark theme", () => {
+		it("dialog/backdrop dims the page, and every neutral panel has a border in the dark theme", () => {
 			const s = createInstance();
 			const backdrop = createBackdropRecipe("demo")(s);
 
 			expect(backdrop.base!.background).toBe("rgba(0, 0, 0, 0.75)");
-			for (const cv of overlaySurfaceCompoundVariants) {
+			for (const cv of overlaySurfaceCompoundVariants.filter(
+				(cv) => cv.match.color === "neutral",
+			)) {
 				const dark = (cv.css as Record<string, Record<string, string>>)[
 					"&:dark"
 				];
-				expect(
-					dark?.borderColor,
-					`${cv.match.color} ${cv.match.variant}`,
-				).toMatch(/^@color\./);
+				expect(dark?.borderColor, `neutral ${cv.match.variant}`).toMatch(
+					/^@color\./,
+				);
 			}
 		});
 

@@ -1,7 +1,14 @@
 import { styleframe } from "@styleframe/core";
-import { wcagContrast } from "culori";
-import { useDesignTokensPreset } from "../../presets";
+import { formatHex8, wcagContrast } from "culori";
+import {
+	useDesignTokensPreset,
+	useModifiersPreset,
+	useUtilitiesPreset,
+} from "../../presets";
 import { overlaySurfaceCompoundVariants } from "./createOverlayRecipes";
+import { useModalFooterRecipe } from "./useModalFooterRecipe";
+import { useModalHeaderRecipe } from "./useModalHeaderRecipe";
+import { useModalRecipe } from "./useModalRecipe";
 
 type Slot = Record<string, unknown>;
 
@@ -50,6 +57,82 @@ describe("modal contrast", () => {
 			const panel = resolve(declarations.background as string, dark);
 
 			expect(wcagContrast(text, panel)).toBeGreaterThanOrEqual(4.5);
+		},
+	);
+});
+
+/**
+ * The `light` and `dark` colors keep one look in both themes, and only
+ * `neutral` adapts. Every `light` and `dark` compound of the panel, the header
+ * and the footer is resolved in each theme, its `&:dark` slot applied in the
+ * dark one, and the two must match.
+ */
+describe("modal fixed colors", () => {
+	const s = styleframe();
+	useDesignTokensPreset(s);
+	useModifiersPreset(s);
+	useUtilitiesPreset(s);
+	const darkTheme = s.root.themes.find((theme) => theme.name === "dark");
+
+	function resolve(token: string, dark: boolean): string {
+		const name = token.slice(1);
+		const variable =
+			(dark && darkTheme?.variables.find((v) => v.name === name)) ||
+			s.root.variables.find((v) => v.name === name);
+		if (!variable) {
+			throw new Error(`Unknown token ${token}`);
+		}
+		const value = variable.value as unknown;
+		if (
+			typeof value === "object" &&
+			value !== null &&
+			(value as Slot).type === "reference"
+		) {
+			return resolve(`@${(value as Slot).name}`, dark);
+		}
+		return String(value);
+	}
+
+	function applied(css: Slot, dark: boolean) {
+		const plain = Object.entries(css).filter(
+			([, value]) => typeof value !== "object",
+		);
+		const declarations = dark
+			? [...plain, ...Object.entries((css["&:dark"] as Slot) ?? {})]
+			: plain;
+		return Object.fromEntries(
+			declarations.map(([property, value]) => [
+				property,
+				typeof value === "string" && value.startsWith("@color.")
+					? formatHex8(resolve(value, dark))
+					: value,
+			]),
+		);
+	}
+
+	const cases = [
+		["panel", useModalRecipe(s)],
+		["header", useModalHeaderRecipe(s)],
+		["footer", useModalFooterRecipe(s)],
+	].flatMap(([part, recipe]) =>
+		(recipe as ReturnType<typeof useModalRecipe>)
+			.compoundVariants!.filter(
+				(cv) => cv.match.color === "light" || cv.match.color === "dark",
+			)
+			.map((cv) => ({
+				name: `${cv.match.color} ${cv.match.variant} ${part}`,
+				css: cv.css as Slot,
+			})),
+	);
+
+	it("covers the six light and dark compounds of each part", () => {
+		expect(cases).toHaveLength(18);
+	});
+
+	it.each(cases)(
+		"modal/fixed-colors keeps the $name the same in both themes",
+		({ css }) => {
+			expect(applied(css, true)).toEqual(applied(css, false));
 		},
 	);
 });

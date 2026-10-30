@@ -8,6 +8,7 @@ import {
 	useFocusWithinModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
+import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
 import { useInputDateRecipe } from "./useInputDateRecipe";
 
 function createInstance() {
@@ -370,6 +371,25 @@ describe("useInputDateRecipe", () => {
 			);
 
 			expect(found).toBeDefined();
+		});
+
+		it("input-date/fixed-colors gives the separator the field's muted text in both themes", () => {
+			const s = createInstance();
+			useInputDateRecipe(s);
+
+			const separator = s.root.children.find(
+				(child) =>
+					child.type === "selector" &&
+					(child as { query: string }).query === ".input-date-separator",
+			) as unknown as {
+				declarations: Record<string, unknown>;
+				children: unknown[];
+			};
+
+			// The muted text follows the field's own text color, which `light` and
+			// `dark` keep in both themes, and no theme override replaces it.
+			expect(separator.declarations.color).toBe(FIELD_MUTED_TEXT);
+			expect(separator.children).toEqual([]);
 		});
 
 		it("should keep the segments and separators at one font size on touch screens", () => {
