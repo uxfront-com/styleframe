@@ -21,7 +21,8 @@ type Slot = Record<string, unknown>;
  * the dark theme, since the `light` and `dark` colors keep their look in
  * either mode. A transparent fill shows the page, so it is checked
  * against both page backgrounds: those of its theme for `neutral`, and the
- * light or dark ones `light` and `dark` are documented for.
+ * light or dark ones `light` and `dark` are documented for. The borders of
+ * `light` and `dark` are checked against the pages of both themes.
  */
 describe("useTextareaRecipe contrast", () => {
 	const s = styleframe();
@@ -59,6 +60,14 @@ describe("useTextareaRecipe contrast", () => {
 	// page for `dark`. `neutral` sits on the page of its theme.
 	const surfaces = (color: string, theme: Theme) =>
 		color === "light" || color === "dark" ? pages(color) : pages(theme);
+
+	// A border marks the field wherever it sits, so the borders of `light` and
+	// `dark` hold 3:1 against the pages of both themes. `neutral` sits on the
+	// pages of its theme.
+	const borderPages = (color: string, theme: Theme) =>
+		color === "light" || color === "dark"
+			? [...pages("light"), ...pages("dark")]
+			: pages(theme);
 
 	// The muted text is the text color at this share, composited in sRGB over
 	// the fill, as `color-mix(in srgb, currentColor n%, transparent)` paints it.
@@ -175,7 +184,7 @@ describe("useTextareaRecipe contrast", () => {
 		({ theme, color, fills, borders }) => {
 			expect(borders.length).toBeGreaterThan(0);
 			for (const border of borders) {
-				for (const neighbour of [...surfaces(color, theme), ...fills]) {
+				for (const neighbour of [...borderPages(color, theme), ...fills]) {
 					expect(
 						wcagContrast(border, neighbour),
 						`${border} against ${neighbour}`,
@@ -189,7 +198,7 @@ describe("useTextareaRecipe contrast", () => {
 		"textarea/boundary-contrast gives the invalid border 3:1 on $name",
 		({ theme, color, fills }) => {
 			const error = resolve(invalid.borderColor as string, theme);
-			for (const neighbour of [...surfaces(color, theme), ...fills]) {
+			for (const neighbour of [...borderPages(color, theme), ...fills]) {
 				expect(
 					wcagContrast(error, neighbour),
 					neighbour,

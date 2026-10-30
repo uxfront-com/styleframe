@@ -88,9 +88,12 @@ describe("useSwitchFieldRecipe", () => {
 			recipe.compoundVariants!.find((v) => v.match.color === color)
 				?.css as Block;
 
-		expect(css("neutral")).toMatchObject({
+		expect(css("neutral")).toEqual({
 			backgroundColor: "@color.gray-450",
 			borderColor: "@color.gray-450",
+			"&:contrast-more": {
+				borderColor: "@color.text",
+			},
 		});
 		expect(css("dark")).toEqual({
 			backgroundColor: "@color.gray-700",
@@ -345,6 +348,19 @@ describe("useSwitchFieldRecipe", () => {
 		});
 		expect(css("light")).not.toHaveProperty("&:contrast-more");
 		expect(css("dark")).not.toHaveProperty("&:contrast-more");
+
+		// No setup rule draws a more-contrast border over the compounds, or
+		// `light` and `dark` would follow the theme's text color again.
+		const setup = s.root.children.filter(
+			(child): child is Selector =>
+				child.type === "selector" && child.query.startsWith(".switch-field"),
+		);
+		for (const selector of setup) {
+			expect(
+				mediaDeclarations(s, selector.query, "(prefers-contrast: more)"),
+				selector.query,
+			).toBeUndefined();
+		}
 	});
 
 	it("switch/mirrors-in-rtl starts the thumb at the inline start", () => {
