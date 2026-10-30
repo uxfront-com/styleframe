@@ -116,17 +116,17 @@ catalogs:
       specifier: ^4.5.2
       version: 4.5.2
     '@uxfront/layer-docs':
-      specifier: ^0.7.1
-      version: 0.7.1
+      specifier: ^0.8.0
+      version: 0.8.0
     '@uxfront/layer-ui':
-      specifier: ^0.1.6
-      version: 0.1.6
+      specifier: ^0.1.7
+      version: 0.1.7
     '@uxfront/scene':
-      specifier: ^0.4.2
-      version: 0.4.2
-    '@uxfront/ui':
       specifier: ^0.5.0
       version: 0.5.0
+    '@uxfront/ui':
+      specifier: ^0.6.0
+      version: 0.6.0
     '@vueuse/core':
       specifier: ^14.4.0
       version: 14.4.0
@@ -432,16 +432,16 @@ importers:
         version: 3.16.2(9e1e24666079c61213324ba882fbd2af)
       '@uxfront/layer-docs':
         specifier: catalog:docs
-        version: 0.7.1(bd01f89868288e8be2359a25b817ab9e)
+        version: 0.8.0(bd01f89868288e8be2359a25b817ab9e)
       '@uxfront/layer-ui':
         specifier: catalog:docs
-        version: 0.1.6(bc20252a14fa93f885b39468c5057e27)
+        version: 0.1.7(0febd80b7d01949fcbe9db03fe6a7cd0)
       '@uxfront/scene':
         specifier: catalog:docs
-        version: 0.4.2
+        version: 0.5.0
       '@uxfront/ui':
         specifier: catalog:docs
-        version: 0.5.0(vue@3.5.43(typescript@6.0.3))
+        version: 0.6.0(vue@3.5.43(typescript@6.0.3))
       '@vueuse/core':
         specifier: catalog:docs
         version: 14.4.0(vue@3.5.43(typescript@6.0.3))
@@ -7771,23 +7771,23 @@ packages:
   '@unocss/core@66.7.0':
     resolution: {integrity: sha512-j6MFMx5C3iIwW4T4hVbh+30fKWgSGkmS3bCcdjlfqM88lRT+dHFBN9nkfNOBJT6e6IHN9415nexuzcQvTjJXxw==}
 
-  '@uxfront/layer-docs@0.7.1':
-    resolution: {integrity: sha512-IQW92itqv0D5hpW5zeBzzHYRjpMKRpqLIxNS65dVsYYNwzoYuefjsm/DabC8qYLu/CRTe3uh62P0qv6IXFdiIA==}
+  '@uxfront/layer-docs@0.8.0':
+    resolution: {integrity: sha512-bDUM+iC7RHWfhsVbcaDcy/yTDzZ6OHpV/OU9M1eqKcIr8WPAaEc85+4P6VLgf9IPqMyVuEaT/ZQ+RCYvYQL8QQ==}
     peerDependencies:
       nuxt: ^4.5.0
       vue: ^3.5.0
 
-  '@uxfront/layer-ui@0.1.6':
-    resolution: {integrity: sha512-p7K7iQAY/LWwEOQOLwEaM/D3CiHg7Y5ASKwJdyIq+Cif5xOIuASiUQxtHBDO/Uu4Cn+Xu54Zkg/y+6loJI443w==}
+  '@uxfront/layer-ui@0.1.7':
+    resolution: {integrity: sha512-fvaECX/JQkCAKqVVdFO87ihk4ByDcP6r7RRBteJRp7+Z8s3XnPJx/T2Ub6lAaWXE+bQv6hKbJpriIxNVESsOPA==}
     peerDependencies:
       nuxt: ^4.5.0
       vue: ^3.5.0
 
-  '@uxfront/scene@0.4.2':
-    resolution: {integrity: sha512-0ULMc5d8niUcOLbsCWEjdoJjHU4/Fh515/Q88yN7Ht5SVYfapFOr400lEYYe3Fn8b1XW6Nmb4agZwuoZCOj0fg==}
+  '@uxfront/scene@0.5.0':
+    resolution: {integrity: sha512-hDI7jtlJHiHiqnUOwaWoCAw5ZMxwnR5PQ41XHJSLLYR31FIe2ZIJm/TO/46wnguAfALIPTJfXSiBSocsx18JwA==}
 
-  '@uxfront/ui@0.5.0':
-    resolution: {integrity: sha512-I8UOFiwdul6hekwbb/IF2yIrHxZLR/vAWUUBY5ADdzrrF/PkwJCHtF833X4+TqcSki9VaFaOcGfatlWEQWekjA==}
+  '@uxfront/ui@0.6.0':
+    resolution: {integrity: sha512-lkWo9OucP9drwIxWwLWrod5e5aR/zXjk4EyDkqiFEiCGMx3XyBBaEzLTz/lqe69Y3rW/bS5yN7eN54GM8kuiYQ==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -23014,9 +23014,9 @@ snapshots:
 
   '@unocss/core@66.7.0': {}
 
-  '@uxfront/layer-docs@0.7.1(bd01f89868288e8be2359a25b817ab9e)':
+  '@uxfront/layer-docs@0.8.0(bd01f89868288e8be2359a25b817ab9e)':
     dependencies:
-      '@uxfront/ui': 0.5.0(vue@3.5.43(typescript@6.0.3))
+      '@uxfront/ui': 0.6.0(vue@3.5.43(typescript@6.0.3))
       '@vueuse/core': 14.4.0(vue@3.5.43(typescript@6.0.3))
       docus: 5.13.0(bd01f89868288e8be2359a25b817ab9e)
       nuxt: 4.5.2(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.0))(@biomejs/biome@2.5.0)(@farmfe/core@1.7.11(@types/node@24.10.4))(@netlify/blobs@9.1.2)(@oxc-project/types@0.152.0)(@parcel/watcher@2.5.6)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.43)(better-sqlite3@12.10.1)(cac@6.7.14)(db0@0.4.1)(esbuild@0.28.0)(eslint@9.37.0(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.33.0)(magicast@0.5.5)(optionator@0.9.4)(oxc-parser@0.143.0)(oxlint@1.69.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.12)(rollup@4.62.0))(rollup@4.62.0)(terser@5.44.0)(tsx@4.22.4)(typescript@6.0.3)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))(vue-tsc@3.3.5(typescript@6.0.3))(webpack@5.107.2(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.28))(yaml@2.9.0)
@@ -23146,12 +23146,12 @@ snapshots:
       - webpack
       - yup
 
-  '@uxfront/layer-ui@0.1.6(bc20252a14fa93f885b39468c5057e27)':
+  '@uxfront/layer-ui@0.1.7(0febd80b7d01949fcbe9db03fe6a7cd0)':
     dependencies:
       '@nuxt/fonts': 0.14.0(@netlify/blobs@9.1.2)(db0@0.4.1)(ioredis@5.10.1)(magicast@0.5.5)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))
-      '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.5)(oxc-parser@0.143.0)(rolldown@1.2.12)(unplugin@3.4.0(@farmfe/core@1.7.11(@types/node@24.10.4))(esbuild@0.28.0)(rolldown@1.2.12)(rollup@4.62.0)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))(webpack@5.107.2(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.28)))
-      '@uxfront/scene': 0.4.2
-      '@uxfront/ui': 0.5.0(vue@3.5.43(typescript@6.0.3))
+      '@nuxt/kit': 4.6.2(@nuxt/schema@4.5.2)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.143.0)(rolldown@1.2.12)(unplugin@3.4.0(@farmfe/core@1.7.11(@types/node@24.10.4))(esbuild@0.28.0)(rolldown@1.2.12)(rollup@4.62.0)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))(webpack@5.107.2(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.28)))
+      '@uxfront/scene': 0.5.0
+      '@uxfront/ui': 0.6.0(vue@3.5.43(typescript@6.0.3))
       nuxt: 4.5.2(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.0))(@biomejs/biome@2.5.0)(@farmfe/core@1.7.11(@types/node@24.10.4))(@netlify/blobs@9.1.2)(@oxc-project/types@0.152.0)(@parcel/watcher@2.5.6)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.43)(better-sqlite3@12.10.1)(cac@6.7.14)(db0@0.4.1)(esbuild@0.28.0)(eslint@9.37.0(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.33.0)(magicast@0.5.5)(optionator@0.9.4)(oxc-parser@0.143.0)(oxlint@1.69.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.12)(rollup@4.62.0))(rollup@4.62.0)(terser@5.44.0)(tsx@4.22.4)(typescript@6.0.3)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))(vue-tsc@3.3.5(typescript@6.0.3))(webpack@5.107.2(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.28))(yaml@2.9.0)
       vue: 3.5.43(typescript@6.0.3)
     transitivePeerDependencies:
@@ -23164,28 +23164,34 @@ snapshots:
       - '@capacitor/preferences'
       - '@deno/kv'
       - '@netlify/blobs'
+      - '@nuxt/schema'
       - '@planetscale/database'
       - '@upstash/redis'
       - '@vercel/blob'
       - '@vercel/functions'
       - '@vercel/kv'
       - aws4fetch
+      - confbox
       - db0
+      - dotenv
+      - giget
       - idb-keyval
       - ioredis
+      - jiti
       - magic-string
       - magicast
+      - mlly
       - oxc-parser
       - rolldown
       - unplugin
       - uploadthing
       - vite
 
-  '@uxfront/scene@0.4.2': {}
+  '@uxfront/scene@0.5.0': {}
 
-  '@uxfront/ui@0.5.0(vue@3.5.43(typescript@6.0.3))':
+  '@uxfront/ui@0.6.0(vue@3.5.43(typescript@6.0.3))':
     dependencies:
-      '@uxfront/scene': 0.4.2
+      '@uxfront/scene': 0.5.0
       vue: 3.5.43(typescript@6.0.3)
 
   '@valibot/to-json-schema@1.7.0(valibot@1.4.1(typescript@6.0.3))':

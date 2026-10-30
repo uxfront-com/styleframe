@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, outline, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, empty, outline, tokens } from "@uxfront/scene/formations";
+import { HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
@@ -141,7 +141,7 @@ npx styleframe figma export \\
 			</template>
 		</UxHero>
 
-		<SiteSplit
+		<UxSplit
 			id="plugin"
 			index="01"
 			role="Plugin"
@@ -150,7 +150,7 @@ npx styleframe figma export \\
 			link-label="Install Figma plugin"
 		>
 			<template #aside>
-				<SiteVideo
+				<UxVideo
 					data-outline
 					src="/assets/video/styleframe-figma.mp4"
 					poster="/assets/images/styleframe-figma-poster.jpg"
@@ -159,7 +159,7 @@ npx styleframe figma export \\
 					label="The Styleframe Figma plugin syncing design tokens"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
 		<UxChapter
 			id="sync"
@@ -173,10 +173,10 @@ npx styleframe figma export \\
 				Community Group format, which Figma, Style Dictionary, Tokens Studio and
 				other tools read.
 			</template>
-			<SiteFeatures :items="sync" />
+			<UxTraits :items="sync" />
 		</UxChapter>
 
-		<SiteSplit
+		<UxSplit
 			id="import"
 			index="03"
 			role="Import"
@@ -187,7 +187,7 @@ npx styleframe figma export \\
 				Drop a Styleframe DTCG JSON file into the plugin, preview its variables
 				and modes, and create a Figma variable collection with one click.
 			</template>
-			<SiteFeatures :items="importing" />
+			<UxTraits :items="importing" />
 			<template #aside>
 				<img
 					class="figma__shot"
@@ -200,9 +200,9 @@ npx styleframe figma export \\
 					decoding="async"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="export"
 			index="04"
 			role="Export"
@@ -215,7 +215,7 @@ npx styleframe figma export \\
 				Select a Figma variable collection and export it to the Styleframe W3C
 				DTCG format.
 			</template>
-			<SiteFeatures :items="exporting" />
+			<UxTraits :items="exporting" />
 			<template #aside>
 				<img
 					class="figma__shot"
@@ -228,9 +228,9 @@ npx styleframe figma export \\
 					decoding="async"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="cli"
 			index="05"
 			role="Developer Workflow"
@@ -243,11 +243,11 @@ npx styleframe figma export \\
 				Export design tokens directly from your Styleframe config. Run in CI/CD
 				pipelines to keep Figma tokens in sync with every code change.
 			</template>
-			<SiteFeatures :items="workflow" />
+			<UxTraits :items="workflow" />
 			<template #aside>
-				<SiteCode title="Terminal" :code="terminal" />
+				<UxCode title="Terminal" :code="terminal" />
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
 		<UxFinale kicker="Figma Plugin">
 			<template #title>

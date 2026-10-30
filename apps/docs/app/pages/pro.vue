@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, empty, tokens } from "@uxfront/scene/formations";
+import { HERO_VIEWS } from "~/lib/formations";
 import { PRICING_URL, PRO_URL, SITE_NAME } from "~/data/site";
 
 useUxHead({
@@ -33,7 +33,7 @@ const features = [
 	{
 		title: "Premium Composables",
 		text: "Design system tools on styleframe's type-safe API, production-ready and fully tested.",
-		to: "/docs/theme/design-tokens/fluid-design",
+		href: "/docs/theme/design-tokens/fluid-design",
 	},
 	{
 		title: "Unlimited Projects",
@@ -46,12 +46,12 @@ const features = [
 	{
 		title: "Performance Optimized",
 		text: "Smaller CSS bundles mean faster page loads.",
-		to: "/docs/theme/design-tokens/fluid-design/viewport",
+		href: "/docs/theme/design-tokens/fluid-design/viewport",
 	},
 	{
 		title: "Complete Documentation",
 		text: "Guides, examples and best practices that get you running in minutes.",
-		to: "/docs/theme/design-tokens/fluid-design",
+		href: "/docs/theme/design-tokens/fluid-design",
 	},
 ];
 </script>
@@ -87,10 +87,10 @@ const features = [
 			title="Premium Features for Professional Design Systems"
 			:steps="features.length"
 		>
-			<SiteFeatures :items="features" />
+			<UxTraits :items="features" />
 		</UxChapter>
 
-		<SiteSection
+		<UxSection
 			id="pricing"
 			index="02"
 			role="Pricing"
@@ -101,7 +101,7 @@ const features = [
 				development mode.
 			</template>
 			<SitePricing />
-		</SiteSection>
+		</UxSection>
 
 		<UxFinale kicker="styleframe Pro">
 			<template #title

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, outline, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, empty, outline, tokens } from "@uxfront/scene/formations";
+import { HERO_VIEWS } from "~/lib/formations";
 import { INTRODUCTION_URL, SCANNER_URL, SITE_NAME } from "~/data/site";
 
 const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
@@ -145,10 +145,10 @@ const output = String.raw`/* Only the utilities your templates reference */
 			title="Write Classes. The Utility Scanner Handles the Rest"
 			:steps="features.length"
 		>
-			<SiteFeatures :items="features" />
+			<UxTraits :items="features" />
 		</UxChapter>
 
-		<SiteSplit
+		<UxSplit
 			id="templates"
 			index="02"
 			role="Templates"
@@ -160,13 +160,13 @@ const output = String.raw`/* Only the utilities your templates reference */
 				<code>_property:value</code> class, and generates the matching CSS at
 				build time.
 			</template>
-			<SiteFeatures :items="extraction" />
+			<UxTraits :items="extraction" />
 			<template #aside>
-				<SiteCode title="Button.vue" :code="template" />
+				<UxCode title="Button.vue" :code="template" />
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="output"
 			index="03"
 			role="Output"
@@ -178,9 +178,9 @@ const output = String.raw`/* Only the utilities your templates reference */
 				pseudo-selectors and media queries.
 			</template>
 			<template #aside>
-				<SiteCode title="Output CSS" :code="output" />
+				<UxCode title="Output CSS" :code="output" />
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
 		<UxFinale kicker="Utility Scanner">
 			<template #title>

@@ -57,32 +57,32 @@ const config = [
 	{
 		title: "The compiler is your design-system reviewer",
 		text: "Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.",
-		to: "/docs/api",
+		href: "/docs/api",
 	},
 	{
 		title: "Composable",
 		text: "Compose and reuse styles with functions, variables, arrays or objects.",
-		to: "/docs/api/composables",
+		href: "/docs/api/composables",
 	},
 	{
 		title: "Built-in Theming",
 		text: "Light, dark and custom themes, all from the same tokens.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 	{
 		title: "One plugin, every major bundler",
 		text: "The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.",
-		to: "/docs/getting-started/installation",
+		href: "/docs/getting-started/installation",
 	},
 	{
 		title: "Fully Configurable",
 		text: "Every option is typed and in one place.",
-		to: CONFIGURATION_URL,
+		href: CONFIGURATION_URL,
 	},
 	{
 		title: "Intuitive Developer Experience",
 		text: "Autocomplete, in-editor docs and static analysis for your CSS.",
-		to: "/docs/getting-started/guides",
+		href: "/docs/getting-started/guides",
 	},
 ];
 
@@ -101,12 +101,12 @@ const themes = [
 	{
 		title: "Intuitive API",
 		text: "A theme is as easy to write as a variable, with no special syntax or class names to remember.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 	{
 		title: "Mix and Match Themes",
 		text: "Take colors from one theme and typography from another.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 ];
 
@@ -118,12 +118,12 @@ const output = [
 	{
 		title: "Dual Output",
 		text: "The transpiler outputs both CSS and TypeScript, and you control exactly what each token generates.",
-		to: CONFIGURATION_URL,
+		href: CONFIGURATION_URL,
 	},
 	{
 		title: "Optional Runtime",
 		text: "Recipes turn props into dynamic component variants, built on the static CSS.",
-		to: RECIPES_URL,
+		href: RECIPES_URL,
 	},
 ];
 
@@ -219,7 +219,7 @@ const fluid = [
 			</template>
 		</UxHero>
 
-		<SiteSplit
+		<UxSplit
 			id="config"
 			index="01"
 			role="One config"
@@ -230,11 +230,11 @@ const fluid = [
 				Change a token once, and it flows to every selector, theme and recipe
 				that uses it.
 			</template>
-			<SiteFeatures :items="config" />
+			<UxTraits :items="config" />
 			<template #aside><SiteSample name="config" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="compose"
 			index="02"
 			role="Compose"
@@ -249,9 +249,9 @@ const fluid = [
 			</template>
 			<UxTraits :items="compose" />
 			<template #aside><SiteSample name="compose" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="themes"
 			index="03"
 			role="Themes"
@@ -264,11 +264,11 @@ const fluid = [
 				Light, dark and custom themes come from the same tokens, with no
 				separate stylesheet to keep in sync.
 			</template>
-			<SiteFeatures :items="themes" />
+			<UxTraits :items="themes" />
 			<template #aside><SiteSample name="themes" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="output"
 			index="04"
 			role="Output"
@@ -281,11 +281,11 @@ const fluid = [
 				Your system compiles to static CSS at build time. When you need
 				prop-based styling, an optional runtime handles Recipes.
 			</template>
-			<SiteFeatures :items="output" />
+			<UxTraits :items="output" />
 			<template #aside><SiteSample name="output" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="scanner"
 			index="05"
 			role="Scanner"
@@ -301,9 +301,9 @@ const fluid = [
 			</template>
 			<UxTraits :items="scanner" />
 			<template #aside><SiteSample name="scanner" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="figma"
 			index="06"
 			role="Figma"
@@ -329,9 +329,9 @@ const fluid = [
 					decoding="async"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="ai"
 			index="07"
 			role="Coming Soon"
@@ -345,7 +345,7 @@ const fluid = [
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
 			<template #aside>
-				<SiteVideo
+				<UxVideo
 					class="home__video"
 					data-outline
 					src="/assets/video/styleframe-ai.mp4"
@@ -355,9 +355,9 @@ const fluid = [
 					label="styleframe AI writing type-safe composable CSS"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="fluid"
 			index="08"
 			role="Fluid design"
@@ -372,7 +372,7 @@ const fluid = [
 				fluidly from phone to desktop.
 			</template>
 			<UxPillars :items="fluid" />
-		</SiteSplit>
+		</UxSplit>
 
 		<UxFinale kicker="styleframe">
 			<template #title>
@@ -406,8 +406,7 @@ const fluid = [
 	border-radius: 6px;
 }
 
-/* Doubled, to outrank SiteVideo's own width. */
-.home__video.site-video {
+.home__video {
 	width: min(100%, 70svh);
 	margin-left: auto;
 }
