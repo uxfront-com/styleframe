@@ -50,6 +50,7 @@ const characters = computed(() =>
 			autocomplete="one-time-code"
 			maxlength="1"
 			:value="char"
+			:aria-label="`Digit ${index + 1} of ${length}`"
 			:placeholder="placeholder"
 			:disabled="disabled"
 			:aria-invalid="invalid || undefined"

@@ -21,13 +21,21 @@ const variants = ["default", "soft", "ghost"] as const;
 					>
 						{{ variant }} {{ color }}
 					</label>
-					<Textarea
-						:id="`textarea-${variant}-${color}`"
-						:color="color"
-						:variant="variant"
-						:rows="3"
-						placeholder="A short note"
-					/>
+					<!-- light is for light surfaces and dark for dark ones, in both themes. -->
+					<span
+						:class="{
+							'textarea-surface-light': color === 'light',
+							'textarea-surface-dark': color === 'dark',
+						}"
+					>
+						<Textarea
+							:id="`textarea-${variant}-${color}`"
+							:color="color"
+							:variant="variant"
+							:rows="3"
+							placeholder="A short note"
+						/>
+					</span>
 				</div>
 			</div>
 		</div>

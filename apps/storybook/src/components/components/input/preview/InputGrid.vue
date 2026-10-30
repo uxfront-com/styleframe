@@ -18,12 +18,20 @@ const variants = ["default", "soft", "ghost"] as const;
 					<label :for="`input-${variant}-${color}`" class="input-story-label">
 						{{ variant }} {{ color }}
 					</label>
-					<Input
-						:id="`input-${variant}-${color}`"
-						:color="color"
-						:variant="variant"
-						placeholder="Ada Lovelace"
-					/>
+					<!-- light is for light surfaces and dark for dark ones, in both themes. -->
+					<span
+						:class="{
+							'input-surface-light': color === 'light',
+							'input-surface-dark': color === 'dark',
+						}"
+					>
+						<Input
+							:id="`input-${variant}-${color}`"
+							:color="color"
+							:variant="variant"
+							placeholder="Ada Lovelace"
+						/>
+					</span>
 				</div>
 			</div>
 		</div>
