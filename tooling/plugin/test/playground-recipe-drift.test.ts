@@ -195,8 +195,10 @@ function virtualStyleframeImports(source: string): string[] {
 	].flatMap((match) =>
 		match[1]
 			.split(",")
-			.map((name) => name.trim().split(/\s+as\s+/)[0])
-			.filter(Boolean),
+			.map((name) => name.trim())
+			// A `type` specifier is erased at build time, so it can't go missing.
+			.filter((name) => name && !name.startsWith("type "))
+			.map((name) => name.split(/\s+as\s+/)[0]),
 	);
 }
 
