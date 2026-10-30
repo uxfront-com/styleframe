@@ -61,4 +61,20 @@ selector(".input-label", {
 	minWidth: "80px",
 });
 
+// light keeps one color in both themes and is for light surfaces, and dark
+// for dark ones, so a story shows each on its own surface in either theme.
+selector(".input-surface-light, .input-surface-dark", {
+	display: "flex",
+	padding: "@spacing.sm",
+	borderRadius: "@border-radius.md",
+});
+
+selector(".input-surface-light", {
+	background: "@color.white",
+});
+
+selector(".input-surface-dark", {
+	background: "@color.gray-900",
+});
+
 export default s;

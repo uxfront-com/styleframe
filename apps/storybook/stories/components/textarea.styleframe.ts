@@ -61,4 +61,20 @@ selector(".textarea-label", {
 	minWidth: "80px",
 });
 
+// light keeps one color in both themes and is for light surfaces, and dark
+// for dark ones, so a story shows each on its own surface in either theme.
+selector(".textarea-surface-light, .textarea-surface-dark", {
+	display: "flex",
+	padding: "@spacing.sm",
+	borderRadius: "@border-radius.md",
+});
+
+selector(".textarea-surface-light", {
+	background: "@color.white",
+});
+
+selector(".textarea-surface-dark", {
+	background: "@color.gray-900",
+});
+
 export default s;

@@ -36,6 +36,9 @@ const segmentClasses = computed(() => inputDateSegment({ size: props.size }));
 
 const segments = computed(() => props.value.split(props.separator));
 
+// The default value is month, day, year, in that order.
+const segmentLabels = ["Month", "Day", "Year"];
+
 const focusable = computed(() => !props.disabled && !props.readonly);
 </script>
 
@@ -47,6 +50,7 @@ const focusable = computed(() => !props.disabled && !props.readonly);
 					:class="segmentClasses"
 					:tabindex="focusable ? 0 : undefined"
 					role="spinbutton"
+					:aria-label="segmentLabels[index]"
 					:aria-disabled="disabled || undefined"
 					>{{ segment }}</span
 				>
