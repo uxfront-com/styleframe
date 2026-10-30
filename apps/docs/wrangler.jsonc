@@ -1,0 +1,13 @@
+// Cloudflare Workers config for the docs site. `nuxt generate` prerenders every
+// route, so the Worker only serves the static output; there is no server entry.
+// Build with NITRO_PRESET=cloudflare_pages_static so Nitro writes _headers and
+// _redirects into dist/ and doesn't emit its own wrangler.json, which
+// points at a server entry that a static build never writes.
+{
+	"name": "styleframe-docs",
+	"compatibility_date": "2026-10-01",
+	"assets": {
+		"directory": "dist",
+		"not_found_handling": "404-page",
+	},
+}
