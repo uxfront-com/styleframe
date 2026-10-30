@@ -1,9 +1,22 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { consumeCSS } from "@styleframe/transpiler";
+import { formatHex8 } from "culori";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
+import {
+	useDesignTokensPreset,
+	useModifiersPreset,
+	useUtilitiesPreset,
+} from "../../presets";
+import { colorValues, darkModeColorValues } from "../../values";
+import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
 import { useInputDateRecipe } from "./useInputDateRecipe";
 
 function createInstance() {
@@ -42,6 +55,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -52,7 +67,11 @@ function createInstance() {
 	s.variable("color.text-weak", "#475569", { default: true });
 	s.variable("color.gray-400", "#94A3B8", { default: true });
 	s.variable("spacing", "1rem", { default: true });
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -95,8 +114,11 @@ describe("useInputDateRecipe", () => {
 			"&:focus-within": {
 				outlineWidth: "2px",
 				outlineStyle: "solid",
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 				outlineOffset: "2px",
+			},
+			"&:forced-colors:focus-within": {
+				outlineColor: "Highlight",
 			},
 		});
 	});
@@ -168,11 +190,11 @@ describe("useInputDateRecipe", () => {
 	});
 
 	describe("compound variants", () => {
-		it("should have 12 compound variants total (9 color×variant + invalid + readonly + disabled)", () => {
+		it("should have 14 compound variants total (9 color×variant + invalid + readonly + disabled + the light and dark hooks)", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			expect(recipe.compoundVariants).toHaveLength(12);
+			expect(recipe.compoundVariants).toHaveLength(14);
 		});
 
 		it("should share the neutral default surface with the input recipe", () => {
@@ -189,7 +211,7 @@ describe("useInputDateRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -197,7 +219,7 @@ describe("useInputDateRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -221,7 +243,7 @@ describe("useInputDateRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -230,7 +252,7 @@ describe("useInputDateRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -252,9 +274,9 @@ describe("useInputDateRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -269,17 +291,13 @@ describe("useInputDateRecipe", () => {
 			expect(cv).toEqual({
 				match: { readonly: "true" },
 				css: {
-					background: "@color.gray-50",
 					borderStyle: "@border-style.dashed",
 					cursor: "default",
-					"&:dark": {
-						background: "@color.gray-800",
-					},
 				},
 			});
 		});
 
-		it("should override the focus-within ring when invalid", () => {
+		it("should keep the focus-within ring and add an inset error shadow when invalid", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
@@ -292,18 +310,16 @@ describe("useInputDateRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-within": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -324,6 +340,15 @@ describe("useInputDateRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});
@@ -355,6 +380,27 @@ describe("useInputDateRecipe", () => {
 
 			expect(found).toBeDefined();
 		});
+
+		it("should keep the segments and separators at one font size on touch screens", () => {
+			const s = createInstance();
+			useInputDateRecipe(s);
+
+			// The touch-screen text size belongs to text inputs. On the segment
+			// container it would grow only the separators.
+			const touch = (
+				s.root.children.filter(
+					(child) =>
+						child.type === "selector" &&
+						(child as { query: string }).query === ".input-date-field",
+				) as unknown as {
+					children: { rule?: string; declarations: Record<string, unknown> }[];
+				}[]
+			)
+				.flatMap((selector) => selector.children)
+				.filter((child) => child.rule === "(any-pointer: coarse)");
+
+			expect(touch.map((child) => child.declarations.fontSize)).toEqual([]);
+		});
 	});
 
 	describe("filter", () => {
@@ -380,5 +426,117 @@ describe("useInputDateRecipe", () => {
 			).toBe(true);
 			expect(recipe.compoundVariants!.length).toBeLessThan(12);
 		});
+	});
+});
+
+/**
+ * The separator as each field shows it in each theme: the rule that wins for
+ * the field's color, its dark-theme override in the dark theme, and every token
+ * resolved for that theme. The muted text is the field's own text color at
+ * 75%, so it is written as that resolved text.
+ */
+describe("useInputDateRecipe separator colors", () => {
+	type Slot = Record<string, unknown>;
+	type Theme = "light" | "dark";
+
+	// The selector the `dark` modifier emits for the rest of the theme.
+	const DARK_THEME = ':is(.dark-theme, [data-theme="dark"]) &';
+
+	const s = styleframe();
+	useDesignTokensPreset(s);
+	useModifiersPreset(s);
+	useUtilitiesPreset(s);
+	const recipe = useInputDateRecipe(s);
+
+	const themes = {
+		light: colorValues as Record<string, string>,
+		dark: darkModeColorValues as Record<string, string>,
+	};
+
+	function resolve(name: string, theme: Theme): string {
+		const key = name.slice("color.".length);
+		const themed = themes[theme][key];
+		if (themed) {
+			return themed.startsWith("@")
+				? resolve(themed.slice(1), theme)
+				: formatHex8(themed);
+		}
+		const variable = s.root.variables.find((v) => v.name === name);
+		if (!variable) {
+			throw new Error(`Unknown token ${name}`);
+		}
+		return formatHex8(String(variable.value));
+	}
+
+	function rule(query: string) {
+		return s.root.children.find(
+			(child) =>
+				child.type === "selector" &&
+				(child as { query: string }).query === query,
+		) as unknown as
+			| {
+					declarations: Slot;
+					children: { query: string; declarations: Slot }[];
+			  }
+			| undefined;
+	}
+
+	function separator(color: string, variant: string, theme: Theme) {
+		const hook = recipe.compoundVariants!.find(
+			(cv) => cv.match.color === color && cv.className,
+		)?.className;
+		const hooked = hook && rule(`.input-date.${hook} .input-date-separator`);
+		const base = rule(".input-date-separator")!;
+		const dark = base.children.find((child) => child.query === DARK_THEME);
+		const value = hooked
+			? hooked.declarations.color
+			: theme === "dark" && dark
+				? dark.declarations.color
+				: base.declarations.color;
+
+		if (value === FIELD_MUTED_TEXT) {
+			const surface = recipe.compoundVariants!.find(
+				(cv) => cv.match.color === color && cv.match.variant === variant,
+			)!.css as Slot;
+			const text = (
+				theme === "dark" ? (surface["&:dark"] as Slot).color : surface.color
+			) as string;
+			return `${resolve(text.slice(1), theme)} at 75%`;
+		}
+		return resolve((value as { name: string }).name, theme);
+	}
+
+	const fields = ["light", "dark", "neutral"].flatMap((color) =>
+		["default", "soft", "ghost"].map((variant) => ({ color, variant })),
+	);
+
+	it.each(fields.filter(({ color }) => color !== "neutral"))(
+		"input-date/fixed-colors keeps the $color $variant separator the same in both themes",
+		({ color, variant }) => {
+			expect(separator(color, variant, "dark")).toBe(
+				separator(color, variant, "light"),
+			);
+		},
+	);
+
+	it.each(fields.filter(({ color }) => color === "neutral"))(
+		"input-date/separator keeps the neutral $variant separator adaptive",
+		({ color, variant }) => {
+			expect(separator(color, variant, "light")).toBe(
+				resolve("color.text-weak", "light"),
+			);
+			expect(separator(color, variant, "dark")).toBe(
+				resolve("color.gray-400", "dark"),
+			);
+		},
+	);
+
+	it("input-date/separator emits the neutral dark-theme color under the dark-theme selector", () => {
+		const css = consumeCSS(s.root, s.options);
+
+		expect(css).toMatch(
+			/\.input-date-separator \{[^}]*:is\(\.dark-theme, \[data-theme="dark"\]\) & \{\s*color: var\(--color--gray-400\);/,
+		);
+		expect(css).not.toContain(".input-date-separator:dark");
 	});
 });

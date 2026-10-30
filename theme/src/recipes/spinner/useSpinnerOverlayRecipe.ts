@@ -13,7 +13,7 @@ export const useSpinnerOverlayRecipe = createUseRecipe("spinner-overlay", {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		background: "rgba(0, 0, 0, 0.5)",
+		background: "rgba(0, 0, 0, 0.75)",
 		zIndex: "@z-index.overlay",
 	},
 	variants: {},

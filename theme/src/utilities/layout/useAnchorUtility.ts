@@ -46,3 +46,19 @@ export const usePositionAreaUtility = createUseUtility(
 		positionArea: value,
 	}),
 );
+
+/**
+ * Create position-try-fallbacks utility classes.
+ *
+ * Escape-hatch tier: a thin property utility for the stable
+ * `position-try-fallbacks` declaration, listing the positions an
+ * anchor-positioned element tries when it overflows, such as `flip-block`.
+ * Fallback values are project-defined, so this utility ships without
+ * defaults. Custom `@position-try` rules stay on the raw `atRule` hatch.
+ */
+export const usePositionTryFallbacksUtility = createUseUtility(
+	"position-try-fallbacks",
+	({ value }) => ({
+		positionTryFallbacks: value,
+	}),
+);

@@ -61,9 +61,13 @@ export function useLinkSelectors(
 	ctx.selector("a", {
 		color: ctx.ref(result.linkColor),
 		textDecoration: ctx.ref(result.linkTextDecoration),
-		"&:hover": {
-			color: ctx.ref(result.linkHoverColor),
-			textDecoration: ctx.ref(result.linkHoverTextDecoration),
+		// On touch screens a tap leaves :hover applied, so the hover styles only
+		// apply on devices that can hover.
+		"@media (hover: hover)": {
+			"&:hover": {
+				color: ctx.ref(result.linkHoverColor),
+				textDecoration: ctx.ref(result.linkHoverTextDecoration),
+			},
 		},
 	});
 

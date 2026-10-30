@@ -13,6 +13,10 @@ const props = withDefaults(
 		disabled?: boolean;
 		readonly?: boolean;
 		type?: string;
+		/** The native input's `id`, for the `for` of its `<label>`. */
+		id?: string;
+		/** The `id` of the hint or error message that describes the input. */
+		describedby?: string;
 	}>(),
 	{
 		type: "text",
@@ -51,6 +55,7 @@ function onInput(event: Event) {
 			<slot name="prefix" />
 		</span>
 		<input
+			:id="id"
 			class="input-field"
 			:type="type"
 			:placeholder="placeholder"
@@ -58,6 +63,7 @@ function onInput(event: Event) {
 			:disabled="disabled"
 			:readonly="readonly"
 			:aria-invalid="invalid || undefined"
+			:aria-describedby="describedby"
 			@input="onInput"
 		/>
 		<span v-if="slots.suffix" :class="suffixClasses">

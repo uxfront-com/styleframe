@@ -56,6 +56,20 @@ const meta = {
 			control: "boolean",
 			description: "Whether the button is disabled",
 		},
+		pressed: {
+			control: "boolean",
+			description: "Whether a toggle button is pressed (aria-pressed)",
+		},
+		expanded: {
+			control: "boolean",
+			description:
+				"Whether the popup the button opens is expanded (aria-expanded)",
+		},
+		loading: {
+			control: "boolean",
+			description:
+				"Whether the button is loading (data-loading, with aria-disabled)",
+		},
 	},
 } satisfies Meta<typeof Button>;
 
@@ -130,6 +144,9 @@ export const Light: Story = {
 		color: "light",
 		label: "Light",
 	},
+	decorators: [
+		() => ({ template: '<span class="button-surface-dark"><story /></span>' }),
+	],
 };
 
 export const Dark: Story = {
@@ -137,6 +154,11 @@ export const Dark: Story = {
 		color: "dark",
 		label: "Dark",
 	},
+	decorators: [
+		() => ({
+			template: '<span class="button-surface-light"><story /></span>',
+		}),
+	],
 };
 
 export const Neutral: Story = {
@@ -230,5 +252,33 @@ export const Disabled: Story = {
 	args: {
 		label: "Disabled",
 		disabled: true,
+	},
+};
+
+// State stories
+export const Focus: Story = {
+	args: {
+		label: "Focus me",
+	},
+};
+
+export const Pressed: Story = {
+	args: {
+		label: "Pressed",
+		pressed: true,
+	},
+};
+
+export const Expanded: Story = {
+	args: {
+		label: "Expanded",
+		expanded: true,
+	},
+};
+
+export const Loading: Story = {
+	args: {
+		label: "Loading",
+		loading: true,
 	},
 };

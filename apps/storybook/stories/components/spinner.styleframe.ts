@@ -42,4 +42,34 @@ selector(".spinner-label", {
 	minWidth: "80px",
 });
 
+selector(".spinner-text-sample", {
+	margin: "0",
+	fontSize: "@font-size.md",
+});
+
+selector(".spinner-heading-sample", {
+	margin: "0",
+	fontSize: "@font-size.2xl",
+});
+
+// light keeps one color in both themes and is for light surfaces, so a story
+// shows it on one.
+selector(".spinner-surface-light", {
+	display: "inline-flex",
+	padding: "@spacing.xs",
+	borderRadius: "@border-radius.md",
+	background: "@color.white",
+});
+
+// A box the overlay fills, so a story shows the backdrop without covering the page.
+selector(".spinner-backdrop", {
+	position: "relative",
+	width: "@spacing.3xl",
+	height: "@spacing.3xl",
+});
+
+selector(".spinner-backdrop > .spinner-overlay", {
+	position: "absolute",
+});
+
 export default s;

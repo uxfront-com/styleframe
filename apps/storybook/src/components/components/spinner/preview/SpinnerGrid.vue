@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
+import SpinnerOverlay from "../SpinnerOverlay.vue";
 
 const colors = ["primary", "light", "dark", "neutral"] as const;
 </script>
@@ -9,7 +10,17 @@ const colors = ["primary", "light", "dark", "neutral"] as const;
 		<div v-for="color in colors" :key="color">
 			<div class="spinner-label">{{ color }}</div>
 			<div class="spinner-row">
-				<Spinner :color="color" />
+				<!-- dark is for dark surfaces, so it's shown on the overlay's backdrop. -->
+				<div v-if="color === 'dark'" class="spinner-backdrop">
+					<SpinnerOverlay>
+						<Spinner :color="color" />
+					</SpinnerOverlay>
+				</div>
+				<!-- light is for light surfaces, so it's shown on one in both themes. -->
+				<span v-else-if="color === 'light'" class="spinner-surface-light">
+					<Spinner :color="color" />
+				</span>
+				<Spinner v-else :color="color" />
 			</div>
 		</div>
 	</div>

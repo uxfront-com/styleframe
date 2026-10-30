@@ -30,6 +30,8 @@ function createInstance() {
 		"borderTopWidth",
 		"borderTopStyle",
 		"borderTopColor",
+		"minHeight",
+		"overflowY",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
@@ -54,6 +56,8 @@ describe("usePopoverBodyRecipe", () => {
 			display: "flex",
 			flexDirection: "column",
 			gap: "@0.5",
+			minHeight: "0",
+			overflowY: "auto",
 			paddingTop: "@0.75",
 			paddingBottom: "@0.75",
 			paddingLeft: "@1",
@@ -106,5 +110,13 @@ describe("usePopoverBodyRecipe", () => {
 		const recipe = usePopoverBodyRecipe(s);
 
 		expect(recipe.compoundVariants).toBeUndefined();
+	});
+
+	it("popover/fits-screen scrolls the body when its content doesn't fit", () => {
+		const s = createInstance();
+		const recipe = usePopoverBodyRecipe(s);
+
+		expect(recipe.base!.minHeight).toBe("0");
+		expect(recipe.base!.overflowY).toBe("auto");
 	});
 });

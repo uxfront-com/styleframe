@@ -42,4 +42,8 @@ selector(".checkbox-label", {
 	minWidth: "120px",
 });
 
+selector(".checkbox-narrow", {
+	maxWidth: "16rem",
+});
+
 export default s;

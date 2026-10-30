@@ -8,8 +8,10 @@ const orientations = ["vertical", "horizontal"] as const;
 <template>
 	<div class="radio-section">
 		<div v-for="orientation in orientations" :key="orientation">
-			<div class="radio-label">{{ orientation }}</div>
-			<RadioGroup :orientation="orientation">
+			<RadioGroup
+				:orientation="orientation"
+				:legend="`How should we contact you? (${orientation})`"
+			>
 				<Radio :name="`rgg-${orientation}`" checked label="Email" />
 				<Radio :name="`rgg-${orientation}`" label="SMS" />
 				<Radio :name="`rgg-${orientation}`" label="Push notifications" />

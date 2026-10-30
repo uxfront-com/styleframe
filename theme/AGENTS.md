@@ -131,12 +131,12 @@ Modifier composables return factory objects used with utility classes.
 import {
     usePseudoStateModifiers,    // hover, focus, focusWithin, focusVisible, active, visited, target
     usePseudoElementModifiers,  // before, after, placeholder, selection, firstLetter, firstLine, marker, backdrop, file
-    useFormStateModifiers,      // disabled, enabled, checked, indeterminate, required, optional, valid, invalid, placeholderShown, autofill, readOnly
-    useAriaStateModifiers,      // ariaBusy, ariaChecked, ariaDisabled, ariaExpanded, ariaHidden, ariaPressed, ariaReadonly, ariaRequired, ariaSelected
-    useMediaPreferenceModifiers,// dark, motionSafe, motionReduce, contrastMore, contrastLess, portrait, landscape, print, forcedColors
+    useFormStateModifiers,      // disabled, enabled, checked, indeterminate, required, optional, valid, invalid, placeholderShown, autofill, readOnly, readonly, readonlyAttr
+    useAriaStateModifiers,      // ariaBusy, ariaChecked, ariaDisabled, ariaExpanded, ariaHidden, ariaInvalid, ariaPressed, ariaReadonly, ariaRequired, ariaSelected
+    useMediaPreferenceModifiers,// dark, motionSafe, motionReduce, contrastMore, contrastLess, portrait, landscape, print, forcedColors, hoverCapable, anyPointerCoarse
     useStructuralModifiers,     // first, last, only, odd, even, firstOfType, lastOfType, onlyOfType, empty
     useDirectionalModifiers,    // rtl, ltr
-    useOtherStateModifiers,     // open, inert
+    useOtherStateModifiers,     // open, inert, dataLoading
 } from '@styleframe/theme';
 
 const { hover, focus, active } = usePseudoStateModifiers(s);
@@ -255,7 +255,7 @@ const modifiers = useModifiersPreset(s, {
     mediaPreferences: true, // dark, motionReduce, etc.
     ariaStates: true,       // ariaExpanded, ariaSelected, etc.
     directional: true,      // rtl, ltr
-    otherStates: true,      // open, inert
+    otherStates: true,      // open, inert, dataLoading
 });
 ```
 

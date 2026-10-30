@@ -3,16 +3,27 @@ import { createUseRecipe } from "../../utils/createUseRecipe";
 /**
  * Spinner circle recipe.
  * Styles the SVG spinner element with rotation animation and size variants.
+ * With reduced motion it pulses instead of turning.
  */
 export const useSpinnerCircleRecipe = createUseRecipe(
 	"spinner-circle",
 	{
 		base: {
+			flexShrink: "0",
 			animationName: "spinner-rotate",
 			animationDuration: "1.2s",
 			animationTimingFunction: "linear",
 			animationIterationCount: "infinite",
 			transformOrigin: "center center",
+			// The duration and the iteration count are important: the sanitize
+			// preset stops every animation under reduced motion, and the pulse
+			// has to keep going to show that something's happening.
+			"&:motion-reduce": {
+				animationName: "spinner-pulse",
+				animationDuration: "1.6s !important",
+				animationTimingFunction: "@easing.ease-in-out",
+				animationIterationCount: "infinite !important",
+			},
 		},
 		variants: {
 			size: {
@@ -31,6 +42,10 @@ export const useSpinnerCircleRecipe = createUseRecipe(
 				lg: {
 					width: "@4",
 					height: "@4",
+				},
+				inherit: {
+					width: "1em",
+					height: "1em",
 				},
 			},
 		},
@@ -60,6 +75,12 @@ export const useSpinnerCircleRecipe = createUseRecipe(
 			},
 		});
 
+		s.keyframes("spinner-pulse", {
+			"50%": {
+				opacity: "0.4",
+			},
+		});
+
 		s.selector(".spinner-circle circle", {
 			stroke: "currentColor",
 			fill: "none",
@@ -71,6 +92,10 @@ export const useSpinnerCircleRecipe = createUseRecipe(
 			animationTimingFunction: "linear",
 			animationIterationCount: "infinite",
 			strokeLinecap: "round",
+			// The arc stops growing and shrinking too, so nothing moves.
+			"@media (prefers-reduced-motion: reduce)": {
+				animationName: "none",
+			},
 		});
 	},
 );

@@ -1,5 +1,9 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusVisibleModifier,
 	useHoverModifier,
@@ -34,13 +38,17 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
+	s.variable("color.error", "#D22E3E", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusVisibleModifier(s);
 	return s;
@@ -196,7 +204,7 @@ describe("useOtpCellRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -204,7 +212,7 @@ describe("useOtpCellRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -228,7 +236,7 @@ describe("useOtpCellRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -237,7 +245,7 @@ describe("useOtpCellRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -259,13 +267,13 @@ describe("useOtpCellRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
-		it("should override the focus-visible ring (not focus-within) when invalid", () => {
+		it("should keep the focus-visible ring and add an inset error shadow when invalid", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
@@ -278,18 +286,16 @@ describe("useOtpCellRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-visible": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -321,6 +327,15 @@ describe("useOtpCellRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});

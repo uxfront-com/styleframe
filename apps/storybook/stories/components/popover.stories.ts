@@ -9,10 +9,12 @@ import PopoverTitle from "@/components/components/popover/PopoverTitle.vue";
 import PopoverDescription from "@/components/components/popover/PopoverDescription.vue";
 import PopoverGrid from "@/components/components/popover/preview/PopoverGrid.vue";
 import PopoverSizeGrid from "@/components/components/popover/preview/PopoverSizeGrid.vue";
+import PopoverTopLayer from "@/components/components/popover/preview/PopoverTopLayer.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const variants = ["solid", "soft", "subtle"] as const;
 const sizes = ["sm", "md", "lg"] as const;
+const placements = ["top", "bottom", "start", "end"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Overlays/Popover",
@@ -53,7 +55,7 @@ const meta = {
 		},
 		template: `
 			<div class="popover-wrapper">
-				<Popover v-bind="args" style="max-width: 400px">
+				<Popover v-bind="args" class="popover-demo">
 					<PopoverHeader v-bind="args">
 						<PopoverTitle>Popover Title</PopoverTitle>
 					</PopoverHeader>
@@ -150,4 +152,35 @@ export const Large: Story = {
 	args: {
 		size: "lg",
 	},
+};
+
+// Top layer: a `popover` element opened by its trigger, positioned with CSS
+// anchor positioning and flipped when there's no room.
+export const TopLayer: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { PopoverTopLayer },
+		template: "<PopoverTopLayer />",
+	}),
+};
+
+export const Placements: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { PopoverTopLayer },
+		setup() {
+			return { placements };
+		},
+		template:
+			'<PopoverTopLayer name="placements" :placements="[...placements]" />',
+	}),
+};
+
+// Closed, with its trigger ready to take focus and open it.
+export const Focus: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { PopoverTopLayer },
+		template: '<PopoverTopLayer name="focus" :open="false" />',
+	}),
 };

@@ -1,10 +1,22 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { consumeCSS } from "@styleframe/transpiler";
+import {
+	useDarkModifier,
+	useForcedColorsModifier,
+	useHoverCapableModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useFocusWithinModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
+import {
+	useDesignTokensPreset,
+	useModifiersPreset,
+	useUtilitiesPreset,
+} from "../../presets";
+import { useTextareaPrefixRecipe } from "./useTextareaPrefixRecipe";
 import { useTextareaRecipe } from "./useTextareaRecipe";
+import { useTextareaSuffixRecipe } from "./useTextareaSuffixRecipe";
 
 function createInstance() {
 	const s = styleframe();
@@ -40,6 +52,8 @@ function createInstance() {
 		"outlineOffset",
 		"cursor",
 		"opacity",
+		"minHeight",
+		"boxShadow",
 		"transitionProperty",
 		"transitionTimingFunction",
 		"transitionDuration",
@@ -47,7 +61,11 @@ function createInstance() {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	s.variable("color.text-weakest", "#64748B", { default: true });
+	s.variable("color.error", "#D22E3E", { default: true });
+	s.variable("border-style.dashed", "dashed", { default: true });
 	useDarkModifier(s);
+	useHoverCapableModifier(s);
+	useForcedColorsModifier(s);
 	useHoverModifier(s);
 	useFocusWithinModifier(s);
 	return s;
@@ -90,8 +108,11 @@ describe("useTextareaRecipe", () => {
 			"&:focus-within": {
 				outlineWidth: "2px",
 				outlineStyle: "solid",
-				outlineColor: "@color.primary",
+				outlineColor: "@color.focus",
 				outlineOffset: "2px",
+			},
+			"&:forced-colors:focus-within": {
+				outlineColor: "Highlight",
 			},
 		});
 	});
@@ -126,6 +147,7 @@ describe("useTextareaRecipe", () => {
 			expect(recipe.variants!.size).toEqual({
 				sm: {
 					fontSize: "@font-size.xs",
+					minHeight: "2rem",
 					paddingTop: "@0.375",
 					paddingBottom: "@0.375",
 					paddingLeft: "@0.625",
@@ -134,6 +156,7 @@ describe("useTextareaRecipe", () => {
 				},
 				md: {
 					fontSize: "@font-size.sm",
+					minHeight: "2.25rem",
 					paddingTop: "@0.5",
 					paddingBottom: "@0.5",
 					paddingLeft: "@0.75",
@@ -142,6 +165,7 @@ describe("useTextareaRecipe", () => {
 				},
 				lg: {
 					fontSize: "@font-size.md",
+					minHeight: "2.5rem",
 					paddingTop: "@0.625",
 					paddingBottom: "@0.625",
 					paddingLeft: "@0.875",
@@ -161,6 +185,16 @@ describe("useTextareaRecipe", () => {
 				"horizontal",
 				"both",
 			]);
+		});
+
+		it("should have autogrow boolean variants", () => {
+			const s = createInstance();
+			const recipe = useTextareaRecipe(s);
+
+			expect(recipe.variants!.autogrow).toEqual({
+				true: {},
+				false: {},
+			});
 		});
 
 		it("should have invalid boolean variants", () => {
@@ -203,6 +237,7 @@ describe("useTextareaRecipe", () => {
 			variant: "default",
 			size: "md",
 			resize: "vertical",
+			autogrow: "false",
 			invalid: "false",
 			disabled: "false",
 			readonly: "false",
@@ -210,13 +245,14 @@ describe("useTextareaRecipe", () => {
 	});
 
 	describe("compound variants", () => {
-		it("should have 16 compound variants total", () => {
+		it("should have 17 compound variants total", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
 			// 3 colors × 3 variants = 9, plus 3 standalone states
-			// (invalid, readonly, disabled), plus 4 resize markers.
-			expect(recipe.compoundVariants).toHaveLength(16);
+			// (invalid, readonly, disabled), plus 4 resize markers and the
+			// autogrow marker.
+			expect(recipe.compoundVariants).toHaveLength(17);
 		});
 
 		it("should have correct neutral default compound variant with adaptive dark mode", () => {
@@ -233,7 +269,7 @@ describe("useTextareaRecipe", () => {
 					background: "@color.white",
 					borderColor: "@color.gray-450",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -241,7 +277,7 @@ describe("useTextareaRecipe", () => {
 						borderColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.gray-450",
 					},
 				},
@@ -265,7 +301,7 @@ describe("useTextareaRecipe", () => {
 					borderBottomLeftRadius: "0",
 					borderBottomRightRadius: "0",
 					color: "@color.text",
-					"&:hover": {
+					"&:hover-capable:hover": {
 						borderBottomColor: "@color.gray-500",
 					},
 					"&:dark": {
@@ -274,7 +310,7 @@ describe("useTextareaRecipe", () => {
 						borderBottomColor: "@color.gray-500",
 						color: "@color.white",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderBottomColor: "@color.gray-450",
 					},
 				},
@@ -296,9 +332,9 @@ describe("useTextareaRecipe", () => {
 			expect(invalid).toBeGreaterThan(ghost);
 			expect(recipe.compoundVariants![invalid]!.css).toMatchObject({
 				borderBottomColor: "@color.error",
-				"&:hover": { borderBottomColor: "@color.error" },
+				"&:hover-capable:hover": { borderBottomColor: "@color.error" },
 				"&:dark": { borderBottomColor: "@color.error" },
-				"&:dark:hover": { borderBottomColor: "@color.error" },
+				"&:dark:hover-capable:hover": { borderBottomColor: "@color.error" },
 			});
 		});
 
@@ -313,17 +349,13 @@ describe("useTextareaRecipe", () => {
 			expect(cv).toEqual({
 				match: { readonly: "true" },
 				css: {
-					background: "@color.gray-50",
 					borderStyle: "@border-style.dashed",
 					cursor: "default",
-					"&:dark": {
-						background: "@color.gray-800",
-					},
 				},
 			});
 		});
 
-		it("should have correct invalid compound variant overriding border and focus-within ring", () => {
+		it("should have correct invalid compound variant with an error border and inset shadow", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
@@ -336,18 +368,16 @@ describe("useTextareaRecipe", () => {
 				css: {
 					borderColor: "@color.error",
 					borderBottomColor: "@color.error",
-					"&:hover": {
+					boxShadow: "inset 0 0 0 1px @color.error",
+					"&:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
-					},
-					"&:focus-within": {
-						outlineColor: "@color.error",
 					},
 					"&:dark": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
-					"&:dark:hover": {
+					"&:dark:hover-capable:hover": {
 						borderColor: "@color.error",
 						borderBottomColor: "@color.error",
 					},
@@ -368,6 +398,15 @@ describe("useTextareaRecipe", () => {
 				css: {
 					opacity: "0.5",
 					cursor: "not-allowed",
+					"&:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+						opacity: "1",
+					},
+					"&:dark:forced-colors": {
+						borderColor: "GrayText",
+						color: "GrayText",
+					},
 				},
 			});
 		});
@@ -507,7 +546,7 @@ describe("useTextareaRecipe", () => {
 					(cv) => cv.match.color === undefined || cv.match.color === "neutral",
 				),
 			).toBe(true);
-			expect(recipe.compoundVariants!.length).toBeLessThan(16);
+			expect(recipe.compoundVariants!.length).toBeLessThan(17);
 		});
 
 		it("should keep resize variants when filtering colors", () => {
@@ -534,5 +573,340 @@ describe("useTextareaRecipe", () => {
 			expect(recipe.defaultVariants?.resize).toBe("vertical");
 			expect(recipe.defaultVariants?.size).toBe("md");
 		});
+	});
+});
+
+describe("Open Components rules", () => {
+	type Node = {
+		type: string;
+		query?: string;
+		rule?: string;
+		declarations: Record<string, unknown>;
+		children: Node[];
+	};
+
+	function createPresetInstance(options?: Parameters<typeof styleframe>[0]) {
+		const s = styleframe(options);
+		useDesignTokensPreset(s);
+		useModifiersPreset(s);
+		useUtilitiesPreset(s);
+		const recipe = useTextareaRecipe(s);
+		return { s, recipe };
+	}
+
+	const selectors = (s: ReturnType<typeof styleframe>) =>
+		s.root.children.filter((child) => child.type === "selector") as Node[];
+
+	function find(s: ReturnType<typeof styleframe>, query: string) {
+		return selectors(s).filter((child) => child.query === query);
+	}
+
+	function media(nodes: Node[], rule: string) {
+		return nodes
+			.flatMap((node) => node.children)
+			.find((child) => child.type === "at-rule" && child.rule === rule);
+	}
+
+	// The declarations of every `query` rule, merged, or of its `rule` blocks.
+	function declarations(
+		s: ReturnType<typeof styleframe>,
+		query: string,
+		rule?: string,
+	) {
+		const nodes = find(s, query);
+		return Object.assign(
+			{},
+			...(rule
+				? nodes
+						.flatMap((node) => node.children)
+						.filter((child) => child.rule === rule)
+				: nodes
+			).map((node) => node.declarations),
+		) as Record<string, unknown>;
+	}
+
+	const state = (attribute: string) =>
+		`.textarea:has(> .textarea-field${attribute})`;
+	const autogrow = ".textarea.-autogrow .textarea-field";
+	const lines = (attribute: string, fallback = "") =>
+		`calc(attr(${attribute} type(<number>)${fallback}) * 1lh)`;
+
+	const css = (cv: { css?: unknown }) => cv.css as Record<string, unknown>;
+
+	// Every key of a declarations block, nested blocks included.
+	function keys(block: Record<string, unknown>): string[] {
+		return Object.entries(block).flatMap(([key, value]) =>
+			value && typeof value === "object" && !("type" in value)
+				? [key, ...keys(value as Record<string, unknown>)]
+				: [key],
+		);
+	}
+
+	it("textarea/focus-visible draws a 2px @color.focus ring outside the field in every state", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.base!["&:focus-within"]).toEqual({
+			outlineWidth: "2px",
+			outlineStyle: "solid",
+			outlineColor: "@color.focus",
+			outlineOffset: "2px",
+		});
+		for (const cv of recipe.compoundVariants!) {
+			expect(
+				keys(css(cv) ?? {}).filter((key) => key.includes("outline")),
+			).toEqual([]);
+		}
+		for (const node of selectors(s).filter((n) =>
+			n.query!.startsWith(".textarea:has"),
+		)) {
+			expect(JSON.stringify(node)).not.toContain("outline");
+		}
+	});
+
+	it("textarea/target-size keeps the field at least 24px tall, and the textarea itself 44px tall on touch screens", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.variants!.size.sm.minHeight).toBe("2rem");
+		// The textarea takes the pointer, so it gets the 44px itself: 2.75rem
+		// first, then the larger of that and its rows, where typed attr() works.
+		const coarse = find(s, ".textarea-field")
+			.flatMap((node) => node.children)
+			.filter((child) => child.rule === "(any-pointer: coarse)")
+			.map((child) => child.declarations.minHeight)
+			.filter(Boolean);
+		expect(coarse).toEqual([
+			"2.75rem",
+			`max(${lines("rows", ", 2")}, 2.75rem)`,
+		]);
+		expect(find(s, ".textarea:has(> .textarea-field)")).toEqual([]);
+	});
+
+	it("textarea/no-zoom-on-focus sets the textarea's text to at least 16px on touch screens", () => {
+		const { s } = createPresetInstance();
+
+		expect(
+			declarations(s, ".textarea-field", "(any-pointer: coarse)").fontSize,
+		).toBe("max(1em, 1rem)");
+	});
+
+	it("textarea/min-rows never lets the textarea get shorter than its rows, resized or growing", () => {
+		const { s } = createPresetInstance();
+
+		// The browser's default is 2 rows.
+		expect(declarations(s, ".textarea-field").minHeight).toBe(
+			lines("rows", ", 2"),
+		);
+		expect(
+			declarations(s, autogrow, "(field-sizing: content)"),
+		).not.toHaveProperty("minHeight");
+		expect(consumeCSS(s.root, s.options)).toContain(
+			"min-height: calc(attr(rows type(<number>), 2) * 1lh);",
+		);
+	});
+
+	it("textarea/resizable sizes the field with min-heights, in rem for the wrapper and lines for the textarea", () => {
+		const { s, recipe } = createPresetInstance();
+
+		for (const size of Object.values(recipe.variants!.size)) {
+			expect(size.minHeight).toMatch(/^[\d.]+rem$/);
+			expect(size).not.toHaveProperty("height");
+		}
+		expect(recipe.base).not.toHaveProperty("height");
+		expect(declarations(s, ".textarea-field").minHeight).toMatch(/\* 1lh\)$/);
+		expect(declarations(s, ".textarea-field")).not.toHaveProperty("height");
+	});
+
+	it("textarea/block-resize resizes on the block axis by default, and turns resizing off only to grow or when disabled", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.defaultVariants!.resize).toBe("vertical");
+		// `block` follows the writing mode, and `vertical` is for browsers that
+		// don't know it.
+		expect(
+			declarations(s, ".textarea.-resize-vertical .textarea-field"),
+		).toEqual({ resize: "vertical" });
+		expect(
+			declarations(
+				s,
+				".textarea.-resize-vertical .textarea-field",
+				"(resize: block)",
+			),
+		).toEqual({ resize: "block" });
+		const off = selectors(s)
+			.filter(
+				(node) =>
+					node.declarations.resize === "none" ||
+					node.children.some((child) => child.declarations.resize === "none"),
+			)
+			.map((node) => node.query);
+		expect(off).toEqual([
+			".textarea.-resize-none .textarea-field",
+			".textarea .textarea-field:disabled",
+			autogrow,
+		]);
+	});
+
+	it("textarea/auto-grow grows with its text through field-sizing, up to its data-max-rows", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(recipe.defaultVariants!.autogrow).toBe("false");
+		expect(
+			recipe.compoundVariants!.find((cv) => cv.match.autogrow === "true"),
+		).toEqual({ match: { autogrow: "true" }, className: "-autogrow" });
+		expect(declarations(s, autogrow)).toEqual({});
+		expect(declarations(s, autogrow, "(field-sizing: content)")).toEqual({
+			fieldSizing: "content",
+			resize: "none",
+			maxHeight: lines("data-max-rows"),
+		});
+		// It comes after every resize selector, so it wins over them.
+		const queries = selectors(s).map((node) => node.query!);
+		for (const query of queries.filter((q) => q.includes("-resize-"))) {
+			expect(queries.indexOf(autogrow), query).toBeGreaterThan(
+				queries.indexOf(query),
+			);
+		}
+		expect(consumeCSS(s.root, s.options)).toContain("field-sizing: content;");
+	});
+
+	it("textarea/stable-size changes no size in any state", () => {
+		const { s, recipe } = createPresetInstance();
+		const sizing =
+			/^(padding|margin|width|height|minHeight|maxHeight|fontSize|lineHeight|borderWidth)/;
+
+		const states = recipe.compoundVariants!.filter(
+			(cv) => cv.css && !cv.match.color && !cv.match.variant,
+		);
+		expect(states).toHaveLength(3);
+		for (const cv of states) {
+			expect(keys(css(cv)).filter((key) => sizing.test(key))).toEqual([]);
+		}
+		for (const attribute of [
+			'[aria-invalid="true"]',
+			"[readonly]",
+			":disabled",
+		]) {
+			for (const node of find(s, state(attribute))) {
+				expect(
+					keys(node.declarations).filter((key) => sizing.test(key)),
+				).toEqual([]);
+			}
+		}
+	});
+
+	it("textarea/state-selectors styles states from the native textarea's attributes, never :invalid or :read-only", () => {
+		const { s, recipe } = createPresetInstance();
+
+		for (const attribute of [
+			'[aria-invalid="true"]',
+			"[readonly]",
+			":disabled",
+		]) {
+			expect(find(s, state(attribute)), attribute).toHaveLength(1);
+		}
+		const all = JSON.stringify([
+			selectors(s).map((node) => node.query),
+			recipe,
+		]);
+		expect(all).not.toMatch(/:(user-)?invalid|:read-only|&:readonly"/);
+	});
+
+	it("textarea/invalid-state shows invalid through the border and an inset shadow, from aria-invalid or the class", () => {
+		const { s, recipe } = createPresetInstance();
+
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!),
+		).toMatchObject({
+			borderColor: "@color.error",
+			boxShadow: "inset 0 0 0 1px @color.error",
+		});
+		const [invalid] = find(s, state('[aria-invalid="true"]'));
+		expect(invalid!.declarations).toMatchObject({
+			borderColor: expect.objectContaining({ name: "color.error" }),
+			boxShadow: expect.objectContaining({ type: "css" }),
+		});
+	});
+
+	it("textarea/hover-capable puts every hover style behind @media (hover: hover)", () => {
+		const { s, recipe } = createPresetInstance();
+
+		const recipeKeys = [
+			...keys(recipe.base!),
+			...recipe.compoundVariants!.flatMap((cv) => keys(css(cv) ?? {})),
+		];
+		const hovers = recipeKeys.filter((key) => key.includes(":hover"));
+		expect(hovers.length).toBeGreaterThan(0);
+		for (const key of hovers) {
+			expect(key).toMatch(/:hover-capable:hover$/);
+		}
+		const [invalid] = find(s, state('[aria-invalid="true"]'));
+		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe(
+			"&:hover",
+		);
+		expect(consumeCSS(s.root, s.options)).not.toMatch(
+			/^\.textarea[^{]*:hover/m,
+		);
+	});
+
+	it("textarea/forced-colors keeps the border and the focus, disabled and read-only states visible", () => {
+		const { s, recipe } = createPresetInstance();
+		const visible = {
+			borderColor: "GrayText",
+			color: "GrayText",
+			opacity: "1",
+		};
+
+		expect(recipe.base!.borderWidth).toBe("@border-width.thin");
+		expect(recipe.base!["&:forced-colors:focus-within"]).toEqual({
+			outlineColor: "Highlight",
+		});
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)[
+				"&:forced-colors"
+			],
+		).toEqual(visible);
+		expect(
+			media(find(s, state(":disabled")), "(forced-colors: active)")
+				?.declarations,
+		).toEqual(visible);
+		// A dashed border survives forced colors, so read-only needs no override.
+		expect(
+			css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!),
+		).toMatchObject({ borderStyle: "@border-style.dashed" });
+		expect(find(s, state("[readonly]"))[0]!.declarations).toMatchObject({
+			borderStyle: expect.objectContaining({ name: "border-style.dashed" }),
+		});
+	});
+
+	it("textarea/more-contrast draws every border in the text color with prefers-contrast: more", () => {
+		const { s } = createPresetInstance();
+
+		expect(consumeCSS(s.root, s.options)).toMatch(
+			/\.textarea \{\s+@media \(prefers-contrast: more\) \{\s+--color--gray-450: currentColor;\s+--color--gray-500: currentColor;/,
+		);
+	});
+
+	it("textarea/mirrors-in-rtl uses logical padding for the prefix and suffix, and the same padding on both sides", () => {
+		const { s, recipe } = createPresetInstance();
+		const prefix = useTextareaPrefixRecipe(s);
+		const suffix = useTextareaSuffixRecipe(s);
+
+		for (const size of Object.values(prefix.variants!.size)) {
+			expect(Object.keys(size)).toContain("paddingInlineEnd");
+		}
+		for (const size of Object.values(suffix.variants!.size)) {
+			expect(Object.keys(size)).toContain("paddingInlineStart");
+		}
+		for (const block of [
+			recipe.base!,
+			...Object.values(recipe.variants!.size),
+		]) {
+			expect(block.paddingLeft).toBe(block.paddingRight);
+		}
+		for (const node of selectors(s).filter((n) =>
+			n.query!.includes("textarea"),
+		)) {
+			expect(JSON.stringify(node)).not.toMatch(/Left|Right/);
+		}
 	});
 });

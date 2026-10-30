@@ -56,6 +56,7 @@ describe("useSpinnerTextRecipe", () => {
 				"sm",
 				"md",
 				"lg",
+				"inherit",
 			]);
 		});
 
@@ -68,6 +69,7 @@ describe("useSpinnerTextRecipe", () => {
 				sm: { fontSize: "@font-size.2xs" },
 				md: { fontSize: "@font-size.xs" },
 				lg: { fontSize: "@font-size.sm" },
+				inherit: {},
 			});
 		});
 	});

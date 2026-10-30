@@ -22,4 +22,6 @@ declare module "culori" {
 		| undefined;
 
 	export const wcagContrast: (a: string, b: string) => number;
+
+	export const formatHex8: (color: string) => string;
 }

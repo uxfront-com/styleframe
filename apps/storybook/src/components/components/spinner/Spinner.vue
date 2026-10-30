@@ -5,7 +5,7 @@ import { spinner, spinnerCircle, spinnerText } from "virtual:styleframe";
 const props = withDefaults(
 	defineProps<{
 		color?: "primary" | "light" | "dark" | "neutral";
-		size?: "auto" | "sm" | "md" | "lg";
+		size?: "auto" | "sm" | "md" | "lg" | "inherit";
 		label?: string;
 	}>(),
 	{},
@@ -32,11 +32,11 @@ const textClasses = computed(() =>
 </script>
 
 <template>
-	<div :class="spinnerClasses" role="status">
-		<svg :class="circleClasses" viewBox="0 0 50 50">
+	<span :class="spinnerClasses" role="status">
+		<svg :class="circleClasses" viewBox="0 0 50 50" aria-hidden="true">
 			<circle cx="25" cy="25" r="20" />
 		</svg>
 		<span v-if="props.label" :class="textClasses">{{ props.label }}</span>
 		<slot />
-	</div>
+	</span>
 </template>

@@ -8,6 +8,7 @@ function createInstance() {
 		"display",
 		"alignItems",
 		"justifyContent",
+		"flexWrap",
 		"gap",
 		"paddingTop",
 		"paddingBottom",
@@ -19,6 +20,11 @@ function createInstance() {
 		"borderBottomWidth",
 		"borderBottomStyle",
 		"borderBottomColor",
+		"flexShrink",
+		"minHeight",
+		"overflowY",
+		"paddingInlineStart",
+		"paddingInlineEnd",
 	]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}

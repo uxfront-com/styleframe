@@ -10,12 +10,17 @@ const variants = ["default", "soft", "ghost"] as const;
 		<div v-for="variant in variants" :key="variant">
 			<div class="input-date-label">{{ variant }}</div>
 			<div class="input-date-row">
-				<InputDate
+				<!-- light is for light surfaces and dark for dark ones, in both themes. -->
+				<span
 					v-for="color in colors"
 					:key="`${variant}-${color}`"
-					:color="color"
-					:variant="variant"
-				/>
+					:class="{
+						'input-date-surface-light': color === 'light',
+						'input-date-surface-dark': color === 'dark',
+					}"
+				>
+					<InputDate :color="color" :variant="variant" />
+				</span>
 			</div>
 		</div>
 	</div>

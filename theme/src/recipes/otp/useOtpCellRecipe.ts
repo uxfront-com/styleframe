@@ -80,10 +80,7 @@ export const useOtpCellRecipe = createUseRecipe("otp-cell", {
 			false: {},
 		},
 	},
-	compoundVariants: fieldSurfaceCompoundVariants({
-		focusModifier: "focus-visible",
-		includeReadonly: false,
-	}),
+	compoundVariants: fieldSurfaceCompoundVariants({ includeReadonly: false }),
 	defaultVariants: {
 		color: "neutral",
 		variant: "default",

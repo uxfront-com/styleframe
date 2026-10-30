@@ -557,10 +557,18 @@ type ColorVariationsForKey<K> = K extends string
 	: never;
 
 /**
- * Generates all variation keys for all colors in the record
+ * Keys of the base colors in the record. Reference colors (`@...`) get no
+ * variations, so they are left out.
+ */
+type BaseColorKeys<TColors extends Record<string, string>> = {
+	[K in keyof TColors]: TColors[K] extends `@${string}` ? never : K;
+}[keyof TColors];
+
+/**
+ * Generates all variation keys for all base colors in the record
  */
 type AllColorVariations<TColors extends Record<string, string>> =
-	UnionToIntersection<ColorVariationsForKey<keyof TColors>>;
+	UnionToIntersection<ColorVariationsForKey<BaseColorKeys<TColors>>>;
 
 /**
  * Resolves which color record to use based on config and merge flag.

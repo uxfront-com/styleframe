@@ -37,6 +37,15 @@ const meta = {
 			control: "boolean",
 			description: "Whether the checkbox is disabled",
 		},
+		readonly: {
+			control: "boolean",
+			description:
+				"Whether the checkbox is read-only (sets aria-readonly and cancels toggling)",
+		},
+		invalid: {
+			control: "boolean",
+			description: "Whether the checkbox is invalid (sets aria-invalid)",
+		},
 		label: {
 			control: "text",
 			description: "The checkbox label",
@@ -102,6 +111,35 @@ export const Disabled: Story = {
 
 export const DisabledChecked: Story = {
 	args: { disabled: true, checked: true, label: "Disabled checked" },
+};
+
+export const ReadOnly: Story = {
+	args: { readonly: true, label: "Read-only" },
+};
+
+export const ReadOnlyChecked: Story = {
+	args: { readonly: true, checked: true, label: "Read-only checked" },
+};
+
+export const Invalid: Story = {
+	args: { invalid: true, label: "I agree to the terms" },
+};
+
+export const InvalidChecked: Story = {
+	args: { invalid: true, checked: true, label: "Invalid checked" },
+};
+
+// One checkbox for the keyboard focus ring: Tab moves focus to it.
+export const Focus: Story = {
+	args: { label: "Focus me with Tab" },
+};
+
+// A label longer than its column wraps beside the box, which stays by its first line.
+export const LongLabel: StoryObj = {
+	render: () => ({
+		components: { Checkbox },
+		template: `<div class="checkbox-narrow"><Checkbox checked label="Email me product updates, tips and the occasional survey about how we can improve" /></div>`,
+	}),
 };
 
 // Sizes

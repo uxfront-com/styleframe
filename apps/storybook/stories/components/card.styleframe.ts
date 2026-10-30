@@ -1,6 +1,7 @@
 import {
 	useCardRecipe,
 	useCardHeaderRecipe,
+	useCardMediaRecipe,
 	useCardBodyRecipe,
 	useCardFooterRecipe,
 } from "@styleframe/theme";
@@ -12,6 +13,7 @@ const { selector } = s;
 // Initialize card recipes
 export const card = useCardRecipe(s);
 export const cardHeader = useCardHeaderRecipe(s);
+export const cardMedia = useCardMediaRecipe(s);
 export const cardBody = useCardBodyRecipe(s);
 export const cardFooter = useCardFooterRecipe(s);
 
@@ -36,6 +38,10 @@ selector(".card-row", {
 	flexWrap: "wrap",
 	gap: "@spacing.sm",
 	alignItems: "flex-start",
+});
+
+selector(".card-preview", {
+	maxWidth: "300px",
 });
 
 selector(".card-label", {

@@ -42,7 +42,7 @@ describe("useSpinnerOverlayRecipe", () => {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			background: "rgba(0, 0, 0, 0.5)",
+			background: "rgba(0, 0, 0, 0.75)",
 			zIndex: "@z-index.overlay",
 		});
 	});
@@ -76,7 +76,7 @@ describe("useSpinnerOverlayRecipe", () => {
 			});
 
 			expect(recipe.base?.position).toBe("absolute");
-			expect(recipe.base?.background).toBe("rgba(0, 0, 0, 0.5)");
+			expect(recipe.base?.background).toBe("rgba(0, 0, 0, 0.75)");
 		});
 	});
 });

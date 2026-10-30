@@ -3,10 +3,12 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import Tooltip from "@/components/components/tooltip/Tooltip.vue";
 import TooltipGrid from "@/components/components/tooltip/preview/TooltipGrid.vue";
 import TooltipSizeGrid from "@/components/components/tooltip/preview/TooltipSizeGrid.vue";
+import TooltipTopLayer from "@/components/components/tooltip/preview/TooltipTopLayer.vue";
 
 const colors = ["light", "dark", "neutral"] as const;
 const variants = ["solid", "soft", "subtle"] as const;
 const sizes = ["sm", "md", "lg"] as const;
+const placements = ["top", "bottom", "start", "end"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Overlays/Tooltip",
@@ -73,16 +75,16 @@ export const Freeform: StoryObj = {
 		template: `
 			<div class="tooltip-row">
 				<Tooltip v-bind="args">
-					<div style="max-width: 240px">
+					<span class="tooltip-freeform">
 						<strong>Freeform Tooltip</strong>
-						<p style="margin: 4px 0 0; font-weight: normal;">Tooltips can contain text of virtually any size. This is an example of a freeform tooltip with rich content.</p>
-					</div>
+						<span class="tooltip-freeform-text">Tooltips can contain text of virtually any size. This is an example of a freeform tooltip with rich content.</span>
+					</span>
 				</Tooltip>
 				<Tooltip v-bind="args" color="light">
-					<div style="max-width: 240px">
+					<span class="tooltip-freeform">
 						<strong>Light Freeform</strong>
-						<p style="margin: 4px 0 0; font-weight: normal;">This is a light freeform tooltip with <u>formatted</u> text and <strong>bold</strong> content.</p>
-					</div>
+						<span class="tooltip-freeform-text">This is a light freeform tooltip with <u>formatted</u> text and <strong>bold</strong> content.</span>
+					</span>
 				</Tooltip>
 			</div>
 		`,
@@ -158,4 +160,34 @@ export const Large: Story = {
 		size: "lg",
 		label: "Large Tooltip",
 	},
+};
+
+// Top layer: a `popover` element shown beside its trigger, positioned with CSS
+// anchor positioning and flipped when there's no room.
+export const TopLayer: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { TooltipTopLayer },
+		template: "<TooltipTopLayer />",
+	}),
+};
+
+export const Placements: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { TooltipTopLayer },
+		setup() {
+			return { placements };
+		},
+		template: '<TooltipTopLayer :placements="[...placements]" />',
+	}),
+};
+
+// Closed, with its trigger ready to take focus and open it.
+export const Focus: StoryObj = {
+	parameters: { layout: "fullscreen" },
+	render: () => ({
+		components: { TooltipTopLayer },
+		template: '<TooltipTopLayer :open="false" />',
+	}),
 };

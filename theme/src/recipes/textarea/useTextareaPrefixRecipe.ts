@@ -9,5 +9,5 @@ import { createFieldAddonRecipe } from "../input/createFieldRecipe";
  */
 export const useTextareaPrefixRecipe = createFieldAddonRecipe(
 	"textarea-prefix",
-	"paddingRight",
+	"paddingInlineEnd",
 );

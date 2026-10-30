@@ -1,4 +1,7 @@
-import { createFieldRecipe } from "../input/createFieldRecipe";
+import {
+	FIELD_MUTED_TEXT,
+	createFieldRecipe,
+} from "../input/createFieldRecipe";
 
 /**
  * InputDate wrapper recipe. The `.input-date` class sits on a wrapper element
@@ -24,6 +27,12 @@ export const useInputDateRecipe = createFieldRecipe(
 			display: "inline-flex",
 			alignItems: "center",
 		},
+		// Stable `.-light` and `.-dark` hooks, so the separator rules in the
+		// setup callback can tell the fixed colors from `neutral`.
+		compoundVariants: [
+			{ match: { color: "light" }, className: "-light" },
+			{ match: { color: "dark" }, className: "-dark" },
+		],
 	},
 	(s) => {
 		const { selector } = s;
@@ -40,14 +49,26 @@ export const useInputDateRecipe = createFieldRecipe(
 		});
 
 		// Muted, non-selectable date/range separator glyph (e.g. "/" or "–").
+		// On `neutral` it adapts with the theme. A raw selector doesn't resolve
+		// modifier keys, so the dark theme is written as the selector the `dark`
+		// modifier emits.
 		selector(".input-date-separator", {
 			color: "@color.text-weak",
 			userSelect: "none",
 			paddingLeft: "calc(@spacing * 0.125)",
 			paddingRight: "calc(@spacing * 0.125)",
-			"&:dark": {
+			':is(.dark-theme, [data-theme="dark"]) &': {
 				color: "@color.gray-400",
 			},
+		});
+
+		// `light` and `dark` fields keep one color in both themes, so their
+		// separator takes the field's muted text, which follows that fixed text.
+		selector(".input-date.-light .input-date-separator", {
+			color: FIELD_MUTED_TEXT,
+		});
+		selector(".input-date.-dark .input-date-separator", {
+			color: FIELD_MUTED_TEXT,
 		});
 	},
 );
