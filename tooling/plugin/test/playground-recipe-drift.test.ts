@@ -26,9 +26,11 @@ const testDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(testDir, "../../..");
 
 const STORYBOOK_SHIM_DIR = join(repoRoot, "apps/storybook/stories/components");
-const PLAYGROUND_RECIPE_DIR = join(
+const PLAYGROUND_DIR = join(repoRoot, "tooling/plugin/playground");
+const PLAYGROUND_RECIPE_DIR = join(PLAYGROUND_DIR, "recipes");
+const STORYBOOK_COMPONENT_DIR = join(
 	repoRoot,
-	"tooling/plugin/playground/recipes",
+	"apps/storybook/src/components/components",
 );
 
 const SHIM_SUFFIX = ".styleframe.ts";
@@ -137,4 +139,86 @@ describe("playground ↔ storybook recipe registration parity", () => {
 			expect([...playgroundRecipes].sort()).toEqual([...shimRecipes].sort());
 		},
 	);
+});
+
+/**
+ * The parity check above only compares recipe files that already exist on the
+ * playground side, so a Storybook component that starts importing a recipe the
+ * playground never registers (the Button's loading spinner, for one) slips
+ * past it. This check starts from what the playground actually renders: every
+ * `@storybook-components` import in `App.vue`, followed through the relative
+ * `.vue` imports inside it, must only import names from `virtual:styleframe`
+ * that some playground `*.styleframe.ts` file exports.
+ */
+
+function playgroundStyleframeFiles(dir: string): string[] {
+	return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+		if (entry.name === "node_modules" || entry.name.startsWith(".")) return [];
+		const path = join(dir, entry.name);
+		if (entry.isDirectory()) return playgroundStyleframeFiles(path);
+		return entry.name.endsWith(SHIM_SUFFIX) ? [path] : [];
+	});
+}
+
+function playgroundExports(): Set<string> {
+	const names = new Set<string>();
+	for (const file of playgroundStyleframeFiles(PLAYGROUND_DIR)) {
+		const source = readFileSync(file, "utf8");
+		for (const match of source.matchAll(/\bexport\s+const\s+(\w+)/g)) {
+			names.add(match[1]);
+		}
+	}
+	return names;
+}
+
+function renderedComponents(): string[] {
+	const app = readFileSync(join(PLAYGROUND_DIR, "src/App.vue"), "utf8");
+	const queue = [
+		...app.matchAll(/from\s+"@storybook-components\/([^"]+)"/g),
+	].map((match) => join(STORYBOOK_COMPONENT_DIR, match[1]));
+	const seen = new Set<string>();
+	while (queue.length > 0) {
+		const file = queue.shift() as string;
+		if (seen.has(file)) continue;
+		seen.add(file);
+		const source = readFileSync(file, "utf8");
+		for (const match of source.matchAll(/from\s+"(\.{1,2}\/[^"]+\.vue)"/g)) {
+			queue.push(resolve(dirname(file), match[1]));
+		}
+	}
+	return [...seen].sort();
+}
+
+function virtualStyleframeImports(source: string): string[] {
+	return [
+		...source.matchAll(/import\s*\{([^}]*)\}\s*from\s+"virtual:styleframe"/g),
+	].flatMap((match) =>
+		match[1]
+			.split(",")
+			.map((name) => name.trim().split(/\s+as\s+/)[0])
+			.filter(Boolean),
+	);
+}
+
+const components = renderedComponents();
+
+describe("playground registers every recipe its rendered components import", () => {
+	it("has rendered components to check", () => {
+		expect(components.length).toBeGreaterThan(0);
+	});
+
+	it.each(components.map((file) => rel(file)))("%s", (file) => {
+		const exported = playgroundExports();
+		const missing = virtualStyleframeImports(
+			readFileSync(join(repoRoot, file), "utf8"),
+		).filter((name) => !exported.has(name));
+
+		expect(
+			missing,
+			`${file} imports ${missing.join(", ")} from "virtual:styleframe", but no ` +
+				`*.styleframe.ts file under ${rel(PLAYGROUND_DIR)} exports it. The ` +
+				`playground renders this component, so its build fails with ` +
+				`MISSING_EXPORT. Register the recipe in ${rel(PLAYGROUND_RECIPE_DIR)}.`,
+		).toEqual([]);
+	});
 });
