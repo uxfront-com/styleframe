@@ -16,7 +16,8 @@ import { describe, expect, it } from "vitest";
 
 const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 
-// Main's "Landing" section in llms.txt: each page's title and description.
+// Main's "Landing" section in llms.txt: each page's title and description,
+// with the homepage's own.
 const LANDING = {
 	cookies: ["Cookies", ""],
 	figma: [
@@ -24,8 +25,8 @@ const LANDING = {
 		"Styleframe is the source of truth for your design tokens. Sync variables between code and Figma using the W3C DTCG format, with full multi-mode support.",
 	],
 	index: [
-		"The Design Systems Styling Engine",
-		"Styleframe turns your design system into a type-safe TypeScript source of truth and compiles it to CSS — one engine behind tokens, themes, utilities, and recipes.",
+		"Type-safe Styling Engine for the AI Era",
+		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
 	],
 	license: ["License", ""],
 	pricing: [

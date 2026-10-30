@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 /**
- * The homepage is a UXFront page with main's title and description, and it
+ * The homepage is a UXFront page with its own title and description, and it
  * keeps every link main's homepage had, the site's chrome links, and its code
  * samples highlighted in the HTML. Unknown routes get the static host's
  * 404.html.
@@ -16,10 +16,10 @@ const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 
 const read = (file: string) => readFileSync(join(OUTPUT, file), "utf8");
 
-// main's homepage, as rendered.
-const TITLE = "The Design Systems Styling Engine - styleframe";
+// The homepage's title and description, as rendered.
+const TITLE = "Type-safe Styling Engine for the AI Era - styleframe";
 const DESCRIPTION =
-	"Styleframe turns your design system into a type-safe TypeScript source of truth and compiles it to CSS — one engine behind tokens, themes, utilities, and recipes.";
+	"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.";
 
 // The calls to action, in order: the hero's, one per chapter that had one on
 // main (the fluid-design docs page replaces its demo), and the finale's.
@@ -77,7 +77,7 @@ describe("homepage", () => {
 		expect(html).not.toContain('http-equiv="refresh"');
 	});
 
-	it("keeps main's title and description", () => {
+	it("has the homepage's title and description", () => {
 		expect(html).toContain(`<title>${TITLE}</title>`);
 		expect(html).toContain(
 			`<meta name="description" content="${DESCRIPTION}">`,

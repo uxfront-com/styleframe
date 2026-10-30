@@ -16,9 +16,9 @@ const CONFIGURATION_URL = "/docs/api/instance#configuration-options";
 const FLUID_DESIGN_URL = "/docs/theme/design-tokens/fluid-design";
 
 useUxHead({
-	title: "The Design Systems Styling Engine - styleframe",
+	title: "Type-safe Styling Engine for the AI Era - styleframe",
 	description:
-		"Styleframe turns your design system into a type-safe TypeScript source of truth and compiles it to CSS — one engine behind tokens, themes, utilities, and recipes.",
+		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
 	siteName: SITE_NAME,
 	image: {
 		path: "/og/index.png",
@@ -197,20 +197,20 @@ const fluid = [
 		</template>
 
 		<UxHero
-			title="Type-safe Styling Engine for Design Systems"
+			title="Type-safe styling engine for the AI era"
 			:index="nav"
 			index-label="Features"
 			scroll-href="#config"
 		>
 			<template #lines>
 				<UxHeroLine>Type-safe</UxHeroLine>
-				<UxHeroLine>Styling Engine for</UxHeroLine>
-				<UxHeroLine><em class="ux-serif">Design Systems</em></UxHeroLine>
+				<UxHeroLine>styling engine for</UxHeroLine>
+				<UxHeroLine><em class="ux-serif">the AI era</em></UxHeroLine>
 			</template>
 			<template #lead>
-				Write tokens, themes, utilities and recipes in TypeScript, and compile
-				them to zero-runtime CSS and types. Catch a renamed token before your
-				users do.
+				Author tokens, themes, utilities and recipes in TypeScript, and ship
+				zero-runtime CSS. The types catch a renamed token before your users do,
+				whether you or an agent made the change.
 				<br />
 				<span class="home__actions">
 					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -223,12 +223,13 @@ const fluid = [
 			id="config"
 			index="01"
 			role="One config"
-			title="Your whole design system, from one config"
+			title="Your design system, in one TypeScript config"
 			:steps="config.length"
 		>
 			<template #lead>
-				Change a token once, and it flows to every selector, theme and recipe
-				that uses it.
+				Tokens, themes, utilities and recipes live in one typed source. Change a
+				token once, and it flows to every selector, theme and recipe that uses
+				it.
 			</template>
 			<UxTraits :items="config" />
 			<template #aside><SiteSample name="config" /></template>
@@ -272,14 +273,15 @@ const fluid = [
 			id="output"
 			index="04"
 			role="Output"
-			title="Zero-Runtime by Default, Dynamic When You Need It"
+			title="Zero-runtime CSS, with recipes when you need props"
 			:href="RECIPES_URL"
 			link-label="Learn more about Recipes"
 			:steps="output.length"
 		>
 			<template #lead>
-				Your system compiles to static CSS at build time. When you need
-				prop-based styling, an optional runtime handles Recipes.
+				Your tokens, themes and utilities compile to static CSS at build time,
+				so they cost nothing at runtime. When a component needs prop-based
+				variants, an optional runtime handles recipes.
 			</template>
 			<UxTraits :items="output" />
 			<template #aside><SiteSample name="output" /></template>
@@ -335,12 +337,13 @@ const fluid = [
 			id="ai"
 			index="07"
 			role="Coming Soon"
-			title="AI that Writes Type-safe Composable CSS"
+			title="AI that authors your design system"
 			:steps="ai.length"
 		>
 			<template #lead>
-				Delegate work to AI agents, from code generation to other technical
-				tasks.
+				Hand work on your design system to AI agents, from writing tokens and
+				recipes to other technical tasks. It's all typed TypeScript, so the
+				compiler checks what they write.
 			</template>
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
@@ -376,7 +379,7 @@ const fluid = [
 
 		<UxFinale kicker="styleframe">
 			<template #title>
-				The Design Systems <em class="ux-serif">Styling Engine</em>
+				Type-safe styling engine <em class="ux-serif">for the AI era</em>
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
