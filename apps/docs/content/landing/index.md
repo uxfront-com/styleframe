@@ -1,11 +1,11 @@
 ---
-title: The Design Systems Styling Engine
-description: Styleframe turns your design system into a type-safe TypeScript source of truth and compiles it to CSS — one engine behind tokens, themes, utilities, and recipes.
+title: The Styling Engine for the AI Era
+description: Styleframe is the styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.
 ---
 
-## Type-safe Styling Engine for Design Systems
+## The styling engine for the AI era
 
-Write tokens, themes, utilities and recipes in TypeScript, and compile them to zero-runtime CSS and types. Catch a renamed token before your users do.
+Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS. The types catch a renamed token before your users do, whether you or an agent made the change.
 
 [Get started](/docs/getting-started/introduction) · [Star on GitHub](https://github.com/styleframe-dev/styleframe)
 
@@ -31,9 +31,9 @@ useButtonRecipe(s);
 export default s;
 ```
 
-## Your whole design system, from one config
+## Your design system, in one TypeScript config
 
-Change a token once, and it flows to every selector, theme and recipe that uses it.
+Tokens, themes, utilities and recipes live in one typed source. Change a token once, and it flows to every selector, theme and recipe that uses it.
 
 - **[The compiler is your design-system reviewer](/docs/api)**: Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.
 - **[Composable](/docs/api/composables)**: Compose and reuse styles with functions, variables, arrays or objects.
@@ -107,9 +107,9 @@ export default s;
 
 [Learn about themes](/docs/api/themes)
 
-## Zero-Runtime by Default, Dynamic When You Need It
+## Zero-runtime CSS, with recipes when you need props
 
-Your system compiles to static CSS at build time. When you need prop-based styling, an optional runtime handles Recipes.
+Your tokens, themes and utilities compile to static CSS at build time, so they cost nothing at runtime. When a component needs prop-based variants, an optional runtime handles recipes.
 
 - **Static Generation**: Your base styles cost nothing at runtime.
 - **[Dual Output](/docs/api/instance#configuration-options)**: The transpiler outputs both CSS and TypeScript, and you control exactly what each token generates.
@@ -170,11 +170,11 @@ Export your Styleframe design tokens to the W3C DTCG format and import them into
 
 [Learn more about the Figma Plugin](/figma)
 
-## AI that Writes Type-safe Composable CSS
+## AI that authors your design system
 
 Coming Soon
 
-Delegate work to AI agents, from code generation to other technical tasks.
+Hand work on your design system to AI agents, from writing tokens and recipes to other technical tasks. It's all typed TypeScript, so the compiler checks what they write.
 
 - **Styleframe MCP**: Connect styleframe to Cursor, Claude, ChatGPT and more.
 - **Useful AI, built in**: AI workflows that build your design system for you.
