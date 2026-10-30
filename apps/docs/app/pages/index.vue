@@ -16,9 +16,9 @@ const CONFIGURATION_URL = "/docs/api/instance#configuration-options";
 const FLUID_DESIGN_URL = "/docs/theme/design-tokens/fluid-design";
 
 useUxHead({
-	title: "The Design Systems Styling Engine - styleframe",
+	title: "Type-safe Styling Engine for the AI Era - styleframe",
 	description:
-		"Styleframe turns your design system into a type-safe TypeScript source of truth and compiles it to CSS — one engine behind tokens, themes, utilities, and recipes.",
+		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
 	siteName: SITE_NAME,
 	image: {
 		path: "/og/index.png",
@@ -57,32 +57,32 @@ const config = [
 	{
 		title: "The compiler is your design-system reviewer",
 		text: "Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.",
-		to: "/docs/api",
+		href: "/docs/api",
 	},
 	{
 		title: "Composable",
 		text: "Compose and reuse styles with functions, variables, arrays or objects.",
-		to: "/docs/api/composables",
+		href: "/docs/api/composables",
 	},
 	{
 		title: "Built-in Theming",
 		text: "Light, dark and custom themes, all from the same tokens.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 	{
 		title: "One plugin, every major bundler",
 		text: "The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.",
-		to: "/docs/getting-started/installation",
+		href: "/docs/getting-started/installation",
 	},
 	{
 		title: "Fully Configurable",
 		text: "Every option is typed and in one place.",
-		to: CONFIGURATION_URL,
+		href: CONFIGURATION_URL,
 	},
 	{
 		title: "Intuitive Developer Experience",
 		text: "Autocomplete, in-editor docs and static analysis for your CSS.",
-		to: "/docs/getting-started/guides",
+		href: "/docs/getting-started/guides",
 	},
 ];
 
@@ -101,12 +101,12 @@ const themes = [
 	{
 		title: "Intuitive API",
 		text: "A theme is as easy to write as a variable, with no special syntax or class names to remember.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 	{
 		title: "Mix and Match Themes",
 		text: "Take colors from one theme and typography from another.",
-		to: THEMES_URL,
+		href: THEMES_URL,
 	},
 ];
 
@@ -118,12 +118,12 @@ const output = [
 	{
 		title: "Dual Output",
 		text: "The transpiler outputs both CSS and TypeScript, and you control exactly what each token generates.",
-		to: CONFIGURATION_URL,
+		href: CONFIGURATION_URL,
 	},
 	{
 		title: "Optional Runtime",
 		text: "Recipes turn props into dynamic component variants, built on the static CSS.",
-		to: RECIPES_URL,
+		href: RECIPES_URL,
 	},
 ];
 
@@ -197,20 +197,20 @@ const fluid = [
 		</template>
 
 		<UxHero
-			title="Type-safe Styling Engine for Design Systems"
+			title="Type-safe styling engine for the AI era"
 			:index="nav"
 			index-label="Features"
 			scroll-href="#config"
 		>
 			<template #lines>
 				<UxHeroLine>Type-safe</UxHeroLine>
-				<UxHeroLine>Styling Engine for</UxHeroLine>
-				<UxHeroLine><em class="ux-serif">Design Systems</em></UxHeroLine>
+				<UxHeroLine>styling engine for</UxHeroLine>
+				<UxHeroLine><em class="ux-serif">the AI era</em></UxHeroLine>
 			</template>
 			<template #lead>
-				Write tokens, themes, utilities and recipes in TypeScript, and compile
-				them to zero-runtime CSS and types. Catch a renamed token before your
-				users do.
+				Author tokens, themes, utilities and recipes in TypeScript, and ship
+				zero-runtime CSS. The types catch a renamed token before your users do,
+				whether you or an agent made the change.
 				<br />
 				<span class="home__actions">
 					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -219,22 +219,23 @@ const fluid = [
 			</template>
 		</UxHero>
 
-		<SiteSplit
+		<UxSplit
 			id="config"
 			index="01"
 			role="One config"
-			title="Your whole design system, from one config"
+			title="Your design system, in one TypeScript config"
 			:steps="config.length"
 		>
 			<template #lead>
-				Change a token once, and it flows to every selector, theme and recipe
-				that uses it.
+				Tokens, themes, utilities and recipes live in one typed source. Change a
+				token once, and it flows to every selector, theme and recipe that uses
+				it.
 			</template>
-			<SiteFeatures :items="config" />
+			<UxTraits :items="config" />
 			<template #aside><SiteSample name="config" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="compose"
 			index="02"
 			role="Compose"
@@ -249,9 +250,9 @@ const fluid = [
 			</template>
 			<UxTraits :items="compose" />
 			<template #aside><SiteSample name="compose" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="themes"
 			index="03"
 			role="Themes"
@@ -264,28 +265,29 @@ const fluid = [
 				Light, dark and custom themes come from the same tokens, with no
 				separate stylesheet to keep in sync.
 			</template>
-			<SiteFeatures :items="themes" />
+			<UxTraits :items="themes" />
 			<template #aside><SiteSample name="themes" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="output"
 			index="04"
 			role="Output"
-			title="Zero-Runtime by Default, Dynamic When You Need It"
+			title="Zero-runtime CSS, with recipes when you need props"
 			:href="RECIPES_URL"
 			link-label="Learn more about Recipes"
 			:steps="output.length"
 		>
 			<template #lead>
-				Your system compiles to static CSS at build time. When you need
-				prop-based styling, an optional runtime handles Recipes.
+				Your tokens, themes and utilities compile to static CSS at build time,
+				so they cost nothing at runtime. When a component needs prop-based
+				variants, an optional runtime handles recipes.
 			</template>
-			<SiteFeatures :items="output" />
+			<UxTraits :items="output" />
 			<template #aside><SiteSample name="output" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="scanner"
 			index="05"
 			role="Scanner"
@@ -301,9 +303,9 @@ const fluid = [
 			</template>
 			<UxTraits :items="scanner" />
 			<template #aside><SiteSample name="scanner" /></template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="figma"
 			index="06"
 			role="Figma"
@@ -329,23 +331,24 @@ const fluid = [
 					decoding="async"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="ai"
 			index="07"
 			role="Coming Soon"
-			title="AI that Writes Type-safe Composable CSS"
+			title="AI that authors your design system"
 			:steps="ai.length"
 		>
 			<template #lead>
-				Delegate work to AI agents, from code generation to other technical
-				tasks.
+				Hand work on your design system to AI agents, from writing tokens and
+				recipes to other technical tasks. It's all typed TypeScript, so the
+				compiler checks what they write.
 			</template>
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
 			<template #aside>
-				<SiteVideo
+				<UxVideo
 					class="home__video"
 					data-outline
 					src="/assets/video/styleframe-ai.mp4"
@@ -355,9 +358,9 @@ const fluid = [
 					label="styleframe AI writing type-safe composable CSS"
 				/>
 			</template>
-		</SiteSplit>
+		</UxSplit>
 
-		<SiteSplit
+		<UxSplit
 			id="fluid"
 			index="08"
 			role="Fluid design"
@@ -372,11 +375,11 @@ const fluid = [
 				fluidly from phone to desktop.
 			</template>
 			<UxPillars :items="fluid" />
-		</SiteSplit>
+		</UxSplit>
 
 		<UxFinale kicker="styleframe">
 			<template #title>
-				The Design Systems <em class="ux-serif">Styling Engine</em>
+				Type-safe styling engine <em class="ux-serif">for the AI era</em>
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
@@ -406,8 +409,7 @@ const fluid = [
 	border-radius: 6px;
 }
 
-/* Doubled, to outrank SiteVideo's own width. */
-.home__video.site-video {
+.home__video {
 	width: min(100%, 70svh);
 	margin-left: auto;
 }

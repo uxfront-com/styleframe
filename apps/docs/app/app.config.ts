@@ -2,6 +2,8 @@ import {
 	CHANGELOG_URL,
 	DISCORD_URL,
 	GITHUB_URL,
+	INTRODUCTION_URL,
+	LOGIN_URL,
 	PLAYGROUND_URL,
 	STORYBOOK_URL,
 	X_URL,
@@ -88,6 +90,14 @@ export default defineAppConfig({
 			{ value: "vue", label: "Vue", icon: "i-mdi-vuejs" },
 		],
 		byline: true,
+		// The header's links, beside its buttons, or atop its menu on smaller
+		// screens. The docs link goes to the introduction, rather than /docs,
+		// which only redirects to it, and stays active on every docs page.
+		headerLinks: [
+			{ label: "Docs", to: INTRODUCTION_URL, activeFor: "/docs" },
+			{ label: "Changelog", to: CHANGELOG_URL, activeFor: CHANGELOG_URL },
+			{ label: "Log in", to: LOGIN_URL },
+		],
 	},
 	ui: {
 		colors: {

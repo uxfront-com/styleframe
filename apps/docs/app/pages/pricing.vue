@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { corridor, tokens } from "@uxfront/scene/formations";
-import { empty, HERO_VIEWS } from "~/lib/formations";
+import { corridor, empty, tokens } from "@uxfront/scene/formations";
+import { HERO_VIEWS } from "~/lib/formations";
 import {
 	DISCORD_URL,
 	INTRODUCTION_URL,
@@ -63,11 +63,11 @@ const support = "mailto:support@styleframe.dev";
 			</template>
 		</UxHero>
 
-		<SiteSection id="plans" index="01" role="Plans" title="Plans">
+		<UxSection id="plans" index="01" role="Plans" title="Plans">
 			<SitePricing />
-		</SiteSection>
+		</UxSection>
 
-		<SiteSection
+		<UxSection
 			id="faq"
 			index="02"
 			role="FAQ"
@@ -309,7 +309,7 @@ const support = "mailto:support@styleframe.dev";
 					</details>
 				</section>
 			</div>
-		</SiteSection>
+		</UxSection>
 
 		<UxFinale kicker="Pricing">
 			<template #title

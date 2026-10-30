@@ -5,9 +5,9 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Every chapter with a code sample or a picture shows it beside its copy
- * (SiteSplit.vue): the code open, a <pre> in the side column, behind no
- * "View code" disclosure, and a video that loads nothing but its poster until
- * it plays. The fluid section on the homepage is a centred SiteSplit.
+ * (@uxfront/ui's UxSplit): the code open, a <pre> in the side column, behind
+ * no "View code" disclosure, and a video that loads nothing but its poster
+ * until it plays. The fluid section on the homepage is a centred UxSplit.
  *
  * Requires a prior build, like og-images.build.test.ts.
  */
@@ -21,7 +21,7 @@ const read = (page: string) => {
 	return file ? readFileSync(file, "utf8") : "";
 };
 
-// The <section> around the element with the chapter's id: a SiteSplit puts
+// The <section> around the element with the chapter's id: a UxSplit puts
 // the id on its stage, inside the section.
 const section = (html: string, id: string) => {
 	const at = html.indexOf(` id="${id}"`);
@@ -56,8 +56,8 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 
 	it.each(ids)("shows #%s side by side, with its code open", (id) => {
 		const markup = section(html, id);
-		expect(markup).toMatch(/^<section\b[^>]*\bclass="site-split\b/);
-		expect(markup).toMatch(/<div class="site-split__aside"[^>]*>[\s\S]*<pre\b/);
+		expect(markup).toMatch(/^<section\b[^>]*\bclass="ux-split\b/);
+		expect(markup).toMatch(/<div class="ux-split__aside"[^>]*>[\s\S]*<pre\b/);
 		expect(markup).not.toContain("<details");
 	});
 
@@ -71,11 +71,11 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 	});
 
 	// The formation holds from the stage inside the section, which starts
-	// above it, and writes the reveal SiteSplit fades the panel by.
+	// above it, and writes the reveal UxSplit fades the panel by.
 	it.each(ids)("holds #%s's formation from its stage", (id) => {
 		const markup = section(html, id);
 		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-stage\b/);
-		expect(markup).toMatch(/<div [^>]*class="site-split__stage" data-stage\b/);
+		expect(markup).toMatch(/<div [^>]*class="ux-split__stage" data-stage\b/);
 	});
 
 	it("fades the code panels by the outline formation's reveal", () => {
@@ -84,37 +84,35 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 
 	// Side by side, the copy keeps UxChapter's width at the gutter, and the
 	// aside is centred on three quarters of the 1920px frame, at most 52rem
-	// wide: the right half, less the kit's gutter on its left. A column gap
-	// would push it off that line.
+	// wide: the right half, less the gutter inside the frame on its left. A
+	// column gap would push it off that line.
 	it("places the copy at the gutter and the aside on three quarters of the frame", () => {
-		const side = html.match(/@media not \([^{]*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+		const side = (
+			html.match(/@media not \(\(aspect-ratio[^{]*\{([\s\S]*?\})\}/)?.[1] ?? ""
+		).replace(/\[data-v-[\w-]+\]/g, "");
 		expect(side).toContain(
-			".site-split__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }",
+			".ux-split__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}",
+		);
+		expect(side).toContain(".ux-split__copy{width:min(100%,33rem,40vw)}");
+		expect(side).toContain(
+			".ux-split__aside{padding-left:var(--ux-gutter-base)}",
 		);
 		expect(side).toContain(
-			".site-split__copy { width: min(100%, 33rem, 40vw); }",
+			".ux-split .ux-split__aside [data-outline]{max-width:52rem;margin-inline:auto}",
 		);
-		expect(side).toContain(
-			".site-split__aside { padding-left: var(--site-gutter); }",
-		);
-		expect(side).toContain(
-			".site-split .site-split__aside [data-outline] { max-width: 52rem; margin-inline: auto; }",
-		);
-		expect(html).not.toContain("minmax(0, 5fr) minmax(0, 6fr)");
 		const grid =
-			html.match(/\.site-split__grid\[data-v-[\w-]+\]\{([^}]*)\}/)?.[1] ?? "";
+			html.match(/\.ux-split__grid\[data-v-[\w-]+\]\{([^}]*)\}/)?.[1] ?? "";
 		expect(grid).toContain("row-gap:clamp(2rem,1rem + 3vw,4rem)");
 		expect(grid).not.toMatch(/(^|;)(column-)?gap:/);
 	});
 });
 
-// Every UXFront page frames its content at 1920px: past that width the
-// gutter grows by half the extra, from the kit's own gutter. The error page
+// Every UXFront page frames its content at @uxfront/ui's default 1920px:
+// past that width the gutter grows by half the extra, from the kit's base
+// gutter. The site overrides neither, so it frames once. The error page
 // renders from 404.html, which loads the entry stylesheet.
-const FRAME = [
-	":root:has(.ux-site){--site-gutter:var(--ux-gutter)}",
-	".ux-site{--ux-gutter:max(var(--site-gutter),calc(50vw - 960px + var(--site-gutter)))}",
-];
+const FRAME =
+	"--ux-frame:1920px;--ux-gutter-base:clamp(1.25rem,3.2vw,3rem);--ux-gutter:max(var(--ux-gutter-base),calc((100vw - var(--ux-frame))/2 + var(--ux-gutter-base)))";
 
 describe("the 1920px frame", () => {
 	it.each([
@@ -129,7 +127,8 @@ describe("the 1920px frame", () => {
 		"cookies",
 	])("frames /%s", (page) => {
 		const html = read(page);
-		for (const rule of FRAME) expect(html).toContain(rule);
+		expect(html).toContain(FRAME);
+		expect(html).not.toMatch(/\.ux-site\{--ux-gutter:/);
 	});
 
 	it("frames the error page", () => {
@@ -137,7 +136,7 @@ describe("the 1920px frame", () => {
 		const entry = html.match(/href="\/(_nuxt\/entry\.[\w-]+\.css)"/)?.[1];
 		expect(entry).toBeDefined();
 		const css = readFileSync(join(OUTPUT, entry!), "utf8");
-		for (const rule of FRAME) expect(css).toContain(rule);
+		expect(css).toContain(FRAME);
 	});
 });
 
@@ -146,9 +145,9 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 
 	it.each(ids)("shows the media of #%s beside its copy", (id) => {
 		const markup = section(html, id);
-		expect(markup).toMatch(/^<section\b[^>]*\bclass="site-split\b/);
+		expect(markup).toMatch(/^<section\b[^>]*\bclass="ux-split\b/);
 		const aside =
-			markup.match(/<div class="site-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
+			markup.match(/<div class="ux-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
 		if (!VIDEOS.includes(id)) {
 			expect(aside).toMatch(/<img\b/);
 			return;
@@ -185,7 +184,7 @@ describe.each(
 		expect(markup).toMatch(/^<section\b/);
 		expect(markup.match(/^<section\b[^>]*>/)?.[0]).not.toMatch(/\bid=/);
 		expect(markup).toMatch(
-			new RegExp(`<div id="${id}" class="site-split__stage" data-stage\\b`),
+			new RegExp(`<div id="${id}" class="ux-split__stage" data-stage\\b`),
 		);
 	});
 });
@@ -193,7 +192,7 @@ describe.each(
 it("centres the homepage's fluid section", () => {
 	const markup = section(read("index"), "fluid");
 	expect(markup).toMatch(
-		/^<section\b[^>]*\bclass="site-split site-split--center\b/,
+		/^<section\b[^>]*\bclass="ux-split ux-split--center\b/,
 	);
-	expect(markup).not.toContain('class="site-split__aside"');
+	expect(markup).not.toContain('class="ux-split__aside"');
 });
