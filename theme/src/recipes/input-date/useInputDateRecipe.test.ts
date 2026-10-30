@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+import { consumeCSS } from "@styleframe/transpiler";
 import { formatHex8 } from "culori";
 import {
 	useDarkModifier,
@@ -430,13 +431,16 @@ describe("useInputDateRecipe", () => {
 
 /**
  * The separator as each field shows it in each theme: the rule that wins for
- * the field's color, its `&:dark` override in the dark theme, and every token
+ * the field's color, its dark-theme override in the dark theme, and every token
  * resolved for that theme. The muted text is the field's own text color at
  * 75%, so it is written as that resolved text.
  */
 describe("useInputDateRecipe separator colors", () => {
 	type Slot = Record<string, unknown>;
 	type Theme = "light" | "dark";
+
+	// The selector the `dark` modifier emits for the rest of the theme.
+	const DARK_THEME = ':is(.dark-theme, [data-theme="dark"]) &';
 
 	const s = styleframe();
 	useDesignTokensPreset(s);
@@ -483,7 +487,7 @@ describe("useInputDateRecipe separator colors", () => {
 		)?.className;
 		const hooked = hook && rule(`.input-date.${hook} .input-date-separator`);
 		const base = rule(".input-date-separator")!;
-		const dark = base.children.find((child) => child.query === "&:dark");
+		const dark = base.children.find((child) => child.query === DARK_THEME);
 		const value = hooked
 			? hooked.declarations.color
 			: theme === "dark" && dark
@@ -526,4 +530,13 @@ describe("useInputDateRecipe separator colors", () => {
 			);
 		},
 	);
+
+	it("input-date/separator emits the neutral dark-theme color under the dark-theme selector", () => {
+		const css = consumeCSS(s.root, s.options);
+
+		expect(css).toMatch(
+			/\.input-date-separator \{[^}]*:is\(\.dark-theme, \[data-theme="dark"\]\) & \{\s*color: var\(--color--gray-400\);/,
+		);
+		expect(css).not.toContain(".input-date-separator:dark");
+	});
 });

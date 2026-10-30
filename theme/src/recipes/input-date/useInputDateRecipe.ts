@@ -49,13 +49,15 @@ export const useInputDateRecipe = createFieldRecipe(
 		});
 
 		// Muted, non-selectable date/range separator glyph (e.g. "/" or "–").
-		// On `neutral` it adapts with the theme.
+		// On `neutral` it adapts with the theme. A raw selector doesn't resolve
+		// modifier keys, so the dark theme is written as the selector the `dark`
+		// modifier emits.
 		selector(".input-date-separator", {
 			color: "@color.text-weak",
 			userSelect: "none",
 			paddingLeft: "calc(@spacing * 0.125)",
 			paddingRight: "calc(@spacing * 0.125)",
-			"&:dark": {
+			':is(.dark-theme, [data-theme="dark"]) &': {
 				color: "@color.gray-400",
 			},
 		});
