@@ -1,0 +1,12 @@
+// Cloudflare Workers config for the playground. It's a static Vite build, so the
+// Worker only serves the output; there is no server entry. Build from the repo
+// root so turbo builds the workspace packages first:
+//   cd ../.. && pnpm turbo run build --filter=@styleframe/playground
+{
+	"name": "styleframe-playground",
+	"compatibility_date": "2026-10-01",
+	"assets": {
+		"directory": "dist",
+		"not_found_handling": "single-page-application",
+	},
+}

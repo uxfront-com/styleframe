@@ -1,0 +1,12 @@
+// Cloudflare Workers config for Storybook. It's a static build, so the Worker
+// only serves the output; there is no server entry. Build from the repo root so
+// turbo builds the workspace packages first, with
+// PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 set:
+//   cd ../.. && pnpm turbo run build --filter=@styleframe/storybook
+{
+	"name": "styleframe-storybook",
+	"compatibility_date": "2026-10-01",
+	"assets": {
+		"directory": "storybook-static",
+	},
+}
