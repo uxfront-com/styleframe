@@ -6,7 +6,7 @@ import SpinnerGrid from "../../src/components/components/spinner/preview/Spinner
 import SpinnerSizeGrid from "../../src/components/components/spinner/preview/SpinnerSizeGrid.vue";
 
 const colors = ["primary", "light", "dark", "neutral"] as const;
-const sizes = ["auto", "sm", "md", "lg", "em"] as const;
+const sizes = ["auto", "sm", "md", "lg", "inherit"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Feedback/Spinner",
@@ -62,8 +62,14 @@ export const Primary: Story = {
 	args: { color: "primary" },
 };
 
+// light is for light surfaces, so it's shown on one in both themes.
 export const Light: Story = {
 	args: { color: "light" },
+	decorators: [
+		() => ({
+			template: '<span class="spinner-surface-light"><story /></span>',
+		}),
+	],
 };
 
 // dark is for dark surfaces, so it's shown on the overlay's backdrop.
@@ -109,14 +115,14 @@ export const Large: Story = {
 	args: { size: "lg" },
 };
 
-// The em size follows the text around it, in a paragraph or a heading.
-export const Em: StoryObj = {
+// The inherit size follows the text around it, in a paragraph or a heading.
+export const Inherit: StoryObj = {
 	render: () => ({
 		components: { Spinner },
 		template: `
 			<div class="spinner-section">
-				<p class="spinner-text-sample"><Spinner size="em" color="neutral" /> Saving draft</p>
-				<h2 class="spinner-heading-sample"><Spinner size="em" color="neutral" /> Loading results</h2>
+				<p class="spinner-text-sample"><Spinner size="inherit" color="neutral" /> Saving draft</p>
+				<h2 class="spinner-heading-sample"><Spinner size="inherit" color="neutral" /> Loading results</h2>
 			</div>
 		`,
 	}),

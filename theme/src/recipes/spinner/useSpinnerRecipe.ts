@@ -26,7 +26,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			sm: {},
 			md: {},
 			lg: {},
-			em: {
+			inherit: {
 				fontSize: "inherit",
 				verticalAlign: "-0.125em",
 			},
@@ -47,7 +47,7 @@ export const useSpinnerRecipe = createUseRecipe("spinner", {
 			css: {
 				color: "@color.gray-700",
 				"&:dark": {
-					color: "@color.white",
+					color: "@color.gray-700",
 				},
 			},
 		},

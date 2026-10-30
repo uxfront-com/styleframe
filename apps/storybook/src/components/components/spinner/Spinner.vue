@@ -5,7 +5,7 @@ import { spinner, spinnerCircle, spinnerText } from "virtual:styleframe";
 const props = withDefaults(
 	defineProps<{
 		color?: "primary" | "light" | "dark" | "neutral";
-		size?: "auto" | "sm" | "md" | "lg" | "em";
+		size?: "auto" | "sm" | "md" | "lg" | "inherit";
 		label?: string;
 	}>(),
 	{},
