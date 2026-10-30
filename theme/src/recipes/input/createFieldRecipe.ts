@@ -86,10 +86,8 @@ export function fieldSurfaceCompoundVariants({
 				"&:hover-capable:hover": {
 					borderBottomColor: "@color.gray-500",
 				},
-				// A ghost has no fill, so on a dark page the light color takes its
-				// own white fill to keep its dark text readable.
 				"&:dark": {
-					background: "@color.white",
+					background: "transparent",
 					borderColor: "transparent",
 					borderBottomColor: "@color.gray-450",
 					color: "@color.text-inverted",
@@ -142,9 +140,7 @@ export function fieldSurfaceCompoundVariants({
 		{
 			match: { color: "dark", variant: "ghost" },
 			css: {
-				// On a light page the dark color takes its own fill to keep its light
-				// text readable, and goes transparent on a dark page.
-				background: "@color.gray-900",
+				background: "transparent",
 				borderColor: "transparent",
 				borderBottomColor: "@color.gray-500",
 				borderBottomLeftRadius: "0",

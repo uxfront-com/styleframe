@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+import { formatHex8 } from "culori";
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
@@ -8,6 +9,13 @@ import {
 	useFocusWithinModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
+import {
+	useDesignTokensPreset,
+	useModifiersPreset,
+	useUtilitiesPreset,
+} from "../../presets";
+import { colorValues, darkModeColorValues } from "../../values";
+import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
 import { useInputDateRecipe } from "./useInputDateRecipe";
 
 function createInstance() {
@@ -181,11 +189,11 @@ describe("useInputDateRecipe", () => {
 	});
 
 	describe("compound variants", () => {
-		it("should have 12 compound variants total (9 color×variant + invalid + readonly + disabled)", () => {
+		it("should have 14 compound variants total (9 color×variant + invalid + readonly + disabled + the light and dark hooks)", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			expect(recipe.compoundVariants).toHaveLength(12);
+			expect(recipe.compoundVariants).toHaveLength(14);
 		});
 
 		it("should share the neutral default surface with the input recipe", () => {
@@ -418,4 +426,104 @@ describe("useInputDateRecipe", () => {
 			expect(recipe.compoundVariants!.length).toBeLessThan(12);
 		});
 	});
+});
+
+/**
+ * The separator as each field shows it in each theme: the rule that wins for
+ * the field's color, its `&:dark` override in the dark theme, and every token
+ * resolved for that theme. The muted text is the field's own text color at
+ * 75%, so it is written as that resolved text.
+ */
+describe("useInputDateRecipe separator colors", () => {
+	type Slot = Record<string, unknown>;
+	type Theme = "light" | "dark";
+
+	const s = styleframe();
+	useDesignTokensPreset(s);
+	useModifiersPreset(s);
+	useUtilitiesPreset(s);
+	const recipe = useInputDateRecipe(s);
+
+	const themes = {
+		light: colorValues as Record<string, string>,
+		dark: darkModeColorValues as Record<string, string>,
+	};
+
+	function resolve(name: string, theme: Theme): string {
+		const key = name.slice("color.".length);
+		const themed = themes[theme][key];
+		if (themed) {
+			return themed.startsWith("@")
+				? resolve(themed.slice(1), theme)
+				: formatHex8(themed);
+		}
+		const variable = s.root.variables.find((v) => v.name === name);
+		if (!variable) {
+			throw new Error(`Unknown token ${name}`);
+		}
+		return formatHex8(String(variable.value));
+	}
+
+	function rule(query: string) {
+		return s.root.children.find(
+			(child) =>
+				child.type === "selector" &&
+				(child as { query: string }).query === query,
+		) as unknown as
+			| {
+					declarations: Slot;
+					children: { query: string; declarations: Slot }[];
+			  }
+			| undefined;
+	}
+
+	function separator(color: string, variant: string, theme: Theme) {
+		const hook = recipe.compoundVariants!.find(
+			(cv) => cv.match.color === color && cv.className,
+		)?.className;
+		const hooked = hook && rule(`.input-date.${hook} .input-date-separator`);
+		const base = rule(".input-date-separator")!;
+		const dark = base.children.find((child) => child.query === "&:dark");
+		const value = hooked
+			? hooked.declarations.color
+			: theme === "dark" && dark
+				? dark.declarations.color
+				: base.declarations.color;
+
+		if (value === FIELD_MUTED_TEXT) {
+			const surface = recipe.compoundVariants!.find(
+				(cv) => cv.match.color === color && cv.match.variant === variant,
+			)!.css as Slot;
+			const text = (
+				theme === "dark" ? (surface["&:dark"] as Slot).color : surface.color
+			) as string;
+			return `${resolve(text.slice(1), theme)} at 75%`;
+		}
+		return resolve((value as { name: string }).name, theme);
+	}
+
+	const fields = ["light", "dark", "neutral"].flatMap((color) =>
+		["default", "soft", "ghost"].map((variant) => ({ color, variant })),
+	);
+
+	it.each(fields.filter(({ color }) => color !== "neutral"))(
+		"input-date/fixed-colors keeps the $color $variant separator the same in both themes",
+		({ color, variant }) => {
+			expect(separator(color, variant, "dark")).toBe(
+				separator(color, variant, "light"),
+			);
+		},
+	);
+
+	it.each(fields.filter(({ color }) => color === "neutral"))(
+		"input-date/separator keeps the neutral $variant separator adaptive",
+		({ color, variant }) => {
+			expect(separator(color, variant, "light")).toBe(
+				resolve("color.text-weak", "light"),
+			);
+			expect(separator(color, variant, "dark")).toBe(
+				resolve("color.gray-400", "dark"),
+			);
+		},
+	);
 });

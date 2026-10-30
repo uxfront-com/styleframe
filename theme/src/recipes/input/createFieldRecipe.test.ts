@@ -185,16 +185,14 @@ describe("fieldSurfaceCompoundVariants", () => {
 		};
 	}
 
-	// A ghost has no fill, so `light` and `dark` take their own fill on a page
-	// of the other mode: `fills` is the plain and the `&:dark` background.
+	// A ghost has no fill in either theme, `light` and `dark` included.
 	function ghost(
 		[fg, darkFg]: string[],
 		plain: typeof light,
 		inDark: typeof light,
-		fills = ["transparent", "transparent"],
 	) {
 		return {
-			background: fills[0],
+			background: "transparent",
 			borderColor: "transparent",
 			borderBottomColor: plain.rest,
 			borderBottomLeftRadius: "0",
@@ -202,7 +200,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 			color: fg,
 			"&:hover-capable:hover": { borderBottomColor: plain.hover },
 			"&:dark": {
-				background: fills[1],
+				background: "transparent",
 				borderColor: "transparent",
 				borderBottomColor: inDark.rest,
 				color: darkFg,
@@ -238,10 +236,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 		[
 			"light",
 			"ghost",
-			ghost(["@color.text", "@color.text-inverted"], light, light, [
-				"transparent",
-				"@color.white",
-			]),
+			ghost(["@color.text", "@color.text-inverted"], light, light),
 		],
 		[
 			"dark",
@@ -269,10 +264,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 		[
 			"dark",
 			"ghost",
-			ghost(["@color.gray-300", "@color.gray-300"], dark, dark, [
-				"@color.gray-900",
-				"transparent",
-			]),
+			ghost(["@color.gray-300", "@color.gray-300"], dark, dark),
 		],
 		[
 			"neutral",

@@ -1,5 +1,5 @@
 import { styleframe } from "@styleframe/core";
-import { oklch, rgb, wcagContrast } from "culori";
+import { formatHex8, oklch, rgb, wcagContrast } from "culori";
 import { useDesignTokensPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import {
@@ -15,7 +15,9 @@ type Slot = Record<string, unknown>;
  * Every color × variant compound of the shared field surface is checked in
  * the light and the dark theme, since the `light` and `dark` colors keep their
  * look in either mode. A transparent fill shows the page, so it is checked
- * against both page backgrounds of its theme.
+ * against both page backgrounds: those of its theme for `neutral`, and the
+ * light or dark ones `light` and `dark` are documented for. The borders of
+ * `light` and `dark` are checked against the pages of both themes.
  */
 describe("fieldSurfaceCompoundVariants contrast", () => {
 	const s = styleframe();
@@ -44,6 +46,20 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 		themes[theme].background!,
 		themes[theme].surface!,
 	];
+
+	// `light` and `dark` keep one look in both themes, so each sits on the page
+	// it is documented for in either theme: a light page for `light` and a dark
+	// page for `dark`. `neutral` sits on the page of its theme.
+	const surfaces = (color: string, theme: Theme) =>
+		color === "light" || color === "dark" ? pages(color) : pages(theme);
+
+	// A border marks the field wherever it sits, so the borders of `light` and
+	// `dark` hold 3:1 against the pages of both themes. `neutral` sits on the
+	// pages of its theme.
+	const borderPages = (color: string, theme: Theme) =>
+		color === "light" || color === "dark"
+			? [...pages("light"), ...pages("dark")]
+			: pages(theme);
 
 	// The muted text is the text color at this share, composited in sRGB over
 	// the fill, as `color-mix(in srgb, currentColor n%, transparent)` paints it.
@@ -80,9 +96,10 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 						? css["&:hover-capable:hover"]
 						: css["&:dark:hover-capable:hover"]
 				) as Slot;
+				const color = cv.match.color as string;
 				const fills =
 					slot.background === "transparent"
-						? pages(theme)
+						? surfaces(color, theme)
 						: [resolve(slot.background as string, theme)];
 				const borders = [slot, hover]
 					.flatMap((block) => [block.borderColor, block.borderBottomColor])
@@ -94,6 +111,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 				return {
 					name: `${cv.match.color} ${cv.match.variant} in the ${theme} theme`,
 					theme,
+					color,
 					text: resolve(slot.color as string, theme),
 					fills,
 					borders,
@@ -128,10 +146,10 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 
 	it.each(cases)(
 		"input/boundary-contrast gives the border 3:1 at rest and on hover on $name",
-		({ theme, fills, borders }) => {
+		({ theme, color, fills, borders }) => {
 			expect(borders.length).toBeGreaterThan(0);
 			for (const border of borders) {
-				for (const neighbour of [...pages(theme), ...fills]) {
+				for (const neighbour of [...borderPages(color, theme), ...fills]) {
 					expect(
 						wcagContrast(border, neighbour),
 						`${border} against ${neighbour}`,
@@ -143,9 +161,9 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 
 	it.each(cases)(
 		"input/boundary-contrast gives the invalid border 3:1 on $name",
-		({ theme, fills }) => {
+		({ theme, color, fills }) => {
 			const error = resolve(invalid.borderColor as string, theme);
-			for (const neighbour of [...pages(theme), ...fills]) {
+			for (const neighbour of [...borderPages(color, theme), ...fills]) {
 				expect(
 					wcagContrast(error, neighbour),
 					neighbour,
@@ -153,6 +171,53 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 			}
 		},
 	);
+
+	// Each declaration as the browser applies it in a theme, at rest and on
+	// hover, with every color token resolved for that theme and written in hex,
+	// so one color compares equal whichever way its theme spells it.
+	function applied(css: Slot, theme: Theme) {
+		const plain = Object.fromEntries(
+			Object.entries(css).filter(([, value]) => typeof value !== "object"),
+		);
+		const blocks =
+			theme === "light"
+				? { rest: [plain], hover: [plain, css["&:hover-capable:hover"]] }
+				: {
+						rest: [plain, css["&:dark"]],
+						hover: [
+							plain,
+							css["&:dark"],
+							css["&:hover-capable:hover"],
+							css["&:dark:hover-capable:hover"],
+						],
+					};
+		return Object.fromEntries(
+			Object.entries(blocks).map(([state, layers]) => [
+				state,
+				Object.fromEntries(
+					Object.entries(Object.assign({}, ...layers) as Slot).map(
+						([property, value]) => [
+							property,
+							typeof value === "string" && value.startsWith("@color.")
+								? formatHex8(resolve(value, theme))
+								: value,
+						],
+					),
+				),
+			]),
+		);
+	}
+
+	it.each(
+		compounds
+			.filter((cv) => cv.match.color === "light" || cv.match.color === "dark")
+			.map((cv) => ({
+				name: `${cv.match.color} ${cv.match.variant}`,
+				css: cv.css as Slot,
+			})),
+	)("input/fixed-colors keeps $name the same in both themes", ({ css }) => {
+		expect(applied(css, "dark")).toEqual(applied(css, "light"));
+	});
 
 	it.each(["light", "dark"] as const)(
 		"input/contrast gives the focus ring 3:1 against the %s page",

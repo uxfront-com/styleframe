@@ -1,5 +1,5 @@
 import { styleframe } from "@styleframe/core";
-import { wcagContrast } from "culori";
+import { formatHex8, wcagContrast } from "culori";
 import {
 	useDesignTokensPreset,
 	useModifiersPreset,
@@ -134,6 +134,61 @@ describe("useSwitchFieldRecipe contrast", () => {
 					`${border} against ${page}`,
 				).toBeGreaterThanOrEqual(3);
 			}
+		},
+	);
+	// With more contrast, `neutral` draws its off border in the text color, and
+	// `light` and `dark` keep their own.
+	const moreContrast = (["light", "dark"] as const).flatMap((theme) =>
+		recipe.compoundVariants!.map((cv) => {
+			const css = cv.css as Block;
+			const more = css["&:contrast-more"] as Block | undefined;
+			return {
+				name: `${cv.match.color} in the ${theme} theme`,
+				theme,
+				border: (more?.borderColor ?? css.borderColor) as string,
+			};
+		}),
+	);
+
+	it.each(moreContrast)(
+		"switch/more-contrast: the $name off border has 3:1 against the page",
+		({ theme, border }) => {
+			for (const page of pages(theme)) {
+				expect(
+					wcagContrast(resolve(border, theme), page),
+					`${border} against ${page}`,
+				).toBeGreaterThanOrEqual(3);
+			}
+		},
+	);
+
+	// Every color token in a block, resolved for a theme and written in hex, so
+	// one color compares equal whichever way its theme spells it.
+	function applied(value: unknown, theme: Theme): unknown {
+		if (typeof value === "string") {
+			return value.replace(/@color\.[\w-]+/g, (token) =>
+				formatHex8(resolve(token, theme)),
+			);
+		}
+		return Object.fromEntries(
+			Object.entries(value as Block).map(([key, inner]) => [
+				key,
+				applied(inner, theme),
+			]),
+		);
+	}
+
+	it.each(
+		recipe
+			.compoundVariants!.filter(
+				(cv) => cv.match.color === "light" || cv.match.color === "dark",
+			)
+			.map((cv) => ({ name: cv.match.color, css: cv.css as Block })),
+	)(
+		"switch/fixed-colors keeps the $name switch the same in both themes",
+		({ css }) => {
+			expect(css).not.toHaveProperty("&:dark");
+			expect(applied(css, "dark")).toEqual(applied(css, "light"));
 		},
 	);
 });

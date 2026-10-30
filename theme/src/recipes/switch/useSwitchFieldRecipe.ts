@@ -24,10 +24,10 @@ import { createUseRecipe } from "../../utils/createUseRecipe";
  *
  * Forced colors mode would paint the track over with the page's background
  * and hide the thumb, so the field opts out of it with `&:forced-colors` and
- * the setup callback draws every state in system colors. Those rules, and the
- * `prefers-contrast: more` border, replace state utilities of the same
- * specificity, so they're raw selectors whose attributes lift them above the
- * utilities, whatever order the generated CSS ends up in.
+ * the setup callback draws every state in system colors. Those rules replace
+ * state utilities of the same specificity, so they're raw selectors whose
+ * attributes lift them above the utilities, whatever order the generated CSS
+ * ends up in.
  */
 const thumb = (color: string) =>
 	`radial-gradient(circle closest-side, ${color} calc(100% - 1px), transparent 100%)`;
@@ -141,12 +141,17 @@ export const useSwitchFieldRecipe = createUseRecipe(
 				},
 			},
 			// Neutral track — one gray that keeps 3:1 against the page in both
-			// themes, and against its white thumb.
+			// themes, and against its white thumb. With more contrast, its border
+			// takes the text color. `light` and `dark` keep their own fixed border,
+			// which holds 3:1 against the page in both themes.
 			{
 				match: { color: "neutral" as const },
 				css: {
 					backgroundColor: "@color.gray-450",
 					borderColor: "@color.gray-450",
+					"&:contrast-more": {
+						borderColor: "@color.text",
+					},
 				},
 			},
 		],
@@ -157,14 +162,6 @@ export const useSwitchFieldRecipe = createUseRecipe(
 	},
 	(s) => {
 		const { selector } = s;
-
-		// With more contrast, the border of an unchecked, valid switch takes the
-		// text color.
-		selector('.switch-field:not(:checked, [aria-invalid="true"])', {
-			"@media (prefers-contrast: more)": {
-				borderColor: "@color.text",
-			},
-		});
 
 		// Forced colors: the field keeps its own colors, in system colors. The
 		// `[type="checkbox"]` attribute lifts each rule above the state utilities
