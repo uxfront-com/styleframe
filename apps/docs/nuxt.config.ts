@@ -65,6 +65,8 @@ export default defineNuxtConfig({
 		resolve("./modules/rawChangelog"),
 		// Docus's Markdown routes, split to fit Vercel's 4096-character limit.
 		resolve("./modules/vercelRouteLimit"),
+		// The Cloudflare build's _redirects, without the 404 fallback Workers reject.
+		resolve("./modules/workersRedirects"),
 	],
 
 	// The docs sections in app/constants/sections.ts, auto-imported for the
