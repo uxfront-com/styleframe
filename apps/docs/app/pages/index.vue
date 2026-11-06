@@ -213,8 +213,14 @@ const fluid = [
 				whether you or an agent made the change.
 				<br />
 				<span class="home__actions">
-					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
-					<UxPillLink :href="GITHUB_URL" label="Star on GitHub" />
+					<UxPillLink
+						:href="INTRODUCTION_URL"
+						label="Get started"
+						variant="filled"
+					/>
+					<UxPillLink :href="GITHUB_URL" label="Star on GitHub">
+						<template #icon><UxStarIcon /></template>
+					</UxPillLink>
 				</span>
 			</template>
 		</UxHero>
@@ -382,8 +388,14 @@ const fluid = [
 				Type-safe styling engine <em class="ux-serif">for the AI era</em>
 			</template>
 			<template #actions>
-				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
-				<UxPillLink :href="GITHUB_URL" label="Star on GitHub" />
+				<UxPillLink
+					:href="INTRODUCTION_URL"
+					label="Get started"
+					variant="filled"
+				/>
+				<UxPillLink :href="GITHUB_URL" label="Star on GitHub">
+					<template #icon><UxStarIcon /></template>
+				</UxPillLink>
 			</template>
 			<template #footer><SiteFooter /></template>
 		</UxFinale>

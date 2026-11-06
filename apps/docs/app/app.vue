@@ -21,3 +21,12 @@ useHead({
 	<DocusApp v-if="usesDocus" />
 	<NuxtPage v-else />
 </template>
+
+<style>
+/* The kit's UxTraits has no option for the arrow after a linked card's heading,
+   so this removes it. Three classes outrank the kit's scoped rule, whatever order
+   the stylesheets load in. */
+.ux-traits .ux-traits__linked .ux-traits__link strong::after {
+	content: none;
+}
+</style>
