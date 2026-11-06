@@ -5,7 +5,6 @@ import {
 	GITHUB_API_URL,
 	GITHUB_URL,
 	INTRODUCTION_URL,
-	LOGIN_URL,
 } from "~/data/site";
 
 // The header of the site's UXFront pages: the docs' logotype, signed "by
@@ -65,7 +64,6 @@ const starCount = computed(() =>
 			<NuxtLink class="site-header__link" :to="CHANGELOG_URL"
 				>Changelog</NuxtLink
 			>
-			<NuxtLink class="site-header__link" :to="LOGIN_URL">Log in</NuxtLink>
 			<a
 				class="site-header__github"
 				:href="GITHUB_URL"

@@ -62,7 +62,6 @@ describe("the header's links", () => {
 				activeFor: "/docs",
 			},
 			{ label: "Changelog", to: "/changelog", activeFor: "/changelog" },
-			{ label: "Log in", to: "https://app.styleframe.dev" },
 		]);
 	});
 
