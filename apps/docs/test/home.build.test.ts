@@ -61,7 +61,8 @@ const FEATURE_LINKS = [
 
 const LOGIN_URL = "https://app.styleframe.dev";
 
-// What the docs header, footer and table of contents link.
+// What the docs chrome links (its header, footer and table of contents), plus
+// the site footer's Log in.
 const CHROME_LINKS = [
 	"/docs/getting-started/introduction",
 	"/changelog",
