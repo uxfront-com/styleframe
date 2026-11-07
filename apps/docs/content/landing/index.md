@@ -35,10 +35,10 @@ export default s;
 
 Tokens, themes, utilities and recipes live in one typed source. Change a token once, and it flows to every selector, theme and recipe that uses it.
 
-- **[The compiler is your design-system reviewer](/docs/api)**: Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.
+- **[The compiler is your reviewer](/docs/api)**: Rename a token and the build fails at the reference, not in production.
 - **[Composable](/docs/api/composables)**: Compose and reuse styles with functions, variables, arrays or objects.
 - **[Built-in Theming](/docs/api/themes)**: Light, dark and custom themes, all from the same tokens.
-- **[One plugin, every major bundler](/docs/getting-started/installation)**: The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.
+- **[One plugin, every major bundler](/docs/getting-started/installation)**: The same config drives Vite, Nuxt, Webpack, esbuild, Astro and more.
 - **[Fully Configurable](/docs/api/instance#configuration-options)**: Every option is typed and in one place.
 - **[Intuitive Developer Experience](/docs/getting-started/guides)**: Autocomplete, in-editor docs and static analysis for your CSS.
 
