@@ -1,5 +1,16 @@
 # @styleframe/playground
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`e614db7`](https://github.com/uxfront-com/styleframe/commit/e614db75f3e192c8a19801c17ed057be37989c0d), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`e614db7`](https://github.com/uxfront-com/styleframe/commit/e614db75f3e192c8a19801c17ed057be37989c0d), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466), [`a70e8e7`](https://github.com/uxfront-com/styleframe/commit/a70e8e70330432eafdfd3533457eb3cad8bfc466)]:
+  - @styleframe/core@3.8.0
+  - @styleframe/theme@3.11.0
+  - @styleframe/transpiler@3.5.1
+  - @styleframe/runtime@3.2.3
+  - @styleframe/scanner@3.2.3
+
 ## 0.1.8
 
 ### Patch Changes

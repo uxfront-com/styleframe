@@ -1,6 +1,6 @@
 {
 	"name": "@styleframe/runtime",
-	"version": "3.2.2",
+	"version": "3.2.3",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/runtime.js",
@@ -33,7 +33,7 @@
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/config-vite": "workspace:^3.1.1",
-		"@styleframe/core": "workspace:^3.6.2",
+		"@styleframe/core": "workspace:^3.8.0",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
