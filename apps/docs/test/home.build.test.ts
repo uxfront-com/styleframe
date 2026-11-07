@@ -37,6 +37,17 @@ const CALLS_TO_ACTION = [
 	"https://github.com/uxfront-com/styleframe",
 ];
 
+// Where the two actions sit in the calls to action.
+const ACTIONS = { hero: [0, 2], finale: [-2, undefined] } as const;
+
+// The start of UxStarIcon's path.
+const STAR_ICON = 'd="M8 .25a.75.75';
+
+// app.vue's rule that removes the arrow from the kit's linked cards, as the
+// build writes it.
+const NO_CARD_ARROW =
+	/\.ux-traits \.ux-traits__linked \.ux-traits__link strong::?after\{content:none\}/;
+
 // The features that linked somewhere on main.
 const FEATURE_LINKS = [
 	"/docs/api",
@@ -48,11 +59,14 @@ const FEATURE_LINKS = [
 	"/docs/api/recipes",
 ];
 
-// What the docs header, footer and table of contents link.
+const LOGIN_URL = "https://app.styleframe.dev";
+
+// What the docs chrome links (its header, footer and table of contents), plus
+// the site footer's Log in.
 const CHROME_LINKS = [
 	"/docs/getting-started/introduction",
 	"/changelog",
-	"https://app.styleframe.dev",
+	LOGIN_URL,
 	"https://github.com/uxfront-com/styleframe",
 	"https://x.com/styleframe_dev",
 	"https://discord.com/invite/KCVwuGz44M",
@@ -97,6 +111,22 @@ describe("homepage", () => {
 		expect(links).toEqual(CALLS_TO_ACTION);
 	});
 
+	it.each(Object.entries(ACTIONS))(
+		"fills Get started and stars Star on GitHub in the %s",
+		(_, [from, to]) => {
+			const pills = [
+				...content.matchAll(/<a class="ux-pill-link[\s\S]*?<\/a>/g),
+			].map(([markup]) => markup);
+			const [getStarted, star] = pills.slice(from, to);
+			expect(getStarted).toContain("Get started");
+			expect(getStarted).toContain("ux-pill-link--filled");
+			expect(star).toContain("Star on GitHub");
+			expect(star).not.toContain("ux-pill-link--filled");
+			expect(star).toContain(STAR_ICON);
+			expect(star).not.toContain("ux-pill-link__arrow");
+		},
+	);
+
 	it.each(FEATURE_LINKS)("links the feature at %s", (link) => {
 		expect(content).toContain(`<a class="ux-traits__link" href="${link}"`);
 	});
@@ -107,12 +137,20 @@ describe("homepage", () => {
 			.map(([markup]) => markup)
 			.join("\n");
 		for (const link of CHROME_LINKS.slice(0, 4)) {
-			expect(header).toContain(`href="${link}"`);
+			if (link !== LOGIN_URL) expect(header).toContain(`href="${link}"`);
 		}
 		for (const link of CHROME_LINKS) {
 			expect(chrome).toContain(`href="${link}"`);
 		}
 		expect(chrome).toMatch(/Copyright © \d{4} styleframe/);
+	});
+
+	it("links Log in from its footer, not its header", () => {
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
+		expect(header).not.toBe("");
+		expect(header).not.toContain(`href="${LOGIN_URL}"`);
+		expect(footer).toContain(`href="${LOGIN_URL}"`);
 	});
 
 	it("shows the docs' logotype in its header, with the byline after it", () => {
@@ -173,6 +211,16 @@ it("leaves the docs pages' stylesheet as it is", () => {
 	);
 	expect(html).not.toContain('media="print"');
 });
+
+it.each(["index", "pro"])(
+	"%s holds the rule without the cards' arrow",
+	(route) => {
+		const file = existsSync(join(OUTPUT, `${route}.html`))
+			? `${route}.html`
+			: `${route}/index.html`;
+		expect(read(file)).toMatch(NO_CARD_ARROW);
+	},
+);
 
 // 404.html is the app's client-side shell: app/error.vue renders the UXFront
 // error page in the browser.

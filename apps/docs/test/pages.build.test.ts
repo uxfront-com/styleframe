@@ -29,10 +29,12 @@ const PAGES = {
 
 const LEGAL_LINKS = ['href="/privacy"', 'href="/terms"', 'href="/license"'];
 
+const LOGIN_LINK = 'href="https://app.styleframe.dev"';
+
 const CHROME_LINKS = [
 	'href="/docs/getting-started/introduction"',
 	'href="/changelog"',
-	'href="https://app.styleframe.dev"',
+	LOGIN_LINK,
 	'href="https://github.com/uxfront-com/styleframe"',
 	'href="https://x.com/styleframe_dev"',
 	'href="https://discord.com/invite/KCVwuGz44M"',
@@ -42,7 +44,9 @@ const CHROME_LINKS = [
 ];
 
 // The site header's own links, beside the footer's copies.
-const HEADER_LINKS = CHROME_LINKS.slice(0, 4);
+const HEADER_LINKS = CHROME_LINKS.slice(0, 4).filter(
+	(link) => link !== LOGIN_LINK,
+);
 
 // The links each product page must keep from main.
 const PAGE_LINKS = {
@@ -103,6 +107,18 @@ describe("product and legal pages", () => {
 	);
 
 	it.each(Object.keys(PAGES))(
+		"%s links Log in from its footer, not its header",
+		(route) => {
+			const html = readPage(route);
+			const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+			const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
+			expect(header).not.toBe("");
+			expect(header).not.toContain(LOGIN_LINK);
+			expect(footer).toContain(LOGIN_LINK);
+		},
+	);
+
+	it.each(Object.keys(PAGES))(
 		"%s shows the docs' logotype in its header, with the byline after it",
 		(route) => {
 			const header =
@@ -145,5 +161,18 @@ describe("product and legal pages", () => {
 		const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
 		for (const link of LEGAL_LINKS) expect(footer).toContain(link);
 		expect(footer).toMatch(CREDIT);
+	});
+
+	it("the docs header links the docs and the changelog, not Log in", () => {
+		const html = readPage("docs/getting-started/introduction");
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		expect(header).toContain('href="/changelog"');
+		expect(header).toContain('href="/docs/getting-started/introduction"');
+		expect(header).not.toContain(LOGIN_LINK);
+	});
+
+	it("the changelog lists the 3.10.0 entry, which has its own page", () => {
+		readPage("changelog/3.10.0");
+		expect(readPage("changelog")).toContain('href="/changelog/3.10.0"');
 	});
 });
