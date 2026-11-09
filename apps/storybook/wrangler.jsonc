@@ -9,4 +9,7 @@
 	"assets": {
 		"directory": "storybook-static",
 	},
+	// `wrangler preview` stops without this block. Previews use the settings above,
+	// so it stays empty.
+	"previews": {},
 }
