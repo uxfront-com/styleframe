@@ -55,8 +55,8 @@ const nav = [
 
 const config = [
 	{
-		title: "The compiler is your design-system reviewer",
-		text: "Autocomplete runs from a token to a recipe variant. Rename a token and the build fails at the reference, not in production.",
+		title: "The compiler is your reviewer",
+		text: "Rename a token and the build fails at the reference, not in production.",
 		href: "/docs/api",
 	},
 	{
@@ -71,7 +71,7 @@ const config = [
 	},
 	{
 		title: "One plugin, every major bundler",
-		text: "The same config drives Vite, Nuxt, Webpack, Rollup, esbuild, Rspack, Farm, Astro and Bun. Framework-agnostic output works with React, Vue, Svelte, Solid, Astro and more.",
+		text: "The same config drives Vite, Nuxt, Webpack, esbuild, Astro and more.",
 		href: "/docs/getting-started/installation",
 	},
 	{
@@ -230,16 +230,15 @@ const fluid = [
 			index="01"
 			role="One config"
 			title="Your design system, in one TypeScript config"
-			:steps="config.length"
 		>
 			<template #lead>
 				Tokens, themes, utilities and recipes live in one typed source. Change a
 				token once, and it flows to every selector, theme and recipe that uses
 				it.
 			</template>
-			<UxTraits :items="config" />
 			<template #aside><SiteSample name="config" /></template>
 		</UxSplit>
+		<SiteFeatures :items="config" aria-labelledby="config-title" />
 
 		<UxSplit
 			id="compose"
