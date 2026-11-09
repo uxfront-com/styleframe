@@ -48,16 +48,17 @@ const STAR_ICON = 'd="M8 .25a.75.75';
 const NO_CARD_ARROW =
 	/\.ux-traits \.ux-traits__linked \.ux-traits__link strong::?after\{content:none\}/;
 
-// The features that linked somewhere on main.
-const FEATURE_LINKS = [
+// The features that linked somewhere on main: the config section's strip, and
+// the one in a chapter's UxTraits.
+const STRIP_LINKS = [
 	"/docs/api",
 	"/docs/api/composables",
 	"/docs/api/themes",
 	"/docs/getting-started/installation",
 	"/docs/api/instance#configuration-options",
 	"/docs/getting-started/guides",
-	"/docs/api/recipes",
 ];
+const TRAIT_LINKS = ["/docs/api/recipes"];
 
 const LOGIN_URL = "https://app.styleframe.dev";
 
@@ -127,7 +128,11 @@ describe("homepage", () => {
 		},
 	);
 
-	it.each(FEATURE_LINKS)("links the feature at %s", (link) => {
+	it.each(STRIP_LINKS)("links the strip's feature at %s", (link) => {
+		expect(content).toContain(`<a class="site-features__link" href="${link}"`);
+	});
+
+	it.each(TRAIT_LINKS)("links the chapter's feature at %s", (link) => {
 		expect(content).toContain(`<a class="ux-traits__link" href="${link}"`);
 	});
 
