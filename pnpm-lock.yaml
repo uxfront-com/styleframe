@@ -821,13 +821,13 @@ importers:
         specifier: workspace:^3.1.1
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.6.2
+        specifier: workspace:^3.8.0
         version: link:../core
       '@styleframe/license':
         specifier: 'catalog:'
         version: 2.0.2
       '@styleframe/transpiler':
-        specifier: workspace:^3.4.2
+        specifier: workspace:^3.5.1
         version: link:../transpiler
       '@vitest/coverage-v8':
         specifier: 'catalog:'
@@ -857,7 +857,7 @@ importers:
         specifier: workspace:^3.1.1
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.6.2
+        specifier: workspace:^3.8.0
         version: link:../core
       '@vitest/coverage-v8':
         specifier: 'catalog:'
@@ -891,7 +891,7 @@ importers:
         specifier: workspace:^3.1.1
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.6.2
+        specifier: workspace:^3.8.0
         version: link:../core
       '@styleframe/license':
         specifier: 'catalog:'
@@ -968,7 +968,7 @@ importers:
         specifier: workspace:^3.1.2
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.7.0
+        specifier: workspace:^3.8.0
         version: link:../core
       '@styleframe/license':
         specifier: 'catalog:'
@@ -1059,7 +1059,7 @@ importers:
         specifier: workspace:^3.1.2
         version: link:../../config/vite
       '@styleframe/theme':
-        specifier: workspace:^3.10.0
+        specifier: workspace:^3.11.0
         version: link:../../theme
       '@types/node':
         specifier: 'catalog:'
@@ -1114,10 +1114,10 @@ importers:
         specifier: workspace:^3.1.2
         version: link:../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.7.0
+        specifier: workspace:^3.8.0
         version: link:../engine/core
       '@styleframe/transpiler':
-        specifier: workspace:^3.5.0
+        specifier: workspace:^3.5.1
         version: link:../engine/transpiler
       '@vitest/coverage-v8':
         specifier: 'catalog:'
@@ -1160,16 +1160,16 @@ importers:
         specifier: workspace:^3.1.1
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.6.2
+        specifier: workspace:^3.8.0
         version: link:../../engine/core
       '@styleframe/license':
         specifier: 'catalog:'
         version: 2.0.2
       '@styleframe/loader':
-        specifier: workspace:^3.0.4
+        specifier: workspace:^3.0.5
         version: link:../../engine/loader
       '@styleframe/theme':
-        specifier: workspace:^3.8.1
+        specifier: workspace:^3.11.0
         version: link:../../theme
       '@vitest/coverage-v8':
         specifier: 'catalog:'
@@ -1337,10 +1337,10 @@ importers:
   tooling/plugin/playground:
     devDependencies:
       '@styleframe/runtime':
-        specifier: workspace:^3.2.2
+        specifier: workspace:^3.2.3
         version: link:../../../engine/runtime
       '@styleframe/theme':
-        specifier: workspace:^3.10.0
+        specifier: workspace:^3.11.0
         version: link:../../../theme
       '@vitejs/plugin-vue':
         specifier: catalog:nuxt
