@@ -13,6 +13,13 @@ const SITE_URL = "https://www.styleframe.dev";
 // and llms.txt at build time, and for the sitemap when it's prerendered.
 process.env.NUXT_SITE_URL ||= SITE_URL;
 
+// Without a preset, Nitro detects Workers Builds and picks cloudflare-module,
+// whose generated wrangler.json replaces wrangler.jsonc and points at a server
+// entry that this static build never writes. An explicit NITRO_PRESET still wins.
+if (process.env.WORKERS_CI) {
+	process.env.NITRO_PRESET ||= "cloudflare_pages_static";
+}
+
 // One prerendered route per changelog entry. Their slugs, like /changelog/3.9.0,
 // end in what the prerender crawler reads as a file extension, so it skips them
 // when it follows the links on /changelog.

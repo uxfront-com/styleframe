@@ -22,7 +22,7 @@
 		},
 		"@styleframe/docs#build": {
 			"cache": true,
-			"env": ["NITRO_PRESET"],
+			"env": ["NITRO_PRESET", "WORKERS_CI"],
 			"inputs": [
 				"app/**",
 				"server/**",
