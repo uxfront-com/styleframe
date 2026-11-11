@@ -1,6 +1,6 @@
 {
 	"name": "@styleframe/loader",
-	"version": "3.0.4",
+	"version": "3.0.5",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/index.js",
@@ -45,9 +45,9 @@
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/config-vite": "workspace:^3.1.1",
-		"@styleframe/core": "workspace:^3.6.2",
+		"@styleframe/core": "workspace:^3.8.0",
 		"@styleframe/license": "catalog:",
-		"@styleframe/transpiler": "workspace:^3.4.2",
+		"@styleframe/transpiler": "workspace:^3.5.1",
 		"@vitest/coverage-v8": "catalog:",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
