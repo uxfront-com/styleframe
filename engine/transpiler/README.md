@@ -12,6 +12,6 @@ pnpm add -D @styleframe/transpiler
 
 ## Documentation
 
-- [Recipe output format](https://www.styleframe.dev/docs/api/recipes/output-format): the class names and values the transpiler emits for a recipe.
-- [The `strict` option](https://www.styleframe.dev/docs/api/instance#strict): what `transpile()` does with the problems it finds.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Recipe output format](https://styleframe.dev/docs/api/recipes/output-format): the class names and values the transpiler emits for a recipe.
+- [The `strict` option](https://styleframe.dev/docs/api/instance#strict): what `transpile()` does with the problems it finds.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

@@ -7,7 +7,7 @@ import { SECURITY_HEADERS } from "./server/lib/headers";
 const { resolve } = createResolver(import.meta.url);
 const require = createRequire(import.meta.url);
 
-const SITE_URL = "https://www.styleframe.dev";
+const SITE_URL = "https://styleframe.dev";
 
 // The AI crawlers robots.txt names, each allowed in: the answer engines' search
 // and user agents, and the training crawlers.

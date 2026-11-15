@@ -9,7 +9,7 @@
 export type JsonLdNode = Record<string, unknown>;
 
 export interface SiteIdentity {
-	/** The production origin, like https://www.styleframe.dev, with no trailing slash. */
+	/** The production origin, like https://styleframe.dev, with no trailing slash. */
 	siteUrl: string;
 	name: string;
 	description: string;
@@ -32,7 +32,12 @@ export const organizationId = (siteUrl: string) => `${siteUrl}/#organization`;
 
 /** A reference to the publisher, named so a page read on its own still says who. */
 function publisher(siteUrl: string, name: string): JsonLdNode {
-	return { "@type": "Organization", "@id": organizationId(siteUrl), name };
+	return {
+		"@type": "Organization",
+		"@id": organizationId(siteUrl),
+		name,
+		url: `${siteUrl}/`,
+	};
 }
 
 /** The homepage's one graph: the site, its publisher and the library. */

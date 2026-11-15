@@ -10,5 +10,5 @@ pnpm add -D @styleframe/figma
 
 ## Documentation
 
-- [Figma plugin](https://www.styleframe.dev/docs/getting-started/integrations/figma-plugin): installing the plugin and moving variables between Figma and your code.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Figma plugin](https://styleframe.dev/docs/getting-started/integrations/figma-plugin): installing the plugin and moving variables between Figma and your code.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

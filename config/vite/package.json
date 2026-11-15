@@ -23,7 +23,7 @@
 		"vite.config.d.ts",
 		"LICENSE"
 	],
-	"homepage": "https://www.styleframe.dev",
+	"homepage": "https://styleframe.dev",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/uxfront-com/styleframe.git",

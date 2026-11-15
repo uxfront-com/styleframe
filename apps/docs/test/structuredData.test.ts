@@ -6,7 +6,7 @@ import {
 	webPage,
 } from "../app/utils/structuredData";
 
-const SITE = "https://www.styleframe.dev";
+const SITE = "https://styleframe.dev";
 const page = {
 	siteUrl: SITE,
 	siteName: "Styleframe",

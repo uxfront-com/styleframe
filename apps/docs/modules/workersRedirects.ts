@@ -14,7 +14,7 @@ export function dropNotFoundRedirects(redirects: string): string {
 /**
  * Every `workers.dev` host of the Worker: its preview URLs, like a PR's, and
  * the version URL of each build, `main`'s too. The rule's placeholders each
- * match up to a `.`, so it never matches www.styleframe.dev.
+ * match up to a `.`, so it never matches styleframe.dev.
  * https://developers.cloudflare.com/workers/static-assets/headers/
  */
 export const PREVIEW_HOSTS_RULE = [

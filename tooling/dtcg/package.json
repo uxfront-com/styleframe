@@ -44,7 +44,7 @@
 		"typescript": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://www.styleframe.dev",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},

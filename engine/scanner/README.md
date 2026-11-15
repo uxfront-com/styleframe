@@ -12,5 +12,5 @@ pnpm add -D @styleframe/scanner
 
 ## Documentation
 
-- [Utility scanner](https://www.styleframe.dev/docs/getting-started/tooling/scanner): what it detects, how to configure it and the class name syntax it reads.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Utility scanner](https://styleframe.dev/docs/getting-started/tooling/scanner): what it detects, how to configure it and the class name syntax it reads.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

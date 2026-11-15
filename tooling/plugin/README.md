@@ -12,5 +12,5 @@ pnpm add -D @styleframe/plugin
 
 ## Documentation
 
-- [Vite installation](https://www.styleframe.dev/docs/getting-started/installation/vite): adding the plugin and importing its CSS.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Vite installation](https://styleframe.dev/docs/getting-started/installation/vite): adding the plugin and importing its CSS.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

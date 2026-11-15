@@ -52,7 +52,7 @@
 	"peerDependencies": {
 		"@styleframe/core": "workspace:^3.6.1"
 	},
-	"homepage": "https://www.styleframe.dev",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},

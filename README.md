@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.styleframe.dev/logotype-light.svg" alt="Styleframe" width="320" height="120">
+  <img src="https://styleframe.dev/logotype-light.svg" alt="Styleframe" width="320" height="120">
 
 **Type-safe Composable CSS in TypeScript**
 

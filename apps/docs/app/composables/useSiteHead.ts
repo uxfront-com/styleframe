@@ -19,7 +19,7 @@ export interface SiteHeadOptions {
 /** JSON-LD as a script body, with `<` escaped so no value can close the script. */
 export function jsonLdScript(node: JsonLdNode) {
 	return {
-		type: "application/ld+json",
+		type: "application/ld+json" as const,
 		innerHTML: JSON.stringify(node).replace(/</g, "\\u003c"),
 	};
 }
