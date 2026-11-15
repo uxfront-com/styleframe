@@ -32,8 +32,11 @@ const tabsSource = (source: string) =>
 	source.match(/const \{ tabs \} = (\w+)\(\);/)?.[1];
 
 // The props of a <UContentNavigation>, without the tree it shows and its name.
+// The sidebar's `:key`, which renders it again once the page has loaded (see
+// DocsAsideLeftBody.vue), is left out: the menu renders only in the browser.
 const contentNavProps = (source: string) =>
 	(source.match(/<UContentNavigation\b([^>]*)\/>/)?.[1] ?? "")
+		.replace(/:key="[^"]*"/, "")
 		.split(/\s+/)
 		.filter(
 			(prop) =>
