@@ -3,13 +3,13 @@
 	"type": "module",
 	"version": "2.1.1",
 	"description": "Figma plugin for syncing Styleframe variables with Figma variables",
-	"license": "MIT",
 	"keywords": [
 		"styleframe",
 		"figma",
 		"design-tokens",
 		"css-variables"
 	],
+	"license": "MIT",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -50,13 +50,14 @@
 		"vite-plugin-singlefile": "^2.3.3",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://www.styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "tooling/figma"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

@@ -3,7 +3,6 @@
 	"type": "module",
 	"version": "3.4.2",
 	"description": "Unplugin for Styleframe. Use it with Vite, Webpack, Astro, Nuxt, Rollup, Rspack, and more.",
-	"license": "MIT",
 	"keywords": [
 		"styleframe",
 		"unplugin",
@@ -15,6 +14,7 @@
 		"rspack",
 		"transform"
 	],
+	"license": "MIT",
 	"exports": {
 		".": "./dist/index.js",
 		"./astro": "./dist/astro.js",
@@ -116,13 +116,14 @@
 		"vitest": "catalog:",
 		"webpack": "^5.107.2"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://www.styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "tooling/plugin"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

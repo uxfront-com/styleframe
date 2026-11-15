@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { uxRenderHookKey } from "@uxfront/ui";
-import { SITE_NAME } from "~/data/site";
 
 // A legal page: its Markdown from content/legal/, word for word, in the UXFront
 // style, between the site's header and footer. No scene.
@@ -21,11 +20,10 @@ if (!page.value) {
 // .md files, so prerender it with the page, as Docus does for docs pages.
 prerenderRoutes(`/raw${route.path}.md`);
 
-useUxHead({
+useSiteHead({
 	title,
 	// Each legal page's own, from its front matter in content/legal/.
 	description: page.value.description,
-	siteName: SITE_NAME,
 	path: route.path,
 	image: {
 		path: `/og${route.path}.png`,

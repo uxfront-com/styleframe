@@ -1,6 +1,12 @@
 {
 	"name": "@styleframe/scanner",
 	"version": "3.2.2",
+	"keywords": [
+		"styleframe",
+		"utility-classes",
+		"scanner",
+		"css"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/index.js",
@@ -59,13 +65,14 @@
 		"unplugin-dts": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://www.styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/scanner"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

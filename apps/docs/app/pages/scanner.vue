@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { corridor, empty, outline, tokens } from "@uxfront/scene/formations";
 import { HERO_VIEWS } from "~/lib/formations";
-import { INTRODUCTION_URL, SCANNER_URL, SITE_NAME } from "~/data/site";
+import { INTRODUCTION_URL, SCANNER_URL } from "~/data/site";
 
 const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
 
-useUxHead({
+useSiteHead({
 	title: "Utility Scanner - Automatic CSS Generation - styleframe",
 	description:
 		"Write utility classes in your markup, and Styleframe's scanner generates only the CSS you use at build time, in any framework and with HMR.",
-	siteName: SITE_NAME,
 	path: SCANNER_URL,
 	image: {
 		path: "/og/scanner.png",

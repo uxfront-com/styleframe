@@ -48,3 +48,5 @@ export const LEGAL_LINKS = [
 
 /** The footer's credit, as on main. */
 export const CREDIT = `Copyright © ${new Date().getFullYear()} styleframe`;
+
+export const NPM_URL = "https://www.npmjs.com/package/styleframe";

@@ -9,6 +9,20 @@ const require = createRequire(import.meta.url);
 
 const SITE_URL = "https://www.styleframe.dev";
 
+// The AI crawlers robots.txt names, each allowed in: the answer engines' search
+// and user agents, and the training crawlers.
+const AI_CRAWLERS = [
+	"OAI-SearchBot",
+	"ChatGPT-User",
+	"PerplexityBot",
+	"Claude-SearchBot",
+	"Claude-User",
+	"GPTBot",
+	"ClaudeBot",
+	"Google-Extended",
+	"CCBot",
+];
+
 // Docus reads the site URL from the environment: for canonical URLs, robots.txt
 // and llms.txt at build time, and for the sitemap when it's prerendered.
 process.env.NUXT_SITE_URL ||= SITE_URL;
@@ -72,8 +86,11 @@ export default defineNuxtConfig({
 		resolve("./modules/rawChangelog"),
 		// Docus's Markdown routes, split to fit Vercel's 4096-character limit.
 		resolve("./modules/vercelRouteLimit"),
-		// The Cloudflare build's _redirects, without the 404 fallback Workers reject.
+		// The Cloudflare build's _redirects, without the 404 fallback Workers reject,
+		// and the _headers rule that keeps preview hosts out of search results.
 		resolve("./modules/workersRedirects"),
+		// Each page's last commit, for the sitemap's <lastmod> and dateModified.
+		resolve("./modules/gitDates"),
 	],
 
 	// The docs sections in app/constants/sections.ts, auto-imported for the
@@ -100,8 +117,15 @@ export default defineNuxtConfig({
 		name: "Styleframe",
 	},
 
+	// robots.txt: Docus's one group lets every crawler in, and these name the AI
+	// crawlers. Nothing is disallowed, not even /raw/, so crawlers can read the
+	// noindex those pages send.
+	robots: {
+		groups: AI_CRAWLERS.map((userAgent) => ({ userAgent, allow: "/" })),
+	},
+
 	llms: {
-		domain: "https://styleframe.dev",
+		domain: SITE_URL,
 		title: "Styleframe",
 		// The summary under the title, in llms.txt's `> ` blockquote.
 		description:
@@ -149,8 +173,13 @@ export default defineNuxtConfig({
 	},
 
 	routeRules: {
-		// The docs open on the introduction.
-		"/docs": { redirect: "/docs/getting-started/introduction" },
+		// The docs open on the introduction, for good.
+		"/docs": {
+			redirect: { to: "/docs/getting-started/introduction", statusCode: 301 },
+		},
+		// The pages' Markdown copies, for agents, stay out of search results:
+		// the pages themselves are the ones to rank.
+		"/raw/**": { headers: { "X-Robots-Tag": "noindex" } },
 		// Hashed build assets never change, so cache them forever.
 		"/_nuxt/**": {
 			headers: { "cache-control": "public, max-age=31536000, immutable" },
@@ -180,19 +209,6 @@ export default defineNuxtConfig({
 				"/figma",
 			],
 			failOnError: true,
-		},
-		// The image block main's Vercel build had, from @nuxt/image's Vercel
-		// provider. The READMEs, on npm too, load the logo through it:
-		// /_vercel/image?url=%2Flogotype-light.svg&w=1536&q=100.
-		vercel: {
-			config: {
-				images: {
-					domains: [],
-					minimumCacheTTL: 300,
-					sizes: [320, 640, 768, 1024, 1280, 1536],
-					formats: ["image/webp", "image/avif"],
-				},
-			},
 		},
 	},
 });

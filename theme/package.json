@@ -1,6 +1,14 @@
 {
 	"name": "@styleframe/theme",
 	"version": "3.10.0",
+	"keywords": [
+		"styleframe",
+		"theme",
+		"design-tokens",
+		"recipes",
+		"utilities",
+		"design-system"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/theme.js",
@@ -44,13 +52,14 @@
 	"peerDependencies": {
 		"@styleframe/core": "workspace:^3.6.1"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://www.styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "theme"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>",
 	"dependencies": {
