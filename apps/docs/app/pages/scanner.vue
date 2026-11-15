@@ -8,7 +8,7 @@ const SCANNER_DOCS_URL = "/docs/getting-started/tooling/scanner";
 useUxHead({
 	title: "Utility Scanner - Automatic CSS Generation - styleframe",
 	description:
-		"Write utility classes directly in your markup. Styleframe's utility scanner detects them and generates only the CSS you use at build time — type-safe, framework-agnostic, with full HMR support.",
+		"Write utility classes in your markup, and Styleframe's scanner generates only the CSS you use at build time, in any framework and with HMR.",
 	siteName: SITE_NAME,
 	path: SCANNER_URL,
 	image: {

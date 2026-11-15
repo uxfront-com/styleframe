@@ -23,8 +23,8 @@ prerenderRoutes(`/raw${route.path}.md`);
 
 useUxHead({
 	title,
-	// Main's legal pages have an empty description.
-	description: "",
+	// Each legal page's own, from its front matter in content/legal/.
+	description: page.value.description,
 	siteName: SITE_NAME,
 	path: route.path,
 	image: {

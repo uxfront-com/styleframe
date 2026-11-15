@@ -1,6 +1,6 @@
 ---
 title: Privacy
-description: ""
+description: How Styleframe collects, uses and protects your personal information when you use styleframe.dev and its services, and the rights you have over it.
 ---
 
 # Privacy Policy
