@@ -136,7 +136,9 @@ addPrerenderPath(`/raw${route.path}.md`);
 		<UPageBody>
 			<ContentRenderer v-if="page" :value="page" />
 
-			<USeparator v-if="github">
+			<!-- Decorative, as it holds links: a separator's content isn't
+			     reachable by assistive technology. -->
+			<USeparator v-if="github" decorative>
 				<div class="flex items-center gap-2 text-sm text-muted">
 					<UButton
 						variant="link"

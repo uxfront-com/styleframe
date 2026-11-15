@@ -2,16 +2,71 @@
 	"ci": {
 		"collect": {
 			"staticDistDir": ".output/public",
-			"url": ["http://localhost/"],
+			"url": [
+				"http://localhost/",
+				"http://localhost/docs/getting-started/introduction.html",
+				"http://localhost/docs/getting-started/installation/vite.html",
+				"http://localhost/docs/api/variables.html",
+				"http://localhost/docs/theme/design-tokens/colors.html",
+				"http://localhost/docs/getting-started/comparisons/tailwind.html"
+			],
 			"numberOfRuns": 3
 		},
 		"assert": {
-			"assertions": {
-				"categories:performance": ["error", { "minScore": 0.95 }],
-				"categories:accessibility": ["error", { "minScore": 0.95 }],
-				"categories:best-practices": ["error", { "minScore": 0.95 }],
-				"categories:seo": ["error", { "minScore": 0.95 }]
-			}
+			"assertMatrix": [
+				{
+					"matchingUrlPattern": "^http://localhost:\\d+/$",
+					"assertions": {
+						"categories:performance": [
+							"error",
+							{
+								"minScore": 0.95
+							}
+						],
+						"categories:accessibility": [
+							"error",
+							{
+								"minScore": 0.95
+							}
+						],
+						"categories:best-practices": [
+							"error",
+							{
+								"minScore": 0.95
+							}
+						],
+						"categories:seo": [
+							"error",
+							{
+								"minScore": 1
+							}
+						]
+					}
+				},
+				{
+					"matchingUrlPattern": "^http://localhost:\\d+/docs/",
+					"assertions": {
+						"categories:accessibility": [
+							"error",
+							{
+								"minScore": 0.95
+							}
+						],
+						"categories:best-practices": [
+							"error",
+							{
+								"minScore": 0.95
+							}
+						],
+						"categories:seo": [
+							"error",
+							{
+								"minScore": 1
+							}
+						]
+					}
+				}
+			]
 		},
 		"upload": {
 			"target": "filesystem",

@@ -75,7 +75,7 @@ const viewportLabel = computed(() => {
 			:style="{ width: `${screenWidth}px` }"
 			class="mb-6 max-w-full bg-gradient-to-br from-slate-300/80 via-slate-300/50 to-slate-300/10 dark:from-slate-800/10 dark:via-slate-800/40 dark:to-slate-800/10"
 		>
-			<main
+			<div
 				class="h-[420px] pt-8 flex flex-col gap-8 max-sm:px-0"
 				:class="{
           'px-0': screenWidth < 576,
@@ -83,12 +83,14 @@ const viewportLabel = computed(() => {
         }"
 				:style="fluidFontSizes"
 			>
-				<h1
+				<!-- The sample page's headline, not a heading of the docs page, which
+				     has its own <h1>. -->
+				<p
 					class="font-extrabold text-center mx-auto"
 					style="font-size: var(--fluid-h1-size); line-height: 1.1"
 				>
 					Typography that flows naturally across every screen size
-				</h1>
+				</p>
 				<p
 					class="font-medium text-center mx-auto"
 					style="font-size: var(--fluid-p-size); line-height: 1.6"
@@ -123,18 +125,27 @@ const viewportLabel = computed(() => {
 						<div>Watch as everything scales fluidly in between</div>
 					</div>
 				</div>
-			</main>
+			</div>
 		</BrowserFrame>
 
 		<UCard class="w-[560px] max-w-full mt-[-100px] z-1">
 			<template #header>
 				<div class="flex justify-between items-center">
-					<h3 class="u-h3 font-bold">Interactive Controls</h3>
+					<!-- A label for the controls, not a heading of the docs page. -->
+					<p class="u-h3 font-bold">Interactive Controls</p>
 					<div class="flex gap-2">
-						<UBadge color="primary" variant="subtle">
+						<UBadge
+							color="primary"
+							variant="subtle"
+							class="text-primary-700 dark:text-primary"
+						>
 							{{ screenWidth }}px
 						</UBadge>
-						<UBadge color="primary" variant="subtle">
+						<UBadge
+							color="primary"
+							variant="subtle"
+							class="text-primary-700 dark:text-primary"
+						>
 							{{ viewportLabel }}
 						</UBadge>
 					</div>
@@ -156,7 +167,7 @@ const viewportLabel = computed(() => {
 				/>
 
 				<div
-					class="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-500"
+					class="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400"
 				>
 					<span>Mobile</span>
 					<span>Tablet</span>
