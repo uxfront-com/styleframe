@@ -1,6 +1,6 @@
 ---
 title: Utility Scanner - Automatic CSS Generation
-description: Write utility classes directly in your markup. Styleframe's utility scanner detects them and generates only the CSS you use at build time — type-safe, framework-agnostic, with full HMR support.
+description: Write utility classes in your markup, and Styleframe's scanner generates only the CSS you use at build time, in any framework and with HMR.
 ---
 
 ## Utility-First Markup to CSS at Build Time

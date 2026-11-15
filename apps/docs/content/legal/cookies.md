@@ -1,6 +1,6 @@
 ---
 title: Cookies
-description: ""
+description: How styleframe.dev uses cookies, the kinds it sets, the third-party services that may set their own and how you can decline them in your browser.
 ---
 
 # Cookie Policy

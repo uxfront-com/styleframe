@@ -1,6 +1,6 @@
 ---
 title: Terms
-description: ""
+description: The terms of service for styleframe.dev and its online store, which cover how you may use the website and what applies when you buy a subscription.
 ---
 
 # Terms of Service

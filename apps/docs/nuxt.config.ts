@@ -97,12 +97,15 @@ export default defineNuxtConfig({
 
 	// The title template and the social cards' site name.
 	site: {
-		name: "Styleframe — The Design Systems Styling Engine",
+		name: "Styleframe",
 	},
 
 	llms: {
 		domain: "https://styleframe.dev",
 		title: "Styleframe",
+		// The summary under the title, in llms.txt's `> ` blockquote.
+		description:
+			"Styleframe is an open-source, type-safe styling engine for design systems. You write design tokens, themes, utilities and recipes in TypeScript, and it generates the CSS at build time, with an optional runtime for recipe variants.",
 	},
 
 	content: {
