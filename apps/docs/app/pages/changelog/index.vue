@@ -9,7 +9,7 @@ const title = "Changelog";
 const description =
 	"Everything new in Styleframe — recipes, engine improvements, and tooling, release by release.";
 
-useSeo({ title, description, type: "website" });
+useDocsHead({ title, description, type: "page" });
 defineOgImage("Docs.takumi", { headline: "styleframe", title, description });
 </script>
 

@@ -1,6 +1,12 @@
 {
 	"name": "@styleframe/loader",
 	"version": "3.0.4",
+	"keywords": [
+		"styleframe",
+		"config-loader",
+		"design-tokens",
+		"typescript"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/index.js",
@@ -55,13 +61,14 @@
 		"unplugin-dts": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/loader"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

@@ -12,5 +12,5 @@ pnpm add @styleframe/runtime
 
 ## Documentation
 
-- [Recipe runtime](https://www.styleframe.dev/docs/api/recipes/runtime): how the generated recipe functions resolve variants into class names.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Recipe runtime](https://styleframe.dev/docs/api/recipes/runtime): how the generated recipe functions resolve variants into class names.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

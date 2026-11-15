@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { corridor, empty, outline, tokens } from "@uxfront/scene/formations";
 import { HERO_VIEWS } from "~/lib/formations";
-import { FIGMA_PLUGIN_URL, FIGMA_URL, SITE_NAME } from "~/data/site";
+import { FIGMA_PLUGIN_URL, FIGMA_URL } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
 
-useUxHead({
+useSiteHead({
 	title: "Figma Plugin - Design Tokens Sync - styleframe",
 	description:
 		"Styleframe is the source of truth for your design tokens. Sync variables between code and Figma using the W3C DTCG format, with full multi-mode support.",
-	siteName: SITE_NAME,
 	path: FIGMA_URL,
 	image: {
 		path: "/og/figma.png",

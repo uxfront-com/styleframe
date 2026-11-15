@@ -37,5 +37,5 @@ export default s;
 
 ## Documentation
 
-- [The Styleframe instance](https://www.styleframe.dev/docs/api/instance): every function the instance gives you, its options, `strict` and `inspect()`.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [The Styleframe instance](https://styleframe.dev/docs/api/instance): every function the instance gives you, its options, `strict` and `inspect()`.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

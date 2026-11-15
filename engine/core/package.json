@@ -1,6 +1,13 @@
 {
 	"name": "@styleframe/core",
 	"version": "3.7.0",
+	"keywords": [
+		"styleframe",
+		"css-in-ts",
+		"design-tokens",
+		"design-system",
+		"typescript"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/styleframe.js",
@@ -46,13 +53,14 @@
 		"unplugin-dts": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/core"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

@@ -36,6 +36,6 @@ export default s;
 
 ## Documentation
 
-- [Design tokens preset](https://www.styleframe.dev/docs/theme/design-tokens/preset): every token it defines, its options and its themes.
-- [Utilities preset](https://www.styleframe.dev/docs/theme/utilities/preset): the utilities it registers.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [Design tokens preset](https://styleframe.dev/docs/theme/design-tokens/preset): every token it defines, its options and its themes.
+- [Utilities preset](https://styleframe.dev/docs/theme/utilities/preset): the utilities it registers.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

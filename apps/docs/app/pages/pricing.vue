@@ -6,14 +6,12 @@ import {
 	INTRODUCTION_URL,
 	LICENSE_URL,
 	PRICING_URL,
-	SITE_NAME,
 } from "~/data/site";
 
-useUxHead({
+useSiteHead({
 	title: "Pricing - styleframe",
 	description:
 		"Write composable, type-safe, future-proof Design Systems code using styleframe's powerful TypeScript CSS API.",
-	siteName: SITE_NAME,
 	path: PRICING_URL,
 	image: {
 		path: "/og/pricing.png",

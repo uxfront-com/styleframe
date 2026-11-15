@@ -21,5 +21,5 @@ styleframe inspect --json            # list the variables, themes, utilities, mo
 
 ## Documentation
 
-- [CLI reference](https://www.styleframe.dev/docs/getting-started/tooling/cli): every command, its options and its exit codes.
-- [Using Styleframe with AI agents](https://www.styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.
+- [CLI reference](https://styleframe.dev/docs/getting-started/tooling/cli): every command, its options and its exit codes.
+- [Using Styleframe with AI agents](https://styleframe.dev/docs/getting-started/tooling/agents): the commands an agent runs to check its work, and the mistakes that build without a warning.

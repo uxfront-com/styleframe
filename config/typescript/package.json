@@ -2,6 +2,11 @@
 	"name": "@styleframe/config-typescript",
 	"version": "3.0.1",
 	"description": "TypeScript configuration for styleframe projects.",
+	"keywords": [
+		"styleframe",
+		"typescript",
+		"tsconfig"
+	],
 	"author": "Alex Grozav <alex@styleframe.dev>",
 	"type": "module",
 	"main": "tsconfig.json",
@@ -15,7 +20,8 @@
 	"homepage": "https://styleframe.dev",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/styleframe-dev/styleframe"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "config/typescript"
 	},
 	"bugs": {
 		"email": "support@styleframe.dev",

@@ -1,6 +1,13 @@
 {
 	"name": "@styleframe/transpiler",
 	"version": "3.5.0",
+	"keywords": [
+		"styleframe",
+		"css",
+		"transpiler",
+		"typescript",
+		"design-tokens"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/transpiler.js",
@@ -48,13 +55,14 @@
 		"unplugin-dts": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/transpiler"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { corridor, empty, tokens } from "@uxfront/scene/formations";
 import { HERO_VIEWS } from "~/lib/formations";
-import { PRICING_URL, PRO_URL, SITE_NAME } from "~/data/site";
+import { PRICING_URL, PRO_URL } from "~/data/site";
 
-useUxHead({
+useSiteHead({
 	title: "styleframe Pro - Premium Design System Tools - styleframe",
 	description:
 		"Build beautiful design systems in minutes with styleframe Pro's premium composables, advanced features, and mathematical precision.",
-	siteName: SITE_NAME,
 	path: PRO_URL,
 	image: {
 		path: "/og/pro.png",
