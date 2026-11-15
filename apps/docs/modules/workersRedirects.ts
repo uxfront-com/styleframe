@@ -12,27 +12,51 @@ export function dropNotFoundRedirects(redirects: string): string {
 }
 
 /**
- * Every `workers.dev` host of the Worker: its preview URLs, like a PR's, and
- * the version URL of each build, `main`'s too. The rule's placeholders each
- * match up to a `.`, so it never matches styleframe.dev.
+ * The rules for the Worker's hosts, which `_headers` must start with. Cloudflare
+ * applies its rules in file order, and `! X-Robots-Tag` removes only what an
+ * earlier rule added, so the order is the point:
+ *
+ * 1. Every `workers.dev` host, like a PR's Preview URL and each deployment's
+ *    version URL, `main`'s too, gets `noindex`.
+ * 2. Every custom-domain Preview, a one-label host like
+ *    `<branch>.styleframe.dev` or `<deployment>.styleframe.dev`, gets
+ *    `noindex`. Cloudflare adds it to `workers.dev` Previews itself, but not to
+ *    custom-domain ones.
+ * 3. `www.styleframe.dev` matches the rule above, so it's detached again: until
+ *    it redirects to the apex, it may serve the site.
+ * 4. The apex is detached too, as a guard: the production host must never
+ *    send `noindex`.
+ *
+ * Nitro's path rules follow, so `/raw/*` adds `noindex` again on every host.
+ * A host placeholder matches up to a `.`. A new production host on this
+ * Worker, like `docs.styleframe.dev`, needs a detach of its own here.
  * https://developers.cloudflare.com/workers/static-assets/headers/
  */
-export const PREVIEW_HOSTS_RULE = [
+export const HOST_RULES = [
 	"https://:version.:subdomain.workers.dev/*",
 	"  X-Robots-Tag: noindex",
+	"",
+	"https://:preview.styleframe.dev/*",
+	"  X-Robots-Tag: noindex",
+	"",
+	"https://www.styleframe.dev/*",
+	"  ! X-Robots-Tag",
+	"",
+	"https://styleframe.dev/*",
+	"  ! X-Robots-Tag",
 ].join("\n");
 
 /**
- * Adds the rule that keeps the preview hosts out of search results, once.
- * Cloudflare already sends `noindex` on preview URLs: this is the site's own
- * guarantee. robots.txt never blocks these hosts, since a crawler that may not
- * fetch a page can't read its `noindex`, and can still index it from links.
+ * Puts the host rules at the start of `_headers`, once. robots.txt never blocks
+ * these hosts, since a crawler that may not fetch a page can't read its
+ * `noindex`, and can still index it from links.
  */
-export function addPreviewHostsRule(headers: string): string {
-	if (headers.includes(PREVIEW_HOSTS_RULE)) {
+export function addHostRules(headers: string): string {
+	if (headers.startsWith(HOST_RULES)) {
 		return headers;
 	}
-	return `${headers.trimEnd()}\n${PREVIEW_HOSTS_RULE}\n`.trimStart();
+	const rest = headers.trim();
+	return rest ? `${HOST_RULES}\n${rest}\n` : `${HOST_RULES}\n`;
 }
 
 /**
@@ -40,8 +64,8 @@ export function addPreviewHostsRule(headers: string): string {
  * cloudflare-pages-static preset ends it with `/* /404.html 404`, a fallback
  * Pages takes and Workers static assets reject: they only redirect, so the
  * upload of the whole Worker fails. Workers serve 404.html for unknown routes
- * already (`not_found_handling` in wrangler.jsonc). Then adds the preview
- * hosts' rule to `_headers`, which Nitro writes from `routeRules` and so with
+ * already (`not_found_handling` in wrangler.jsonc). Then puts the host rules
+ * at the start of `_headers`, which Nitro writes from `routeRules` and so with
  * paths only.
  */
 export default defineNuxtModule({
@@ -68,7 +92,7 @@ export default defineNuxtModule({
 				const headers = existsSync(headersFile)
 					? await readFile(headersFile, "utf8")
 					: "";
-				await writeFile(headersFile, addPreviewHostsRule(headers), "utf8");
+				await writeFile(headersFile, addHostRules(headers), "utf8");
 			});
 		});
 	},

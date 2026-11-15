@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
 /**
  * The search and AI search rules every indexable page keeps, checked on the
@@ -206,6 +206,13 @@ function check(problems: string[]): void {
 	failures.push(...problems);
 	expect(problems).toEqual([]);
 }
+
+// Written to stdout, so the default reporter, CI's, shows it too.
+afterAll(() => {
+	process.stdout.write(
+		`SEO: ${pages.length} pages checked, ${failures.length} failures\n`,
+	);
+});
 
 describe("sitemap.xml", () => {
 	it("lists the site's pages", () => {
@@ -423,11 +430,4 @@ describe("404 page", () => {
 	it("is in the output", () => {
 		expect(existsSync(join(OUTPUT, "404.html"))).toBe(true);
 	});
-});
-
-// Last, so it counts every rule above.
-it("prints how many pages it checked and how many rules they break", () => {
-	console.log(
-		`SEO: ${pages.length} pages checked, ${failures.length} failures`,
-	);
 });

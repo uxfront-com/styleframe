@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
-	addPreviewHostsRule,
+	addHostRules,
 	dropNotFoundRedirects,
+	HOST_RULES,
 } from "../modules/workersRedirects";
 
 describe("dropNotFoundRedirects", () => {
@@ -27,23 +28,35 @@ describe("dropNotFoundRedirects", () => {
 	});
 });
 
-describe("addPreviewHostsRule", () => {
-	const rule = [
-		"https://:version.:subdomain.workers.dev/*",
-		"  X-Robots-Tag: noindex",
-	].join("\n");
+describe("addHostRules", () => {
+	const nitro =
+		"/raw/*\n  X-Robots-Tag: noindex\n/*\n  X-Frame-Options: DENY\n";
 
-	it("adds the rule after the ones Nitro writes", () => {
-		const headers = "/raw/*\n  X-Robots-Tag: noindex\n";
-		expect(addPreviewHostsRule(headers)).toBe(`${headers}${rule}\n`);
+	it("puts the host rules first, in the order that keeps production indexable", () => {
+		const headers = addHostRules(nitro);
+		const urls = headers
+			.split("\n")
+			.filter((line) => line && !/^\s/.test(line));
+
+		expect(urls).toEqual([
+			"https://:version.:subdomain.workers.dev/*",
+			"https://:preview.styleframe.dev/*",
+			"https://www.styleframe.dev/*",
+			"https://styleframe.dev/*",
+			"/raw/*",
+			"/*",
+		]);
+		expect(headers).toContain("https://www.styleframe.dev/*\n  ! X-Robots-Tag");
+		expect(headers).toContain("https://styleframe.dev/*\n  ! X-Robots-Tag");
+		expect(headers.endsWith(nitro)).toBe(true);
 	});
 
-	it("writes the rule alone when there are no others", () => {
-		expect(addPreviewHostsRule("")).toBe(`${rule}\n`);
+	it("adds them once, however often the build runs", () => {
+		const once = addHostRules(nitro);
+		expect(addHostRules(once)).toBe(once);
 	});
 
-	it("adds it once, however often the build runs", () => {
-		const once = addPreviewHostsRule("/*\n  X-Frame-Options: DENY\n");
-		expect(addPreviewHostsRule(once)).toBe(once);
+	it("writes the host rules alone when there are no others", () => {
+		expect(addHostRules("")).toBe(`${HOST_RULES}\n`);
 	});
 });
