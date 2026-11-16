@@ -55,9 +55,12 @@ describe.each(AUDITED)("/%s", (page) => {
 
 	it("names the sidebar's framework select by its label", () => {
 		const select = html.match(/<button[^>]*role="combobox"[^>]*>/)?.[0] ?? "";
-		const label = attr(select, "aria-labelledby");
-		expect(label).toBe("docs-aside-framework-label");
-		expect(ids).toContain(label);
+		const label = attr(select, "aria-labelledby") ?? "";
+		const id = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		const named = html.match(
+			new RegExp(`<[a-z]+[^>]*\\sid="${id}"[^>]*>([^<]*)<`),
+		);
+		expect(named?.[1]?.trim(), label).toBe("Framework");
 	});
 
 	// The browser sets the tabs' aria-controls once the page has loaded, so
