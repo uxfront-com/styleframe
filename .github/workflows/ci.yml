@@ -114,7 +114,7 @@ jobs:
         needs: build-docs
         timeout-minutes: 10
         steps:
-            # For lighthouserc.json and the `lighthouse` script; no install needed.
+            # For lighthouserc.json and scripts/lighthouse-ci.mjs; no install needed.
             - name: Checkout
               uses: actions/checkout@v4
 
@@ -133,9 +133,11 @@ jobs:
                   path: apps/docs
 
             # Serves the static output and fails below 0.95 in any category,
-            # using the runner's Chrome.
+            # using the runner's Chrome. The script sets the CPU slowdown from
+            # the runner's benchmark, so every runner emulates the same phone.
             - name: Run Lighthouse
-              run: pnpm --filter '@styleframe/docs' lighthouse
+              working-directory: apps/docs
+              run: node scripts/lighthouse-ci.mjs
 
             - name: Upload Lighthouse reports
               if: ${{ !cancelled() }}
