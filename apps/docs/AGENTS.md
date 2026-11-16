@@ -26,7 +26,7 @@ Run them from `apps/docs/`:
 - `pnpm build` runs `nuxt generate` and writes the static site to `.output/public`.
 - `pnpm test` runs the unit tests, and `pnpm test:build` checks the built site: every prerendered page has a 1200 × 630 social card, and the product and legal pages keep main's titles, links and Markdown copies (`test/pages.build.test.ts`).
 - `pnpm typecheck` checks the app's types. It leaves out errors inside Docus's own files, as Open Components does.
-- `pnpm lighthouse` runs Lighthouse on the built homepage (`lighthouserc.json`) and fails below 0.95 in any category. CI runs it in the `Lighthouse` job, on the docs build.
+- `pnpm lighthouse` runs Lighthouse on the built homepage (`lighthouserc.json`) and fails below 0.95 in any category. It slows the CPU by Lighthouse's default 4x, so a fast machine scores higher than CI does. CI's `Lighthouse` job runs `node scripts/lighthouse-ci.mjs` on the docs build instead. The script reads the machine's CPU benchmark first and sets the slowdown from it, so every runner emulates the same phone and the score follows the page, not the runner. Run it from `apps/docs` to see what CI scores.
 - If a build fails with 500s on `/raw/…` pages after a change to how pages are parsed (like the stems in `modules/nonRouteCategories.ts`), delete `.data/`. Nuxt Content caches parsed pages there by their content, so the cache keeps the old stems.
 
 ## Directory Structure
