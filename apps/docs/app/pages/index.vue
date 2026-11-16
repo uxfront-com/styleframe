@@ -15,17 +15,6 @@ const RECIPES_URL = "/docs/api/recipes";
 const CONFIGURATION_URL = "/docs/api/instance#configuration-options";
 const FLUID_DESIGN_URL = "/docs/theme/design-tokens/fluid-design";
 
-// Temporary regression probe for the Lighthouse job: a fixed amount of
-// main-thread work after load.
-useHead({
-	script: [
-		{
-			innerHTML:
-				'addEventListener("load",function(){setTimeout(function(){let x=0;for(let i=0;i<2e7;i++){x=(x+i*i)%1000003}window.__lhProbe=x})})',
-		},
-	],
-});
-
 useUxHead({
 	title: "Type-safe Styling Engine for the AI Era - styleframe",
 	description:
