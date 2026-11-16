@@ -36,6 +36,7 @@
 		"@iconify-json/simple-icons": "catalog:docs",
 		"@iconify-json/vscode-icons": "catalog:docs",
 		"@nuxt/kit": "catalog:docs",
+		"h3": "catalog:docs",
 		"typescript": "catalog:nuxt",
 		"vitest": "catalog:",
 		"vue-tsc": "catalog:nuxt"
