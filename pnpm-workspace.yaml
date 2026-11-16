@@ -49,12 +49,16 @@ catalogs:
     '@iconify-json/vscode-icons': ^1.2.77
     '@nuxt/content': ^3.16.1
     '@nuxt/kit': ^4.5.2
-    '@uxfront/layer-docs': ^0.8.1
+    '@uxfront/layer-docs': ^0.8.4
     '@uxfront/layer-ui': ^0.1.8
     '@uxfront/scene': ^0.5.0
     '@uxfront/ui': ^0.7.0
     '@vueuse/core': ^14.4.0
     docus: ^5.13.0
+    # Nitro 2 runs h3 1, but Nuxt can find the docs server's h3 types through
+    # pnpm's hoisting, which may pick the h3 2 of Docus's MCP toolkit and fail
+    # the typecheck. The app's own h3 keeps both on 1.
+    h3: ^1.15.11
     nuxt: ^4.5.2
     vue-router: ^5.3.1
   nuxt:

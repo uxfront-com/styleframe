@@ -92,26 +92,26 @@ describe.each(HEADINGS)("/%s", (page) => {
 });
 
 describe("code colours", () => {
-	// app/app.css caps each token's OKLCH lightness in light mode and raises it
-	// in dark mode, important to outrank Docus's own important colours.
-	const css = readFileSync(new URL("../app/app.css", import.meta.url), "utf8");
-	const light = Number(
-		css.match(/var\(--shiki-light\) min\(l, ([\d.]+)\) c h\) !important/)?.[1],
-	);
-	const dark = Number(
-		css.match(/var\(--shiki-dark\) max\(l, ([\d.]+)\) c h\) !important/)?.[1],
-	);
-
-	// Every token colour the built pages use.
+	// The highlight themes come from @uxfront/layer-docs. Each token colour
+	// sits in a declaration block, a class rule in a <style> or a span's
+	// style, as --shiki-light, --shiki-default and --shiki-dark. A block that
+	// also sets a --shiki-*-bg draws its own background, so it's left out.
 	const html = readdirSync(join(OUTPUT, "docs"), { recursive: true })
 		.filter((file) => String(file).endsWith(".html"))
 		.map((file) => readFileSync(join(OUTPUT, "docs", String(file)), "utf8"))
 		.join("");
-	const colours = (mode: string) => [
+	const blocks = [...html.matchAll(/[{"]([^{}"]*--shiki-[^{}"]*)[}"]/g)]
+		.map((m) => m[1]!)
+		.filter((block) => !/--shiki-[a-z]+-bg:/.test(block));
+	const colours = (...modes: string[]) => [
 		...new Set(
-			[
-				...html.matchAll(new RegExp(`--shiki-${mode}:(#[0-9a-fA-F]{6})`, "g")),
-			].map((m) => m[1]!),
+			blocks.flatMap((block) =>
+				[
+					...block.matchAll(
+						new RegExp(`--shiki-(?:${modes.join("|")}):(#[0-9a-fA-F]{6})`, "g"),
+					),
+				].map((m) => m[1]!.toLowerCase()),
+			),
 		),
 	];
 
@@ -119,26 +119,25 @@ describe("code colours", () => {
 	const ZINC_50 = hexToRgb("#fafafa");
 	const ZINC_800 = hexToRgb("#27272a");
 
-	it("are capped in light mode and raised in dark mode", () => {
-		expect(light).toBeGreaterThan(0);
-		expect(dark).toBeGreaterThan(0);
-	});
-
 	it("pass WCAG AA on the light code blocks", () => {
-		expect(colours("light").length).toBeGreaterThan(0);
-		for (const colour of colours("light")) {
-			const [l, a, b] = toOklab(hexToRgb(colour));
-			const shown = fromOklab([Math.min(l, light), a, b]);
-			expect(contrast(shown, ZINC_50), colour).toBeGreaterThanOrEqual(4.5);
+		const light = colours("light", "default");
+		expect(light.length).toBeGreaterThan(0);
+		for (const colour of light) {
+			expect(
+				contrast(hexToRgb(colour), ZINC_50),
+				colour,
+			).toBeGreaterThanOrEqual(4.5);
 		}
 	});
 
 	it("pass WCAG AA on the dark code blocks", () => {
-		expect(colours("dark").length).toBeGreaterThan(0);
-		for (const colour of colours("dark")) {
-			const [l, a, b] = toOklab(hexToRgb(colour));
-			const shown = fromOklab([Math.max(l, dark), a, b]);
-			expect(contrast(shown, ZINC_800), colour).toBeGreaterThanOrEqual(4.5);
+		const dark = colours("dark");
+		expect(dark.length).toBeGreaterThan(0);
+		for (const colour of dark) {
+			expect(
+				contrast(hexToRgb(colour), ZINC_800),
+				colour,
+			).toBeGreaterThanOrEqual(4.5);
 		}
 	});
 });
@@ -153,31 +152,6 @@ function hexToRgb(hex: string): Triple {
 
 const toLinear = (c: number) =>
 	c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-const fromLinear = (c: number) =>
-	c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
-
-function toOklab(rgb: Triple): Triple {
-	const [r, g, b] = rgb.map(toLinear) as Triple;
-	const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
-	const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
-	const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
-	return [
-		0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
-		1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
-		0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
-	];
-}
-
-function fromOklab([L, a, b]: Triple): Triple {
-	const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
-	const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
-	const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
-	return [
-		4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
-		-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
-		-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
-	].map((c) => fromLinear(Math.min(1, Math.max(0, c)))) as Triple;
-}
 
 function contrast(a: Triple, b: Triple) {
 	const luminance = (rgb: Triple) =>
