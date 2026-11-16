@@ -79,7 +79,9 @@ async function copyPage() {
 				sideOffset: 8,
 			}"
 		>
+			<!-- Docus's trigger has no name, and its locale no string for one. -->
 			<UButton
+				aria-label="More page options"
 				icon="i-lucide-chevron-down"
 				color="neutral"
 				variant="soft"

@@ -18,10 +18,18 @@ if (!entry.value) {
 
 const title = `${entry.value.title} — v${entry.value.version}`;
 
-useSeo({
+const fileModified = await useGitDate(`content/changelog/${route.params.slug}.md`);
+
+useDocsHead({
 	title,
 	description: entry.value.description,
-	publishedAt: entry.value.date,
+	type: "article",
+	datePublished: entry.value.date,
+	dateModified: () => fileModified.value ?? entry.value?.date,
+	breadcrumbs: [
+		{ title: "Changelog", path: "/changelog" },
+		{ title, path },
+	],
 });
 defineOgImage("Docs.takumi", {
 	headline: "Changelog",

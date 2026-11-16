@@ -6,8 +6,6 @@ import {
 	GITHUB_URL,
 	INTRODUCTION_URL,
 	SCANNER_URL,
-	SITE_NAME,
-	X_URL,
 } from "~/data/site";
 
 const THEMES_URL = "/docs/api/themes";
@@ -15,18 +13,16 @@ const RECIPES_URL = "/docs/api/recipes";
 const CONFIGURATION_URL = "/docs/api/instance#configuration-options";
 const FLUID_DESIGN_URL = "/docs/theme/design-tokens/fluid-design";
 
-useUxHead({
+useSiteHead({
 	title: "Type-safe Styling Engine for the AI Era - styleframe",
 	description:
 		"Styleframe is the type-safe styling engine for the AI era. Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS.",
-	siteName: SITE_NAME,
 	image: {
 		path: "/og/index.png",
 		width: 1200,
 		height: 630,
 		alt: "Type-safe Styling Engine for Design Systems",
 	},
-	sameAs: [GITHUB_URL, X_URL],
 });
 
 // One formation per section, in order: the hero, a chapter per section of

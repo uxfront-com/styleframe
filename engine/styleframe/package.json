@@ -5,6 +5,16 @@
 		"styleframe": "./dist/cli.js"
 	},
 	"description": "From simple UI styles to full Design Systems, write code using Styleframe’s powerful TypeScript CSS API — AI-ready by design.",
+	"keywords": [
+		"styleframe",
+		"css",
+		"css-in-ts",
+		"design-tokens",
+		"design-system",
+		"typescript",
+		"utility-css",
+		"theming"
+	],
 	"type": "module",
 	"license": "MIT",
 	"files": [
@@ -174,13 +184,14 @@
 		"typescript": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/styleframe"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

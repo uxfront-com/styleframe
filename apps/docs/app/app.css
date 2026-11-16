@@ -40,3 +40,19 @@
 		--ui-primary: var(--ui-color-primary-400);
 	}
 }
+
+/* The code blocks' highlight themes, Material Lighter and Palenight, colour
+   some tokens below WCAG AA contrast (4.5:1) on the blocks' backgrounds, zinc 50
+   and zinc 800. These rules keep each token's hue and chroma, and cap its
+   lightness in light mode and raise it in dark mode, only where it needs it:
+   every token of both themes is then at least 4.9:1 in light mode and 5.2:1 in
+   dark mode. They're important to outrank Docus's `html.dark .shiki span`,
+   which is. The homepage's UxCode panels colour their code themselves, so
+   they're left out. A browser without relative colours keeps Shiki's. */
+html.light .shiki:not(.ux-code *) span {
+	color: oklch(from var(--shiki-light) min(l, 0.52) c h) !important;
+}
+
+html.dark .shiki:not(.ux-code *) span {
+	color: oklch(from var(--shiki-dark) max(l, 0.7) c h) !important;
+}

@@ -1,6 +1,6 @@
 ---
 title: License
-description: ""
+description: The Styleframe Pro License Agreement, which sets out what customers and their team members may do with Styleframe Pro and the projects they build.
 ---
 
 # Styleframe Pro License Agreement

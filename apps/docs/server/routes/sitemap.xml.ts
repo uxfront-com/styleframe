@@ -1,19 +1,25 @@
 import { queryCollection } from "@nuxt/content/server";
-import { SITE_PAGES } from "../lib/pages";
+import gitDates from "#git-dates";
+import { docsSourceStem } from "../../app/constants/sections";
+import { latestDate, SITE_PAGES } from "../lib/pages";
 
 // The fields read below. Nitro's types don't see the collections Docus defines.
 interface DocsPage {
 	path: string;
-	meta: { sitemap?: boolean; modifiedAt?: string };
+	stem: string;
+	extension: string;
+	meta: { sitemap?: boolean };
 }
 
 /**
  * Serves `/sitemap.xml` in place of Docus's route, which robots.txt points
  * crawlers at. Docus lists only its docs and landing pages. This lists the
  * site's own pages first (SITE_PAGES in server/lib/pages.ts), then the docs
- * pages by Docus's rules: `sitemap: false` in a page's frontmatter leaves it out, and
- * `modifiedAt` sets its `<lastmod>`. Then the changelog, which is last modified
- * with its newest entry, and each entry, on the day it was published.
+ * pages by Docus's rules: `sitemap: false` in a page's frontmatter leaves it
+ * out. Each one's `<lastmod>` is the last commit that changed its source files
+ * (modules/gitDates.ts), and a build without the Git history leaves it out
+ * rather than guess. Then the changelog, which is last modified with its newest
+ * entry, and each entry, on the day it was published.
  *
  * Nitro keeps the first handler for a route, and it scans the app's server/
  * before the layers'. Docus still adds the route to the prerendered ones.
@@ -29,14 +35,18 @@ export default defineEventHandler(async (event) => {
 		.all();
 
 	const urls = [
-		...SITE_PAGES.map((loc) => ({ loc, lastmod: undefined })),
+		...SITE_PAGES.map(({ path, sources }) => ({
+			loc: path,
+			lastmod: latestDate(sources.map((source) => gitDates[source])),
+		})),
 		...pages
 			.filter(
 				(page) => page.meta.sitemap !== false && !isNavigationPath(page.path),
 			)
 			.map((page) => ({
 				loc: page.path,
-				lastmod: page.meta.modifiedAt?.split("T")[0],
+				lastmod:
+					gitDates[`content/${docsSourceStem(page.stem)}.${page.extension}`],
 			})),
 		{ loc: "/changelog", lastmod: entries[0]?.date },
 		...entries.map((entry) => ({ loc: entry.path, lastmod: entry.date })),

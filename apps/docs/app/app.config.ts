@@ -103,5 +103,29 @@ export default defineAppConfig({
 			primary: "teal",
 			neutral: "zinc",
 		},
+		prose: {
+			// Nuxt UI's callouts (::tip, ::note, ::warning, ::caution) write their
+			// text and code in the 600 shade and their links in the 500 shade on a
+			// 10% tint, below WCAG AA contrast (4.5:1) in light mode. The 800 shade
+			// passes for all four, and dark mode keeps Nuxt UI's colours.
+			callout: {
+				variants: {
+					color: {
+						success: {
+							base: "text-success-800 dark:text-success-300 [&_a]:text-success-800 dark:[&_a]:text-success [&_code]:text-success-800 dark:[&_code]:text-success-300",
+						},
+						info: {
+							base: "text-info-800 dark:text-info-300 [&_a]:text-info-800 dark:[&_a]:text-info [&_code]:text-info-800 dark:[&_code]:text-info-300",
+						},
+						warning: {
+							base: "text-warning-800 dark:text-warning-300 [&_a]:text-warning-800 dark:[&_a]:text-warning [&_code]:text-warning-800 dark:[&_code]:text-warning-300",
+						},
+						error: {
+							base: "text-error-800 dark:text-error-300 [&_a]:text-error-800 dark:[&_a]:text-error [&_code]:text-error-800 dark:[&_code]:text-error-300",
+						},
+					},
+				},
+			},
+		},
 	},
 });

@@ -4,7 +4,9 @@
  * this page" opens the page's file. Docus builds the link from the page's
  * `stem`, which modules/nonRouteCategories.ts gives the section in front, for
  * the sidebar and the previous and next links: the file is at
- * docsSourceStem(stem). Keep the rest in step with Docus's. Docus's keys its
+ * docsSourceStem(stem). Its head is useDocsHead's, in place of Docus's
+ * `useSeo`, for the Twitter tags, a TechArticle dated by the file's last commit,
+ * and breadcrumbs that are all pages. Keep the rest in step with Docus's. Docus's keys its
  * data by the path in kebab case, with scule, which isn't the app's dependency:
  * this one keys it by the path.
  */
@@ -61,18 +63,36 @@ const title = page.value.seo?.title || page.value.title;
 const description = page.value.seo?.description || page.value.description;
 
 const headline = ref(findPageHeadline(navigation?.value, page.value?.path));
-const breadcrumbs = computed(() =>
-	findPageBreadcrumbs(navigation?.value, page.value?.path || ""),
+
+// The trail in the sidebar, less the groups that have no page of their own,
+// like Theme, so every item in the BreadcrumbList is a page.
+const trail = findPageBreadcrumbs(navigation?.value, page.value.path) ?? [];
+const { data: trailPages } = await useAsyncData(
+	`${route.path}-breadcrumbs`,
+	async () => {
+		const paths = trail.map((item) => item.path);
+		if (!paths.length) return [];
+		const pages = await queryCollection(
+			collectionName.value as keyof PageCollections,
+		)
+			.where("path", "IN", paths)
+			.select("path")
+			.all();
+		return pages.map((item) => item.path);
+	},
 );
 
-useSeo({
+const dateModified = await useGitDate(
+	`content/${docsSourceStem(page.value.stem)}.${page.value.extension}`,
+);
+
+useDocsHead({
 	title,
 	description,
 	type: "article",
-	modifiedAt: (page.value as unknown as Record<string, unknown>).modifiedAt as
-		| string
-		| undefined,
-	breadcrumbs,
+	dateModified,
+	breadcrumbs: () =>
+		trail.filter((item) => trailPages.value?.includes(item.path)),
 });
 watch(
 	() => navigation?.value,
@@ -136,7 +156,9 @@ addPrerenderPath(`/raw${route.path}.md`);
 		<UPageBody>
 			<ContentRenderer v-if="page" :value="page" />
 
-			<USeparator v-if="github">
+			<!-- Decorative, as it holds links: a separator's content isn't
+			     reachable by assistive technology. -->
+			<USeparator v-if="github" decorative>
 				<div class="flex items-center gap-2 text-sm text-muted">
 					<UButton
 						variant="link"

@@ -1,6 +1,13 @@
 {
 	"name": "@styleframe/runtime",
 	"version": "3.2.2",
+	"keywords": [
+		"styleframe",
+		"recipes",
+		"variants",
+		"css",
+		"runtime"
+	],
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"module": "./dist/runtime.js",
@@ -43,13 +50,14 @@
 	"peerDependencies": {
 		"@styleframe/core": "workspace:^3.6.1"
 	},
-	"homepage": "https://github.com/styleframe-dev/styleframe#readme",
+	"homepage": "https://styleframe.dev",
 	"bugs": {
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/styleframe-dev/styleframe.git"
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/runtime"
 	},
 	"author": "Alex Grozav <alex@styleframe.dev>"
 }

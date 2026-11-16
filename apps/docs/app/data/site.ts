@@ -37,7 +37,7 @@ export const FIGMA_PLUGIN_URL =
 	"https://www.figma.com/community/plugin/1597716416772135340/styleframe";
 
 /** The site's name in social cards and structured data, as `site.name` in nuxt.config.ts. */
-export const SITE_NAME = "Styleframe — The Design Systems Styling Engine";
+export const SITE_NAME = "Styleframe";
 
 /** The legal pages, linked from every page's footer. */
 export const LEGAL_LINKS = [
@@ -48,3 +48,5 @@ export const LEGAL_LINKS = [
 
 /** The footer's credit, as on main. */
 export const CREDIT = `Copyright © ${new Date().getFullYear()} styleframe`;
+
+export const NPM_URL = "https://www.npmjs.com/package/styleframe";
