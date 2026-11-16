@@ -66,12 +66,14 @@ const args = process.argv.slice(2);
 const configArgs = args.filter((arg) => arg.startsWith("--config"));
 
 // Calibrate on the homepage only, with the config's staticDistDir and its
-// default throttling. `collect` clears .lighthouseci first.
+// default throttling. Only the performance category is needed, which keeps the
+// calibration short. `collect` clears .lighthouseci first.
 const calibrationStatus = lhci([
 	"collect",
 	...configArgs,
 	"--url=http://localhost/",
 	`--numberOfRuns=${CALIBRATION_RUNS}`,
+	"--settings.onlyCategories=performance",
 ]);
 if (calibrationStatus !== 0)
 	fail(`lhci collect exited with ${calibrationStatus}.`);
@@ -101,16 +103,8 @@ if (multiplier < 1) {
 	);
 }
 
-const scores = (lhr) =>
-	Object.entries(lhr.categories)
-		.map(([id, category]) => `${id}=${category.score}`)
-		.join(" ");
-
 console.log(
 	`Lighthouse calibration: benchmarkIndexRuns=${reports.map((lhr) => lhr.environment?.benchmarkIndex).join(",")}`,
-);
-console.log(
-	`Lighthouse calibration scores at ${report.configSettings.throttling.cpuSlowdownMultiplier}x: ${scores(report)}`,
 );
 console.log(
 	`Lighthouse calibration: benchmarkIndex=${benchmarkIndex} cpuSlowdownMultiplier=${multiplier} target=${TARGET_BENCHMARK_INDEX} uncalibratedPerformance=${report.categories.performance.score}`,
