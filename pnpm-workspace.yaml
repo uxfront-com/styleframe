@@ -55,8 +55,9 @@ catalogs:
     '@uxfront/ui': ^0.9.1
     '@vueuse/core': ^14.4.0
     docus: ^5.13.0
-    # The docs server types its handlers with h3's H3Event, so the app declares
-    # Nitro's h3 rather than take whichever h3 pnpm hoists.
+    # Nitro 2 runs h3 1, but Nuxt can find the docs server's h3 types through
+    # pnpm's hoisting, which may pick the h3 2 of Docus's MCP toolkit and fail
+    # the typecheck. The app's own h3 keeps both on 1.
     h3: ^1.15.11
     nuxt: ^4.5.2
     vue-router: ^5.3.1
@@ -136,3 +137,12 @@ packageExtensions:
   nuxt-og-image:
     peerDependencies:
       nuxt: '*'
+  # Its types import @farmfe/core without declaring it, so @styleframe/plugin's
+  # build resolved whichever @farmfe/core pnpm hoisted, and failed when that
+  # wasn't the plugin's own. Later versions declare the same optional peer.
+  unplugin@3.0.0:
+    peerDependencies:
+      '@farmfe/core': '*'
+    peerDependenciesMeta:
+      '@farmfe/core':
+        optional: true
