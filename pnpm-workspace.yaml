@@ -50,9 +50,9 @@ catalogs:
     '@nuxt/content': ^3.16.1
     '@nuxt/kit': ^4.5.2
     '@uxfront/layer-docs': ^0.8.4
-    '@uxfront/layer-ui': ^0.1.8
-    '@uxfront/scene': ^0.5.0
-    '@uxfront/ui': ^0.7.0
+    '@uxfront/layer-ui': ^0.1.11
+    '@uxfront/scene': ^0.5.1
+    '@uxfront/ui': ^0.9.1
     '@vueuse/core': ^14.4.0
     docus: ^5.13.0
     # Nitro 2 runs h3 1, but Nuxt can find the docs server's h3 types through
@@ -137,3 +137,12 @@ packageExtensions:
   nuxt-og-image:
     peerDependencies:
       nuxt: '*'
+  # Its types import @farmfe/core without declaring it, so @styleframe/plugin's
+  # build resolved whichever @farmfe/core pnpm hoisted, and failed when that
+  # wasn't the plugin's own. Later versions declare the same optional peer.
+  unplugin@3.0.0:
+    peerDependencies:
+      '@farmfe/core': '*'
+    peerDependenciesMeta:
+      '@farmfe/core':
+        optional: true
