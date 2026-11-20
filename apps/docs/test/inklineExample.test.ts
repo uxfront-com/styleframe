@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
 	INKLINE_PREVIEW_ORIGIN,
@@ -148,4 +149,19 @@ describe("inklineExampleHeight", () => {
 			).toBeNull();
 		},
 	);
+});
+
+describe("InklineExample.vue", () => {
+	const source = readFileSync(
+		new URL("../app/components/content/InklineExample.vue", import.meta.url),
+		"utf8",
+	);
+	const containerRule = source.match(/\n\.inkline-example \{([^}]*)\}/)?.[1];
+
+	// The container takes the height the frame reports. With its border inside
+	// that height, the frame would be 2px short and its content would scroll.
+	it("keeps the container's border outside the frame's height", () => {
+		expect(containerRule).toBeDefined();
+		expect(containerRule).toMatch(/box-sizing:\s*content-box;/);
+	});
 });

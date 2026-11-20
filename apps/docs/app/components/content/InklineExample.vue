@@ -17,8 +17,8 @@ interface Props {
 	controls?: boolean;
 	/** The framework target the preview renders. */
 	target?: string;
-	/** A fixed height, in place of the height the frame reports. */
-	height?: number | string;
+	/** A fixed height in pixels, in place of the height the frame reports. */
+	height?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -106,6 +106,9 @@ watch(theme, sendTheme);
 
 <style>
 .inkline-example {
+	/* The border sits outside the height the frame reports, so the frame gets
+	   all of it and its content never scrolls. */
+	box-sizing: content-box;
 	border: 1px solid var(--color-gray-200);
 	border-radius: 8px;
 	overflow: hidden;
