@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Button from "../../src/components/components/button/Button.vue";
 import ButtonGrid from "../../src/components/components/button/preview/ButtonGrid.vue";
+import ButtonIconGrid from "../../src/components/components/button/preview/ButtonIconGrid.vue";
+import ButtonIconOnlyGrid from "../../src/components/components/button/preview/ButtonIconOnlyGrid.vue";
 import ButtonSizeGrid from "../../src/components/components/button/preview/ButtonSizeGrid.vue";
 
 const colors = [
@@ -70,6 +72,11 @@ const meta = {
 			description:
 				"Whether the button is loading (data-loading, with aria-disabled)",
 		},
+		iconOnly: {
+			control: "boolean",
+			description:
+				"Whether the button shows only its leading icon (data-icon-only), with the label as its accessible name",
+		},
 	},
 } satisfies Meta<typeof Button>;
 
@@ -93,6 +100,20 @@ export const AllSizes: StoryObj = {
 	render: () => ({
 		components: { ButtonSizeGrid },
 		template: "<ButtonSizeGrid />",
+	}),
+};
+
+export const WithIcons: StoryObj = {
+	render: () => ({
+		components: { ButtonIconGrid },
+		template: "<ButtonIconGrid />",
+	}),
+};
+
+export const IconOnly: StoryObj = {
+	render: () => ({
+		components: { ButtonIconOnlyGrid },
+		template: "<ButtonIconOnlyGrid />",
 	}),
 };
 
