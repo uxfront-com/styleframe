@@ -20,8 +20,9 @@ const props = withDefaults(
 		pressed?: boolean;
 		expanded?: boolean;
 		loading?: boolean;
+		iconOnly?: boolean;
 	}>(),
-	{ pressed: undefined, expanded: undefined },
+	{ size: "md", pressed: undefined, expanded: undefined },
 );
 </script>
 
@@ -34,6 +35,8 @@ const props = withDefaults(
 		:aria-expanded="props.expanded"
 		:aria-disabled="props.loading ? 'true' : undefined"
 		:data-loading="props.loading ? '' : undefined"
+		:data-size="props.size"
+		:data-icon-only="props.iconOnly ? '' : undefined"
 	>
 		<span
 			v-if="props.loading"
@@ -44,6 +47,12 @@ const props = withDefaults(
 				<circle cx="25" cy="25" r="20" />
 			</svg>
 		</span>
-		<span>{{ props.label }}</span>
+		<span v-if="$slots.leading" data-slot="leading" aria-hidden="true">
+			<slot name="leading" />
+		</span>
+		<span data-slot="label">{{ props.label }}</span>
+		<span v-if="$slots.trailing" data-slot="trailing" aria-hidden="true">
+			<slot name="trailing" />
+		</span>
 	</button>
 </template>

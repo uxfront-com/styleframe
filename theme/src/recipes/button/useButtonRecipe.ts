@@ -31,6 +31,34 @@ const solidBorder = (color: Color) =>
 const outlineBorder = (color: Color) =>
 	color === "warning" ? "@color.warning-450" : `@color.${color}`;
 
+/**
+ * The block padding of each size, in spacing steps. An icon-only button takes
+ * it as its inline padding too, so its width matches its height.
+ */
+const blockPadding = {
+	xs: 0.25,
+	sm: 0.375,
+	md: 0.5,
+	lg: 0.625,
+	xl: 0.75,
+} as const;
+
+/**
+ * The size of a leading or trailing icon at each size, in spacing steps, as
+ * in the Open Components reference. Each one fits in the line, so an icon
+ * doesn't make a labelled button taller.
+ */
+const iconSize = {
+	xs: 0.875,
+	sm: 1,
+	md: 1,
+	lg: 1.25,
+	xl: 1.25,
+} as const;
+
+type Size = keyof typeof blockPadding;
+const sizes = Object.keys(blockPadding) as Size[];
+
 type Compound = {
 	match: Record<string, string>;
 	css: Record<string, unknown>;
@@ -101,8 +129,15 @@ function withStateColors<T extends Compound>(compounds: T[]): T[] {
  * color is made for dark surfaces and the `dark` color for light surfaces, in
  * either theme.
  *
- * Selectors a recipe key can't express (the loading overlay, and the forced
- * colors states that must outrank the dark theme) are declared in `setup`.
+ * Icons and icon-only buttons are styled from the markup: a `data-size`
+ * attribute on the button, `data-icon-only` on a button that shows only its
+ * icon, and `data-slot="leading"`, `"label"` and `"trailing"` on its children.
+ * Each size sets `--button--icon--size` for the icons. An icon-only button is
+ * square, and its label stays as the accessible name, hidden from view.
+ *
+ * Selectors a recipe key can't express (the icon slots, the icon-only button,
+ * the loading overlay, and the forced colors states that must outrank the
+ * dark theme) are declared in `setup`.
  * Disabled buttons keep their pointer events, so their cursor shows and
  * clicks don't fall through to what's underneath.
  */
@@ -209,8 +244,8 @@ export const useButtonRecipe = createUseRecipe(
 			size: {
 				xs: {
 					fontSize: "@font-size.xs",
-					paddingTop: "@0.25",
-					paddingBottom: "@0.25",
+					paddingTop: `@${blockPadding.xs}`,
+					paddingBottom: `@${blockPadding.xs}`,
 					paddingInline: "@0.5",
 					minHeight: "@1.5",
 					minWidth: "@1.5",
@@ -219,8 +254,8 @@ export const useButtonRecipe = createUseRecipe(
 				},
 				sm: {
 					fontSize: "@font-size.sm",
-					paddingTop: "@0.375",
-					paddingBottom: "@0.375",
+					paddingTop: `@${blockPadding.sm}`,
+					paddingBottom: `@${blockPadding.sm}`,
 					paddingInline: "@0.625",
 					minHeight: "@2",
 					minWidth: "@2",
@@ -229,8 +264,8 @@ export const useButtonRecipe = createUseRecipe(
 				},
 				md: {
 					fontSize: "@font-size.sm",
-					paddingTop: "@0.5",
-					paddingBottom: "@0.5",
+					paddingTop: `@${blockPadding.md}`,
+					paddingBottom: `@${blockPadding.md}`,
 					paddingInline: "@0.75",
 					minHeight: "@2.25",
 					minWidth: "@2.25",
@@ -239,8 +274,8 @@ export const useButtonRecipe = createUseRecipe(
 				},
 				lg: {
 					fontSize: "@font-size.md",
-					paddingTop: "@0.625",
-					paddingBottom: "@0.625",
+					paddingTop: `@${blockPadding.lg}`,
+					paddingBottom: `@${blockPadding.lg}`,
 					paddingInline: "@0.875",
 					minHeight: "@2.5",
 					minWidth: "@2.5",
@@ -249,8 +284,8 @@ export const useButtonRecipe = createUseRecipe(
 				},
 				xl: {
 					fontSize: "@font-size.lg",
-					paddingTop: "@0.75",
-					paddingBottom: "@0.75",
+					paddingTop: `@${blockPadding.xl}`,
+					paddingBottom: `@${blockPadding.xl}`,
 					paddingInline: "@1",
 					minHeight: "@3",
 					minWidth: "@3",
@@ -1160,7 +1195,79 @@ export const useButtonRecipe = createUseRecipe(
 		},
 	},
 	(s) => {
-		const { selector } = s;
+		const { selector, variable, ref, css } = s;
+		// Steps of `spacing`, with the fallback the spacing utilities use.
+		const spacing = (step: number) =>
+			css`calc(${ref("spacing", "1rem")} * ${step})`;
+
+		// The icon size of each size. The root default makes it a theme variable,
+		// and each button sets its own size's value. `:where()` keeps those at
+		// zero specificity, so a consumer can set `--button--icon--size` with any
+		// single class on the button.
+		const iconSizeVariable = variable(
+			"button.icon.size",
+			spacing(iconSize.md),
+			{ default: true },
+		);
+		selector(":where(.button)", ({ variable }) => {
+			variable(iconSizeVariable, spacing(iconSize.md));
+		});
+		for (const size of sizes.filter((size) => size !== "md")) {
+			selector(`:where(.button[data-size="${size}"])`, ({ variable }) => {
+				variable(iconSizeVariable, spacing(iconSize[size]));
+			});
+		}
+		const icon = ref(iconSizeVariable);
+
+		// The leading and trailing icons take the size's icon size, and the icon
+		// inside fills its slot.
+		const slots =
+			'.button > :is([data-slot="leading"], [data-slot="trailing"])';
+		selector(slots, {
+			display: "inline-flex",
+			alignItems: "center",
+			justifyContent: "center",
+			flexShrink: "0",
+			width: icon,
+			height: icon,
+		});
+		selector(`${slots} > *`, {
+			width: "100%",
+			height: "100%",
+		});
+
+		// An icon-only button is square: its inline padding is its block padding,
+		// and its icon sits in a square box as tall as the line, or as the icon
+		// when a larger icon size is set. These rules outrank the size's padding
+		// utility, which comes after them.
+		for (const size of sizes) {
+			selector(`.button[data-icon-only][data-size="${size}"]`, {
+				paddingInline: spacing(blockPadding[size]),
+			});
+		}
+		const box = css`max(1lh, ${icon})`;
+		selector('.button[data-icon-only] > [data-slot="leading"]', {
+			width: box,
+			height: box,
+		});
+		selector('.button[data-icon-only] > [data-slot="leading"] > *', {
+			width: icon,
+			height: icon,
+		});
+
+		// The label of an icon-only button is hidden from view and stays in the
+		// accessibility tree, so it still names the button.
+		selector('.button[data-icon-only] > [data-slot="label"]', {
+			position: "absolute",
+			width: "1px",
+			height: "1px",
+			padding: "0",
+			margin: "-1px",
+			overflow: "hidden",
+			clipPath: "inset(50%)",
+			whiteSpace: "nowrap",
+			borderWidth: "0",
+		});
 
 		// A disabled button that is loading keeps its full opacity, since the
 		// spinner shows why it can't be used.

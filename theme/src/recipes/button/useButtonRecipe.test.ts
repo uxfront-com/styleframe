@@ -497,6 +497,138 @@ describe("useButtonRecipe", () => {
 		expect(recipe.base!.paddingInline).toBe("@0.75");
 	});
 
+	/** The declarations of the rule with this exact selector. */
+	function rule(css: string, selector: string) {
+		const start = css.indexOf(`\n${selector} {`);
+		expect(start, selector).toBeGreaterThan(-1);
+		return css.slice(start, css.indexOf("}", start));
+	}
+
+	const iconSizes = [
+		["xs", 0.875],
+		["sm", 1],
+		["md", 1],
+		["lg", 1.25],
+		["xl", 1.25],
+	] as const;
+
+	it.each(iconSizes.map(([size]) => size))(
+		"button/icon-only makes a %s button square, with inline padding equal to its block padding",
+		(size) => {
+			const s = createInstance();
+			const recipe = useButtonRecipe(s);
+			const css = consumeCSS(s.root, s.options);
+
+			const block = recipe.variants!.size[size].paddingTop as string;
+			expect(recipe.variants!.size[size].paddingBottom).toBe(block);
+			const step = block.replace("@", "").replace(".", "\\.");
+
+			// The size's block padding utility and the icon-only inline padding
+			// compute the same length.
+			const length = rule(css, `._padding-top\\:${step}`).match(
+				/padding-top: (.+);/,
+			)![1];
+			expect(
+				rule(css, `.button[data-icon-only][data-size="${size}"]`),
+			).toContain(`padding-inline: ${length};`);
+
+			// The only box in the flow is as wide as it is tall, so the button is.
+			expect(
+				rule(css, '.button[data-icon-only] > [data-slot="leading"]'),
+			).toMatch(
+				/\{\s*width: max\(1lh, var\(--button--icon--size\)\);\s*height: max\(1lh, var\(--button--icon--size\)\);\s*$/,
+			);
+			// The label leaves the flow, so it adds no width.
+			expect(
+				rule(css, '.button[data-icon-only] > [data-slot="label"]'),
+			).toContain("position: absolute;");
+		},
+	);
+
+	it.each(iconSizes)(
+		"button/icon-size gives the %s icons %s spacing steps, at zero specificity",
+		(size, step) => {
+			const s = createInstance();
+			useButtonRecipe(s);
+			const css = consumeCSS(s.root, s.options);
+
+			const selector =
+				size === "md"
+					? ":where(.button)"
+					: `:where(.button[data-size="${size}"])`;
+			expect(rule(css, selector)).toContain(
+				`--button--icon--size: calc(var(--spacing, 1rem) * ${step});`,
+			);
+		},
+	);
+
+	it("button/icon-size sizes the leading and trailing icons from one variable", () => {
+		const s = createInstance();
+		useButtonRecipe(s);
+		const css = consumeCSS(s.root, s.options);
+
+		const slots =
+			'.button > :is([data-slot="leading"], [data-slot="trailing"])';
+		expect(rule(css, slots)).toMatch(
+			/display: inline-flex;\s*align-items: center;\s*justify-content: center;\s*flex-shrink: 0;\s*width: var\(--button--icon--size\);\s*height: var\(--button--icon--size\);/,
+		);
+		expect(rule(css, `${slots} > *`)).toMatch(/width: 100%;\s*height: 100%;/);
+		// In an icon-only button the slot is a line-tall box, and the icon keeps
+		// its size inside it.
+		expect(
+			rule(css, '.button[data-icon-only] > [data-slot="leading"] > *'),
+		).toMatch(
+			/width: var\(--button--icon--size\);\s*height: var\(--button--icon--size\);/,
+		);
+		// The default is also a root theme variable.
+		expect(s.root.variables.map((variable) => variable.name)).toContain(
+			"button.icon.size",
+		);
+		expect(css).toMatch(
+			/:root \{[^}]*--button--icon--size: calc\(var\(--spacing, 1rem\) \* 1\);/,
+		);
+		// The default comes first, so a size overrides it.
+		expect(css.indexOf("\n:where(.button) {")).toBeLessThan(
+			css.indexOf('\n:where(.button[data-size="xs"]) {'),
+		);
+	});
+
+	it("button/icon-only hides the label from view and keeps it as the accessible name", () => {
+		const s = createInstance();
+		useButtonRecipe(s);
+		const css = consumeCSS(s.root, s.options);
+
+		const label = rule(css, '.button[data-icon-only] > [data-slot="label"]');
+		expect(label).toMatch(
+			/position: absolute;\s*width: 1px;\s*height: 1px;\s*padding: 0;\s*margin: -1px;\s*overflow: hidden;\s*clip-path: inset\(50%\);\s*white-space: nowrap;\s*border-width: 0;/,
+		);
+		expect(label).not.toMatch(/display|visibility/);
+	});
+
+	it("button/icon-only rules match only icon-only and slotted markup, so a labelled button is unchanged", () => {
+		const s = createInstance();
+		useButtonRecipe(s);
+		const css = consumeCSS(s.root, s.options);
+
+		const selectors = [
+			...css.matchAll(/^(.*\[data-(?:icon-only|slot|size)\b.*) \{$/gm),
+		].map((match) => match[1]!);
+		// Four icon sizes, two slot rules, five squares, the line box, its
+		// icon and the label. The default icon size, `:where(.button)`, sets
+		// only the variable.
+		expect(selectors).toHaveLength(14);
+		for (const selector of selectors) {
+			// Every one uses only the hooks Inkline renders.
+			expect(
+				selector.replace(
+					/\.button|\[data-icon-only\]|\[data-size="(?:xs|sm|lg|xl|md)"\]|\[data-slot="(?:leading|label|trailing)"\]|:where\(|:is\(|[ ,>*)]/g,
+					"",
+				),
+				selector,
+			).toBe("");
+		}
+	});
+
 	describe("config overrides", () => {
 		it("should allow overriding base styles", () => {
 			const s = createInstance();
