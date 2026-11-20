@@ -197,6 +197,28 @@ panel: true
 ::
 ```
 
+### Inkline Examples (Component demos)
+
+```markdown
+::inkline-example
+---
+example: src/components/button/examples/ButtonVariantSolid
+title: Solid button
+controls: true
+---
+::
+```
+
+Embeds one example from Inkline's deployed preview, by its URL alone. The docs take no package dependency on Inkline. Its props:
+
+- `example`: the full Inkline example id.
+- `title`: the frame's accessible name. Required.
+- `controls`: draws the example's controls below it. Defaults to `false`.
+- `target`: the framework the preview renders. Defaults to `vue`.
+- `height`: a fixed height in pixels. Without it, the frame takes the height of its content.
+
+The frame loads when it comes near the viewport, starts in the page's color mode and follows later mode changes without reloading. The Button page uses it, and every other page keeps `::story-preview`.
+
 ### Accordion (FAQ)
 
 ```markdown
