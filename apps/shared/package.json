@@ -1,6 +1,7 @@
 {
 	"name": "@styleframe/app-shared",
 	"type": "module",
+	"private": true,
 	"version": "2.0.3",
 	"scripts": {
 		"postinstall": "nuxt prepare"

@@ -1,5 +1,6 @@
 {
 	"name": "@styleframe/docs",
+	"private": true,
 	"type": "module",
 	"version": "2.0.1",
 	"scripts": {
