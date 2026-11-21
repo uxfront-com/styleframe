@@ -20,6 +20,7 @@
 		"@styleframe/testing-integration",
 		"@styleframe/docs",
 		"@styleframe/app",
+		"@styleframe/app-shared",
 		"@styleframe/storybook"
 	],
 	"___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {

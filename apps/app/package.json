@@ -1,6 +1,7 @@
 {
 	"name": "@styleframe/app",
 	"type": "module",
+	"private": true,
 	"version": "0.1.1",
 	"scripts": {
 		"build": "nuxt build",
