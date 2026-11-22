@@ -1,6 +1,24 @@
-# Keeps the SHA-pinned actions in .github/workflows current.
 version: 2
 updates:
+  # npm packages across the pnpm workspace, catalogs included. A new release waits 3 days
+  # before an update PR proposes it.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+    groups:
+      first-party:
+        patterns: ["@uxfront/*", "@styleframe/*", "styleframe"]
+      third-party:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # Keeps the SHA-pinned actions in .github/workflows current.
   - package-ecosystem: github-actions
     directory: /
     schedule:
