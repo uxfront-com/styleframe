@@ -5,7 +5,7 @@
 # Dokploy: Build Type "Dockerfile", Docker File "apps/storybook/Dockerfile",
 # Docker Context Path ".", container port 80.
 
-FROM node:22-slim AS build
+FROM node:24-slim AS build
 
 ENV PNPM_HOME=/pnpm \
     PATH=/pnpm:$PATH \
