@@ -28,6 +28,8 @@ Extend from this package in any workspace `tsconfig.json`. The output goes to yo
 }
 ```
 
+The output keeps the `src` folder, so `tsc -p .` writes `dist/src/index.js`. Add `"rootDir": "src"` under `compilerOptions` for `dist/index.js`, as the [library variant section of the `@uxfront/typescript-config` README](https://www.npmjs.com/package/@uxfront/typescript-config#library-variant) explains.
+
 ### Inherited options
 
 The [`@uxfront/typescript-config` README](https://www.npmjs.com/package/@uxfront/typescript-config) lists what the base and its library variant set: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `verbatimModuleSyntax`, `isolatedModules`, `target` (`es2022`), `lib`, `declaration`, `composite` and the rest. The library variant also sets `outDir` to `${configDir}/dist`, so the output lands in the extending project's `dist`, and excludes that project's `node_modules` and `dist`.
@@ -44,6 +46,16 @@ These are the options this package sets on top of the library variant:
 | `sourceMap` | `true` | Generates source maps |
 
 It also sets `"include": ["${configDir}/**/*"]`, every file in the extending project, since the base's own `include` resolves inside `node_modules` and matches nothing there. Set your own `include` to narrow it. Don't set an `exclude` unless you need to, because it replaces the inherited one: if you do, keep `node_modules` and `dist` in it, or a second build reads the first one's output.
+
+The inherited `exclude` also replaces TypeScript's default one, which left out your `outDir`. So if you set your own `outDir` or `declarationDir` outside `dist` and keep the default `include`, the second build reads the first one's output and stops with `TS5055`. Set an `exclude` with `node_modules`, `dist` and that folder, or narrow your `include`, like `["src"]`:
+
+```json
+{
+    "extends": "@styleframe/config-typescript",
+    "compilerOptions": { "outDir": "lib" },
+    "exclude": ["node_modules", "dist", "lib"]
+}
+```
 
 ### Best Practices
 
