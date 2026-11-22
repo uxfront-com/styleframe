@@ -18,6 +18,9 @@ catalogs:
     '@types/node':
       specifier: ^22.19.21
       version: 22.19.21
+    '@uxfront/typescript-config':
+      specifier: ^0.2.0
+      version: 0.2.0
     '@vitest/coverage-v8':
       specifier: ^4.1.8
       version: 4.1.8
@@ -760,6 +763,10 @@ importers:
         version: 3.3.5(typescript@6.0.3)
 
   config/typescript:
+    dependencies:
+      '@uxfront/typescript-config':
+        specifier: 'catalog:'
+        version: 0.2.0
     devDependencies:
       typescript:
         specifier: 'catalog:'
@@ -7791,6 +7798,9 @@ packages:
 
   '@uxfront/scene@0.5.1':
     resolution: {integrity: sha512-SCbqe1f/8TQ5+dcEC8cvxw0sSF1kPojdKop1rTme7FCrjuOAOukhdLbJVrQBi5QB1N+sHMCa1Y+Sl8+GE8ZkvQ==}
+
+  '@uxfront/typescript-config@0.2.0':
+    resolution: {integrity: sha512-gEg9Sk82x60DYmHS/D1EXJ8lx6nMo27Pz2ptEh5kg/zu7Q9OfdOsKdFCk/2ncZSVyS8vUYFQ7hgJY0b6ikP3pg==}
 
   '@uxfront/ui@0.9.1':
     resolution: {integrity: sha512-DxPtNRTboMmEuuBkcn6pWUbMo5StnukV3f8ctFmcPow32JbOYNBKDyTzMeTLaTordwiyI6iHDZN53aQBhnWkzA==}
@@ -23972,6 +23982,8 @@ snapshots:
       - webpack
 
   '@uxfront/scene@0.5.1': {}
+
+  '@uxfront/typescript-config@0.2.0': {}
 
   '@uxfront/ui@0.9.1(vue@3.5.43(typescript@6.0.3))':
     dependencies:

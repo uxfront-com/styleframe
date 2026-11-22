@@ -1,28 +1,10 @@
 {
+	"extends": "@uxfront/typescript-config/library.json",
 	"compilerOptions": {
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"target": "es2022",
-		"allowJs": true,
-		"resolveJsonModule": true,
-		"moduleDetection": "force",
-		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
-
-		"strict": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-
 		"module": "esnext",
 		"moduleResolution": "bundler",
-		"outDir": "dist",
-
-		"declaration": true,
-
-		"composite": true,
 		"declarationMap": true,
-		"sourceMap": true,
-
-		"lib": ["es2022", "dom", "dom.iterable"]
-	}
+		"sourceMap": true
+	},
+	"include": ["${configDir}/**/*"]
 }
