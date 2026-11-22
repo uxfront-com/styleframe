@@ -24,7 +24,7 @@ catalog:
   jsdom: ^29.1.1
   lint-staged: ^17.0.7
   npm-run-all2: ^9.0.2
-  nuxt: ^3.17.5
+  nuxt: ^4.6.4
   oxfmt: ^0.55.0
   oxlint: ^1.69.0
   playwright: ^1.60.0
@@ -70,7 +70,7 @@ catalogs:
     '@iconify-json/simple-icons': 1.2.86
     '@iconify-json/vscode-icons': 1.2.57
     '@nuxt/content': 3.14.0
-    '@nuxt/eslint': 1.16.0
+    '@nuxt/eslint': 1.17.0
     '@nuxt/fonts': 0.14.0
     '@nuxt/image': 1.11.0
     '@nuxt/kit': 4.4.8
