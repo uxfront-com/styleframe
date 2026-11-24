@@ -71,7 +71,7 @@ catalogs:
     '@iconify-json/vscode-icons': 1.2.57
     '@nuxt/content': 3.14.0
     '@nuxt/eslint': 1.17.0
-    '@nuxt/fonts': 0.14.0
+    '@nuxt/fonts': 1.2.0
     '@nuxt/image': 1.11.0
     '@nuxt/kit': 4.4.8
     '@nuxt/schema': 4.4.8
