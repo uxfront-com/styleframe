@@ -109,15 +109,20 @@ catalogs:
     vue-router: 4.5.1
     vue-tsc: ^3.3.5
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@tailwindcss/oxide'
-  - better-sqlite3
-  - core-js
-  - esbuild
-  - sharp
-  - unrs-resolver
-  - vue-demi
+allowBuilds:
+  '@parcel/watcher': true
+  '@tailwindcss/oxide': true
+  better-sqlite3: true
+  core-js: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
+
+# pnpm 11 rejects versions published in the last 24 hours. This first-party
+# version was published on 2026-11-24, so it is excluded by exact version.
+minimumReleaseAgeExclude:
+  - '@uxfront/layer-docs@0.9.1'
 
 # These modules import `nuxt` at runtime without depending on it, so they ran
 # whichever Nuxt pnpm hoisted, which needn't be the app's: the docs app runs a
