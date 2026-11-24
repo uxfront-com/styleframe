@@ -81,7 +81,7 @@ catalogs:
     '@nuxtjs/i18n': 10.4.0
     '@nuxtjs/mdc': 0.22.0
     '@nuxtjs/robots': 6.1.1
-    '@nuxtjs/sitemap': 8.2.1
+    '@nuxtjs/sitemap': 9.1.0
     '@nuxtjs/supabase': 2.0.9
     '@supabase/supabase-js': ^2.108.1
     '@unhead/vue': 2.0.19
