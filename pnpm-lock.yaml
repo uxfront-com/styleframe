@@ -127,6 +127,9 @@ catalogs:
     '@uxfront/scene':
       specifier: ^0.5.1
       version: 0.5.1
+    '@uxfront/site-checks':
+      specifier: 0.1.0
+      version: 0.1.0
     '@uxfront/ui':
       specifier: ^0.9.1
       version: 0.9.1
@@ -491,6 +494,9 @@ importers:
       '@nuxt/kit':
         specifier: catalog:docs
         version: 4.5.2(magic-string@1.4.2)(magicast@0.5.5)(oxc-parser@0.143.0)(rolldown@1.2.12)(unplugin@3.4.0(@farmfe/core@1.7.11(@types/node@24.10.4))(esbuild@0.28.0)(rolldown@1.2.12)(rollup@4.62.0)(vite@8.3.2(@types/node@24.10.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.0)(tsx@4.22.4)(yaml@2.9.0))(webpack@5.107.2(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.28)))
+      '@uxfront/site-checks':
+        specifier: catalog:docs
+        version: 0.1.0
       h3:
         specifier: catalog:docs
         version: 1.15.11
@@ -7877,6 +7883,11 @@ packages:
 
   '@uxfront/scene@0.5.1':
     resolution: {integrity: sha512-SCbqe1f/8TQ5+dcEC8cvxw0sSF1kPojdKop1rTme7FCrjuOAOukhdLbJVrQBi5QB1N+sHMCa1Y+Sl8+GE8ZkvQ==}
+
+  '@uxfront/site-checks@0.1.0':
+    resolution: {integrity: sha512-BKWlKNj6IIvV2AFBY8uVFGZTmq57tMbUC4RQ2Pc2gUy+ptd7H0NqrT8qQ6z78FCC4Ifjmlw45GFZhOa7V+oEqg==}
+    engines: {node: '>=24'}
+    hasBin: true
 
   '@uxfront/typescript-config@0.2.0':
     resolution: {integrity: sha512-gEg9Sk82x60DYmHS/D1EXJ8lx6nMo27Pz2ptEh5kg/zu7Q9OfdOsKdFCk/2ncZSVyS8vUYFQ7hgJY0b6ikP3pg==}
@@ -24178,6 +24189,8 @@ snapshots:
       - webpack
 
   '@uxfront/scene@0.5.1': {}
+
+  '@uxfront/site-checks@0.1.0': {}
 
   '@uxfront/typescript-config@0.2.0': {}
 

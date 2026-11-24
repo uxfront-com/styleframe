@@ -11,8 +11,9 @@
 		"typecheck": "nuxt prepare && vue-tsc -b --noEmit --pretty false 2>&1 | awk '/^[^ ]/ { own = !/node_modules\\/(.*\\/)?docus\\// } own { print; failed = 1 } END { exit failed }'",
 		"test": "vitest run",
 		"test:build": "vitest run --config vitest.build.config.ts",
+		"check:seo": "site-checks seo .output/public",
 		"lighthouse": "pnpm dlx @lhci/cli@0.16.1 autorun",
-		"lighthouse:desktop": "pnpm dlx @lhci/cli@0.16.1 autorun --config=lighthouserc.desktop.json",
+		"lighthouse:desktop": "pnpm dlx @lhci/cli@0.16.1 autorun --config=lighthouserc.desktop.mjs",
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
@@ -37,6 +38,7 @@
 		"@iconify-json/simple-icons": "catalog:docs",
 		"@iconify-json/vscode-icons": "catalog:docs",
 		"@nuxt/kit": "catalog:docs",
+		"@uxfront/site-checks": "catalog:docs",
 		"h3": "catalog:docs",
 		"typescript": "catalog:nuxt",
 		"vitest": "catalog:",
