@@ -190,7 +190,7 @@ Linting is handled by [Oxlint](https://oxc.rs/docs/guide/usage/linter).
 
 1. First, fork the repository and create a branch as specified in the [Pull Request Guidelines](#pull-requests) above.
 
-2. You'll find a well-structured [pnpm](https://pnpm.io) monorepo powered by [Turbo](https://turbo.build). The project requires **Node.js >= 22.0.0** and **pnpm 10.20.0+**. Enable pnpm via Corepack:
+2. You'll find a well-structured [pnpm](https://pnpm.io) monorepo powered by [Turbo](https://turbo.build). The project requires **Node.js >= 22.13.0** and **pnpm 11.25.0**. Enable pnpm via Corepack:
 
    ```bash
    corepack enable && corepack prepare

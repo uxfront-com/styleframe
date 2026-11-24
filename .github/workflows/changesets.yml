@@ -1,71 +1,36 @@
+# npm trusted publishing names this file, `changesets.yml`, as the workflow
+# that may publish Styleframe's packages. Never rename or move it: the publish
+# would then fail with a misleading E404.
+#
+# The release itself runs in the shared workflow in uxfront-com/.github, pinned
+# by commit SHA. It opens or updates the "chore: update versions" PR while
+# changesets are pending, and publishes to npm when that PR merges.
 name: Changesets
 
 on:
     push:
         branches:
             - main
+    workflow_dispatch:
 
-permissions:
-    contents: write
-    pull-requests: write
-
-env:
-    CI: true
-    PNPM_CACHE_FOLDER: .pnpm-store
-
-# Only allow one release workflow to run at a time
+# Only one release runs at a time, and a waiting one is never cancelled
 concurrency:
-    group: ${{ github.workflow }}
+    group: changesets-${{ github.ref }}
     cancel-in-progress: false
+
+permissions: {}
 
 jobs:
     release:
-        name: Release
-        timeout-minutes: 15
-        runs-on: ubuntu-latest
+        # A called workflow can only lower these. npm needs `id-token: write`
+        # here too, and the shared workflow passes it on only to its publish job.
         permissions:
             contents: write
             pull-requests: write
             id-token: write
-        steps:
-            - name: Checkout code repository
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
-                  token: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
-
-            - name: Setup node.js
-              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-              with:
-                  node-version-file: .node-version
-                  cache: "pnpm"
-                  registry-url: "https://registry.npmjs.org"
-
-            # Trusted publishing (OIDC) needs npm >= 11.5.1, newer than the npm some Node releases bundle
-            - name: Update npm
-              run: npm install -g npm@^11.5.1
-
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
-
-            - name: Build packages for release
-              run: pnpm run ci:prepublish
-
-            - name: Create and publish versions
-              id: changesets
-              uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  version-script: pnpm ci:version
-                  commit-message: "chore: update versions"
-                  pr-title: "chore: update versions"
-                  publish-script: pnpm exec changeset publish
-
-            - name: Output release information
-              if: steps.changesets.outputs.published == 'true'
-              run: |
-                  echo "Published packages:"
-                  echo "${{ steps.changesets.outputs.published-packages }}"
+        uses: uxfront-com/.github/.github/workflows/release.yml@18a1d7cb1576c8053a80f3d166cfefecd470f5b3 # main
+        with:
+            build: pnpm run ci:prepublish
+            version-script: pnpm ci:version
+            commit-message: "chore: update versions"
+            pr-title: "chore: update versions"
