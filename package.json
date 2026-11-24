@@ -42,8 +42,8 @@
 		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"devDependencies": {
-		"@changesets/changelog-github": "^0.7.0",
-		"@changesets/cli": "^2.31.0",
+		"@changesets/changelog-github": "^1.0.1",
+		"@changesets/cli": "^3.0.3",
 		"@styleframe/config-typescript": "workspace:^",
 		"@typescript/typescript6": "6.0.2",
 		"husky": "catalog:",

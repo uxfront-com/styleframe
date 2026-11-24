@@ -58,15 +58,14 @@ jobs:
               id: changesets
               uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
               with:
-                  version: pnpm ci:version
-                  commit: "chore: update versions"
-                  title: "chore: update versions"
-                  publish: pnpm exec changeset publish
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  version-script: pnpm ci:version
+                  commit-message: "chore: update versions"
+                  pr-title: "chore: update versions"
+                  publish-script: pnpm exec changeset publish
 
             - name: Output release information
               if: steps.changesets.outputs.published == 'true'
               run: |
                   echo "Published packages:"
-                  echo "${{ steps.changesets.outputs.publishedPackages }}"
+                  echo "${{ steps.changesets.outputs.published-packages }}"
