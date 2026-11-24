@@ -1,5 +1,11 @@
 # @styleframe/config-typescript
 
+## 3.0.2
+
+### Patch Changes
+
+- [#416](https://github.com/uxfront-com/styleframe/pull/416) [`e727598`](https://github.com/uxfront-com/styleframe/commit/e72759859ee00934b87b21f1d953a82d19394cb3) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Extend `@uxfront/typescript-config/library.json` instead of repeating its options, so `@styleframe/config-typescript` now depends on `@uxfront/typescript-config` and sets only `module`, `moduleResolution`, `declarationMap` and `sourceMap` itself. The compiler options are otherwise the same, but the output now goes to the extending project's own `dist`, where before a relative `outDir` resolved inside this package, and the config includes that project's files by default and excludes its `node_modules` and `dist`. If your project sets its own `outDir` or `declarationDir` outside `dist` and keeps the default `include`, its second build now reads the first one's output and stops with `TS5055`, because the inherited `exclude` replaces TypeScript's default one. Add an `exclude` with `node_modules`, `dist` and that folder, like `["node_modules", "dist", "lib"]`, or narrow your `include`, like `["src"]`.
+
 ## 3.0.1
 
 ### Patch Changes

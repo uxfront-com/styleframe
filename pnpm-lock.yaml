@@ -1066,7 +1066,7 @@ importers:
         specifier: 'catalog:'
         version: 1.60.0
       '@styleframe/config-typescript':
-        specifier: workspace:^3.0.1
+        specifier: workspace:^3.0.2
         version: link:../../config/typescript
       '@styleframe/config-vite':
         specifier: workspace:^3.1.2
