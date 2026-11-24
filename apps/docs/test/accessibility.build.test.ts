@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 /**
- * The prerendered docs pages Lighthouse audits (lighthouserc.json), with the
+ * The prerendered docs pages Lighthouse audits (lighthouserc.mjs), with the
  * fluid design page and the installation pages, keep what their accessibility
  * score needs: named header and page-menu buttons, panels that name their
  * tabs, one <h1> and no skipped heading level, and code that every token
@@ -64,7 +64,7 @@ describe.each(AUDITED)("/%s", (page) => {
 	});
 
 	// The browser sets the tabs' aria-controls once the page has loaded, so
-	// Lighthouse (lighthouserc.json) checks those: here, any the page has.
+	// Lighthouse (lighthouserc.mjs) checks those: here, any the page has.
 	it("points tabs at panels on the page, and back", () => {
 		for (const tab of tags(html, /<button[^>]*role="tab"[^>]*>/g)) {
 			const panel = attr(tab, "aria-controls");
