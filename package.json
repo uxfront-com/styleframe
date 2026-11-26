@@ -23,8 +23,8 @@
 		"typecheck": "turbo run typecheck",
 		"lint": "oxlint",
 		"lint:actions": "actionlint",
-		"format:check": "oxfmt --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,vue}\"",
-		"format": "oxfmt --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,vue}\"",
+		"format:check": "oxfmt --check",
+		"format": "oxfmt",
 		"prepare": "husky",
 		"cleanup": "git clean -ffdx -e '.env.*'"
 	},
@@ -46,6 +46,7 @@
 		"@changesets/cli": "^3.0.3",
 		"@styleframe/config-typescript": "workspace:^",
 		"@typescript/typescript6": "6.0.2",
+		"@uxfront/oxfmt-config": "catalog:",
 		"@uxfront/oxlint-config": "catalog:",
 		"husky": "catalog:",
 		"lint-staged": "catalog:",
