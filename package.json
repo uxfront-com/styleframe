@@ -46,6 +46,7 @@
 		"@changesets/cli": "^3.0.3",
 		"@styleframe/config-typescript": "workspace:^",
 		"@typescript/typescript6": "6.0.2",
+		"@uxfront/oxlint-config": "catalog:",
 		"husky": "catalog:",
 		"lint-staged": "catalog:",
 		"npm-run-all2": "catalog:",
