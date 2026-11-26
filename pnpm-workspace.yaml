@@ -120,11 +120,10 @@ allowBuilds:
   unrs-resolver: true
   vue-demi: true
 
-# pnpm 11 rejects versions published in the last 24 hours. These first-party
-# versions were published on 2026-11-24, so they are excluded by exact version.
+# pnpm 11 rejects versions published in the last 24 hours. This first-party
+# version was published on 2026-11-24, so it is excluded by exact version.
 minimumReleaseAgeExclude:
   - '@uxfront/layer-docs@0.9.1'
-  - '@uxfront/site-checks@0.1.0'
 
 # These modules import `nuxt` at runtime without depending on it, so they ran
 # whichever Nuxt pnpm hoisted, which needn't be the app's: the docs app runs a
