@@ -10,11 +10,7 @@ const variants = ["default", "soft", "ghost"] as const;
 		<div v-for="variant in variants" :key="variant">
 			<div class="input-label">{{ variant }}</div>
 			<div class="input-row">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="input-stack"
-				>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="input-stack">
 					<label :for="`input-${variant}-${color}`" class="input-story-label">
 						{{ variant }} {{ color }}
 					</label>

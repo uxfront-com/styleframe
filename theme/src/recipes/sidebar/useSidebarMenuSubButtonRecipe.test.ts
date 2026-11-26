@@ -1,4 +1,6 @@
 import { styleframe } from "@styleframe/core";
+
+import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useActiveModifier,
@@ -6,7 +8,6 @@ import {
 	useFocusVisibleModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
-import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useSidebarMenuSubButtonRecipe } from "./index";
 
 function createInstance() {
@@ -82,21 +83,14 @@ describe("useSidebarMenuSubButtonRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarMenuSubButtonRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have ghost and subtle style variants", () => {
 			const s = createInstance();
 			const recipe = useSidebarMenuSubButtonRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"ghost",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["ghost", "subtle"]);
 		});
 
 		it("should have active and disabled boolean axes", () => {
@@ -161,9 +155,7 @@ describe("useSidebarMenuSubButtonRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});
 	});

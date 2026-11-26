@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
 	DOCS_FOLDERS,
 	docsFolderPrefix,
@@ -9,9 +10,7 @@ import {
 describe("docsFolderPrefix", () => {
 	it("mounts each folder under its section, as main's URLs have it", () => {
 		expect(
-			Object.fromEntries(
-				DOCS_FOLDERS.map((folder) => [folder, docsFolderPrefix(folder)]),
-			),
+			Object.fromEntries(DOCS_FOLDERS.map((folder) => [folder, docsFolderPrefix(folder)])),
 		).toEqual({
 			"01.getting-started": "/docs/getting-started",
 			"08.tooling": "/docs/getting-started/tooling",
@@ -38,10 +37,7 @@ describe("docsStem", () => {
 			"docs/1.getting-started/01.getting-started/01.introduction",
 		],
 		["docs/08.tooling/01.cli", "docs/1.getting-started/08.tooling/01.cli"],
-		[
-			"docs/02.api/11.recipes/00.index",
-			"docs/2.api/02.api/11.recipes/00.index",
-		],
+		["docs/02.api/11.recipes/00.index", "docs/2.api/02.api/11.recipes/00.index"],
 		["docs/05.components/02.actions", "docs/3.theme/05.components/02.actions"],
 	])("puts the section in front of %s", (file, stem) => {
 		expect(docsStem(file)).toBe(stem);

@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useLineHeightDesignTokens } from "./useLineHeightDesignTokens";
+
 import { lineHeightValues } from "../values";
+import { useLineHeightDesignTokens } from "./useLineHeightDesignTokens";
 
 describe("useLineHeightDesignTokens", () => {
 	it("should create all line height variables with correct names and values", () => {
@@ -135,10 +136,7 @@ describe("useLineHeightDesignTokens", () => {
 		const s = styleframe();
 		const { lineHeightLoose } = useLineHeightDesignTokens(s);
 
-		const customLineHeight = s.variable(
-			"custom-line-height",
-			s.ref(lineHeightLoose),
-		);
+		const customLineHeight = s.variable("custom-line-height", s.ref(lineHeightLoose));
 
 		expect(customLineHeight.value).toEqual({
 			type: "reference",
@@ -189,10 +187,8 @@ describe("useLineHeightDesignTokens", () => {
 			// Type assertions to verify the generic types are preserved
 			const tight: Variable<"line-height.tight"> = lineHeights.lineHeightTight;
 			const snug: Variable<"line-height.snug"> = lineHeights.lineHeightSnug;
-			const normal: Variable<"line-height.normal"> =
-				lineHeights.lineHeightNormal;
-			const relaxed: Variable<"line-height.relaxed"> =
-				lineHeights.lineHeightRelaxed;
+			const normal: Variable<"line-height.normal"> = lineHeights.lineHeightNormal;
+			const relaxed: Variable<"line-height.relaxed"> = lineHeights.lineHeightRelaxed;
 			const loose: Variable<"line-height.loose"> = lineHeights.lineHeightLoose;
 			const lineHeight: Variable<"line-height"> = lineHeights.lineHeight;
 
@@ -295,18 +291,10 @@ describe("useLineHeightDesignTokens", () => {
 				lineHeightLoose,
 			} = useLineHeightDesignTokens(s);
 
-			expect(lineHeightTight.value).toBeLessThan(
-				lineHeightSnug.value as number,
-			);
-			expect(lineHeightSnug.value).toBeLessThan(
-				lineHeightNormal.value as number,
-			);
-			expect(lineHeightNormal.value).toBeLessThan(
-				lineHeightRelaxed.value as number,
-			);
-			expect(lineHeightRelaxed.value).toBeLessThan(
-				lineHeightLoose.value as number,
-			);
+			expect(lineHeightTight.value).toBeLessThan(lineHeightSnug.value as number);
+			expect(lineHeightSnug.value).toBeLessThan(lineHeightNormal.value as number);
+			expect(lineHeightNormal.value).toBeLessThan(lineHeightRelaxed.value as number);
+			expect(lineHeightRelaxed.value).toBeLessThan(lineHeightLoose.value as number);
 		});
 
 		it("should have loose as the largest line height", () => {
@@ -337,8 +325,7 @@ describe("useLineHeightDesignTokens", () => {
 	describe("practical usage", () => {
 		it("should work for creating typography with different line heights", () => {
 			const s = styleframe();
-			const { lineHeightTight, lineHeightRelaxed } =
-				useLineHeightDesignTokens(s);
+			const { lineHeightTight, lineHeightRelaxed } = useLineHeightDesignTokens(s);
 
 			s.selector("h1, h2, h3", ({ variable }) => {
 				variable("line-height", s.ref(lineHeightTight));
@@ -369,13 +356,9 @@ p, li {
 
 		it("should work for responsive line height adjustments", () => {
 			const s = styleframe();
-			const { lineHeightNormal, lineHeightRelaxed } =
-				useLineHeightDesignTokens(s);
+			const { lineHeightNormal, lineHeightRelaxed } = useLineHeightDesignTokens(s);
 
-			const bodyLineHeight = s.variable(
-				"body-line-height",
-				s.ref(lineHeightNormal),
-			);
+			const bodyLineHeight = s.variable("body-line-height", s.ref(lineHeightNormal));
 
 			s.selector("@media (min-width: 768px)", ({ variable }) => {
 				variable(bodyLineHeight, s.ref(lineHeightRelaxed));
@@ -399,8 +382,7 @@ p, li {
 
 		it("should work for theme-specific line height overrides", () => {
 			const s = styleframe();
-			const { lineHeightNormal, lineHeightLoose } =
-				useLineHeightDesignTokens(s);
+			const { lineHeightNormal, lineHeightLoose } = useLineHeightDesignTokens(s);
 
 			s.selector(".theme-readable", ({ variable }) => {
 				variable(lineHeightNormal, s.ref(lineHeightLoose));

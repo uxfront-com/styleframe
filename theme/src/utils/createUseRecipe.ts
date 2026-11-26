@@ -1,13 +1,11 @@
-import type {
-	Styleframe,
-	Recipe,
-	VariantDeclarationsBlock,
-} from "@styleframe/core";
+import type { Styleframe, Recipe, VariantDeclarationsBlock } from "@styleframe/core";
 import { defu } from "defu";
 
 export type RecipeConfig<
-	Variants extends Record<string, Record<string, VariantDeclarationsBlock>> =
-		Record<string, Record<string, VariantDeclarationsBlock>>,
+	Variants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
+		string,
+		Record<string, VariantDeclarationsBlock>
+	>,
 > = {
 	base?: VariantDeclarationsBlock;
 	variants?: Variants;
@@ -33,10 +31,7 @@ export type FilterConfig<
 	[K in keyof Variants]?: Array<keyof Variants[K] & string>;
 };
 
-export type ApplyFilter<
-	V extends Record<string, Record<string, VariantDeclarationsBlock>>,
-	F,
-> = {
+export type ApplyFilter<V extends Record<string, Record<string, VariantDeclarationsBlock>>, F> = {
 	[K in keyof V]: K extends keyof F
 		? F[K] extends Array<infer U>
 			? Pick<V[K], Extract<U, keyof V[K]>>
@@ -110,10 +105,11 @@ function applyFilter(
 	return result;
 }
 
-export function createUseRecipe<
-	Name extends string,
-	const Config extends RecipeConfig,
->(name: Name, defaults: Config, setup?: (s: Styleframe) => void) {
+export function createUseRecipe<Name extends string, const Config extends RecipeConfig>(
+	name: Name,
+	defaults: Config,
+	setup?: (s: Styleframe) => void,
+) {
 	type Variants = NonNullable<Config["variants"]>;
 
 	return function useRecipe<F extends FilterConfig<Variants> = {}>(

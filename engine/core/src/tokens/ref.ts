@@ -1,11 +1,5 @@
 import { isVariable } from "../typeGuards";
-import type {
-	Container,
-	Reference,
-	Root,
-	TokenValue,
-	Variable,
-} from "../types";
+import type { Container, Reference, Root, TokenValue, Variable } from "../types";
 import { createPropertyValueResolver } from "./resolve";
 
 export function createRefFunction(parent: Container, root: Root) {

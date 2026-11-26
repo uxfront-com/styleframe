@@ -43,14 +43,11 @@ export const useBlurUtility = createUseUtility("blur", ({ value }) => ({
 /**
  * Create brightness utility classes.
  */
-export const useBrightnessUtility = createUseUtility(
-	"brightness",
-	({ value }) => ({
-		"--filter-brightness": `brightness(${value})`,
-		filter:
-			"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
-	}),
-);
+export const useBrightnessUtility = createUseUtility("brightness", ({ value }) => ({
+	"--filter-brightness": `brightness(${value})`,
+	filter:
+		"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
+}));
 
 /**
  * Create contrast utility classes.
@@ -64,38 +61,29 @@ export const useContrastUtility = createUseUtility("contrast", ({ value }) => ({
 /**
  * Create drop-shadow utility classes.
  */
-export const useDropShadowUtility = createUseUtility(
-	"drop-shadow",
-	({ value }) => ({
-		"--filter-drop-shadow": `drop-shadow(${value})`,
-		filter:
-			"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
-	}),
-);
+export const useDropShadowUtility = createUseUtility("drop-shadow", ({ value }) => ({
+	"--filter-drop-shadow": `drop-shadow(${value})`,
+	filter:
+		"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
+}));
 
 /**
  * Create grayscale utility classes.
  */
-export const useGrayscaleUtility = createUseUtility(
-	"grayscale",
-	({ value }) => ({
-		"--filter-grayscale": `grayscale(${value})`,
-		filter:
-			"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
-	}),
-);
+export const useGrayscaleUtility = createUseUtility("grayscale", ({ value }) => ({
+	"--filter-grayscale": `grayscale(${value})`,
+	filter:
+		"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
+}));
 
 /**
  * Create hue-rotate utility classes.
  */
-export const useHueRotateUtility = createUseUtility(
-	"hue-rotate",
-	({ value }) => ({
-		"--filter-hue-rotate": `hue-rotate(${value})`,
-		filter:
-			"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
-	}),
-);
+export const useHueRotateUtility = createUseUtility("hue-rotate", ({ value }) => ({
+	"--filter-hue-rotate": `hue-rotate(${value})`,
+	filter:
+		"var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow)",
+}));
 
 /**
  * Create invert utility classes.

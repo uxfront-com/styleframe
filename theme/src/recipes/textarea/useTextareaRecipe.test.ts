@@ -1,19 +1,13 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
 	useHoverCapableModifier,
 } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusWithinModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+import { useFocusWithinModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { useTextareaPrefixRecipe } from "./useTextareaPrefixRecipe";
 import { useTextareaRecipe } from "./useTextareaRecipe";
 import { useTextareaSuffixRecipe } from "./useTextareaSuffixRecipe";
@@ -122,22 +116,14 @@ describe("useTextareaRecipe", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"default",
-				"soft",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["default", "soft", "ghost"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -324,9 +310,7 @@ describe("useTextareaRecipe", () => {
 			const ghost = recipe.compoundVariants!.findIndex(
 				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
 			);
-			const invalid = recipe.compoundVariants!.findIndex(
-				(v) => v.match.invalid === "true",
-			);
+			const invalid = recipe.compoundVariants!.findIndex((v) => v.match.invalid === "true");
 
 			// A later compound replaces an earlier one's key, so invalid must follow ghost.
 			expect(invalid).toBeGreaterThan(ghost);
@@ -342,9 +326,7 @@ describe("useTextareaRecipe", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.readonly === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.readonly === "true");
 
 			expect(cv).toEqual({
 				match: { readonly: "true" },
@@ -359,9 +341,7 @@ describe("useTextareaRecipe", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.invalid === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.invalid === "true");
 
 			expect(cv).toEqual({
 				match: { invalid: "true" },
@@ -389,9 +369,7 @@ describe("useTextareaRecipe", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.disabled === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.disabled === "true");
 
 			expect(cv).toEqual({
 				match: { disabled: "true" },
@@ -415,15 +393,11 @@ describe("useTextareaRecipe", () => {
 			const s = createInstance();
 			const recipe = useTextareaRecipe(s);
 
-			expect(
-				recipe.compoundVariants!.find((v) => v.match.resize === "vertical"),
-			).toEqual({
+			expect(recipe.compoundVariants!.find((v) => v.match.resize === "vertical")).toEqual({
 				match: { resize: "vertical" },
 				className: "-resize-vertical",
 			});
-			expect(
-				recipe.compoundVariants!.find((v) => v.match.resize === "both"),
-			).toEqual({
+			expect(recipe.compoundVariants!.find((v) => v.match.resize === "both")).toEqual({
 				match: { resize: "both" },
 				className: "-resize-both",
 			});
@@ -437,8 +411,7 @@ describe("useTextareaRecipe", () => {
 
 			const fieldSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".textarea-field",
+					child.type === "selector" && (child as { query: string }).query === ".textarea-field",
 			);
 
 			expect(fieldSelector).toBeDefined();
@@ -457,9 +430,7 @@ describe("useTextareaRecipe", () => {
 
 			for (const query of expectedQueries) {
 				const rule = s.root.children.find(
-					(child) =>
-						child.type === "selector" &&
-						(child as { query: string }).query === query,
+					(child) => child.type === "selector" && (child as { query: string }).query === query,
 				);
 				expect(rule, `missing resize selector: ${query}`).toBeDefined();
 			}
@@ -471,8 +442,7 @@ describe("useTextareaRecipe", () => {
 
 			const fieldSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".textarea-field",
+					child.type === "selector" && (child as { query: string }).query === ".textarea-field",
 			) as
 				| {
 						children: Array<{
@@ -483,8 +453,7 @@ describe("useTextareaRecipe", () => {
 				| undefined;
 
 			expect(
-				fieldSelector?.children.find((child) => child.query === "&:disabled")
-					?.declarations,
+				fieldSelector?.children.find((child) => child.query === "&:disabled")?.declarations,
 			).toEqual({ cursor: "not-allowed" });
 		});
 
@@ -495,14 +464,11 @@ describe("useTextareaRecipe", () => {
 			const queries = s.root.children
 				.filter((child) => child.type === "selector")
 				.map((child) => (child as { query: string }).query);
-			const disabledIndex = queries.indexOf(
-				".textarea .textarea-field:disabled",
-			);
+			const disabledIndex = queries.indexOf(".textarea .textarea-field:disabled");
 			const disabledRule = s.root.children.find(
 				(child) =>
 					child.type === "selector" &&
-					(child as { query: string }).query ===
-						".textarea .textarea-field:disabled",
+					(child as { query: string }).query === ".textarea .textarea-field:disabled",
 			) as { declarations: Record<string, unknown> } | undefined;
 
 			expect(disabledRule?.declarations).toEqual({ resize: "none" });
@@ -608,25 +574,18 @@ describe("Open Components rules", () => {
 	}
 
 	// The declarations of every `query` rule, merged, or of its `rule` blocks.
-	function declarations(
-		s: ReturnType<typeof styleframe>,
-		query: string,
-		rule?: string,
-	) {
+	function declarations(s: ReturnType<typeof styleframe>, query: string, rule?: string) {
 		const nodes = find(s, query);
 		return Object.assign(
 			{},
 			...(rule
-				? nodes
-						.flatMap((node) => node.children)
-						.filter((child) => child.rule === rule)
+				? nodes.flatMap((node) => node.children).filter((child) => child.rule === rule)
 				: nodes
 			).map((node) => node.declarations),
 		) as Record<string, unknown>;
 	}
 
-	const state = (attribute: string) =>
-		`.textarea:has(> .textarea-field${attribute})`;
+	const state = (attribute: string) => `.textarea:has(> .textarea-field${attribute})`;
 	const autogrow = ".textarea.-autogrow .textarea-field";
 	const lines = (attribute: string, fallback = "") =>
 		`calc(attr(${attribute} type(<number>)${fallback}) * 1lh)`;
@@ -652,13 +611,9 @@ describe("Open Components rules", () => {
 			outlineOffset: "2px",
 		});
 		for (const cv of recipe.compoundVariants!) {
-			expect(
-				keys(css(cv) ?? {}).filter((key) => key.includes("outline")),
-			).toEqual([]);
+			expect(keys(css(cv) ?? {}).filter((key) => key.includes("outline"))).toEqual([]);
 		}
-		for (const node of selectors(s).filter((n) =>
-			n.query!.startsWith(".textarea:has"),
-		)) {
+		for (const node of selectors(s).filter((n) => n.query!.startsWith(".textarea:has"))) {
 			expect(JSON.stringify(node)).not.toContain("outline");
 		}
 	});
@@ -674,31 +629,24 @@ describe("Open Components rules", () => {
 			.filter((child) => child.rule === "(any-pointer: coarse)")
 			.map((child) => child.declarations.minHeight)
 			.filter(Boolean);
-		expect(coarse).toEqual([
-			"2.75rem",
-			`max(${lines("rows", ", 2")}, 2.75rem)`,
-		]);
+		expect(coarse).toEqual(["2.75rem", `max(${lines("rows", ", 2")}, 2.75rem)`]);
 		expect(find(s, ".textarea:has(> .textarea-field)")).toEqual([]);
 	});
 
 	it("textarea/no-zoom-on-focus sets the textarea's text to at least 16px on touch screens", () => {
 		const { s } = createPresetInstance();
 
-		expect(
-			declarations(s, ".textarea-field", "(any-pointer: coarse)").fontSize,
-		).toBe("max(1em, 1rem)");
+		expect(declarations(s, ".textarea-field", "(any-pointer: coarse)").fontSize).toBe(
+			"max(1em, 1rem)",
+		);
 	});
 
 	it("textarea/min-rows never lets the textarea get shorter than its rows, resized or growing", () => {
 		const { s } = createPresetInstance();
 
 		// The browser's default is 2 rows.
-		expect(declarations(s, ".textarea-field").minHeight).toBe(
-			lines("rows", ", 2"),
-		);
-		expect(
-			declarations(s, autogrow, "(field-sizing: content)"),
-		).not.toHaveProperty("minHeight");
+		expect(declarations(s, ".textarea-field").minHeight).toBe(lines("rows", ", 2"));
+		expect(declarations(s, autogrow, "(field-sizing: content)")).not.toHaveProperty("minHeight");
 		expect(consumeCSS(s.root, s.options)).toContain(
 			"min-height: calc(attr(rows type(<number>), 2) * 1lh);",
 		);
@@ -722,15 +670,11 @@ describe("Open Components rules", () => {
 		expect(recipe.defaultVariants!.resize).toBe("vertical");
 		// `block` follows the writing mode, and `vertical` is for browsers that
 		// don't know it.
+		expect(declarations(s, ".textarea.-resize-vertical .textarea-field")).toEqual({
+			resize: "vertical",
+		});
 		expect(
-			declarations(s, ".textarea.-resize-vertical .textarea-field"),
-		).toEqual({ resize: "vertical" });
-		expect(
-			declarations(
-				s,
-				".textarea.-resize-vertical .textarea-field",
-				"(resize: block)",
-			),
+			declarations(s, ".textarea.-resize-vertical .textarea-field", "(resize: block)"),
 		).toEqual({ resize: "block" });
 		const off = selectors(s)
 			.filter(
@@ -750,9 +694,10 @@ describe("Open Components rules", () => {
 		const { s, recipe } = createPresetInstance();
 
 		expect(recipe.defaultVariants!.autogrow).toBe("false");
-		expect(
-			recipe.compoundVariants!.find((cv) => cv.match.autogrow === "true"),
-		).toEqual({ match: { autogrow: "true" }, className: "-autogrow" });
+		expect(recipe.compoundVariants!.find((cv) => cv.match.autogrow === "true")).toEqual({
+			match: { autogrow: "true" },
+			className: "-autogrow",
+		});
 		expect(declarations(s, autogrow)).toEqual({});
 		expect(declarations(s, autogrow, "(field-sizing: content)")).toEqual({
 			fieldSizing: "content",
@@ -762,9 +707,7 @@ describe("Open Components rules", () => {
 		// It comes after every resize selector, so it wins over them.
 		const queries = selectors(s).map((node) => node.query!);
 		for (const query of queries.filter((q) => q.includes("-resize-"))) {
-			expect(queries.indexOf(autogrow), query).toBeGreaterThan(
-				queries.indexOf(query),
-			);
+			expect(queries.indexOf(autogrow), query).toBeGreaterThan(queries.indexOf(query));
 		}
 		expect(consumeCSS(s.root, s.options)).toContain("field-sizing: content;");
 	});
@@ -781,15 +724,9 @@ describe("Open Components rules", () => {
 		for (const cv of states) {
 			expect(keys(css(cv)).filter((key) => sizing.test(key))).toEqual([]);
 		}
-		for (const attribute of [
-			'[aria-invalid="true"]',
-			"[readonly]",
-			":disabled",
-		]) {
+		for (const attribute of ['[aria-invalid="true"]', "[readonly]", ":disabled"]) {
 			for (const node of find(s, state(attribute))) {
-				expect(
-					keys(node.declarations).filter((key) => sizing.test(key)),
-				).toEqual([]);
+				expect(keys(node.declarations).filter((key) => sizing.test(key))).toEqual([]);
 			}
 		}
 	});
@@ -797,26 +734,17 @@ describe("Open Components rules", () => {
 	it("textarea/state-selectors styles states from the native textarea's attributes, never :invalid or :read-only", () => {
 		const { s, recipe } = createPresetInstance();
 
-		for (const attribute of [
-			'[aria-invalid="true"]',
-			"[readonly]",
-			":disabled",
-		]) {
+		for (const attribute of ['[aria-invalid="true"]', "[readonly]", ":disabled"]) {
 			expect(find(s, state(attribute)), attribute).toHaveLength(1);
 		}
-		const all = JSON.stringify([
-			selectors(s).map((node) => node.query),
-			recipe,
-		]);
+		const all = JSON.stringify([selectors(s).map((node) => node.query), recipe]);
 		expect(all).not.toMatch(/:(user-)?invalid|:read-only|&:readonly"/);
 	});
 
 	it("textarea/invalid-state shows invalid through the border and an inset shadow, from aria-invalid or the class", () => {
 		const { s, recipe } = createPresetInstance();
 
-		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!),
-		).toMatchObject({
+		expect(css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!)).toMatchObject({
 			borderColor: "@color.error",
 			boxShadow: "inset 0 0 0 1px @color.error",
 		});
@@ -840,12 +768,8 @@ describe("Open Components rules", () => {
 			expect(key).toMatch(/:hover-capable:hover$/);
 		}
 		const [invalid] = find(s, state('[aria-invalid="true"]'));
-		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe(
-			"&:hover",
-		);
-		expect(consumeCSS(s.root, s.options)).not.toMatch(
-			/^\.textarea[^{]*:hover/m,
-		);
+		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe("&:hover");
+		expect(consumeCSS(s.root, s.options)).not.toMatch(/^\.textarea[^{]*:hover/m);
 	});
 
 	it("textarea/forced-colors keeps the border and the focus, disabled and read-only states visible", () => {
@@ -861,18 +785,15 @@ describe("Open Components rules", () => {
 			outlineColor: "Highlight",
 		});
 		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)[
-				"&:forced-colors"
-			],
+			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)["&:forced-colors"],
 		).toEqual(visible);
-		expect(
-			media(find(s, state(":disabled")), "(forced-colors: active)")
-				?.declarations,
-		).toEqual(visible);
+		expect(media(find(s, state(":disabled")), "(forced-colors: active)")?.declarations).toEqual(
+			visible,
+		);
 		// A dashed border survives forced colors, so read-only needs no override.
-		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!),
-		).toMatchObject({ borderStyle: "@border-style.dashed" });
+		expect(css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!)).toMatchObject(
+			{ borderStyle: "@border-style.dashed" },
+		);
 		expect(find(s, state("[readonly]"))[0]!.declarations).toMatchObject({
 			borderStyle: expect.objectContaining({ name: "border-style.dashed" }),
 		});
@@ -897,15 +818,10 @@ describe("Open Components rules", () => {
 		for (const size of Object.values(suffix.variants!.size)) {
 			expect(Object.keys(size)).toContain("paddingInlineStart");
 		}
-		for (const block of [
-			recipe.base!,
-			...Object.values(recipe.variants!.size),
-		]) {
+		for (const block of [recipe.base!, ...Object.values(recipe.variants!.size)]) {
 			expect(block.paddingLeft).toBe(block.paddingRight);
 		}
-		for (const node of selectors(s).filter((n) =>
-			n.query!.includes("textarea"),
-		)) {
+		for (const node of selectors(s).filter((n) => n.query!.includes("textarea"))) {
 			expect(JSON.stringify(node)).not.toMatch(/Left|Right/);
 		}
 	});

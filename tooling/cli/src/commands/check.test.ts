@@ -1,9 +1,11 @@
 import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+
 import { runCommand } from "citty";
 import consola from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import checkCommand from "./check";
 
 const fixturesDir = path.join(import.meta.dirname, "__fixtures__");
@@ -170,23 +172,16 @@ describe("check", () => {
 			expect(await run(typeErrorFixture, "--typecheck")).toBe(1);
 
 			expect(warn).toHaveBeenCalledTimes(1);
-			expect(warn.mock.calls[0]?.[0]).toMatch(
-				/^typescript .*type-error\.config\.mts:12: TS2322: /,
-			);
+			expect(warn.mock.calls[0]?.[0]).toMatch(/^typescript .*type-error\.config\.mts:12: TS2322: /);
 			expect(stderr).toContain("Found 1 problem.");
 		});
 
 		it("adds nothing for a config without type errors", async () => {
-			expect(
-				await run(fixture("clean"), "--typecheck", "--json"),
-			).toBeUndefined();
+			expect(await run(fixture("clean"), "--typecheck", "--json")).toBeUndefined();
 			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
 		});
 
-		const cacheDir = path.join(
-			import.meta.dirname,
-			"../../node_modules/.cache",
-		);
+		const cacheDir = path.join(import.meta.dirname, "../../node_modules/.cache");
 		const temporaryEntries = async () =>
 			(await readdir(cacheDir).catch(() => [])).filter((name) =>
 				name.startsWith("styleframe-typecheck-"),
@@ -199,22 +194,17 @@ describe("check", () => {
 			// `declarationMap` needs the `declaration` that `composite` implies,
 			// and `composite` rejects imported files outside `files`
 			["composite", "styleframe.config.ts"],
-		])(
-			"type-checks the %s project as tsc does, writing nothing",
-			async (project, entry) => {
-				const projectDir = path.join(fixturesDir, project);
-				const entries = await readdir(projectDir);
-				const before = await temporaryEntries();
+		])("type-checks the %s project as tsc does, writing nothing", async (project, entry) => {
+			const projectDir = path.join(fixturesDir, project);
+			const entries = await readdir(projectDir);
+			const before = await temporaryEntries();
 
-				expect(
-					await run(path.join(projectDir, entry), "--typecheck", "--json"),
-				).toBeUndefined();
+			expect(await run(path.join(projectDir, entry), "--typecheck", "--json")).toBeUndefined();
 
-				expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
-				expect(await readdir(projectDir)).toEqual(entries);
-				expect(await temporaryEntries()).toEqual(before);
-			},
-		);
+			expect(JSON.parse(stdout)).toEqual({ ok: true, diagnostics: [] });
+			expect(await readdir(projectDir)).toEqual(entries);
+			expect(await temporaryEntries()).toEqual(before);
+		});
 
 		it("keeps the validate() diagnostics under --typecheck", async () => {
 			expect(await run(fixture("problems"), "--typecheck", "--json")).toBe(1);
@@ -228,21 +218,14 @@ describe("check", () => {
 
 		it("exits 1 with one line when TypeScript can't be resolved", async () => {
 			// The temporary directory has no node_modules to resolve TypeScript from
-			await writeFile(
-				path.join(cwd, "styleframe.config.ts"),
-				"export default {};\n",
-			);
+			await writeFile(path.join(cwd, "styleframe.config.ts"), "export default {};\n");
 			const error = vi.spyOn(consola, "error");
 
-			expect(await run("styleframe.config.ts", "--typecheck", "--json")).toBe(
-				1,
-			);
+			expect(await run("styleframe.config.ts", "--typecheck", "--json")).toBe(1);
 
 			expect(stdout).toBe("");
 			expect(error.mock.calls).toEqual([
-				[
-					"TypeScript not found: install `typescript` in your project to use --typecheck.",
-				],
+				["TypeScript not found: install `typescript` in your project to use --typecheck."],
 			]);
 		});
 	});

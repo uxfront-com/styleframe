@@ -1,9 +1,4 @@
-import type {
-	Styleframe,
-	TokenValue,
-	UtilityAutogenerateFn,
-	Variable,
-} from "@styleframe/core";
+import type { Styleframe, TokenValue, UtilityAutogenerateFn, Variable } from "@styleframe/core";
 import { transformUtilityKey } from "@styleframe/core";
 
 /**
@@ -71,9 +66,7 @@ export function createMultiplierAutogenerate(
 	options: CreateMultiplierAutogenerateOptions,
 ): UtilityAutogenerateFn {
 	const { s, baseVariable, fallback, replacer = (v) => v, namespace } = options;
-	const defaultAutogenerate = transformUtilityKey(
-		namespace ? { replacer, namespace } : replacer,
-	);
+	const defaultAutogenerate = transformUtilityKey(namespace ? { replacer, namespace } : replacer);
 
 	return (value: TokenValue): Record<string, TokenValue> => {
 		// Handle @-prefixed numeric multiplier values (e.g., "@1.5", "@2", "@-1")

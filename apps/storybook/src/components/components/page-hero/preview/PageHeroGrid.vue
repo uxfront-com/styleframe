@@ -32,9 +32,7 @@ const orientations = ["vertical", "horizontal"] as const;
 						</PageHeroHeadline>
 						<PageHeroActions alignment="center" :orientation="orientation">
 							<a class="page-hero-demo-cta">Primary</a>
-							<a class="page-hero-demo-cta page-hero-demo-cta-secondary">
-								Secondary
-							</a>
+							<a class="page-hero-demo-cta page-hero-demo-cta-secondary"> Secondary </a>
 						</PageHeroActions>
 					</PageHeroBody>
 					<PageHeroImage>

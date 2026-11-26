@@ -70,9 +70,7 @@ function openInNewTab() {
 </script>
 
 <template>
-	<div
-		style="display: flex; flex-direction: column; height: 100%; min-height: 0"
-	>
+	<div style="display: flex; flex-direction: column; height: 100%; min-height: 0">
 		<div :class="pgBrowserChrome()">
 			<div :class="pgBrowserDots()" aria-hidden="true">
 				<span :class="pgBrowserDot({ tone: 'red' })" />

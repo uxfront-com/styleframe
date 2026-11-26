@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { afterLoad } from "../app/utils/afterLoad";
 
 describe("afterLoad", () => {

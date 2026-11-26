@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Pagination from "../../src/components/components/pagination/Pagination.vue";
-import PaginationItem from "../../src/components/components/pagination/PaginationItem.vue";
 import PaginationEllipsis from "../../src/components/components/pagination/PaginationEllipsis.vue";
+import PaginationItem from "../../src/components/components/pagination/PaginationItem.vue";
 import PaginationGrid from "../../src/components/components/pagination/preview/PaginationGrid.vue";
 import PaginationSizeGrid from "../../src/components/components/pagination/preview/PaginationSizeGrid.vue";
 

@@ -69,14 +69,11 @@ export const useRadioGroupRecipe = createUseRecipe(
 			color: "@color.text",
 		});
 
-		selector(
-			'.radio-group > [data-slot="hint"], .radio-group > [data-slot="error"]',
-			{
-				flexBasis: "100%",
-				margin: "0",
-				fontSize: "@font-size.sm",
-			},
-		);
+		selector('.radio-group > [data-slot="hint"], .radio-group > [data-slot="error"]', {
+			flexBasis: "100%",
+			margin: "0",
+			fontSize: "@font-size.sm",
+		});
 
 		selector('.radio-group > [data-slot="hint"]', {
 			color: "@color.text-weak",

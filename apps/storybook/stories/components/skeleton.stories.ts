@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Skeleton from "../../src/components/components/skeleton/Skeleton.vue";
 import SkeletonGrid from "../../src/components/components/skeleton/preview/SkeletonGrid.vue";
 import SkeletonSizeGrid from "../../src/components/components/skeleton/preview/SkeletonSizeGrid.vue";
+import Skeleton from "../../src/components/components/skeleton/Skeleton.vue";
 
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 

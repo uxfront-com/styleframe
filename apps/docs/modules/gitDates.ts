@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+
 import {
 	addServerTemplate,
 	addTemplate,
@@ -51,14 +52,7 @@ export function readGitDates(cwd: string): {
 			return { dates: {}, missing: "the clone is shallow" };
 		}
 		const dates = parseGitLog(
-			git(
-				"log",
-				"--format=%x00%cs",
-				"--name-only",
-				"--relative",
-				"--",
-				...SOURCES,
-			),
+			git("log", "--format=%x00%cs", "--name-only", "--relative", "--", ...SOURCES),
 		);
 		return { dates };
 	} catch {

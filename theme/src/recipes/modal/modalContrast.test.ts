@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { formatHex8, wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { overlaySurfaceCompoundVariants } from "./createOverlayRecipes";
 import { useModalFooterRecipe } from "./useModalFooterRecipe";
 import { useModalHeaderRecipe } from "./useModalHeaderRecipe";
@@ -83,20 +80,14 @@ describe("modal fixed colors", () => {
 			throw new Error(`Unknown token ${token}`);
 		}
 		const value = variable.value as unknown;
-		if (
-			typeof value === "object" &&
-			value !== null &&
-			(value as Slot).type === "reference"
-		) {
+		if (typeof value === "object" && value !== null && (value as Slot).type === "reference") {
 			return resolve(`@${(value as Slot).name}`, dark);
 		}
 		return String(value);
 	}
 
 	function applied(css: Slot, dark: boolean) {
-		const plain = Object.entries(css).filter(
-			([, value]) => typeof value !== "object",
-		);
+		const plain = Object.entries(css).filter(([, value]) => typeof value !== "object");
 		const declarations = dark
 			? [...plain, ...Object.entries((css["&:dark"] as Slot) ?? {})]
 			: plain;
@@ -116,9 +107,7 @@ describe("modal fixed colors", () => {
 		["footer", useModalFooterRecipe(s)],
 	].flatMap(([part, recipe]) =>
 		(recipe as ReturnType<typeof useModalRecipe>)
-			.compoundVariants!.filter(
-				(cv) => cv.match.color === "light" || cv.match.color === "dark",
-			)
+			.compoundVariants!.filter((cv) => cv.match.color === "light" || cv.match.color === "dark")
 			.map((cv) => ({
 				name: `${cv.match.color} ${cv.match.variant} ${part}`,
 				css: cv.css as Slot,
@@ -129,10 +118,7 @@ describe("modal fixed colors", () => {
 		expect(cases).toHaveLength(18);
 	});
 
-	it.each(cases)(
-		"modal/fixed-colors keeps the $name the same in both themes",
-		({ css }) => {
-			expect(applied(css, true)).toEqual(applied(css, false));
-		},
-	);
+	it.each(cases)("modal/fixed-colors keeps the $name the same in both themes", ({ css }) => {
+		expect(applied(css, true)).toEqual(applied(css, false));
+	});
 });

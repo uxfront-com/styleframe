@@ -1,4 +1,5 @@
 import type { Styleframe, VariantDeclarationsBlock } from "@styleframe/core";
+
 import { createUseRecipe } from "../../utils/createUseRecipe";
 import type { RecipeConfig } from "../../utils/createUseRecipe";
 
@@ -7,8 +8,7 @@ import type { RecipeConfig } from "../../utils/createUseRecipe";
  * own text color at 75%, which keeps 4.5:1 on every color, variant and mode
  * (`fieldSurfaceContrast.test.ts`).
  */
-export const FIELD_MUTED_TEXT =
-	"color-mix(in srgb, currentColor 75%, transparent)";
+export const FIELD_MUTED_TEXT = "color-mix(in srgb, currentColor 75%, transparent)";
 
 /**
  * The shared field surface as a compound-variant array: the nine color×variant
@@ -294,10 +294,10 @@ export function fieldSurfaceCompoundVariants({
  * recipe's type — `useTextareaRecipe(...)` keeps a precise `resize` axis.
  */
 export function createFieldRecipe<
-	const ExtraVariants extends Record<
+	const ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
 		string,
 		Record<string, VariantDeclarationsBlock>
-	> = Record<string, Record<string, VariantDeclarationsBlock>>,
+	>,
 >(
 	name: string,
 	extras: {
@@ -422,10 +422,7 @@ export function createFieldRecipe<
 			 * read-only, and disabled state overrides, from the shared field surface
 			 * (read-only included), then any per-field extras.
 			 */
-			compoundVariants: [
-				...fieldSurfaceCompoundVariants(),
-				...(extras.compoundVariants ?? []),
-			],
+			compoundVariants: [...fieldSurfaceCompoundVariants(), ...(extras.compoundVariants ?? [])],
 			/** Shared default selections (everything except textarea's `resize`). */
 			defaultVariants: {
 				color: "neutral",

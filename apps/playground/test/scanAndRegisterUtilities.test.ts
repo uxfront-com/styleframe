@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "styleframe";
+import { describe, expect, it } from "vitest";
+
 import { scanAndRegisterUtilities } from "@/pipeline/scanAndRegisterUtilities";
 
 describe("scanAndRegisterUtilities", () => {
@@ -17,9 +18,7 @@ describe("scanAndRegisterUtilities", () => {
 			</template>
 		`;
 
-		const result = scanAndRegisterUtilities(s, [
-			{ content: appVue, filePath: "App.vue" },
-		]);
+		const result = scanAndRegisterUtilities(s, [{ content: appVue, filePath: "App.vue" }]);
 
 		expect(result.count).toBe(1);
 		expect(result.registered).toEqual(["_margin:0"]);
@@ -70,9 +69,7 @@ describe("scanAndRegisterUtilities", () => {
 
 		const appVue = `<template><p class="_margin:[16px]" /></template>`;
 
-		const result = scanAndRegisterUtilities(s, [
-			{ content: appVue, filePath: "App.vue" },
-		]);
+		const result = scanAndRegisterUtilities(s, [{ content: appVue, filePath: "App.vue" }]);
 
 		expect(result.count).toBe(1);
 		expect(result.registered).toEqual(["_margin:[16px]"]);
@@ -84,9 +81,7 @@ describe("scanAndRegisterUtilities", () => {
 
 		const appVue = `<template><p class="_unknown-prop:sm" /></template>`;
 
-		const result = scanAndRegisterUtilities(s, [
-			{ content: appVue, filePath: "App.vue" },
-		]);
+		const result = scanAndRegisterUtilities(s, [{ content: appVue, filePath: "App.vue" }]);
 
 		expect(result.count).toBe(0);
 		expect(result.registered).toEqual([]);

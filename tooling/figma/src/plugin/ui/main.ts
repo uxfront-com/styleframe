@@ -1,4 +1,5 @@
 import type { DTCGResolverDocument } from "@styleframe/dtcg";
+
 import type { FigmaExportFormat } from "../../types";
 import { extractDTCGVariables, isDTCGFormat, isDTCGResolver } from "../shared";
 import type { PreviewVariable } from "../shared";
@@ -29,19 +30,13 @@ let loadedTokenFiles: Array<{ name: string; data: unknown }> = [];
 let loadedResolverData: DTCGResolverDocument | null = null;
 
 // Export elements
-const collectionSelect = document.getElementById(
-	"collection-select",
-) as HTMLSelectElement;
+const collectionSelect = document.getElementById("collection-select") as HTMLSelectElement;
 const modeSelect = document.getElementById("mode-select") as HTMLSelectElement;
 const refreshBtn = document.getElementById("refresh-btn")!;
 const exportBtn = document.getElementById("export-btn") as HTMLButtonElement;
-const exportOutput = document.getElementById(
-	"export-output",
-) as HTMLTextAreaElement;
+const exportOutput = document.getElementById("export-output") as HTMLTextAreaElement;
 const copyBtn = document.getElementById("copy-btn") as HTMLButtonElement;
-const downloadBtn = document.getElementById(
-	"download-btn",
-) as HTMLButtonElement;
+const downloadBtn = document.getElementById("download-btn") as HTMLButtonElement;
 const exportStatus = document.getElementById("export-status")!;
 
 let currentMode: "import" | "export" = "import";
@@ -200,9 +195,7 @@ async function processFiles(files: Array<File>): Promise<void> {
 			allNames.push("(resolver)");
 		}
 
-		fileDropZone
-			.querySelector(".file-drop-content")
-			?.setAttribute("hidden", "");
+		fileDropZone.querySelector(".file-drop-content")?.setAttribute("hidden", "");
 		fileSelected.removeAttribute("hidden");
 		fileName.textContent = allNames.join(", ");
 
@@ -289,8 +282,7 @@ function getPreviewVariables(data: unknown): Array<PreviewVariable> {
  */
 function renderPreview(variables: Array<PreviewVariable>): void {
 	if (variables.length === 0) {
-		importPreview.innerHTML =
-			'<div class="preview-empty">No variables found in file</div>';
+		importPreview.innerHTML = '<div class="preview-empty">No variables found in file</div>';
 		return;
 	}
 
@@ -395,10 +387,7 @@ function updateModeSelect(): void {
 function handleExport(): void {
 	const collectionId = collectionSelect.value || undefined;
 	const modeId = modeSelect.value || undefined;
-	parent.postMessage(
-		{ pluginMessage: { type: "export", collectionId, modeId } },
-		"*",
-	);
+	parent.postMessage({ pluginMessage: { type: "export", collectionId, modeId } }, "*");
 	exportBtn.disabled = true;
 }
 
@@ -476,17 +465,13 @@ function updateCollections(newCollections: Array<Collection>): void {
 	collections = newCollections;
 
 	if (collections.length === 0) {
-		collectionSelect.innerHTML =
-			'<option value="">No collections found</option>';
+		collectionSelect.innerHTML = '<option value="">No collections found</option>';
 		exportBtn.disabled = true;
 		return;
 	}
 
 	collectionSelect.innerHTML = collections
-		.map(
-			(c) =>
-				`<option value="${c.id}">${c.name} (${c.variableCount} variables)</option>`,
-		)
+		.map((c) => `<option value="${c.id}">${c.name} (${c.variableCount} variables)</option>`)
 		.join("");
 
 	updateModeSelect();
@@ -496,11 +481,7 @@ function updateCollections(newCollections: Array<Collection>): void {
 /**
  * Show a status message
  */
-function showStatus(
-	element: HTMLElement,
-	type: "success" | "error",
-	message: string,
-): void {
+function showStatus(element: HTMLElement, type: "success" | "error", message: string): void {
 	element.textContent = message;
 	element.className = `status visible ${type}`;
 }
@@ -543,8 +524,7 @@ window.onmessage = (event: MessageEvent) => {
 			exportOutput.value = JSON.stringify(msg.result, null, 2);
 			const tokensDoc = msg.result.tokens ?? msg.result;
 			const exportedVars = extractDTCGVariables(tokensDoc);
-			const collectionName =
-				tokensDoc.$extensions?.["dev.styleframe"]?.collection || "Collection";
+			const collectionName = tokensDoc.$extensions?.["dev.styleframe"]?.collection || "Collection";
 			showStatus(
 				exportStatus,
 				"success",

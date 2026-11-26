@@ -1,19 +1,14 @@
 import { gzipSync } from "node:zlib";
-import { createBenchmarkInstance } from "./styleframe/config";
-import {
-	generateShorteningMap,
-	buildClassNameLookup,
-} from "styleframe/transpiler";
-import {
-	quickScan,
-	matchUtilities,
-	registerMatchedUtilities,
-} from "@styleframe/scanner";
-import { styleframePage as dash } from "./pages/dashboard";
-import { styleframePage as mktg } from "./pages/marketing";
+
+import { quickScan, matchUtilities, registerMatchedUtilities } from "@styleframe/scanner";
+import { generateShorteningMap, buildClassNameLookup } from "styleframe/transpiler";
+
 import { styleframePage as blog } from "./pages/blog";
+import { styleframePage as dash } from "./pages/dashboard";
 import { styleframePage as ecom } from "./pages/ecommerce";
+import { styleframePage as mktg } from "./pages/marketing";
 import { styleframePage as sett } from "./pages/settings";
+import { createBenchmarkInstance } from "./styleframe/config";
 
 const allPages = [dash, mktg, blog, ecom, sett];
 
@@ -110,11 +105,9 @@ console.log(
 console.log();
 console.log(
 	"Gap: optimal is",
-	((1 - totalOptimal / totalCurrent) * 100).toFixed(1) +
-		"% smaller gz than current",
+	((1 - totalOptimal / totalCurrent) * 100).toFixed(1) + "% smaller gz than current",
 );
 console.log(
 	"Gap: optimal is",
-	((1 - totalOptimalRaw / totalCurrentRaw) * 100).toFixed(1) +
-		"% smaller raw than current",
+	((1 - totalOptimalRaw / totalCurrentRaw) * 100).toFixed(1) + "% smaller raw than current",
 );

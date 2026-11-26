@@ -27,8 +27,7 @@ const meta = {
 		variant: {
 			control: "select",
 			options: variants,
-			description:
-				"The visual style variant (enclosed solid or chromeless ghost)",
+			description: "The visual style variant (enclosed solid or chromeless ghost)",
 		},
 		size: {
 			control: "select",

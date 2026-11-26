@@ -1,10 +1,4 @@
-import type {
-	Container,
-	ModifierFactory,
-	Root,
-	UtilityFactory,
-	Variable,
-} from "../types";
+import type { Container, ModifierFactory, Root, UtilityFactory, Variable } from "../types";
 
 export function getVariable(root: Container, name: string): Variable {
 	const variable = root.variables.find((variable) => variable.name === name);
@@ -25,9 +19,7 @@ export function getUtility(root: Root, name: string): UtilityFactory {
 }
 
 export function getModifier(root: Root, name: string): ModifierFactory {
-	const modifier = root.modifiers.find((modifier) =>
-		modifier.key.includes(name),
-	);
+	const modifier = root.modifiers.find((modifier) => modifier.key.includes(name));
 	if (!modifier) {
 		throw new Error(`Modifier "${name}" not found`);
 	}

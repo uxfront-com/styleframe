@@ -213,57 +213,54 @@ export const useFileTreeMenuRecipe = createUseRecipe("pg-file-tree-menu", {
 	},
 });
 
-export const useFileTreeMenuItemRecipe = createUseRecipe(
-	"pg-file-tree-menu-item",
-	{
-		base: {
-			display: "flex",
-			alignItems: "center",
-			gap: "@0.5",
-			width: "100%",
-			paddingTop: "@0.375",
-			paddingBottom: "@0.375",
-			paddingLeft: "@0.75",
-			paddingRight: "@0.75",
-			fontSize: "@font-size.sm",
-			fontFamily: "inherit",
-			textAlign: "left",
-			color: "@color.gray-700",
-			background: "transparent",
-			borderWidth: "@border-width.none",
-			cursor: "pointer",
-			whiteSpace: "nowrap",
-			"&:hover": {
-				background: "@color.gray-100",
-			},
-			"&:dark": {
-				color: "@color.gray-300",
-			},
-			"&:dark:hover": {
-				background: "@color.gray-800",
-			},
+export const useFileTreeMenuItemRecipe = createUseRecipe("pg-file-tree-menu-item", {
+	base: {
+		display: "flex",
+		alignItems: "center",
+		gap: "@0.5",
+		width: "100%",
+		paddingTop: "@0.375",
+		paddingBottom: "@0.375",
+		paddingLeft: "@0.75",
+		paddingRight: "@0.75",
+		fontSize: "@font-size.sm",
+		fontFamily: "inherit",
+		textAlign: "left",
+		color: "@color.gray-700",
+		background: "transparent",
+		borderWidth: "@border-width.none",
+		cursor: "pointer",
+		whiteSpace: "nowrap",
+		"&:hover": {
+			background: "@color.gray-100",
 		},
-		variants: {
-			tone: {
-				default: {},
-				danger: {
-					color: "@color.error",
-					"&:hover": {
-						background: "@color.error",
-						color: "@color.white",
-					},
-					"&:dark": {
-						color: "@color.error-300",
-					},
-					"&:dark:hover": {
-						background: "@color.error",
-						color: "@color.white",
-					},
+		"&:dark": {
+			color: "@color.gray-300",
+		},
+		"&:dark:hover": {
+			background: "@color.gray-800",
+		},
+	},
+	variants: {
+		tone: {
+			default: {},
+			danger: {
+				color: "@color.error",
+				"&:hover": {
+					background: "@color.error",
+					color: "@color.white",
+				},
+				"&:dark": {
+					color: "@color.error-300",
+				},
+				"&:dark:hover": {
+					background: "@color.error",
+					color: "@color.white",
 				},
 			},
 		},
-		defaultVariants: {
-			tone: "default",
-		},
 	},
-);
+	defaultVariants: {
+		tone: "default",
+	},
+});

@@ -55,8 +55,6 @@ watch(() => props.indeterminate, syncIndeterminate);
 			:aria-invalid="invalid ? 'true' : undefined"
 			@click="onClick"
 		/>
-		<span v-if="$slots.default || label"
-			><slot>{{ label }}</slot></span
-		>
+		<span v-if="$slots.default || label"><slot>{{ label }}</slot></span>
 	</label>
 </template>

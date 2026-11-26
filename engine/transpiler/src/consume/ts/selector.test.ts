@@ -1,5 +1,6 @@
 import type { Root, Selector, StyleframeOptions } from "@styleframe/core";
 import { createRoot, createSelectorFunction } from "@styleframe/core";
+
 import { createSelectorConsumer } from "./selector";
 
 describe("createSelectorConsumer", () => {

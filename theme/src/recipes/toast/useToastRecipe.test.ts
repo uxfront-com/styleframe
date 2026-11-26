@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useToastRecipe } from "./useToastRecipe";
 
@@ -78,11 +79,7 @@ describe("useToastRecipe", () => {
 			const s = createInstance();
 			const recipe = useToastRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should render solid as an opaque neutral card in both modes", () => {
@@ -136,14 +133,7 @@ describe("useToastRecipe", () => {
 			const recipe = useToastRecipe(s);
 
 			const serialized = JSON.stringify(recipe.variants!.variant);
-			for (const color of [
-				"primary",
-				"secondary",
-				"success",
-				"info",
-				"warning",
-				"error",
-			]) {
+			for (const color of ["primary", "secondary", "success", "info", "warning", "error"]) {
 				expect(serialized).not.toContain(`@color.${color}`);
 			}
 		});
@@ -225,8 +215,7 @@ describe("useToastRecipe", () => {
 
 			const hiddenSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".toast[hidden]",
+					child.type === "selector" && (child as { query: string }).query === ".toast[hidden]",
 			);
 
 			expect(hiddenSelector).toBeDefined();

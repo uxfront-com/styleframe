@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useContextMenuShortcutRecipe } from "./index";
 
@@ -69,9 +70,7 @@ describe("useContextMenuShortcutRecipe", () => {
 			const s = createInstance();
 			const recipe = useContextMenuShortcutRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 
 			expect(cv?.css).toEqual({
 				color: "@color.gray-500",

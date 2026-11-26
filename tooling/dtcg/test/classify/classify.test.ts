@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { classifyValue } from "../../src/classify/classify";
 
 describe("classifyValue — value detection", () => {
@@ -96,12 +97,8 @@ describe("classifyValue — value detection", () => {
 
 describe("classifyValue — path tiebreaker for numbers", () => {
 	it("treats number under duration/* as duration", () => {
-		expect(classifyValue(200, { path: "duration.fast" })?.type).toBe(
-			"duration",
-		);
-		expect(classifyValue(200, { path: "duration/fast" })?.type).toBe(
-			"duration",
-		);
+		expect(classifyValue(200, { path: "duration.fast" })?.type).toBe("duration");
+		expect(classifyValue(200, { path: "duration/fast" })?.type).toBe("duration");
 	});
 
 	it("treats number under font-weight/* as fontWeight", () => {
@@ -110,9 +107,7 @@ describe("classifyValue — path tiebreaker for numbers", () => {
 	});
 
 	it("treats number under line-height/* as number", () => {
-		expect(classifyValue(1.5, { path: "line-height.normal" })?.type).toBe(
-			"number",
-		);
+		expect(classifyValue(1.5, { path: "line-height.normal" })?.type).toBe("number");
 	});
 
 	it("falls back to number when no path hint matches", () => {
@@ -170,27 +165,19 @@ describe("classifyValue — disambiguation cases", () => {
 
 describe("classifyValue — keyword-classification ambiguity", () => {
 	it("does NOT classify 'normal' as fontWeight under letter-spacing/*", () => {
-		expect(
-			classifyValue("normal", { path: "letter-spacing.normal" }),
-		).toBeUndefined();
+		expect(classifyValue("normal", { path: "letter-spacing.normal" })).toBeUndefined();
 	});
 
 	it("does NOT classify 'normal' as fontWeight under font-style/*", () => {
-		expect(
-			classifyValue("normal", { path: "font-style.normal" }),
-		).toBeUndefined();
+		expect(classifyValue("normal", { path: "font-style.normal" })).toBeUndefined();
 	});
 
 	it("does NOT classify 'thin' as fontWeight under border-width/*", () => {
-		expect(
-			classifyValue("thin", { path: "border-width.thin" }),
-		).toBeUndefined();
+		expect(classifyValue("thin", { path: "border-width.thin" })).toBeUndefined();
 	});
 
 	it("does NOT classify 'medium' as fontWeight under border-width/*", () => {
-		expect(
-			classifyValue("medium", { path: "border-width.medium" }),
-		).toBeUndefined();
+		expect(classifyValue("medium", { path: "border-width.medium" })).toBeUndefined();
 	});
 
 	it("DOES classify 'normal' as fontWeight under font-weight/*", () => {
@@ -204,9 +191,7 @@ describe("classifyValue — keyword-classification ambiguity", () => {
 	});
 
 	it("returns undefined for 'italic' (no DTCG type for font-style)", () => {
-		expect(
-			classifyValue("italic", { path: "font-style.italic" }),
-		).toBeUndefined();
+		expect(classifyValue("italic", { path: "font-style.italic" })).toBeUndefined();
 	});
 
 	it("DOES classify stroke-style keyword 'solid' under border-style/*", () => {
@@ -215,9 +200,7 @@ describe("classifyValue — keyword-classification ambiguity", () => {
 	});
 
 	it("does NOT classify 'inset' as strokeStyle under unrelated paths", () => {
-		expect(
-			classifyValue("inset", { path: "shadow.elevation" }),
-		).toBeUndefined();
+		expect(classifyValue("inset", { path: "shadow.elevation" })).toBeUndefined();
 	});
 
 	it("preserves no-path back-compat: keyword still wins without context", () => {

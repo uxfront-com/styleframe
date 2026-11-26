@@ -1,9 +1,11 @@
-import type { Styleframe } from "@styleframe/core";
-import { watch } from "chokidar";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import type { Styleframe } from "@styleframe/core";
+import { watch } from "chokidar";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
 import { loadConfiguration, watchConfiguration } from "./config";
 
 vi.mock("chokidar", () => ({ watch: vi.fn() }));
@@ -46,10 +48,7 @@ afterEach(async () => {
 	await rm(fixtureDir, { recursive: true, force: true });
 });
 
-async function writeConfig(
-	content: string,
-	name = "styleframe.config.ts",
-): Promise<string> {
+async function writeConfig(content: string, name = "styleframe.config.ts"): Promise<string> {
 	const filePath = path.join(fixtureDir, name);
 	await writeFile(filePath, content);
 	return filePath;

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import ChatMessage from "@/components/components/chat-message/ChatMessage.vue";
+import ChatMessageActions from "@/components/components/chat-message/ChatMessageActions.vue";
 import ChatMessageAvatar from "@/components/components/chat-message/ChatMessageAvatar.vue";
 import ChatMessageContent from "@/components/components/chat-message/ChatMessageContent.vue";
-import ChatMessageActions from "@/components/components/chat-message/ChatMessageActions.vue";
 import ChatMessageGrid from "@/components/components/chat-message/preview/ChatMessageGrid.vue";
 import ChatMessageSizeGrid from "@/components/components/chat-message/preview/ChatMessageSizeGrid.vue";
 

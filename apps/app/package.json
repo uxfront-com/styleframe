@@ -1,8 +1,13 @@
 {
 	"name": "@styleframe/app",
-	"type": "module",
-	"private": true,
 	"version": "0.1.1",
+	"private": true,
+	"files": [
+		"LICENSE",
+		"utils",
+		"app"
+	],
+	"type": "module",
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev --port 4000",
@@ -20,9 +25,9 @@
 		"@nuxtjs/mdc": "catalog:nuxt",
 		"@nuxtjs/robots": "catalog:nuxt",
 		"@nuxtjs/supabase": "catalog:nuxt",
+		"@supabase/supabase-js": "catalog:nuxt",
 		"@unhead/vue": "catalog:nuxt",
 		"@vueuse/core": "catalog:nuxt",
-		"@supabase/supabase-js": "catalog:nuxt",
 		"defu": "catalog:",
 		"motion-v": "catalog:nuxt",
 		"nuxt": "catalog:nuxt",
@@ -53,10 +58,5 @@
 		"tailwindcss": "catalog:nuxt",
 		"typescript": "catalog:",
 		"unist-util-visit": "catalog:nuxt"
-	},
-	"files": [
-		"LICENSE",
-		"utils",
-		"app"
-	]
+	}
 }

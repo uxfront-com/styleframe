@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { lineHeightValues } from "@styleframe/theme";
+
 import LineHeightSwatch from "../../src/components/design-tokens/typography/LineHeightSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 

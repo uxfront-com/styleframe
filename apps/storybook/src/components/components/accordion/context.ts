@@ -18,5 +18,4 @@ export interface AccordionItemContext {
 }
 
 export const accordionKey: InjectionKey<AccordionContext> = Symbol("accordion");
-export const accordionItemKey: InjectionKey<AccordionItemContext> =
-	Symbol("accordion-item");
+export const accordionItemKey: InjectionKey<AccordionItemContext> = Symbol("accordion-item");

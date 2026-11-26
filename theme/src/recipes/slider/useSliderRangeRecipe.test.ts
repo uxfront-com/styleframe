@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSliderRangeRecipe } from "./useSliderRangeRecipe";
 
@@ -85,9 +86,7 @@ describe("useSliderRangeRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderRangeRecipe(s);
 
-			const primary = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "primary",
-			);
+			const primary = recipe.compoundVariants!.find((cv) => cv.match.color === "primary");
 
 			expect(primary).toEqual({
 				match: { color: "primary" },
@@ -101,9 +100,7 @@ describe("useSliderRangeRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderRangeRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -135,10 +132,7 @@ describe("useSliderRangeRecipe", () => {
 				filter: { color: ["primary", "success"] },
 			});
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"primary",
-				"success",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "success"]);
 		});
 
 		it("should prune compound variants when filtering colors", () => {
@@ -148,9 +142,7 @@ describe("useSliderRangeRecipe", () => {
 			});
 
 			expect(recipe.compoundVariants).toHaveLength(1);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "primary"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "primary")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {

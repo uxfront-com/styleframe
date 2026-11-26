@@ -1,18 +1,12 @@
 import { createUseUtility } from "../../utils";
-import {
-	transitionPropertyValues,
-	transitionBehaviorValues,
-} from "../../values";
+import { transitionPropertyValues, transitionBehaviorValues } from "../../values";
 
 /**
  * Create transition utility classes.
  */
-export const useTransitionUtility = createUseUtility(
-	"transition",
-	({ value }) => ({
-		transition: value,
-	}),
-);
+export const useTransitionUtility = createUseUtility("transition", ({ value }) => ({
+	transition: value,
+}));
 
 /**
  * Create transition-property utility classes.

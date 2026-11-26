@@ -1,9 +1,7 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusWithinModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+import { useFocusWithinModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useSelectRecipe } from "./useSelectRecipe";
 
 function createInstance() {
@@ -85,22 +83,14 @@ describe("useSelectRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have the input-style variant axis (solid, soft, ghost)", () => {
 			const s = createInstance();
 			const recipe = useSelectRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "ghost"]);
 		});
 
 		it("should have size variants", () => {
@@ -229,9 +219,7 @@ describe("useSelectRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.invalid === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.invalid === "true");
 
 			expect(cv?.css).toEqual({
 				borderColor: "@color.error",
@@ -256,9 +244,7 @@ describe("useSelectRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.readonly === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.readonly === "true");
 
 			expect(cv).toEqual({
 				match: { readonly: "true" },
@@ -277,9 +263,7 @@ describe("useSelectRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.disabled === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.disabled === "true");
 
 			expect(cv).toEqual({
 				match: { disabled: "true" },

@@ -1,9 +1,10 @@
 import type { TokenValue } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import { scalePowerValues } from "../values";
 import { useScaleDesignTokens } from "./useScaleDesignTokens";
 import { useScalePowersDesignTokens } from "./useScalePowersDesignTokens";
-import { scalePowerValues } from "../values";
 
 describe("useScalePowersDesignTokens", () => {
 	it("should create scale powers with default powers array", () => {
@@ -59,8 +60,7 @@ describe("useScalePowersDesignTokens", () => {
 
 	it("should work with different scale variables", () => {
 		const s = styleframe();
-		const { scaleMinorSecond, scaleMajorSecond, scaleGolden } =
-			useScaleDesignTokens(s);
+		const { scaleMinorSecond, scaleMajorSecond, scaleGolden } = useScaleDesignTokens(s);
 
 		const powers1 = useScalePowersDesignTokens(s, scaleMinorSecond, [1, 2]);
 		const powers2 = useScalePowersDesignTokens(s, scaleMajorSecond, [1, 2]);
@@ -74,9 +74,7 @@ describe("useScalePowersDesignTokens", () => {
 	it("should compile to correct CSS with positive powers", () => {
 		const s = styleframe();
 		const { scaleMajorThird } = useScaleDesignTokens(s);
-		const powers = useScalePowersDesignTokens(s, scaleMajorThird, [
-			1, 2,
-		] as const);
+		const powers = useScalePowersDesignTokens(s, scaleMajorThird, [1, 2] as const);
 
 		const baseSize = s.variable("base", "1rem");
 		s.selector(".scale-1", ({ variable }) => {
@@ -113,9 +111,7 @@ describe("useScalePowersDesignTokens", () => {
 	it("should compile to correct CSS with negative powers", () => {
 		const s = styleframe();
 		const { scaleGolden } = useScaleDesignTokens(s);
-		const powers = useScalePowersDesignTokens(s, scaleGolden, [
-			-1, -2,
-		] as const);
+		const powers = useScalePowersDesignTokens(s, scaleGolden, [-1, -2] as const);
 
 		const baseSize = s.variable("base", "1rem");
 		s.selector(".scale-neg-1", ({ variable }) => {
@@ -152,9 +148,7 @@ describe("useScalePowersDesignTokens", () => {
 	it("should handle mixed positive and negative powers", () => {
 		const s = styleframe();
 		const { scalePerfectFourth } = useScaleDesignTokens(s);
-		const powers = useScalePowersDesignTokens(s, scalePerfectFourth, [
-			-3, -1, 1, 3,
-		] as const);
+		const powers = useScalePowersDesignTokens(s, scalePerfectFourth, [-3, -1, 1, 3] as const);
 
 		expect(Object.keys(powers).length).toBe(4);
 		expect(powers[-3]).toBeDefined();
@@ -167,9 +161,7 @@ describe("useScalePowersDesignTokens", () => {
 		it("should return Record<number, TokenValue>", () => {
 			const s = styleframe();
 			const { scaleGolden } = useScaleDesignTokens(s);
-			const powers = useScalePowersDesignTokens(s, scaleGolden, [
-				1, 2, 3,
-			] as const);
+			const powers = useScalePowersDesignTokens(s, scaleGolden, [1, 2, 3] as const);
 
 			// Type check
 			const result: Record<number, TokenValue> = powers;
@@ -179,9 +171,7 @@ describe("useScalePowersDesignTokens", () => {
 		it("should accept any Variable as scale parameter", () => {
 			const s = styleframe();
 			const customScale = s.variable("custom-scale", 1.5);
-			const powers = useScalePowersDesignTokens(s, customScale, [
-				1, 2,
-			] as const);
+			const powers = useScalePowersDesignTokens(s, customScale, [1, 2] as const);
 
 			expect(powers[1]).toBeDefined();
 			expect(powers[2]).toBeDefined();
@@ -193,33 +183,16 @@ describe("useScalePowersDesignTokens", () => {
 			const s = styleframe();
 			const { scale } = useScaleDesignTokens(s);
 
-			const powers = useScalePowersDesignTokens(s, scale, [
-				-2, -1, 1, 2, 3,
-			] as const);
+			const powers = useScalePowersDesignTokens(s, scale, [-2, -1, 1, 2, 3] as const);
 
 			const fontSize = s.variable("font-size", "1rem");
 
-			s.variable(
-				"font-size-xs",
-				s.css`calc(${s.ref(fontSize)} * ${powers[-2]})`,
-			);
-			s.variable(
-				"font-size-sm",
-				s.css`calc(${s.ref(fontSize)} * ${powers[-1]})`,
-			);
+			s.variable("font-size-xs", s.css`calc(${s.ref(fontSize)} * ${powers[-2]})`);
+			s.variable("font-size-sm", s.css`calc(${s.ref(fontSize)} * ${powers[-1]})`);
 			s.variable("font-size-md", s.ref(fontSize));
-			s.variable(
-				"font-size-lg",
-				s.css`calc(${s.ref(fontSize)} * ${powers[1]})`,
-			);
-			s.variable(
-				"font-size-xl",
-				s.css`calc(${s.ref(fontSize)} * ${powers[2]})`,
-			);
-			s.variable(
-				"font-size-2xl",
-				s.css`calc(${s.ref(fontSize)} * ${powers[3]})`,
-			);
+			s.variable("font-size-lg", s.css`calc(${s.ref(fontSize)} * ${powers[1]})`);
+			s.variable("font-size-xl", s.css`calc(${s.ref(fontSize)} * ${powers[2]})`);
+			s.variable("font-size-2xl", s.css`calc(${s.ref(fontSize)} * ${powers[3]})`);
 
 			const css = consumeCSS(s.root, s.options);
 
@@ -249,22 +222,10 @@ describe("useScalePowersDesignTokens", () => {
 			const powers = useScalePowersDesignTokens(s, scaleGolden, [-1, 0, 1, 2]);
 
 			const baseSpacing = s.variable("spacing-base", "1rem");
-			s.variable(
-				"spacing-sm",
-				s.css`calc(${s.ref(baseSpacing)} * ${powers[-1]})`,
-			);
-			s.variable(
-				"spacing-md",
-				s.css`calc(${s.ref(baseSpacing)} * ${powers[0]})`,
-			);
-			s.variable(
-				"spacing-lg",
-				s.css`calc(${s.ref(baseSpacing)} * ${powers[1]})`,
-			);
-			s.variable(
-				"spacing-xl",
-				s.css`calc(${s.ref(baseSpacing)} * ${powers[2]})`,
-			);
+			s.variable("spacing-sm", s.css`calc(${s.ref(baseSpacing)} * ${powers[-1]})`);
+			s.variable("spacing-md", s.css`calc(${s.ref(baseSpacing)} * ${powers[0]})`);
+			s.variable("spacing-lg", s.css`calc(${s.ref(baseSpacing)} * ${powers[1]})`);
+			s.variable("spacing-xl", s.css`calc(${s.ref(baseSpacing)} * ${powers[2]})`);
 
 			const css = consumeCSS(s.root, s.options);
 
@@ -289,11 +250,7 @@ describe("useScalePowersDesignTokens", () => {
 		it("should work with default scale powers constant", () => {
 			const s = styleframe();
 			const { scaleMajorSecond } = useScaleDesignTokens(s);
-			const powers = useScalePowersDesignTokens(
-				s,
-				scaleMajorSecond,
-				scalePowerValues,
-			);
+			const powers = useScalePowersDesignTokens(s, scaleMajorSecond, scalePowerValues);
 
 			// scalePowerValues = [-2, -1, 1, 2, 3, 4, 5]
 			expect(Object.keys(powers).length).toBe(scalePowerValues.length);
@@ -310,31 +267,17 @@ describe("useScalePowersDesignTokens", () => {
 			const s = styleframe();
 			const { scaleMajorSecond, scaleGolden } = useScaleDesignTokens(s);
 
-			const mobilePowers = useScalePowersDesignTokens(
-				s,
-				scaleMajorSecond,
-				[1, 2, 3],
-			);
-			const desktopPowers = useScalePowersDesignTokens(
-				s,
-				scaleGolden,
-				[1, 2, 3],
-			);
+			const mobilePowers = useScalePowersDesignTokens(s, scaleMajorSecond, [1, 2, 3]);
+			const desktopPowers = useScalePowersDesignTokens(s, scaleGolden, [1, 2, 3]);
 
 			const baseSize = s.variable("size-base", "1rem");
 
 			s.selector(".mobile", ({ variable }) => {
-				variable(
-					"font-size",
-					s.css`calc(${s.ref(baseSize)} * ${mobilePowers[2]})`,
-				);
+				variable("font-size", s.css`calc(${s.ref(baseSize)} * ${mobilePowers[2]})`);
 			});
 
 			s.selector(".desktop", ({ variable }) => {
-				variable(
-					"font-size",
-					s.css`calc(${s.ref(baseSize)} * ${desktopPowers[2]})`,
-				);
+				variable("font-size", s.css`calc(${s.ref(baseSize)} * ${desktopPowers[2]})`);
 			});
 
 			const css = consumeCSS(s.root, s.options);
@@ -375,11 +318,7 @@ describe("useScalePowersDesignTokens", () => {
 		it("should handle duplicate powers in array", () => {
 			const s = styleframe();
 			const { scaleMinorSecond } = useScaleDesignTokens(s);
-			const powers = useScalePowersDesignTokens(
-				s,
-				scaleMinorSecond,
-				[1, 1, 2, 2],
-			);
+			const powers = useScalePowersDesignTokens(s, scaleMinorSecond, [1, 1, 2, 2]);
 
 			// Should overwrite duplicates, resulting in unique keys
 			expect(Object.keys(powers).length).toBe(2);
@@ -390,11 +329,7 @@ describe("useScalePowersDesignTokens", () => {
 		it("should handle unsorted powers array", () => {
 			const s = styleframe();
 			const { scalePerfectFifth } = useScaleDesignTokens(s);
-			const powers = useScalePowersDesignTokens(
-				s,
-				scalePerfectFifth,
-				[3, -1, 2, -2, 1],
-			);
+			const powers = useScalePowersDesignTokens(s, scalePerfectFifth, [3, -1, 2, -2, 1]);
 
 			expect(Object.keys(powers).length).toBe(5);
 			expect(powers[-2]).toBeDefined();

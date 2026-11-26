@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -35,28 +36,16 @@ export function useFocusDesignTokens(
 	const result: Partial<FocusStateResult> = {};
 
 	if (config.outlineColor !== undefined) {
-		result.focusOutlineColor = ctx.variable(
-			"focus.outline-color",
-			config.outlineColor,
-		);
+		result.focusOutlineColor = ctx.variable("focus.outline-color", config.outlineColor);
 	}
 	if (config.outlineWidth !== undefined) {
-		result.focusOutlineWidth = ctx.variable(
-			"focus.outline-width",
-			config.outlineWidth,
-		);
+		result.focusOutlineWidth = ctx.variable("focus.outline-width", config.outlineWidth);
 	}
 	if (config.outlineStyle !== undefined) {
-		result.focusOutlineStyle = ctx.variable(
-			"focus.outline-style",
-			config.outlineStyle,
-		);
+		result.focusOutlineStyle = ctx.variable("focus.outline-style", config.outlineStyle);
 	}
 	if (config.outlineOffset !== undefined) {
-		result.focusOutlineOffset = ctx.variable(
-			"focus.outline-offset",
-			config.outlineOffset,
-		);
+		result.focusOutlineOffset = ctx.variable("focus.outline-offset", config.outlineOffset);
 	}
 
 	return result;
@@ -82,10 +71,7 @@ export function useFocusState(
 	s: Styleframe,
 	options: WithThemes<FocusStateConfig> = {},
 ): FocusStateResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultFocusOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultFocusOptions, options);
 
 	// Projects that replace the default colors may not define `color.focus`,
 	// so the default falls back to the primary color it references.

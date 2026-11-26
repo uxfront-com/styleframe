@@ -1,8 +1,4 @@
-import {
-	useAvatarRecipe,
-	useAvatarGroupRecipe,
-	useAvatarBadgeRecipe,
-} from "@styleframe/theme";
+import { useAvatarRecipe, useAvatarGroupRecipe, useAvatarBadgeRecipe } from "@styleframe/theme";
 import { styleframe } from "virtual:styleframe";
 
 const s = styleframe();

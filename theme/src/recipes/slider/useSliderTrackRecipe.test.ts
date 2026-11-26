@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSliderTrackRecipe } from "./useSliderTrackRecipe";
 
@@ -44,11 +45,7 @@ describe("useSliderTrackRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderTrackRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have orientation variants", () => {
@@ -104,9 +101,7 @@ describe("useSliderTrackRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderTrackRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -168,9 +163,7 @@ describe("useSliderTrackRecipe", () => {
 				(cv) => cv.match.color && !cv.match.orientation,
 			);
 			expect(colorOnlyCvs).toHaveLength(1);
-			expect(colorOnlyCvs.every((cv) => cv.match.color === "neutral")).toBe(
-				true,
-			);
+			expect(colorOnlyCvs.every((cv) => cv.match.color === "neutral")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {

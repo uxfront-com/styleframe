@@ -1,4 +1,5 @@
 import type { Loader, Plugin } from "esbuild-wasm";
+
 import { getEsbuild } from "./esbuild";
 
 export interface BundlePreviewInput {
@@ -22,12 +23,7 @@ export interface BundlePreviewResult {
 }
 
 const SOURCE_EXTENSIONS = ["", ".tsx", ".ts", ".jsx", ".js", ".css"] as const;
-const INDEX_EXTENSIONS = [
-	"/index.tsx",
-	"/index.ts",
-	"/index.jsx",
-	"/index.js",
-] as const;
+const INDEX_EXTENSIONS = ["/index.tsx", "/index.ts", "/index.jsx", "/index.js"] as const;
 
 /** Resolve a `./` or `../` import against the in-memory file map. */
 function joinPath(baseDir: string, spec: string): string {
@@ -124,8 +120,7 @@ function createVirtualFsPlugin(
 					return { path: spec, namespace: "pg-vendor" };
 				}
 				if (spec.startsWith(".") || spec.startsWith("/")) {
-					const importer =
-						args.importer && args.importer !== "<stdin>" ? args.importer : "";
+					const importer = args.importer && args.importer !== "<stdin>" ? args.importer : "";
 					const baseDir = importer.includes("/")
 						? importer.slice(0, importer.lastIndexOf("/"))
 						: "";
@@ -136,9 +131,7 @@ function createVirtualFsPlugin(
 						return { path: key, namespace: "pg-file" };
 					}
 					return {
-						errors: [
-							{ text: `Cannot resolve "${spec}" from "${args.importer}".` },
-						],
+						errors: [{ text: `Cannot resolve "${spec}" from "${args.importer}".` }],
 					};
 				}
 				return {
@@ -180,13 +173,12 @@ function createVirtualFsPlugin(
 	};
 }
 
-export async function bundlePreview(
-	input: BundlePreviewInput,
-): Promise<BundlePreviewResult> {
+export async function bundlePreview(input: BundlePreviewInput): Promise<BundlePreviewResult> {
 	const esbuild = await getEsbuild();
-	const [{ default: reactVendor }, { default: runtimeSrc }] = await Promise.all(
-		[import("virtual:pg-react-vendor"), import("virtual:pg-runtime-src")],
-	);
+	const [{ default: reactVendor }, { default: runtimeSrc }] = await Promise.all([
+		import("virtual:pg-react-vendor"),
+		import("virtual:pg-runtime-src"),
+	]);
 
 	const boot = `
 import { createRoot } from "react-dom/client";
@@ -227,8 +219,7 @@ try {
 
 	// The JS bundle and any CSS from user imports are emitted as sibling
 	// outputs; the CSS file is the one whose path ends in `.css`.
-	const bundleJs =
-		result.outputFiles.find((file) => !file.path.endsWith(".css"))?.text ?? "";
+	const bundleJs = result.outputFiles.find((file) => !file.path.endsWith(".css"))?.text ?? "";
 	const css = result.outputFiles
 		.filter((file) => file.path.endsWith(".css"))
 		.map((file) => file.text)

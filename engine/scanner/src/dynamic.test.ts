@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import type { ParsedUtility, UtilityMatch } from "./types";
+import { describe, expect, it } from "vitest";
+
 import { createDynamicUtilities } from "./dynamic";
 import { matchUtilities } from "./matcher";
 import { registerMatchedUtilities } from "./register";
+import type { ParsedUtility, UtilityMatch } from "./types";
 
 function createParsedUtility(
 	overrides: Partial<ParsedUtility> & { name: string; value: string },
@@ -193,10 +194,7 @@ describe("dynamic utilities end-to-end", () => {
 		expect(factory).toBeDefined();
 		expect(
 			factory?.values.some(
-				(v) =>
-					v.key === "[0.5]" &&
-					v.modifiers.length === 1 &&
-					v.modifiers[0] === "hover",
+				(v) => v.key === "[0.5]" && v.modifiers.length === 1 && v.modifiers[0] === "hover",
 			),
 		).toBe(true);
 	});
@@ -228,9 +226,7 @@ describe("dynamic utilities end-to-end", () => {
 		const matches = matchUtilities(parsed, s.root);
 		registerMatchedUtilities(s.root, matches);
 
-		expect(s.root.utilities.some((u) => u.name === "not-a-property")).toBe(
-			false,
-		);
+		expect(s.root.utilities.some((u) => u.name === "not-a-property")).toBe(false);
 	});
 
 	it("handles underscore-to-space conversion in arbitrary values", () => {

@@ -23,9 +23,7 @@ test.describe("Advanced Selectors", () => {
 		expect(styles.borderRadius).toBe("4px");
 	});
 
-	test("card-title has correct descendant selector styles", async ({
-		page,
-	}) => {
+	test("card-title has correct descendant selector styles", async ({ page }) => {
 		const element = page.locator("#test-card-title");
 
 		const styles = await element.evaluate((el) => {
@@ -40,15 +38,11 @@ test.describe("Advanced Selectors", () => {
 		expect(styles.fontWeight).toBe("700");
 	});
 
-	test("inline @media query changes card padding at wide viewport", async ({
-		page,
-	}) => {
+	test("inline @media query changes card padding at wide viewport", async ({ page }) => {
 		await page.setViewportSize({ width: 1024, height: 768 });
 
 		const element = page.locator("#test-card");
-		const padding = await element.evaluate(
-			(el) => window.getComputedStyle(el).padding,
-		);
+		const padding = await element.evaluate((el) => window.getComputedStyle(el).padding);
 
 		expect(padding).toBe("32px");
 	});

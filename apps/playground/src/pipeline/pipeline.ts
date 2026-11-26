@@ -49,9 +49,7 @@ function toError(value: unknown): Error {
 	return new Error(String(value));
 }
 
-export async function runPipeline(
-	input: PipelineInput,
-): Promise<PipelineResult> {
+export async function runPipeline(input: PipelineInput): Promise<PipelineResult> {
 	const configSource = input.files[input.configPath] ?? "";
 
 	let compiledConfig: string;

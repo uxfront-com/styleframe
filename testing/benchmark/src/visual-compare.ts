@@ -1,20 +1,16 @@
-import { chromium } from "playwright";
 import { mkdirSync, readFileSync } from "node:fs";
-import { join, resolve } from "node:path";
 import { createServer } from "node:http";
+import { join, resolve } from "node:path";
 import { extname } from "node:path";
+
+import { chromium } from "playwright";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const RESULTS = join(ROOT, "results");
 const SCREENSHOTS = join(RESULTS, "screenshots");
 
 const PAGES = ["dashboard", "marketing", "blog", "ecommerce", "settings"];
-const VARIANTS = [
-	"tailwind",
-	"styleframe",
-	"styleframe-shorthand",
-	"styleframe-minified",
-];
+const VARIANTS = ["tailwind", "styleframe", "styleframe-shorthand", "styleframe-minified"];
 const MIME: Record<string, string> = {
 	".html": "text/html",
 	".css": "text/css",
@@ -68,9 +64,7 @@ async function main() {
 			}
 
 			const tab = await context.newPage();
-			await tab.goto(
-				`http://localhost:${server.port}/${page}/${variant}/index.html`,
-			);
+			await tab.goto(`http://localhost:${server.port}/${page}/${variant}/index.html`);
 			await tab.waitForLoadState("networkidle");
 
 			const screenshotPath = join(SCREENSHOTS, `${page}-${variant}.png`);
@@ -85,9 +79,7 @@ async function main() {
 		try {
 			const twBuf = readFileSync(twPath);
 			const sfBuf = readFileSync(sfPath);
-			const sizeRatio =
-				Math.min(twBuf.length, sfBuf.length) /
-				Math.max(twBuf.length, sfBuf.length);
+			const sizeRatio = Math.min(twBuf.length, sfBuf.length) / Math.max(twBuf.length, sfBuf.length);
 			console.log(
 				`  parity: TW ${twBuf.length}B vs SF ${sfBuf.length}B (image size ratio: ${(sizeRatio * 100).toFixed(1)}%)`,
 			);
@@ -106,9 +98,7 @@ async function main() {
 
 	console.log("\n=== SUMMARY ===");
 	if (failures.length === 0) {
-		console.log(
-			"All pages rendered. Open results/screenshots/ to visually inspect parity.",
-		);
+		console.log("All pages rendered. Open results/screenshots/ to visually inspect parity.");
 	} else {
 		console.log("Issues:");
 		for (const f of failures) {

@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -27,10 +28,7 @@ const repoRoot = resolve(testDir, "../../..");
 const STORYBOOK_SHIM_DIR = join(repoRoot, "apps/storybook/stories/components");
 const PLAYGROUND_DIR = join(repoRoot, "tooling/plugin/playground");
 const PLAYGROUND_RECIPE_DIR = join(PLAYGROUND_DIR, "recipes");
-const STORYBOOK_COMPONENT_DIR = join(
-	repoRoot,
-	"apps/storybook/src/components/components",
-);
+const STORYBOOK_COMPONENT_DIR = join(repoRoot, "apps/storybook/src/components/components");
 
 const SHIM_SUFFIX = ".styleframe.ts";
 
@@ -95,12 +93,8 @@ describe("playground ↔ storybook recipe registration parity", () => {
 					`must exist and register the same recipes.`,
 			).toBe(true);
 
-			const playgroundRecipes = extractRegisteredRecipes(
-				readFileSync(playgroundPath, "utf8"),
-			);
-			const shimRecipes = extractRegisteredRecipes(
-				readFileSync(shimPath, "utf8"),
-			);
+			const playgroundRecipes = extractRegisteredRecipes(readFileSync(playgroundPath, "utf8"));
+			const shimRecipes = extractRegisteredRecipes(readFileSync(shimPath, "utf8"));
 
 			const missingFromPlayground = [...shimRecipes]
 				.filter((recipe) => !playgroundRecipes.has(recipe))
@@ -178,9 +172,9 @@ function playgroundExports(): Set<string> {
 
 function renderedComponents(): Array<string> {
 	const app = readFileSync(join(PLAYGROUND_DIR, "src/App.vue"), "utf8");
-	const queue = [
-		...app.matchAll(/from\s+"@storybook-components\/([^"]+)"/g),
-	].map((match) => join(STORYBOOK_COMPONENT_DIR, match[1]));
+	const queue = [...app.matchAll(/from\s+"@storybook-components\/([^"]+)"/g)].map((match) =>
+		join(STORYBOOK_COMPONENT_DIR, match[1]),
+	);
 	const seen = new Set<string>();
 	while (queue.length > 0) {
 		const file = queue.shift() as string;
@@ -197,15 +191,14 @@ function renderedComponents(): Array<string> {
 }
 
 function virtualStyleframeImports(source: string): Array<string> {
-	return [
-		...source.matchAll(/import\s*\{([^}]*)\}\s*from\s+"virtual:styleframe"/g),
-	].flatMap((match) =>
-		match[1]
-			.split(",")
-			.map((name) => name.trim())
-			// A `type` specifier is erased at build time, so it can't go missing.
-			.filter((name) => name && !name.startsWith("type "))
-			.map((name) => name.split(/\s+as\s+/)[0]),
+	return [...source.matchAll(/import\s*\{([^}]*)\}\s*from\s+"virtual:styleframe"/g)].flatMap(
+		(match) =>
+			match[1]
+				.split(",")
+				.map((name) => name.trim())
+				// A `type` specifier is erased at build time, so it can't go missing.
+				.filter((name) => name && !name.startsWith("type "))
+				.map((name) => name.split(/\s+as\s+/)[0]),
 	);
 }
 
@@ -218,9 +211,9 @@ describe("playground registers every recipe its rendered components import", () 
 
 	it.each(components.map((file) => rel(file)))("%s", (file) => {
 		const exported = playgroundExports();
-		const missing = virtualStyleframeImports(
-			readFileSync(join(repoRoot, file), "utf8"),
-		).filter((name) => !exported.has(name));
+		const missing = virtualStyleframeImports(readFileSync(join(repoRoot, file), "utf8")).filter(
+			(name) => !exported.has(name),
+		);
 
 		expect(
 			missing,

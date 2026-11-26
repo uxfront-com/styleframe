@@ -5,9 +5,7 @@ test.describe("Layout and Flexbox Utilities", () => {
 		await page.goto("/#/layout-flexbox");
 	});
 
-	test("flex container has all flexbox properties applied", async ({
-		page,
-	}) => {
+	test("flex container has all flexbox properties applied", async ({ page }) => {
 		const element = page.locator("#test-flex-container");
 
 		const styles = await element.evaluate((el) => {
@@ -45,9 +43,7 @@ test.describe("Layout and Flexbox Utilities", () => {
 
 	test("overflow utility applies correctly", async ({ page }) => {
 		const element = page.locator("#test-overflow");
-		const overflow = await element.evaluate(
-			(el) => window.getComputedStyle(el).overflow,
-		);
+		const overflow = await element.evaluate((el) => window.getComputedStyle(el).overflow);
 
 		expect(overflow).toBe("hidden");
 	});

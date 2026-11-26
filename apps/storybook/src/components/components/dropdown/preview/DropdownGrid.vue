@@ -14,31 +14,15 @@ const variants = ["solid", "soft", "subtle"] as const;
 		<div v-for="variant in variants" :key="variant">
 			<div class="dropdown-label">{{ variant }}</div>
 			<div class="dropdown-row">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="dropdown-wrapper"
-				>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="dropdown-wrapper">
 					<Dropdown :color="color" :variant="variant">
-						<DropdownLabel :color="color">
-							{{ variant }} {{ color }}
-						</DropdownLabel>
-						<DropdownItem :color="color" :variant="variant"
-							>Profile</DropdownItem
-						>
-						<DropdownItem :color="color" :variant="variant"
-							>Settings</DropdownItem
-						>
+						<DropdownLabel :color="color"> {{ variant }} {{ color }} </DropdownLabel>
+						<DropdownItem :color="color" :variant="variant">Profile</DropdownItem>
+						<DropdownItem :color="color" :variant="variant">Settings</DropdownItem>
 						<DropdownSeparator :color="color" />
-						<DropdownItem :color="color" :variant="variant"
-							>Sign out</DropdownItem
-						>
+						<DropdownItem :color="color" :variant="variant">Sign out</DropdownItem>
 					</Dropdown>
-					<DropdownArrow
-						:color="color"
-						:variant="variant"
-						class="dropdown-arrow-position"
-					/>
+					<DropdownArrow :color="color" :variant="variant" class="dropdown-arrow-position" />
 				</div>
 			</div>
 		</div>

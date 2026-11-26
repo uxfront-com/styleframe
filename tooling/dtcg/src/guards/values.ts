@@ -44,9 +44,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function isComponent(value: unknown): boolean {
-	return (
-		value === "none" || (typeof value === "number" && Number.isFinite(value))
-	);
+	return value === "none" || (typeof value === "number" && Number.isFinite(value));
 }
 
 export function isColorSpace(value: unknown): value is DTCGColorSpace {
@@ -155,9 +153,7 @@ const STROKE_STYLE_KEYWORDS: ReadonlySet<string> = new Set([
 	"inset",
 ]);
 
-export function isStrokeStyleObject(
-	value: unknown,
-): value is DTCGStrokeStyleObject {
+export function isStrokeStyleObject(value: unknown): value is DTCGStrokeStyleObject {
 	if (!isPlainObject(value)) {
 		return false;
 	}
@@ -167,11 +163,7 @@ export function isStrokeStyleObject(
 	if (!value.dashArray.every((d) => isAlias(d) || isDimensionValue(d))) {
 		return false;
 	}
-	return (
-		value.lineCap === "round" ||
-		value.lineCap === "butt" ||
-		value.lineCap === "square"
-	);
+	return value.lineCap === "round" || value.lineCap === "butt" || value.lineCap === "square";
 }
 
 export function isStrokeStyleValue(value: unknown): value is DTCGStrokeStyle {
@@ -282,9 +274,7 @@ export function isGradientStop(value: unknown): value is DTCGGradientStop {
 }
 
 export function isGradientValue(value: unknown): value is DTCGGradient {
-	return (
-		Array.isArray(value) && value.length > 0 && value.every(isGradientStop)
-	);
+	return Array.isArray(value) && value.length > 0 && value.every(isGradientStop);
 }
 
 export function isTypographyValue(value: unknown): value is DTCGTypography {
@@ -297,16 +287,10 @@ export function isTypographyValue(value: unknown): value is DTCGTypography {
 	if (!isDimensionOrAlias(value.fontSize)) {
 		return false;
 	}
-	if (
-		value.fontWeight !== undefined &&
-		!isFontWeightOrAlias(value.fontWeight)
-	) {
+	if (value.fontWeight !== undefined && !isFontWeightOrAlias(value.fontWeight)) {
 		return false;
 	}
-	if (
-		value.letterSpacing !== undefined &&
-		!isDimensionOrAlias(value.letterSpacing)
-	) {
+	if (value.letterSpacing !== undefined && !isDimensionOrAlias(value.letterSpacing)) {
 		return false;
 	}
 	if (value.lineHeight !== undefined) {

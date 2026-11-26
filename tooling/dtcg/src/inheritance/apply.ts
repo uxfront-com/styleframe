@@ -11,11 +11,7 @@
  */
 
 import { isToken } from "../guards/token";
-import type {
-	DTCGAnyToken,
-	DTCGDeprecated,
-	DTCGDocument,
-} from "../types/token";
+import type { DTCGAnyToken, DTCGDeprecated, DTCGDocument } from "../types/token";
 import type { DTCGTokenType } from "../types/values";
 
 interface InheritedContext {
@@ -37,10 +33,7 @@ function deepClone<T>(value: T): T {
 	return out as T;
 }
 
-function applyToTree(
-	node: Record<string, unknown>,
-	ctx: InheritedContext,
-): void {
+function applyToTree(node: Record<string, unknown>, ctx: InheritedContext): void {
 	const ownType = node["$type"] as DTCGTokenType | undefined;
 	const ownDeprecated = node["$deprecated"] as DTCGDeprecated | undefined;
 	const nextCtx: InheritedContext = {

@@ -26,42 +26,30 @@ export const useGridTemplateColumnsUtility = createUseUtility(
 /**
  * Create grid-column utility classes (span).
  */
-export const useGridColumnUtility = createUseUtility(
-	"grid-column",
-	({ value }) => ({
-		gridColumn: value,
-	}),
-);
+export const useGridColumnUtility = createUseUtility("grid-column", ({ value }) => ({
+	gridColumn: value,
+}));
 
 /**
  * Create grid-column-start utility classes.
  */
-export const useGridColumnStartUtility = createUseUtility(
-	"grid-column-start",
-	({ value }) => ({
-		gridColumnStart: value,
-	}),
-);
+export const useGridColumnStartUtility = createUseUtility("grid-column-start", ({ value }) => ({
+	gridColumnStart: value,
+}));
 
 /**
  * Create grid-column-end utility classes.
  */
-export const useGridColumnEndUtility = createUseUtility(
-	"grid-column-end",
-	({ value }) => ({
-		gridColumnEnd: value,
-	}),
-);
+export const useGridColumnEndUtility = createUseUtility("grid-column-end", ({ value }) => ({
+	gridColumnEnd: value,
+}));
 
 /**
  * Create grid-template-rows utility classes.
  */
-export const useGridTemplateRowsUtility = createUseUtility(
-	"grid-template-rows",
-	({ value }) => ({
-		gridTemplateRows: value,
-	}),
-);
+export const useGridTemplateRowsUtility = createUseUtility("grid-template-rows", ({ value }) => ({
+	gridTemplateRows: value,
+}));
 
 /**
  * Create grid-row utility classes.
@@ -73,22 +61,16 @@ export const useGridRowUtility = createUseUtility("grid-row", ({ value }) => ({
 /**
  * Create grid-row-start utility classes.
  */
-export const useGridRowStartUtility = createUseUtility(
-	"grid-row-start",
-	({ value }) => ({
-		gridRowStart: value,
-	}),
-);
+export const useGridRowStartUtility = createUseUtility("grid-row-start", ({ value }) => ({
+	gridRowStart: value,
+}));
 
 /**
  * Create grid-row-end utility classes.
  */
-export const useGridRowEndUtility = createUseUtility(
-	"grid-row-end",
-	({ value }) => ({
-		gridRowEnd: value,
-	}),
-);
+export const useGridRowEndUtility = createUseUtility("grid-row-end", ({ value }) => ({
+	gridRowEnd: value,
+}));
 
 /**
  * Create grid-auto-flow utility classes.
@@ -104,19 +86,13 @@ export const useGridAutoFlowUtility = createUseUtility(
 /**
  * Create grid-auto-columns utility classes.
  */
-export const useGridAutoColumnsUtility = createUseUtility(
-	"grid-auto-columns",
-	({ value }) => ({
-		gridAutoColumns: value,
-	}),
-);
+export const useGridAutoColumnsUtility = createUseUtility("grid-auto-columns", ({ value }) => ({
+	gridAutoColumns: value,
+}));
 
 /**
  * Create grid-auto-rows utility classes.
  */
-export const useGridAutoRowsUtility = createUseUtility(
-	"grid-auto-rows",
-	({ value }) => ({
-		gridAutoRows: value,
-	}),
-);
+export const useGridAutoRowsUtility = createUseUtility("grid-auto-rows", ({ value }) => ({
+	gridAutoRows: value,
+}));

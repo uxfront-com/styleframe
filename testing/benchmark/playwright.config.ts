@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
@@ -7,10 +8,7 @@ export default defineConfig({
 	forbidOnly: !!process.env.CI,
 	retries: 0,
 	workers: 1,
-	reporter: [
-		["list"],
-		["html", { outputFolder: "results/playwright-report", open: "never" }],
-	],
+	reporter: [["list"], ["html", { outputFolder: "results/playwright-report", open: "never" }]],
 	outputDir: "results/playwright-artifacts",
 	snapshotPathTemplate: "{testDir}/__screenshots__/{testFilePath}/{arg}{ext}",
 	use: {

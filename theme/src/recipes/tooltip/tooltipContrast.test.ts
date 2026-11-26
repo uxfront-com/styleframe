@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
@@ -70,12 +71,7 @@ describe("tooltip contrast", () => {
 		expect(pairs).toHaveLength(9 * 2);
 	});
 
-	it.each(pairs)(
-		"tooltip/contrast $label has text of at least 4.5:1",
-		({ text, background }) => {
-			expect(wcagContrast(text, background)).toBeGreaterThanOrEqual(
-				MIN_TEXT_CONTRAST,
-			);
-		},
-	);
+	it.each(pairs)("tooltip/contrast $label has text of at least 4.5:1", ({ text, background }) => {
+		expect(wcagContrast(text, background)).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST);
+	});
 });

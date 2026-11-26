@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import {
 	useAnyPointerCoarseModifier,
 	useDarkModifier,
@@ -66,8 +67,7 @@ describe("useSwitchRecipe", () => {
 		const selector = s.root.children.find(
 			(child) =>
 				child.type === "selector" &&
-				(child as { query: string }).query ===
-					'.switch:has(.switch-field[aria-readonly="true"])',
+				(child as { query: string }).query === '.switch:has(.switch-field[aria-readonly="true"])',
 		) as { declarations: Record<string, unknown> } | undefined;
 		expect(selector?.declarations).toEqual({ cursor: "default" });
 	});
@@ -79,8 +79,7 @@ describe("useSwitchRecipe", () => {
 		const selector = s.root.children.find(
 			(child) =>
 				child.type === "selector" &&
-				(child as { query: string }).query ===
-					".switch:has(.switch-field:disabled)",
+				(child as { query: string }).query === ".switch:has(.switch-field:disabled)",
 		) as
 			| {
 					declarations: Record<string, unknown>;
@@ -93,8 +92,7 @@ describe("useSwitchRecipe", () => {
 			| undefined;
 		expect(selector?.declarations).toMatchObject({ opacity: "0.5" });
 		const forced = selector?.children.find(
-			(child) =>
-				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+			(child) => child.type === "at-rule" && child.rule === "(forced-colors: active)",
 		);
 		expect(forced?.declarations).toEqual({ opacity: "1" });
 	});

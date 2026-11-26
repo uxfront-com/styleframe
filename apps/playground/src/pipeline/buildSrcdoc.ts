@@ -13,9 +13,7 @@ export interface BuildSrcdocResult {
 }
 
 function makeBlobUrl(code: string): string {
-	return URL.createObjectURL(
-		new Blob([code], { type: "application/javascript" }),
-	);
+	return URL.createObjectURL(new Blob([code], { type: "application/javascript" }));
 }
 
 /**

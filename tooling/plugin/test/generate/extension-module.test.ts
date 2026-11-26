@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { generateExtensionModule } from "../../src/plugin/generate/extension-module";
 
 describe("generateExtensionModule", () => {

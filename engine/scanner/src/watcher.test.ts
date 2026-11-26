@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { createChangeHandler, debounce, matchesPatterns } from "./watcher";
 
 describe("debounce", () => {
@@ -154,9 +155,7 @@ describe("createChangeHandler", () => {
 
 		vi.advanceTimersByTime(50);
 		expect(callback).toHaveBeenCalledTimes(1);
-		expect(callback).toHaveBeenCalledWith(
-			expect.arrayContaining(["file1.ts", "file2.ts"]),
-		);
+		expect(callback).toHaveBeenCalledWith(expect.arrayContaining(["file1.ts", "file2.ts"]));
 	});
 
 	it("should flush immediately", () => {
@@ -169,9 +168,7 @@ describe("createChangeHandler", () => {
 		handler.flush();
 
 		expect(callback).toHaveBeenCalledTimes(1);
-		expect(callback).toHaveBeenCalledWith(
-			expect.arrayContaining(["file1.ts", "file2.ts"]),
-		);
+		expect(callback).toHaveBeenCalledWith(expect.arrayContaining(["file1.ts", "file2.ts"]));
 	});
 
 	it("should not call callback on flush when no files changed", () => {
@@ -222,9 +219,7 @@ describe("matchesPatterns", () => {
 		});
 
 		it("should match any of multiple patterns", () => {
-			expect(
-				matchesPatterns("src/index.ts", ["src/other.ts", "src/index.ts"]),
-			).toBe(true);
+			expect(matchesPatterns("src/index.ts", ["src/other.ts", "src/index.ts"])).toBe(true);
 		});
 	});
 
@@ -235,9 +230,7 @@ describe("matchesPatterns", () => {
 		});
 
 		it("should not match across directory boundaries", () => {
-			expect(matchesPatterns("src/components/Button.ts", ["src/*.ts"])).toBe(
-				false,
-			);
+			expect(matchesPatterns("src/components/Button.ts", ["src/*.ts"])).toBe(false);
 		});
 
 		it("should match file extensions", () => {
@@ -247,9 +240,7 @@ describe("matchesPatterns", () => {
 
 		it("should match prefix patterns", () => {
 			expect(matchesPatterns("src/Button.tsx", ["src/Button*"])).toBe(true);
-			expect(matchesPatterns("src/Button.test.tsx", ["src/Button*"])).toBe(
-				true,
-			);
+			expect(matchesPatterns("src/Button.test.tsx", ["src/Button*"])).toBe(true);
 			expect(matchesPatterns("src/Input.tsx", ["src/Button*"])).toBe(false);
 		});
 	});
@@ -257,12 +248,8 @@ describe("matchesPatterns", () => {
 	describe("double asterisk (**) matching", () => {
 		it("should match any path depth", () => {
 			expect(matchesPatterns("src/index.ts", ["**/*.ts"])).toBe(true);
-			expect(matchesPatterns("src/components/Button.ts", ["**/*.ts"])).toBe(
-				true,
-			);
-			expect(
-				matchesPatterns("src/components/ui/deep/File.ts", ["**/*.ts"]),
-			).toBe(true);
+			expect(matchesPatterns("src/components/Button.ts", ["**/*.ts"])).toBe(true);
+			expect(matchesPatterns("src/components/ui/deep/File.ts", ["**/*.ts"])).toBe(true);
 		});
 
 		it("should match at start of pattern", () => {
@@ -271,20 +258,14 @@ describe("matchesPatterns", () => {
 		});
 
 		it("should match directory patterns", () => {
-			expect(
-				matchesPatterns("src/components/Button.tsx", ["src/components/**"]),
-			).toBe(true);
-			expect(
-				matchesPatterns("src/components/ui/Button.tsx", [
-					"src/components/**/*.tsx",
-				]),
-			).toBe(true);
+			expect(matchesPatterns("src/components/Button.tsx", ["src/components/**"])).toBe(true);
+			expect(matchesPatterns("src/components/ui/Button.tsx", ["src/components/**/*.tsx"])).toBe(
+				true,
+			);
 		});
 
 		it("should match mid-path glob stars", () => {
-			expect(matchesPatterns("src/a/b/c/index.ts", ["src/**/index.ts"])).toBe(
-				true,
-			);
+			expect(matchesPatterns("src/a/b/c/index.ts", ["src/**/index.ts"])).toBe(true);
 		});
 
 		it("should require at least one path segment for mid-path **", () => {
@@ -314,33 +295,21 @@ describe("matchesPatterns", () => {
 
 	describe("Windows path normalization", () => {
 		it("should normalize backslashes to forward slashes in file paths", () => {
-			expect(matchesPatterns(String.raw`src\index.ts`, ["src/index.ts"])).toBe(
-				true,
-			);
-			expect(
-				matchesPatterns(String.raw`src\components\Button.ts`, ["**/*.ts"]),
-			).toBe(true);
+			expect(matchesPatterns(String.raw`src\index.ts`, ["src/index.ts"])).toBe(true);
+			expect(matchesPatterns(String.raw`src\components\Button.ts`, ["**/*.ts"])).toBe(true);
 		});
 
 		it("should normalize backslashes in patterns", () => {
-			expect(matchesPatterns("src/index.ts", [String.raw`src\index.ts`])).toBe(
-				true,
-			);
-			expect(
-				matchesPatterns("src/components/Button.ts", [String.raw`src\**\*.ts`]),
-			).toBe(true);
+			expect(matchesPatterns("src/index.ts", [String.raw`src\index.ts`])).toBe(true);
+			expect(matchesPatterns("src/components/Button.ts", [String.raw`src\**\*.ts`])).toBe(true);
 		});
 
 		it("should handle mixed slashes", () => {
+			expect(matchesPatterns(String.raw`src\components/Button.ts`, ["src/components/*.ts"])).toBe(
+				true,
+			);
 			expect(
-				matchesPatterns(String.raw`src\components/Button.ts`, [
-					"src/components/*.ts",
-				]),
-			).toBe(true);
-			expect(
-				matchesPatterns(String.raw`src/components\Button.ts`, [
-					String.raw`src\components\*.ts`,
-				]),
+				matchesPatterns(String.raw`src/components\Button.ts`, [String.raw`src\components\*.ts`]),
 			).toBe(true);
 		});
 	});
@@ -375,15 +344,11 @@ describe("matchesPatterns", () => {
 		});
 
 		it("should match complex patterns", () => {
+			expect(matchesPatterns("src/components/Button/Button.test.tsx", ["src/**/*.test.tsx"])).toBe(
+				true,
+			);
 			expect(
-				matchesPatterns("src/components/Button/Button.test.tsx", [
-					"src/**/*.test.tsx",
-				]),
-			).toBe(true);
-			expect(
-				matchesPatterns("packages/scanner/src/utils/watcher.ts", [
-					"packages/*/src/**/*.ts",
-				]),
+				matchesPatterns("packages/scanner/src/utils/watcher.ts", ["packages/*/src/**/*.ts"]),
 			).toBe(true);
 		});
 

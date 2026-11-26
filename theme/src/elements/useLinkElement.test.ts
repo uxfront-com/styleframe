@@ -1,6 +1,7 @@
 import type { AtRule, Selector } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useDesignTokensPreset } from "../presets/useDesignTokensPreset";
 import { defaultLinkOptions, useLinkElement } from "./useLinkElement";
 
@@ -56,9 +57,9 @@ describe("useLinkElement", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		const hoverColor = css.indexOf("var(--link--hover--color)");
-		expect(
-			css.lastIndexOf("@media (hover: hover)", hoverColor),
-		).toBeGreaterThan(css.indexOf("a {"));
+		expect(css.lastIndexOf("@media (hover: hover)", hoverColor)).toBeGreaterThan(
+			css.indexOf("a {"),
+		);
 	});
 
 	it("should keep the link variables and their defaults", () => {
@@ -68,9 +69,7 @@ describe("useLinkElement", () => {
 		expect(result.linkColor.name).toBe("link.color");
 		expect(result.linkTextDecoration.name).toBe("link.text-decoration");
 		expect(result.linkHoverColor.name).toBe("link.hover.color");
-		expect(result.linkHoverTextDecoration.name).toBe(
-			"link.hover.text-decoration",
-		);
+		expect(result.linkHoverTextDecoration.name).toBe("link.hover.text-decoration");
 		expect(defaultLinkOptions).toEqual({
 			color: "@color.primary",
 			textDecoration: "none",

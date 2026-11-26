@@ -1,4 +1,5 @@
 import type { ContentNavigationItem } from "@nuxt/content";
+
 import type { NonRouteCategoryMeta } from "../types/non-route-categories";
 
 /**
@@ -23,9 +24,7 @@ export function foldNonRouteCategories(
 			{ meta: NonRouteCategoryMeta; children: Array<ContentNavigationItem> }
 		>();
 		for (const child of node.children) {
-			const dir = child.stem
-				? child.stem.split("/").slice(0, -1).join("/")
-				: "";
+			const dir = child.stem ? child.stem.split("/").slice(0, -1).join("/") : "";
 			const meta = categories[dir];
 			if (meta && child.page !== false) {
 				const group = groups.get(dir) ?? { meta, children: [] };
@@ -37,9 +36,7 @@ export function foldNonRouteCategories(
 		}
 		const groupNodes = [...groups.entries()]
 			.sort(
-				([, a], [, b]) =>
-					a.meta.order - b.meta.order ||
-					a.meta.title.localeCompare(b.meta.title),
+				([, a], [, b]) => a.meta.order - b.meta.order || a.meta.title.localeCompare(b.meta.title),
 			)
 			.map(([dir, { meta, children }]) => ({
 				title: meta.title,
@@ -49,9 +46,7 @@ export function foldNonRouteCategories(
 					.pop()!
 					.replace(/^\d+\./, "")}`,
 				...(meta.icon ? { icon: meta.icon } : {}),
-				...(meta.defaultOpen !== undefined
-					? { defaultOpen: meta.defaultOpen }
-					: {}),
+				...(meta.defaultOpen !== undefined ? { defaultOpen: meta.defaultOpen } : {}),
 				page: false as const,
 				children,
 			}));

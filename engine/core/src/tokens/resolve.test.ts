@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import type { Root, Selector } from "../types";
 import {
 	createPropertyValueResolver,
@@ -18,9 +19,7 @@ describe("parseAtReferences", () => {
 	it("should parse a single @ reference", () => {
 		const result = parseAtReferences("@color.primary");
 
-		expect(result).toEqual([
-			{ type: "reference", name: "color.primary", fallback: undefined },
-		]);
+		expect(result).toEqual([{ type: "reference", name: "color.primary", fallback: undefined }]);
 	});
 
 	it("should parse an embedded @ reference", () => {
@@ -45,17 +44,13 @@ describe("parseAtReferences", () => {
 	it("should handle dotted variable names", () => {
 		const result = parseAtReferences("@spacing.lg");
 
-		expect(result).toEqual([
-			{ type: "reference", name: "spacing.lg", fallback: undefined },
-		]);
+		expect(result).toEqual([{ type: "reference", name: "spacing.lg", fallback: undefined }]);
 	});
 
 	it("should handle hyphenated variable names", () => {
 		const result = parseAtReferences("@my-var");
 
-		expect(result).toEqual([
-			{ type: "reference", name: "my-var", fallback: undefined },
-		]);
+		expect(result).toEqual([{ type: "reference", name: "my-var", fallback: undefined }]);
 	});
 
 	it("should return an empty array for empty input", () => {
@@ -237,9 +232,7 @@ describe("validateReference", () => {
 	});
 
 	it("should include the @ reference hint in the error message", () => {
-		expect(() => validateReference("spacing.lg", root, root)).toThrow(
-			'"@spacing.lg"',
-		);
+		expect(() => validateReference("spacing.lg", root, root)).toThrow('"@spacing.lg"');
 	});
 
 	it("should not throw when variable exists in a parent scope", () => {
@@ -261,9 +254,7 @@ describe("validateReference", () => {
 		};
 		root._registry.set(selector.id, selector);
 
-		expect(() =>
-			validateReference("color.primary", selector, root),
-		).not.toThrow();
+		expect(() => validateReference("color.primary", selector, root)).not.toThrow();
 	});
 });
 
@@ -307,9 +298,7 @@ describe("createPropertyValueResolver", () => {
 		});
 
 		it("should return a retina URL literal unchanged (no throw, no ref)", () => {
-			expect(resolvePropertyValue('url("image@2x.png")')).toBe(
-				'url("image@2x.png")',
-			);
+			expect(resolvePropertyValue('url("image@2x.png")')).toBe('url("image@2x.png")');
 		});
 
 		it("should return a bare mid-token @ literal unchanged", () => {
@@ -403,9 +392,7 @@ describe("createPropertyValueResolver", () => {
 		});
 
 		it("should throw when an embedded @variable is not defined", () => {
-			expect(() => resolvePropertyValue("@0.25 @0.5")).toThrow(
-				'Variable "0.25" is not defined',
-			);
+			expect(() => resolvePropertyValue("@0.25 @0.5")).toThrow('Variable "0.25" is not defined');
 		});
 
 		it("should throw when only one of several embedded refs is undefined", () => {
@@ -416,9 +403,9 @@ describe("createPropertyValueResolver", () => {
 				value: "1px",
 			});
 
-			expect(() =>
-				resolvePropertyValue("@border.width solid @color.primary"),
-			).toThrow('Variable "color.primary" is not defined');
+			expect(() => resolvePropertyValue("@border.width solid @color.primary")).toThrow(
+				'Variable "color.primary" is not defined',
+			);
 		});
 
 		it("should still compile embedded refs when every variable is defined", () => {

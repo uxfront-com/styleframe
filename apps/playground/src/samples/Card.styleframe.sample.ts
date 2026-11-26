@@ -1,10 +1,10 @@
-import { styleframe } from "virtual:styleframe";
 import {
 	useCardBodyRecipe,
 	useCardFooterRecipe,
 	useCardHeaderRecipe,
 	useCardRecipe,
 } from "@styleframe/theme";
+import { styleframe } from "virtual:styleframe";
 
 const s = styleframe();
 

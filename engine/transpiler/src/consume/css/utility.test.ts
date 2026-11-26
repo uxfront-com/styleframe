@@ -1,15 +1,11 @@
-import type {
-	Container,
-	Root,
-	StyleframeOptions,
-	Utility,
-} from "@styleframe/core";
+import type { Container, Root, StyleframeOptions, Utility } from "@styleframe/core";
 import {
 	createModifierFunction,
 	createRoot,
 	createUtilityFunction,
 	isUtility,
 } from "@styleframe/core";
+
 import { consume } from "./consume";
 import { createUtilityConsumer } from "./utility";
 
@@ -40,8 +36,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const marginUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "margin" && u.value === "sm",
+			(u): u is Utility => u.type === "utility" && u.name === "margin" && u.value === "sm",
 		);
 		if (!marginUtility) {
 			throw new Error("Margin utility not found");
@@ -69,8 +64,7 @@ describe("createUtilityConsumer", () => {
 
 		// Get the sm utility
 		const smUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "margin" && u.value === "sm",
+			(u): u is Utility => u.type === "utility" && u.name === "margin" && u.value === "sm",
 		);
 		if (!smUtility) {
 			throw new Error("sm margin utility not found");
@@ -84,8 +78,7 @@ describe("createUtilityConsumer", () => {
 
 		// Get the md utility
 		const mdUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "margin" && u.value === "md",
+			(u): u is Utility => u.type === "utility" && u.name === "margin" && u.value === "md",
 		);
 		if (!mdUtility) {
 			throw new Error("md margin utility not found");
@@ -109,8 +102,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const hiddenUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "hidden" && u.value === "default",
+			(u): u is Utility => u.type === "utility" && u.name === "hidden" && u.value === "default",
 		);
 		if (!hiddenUtility) {
 			throw new Error("Hidden utility not found");
@@ -136,8 +128,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const visibilityUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "visible" && u.value === "default",
+			(u): u is Utility => u.type === "utility" && u.name === "visible" && u.value === "default",
 		);
 		if (!visibilityUtility) {
 			throw new Error("Visible utility not found");
@@ -175,10 +166,7 @@ describe("createUtilityConsumer", () => {
 		// Find the modified utility instance
 		const hoverMarginUtility = root.children.find(
 			(u): u is Utility =>
-				isUtility(u) &&
-				u.name === "margin" &&
-				u.value === "sm" &&
-				u.modifiers.includes("hover"),
+				isUtility(u) && u.name === "margin" && u.value === "sm" && u.modifiers.includes("hover"),
 		);
 		if (!hoverMarginUtility) {
 			throw new Error("Hover margin utility not found");
@@ -259,10 +247,7 @@ describe("createUtilityConsumer", () => {
 
 		const marginUtility = root.children.find(
 			(u): u is Utility =>
-				isUtility(u) &&
-				u.name === "margin" &&
-				u.value === "sm" &&
-				u.modifiers.length === 0,
+				isUtility(u) && u.name === "margin" && u.value === "sm" && u.modifiers.length === 0,
 		);
 		if (!marginUtility) {
 			throw new Error("Margin utility not found");
@@ -291,8 +276,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const flexRowUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "flex" && u.value === "row",
+			(u): u is Utility => u.type === "utility" && u.name === "flex" && u.value === "row",
 		);
 		if (!flexRowUtility) {
 			throw new Error("Flex row utility not found");
@@ -307,8 +291,7 @@ describe("createUtilityConsumer", () => {
 		expect(rowResult).toBe(expectedRow);
 
 		const flexColUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "flex" && u.value === "col",
+			(u): u is Utility => u.type === "utility" && u.name === "flex" && u.value === "col",
 		);
 		if (!flexColUtility) {
 			throw new Error("Flex col utility not found");
@@ -335,8 +318,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const hiddenUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "hidden" && u.value === "",
+			(u): u is Utility => u.type === "utility" && u.name === "hidden" && u.value === "",
 		);
 		if (!hiddenUtility) {
 			throw new Error("Hidden utility not found");
@@ -363,8 +345,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const halfUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "p" && u.value === "1/2",
+			(u): u is Utility => u.type === "utility" && u.name === "p" && u.value === "1/2",
 		);
 		if (!halfUtility) {
 			throw new Error("P 1/2 utility not found");
@@ -377,8 +358,7 @@ describe("createUtilityConsumer", () => {
 		expect(halfResult).toBe(expectedHalf);
 
 		const decimalUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "p" && u.value === "2.5",
+			(u): u is Utility => u.type === "utility" && u.name === "p" && u.value === "2.5",
 		);
 		if (!decimalUtility) {
 			throw new Error("P 2.5 utility not found");
@@ -435,16 +415,13 @@ describe("createUtilityConsumer", () => {
 
 	it("should handle multi-key modifiers correctly", () => {
 		// Create a modifier with multiple keys
-		const breakpointModifier = modifier(
-			["sm", "md", "lg"],
-			({ declarations }) => {
-				// Note: In the actual implementation, the specific key would be used
-				// This is a simplified version for testing
-				return {
-					"@media (min-width: 640px)": declarations,
-				};
-			},
-		);
+		const breakpointModifier = modifier(["sm", "md", "lg"], ({ declarations }) => {
+			// Note: In the actual implementation, the specific key would be used
+			// This is a simplified version for testing
+			return {
+				"@media (min-width: 640px)": declarations,
+			};
+		});
 
 		// Create a utility with the multi-key modifier
 		const createMarginUtility = utility("margin", ({ value }) => ({
@@ -461,10 +438,7 @@ describe("createUtilityConsumer", () => {
 		// Find utilities for each breakpoint key
 		const smMarginUtility = root.children.find(
 			(u): u is Utility =>
-				isUtility(u) &&
-				u.name === "margin" &&
-				u.value === "base" &&
-				u.modifiers.includes("sm"),
+				isUtility(u) && u.name === "margin" && u.value === "base" && u.modifiers.includes("sm"),
 		);
 		if (smMarginUtility) {
 			const result = consumeUtility(smMarginUtility, options);
@@ -548,8 +522,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const smButtonUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "btn" && u.value === "sm",
+			(u): u is Utility => u.type === "utility" && u.name === "btn" && u.value === "sm",
 		);
 		if (!smButtonUtility) {
 			throw new Error("Small button utility not found");
@@ -586,8 +559,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const primaryTextUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "text" && u.value === "primary",
+			(u): u is Utility => u.type === "utility" && u.name === "text" && u.value === "primary",
 		);
 		if (!primaryTextUtility) {
 			throw new Error("Primary text utility not found");
@@ -626,8 +598,7 @@ describe("createUtilityConsumer", () => {
 		});
 
 		const marginUtility = root.children.find(
-			(u): u is Utility =>
-				u.type === "utility" && u.name === "margin" && u.value === "sm",
+			(u): u is Utility => u.type === "utility" && u.name === "margin" && u.value === "sm",
 		);
 		if (!marginUtility) {
 			throw new Error("Margin utility not found");
@@ -671,10 +642,7 @@ describe("createUtilityConsumer", () => {
 		// Check that all combinations are created
 		const baseUtility = root.children.find(
 			(u): u is Utility =>
-				isUtility(u) &&
-				u.name === "margin" &&
-				u.value === "sm" &&
-				u.modifiers.length === 0,
+				isUtility(u) && u.name === "margin" && u.value === "sm" && u.modifiers.length === 0,
 		);
 		expect(baseUtility).toBeDefined();
 

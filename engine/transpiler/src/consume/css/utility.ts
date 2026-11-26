@@ -1,5 +1,6 @@
 import type { StyleframeOptions, Utility } from "@styleframe/core";
 import { classNameToCssSelector } from "@styleframe/core";
+
 import { defaultUtilitySelectorFn } from "../../defaults";
 import type { ConsumeFunction } from "../../types";
 import { createContainerConsumer } from "./container";
@@ -10,14 +11,10 @@ import { createContainerConsumer } from "./container";
 export function createUtilityConsumer(consume: ConsumeFunction) {
 	const consumeContainer = createContainerConsumer(consume);
 
-	return function consumeUtility(
-		instance: Utility,
-		options: StyleframeOptions,
-	): string {
+	return function consumeUtility(instance: Utility, options: StyleframeOptions): string {
 		const result: Array<string> = [];
 
-		const utilitySelectorFn =
-			options.utilities?.selector ?? defaultUtilitySelectorFn;
+		const utilitySelectorFn = options.utilities?.selector ?? defaultUtilitySelectorFn;
 		const className = utilitySelectorFn({
 			name: instance.name,
 			value: instance.value,

@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import {
 	useButtonRecipe,
 	useDesignTokensPreset,
@@ -6,6 +5,8 @@ import {
 	useUtilitiesPreset,
 } from "@styleframe/theme";
 import { styleframe } from "styleframe";
+import { describe, expect, it } from "vitest";
+
 import { transpileStyleframe } from "@/pipeline/transpileStyleframe";
 
 describe("transpileStyleframe", () => {

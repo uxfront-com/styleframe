@@ -122,10 +122,7 @@ const displayError = (error: Error) => {
 		<!-- Email Confirmation Screen -->
 		<div v-if="signupComplete" class="text-center">
 			<div class="mb-4">
-				<Icon
-					name="i-lucide-mail-check"
-					class="w-16 h-16 mx-auto text-primary mb-4"
-				/>
+				<Icon name="i-lucide-mail-check" class="w-16 h-16 mx-auto text-primary mb-4" />
 				<h2 class="text-2xl font-bold mb-2">Check your email</h2>
 			</div>
 			<p class="mb-4">
@@ -133,17 +130,12 @@ const displayError = (error: Error) => {
 				<strong>{{ userEmail }}</strong>
 			</p>
 			<p class="text-md mb-6">
-				Please click the link in the email to verify your account and complete
-				your registration.
+				Please click the link in the email to verify your account and complete your registration.
 			</p>
 			<div class="space-y-3">
 				<p class="text-md text-gray-500">
 					Didn't receive the email? Check your spam folder or
-					<UButton
-						variant="link"
-						class="p-0 text-md"
-						@click="signupComplete = false"
-					>
+					<UButton variant="link" class="p-0 text-md" @click="signupComplete = false">
 						try again </UButton
 					>.
 				</p>

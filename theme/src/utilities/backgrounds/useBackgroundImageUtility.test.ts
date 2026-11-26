@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useBackgroundImageUtility,
 	useGradientFromUtility,
@@ -13,8 +14,7 @@ describe("useBackgroundImageUtility", () => {
 		const s = styleframe();
 		useBackgroundImageUtility(s, {
 			none: "none",
-			"gradient-to-t":
-				"linear-gradient(to top, var(--background-image-gradient-stops))",
+			"gradient-to-t": "linear-gradient(to top, var(--background-image-gradient-stops))",
 		});
 
 		const utilities = s.root.children.filter(
@@ -34,8 +34,7 @@ describe("useBackgroundImageUtility", () => {
 	it("should compile to correct CSS output", () => {
 		const s = styleframe();
 		useBackgroundImageUtility(s, {
-			"gradient-to-r":
-				"linear-gradient(to right, var(--background-image-gradient-stops))",
+			"gradient-to-r": "linear-gradient(to right, var(--background-image-gradient-stops))",
 		});
 
 		const css = consumeCSS(s.root, s.options);
@@ -70,10 +69,8 @@ describe("useGradientFromUtility", () => {
 
 		const utility = s.root.children[0] as Utility;
 		expect(utility.declarations).toEqual({
-			"--background-image-gradient-from":
-				"red var(--background-image-gradient-from-position)",
-			"--background-image-gradient-to":
-				"transparent var(--background-image-gradient-to-position)",
+			"--background-image-gradient-from": "red var(--background-image-gradient-from-position)",
+			"--background-image-gradient-to": "transparent var(--background-image-gradient-to-position)",
 			"--background-image-gradient-stops":
 				"var(--background-image-gradient-from), var(--background-image-gradient-to)",
 		});
@@ -112,8 +109,7 @@ describe("useGradientViaUtility", () => {
 
 		const utility = s.root.children[0] as Utility;
 		expect(utility.declarations).toEqual({
-			"--background-image-gradient-to":
-				"transparent var(--background-image-gradient-to-position)",
+			"--background-image-gradient-to": "transparent var(--background-image-gradient-to-position)",
 			"--background-image-gradient-stops":
 				"var(--background-image-gradient-from), green var(--background-image-gradient-via-position), var(--background-image-gradient-to)",
 		});
@@ -152,8 +148,7 @@ describe("useGradientToUtility", () => {
 
 		const utility = s.root.children[0] as Utility;
 		expect(utility.declarations).toEqual({
-			"--background-image-gradient-to":
-				"purple var(--background-image-gradient-to-position)",
+			"--background-image-gradient-to": "purple var(--background-image-gradient-to-position)",
 		});
 	});
 

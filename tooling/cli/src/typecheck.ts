@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, rm, rmdir, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import path from "node:path";
+
 import type { CheckDiagnostic } from "./utils";
 
 /**
@@ -123,8 +124,7 @@ export async function typecheck(
 	// so the temporary config sits in the project's `node_modules/.cache`,
 	// which resolves the same packages as the project's own directory
 	const nodeModules = findUp(path.dirname(tsconfig ?? file), "node_modules");
-	const { directory, createdCache } =
-		await createTemporaryDirectory(nodeModules);
+	const { directory, createdCache } = await createTemporaryDirectory(nodeModules);
 
 	const runTsc = (...args: Array<string>) => {
 		const result = spawnSync(process.execPath, [tsc, ...args], {
@@ -139,21 +139,12 @@ export async function typecheck(
 
 	try {
 		const configPath = path.join(directory, "tsconfig.json");
-		await writeFile(
-			configPath,
-			JSON.stringify(createTypecheckConfig(file, tsconfig)),
-		);
+		await writeFile(configPath, JSON.stringify(createTypecheckConfig(file, tsconfig)));
 
 		// `composite` may come from anywhere in the `extends` chain, so ask
 		// `tsc` for the resolved options
-		if (
-			tsconfig &&
-			isComposite(runTsc("--showConfig", "-p", configPath).stdout)
-		) {
-			await writeFile(
-				configPath,
-				JSON.stringify(createTypecheckConfig(file, tsconfig, true)),
-			);
+		if (tsconfig && isComposite(runTsc("--showConfig", "-p", configPath).stdout)) {
+			await writeFile(configPath, JSON.stringify(createTypecheckConfig(file, tsconfig, true)));
 		}
 
 		const result = runTsc("--noEmit", "--pretty", "false", "-p", configPath);
@@ -194,11 +185,7 @@ export function parseTscOutput(
 
 		if (located) {
 			diagnostics.push(
-				typescriptDiagnostic(
-					`${located[1]}:${located[2]}`,
-					located[3]!,
-					located[4]!,
-				),
+				typescriptDiagnostic(`${located[1]}:${located[2]}`, located[3]!, located[4]!),
 			);
 		} else if (global) {
 			diagnostics.push(typescriptDiagnostic(file, global[1]!, global[2]!));
@@ -221,11 +208,7 @@ export function parseTscOutput(
 	return diagnostics;
 }
 
-function typescriptDiagnostic(
-	location: string,
-	tsCode: string,
-	message: string,
-): CheckDiagnostic {
+function typescriptDiagnostic(location: string, tsCode: string, message: string): CheckDiagnostic {
 	return {
 		code: "typescript",
 		severity: "error",

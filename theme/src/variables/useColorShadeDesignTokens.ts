@@ -35,12 +35,6 @@ export const useColorShadeDesignTokens = createUseDerivedVariable({
 			return s.ref(parent);
 		}
 
-		return computeRelativeColor(
-			parsed.l,
-			parsed.c,
-			parsed.h,
-			parsed.alpha,
-			-(value / 100),
-		);
+		return computeRelativeColor(parsed.l, parsed.c, parsed.h, parsed.alpha, -(value / 100));
 	},
 });

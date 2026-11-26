@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Toggle from "@/components/components/toggle/Toggle.vue";
 import ToggleGrid from "@/components/components/toggle/preview/ToggleGrid.vue";
 import ToggleSizeGrid from "@/components/components/toggle/preview/ToggleSizeGrid.vue";
+import Toggle from "@/components/components/toggle/Toggle.vue";
 
 const colors = ["light", "dark", "neutral"] as const;
 const variants = ["solid", "outline", "ghost"] as const;

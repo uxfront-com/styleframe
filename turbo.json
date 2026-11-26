@@ -4,20 +4,8 @@
 	"tasks": {
 		"build": {
 			"cache": true,
-			"inputs": [
-				"src/**",
-				"content/**",
-				"vite.config.ts",
-				"tsdown.config.ts",
-				"package.json"
-			],
-			"outputs": [
-				"theme/**",
-				"dist/**",
-				".output/**",
-				".nuxt/**",
-				"storybook-static/**"
-			],
+			"inputs": ["src/**", "content/**", "vite.config.ts", "tsdown.config.ts", "package.json"],
+			"outputs": ["theme/**", "dist/**", ".output/**", ".nuxt/**", "storybook-static/**"],
 			"dependsOn": ["^build"]
 		},
 		"@styleframe/docs#build": {

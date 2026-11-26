@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useAvatarRecipe } from "./useAvatarRecipe";
 
@@ -61,12 +62,7 @@ describe("useAvatarRecipe", () => {
 			const s = createInstance();
 			const recipe = useAvatarRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"primary",
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
@@ -184,9 +180,7 @@ describe("useAvatarRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["primary"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "primary"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "primary")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(2);
 		});
 

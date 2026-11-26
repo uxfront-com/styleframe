@@ -4,6 +4,7 @@ import type {
 	StyleframeOptions,
 	Variable,
 } from "@styleframe/core";
+
 import { genSelector } from "../../generator";
 import type { ConsumeFunction } from "../../types";
 import { createDeclarationsConsumer } from "./declarations";
@@ -32,14 +33,9 @@ export function createContainerConsumer(consume: ConsumeFunction) {
 			consumeVariable(variable, options),
 		);
 
-		const consumedDeclarations = consumeDeclarations(
-			declarations ?? {},
-			options,
-		);
+		const consumedDeclarations = consumeDeclarations(declarations ?? {}, options);
 
-		const consumedChildren = (children ?? []).map((child) =>
-			consume(child, options),
-		);
+		const consumedChildren = (children ?? []).map((child) => consume(child, options));
 
 		const hasVariables = consumedVariables.length > 0;
 		const hasDeclarations = consumedDeclarations.length > 0;

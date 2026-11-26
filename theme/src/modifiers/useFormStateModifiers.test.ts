@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useFormStateModifiers } from "./useFormStateModifiers";
 
 describe("useFormStateModifiers", () => {
@@ -114,9 +115,7 @@ describe("useFormStateModifiers", () => {
 		);
 		expect(utilities).toHaveLength(2);
 
-		const checkedUtility = utilities.find((u) =>
-			u.modifiers.includes("checked"),
-		);
+		const checkedUtility = utilities.find((u) => u.modifiers.includes("checked"));
 		expect(checkedUtility).toBeDefined();
 	});
 });

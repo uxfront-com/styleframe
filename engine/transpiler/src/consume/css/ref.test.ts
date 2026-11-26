@@ -1,11 +1,8 @@
 import type { Root, StyleframeOptions } from "@styleframe/core";
-import {
-	createRefFunction,
-	createRoot,
-	createVariableFunction,
-} from "@styleframe/core";
-import { createRefConsumer } from "./ref";
+import { createRefFunction, createRoot, createVariableFunction } from "@styleframe/core";
+
 import { consume } from "./consume";
+import { createRefConsumer } from "./ref";
 
 describe("createRefConsumer", () => {
 	let root: Root;
@@ -51,9 +48,7 @@ describe("createRefConsumer", () => {
 
 	it("should handle complex fallback values", () => {
 		const marginRef = ref("margin-x", "calc(2rem + 10px)");
-		expect(consumeRef(marginRef, options)).toBe(
-			"var(--margin-x, calc(2rem + 10px))",
-		);
+		expect(consumeRef(marginRef, options)).toBe("var(--margin-x, calc(2rem + 10px))");
 	});
 
 	it("should respect prefix in options if provided", () => {
@@ -94,9 +89,7 @@ describe("createRefConsumer", () => {
 
 	it("should handle dot notation with fallback value", () => {
 		const colorRef = ref("color.primary", "#006cff");
-		expect(consumeRef(colorRef, options)).toBe(
-			"var(--color--primary, #006cff)",
-		);
+		expect(consumeRef(colorRef, options)).toBe("var(--color--primary, #006cff)");
 	});
 
 	it("should handle dot notation when referencing variables with dots", () => {
@@ -122,8 +115,6 @@ describe("createRefConsumer", () => {
 
 	it("should handle dot notation with complex fallback values", () => {
 		const spacingRef = ref("spacing.md", "calc(1rem + 4px)");
-		expect(consumeRef(spacingRef, options)).toBe(
-			"var(--spacing--md, calc(1rem + 4px))",
-		);
+		expect(consumeRef(spacingRef, options)).toBe("var(--spacing--md, calc(1rem + 4px))");
 	});
 });

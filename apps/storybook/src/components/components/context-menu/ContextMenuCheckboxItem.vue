@@ -37,11 +37,7 @@ const classes = computed(() =>
 		:class="classes"
 		:disabled="props.disabled"
 	>
-		<span
-			v-if="props.checked"
-			class="context-menu-item-indicator"
-			aria-hidden="true"
-		>
+		<span v-if="props.checked" class="context-menu-item-indicator" aria-hidden="true">
 			&checkmark;
 		</span>
 		<slot />

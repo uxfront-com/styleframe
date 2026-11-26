@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useContextMenuSeparatorRecipe } from "./index";
 
@@ -48,11 +49,7 @@ describe("useContextMenuSeparatorRecipe", () => {
 		const recipe = useContextMenuSeparatorRecipe(s);
 
 		expect(Object.keys(recipe.variants!)).toEqual(["color"]);
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 	});
 
 	it("should have correct default variants", () => {
@@ -74,9 +71,7 @@ describe("useContextMenuSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useContextMenuSeparatorRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 
 			expect(cv?.css).toEqual({
 				background: "@color.gray-200",

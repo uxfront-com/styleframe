@@ -23,12 +23,9 @@ export const useOutlineUtility = createUseUtility("outline", ({ value }) => ({
  * });
  * ```
  */
-export const useOutlineWidthUtility = createUseUtility(
-	"outline-width",
-	({ value }) => ({
-		outlineWidth: value,
-	}),
-);
+export const useOutlineWidthUtility = createUseUtility("outline-width", ({ value }) => ({
+	outlineWidth: value,
+}));
 
 /**
  * Create outline-color utility classes.
@@ -55,9 +52,6 @@ export const useOutlineStyleUtility = createUseUtility(
 /**
  * Create outline-offset utility classes.
  */
-export const useOutlineOffsetUtility = createUseUtility(
-	"outline-offset",
-	({ value }) => ({
-		outlineOffset: value,
-	}),
-);
+export const useOutlineOffsetUtility = createUseUtility("outline-offset", ({ value }) => ({
+	outlineOffset: value,
+}));

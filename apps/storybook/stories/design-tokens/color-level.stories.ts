@@ -1,18 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { colorLevelValues } from "@styleframe/theme";
+
 import ColorLevelSwatch from "../../src/components/design-tokens/colors/ColorLevelSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 
 const levels = Object.keys(colorLevelValues);
-const colors = [
-	"primary",
-	"secondary",
-	"success",
-	"warning",
-	"error",
-	"info",
-	"gray",
-];
+const colors = ["primary", "secondary", "success", "warning", "error", "info", "gray"];
 
 const meta = {
 	title: "Design Tokens/Colors/Color Level",
@@ -21,9 +14,7 @@ const meta = {
 	argTypes: {
 		value: {
 			control: "select",
-			options: colors.flatMap((color) =>
-				levels.map((level) => `${color}-${level}`),
-			),
+			options: colors.flatMap((color) => levels.map((level) => `${color}-${level}`)),
 		},
 	},
 } satisfies Meta<typeof ColorLevelSwatch>;

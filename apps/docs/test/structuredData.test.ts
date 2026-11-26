@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-	breadcrumbList,
-	siteGraph,
-	techArticle,
-	webPage,
-} from "../app/utils/structuredData";
+
+import { breadcrumbList, siteGraph, techArticle, webPage } from "../app/utils/structuredData";
 
 const SITE = "https://styleframe.dev";
 const page = {

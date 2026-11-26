@@ -2,16 +2,32 @@
 	"name": "@styleframe/core",
 	"version": "3.8.0",
 	"keywords": [
-		"styleframe",
 		"css-in-ts",
-		"design-tokens",
 		"design-system",
+		"design-tokens",
+		"styleframe",
 		"typescript"
 	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/core"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
+	],
 	"type": "module",
-	"types": "./dist/index.d.ts",
-	"module": "./dist/styleframe.js",
 	"main": "./dist/styleframe.umd.cjs",
+	"module": "./dist/styleframe.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -24,12 +40,6 @@
 			}
 		}
 	},
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"dev": "vite build --watch",
 		"build": "pnpm typecheck && vite build",
@@ -40,27 +50,17 @@
 	"dependencies": {
 		"csstype": "^3.2.3"
 	},
-	"peerDependencies": {
-		"@styleframe/license": "catalog:"
-	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/config-vite": "workspace:^3.1.2",
 		"@styleframe/license": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
-		"vite": "catalog:",
 		"unplugin-dts": "catalog:",
+		"vite": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "engine/core"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	"peerDependencies": {
+		"@styleframe/license": "catalog:"
+	}
 }

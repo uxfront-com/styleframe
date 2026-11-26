@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { usePseudoElementModifiers } from "./usePseudoElementModifiers";
 
 describe("usePseudoElementModifiers", () => {
@@ -79,9 +80,7 @@ describe("usePseudoElementModifiers", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain(String.raw`._background-color\:highlight {`);
-		expect(css).toContain(
-			String.raw`._selection\:background-color\:highlight {`,
-		);
+		expect(css).toContain(String.raw`._selection\:background-color\:highlight {`);
 	});
 
 	it("should generate correct CSS class names for file modifier", () => {

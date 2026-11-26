@@ -6,6 +6,7 @@ import {
 	createThemeFunction,
 	createVariableFunction,
 } from "@styleframe/core";
+
 import { consume } from "./consume";
 import { createThemeConsumer } from "./theme";
 
@@ -51,16 +52,13 @@ describe("createThemeConsumer", () => {
 	});
 
 	it("should handle themes with nested selectors", () => {
-		const themeWithSelectors = theme(
-			"colorful",
-			({ variable: v, selector: s }) => {
-				v("primary-color", "#ff0066");
-				s(".button", {
-					color: ref("primary-color"),
-					backgroundColor: "white",
-				});
-			},
-		);
+		const themeWithSelectors = theme("colorful", ({ variable: v, selector: s }) => {
+			v("primary-color", "#ff0066");
+			s(".button", {
+				color: ref("primary-color"),
+				backgroundColor: "white",
+			});
+		});
 
 		const result = consumeTheme(themeWithSelectors, options);
 		expect(result).toEqual(`.colorful-theme, [data-theme="colorful"] {
@@ -108,9 +106,7 @@ describe("createThemeConsumer", () => {
 	it("should handle empty themes", () => {
 		const emptyTheme = theme("empty", () => {});
 
-		expect(consumeTheme(emptyTheme, options)).toBe(
-			'.empty-theme, [data-theme="empty"] {}',
-		);
+		expect(consumeTheme(emptyTheme, options)).toBe('.empty-theme, [data-theme="empty"] {}');
 	});
 
 	it("should handle themes with only nested children", () => {
@@ -139,28 +135,25 @@ describe("createThemeConsumer", () => {
 	});
 
 	it("should handle themes with complex nested structures", () => {
-		const complexTheme = theme(
-			"advanced",
-			({ variable: v, selector: s, css }) => {
-				v("spacing-unit", "8px");
-				v("primary-hue", "240");
+		const complexTheme = theme("advanced", ({ variable: v, selector: s, css }) => {
+			v("spacing-unit", "8px");
+			v("primary-hue", "240");
 
-				s(".card", ({ selector: nested }) => {
-					nested("&:hover", {
-						transform: "translateY(-2px)",
-					});
-
-					nested(".card-header", {
-						backgroundColor: css`hsl(${ref("primary-hue")}, 70%, 90%)`,
-					});
-
-					return {
-						padding: ref("spacing-unit"),
-						borderRadius: "4px",
-					};
+			s(".card", ({ selector: nested }) => {
+				nested("&:hover", {
+					transform: "translateY(-2px)",
 				});
-			},
-		);
+
+				nested(".card-header", {
+					backgroundColor: css`hsl(${ref("primary-hue")}, 70%, 90%)`,
+				});
+
+				return {
+					padding: ref("spacing-unit"),
+					borderRadius: "4px",
+				};
+			});
+		});
 
 		const result = consumeTheme(complexTheme, options);
 		expect(result).toEqual(`.advanced-theme, [data-theme="advanced"] {

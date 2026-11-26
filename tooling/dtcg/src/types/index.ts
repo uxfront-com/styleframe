@@ -1,10 +1,5 @@
 export type { DTCGAlias } from "./alias";
-export type {
-	DTCGColor,
-	DTCGColorComponent,
-	DTCGColorComponents,
-	DTCGColorSpace,
-} from "./color";
+export type { DTCGColor, DTCGColorComponent, DTCGColorComponents, DTCGColorSpace } from "./color";
 export type {
 	DTCGBorder,
 	DTCGGradient,
@@ -21,11 +16,7 @@ export type { DTCGCubicBezier } from "./cubic-bezier";
 export type { DTCGDimension, DTCGDimensionUnit } from "./dimension";
 export type { DTCGDuration, DTCGDurationUnit } from "./duration";
 export type { DTCGExtensions } from "./extensions";
-export type {
-	DTCGFontFamily,
-	DTCGFontWeight,
-	DTCGFontWeightKeyword,
-} from "./font";
+export type { DTCGFontFamily, DTCGFontWeight, DTCGFontWeightKeyword } from "./font";
 export type {
 	DTCGFileLoader,
 	DTCGModifier,

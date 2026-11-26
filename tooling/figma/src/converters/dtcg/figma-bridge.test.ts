@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import type { FigmaExportVariable } from "../../types";
 import {
 	classifyFigmaVariable,
@@ -15,10 +16,7 @@ import {
 	floatToDtcgDuration,
 } from "./figma-bridge";
 
-function fv(
-	name: string,
-	type: FigmaExportVariable["type"],
-): FigmaExportVariable {
+function fv(name: string, type: FigmaExportVariable["type"]): FigmaExportVariable {
 	return { name, type, values: {} };
 }
 
@@ -76,34 +74,23 @@ describe("classifyFigmaVariable — path-aware", () => {
 	});
 
 	it("STRING under easing/* with a keyword resolves to a cubic-bezier tuple", () => {
-		const out = classifyFigmaVariable(
-			fv("easing/ease-in", "STRING"),
-			"ease-in",
-		);
+		const out = classifyFigmaVariable(fv("easing/ease-in", "STRING"), "ease-in");
 		expect(out?.type).toBe("cubicBezier");
 		expect(out?.value).toEqual([0.42, 0, 1, 1]);
 	});
 
 	it("STRING with a strokeStyle keyword classifies as strokeStyle", () => {
-		const out = classifyFigmaVariable(
-			fv("border-style/default", "STRING"),
-			"solid",
-		);
+		const out = classifyFigmaVariable(fv("border-style/default", "STRING"), "solid");
 		expect(out?.type).toBe("strokeStyle");
 	});
 
 	it("STRING under font-family/* is fontFamily", () => {
-		const out = classifyFigmaVariable(
-			fv("font-family/body", "STRING"),
-			"Inter",
-		);
+		const out = classifyFigmaVariable(fv("font-family/body", "STRING"), "Inter");
 		expect(out?.type).toBe("fontFamily");
 	});
 
 	it("returns undefined for STRING values with no usable hint", () => {
-		expect(
-			classifyFigmaVariable(fv("misc/random", "STRING"), "hello"),
-		).toBeUndefined();
+		expect(classifyFigmaVariable(fv("misc/random", "STRING"), "hello")).toBeUndefined();
 	});
 
 	it("classifies a Figma RGBA shape as color", () => {
@@ -195,9 +182,7 @@ describe("path conversions", () => {
 	it("dot ↔ slash", () => {
 		expect(dtcgPathToFigma("color.primary")).toBe("color/primary");
 		expect(figmaPathToDtcg("color/primary")).toBe("color.primary");
-		expect(dtcgPathToFigma("color.palette.red.500")).toBe(
-			"color/palette/red/500",
-		);
+		expect(dtcgPathToFigma("color.palette.red.500")).toBe("color/palette/red/500");
 		expect(figmaPathToDtcg("a/b/c")).toBe("a.b.c");
 	});
 });
@@ -222,9 +207,7 @@ describe("dtcgValueToFigma", () => {
 	});
 
 	it("converts color objects", () => {
-		expect(
-			dtcgValueToFigma({ colorSpace: "srgb", components: [0, 0, 0] }, "COLOR"),
-		).toEqual({
+		expect(dtcgValueToFigma({ colorSpace: "srgb", components: [0, 0, 0] }, "COLOR")).toEqual({
 			kind: "value",
 			figmaType: "COLOR",
 			value: { r: 0, g: 0, b: 0, a: 1 },

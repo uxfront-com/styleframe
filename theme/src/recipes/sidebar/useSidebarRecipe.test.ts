@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSidebarRecipe } from "./index";
 
@@ -57,22 +58,14 @@ describe("useSidebarRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useSidebarRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants", () => {
@@ -86,10 +79,7 @@ describe("useSidebarRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarRecipe(s);
 
-			expect(Object.keys(recipe.variants!.collapsed)).toEqual([
-				"true",
-				"false",
-			]);
+			expect(Object.keys(recipe.variants!.collapsed)).toEqual(["true", "false"]);
 		});
 	});
 
@@ -179,9 +169,7 @@ describe("useSidebarRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarRecipe(s);
 
-			const collapsed = recipe.compoundVariants!.find(
-				(cv) => cv.match.collapsed === "true",
-			);
+			const collapsed = recipe.compoundVariants!.find((cv) => cv.match.collapsed === "true");
 
 			expect(collapsed).toEqual({
 				match: { collapsed: "true" },
@@ -218,16 +206,10 @@ describe("useSidebarRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			const colorCompounds = recipe.compoundVariants!.filter(
-				(cv) => cv.match.color !== undefined,
-			);
+			const colorCompounds = recipe.compoundVariants!.filter((cv) => cv.match.color !== undefined);
 			expect(colorCompounds).toHaveLength(3);
-			expect(colorCompounds.every((cv) => cv.match.color === "neutral")).toBe(
-				true,
-			);
-			expect(
-				recipe.compoundVariants!.some((cv) => cv.match.collapsed === "true"),
-			).toBe(true);
+			expect(colorCompounds.every((cv) => cv.match.color === "neutral")).toBe(true);
+			expect(recipe.compoundVariants!.some((cv) => cv.match.collapsed === "true")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {

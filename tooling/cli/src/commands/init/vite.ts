@@ -1,10 +1,9 @@
-import consola from "consola";
 import path from "node:path";
-import {
-	loadFile as loadMagicastFile,
-	writeFile as writeMagicastFile,
-} from "magicast";
+
+import consola from "consola";
+import { loadFile as loadMagicastFile, writeFile as writeMagicastFile } from "magicast";
 import { addVitePlugin } from "magicast/helpers";
+
 import { DOCS_MANUAL_INSTALLATION_VITE_URL } from "../../constants";
 
 export async function initializeViteFrameworkFile(cwd: string) {
@@ -27,9 +26,7 @@ export async function initializeViteFrameworkFile(cwd: string) {
 		consola.error(`Failed to update Vite config file.`);
 		consola.log(error);
 		console.log("");
-		console.log(
-			"Please read the documentation for manually installing styleframe for Vite.",
-		);
+		console.log("Please read the documentation for manually installing styleframe for Vite.");
 		console.log(DOCS_MANUAL_INSTALLATION_VITE_URL);
 	}
 }

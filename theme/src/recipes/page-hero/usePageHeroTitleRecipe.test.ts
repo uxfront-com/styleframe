@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { describe, expect, it } from "vitest";
+
 import { usePageHeroTitleRecipe } from "./index";
 
 function createInstance() {

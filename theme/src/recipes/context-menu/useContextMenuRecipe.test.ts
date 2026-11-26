@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useContextMenuRecipe } from "./index";
 
@@ -65,22 +66,14 @@ describe("useContextMenuRecipe", () => {
 			const s = createInstance();
 			const recipe = useContextMenuRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useContextMenuRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants", () => {

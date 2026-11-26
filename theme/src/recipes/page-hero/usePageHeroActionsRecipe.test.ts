@@ -1,16 +1,11 @@
 import { styleframe } from "@styleframe/core";
 import { describe, expect, it } from "vitest";
+
 import { usePageHeroActionsRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"flexDirection",
-		"flexWrap",
-		"gap",
-		"justifyContent",
-	]) {
+	for (const name of ["display", "flexDirection", "flexWrap", "gap", "justifyContent"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

@@ -1,6 +1,7 @@
-import { access } from "node:fs/promises";
 import { constants, existsSync } from "node:fs";
+import { access } from "node:fs/promises";
 import path from "node:path";
+
 import type { Diagnostic, DiagnosticCode } from "@styleframe/core";
 
 /** A diagnostic from `validate()`, or a type error from `--typecheck` */
@@ -75,11 +76,7 @@ export function parseJsonc(text: string): unknown {
  * Format a diagnostic as one line: its code, where it was made, and the
  * message, which carries the did-you-mean.
  */
-export function formatDiagnostic({
-	code,
-	path,
-	message,
-}: CheckDiagnostic): string {
+export function formatDiagnostic({ code, path, message }: CheckDiagnostic): string {
 	return `${code} ${path}: ${message}`;
 }
 
@@ -94,10 +91,7 @@ const CONFIG_EXTENSIONS = [".ts", ".mts", ".cts", ".js", ".mjs", ".cjs"];
  * resolves it: as given when it has a known extension, otherwise with each
  * extension appended. The loader falls back to an empty instance instead.
  */
-export function resolveConfigFile(
-	entry: string,
-	cwd = process.cwd(),
-): string | undefined {
+export function resolveConfigFile(entry: string, cwd = process.cwd()): string | undefined {
 	// `join`, not `resolve`: it keeps a trailing slash and leaves `..` to the
 	// file system, so an entry the loader can't find is never reported found
 	const basePath = path.isAbsolute(entry) ? entry : path.join(cwd, entry);
@@ -106,7 +100,7 @@ export function resolveConfigFile(
 		return existsSync(basePath) ? basePath : undefined;
 	}
 
-	return CONFIG_EXTENSIONS.map((extension) => `${basePath}${extension}`).find(
-		(file) => existsSync(file),
+	return CONFIG_EXTENSIONS.map((extension) => `${basePath}${extension}`).find((file) =>
+		existsSync(file),
 	);
 }

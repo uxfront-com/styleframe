@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useButtonRecipe } from "./useButtonRecipe";
 
@@ -50,11 +47,7 @@ describe("useButtonRecipe contrast", () => {
 			throw new Error(`Unknown token ${token}`);
 		}
 		const value = variable.value as unknown;
-		if (
-			typeof value === "object" &&
-			value !== null &&
-			(value as Slot).type === "reference"
-		) {
+		if (typeof value === "object" && value !== null && (value as Slot).type === "reference") {
 			return resolve(`@${(value as Slot).name}`, theme);
 		}
 		return String(value);
@@ -181,8 +174,7 @@ describe("useButtonRecipe contrast", () => {
 					continue;
 				}
 				const block = (css[state.key] ?? {}) as Slot;
-				const darkBlock = (css[state.key.replace("&:", "&:dark:")] ??
-					{}) as Slot;
+				const darkBlock = (css[state.key.replace("&:", "&:dark:")] ?? {}) as Slot;
 				for (const property of Object.keys(block)) {
 					if (property in dark) {
 						expect(

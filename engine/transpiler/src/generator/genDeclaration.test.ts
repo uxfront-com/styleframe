@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genDeclaration } from "./genDeclaration";
 
 describe("genDeclaration", () => {
@@ -88,10 +89,7 @@ describe("genDeclaration", () => {
 	});
 
 	it("should handle linear-gradient", () => {
-		const result = genDeclaration(
-			"background",
-			"linear-gradient(to right, red, blue)",
-		);
+		const result = genDeclaration("background", "linear-gradient(to right, red, blue)");
 		expect(result).toBe("background: linear-gradient(to right, red, blue);");
 	});
 
@@ -111,10 +109,7 @@ describe("genDeclaration", () => {
 	});
 
 	it("should handle font shorthand", () => {
-		const result = genDeclaration(
-			"font",
-			"italic bold 16px/1.5 Arial, sans-serif",
-		);
+		const result = genDeclaration("font", "italic bold 16px/1.5 Arial, sans-serif");
 		expect(result).toBe("font: italic bold 16px/1.5 Arial, sans-serif;");
 	});
 
@@ -149,10 +144,7 @@ describe("genDeclaration", () => {
 	});
 
 	it("should handle single quoted string value", () => {
-		const result = genDeclaration(
-			"font-family",
-			"'Helvetica Neue', sans-serif",
-		);
+		const result = genDeclaration("font-family", "'Helvetica Neue', sans-serif");
 		expect(result).toBe("font-family: 'Helvetica Neue', sans-serif;");
 	});
 
@@ -196,9 +188,7 @@ describe("genDeclaration", () => {
 			"box-shadow",
 			"0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
 		);
-		expect(result).toBe(
-			"box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);",
-		);
+		expect(result).toBe("box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);");
 	});
 
 	it("should handle CSS math functions", () => {
@@ -222,13 +212,8 @@ describe("genDeclaration", () => {
 	});
 
 	it("should handle cubic-bezier timing function", () => {
-		const result = genDeclaration(
-			"transition-timing-function",
-			"cubic-bezier(0.4, 0, 0.2, 1)",
-		);
-		expect(result).toBe(
-			"transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);",
-		);
+		const result = genDeclaration("transition-timing-function", "cubic-bezier(0.4, 0, 0.2, 1)");
+		expect(result).toBe("transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);");
 	});
 
 	it("should handle steps timing function", () => {

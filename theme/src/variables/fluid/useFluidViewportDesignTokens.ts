@@ -25,8 +25,7 @@ export function useFluidViewportDesignTokens(
 		{ default: true },
 	);
 
-	const lockBreakpoint =
-		typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+	const lockBreakpoint = typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
 	media(`screen and (min-width: ${lockBreakpoint})`, ({ selector }) => {
 		selector(":root", ({ variable }) => {

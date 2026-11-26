@@ -6,17 +6,14 @@ export function transformSourceClassNames(
 ): { code: string; changed: boolean } {
 	let changed = false;
 
-	const transformed = code.replaceAll(
-		new RegExp(UTILITY_CLASS_PATTERN.source, "g"),
-		(match) => {
-			const replacement = lookup[match];
-			if (replacement) {
-				changed = true;
-				return replacement;
-			}
-			return match;
-		},
-	);
+	const transformed = code.replaceAll(new RegExp(UTILITY_CLASS_PATTERN.source, "g"), (match) => {
+		const replacement = lookup[match];
+		if (replacement) {
+			changed = true;
+			return replacement;
+		}
+		return match;
+	});
 
 	return { code: transformed, changed };
 }

@@ -6,6 +6,7 @@ import type {
 	UtilitySelectorFn,
 	UtilitySelectorOptions,
 } from "@styleframe/core";
+
 import type { ImportScanResult } from "./imports";
 
 export type { UtilitySelectorFn, UtilitySelectorOptions };

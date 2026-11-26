@@ -1,11 +1,13 @@
+import { existsSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+
 import { styleframe } from "@styleframe/core";
 import { validateInstanceLicense } from "@styleframe/license";
 import { transpile } from "@styleframe/transpiler";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { tmpdir } from "node:os";
-import path from "node:path";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
 import { build } from "./build";
 
 vi.mock("@styleframe/transpiler", () => ({ transpile: vi.fn() }));
@@ -44,12 +46,8 @@ describe("build", () => {
 		expect(mockedValidate).toHaveBeenCalledOnce();
 		expect(mockedTranspile).toHaveBeenCalledWith(instance, undefined);
 
-		expect(await readFile(path.join(outputDir, "index.css"), "utf8")).toBe(
-			".a{color:red}",
-		);
-		expect(
-			await readFile(path.join(outputDir, "nested/deep.css"), "utf8"),
-		).toBe(".b{color:blue}");
+		expect(await readFile(path.join(outputDir, "index.css"), "utf8")).toBe(".a{color:red}");
+		expect(await readFile(path.join(outputDir, "nested/deep.css"), "utf8")).toBe(".b{color:blue}");
 	});
 
 	test("removes existing output when clean is true (default)", async () => {
@@ -82,9 +80,7 @@ describe("build", () => {
 	test("does not transpile or write when license validation fails", async () => {
 		mockedValidate.mockRejectedValueOnce(new Error("invalid license"));
 
-		await expect(build(styleframe(), { outputDir })).rejects.toThrow(
-			/invalid license/,
-		);
+		await expect(build(styleframe(), { outputDir })).rejects.toThrow(/invalid license/);
 		expect(mockedTranspile).not.toHaveBeenCalled();
 	});
 });

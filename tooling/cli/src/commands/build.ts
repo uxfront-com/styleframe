@@ -1,8 +1,10 @@
 import path from "node:path";
+
 import { validate } from "@styleframe/core";
 import { build, loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+
 import { formatDiagnostic, pluralize } from "../utils";
 
 export default defineCommand({

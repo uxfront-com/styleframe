@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
@@ -71,12 +72,7 @@ describe("popover contrast", () => {
 		expect(pairs).toHaveLength(9 * 2);
 	});
 
-	it.each(pairs)(
-		"popover/contrast $label has text of at least 4.5:1",
-		({ text, background }) => {
-			expect(wcagContrast(text, background)).toBeGreaterThanOrEqual(
-				MIN_TEXT_CONTRAST,
-			);
-		},
-	);
+	it.each(pairs)("popover/contrast $label has text of at least 4.5:1", ({ text, background }) => {
+		expect(wcagContrast(text, background)).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST);
+	});
 });

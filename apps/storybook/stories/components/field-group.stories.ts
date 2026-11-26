@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import FieldGroup from "../../src/components/components/field-group/FieldGroup.vue";
 import Button from "../../src/components/components/button/Button.vue";
+import FieldGroup from "../../src/components/components/field-group/FieldGroup.vue";
 import Input from "../../src/components/components/input/Input.vue";
 import Select from "../../src/components/components/select/Select.vue";
 

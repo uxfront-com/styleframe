@@ -1,9 +1,6 @@
 import type { Container, ModifierFactory, Root } from "../types";
 import { deepClone, generateRandomId } from "../utils";
-import {
-	createDeclarationsCallbackContext,
-	parseDeclarationsBlock,
-} from "./declarations";
+import { createDeclarationsCallbackContext, parseDeclarationsBlock } from "./declarations";
 
 export function applyModifiers<InstanceType extends Container>(
 	baseInstance: InstanceType,
@@ -49,12 +46,7 @@ export function applyModifiers<InstanceType extends Container>(
 		// Set accumulated result and parse nested selectors/at-rules into children
 		instance.declarations = accumulated;
 		const callbackContext = createDeclarationsCallbackContext(instance, root);
-		parseDeclarationsBlock(
-			instance.declarations,
-			callbackContext,
-			instance,
-			root,
-		);
+		parseDeclarationsBlock(instance.declarations, callbackContext, instance, root);
 	}
 
 	return instance;

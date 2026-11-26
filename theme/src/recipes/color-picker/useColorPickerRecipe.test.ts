@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useColorPickerRecipe } from "./useColorPickerRecipe";
 
 function createInstance() {
@@ -34,13 +35,7 @@ describe("useColorPickerRecipe", () => {
 			const s = createInstance();
 			const recipe = useColorPickerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 
 		it("should have correct size variant styles", () => {
@@ -81,9 +76,7 @@ describe("useColorPickerRecipe", () => {
 				.map((child) => (child as { query: string }).query);
 
 			expect(queries).toContain(".color-picker[data-disabled]");
-			expect(queries).toContain(
-				".color-picker[data-disabled] .color-picker-thumb",
-			);
+			expect(queries).toContain(".color-picker[data-disabled] .color-picker-thumb");
 		});
 	});
 

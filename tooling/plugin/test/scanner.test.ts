@@ -1,13 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
 import { styleframe } from "@styleframe/core";
-import type { PluginGlobalState } from "../src/plugin/state";
-import {
-	createPluginScanner,
-	isContentFile,
-	scanAndRegister,
-	scanFileAndRegister,
-} from "../src/plugin/scanner";
-import type { PluginScannerState } from "../src/plugin/scanner";
 import type {
 	UtilityMatch,
 	ParsedUtility,
@@ -15,10 +6,18 @@ import type {
 	ScanResult,
 	FileScanResult,
 } from "@styleframe/scanner";
+import { describe, expect, it, vi } from "vitest";
 
-function createMockState(
-	instance?: ReturnType<typeof styleframe>,
-): PluginGlobalState {
+import {
+	createPluginScanner,
+	isContentFile,
+	scanAndRegister,
+	scanFileAndRegister,
+} from "../src/plugin/scanner";
+import type { PluginScannerState } from "../src/plugin/scanner";
+import type { PluginGlobalState } from "../src/plugin/state";
+
+function createMockState(instance?: ReturnType<typeof styleframe>): PluginGlobalState {
 	return {
 		globalInstance: instance ?? null,
 		configFile: {
@@ -185,9 +184,7 @@ describe("scanner integration", () => {
 			const state = createMockState(s);
 			const factory = s.root.utilities.find((u) => u.name === "padding")!;
 
-			const parsed: Array<ParsedUtility> = [
-				createParsedUtility({ name: "padding", value: "sm" }),
-			];
+			const parsed: Array<ParsedUtility> = [createParsedUtility({ name: "padding", value: "sm" })];
 
 			const matches: Array<UtilityMatch> = [
 				{
@@ -223,9 +220,7 @@ describe("scanner integration", () => {
 			const state = createMockState(s);
 			const factory = s.root.utilities.find((u) => u.name === "padding")!;
 
-			const parsed: Array<ParsedUtility> = [
-				createParsedUtility({ name: "padding", value: "sm" }),
-			];
+			const parsed: Array<ParsedUtility> = [createParsedUtility({ name: "padding", value: "sm" })];
 
 			const unmatchedParsed = createParsedUtility({
 				name: "unknown",
@@ -321,11 +316,7 @@ describe("scanner integration", () => {
 			const state = createMockState();
 			const scannerState = createMockScannerState();
 
-			const result = await scanFileAndRegister(
-				state,
-				scannerState,
-				"/src/app.tsx",
-			);
+			const result = await scanFileAndRegister(state, scannerState, "/src/app.tsx");
 
 			expect(result).toBe(false);
 			expect(scannerState.scanner.invalidate).not.toHaveBeenCalled();
@@ -365,9 +356,7 @@ describe("scanner integration", () => {
 			const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
 			const filePath = "/src/app.tsx";
-			const parsed: Array<ParsedUtility> = [
-				createParsedUtility({ name: "margin", value: "lg" }),
-			];
+			const parsed: Array<ParsedUtility> = [createParsedUtility({ name: "margin", value: "lg" })];
 
 			const fileResult: FileScanResult = {
 				path: filePath,
@@ -407,9 +396,7 @@ describe("scanner integration", () => {
 			const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
 			const filePath = "/src/app.tsx";
-			const parsed: Array<ParsedUtility> = [
-				createParsedUtility({ name: "margin", value: "sm" }),
-			];
+			const parsed: Array<ParsedUtility> = [createParsedUtility({ name: "margin", value: "sm" })];
 
 			const fileResult: FileScanResult = {
 				path: filePath,

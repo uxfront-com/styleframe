@@ -40,9 +40,7 @@ const links = computed(() =>
 					<LanguageSelect />
 
 					<template #fallback>
-						<div
-							class="h-8 w-8 animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded-md"
-						/>
+						<div class="h-8 w-8 animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded-md" />
 					</template>
 				</ClientOnly>
 
@@ -53,9 +51,7 @@ const links = computed(() =>
 				<UColorModeButton />
 
 				<template #fallback>
-					<div
-						class="h-8 w-8 animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded-md"
-					/>
+					<div class="h-8 w-8 animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded-md" />
 				</template>
 			</ClientOnly>
 

@@ -39,8 +39,7 @@ export const useCheckboxRecipe = createUseRecipe(
 				sm: {
 					gap: "@0.375",
 					fontSize: "@font-size.xs",
-					paddingBlock:
-						"max(0px, calc((1.5rem - @font-size.xs * @line-height.normal) / 2))",
+					paddingBlock: "max(0px, calc((1.5rem - @font-size.xs * @line-height.normal) / 2))",
 					"&:before": {
 						top: "max(0px, calc((@font-size.xs * @line-height.normal - 1.5rem) / 2))",
 						insetInlineStart: "calc((0.875rem - 1.5rem) / 2)",
@@ -49,8 +48,7 @@ export const useCheckboxRecipe = createUseRecipe(
 				md: {
 					gap: "@0.5",
 					fontSize: "@font-size.sm",
-					paddingBlock:
-						"max(0px, calc((1.5rem - @font-size.sm * @line-height.normal) / 2))",
+					paddingBlock: "max(0px, calc((1.5rem - @font-size.sm * @line-height.normal) / 2))",
 					"&:before": {
 						top: "max(0px, calc((@font-size.sm * @line-height.normal - 1.5rem) / 2))",
 						insetInlineStart: "calc((1rem - 1.5rem) / 2)",
@@ -59,8 +57,7 @@ export const useCheckboxRecipe = createUseRecipe(
 				lg: {
 					gap: "@0.625",
 					fontSize: "@font-size.md",
-					paddingBlock:
-						"max(0px, calc((1.5rem - @font-size.md * @line-height.normal) / 2))",
+					paddingBlock: "max(0px, calc((1.5rem - @font-size.md * @line-height.normal) / 2))",
 					"&:before": {
 						top: "max(0px, calc((@font-size.md * @line-height.normal - 1.5rem) / 2))",
 						insetInlineStart: "calc((1.25rem - 1.5rem) / 2)",

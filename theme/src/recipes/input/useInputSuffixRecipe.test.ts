@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useInputSuffixRecipe } from "./useInputSuffixRecipe";
 
 function createInstance() {

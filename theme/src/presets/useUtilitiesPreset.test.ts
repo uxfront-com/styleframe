@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useDesignTokensPreset } from "./useDesignTokensPreset";
 import { useUtilitiesPreset } from "./useUtilitiesPreset";
 
@@ -10,9 +11,7 @@ describe("useUtilitiesPreset", () => {
 		const utilities = useUtilitiesPreset(s);
 
 		expect(utilities.createPositionTryFallbacksUtility).toBeTypeOf("function");
-		expect(consumeCSS(s.root, s.options)).not.toContain(
-			"position-try-fallbacks:",
-		);
+		expect(consumeCSS(s.root, s.options)).not.toContain("position-try-fallbacks:");
 	});
 
 	it("should emit configured position-try-fallbacks values", () => {

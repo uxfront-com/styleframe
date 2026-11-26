@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import CheckboxGroup from "@/components/components/checkbox/CheckboxGroup.vue";
 import Checkbox from "@/components/components/checkbox/Checkbox.vue";
+import CheckboxGroup from "@/components/components/checkbox/CheckboxGroup.vue";
 import CheckboxGroupGrid from "@/components/components/checkbox/preview/CheckboxGroupGrid.vue";
 
 const orientations = ["vertical", "horizontal"] as const;
@@ -41,8 +41,7 @@ const meta = {
 		size: {
 			control: "select",
 			options: sizes,
-			description:
-				"The gap between checkboxes, the legend's size and the select-all indent",
+			description: "The gap between checkboxes, the legend's size and the select-all indent",
 		},
 		legend: {
 			control: "text",

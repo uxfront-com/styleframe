@@ -274,8 +274,7 @@ function page(c: {
 export const styleframePage = page({
 	body: "_background:background _display:flex _flex-direction:column _gap:lg _padding:xl _max-width:2xl",
 	header: "_display:flex _flex-direction:column _gap:xs _margin-bottom:sm",
-	breadcrumb:
-		"_display:flex _align-items:center _gap:xs _font-size:sm _color:text-weak",
+	breadcrumb: "_display:flex _align-items:center _gap:xs _font-size:sm _color:text-weak",
 	breadcrumbSep: "_color:neutral-200",
 	breadcrumbActive: "_color:text _font-weight:medium",
 	pageTitle: "_font-size:lg _font-weight:bold _color:text",
@@ -289,10 +288,8 @@ export const styleframePage = page({
 	sectionDesc: "_font-size:sm _color:text-weak _line-height:normal",
 	profileHeader: "_display:flex _align-items:center _gap:lg _padding-bottom:md",
 	avatar: "_display:flex _align-items:center _gap:md",
-	avatarPlaceholder:
-		"_width:2xl _height:2xl _border-radius:full _background:primary-100",
-	avatarLabel:
-		"_font-size:sm _color:primary _font-weight:medium _cursor:pointer",
+	avatarPlaceholder: "_width:2xl _height:2xl _border-radius:full _background:primary-100",
+	avatarLabel: "_font-size:sm _color:primary _font-weight:medium _cursor:pointer",
 	card: "_background:white _border-radius:lg _padding:lg _border-width:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:lg",
 	formGroup: "_display:flex _flex-direction:column _gap:lg",
 	formRow: "_display:flex _flex-direction:column _gap:xs",
@@ -308,24 +305,19 @@ export const styleframePage = page({
 	btnOutline:
 		"_display:inline-flex _align-items:center _justify-content:center _background:transparent _color:primary _font-size:sm _font-weight:medium _padding-inline:lg _padding-block:sm _border-radius:md _border-width:thin _border-style:solid _border-color:primary _cursor:pointer",
 	toggleList: "_display:flex _flex-direction:column _gap:md",
-	toggleRow:
-		"_display:flex _align-items:center _justify-content:between _gap:lg",
+	toggleRow: "_display:flex _align-items:center _justify-content:between _gap:lg",
 	toggleInfo: "_display:flex _flex-direction:column _gap:xs",
 	toggleLabel: "_font-size:sm _font-weight:medium _color:text",
 	toggleDesc: "_font-size:xs _color:text-weak _line-height:normal",
-	toggleSwitch:
-		"_width:xl _height:md _border-radius:full _background:neutral-200 _cursor:pointer",
-	toggleSwitchOn:
-		"_width:xl _height:md _border-radius:full _background:primary _cursor:pointer",
+	toggleSwitch: "_width:xl _height:md _border-radius:full _background:neutral-200 _cursor:pointer",
+	toggleSwitchOn: "_width:xl _height:md _border-radius:full _background:primary _cursor:pointer",
 	securityGrid: "_display:flex _flex-direction:column _gap:lg",
 	securityFieldGroup: "_display:flex _flex-direction:column _gap:xs",
-	twoFaRow:
-		"_display:flex _align-items:center _justify-content:between _gap:lg",
+	twoFaRow: "_display:flex _align-items:center _justify-content:between _gap:lg",
 	twoFaLabel: "_font-size:sm _font-weight:medium _color:text",
 	twoFaBadge:
 		"_display:inline-flex _font-size:xs _font-weight:medium _padding-inline:sm _padding-block:xs _border-radius:full _background:neutral-100 _color:neutral-700",
-	sessionsTitle:
-		"_font-size:md _font-weight:semibold _color:text _margin-bottom:sm",
+	sessionsTitle: "_font-size:md _font-weight:semibold _color:text _margin-bottom:sm",
 	table:
 		"_width:full _border-style:solid _border-width:thin _border-color:neutral-200 _border-radius:lg _overflow:hidden",
 	tableHeader:
@@ -342,8 +334,7 @@ export const styleframePage = page({
 	dangerText: "_font-size:sm _color:text _line-height:normal",
 	btnDanger:
 		"_display:inline-flex _align-items:center _justify-content:center _background:error _color:white _font-size:sm _font-weight:medium _padding-inline:lg _padding-block:sm _border-radius:md _border-style:none _cursor:pointer",
-	divider:
-		"_border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid",
+	divider: "_border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid",
 });
 
 // ---------------------------------------------------------------------------
@@ -412,8 +403,7 @@ export const styleframeShorthandPage = page({
 	dangerText: "_text:sm _color:text _leading:normal",
 	btnDanger:
 		"_display:inline-flex _items:center _justify:center _bg:error _color:white _text:sm _font:medium _px:lg _py:sm _rounded:md _border-style:none _cursor:pointer",
-	divider:
-		"_border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid",
+	divider: "_border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid",
 });
 
 // ---------------------------------------------------------------------------
@@ -442,10 +432,8 @@ export const tailwindPage = page({
 	formGroup: "flex flex-col gap-lg",
 	formRow: "flex flex-col gap-xs",
 	formLabel: "text-sm font-medium text-text",
-	formInput:
-		"px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
-	formTextarea:
-		"px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white h-2xl",
+	formInput: "px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
+	formTextarea: "px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white h-2xl",
 	formHelp: "text-xs text-text-weak",
 	formActions: "flex gap-sm",
 	btnPrimary:
@@ -474,8 +462,7 @@ export const tailwindPage = page({
 	tableCellBold: "px-lg py-md text-sm font-medium text-text",
 	btnSmOutline:
 		"inline-flex items-center justify-center bg-transparent text-text-weak text-xs font-medium px-sm py-xs rounded-md border border-neutral-200 cursor-pointer",
-	dangerCard:
-		"bg-error-50 rounded-lg p-lg border border-error flex flex-col gap-md",
+	dangerCard: "bg-error-50 rounded-lg p-lg border border-error flex flex-col gap-md",
 	dangerTitle: "text-lg font-bold text-error-700",
 	dangerText: "text-sm text-text leading-normal",
 	btnDanger:

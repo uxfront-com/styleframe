@@ -1,14 +1,13 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+
 import { createViteConfig } from "@styleframe/config-vite";
 import { VitePluginNode } from "vite-plugin-node";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
 function readPackageJson(packageDir: string) {
-	return JSON.parse(
-		readFileSync(resolve(__dirname, packageDir, "package.json"), "utf8"),
-	);
+	return JSON.parse(readFileSync(resolve(__dirname, packageDir, "package.json"), "utf8"));
 }
 
 function getMajorVersionRange(packageDir: string): string {
@@ -30,9 +29,7 @@ export default createViteConfig("cli", __dirname, {
 				"@styleframe/loader": getMajorVersionRange("../../engine/loader"),
 				"@styleframe/plugin": getMajorVersionRange("../plugin"),
 				"@styleframe/theme": getMajorVersionRange("../../theme"),
-				"@styleframe/transpiler": getMajorVersionRange(
-					"../../engine/transpiler",
-				),
+				"@styleframe/transpiler": getMajorVersionRange("../../engine/transpiler"),
 			},
 			dependencies: {
 				"@styleframe/runtime": getMajorVersionRange("../../engine/runtime"),

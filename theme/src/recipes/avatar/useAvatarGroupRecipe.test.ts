@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useAvatarGroupRecipe } from "./useAvatarGroupRecipe";
 
@@ -48,13 +49,7 @@ describe("useAvatarGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useAvatarGroupRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 	});
 

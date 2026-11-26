@@ -1,4 +1,5 @@
 import type { MaybeRefOrGetter } from "vue";
+
 import { SITE_NAME } from "~/data/site";
 
 export interface DocsHeadOptions {
@@ -42,10 +43,7 @@ export function useDocsHead(options: DocsHeadOptions) {
 		link: [{ rel: "canonical", href: url }],
 		script: computed(() => {
 			const page = { siteUrl, siteName: SITE_NAME, url, title, description };
-			const breadcrumbs = breadcrumbList(
-				siteUrl,
-				toValue(options.breadcrumbs) ?? [],
-			);
+			const breadcrumbs = breadcrumbList(siteUrl, toValue(options.breadcrumbs) ?? []);
 			return [
 				options.type === "article"
 					? techArticle({

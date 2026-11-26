@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import ToggleGroup from "@/components/components/toggle/ToggleGroup.vue";
-import Toggle from "@/components/components/toggle/Toggle.vue";
 import FieldGroup from "@/components/components/field-group/FieldGroup.vue";
-import ToggleGroupGrid from "@/components/components/toggle/preview/ToggleGroupGrid.vue";
 import ToggleCustomGrid from "@/components/components/toggle/preview/ToggleCustomGrid.vue";
+import ToggleGroupGrid from "@/components/components/toggle/preview/ToggleGroupGrid.vue";
+import Toggle from "@/components/components/toggle/Toggle.vue";
+import ToggleGroup from "@/components/components/toggle/ToggleGroup.vue";
 
 const orientations = ["horizontal", "vertical"] as const;
 const sizes = ["sm", "md", "lg"] as const;

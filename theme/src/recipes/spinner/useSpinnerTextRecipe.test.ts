@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useSpinnerTextRecipe } from "./useSpinnerTextRecipe";
 
 function createInstance() {
@@ -51,13 +52,7 @@ describe("useSpinnerTextRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerTextRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"auto",
-				"sm",
-				"md",
-				"lg",
-				"inherit",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["auto", "sm", "md", "lg", "inherit"]);
 		});
 
 		it("should have correct size variant styles", () => {

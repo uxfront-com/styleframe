@@ -70,11 +70,7 @@ async function onSubmit() {
 			</label>
 			<button type="submit">Join Waitlist</button>
 		</div>
-		<p
-			class="site-waitlist__message"
-			:class="{ 'is-error': message?.error }"
-			role="status"
-		>
+		<p class="site-waitlist__message" :class="{ 'is-error': message?.error }" role="status">
 			{{ message?.text }}
 		</p>
 	</form>

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genInlineAtRule } from "./genInlineAtRule";
 
 describe("genInlineAtRule", () => {
@@ -13,18 +14,12 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should generate a namespace rule", () => {
-		const result = genInlineAtRule(
-			"namespace",
-			"url(http://www.w3.org/1999/xhtml)",
-		);
+		const result = genInlineAtRule("namespace", "url(http://www.w3.org/1999/xhtml)");
 		expect(result).toBe("@namespace url(http://www.w3.org/1999/xhtml);");
 	});
 
 	it("should generate a namespace rule with prefix", () => {
-		const result = genInlineAtRule(
-			"namespace",
-			"svg url(http://www.w3.org/2000/svg)",
-		);
+		const result = genInlineAtRule("namespace", "svg url(http://www.w3.org/2000/svg)");
 		expect(result).toBe("@namespace svg url(http://www.w3.org/2000/svg);");
 	});
 
@@ -34,28 +29,17 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should generate an import rule with complex media query", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('mobile.css') screen and (max-width: 768px)",
-		);
-		expect(result).toBe(
-			"@import url('mobile.css') screen and (max-width: 768px);",
-		);
+		const result = genInlineAtRule("import", "url('mobile.css') screen and (max-width: 768px)");
+		expect(result).toBe("@import url('mobile.css') screen and (max-width: 768px);");
 	});
 
 	it("should generate an import rule with supports condition", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('grid.css') supports(display: grid)",
-		);
+		const result = genInlineAtRule("import", "url('grid.css') supports(display: grid)");
 		expect(result).toBe("@import url('grid.css') supports(display: grid);");
 	});
 
 	it("should generate an import rule with layer", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('utilities.css') layer(utilities)",
-		);
+		const result = genInlineAtRule("import", "url('utilities.css') layer(utilities)");
 		expect(result).toBe("@import url('utilities.css') layer(utilities);");
 	});
 
@@ -75,26 +59,17 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should handle import with HTTP URL", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('http://example.com/style.css')",
-		);
+		const result = genInlineAtRule("import", "url('http://example.com/style.css')");
 		expect(result).toBe("@import url('http://example.com/style.css');");
 	});
 
 	it("should handle import with HTTPS URL", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('https://fonts.googleapis.com/css')",
-		);
+		const result = genInlineAtRule("import", "url('https://fonts.googleapis.com/css')");
 		expect(result).toBe("@import url('https://fonts.googleapis.com/css');");
 	});
 
 	it("should handle import with data URI", () => {
-		const result = genInlineAtRule(
-			"import",
-			"url('data:text/css,body{margin:0}')",
-		);
+		const result = genInlineAtRule("import", "url('data:text/css,body{margin:0}')");
 		expect(result).toBe("@import url('data:text/css,body{margin:0}');");
 	});
 
@@ -104,21 +79,13 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should handle namespace with default namespace", () => {
-		const result = genInlineAtRule(
-			"namespace",
-			"url(http://www.w3.org/1999/xhtml)",
-		);
+		const result = genInlineAtRule("namespace", "url(http://www.w3.org/1999/xhtml)");
 		expect(result).toBe("@namespace url(http://www.w3.org/1999/xhtml);");
 	});
 
 	it("should handle namespace with XML namespace", () => {
-		const result = genInlineAtRule(
-			"namespace",
-			"xml url(http://www.w3.org/XML/1998/namespace)",
-		);
-		expect(result).toBe(
-			"@namespace xml url(http://www.w3.org/XML/1998/namespace);",
-		);
+		const result = genInlineAtRule("namespace", "xml url(http://www.w3.org/XML/1998/namespace)");
+		expect(result).toBe("@namespace xml url(http://www.w3.org/XML/1998/namespace);");
 	});
 
 	it("should handle empty rule string", () => {
@@ -171,9 +138,7 @@ describe("genInlineAtRule", () => {
 			"import",
 			"url('modern.css') supports((display: grid) and (gap: 1rem))",
 		);
-		expect(result).toBe(
-			"@import url('modern.css') supports((display: grid) and (gap: 1rem));",
-		);
+		expect(result).toBe("@import url('modern.css') supports((display: grid) and (gap: 1rem));");
 	});
 
 	it("should handle import with layer and supports", () => {
@@ -181,9 +146,7 @@ describe("genInlineAtRule", () => {
 			"import",
 			"url('framework.css') layer(framework) supports(display: flex)",
 		);
-		expect(result).toBe(
-			"@import url('framework.css') layer(framework) supports(display: flex);",
-		);
+		expect(result).toBe("@import url('framework.css') layer(framework) supports(display: flex);");
 	});
 
 	it("should preserve exact spacing in complex rules", () => {
@@ -191,9 +154,7 @@ describe("genInlineAtRule", () => {
 			"import",
 			"url('responsive.css')  screen  and  (min-width: 768px)",
 		);
-		expect(result).toBe(
-			"@import url('responsive.css')  screen  and  (min-width: 768px);",
-		);
+		expect(result).toBe("@import url('responsive.css')  screen  and  (min-width: 768px);");
 	});
 
 	it("should handle import with query parameters in URL", () => {
@@ -217,10 +178,7 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should handle namespace with custom prefix", () => {
-		const result = genInlineAtRule(
-			"namespace",
-			"custom url(http://custom.namespace.com)",
-		);
+		const result = genInlineAtRule("namespace", "custom url(http://custom.namespace.com)");
 		expect(result).toBe("@namespace custom url(http://custom.namespace.com);");
 	});
 
@@ -229,9 +187,7 @@ describe("genInlineAtRule", () => {
 			"import",
 			"url('data:text/css;base64,Ym9keSB7IG1hcmdpbjogMDsgfQ==')",
 		);
-		expect(result).toBe(
-			"@import url('data:text/css;base64,Ym9keSB7IG1hcmdpbjogMDsgfQ==');",
-		);
+		expect(result).toBe("@import url('data:text/css;base64,Ym9keSB7IG1hcmdpbjogMDsgfQ==');");
 	});
 
 	it("should handle import with UTF-8 encoded data URI", () => {
@@ -285,10 +241,7 @@ describe("genInlineAtRule", () => {
 	});
 
 	it("should handle import with media feature queries", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'dark.css' (prefers-color-scheme: dark)",
-		);
+		const result = genInlineAtRule("import", "'dark.css' (prefers-color-scheme: dark)");
 		expect(result).toBe("@import 'dark.css' (prefers-color-scheme: dark);");
 	});
 
@@ -297,50 +250,31 @@ describe("genInlineAtRule", () => {
 			"import",
 			"'animations.css' (prefers-reduced-motion: no-preference)",
 		);
-		expect(result).toBe(
-			"@import 'animations.css' (prefers-reduced-motion: no-preference);",
-		);
+		expect(result).toBe("@import 'animations.css' (prefers-reduced-motion: no-preference);");
 	});
 
 	it("should handle import with high contrast query", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'high-contrast.css' (prefers-contrast: high)",
-		);
-		expect(result).toBe(
-			"@import 'high-contrast.css' (prefers-contrast: high);",
-		);
+		const result = genInlineAtRule("import", "'high-contrast.css' (prefers-contrast: high)");
+		expect(result).toBe("@import 'high-contrast.css' (prefers-contrast: high);");
 	});
 
 	it("should handle import with orientation query", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'landscape.css' (orientation: landscape)",
-		);
+		const result = genInlineAtRule("import", "'landscape.css' (orientation: landscape)");
 		expect(result).toBe("@import 'landscape.css' (orientation: landscape);");
 	});
 
 	it("should handle import with aspect ratio query", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'wide.css' (min-aspect-ratio: 16/9)",
-		);
+		const result = genInlineAtRule("import", "'wide.css' (min-aspect-ratio: 16/9)");
 		expect(result).toBe("@import 'wide.css' (min-aspect-ratio: 16/9);");
 	});
 
 	it("should handle import with resolution query", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'retina.css' (min-resolution: 2dppx)",
-		);
+		const result = genInlineAtRule("import", "'retina.css' (min-resolution: 2dppx)");
 		expect(result).toBe("@import 'retina.css' (min-resolution: 2dppx);");
 	});
 
 	it("should handle import with not operator", () => {
-		const result = genInlineAtRule(
-			"import",
-			"'desktop.css' not (max-width: 768px)",
-		);
+		const result = genInlineAtRule("import", "'desktop.css' not (max-width: 768px)");
 		expect(result).toBe("@import 'desktop.css' not (max-width: 768px);");
 	});
 

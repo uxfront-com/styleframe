@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useToastTitleRecipe } from "./useToastTitleRecipe";
 
 function createInstance() {

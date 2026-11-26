@@ -1,7 +1,9 @@
 import path from "node:path";
-import type { NuxtModule } from "@nuxt/schema";
+
 import { addVitePlugin, addWebpackPlugin, defineNuxtModule } from "@nuxt/kit";
+import type { NuxtModule } from "@nuxt/schema";
 import { DTS_TYPES_FILENAME } from "@styleframe/transpiler";
+
 import type { Options } from "./plugin";
 import { DEFAULT_DTS_OUT_DIR, VIRTUAL_TS_MODULE_ID } from "./plugin/constants";
 import vite from "./vite";
@@ -31,11 +33,7 @@ export default defineNuxtModule<ModuleOptions>({
 		}
 
 		const outDir = options.dts?.outDir ?? DEFAULT_DTS_OUT_DIR;
-		const typesPath = path.resolve(
-			nuxt.options.rootDir,
-			outDir,
-			DTS_TYPES_FILENAME,
-		);
+		const typesPath = path.resolve(nuxt.options.rootDir, outDir, DTS_TYPES_FILENAME);
 
 		nuxt.hook("prepare:types", ({ tsConfig }) => {
 			tsConfig.compilerOptions ??= {};

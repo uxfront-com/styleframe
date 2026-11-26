@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import build from "../src/commands/build";
 
 const __dirname = new URL(".", import.meta.url).pathname;

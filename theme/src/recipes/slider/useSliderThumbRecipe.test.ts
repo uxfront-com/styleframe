@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { usePseudoStateModifiers } from "../../modifiers/usePseudoStateModifiers";
 import { useSliderThumbRecipe } from "./useSliderThumbRecipe";
@@ -132,9 +133,7 @@ describe("useSliderThumbRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderThumbRecipe(s);
 
-			const primary = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "primary",
-			);
+			const primary = recipe.compoundVariants!.find((cv) => cv.match.color === "primary");
 
 			expect(primary).toEqual({
 				match: { color: "primary" },
@@ -148,9 +147,7 @@ describe("useSliderThumbRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderThumbRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -194,9 +191,7 @@ describe("useSliderThumbRecipe", () => {
 			});
 
 			expect(recipe.compoundVariants).toHaveLength(1);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "primary"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "primary")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {

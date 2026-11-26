@@ -1,10 +1,8 @@
 import { describe, expect, it } from "vitest";
+
 import { ValidationError } from "../../src/parse/errors";
 import { resolve } from "../../src/resolver/resolve";
-import type {
-	DTCGFileLoader,
-	DTCGResolverDocument,
-} from "../../src/types/resolver";
+import type { DTCGFileLoader, DTCGResolverDocument } from "../../src/types/resolver";
 
 function loaderFor(map: Record<string, unknown>): DTCGFileLoader {
 	return async (ref) => {
@@ -44,9 +42,9 @@ describe("resolve", () => {
 			},
 		});
 		const out = await resolve(doc, {}, loader);
-		expect(
-			(out.color as unknown as Record<string, any>).primary.$value.components,
-		).toEqual([0, 1, 0]);
+		expect((out.color as unknown as Record<string, any>).primary.$value.components).toEqual([
+			0, 1, 0,
+		]);
 	});
 
 	it("applies a modifier with explicit input", async () => {
@@ -83,9 +81,7 @@ describe("resolve", () => {
 			},
 		});
 		const out = await resolve(doc, { theme: "dark" }, loader);
-		expect(
-			(out.color as unknown as Record<string, any>).bg.$value.components,
-		).toEqual([0, 0, 0]);
+		expect((out.color as unknown as Record<string, any>).bg.$value.components).toEqual([0, 0, 0]);
 	});
 
 	it("uses modifier default when input is missing", async () => {
@@ -118,9 +114,7 @@ describe("resolve", () => {
 			},
 			resolutionOrder: [{ $ref: "#/modifiers/theme" }],
 		};
-		await expect(resolve(doc, {}, loaderFor({}))).rejects.toThrow(
-			ValidationError,
-		);
+		await expect(resolve(doc, {}, loaderFor({}))).rejects.toThrow(ValidationError);
 	});
 
 	it("throws on unknown modifier in inputs", async () => {
@@ -129,9 +123,7 @@ describe("resolve", () => {
 			modifiers: { theme: { contexts: { a: [] }, default: "a" } },
 			resolutionOrder: [{ $ref: "#/modifiers/theme" }],
 		};
-		await expect(resolve(doc, { unknown: "x" }, loaderFor({}))).rejects.toThrow(
-			ValidationError,
-		);
+		await expect(resolve(doc, { unknown: "x" }, loaderFor({}))).rejects.toThrow(ValidationError);
 	});
 
 	it("throws on unknown context value", async () => {
@@ -140,9 +132,9 @@ describe("resolve", () => {
 			modifiers: { theme: { contexts: { light: [], dark: [] } } },
 			resolutionOrder: [{ $ref: "#/modifiers/theme" }],
 		};
-		await expect(
-			resolve(doc, { theme: "frosted" }, loaderFor({})),
-		).rejects.toThrow(ValidationError);
+		await expect(resolve(doc, { theme: "frosted" }, loaderFor({}))).rejects.toThrow(
+			ValidationError,
+		);
 	});
 
 	it("resolves aliases after merging", async () => {
@@ -167,12 +159,10 @@ describe("resolve", () => {
 			},
 		});
 		const out = await resolve(doc, {}, loader);
-		expect((out.color as unknown as Record<string, any>).danger.$value).toEqual(
-			{
-				colorSpace: "srgb",
-				components: [1, 0, 0],
-			},
-		);
+		expect((out.color as unknown as Record<string, any>).danger.$value).toEqual({
+			colorSpace: "srgb",
+			components: [1, 0, 0],
+		});
 	});
 
 	it("supports inline tokens via inline source objects", async () => {
@@ -180,12 +170,7 @@ describe("resolve", () => {
 			version: "2025.10",
 			sets: {
 				base: {
-					sources: [
-						{ x: { $type: "number", $value: 1 } } as unknown as Record<
-							string,
-							any
-						>,
-					],
+					sources: [{ x: { $type: "number", $value: 1 } } as unknown as Record<string, any>],
 				},
 			},
 			resolutionOrder: [{ $ref: "#/sets/base" }],

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import RadioGroup from "@/components/components/radio/RadioGroup.vue";
-import Radio from "@/components/components/radio/Radio.vue";
 import RadioGroupGrid from "@/components/components/radio/preview/RadioGroupGrid.vue";
+import Radio from "@/components/components/radio/Radio.vue";
+import RadioGroup from "@/components/components/radio/RadioGroup.vue";
 
 const orientations = ["vertical", "horizontal"] as const;
 const sizes = ["sm", "md", "lg"] as const;

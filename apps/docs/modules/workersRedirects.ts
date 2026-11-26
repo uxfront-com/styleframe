@@ -1,7 +1,8 @@
-import { defineNuxtModule } from "@nuxt/kit";
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+
+import { defineNuxtModule } from "@nuxt/kit";
 
 /** Removes the rules that answer with a 404, and keeps the rest in order. */
 export function dropNotFoundRedirects(redirects: string): string {
@@ -63,9 +64,7 @@ export const MAX_HEADER_RULES = 100;
 
 /** Counts the rules in a `_headers` file: each starts with a path or a URL. */
 export function countHeaderRules(headers: string): number {
-	return headers
-		.split("\n")
-		.filter((line) => /^(\S+:\/\/|\/)/.test(line.trim())).length;
+	return headers.split("\n").filter((line) => /^(\S+:\/\/|\/)/.test(line.trim())).length;
 }
 
 /**
@@ -112,17 +111,11 @@ export default defineNuxtModule({
 				const redirectsFile = join(nitro.options.output.dir, "_redirects");
 				if (existsSync(redirectsFile)) {
 					const redirects = await readFile(redirectsFile, "utf8");
-					await writeFile(
-						redirectsFile,
-						dropNotFoundRedirects(redirects),
-						"utf8",
-					);
+					await writeFile(redirectsFile, dropNotFoundRedirects(redirects), "utf8");
 				}
 
 				const headersFile = join(nitro.options.output.dir, "_headers");
-				const headers = existsSync(headersFile)
-					? await readFile(headersFile, "utf8")
-					: "";
+				const headers = existsSync(headersFile) ? await readFile(headersFile, "utf8") : "";
 				await writeFile(headersFile, addHostRules(headers), "utf8");
 			});
 		});

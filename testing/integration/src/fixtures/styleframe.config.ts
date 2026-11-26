@@ -1,4 +1,3 @@
-import { styleframe } from "styleframe";
 import {
 	createMultiplierAutogenerate,
 	useBadgeRecipe,
@@ -6,6 +5,7 @@ import {
 	useModifiersPreset,
 	useUtilitiesPreset,
 } from "@styleframe/theme";
+import { styleframe } from "styleframe";
 
 const s = styleframe();
 

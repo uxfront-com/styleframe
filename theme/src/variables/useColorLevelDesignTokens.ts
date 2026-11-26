@@ -39,12 +39,6 @@ export const useColorLevelDesignTokens = createUseDerivedVariable({
 			return s.ref(parent);
 		}
 
-		return computeLightnessColor(
-			parsed.l,
-			parsed.c,
-			parsed.h,
-			parsed.alpha,
-			value,
-		);
+		return computeLightnessColor(parsed.l, parsed.c, parsed.h, parsed.alpha, value);
 	},
 });

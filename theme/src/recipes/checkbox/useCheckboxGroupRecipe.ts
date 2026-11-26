@@ -121,10 +121,9 @@ export const useCheckboxGroupRecipe = createUseRecipe(
 			["md", "1rem", 0.5],
 			["lg", "1.25rem", 0.625],
 		] as const) {
-			selector(
-				`.checkbox-group.-size-${size} > [data-slot="select-all"] + [data-slot="options"]`,
-				{ paddingInlineStart: css`calc(${box} + ${ref("spacing")} * ${gap})` },
-			);
+			selector(`.checkbox-group.-size-${size} > [data-slot="select-all"] + [data-slot="options"]`, {
+				paddingInlineStart: css`calc(${box} + ${ref("spacing")} * ${gap})`,
+			});
 		}
 
 		selector(".checkbox-group:disabled > legend", {
@@ -135,23 +134,17 @@ export const useCheckboxGroupRecipe = createUseRecipe(
 			},
 		});
 
-		selector(
-			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field',
-			{
-				borderColor: "@color.error",
-				boxShadow: "inset 0 0 0 1px @color.error",
-			},
-		);
+		selector('.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field', {
+			borderColor: "@color.error",
+			boxShadow: "inset 0 0 0 1px @color.error",
+		});
 
 		// The invalid border outranks the box's own forced colors disabled
 		// border, so a disabled box keeps its `GrayText` border here.
-		selector(
-			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field:disabled',
-			{
-				"@media (forced-colors: active)": {
-					borderColor: "GrayText",
-				},
+		selector('.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field:disabled', {
+			"@media (forced-colors: active)": {
+				borderColor: "GrayText",
 			},
-		);
+		});
 	},
 );

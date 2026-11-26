@@ -2,7 +2,9 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+
 import { afterAll, describe, expect, it } from "vitest";
+
 import { parseGitLog, readGitDates } from "../modules/gitDates";
 
 describe("parseGitLog", () => {

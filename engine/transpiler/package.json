@@ -2,16 +2,32 @@
 	"name": "@styleframe/transpiler",
 	"version": "3.5.1",
 	"keywords": [
-		"styleframe",
 		"css",
+		"design-tokens",
+		"styleframe",
 		"transpiler",
-		"typescript",
-		"design-tokens"
+		"typescript"
+	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/transpiler"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
 	],
 	"type": "module",
-	"types": "./dist/index.d.ts",
-	"module": "./dist/transpiler.js",
 	"main": "./dist/transpiler.umd.cjs",
+	"module": "./dist/transpiler.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -24,12 +40,6 @@
 			}
 		}
 	},
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"dev": "vite build --watch",
 		"build": "pnpm typecheck && vite build",
@@ -40,10 +50,6 @@
 	"dependencies": {
 		"scule": "catalog:"
 	},
-	"peerDependencies": {
-		"@styleframe/core": "workspace:^",
-		"@styleframe/license": "catalog:"
-	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/config-vite": "workspace:^3.1.2",
@@ -51,18 +57,12 @@
 		"@styleframe/license": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
-		"vite": "catalog:",
 		"unplugin-dts": "catalog:",
+		"vite": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "engine/transpiler"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	"peerDependencies": {
+		"@styleframe/core": "workspace:^",
+		"@styleframe/license": "catalog:"
+	}
 }

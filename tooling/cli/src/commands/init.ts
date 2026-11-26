@@ -1,11 +1,13 @@
-import consola from "consola";
-import { defineCommand } from "citty";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileExists, parseJsonc } from "../utils";
-import { initializeViteFrameworkFile } from "./init/vite";
-import { initializeNuxtFrameworkFile } from "./init/nuxt";
+
+import { defineCommand } from "citty";
+import consola from "consola";
+
 import { DOCS_INSTALLATION_CUSTOM_URL } from "../constants";
+import { fileExists, parseJsonc } from "../utils";
+import { initializeNuxtFrameworkFile } from "./init/nuxt";
+import { initializeViteFrameworkFile } from "./init/vite";
 
 const styleframeConfigTemplate = `import { styleframe } from "styleframe";
 
@@ -23,11 +25,7 @@ const styleframePaths: Record<string, Array<string>> = {
 	[VIRTUAL_STYLEFRAME_MODULE]: [STYLEFRAME_TYPES_PATH],
 };
 
-const styleframeIncludes = [
-	"styleframe.config.ts",
-	"*.styleframe.ts",
-	".styleframe/**/*.d.ts",
-];
+const styleframeIncludes = ["styleframe.config.ts", "*.styleframe.ts", ".styleframe/**/*.d.ts"];
 
 interface TsConfigOptions {
 	/**
@@ -89,9 +87,7 @@ export async function initializeConfigFile(cwd: string) {
 	const styleframeConfigPath = path.join(cwd, "styleframe.config.ts");
 
 	if (await fileExists(styleframeConfigPath)) {
-		consola.warn(
-			`Skipped creating "styleframe.config.ts" because it already exists.`,
-		);
+		consola.warn(`Skipped creating "styleframe.config.ts" because it already exists.`);
 	} else {
 		await writeFile(styleframeConfigPath, styleframeConfigTemplate);
 		consola.success(`Created "styleframe.config.ts".`);
@@ -105,10 +101,7 @@ export async function initializeConfigFile(cwd: string) {
  * user's own override is never clobbered).
  */
 function addStyleframePaths(config: Record<string, unknown>): boolean {
-	const compilerOptions = (config.compilerOptions ??= {}) as Record<
-		string,
-		unknown
-	>;
+	const compilerOptions = (config.compilerOptions ??= {}) as Record<string, unknown>;
 	const paths = (compilerOptions.paths ??= {}) as Record<string, unknown>;
 
 	if (VIRTUAL_STYLEFRAME_MODULE in paths) {
@@ -119,16 +112,14 @@ function addStyleframePaths(config: Record<string, unknown>): boolean {
 	return true;
 }
 
-export async function initializeTsConfig(
-	cwd: string,
-	options: TsConfigOptions,
-) {
+export async function initializeTsConfig(cwd: string, options: TsConfigOptions) {
 	const tsconfigPath = path.join(cwd, "tsconfig.json");
 
 	if (await fileExists(tsconfigPath)) {
-		const existingConfig = parseJsonc(
-			await readFile(tsconfigPath, "utf8"),
-		) as Record<string, unknown>;
+		const existingConfig = parseJsonc(await readFile(tsconfigPath, "utf8")) as Record<
+			string,
+			unknown
+		>;
 
 		const added: Array<string> = [];
 
@@ -156,10 +147,7 @@ export async function initializeTsConfig(
 			consola.success(`Added ${added.join(", ")} to tsconfig.json.`);
 		}
 	} else {
-		await writeFile(
-			tsconfigPath,
-			JSON.stringify(buildTsconfigTemplate(options), null, "\t"),
-		);
+		await writeFile(tsconfigPath, JSON.stringify(buildTsconfigTemplate(options), null, "\t"));
 		consola.success(`Created "tsconfig.json".`);
 	}
 }
@@ -172,10 +160,7 @@ export async function addPackageJsonDependencies(cwd: string) {
 		if (!packageJson.devDependencies) {
 			packageJson.devDependencies = {};
 		}
-		Object.assign(
-			packageJson.devDependencies,
-			__INIT_VERSIONS__.devDependencies,
-		);
+		Object.assign(packageJson.devDependencies, __INIT_VERSIONS__.devDependencies);
 
 		if (!packageJson.dependencies) {
 			packageJson.dependencies = {};

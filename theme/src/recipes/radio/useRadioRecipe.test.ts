@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";

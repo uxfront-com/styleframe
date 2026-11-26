@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useBlurUtility,
 	useBrightnessUtility,
@@ -204,9 +205,7 @@ describe("useDropShadowUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain(String.raw`._drop-shadow\:sm {`);
-		expect(css).toContain(
-			"--filter-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));",
-		);
+		expect(css).toContain("--filter-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));");
 	});
 
 	it("should handle empty values object", () => {

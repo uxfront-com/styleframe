@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { spacingValues } from "@styleframe/theme";
+
 import SpacingSwatch from "../../src/components/design-tokens/spacing/SpacingSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 

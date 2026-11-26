@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useGapUtility, useGapXUtility, useGapYUtility } from "./useGapUtility";
 
 describe("useGapUtility", () => {
@@ -8,9 +9,7 @@ describe("useGapUtility", () => {
 		const s = styleframe();
 		useGapUtility(s, { "0": "0", "4": "1rem" });
 
-		const utilities = s.root.children.filter(
-			(u): u is Utility => isUtility(u) && u.name === "gap",
-		);
+		const utilities = s.root.children.filter((u): u is Utility => isUtility(u) && u.name === "gap");
 		expect(utilities).toHaveLength(2);
 	});
 

@@ -82,11 +82,7 @@ watch(theme, sendTheme);
 </script>
 
 <template>
-	<div
-		ref="container"
-		class="inkline-example"
-		:style="{ height: `${frameHeight}px` }"
-	>
+	<div ref="container" class="inkline-example" :style="{ height: `${frameHeight}px` }">
 		<iframe
 			v-if="src"
 			ref="iframe"

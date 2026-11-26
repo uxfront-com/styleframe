@@ -1,7 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+
 import { transpile } from "@styleframe/transpiler";
 import { consola } from "consola";
+
 import { DEFAULT_DTS_OUT_DIR } from "../constants";
 import { reportDiagnostics } from "../diagnostics";
 import type { PluginGlobalState } from "../state";
@@ -47,9 +49,7 @@ export async function generateTypeDeclarations(
 	reportDiagnostics(state, result.diagnostics, silent);
 
 	await Promise.all(
-		result.files.map((file) =>
-			fs.writeFile(path.join(outDir, file.name), file.content),
-		),
+		result.files.map((file) => fs.writeFile(path.join(outDir, file.name), file.content)),
 	);
 
 	if (!silent) {

@@ -3,54 +3,39 @@ import { createUseUtility } from "../../utils";
 /**
  * Create scroll-margin utility classes.
  */
-export const useScrollMarginUtility = createUseUtility(
-	"scroll-margin",
-	({ value }) => ({
-		scrollMargin: value,
-	}),
-);
+export const useScrollMarginUtility = createUseUtility("scroll-margin", ({ value }) => ({
+	scrollMargin: value,
+}));
 
 /**
  * Create scroll-margin-x utility classes.
  */
-export const useScrollMarginXUtility = createUseUtility(
-	"scroll-margin-x",
-	({ value }) => ({
-		scrollMarginLeft: value,
-		scrollMarginRight: value,
-	}),
-);
+export const useScrollMarginXUtility = createUseUtility("scroll-margin-x", ({ value }) => ({
+	scrollMarginLeft: value,
+	scrollMarginRight: value,
+}));
 
 /**
  * Create scroll-margin-y utility classes.
  */
-export const useScrollMarginYUtility = createUseUtility(
-	"scroll-margin-y",
-	({ value }) => ({
-		scrollMarginTop: value,
-		scrollMarginBottom: value,
-	}),
-);
+export const useScrollMarginYUtility = createUseUtility("scroll-margin-y", ({ value }) => ({
+	scrollMarginTop: value,
+	scrollMarginBottom: value,
+}));
 
 /**
  * Create scroll-margin-top utility classes.
  */
-export const useScrollMarginTopUtility = createUseUtility(
-	"scroll-margin-top",
-	({ value }) => ({
-		scrollMarginTop: value,
-	}),
-);
+export const useScrollMarginTopUtility = createUseUtility("scroll-margin-top", ({ value }) => ({
+	scrollMarginTop: value,
+}));
 
 /**
  * Create scroll-margin-right utility classes.
  */
-export const useScrollMarginRightUtility = createUseUtility(
-	"scroll-margin-right",
-	({ value }) => ({
-		scrollMarginRight: value,
-	}),
-);
+export const useScrollMarginRightUtility = createUseUtility("scroll-margin-right", ({ value }) => ({
+	scrollMarginRight: value,
+}));
 
 /**
  * Create scroll-margin-bottom utility classes.
@@ -65,12 +50,9 @@ export const useScrollMarginBottomUtility = createUseUtility(
 /**
  * Create scroll-margin-left utility classes.
  */
-export const useScrollMarginLeftUtility = createUseUtility(
-	"scroll-margin-left",
-	({ value }) => ({
-		scrollMarginLeft: value,
-	}),
-);
+export const useScrollMarginLeftUtility = createUseUtility("scroll-margin-left", ({ value }) => ({
+	scrollMarginLeft: value,
+}));
 
 /**
  * Create scroll-margin-inline-start utility classes.
@@ -95,44 +77,32 @@ export const useScrollMarginEndUtility = createUseUtility(
 /**
  * Create scroll-padding utility classes.
  */
-export const useScrollPaddingUtility = createUseUtility(
-	"scroll-padding",
-	({ value }) => ({
-		scrollPadding: value,
-	}),
-);
+export const useScrollPaddingUtility = createUseUtility("scroll-padding", ({ value }) => ({
+	scrollPadding: value,
+}));
 
 /**
  * Create scroll-padding-x utility classes.
  */
-export const useScrollPaddingXUtility = createUseUtility(
-	"scroll-padding-x",
-	({ value }) => ({
-		scrollPaddingLeft: value,
-		scrollPaddingRight: value,
-	}),
-);
+export const useScrollPaddingXUtility = createUseUtility("scroll-padding-x", ({ value }) => ({
+	scrollPaddingLeft: value,
+	scrollPaddingRight: value,
+}));
 
 /**
  * Create scroll-padding-y utility classes.
  */
-export const useScrollPaddingYUtility = createUseUtility(
-	"scroll-padding-y",
-	({ value }) => ({
-		scrollPaddingTop: value,
-		scrollPaddingBottom: value,
-	}),
-);
+export const useScrollPaddingYUtility = createUseUtility("scroll-padding-y", ({ value }) => ({
+	scrollPaddingTop: value,
+	scrollPaddingBottom: value,
+}));
 
 /**
  * Create scroll-padding-top utility classes.
  */
-export const useScrollPaddingTopUtility = createUseUtility(
-	"scroll-padding-top",
-	({ value }) => ({
-		scrollPaddingTop: value,
-	}),
-);
+export const useScrollPaddingTopUtility = createUseUtility("scroll-padding-top", ({ value }) => ({
+	scrollPaddingTop: value,
+}));
 
 /**
  * Create scroll-padding-right utility classes.
@@ -157,12 +127,9 @@ export const useScrollPaddingBottomUtility = createUseUtility(
 /**
  * Create scroll-padding-left utility classes.
  */
-export const useScrollPaddingLeftUtility = createUseUtility(
-	"scroll-padding-left",
-	({ value }) => ({
-		scrollPaddingLeft: value,
-	}),
-);
+export const useScrollPaddingLeftUtility = createUseUtility("scroll-padding-left", ({ value }) => ({
+	scrollPaddingLeft: value,
+}));
 
 /**
  * Create scroll-padding-inline-start utility classes.

@@ -21,11 +21,7 @@ defineOgImage("Docs.takumi", { headline: "styleframe", title, description });
 			</h1>
 			<p class="mt-3 mb-8 text-muted">{{ description }}</p>
 
-			<article
-				v-for="entry in entries"
-				:key="entry.path"
-				class="border-t border-default py-12"
-			>
+			<article v-for="entry in entries" :key="entry.path" class="border-t border-default py-12">
 				<ChangelogEntry :entry="entry" listed>
 					<template #title>
 						<h2 class="mt-4 text-2xl font-semibold text-highlighted">

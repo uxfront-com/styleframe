@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { createUseUtility } from "./createUseUtility";
 
 describe("createUseUtility", () => {
@@ -11,9 +12,7 @@ describe("createUseUtility", () => {
 		const s = styleframe();
 		useMargin(s, { sm: "8px" });
 
-		const utility = s.root.children.find(
-			(u): u is Utility => isUtility(u) && u.name === "margin",
-		);
+		const utility = s.root.children.find((u): u is Utility => isUtility(u) && u.name === "margin");
 		expect(utility).toBeDefined();
 		expect(utility?.declarations).toEqual({ margin: "8px" });
 	});
@@ -25,9 +24,7 @@ describe("createUseUtility", () => {
 		const s = styleframe();
 		usePadding(s, { md: "16px" });
 
-		const utility = s.root.children.find(
-			(u): u is Utility => isUtility(u) && u.name === "padding",
-		);
+		const utility = s.root.children.find((u): u is Utility => isUtility(u) && u.name === "padding");
 		expect(utility).toBeDefined();
 		expect(utility?.declarations).toEqual({ padding: "16px" });
 	});
@@ -66,9 +63,7 @@ describe("createUseUtility", () => {
 		const s = styleframe();
 		useHidden(s, { default: true });
 
-		const utility = s.root.children.find(
-			(u): u is Utility => isUtility(u) && u.name === "hidden",
-		);
+		const utility = s.root.children.find((u): u is Utility => isUtility(u) && u.name === "hidden");
 		expect(utility).toBeDefined();
 		expect(utility?.declarations).toEqual({ display: "none" });
 	});
@@ -81,9 +76,7 @@ describe("createUseUtility", () => {
 		const colorPrimary = s.variable("color.primary", "#3b82f6");
 		useBackground(s, { primary: s.ref(colorPrimary) });
 
-		const utility = s.root.children.find(
-			(u): u is Utility => isUtility(u) && u.name === "bg",
-		);
+		const utility = s.root.children.find((u): u is Utility => isUtility(u) && u.name === "bg");
 		expect(utility?.declarations?.backgroundColor).toEqual({
 			type: "reference",
 			name: "color.primary",
@@ -147,8 +140,7 @@ describe("createUseUtility", () => {
 		useMargin(s, { "extra-large": "48px" });
 
 		const utility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "margin" && u.value === "extra-large",
+			(u): u is Utility => isUtility(u) && u.name === "margin" && u.value === "extra-large",
 		);
 		expect(utility).toBeDefined();
 		expect(utility?.declarations).toEqual({ margin: "48px" });
@@ -162,8 +154,7 @@ describe("createUseUtility", () => {
 		usePadding(s, { card_padding: "24px" });
 
 		const utility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "padding" && u.value === "card_padding",
+			(u): u is Utility => isUtility(u) && u.name === "padding" && u.value === "card_padding",
 		);
 		expect(utility).toBeDefined();
 		expect(utility?.declarations).toEqual({ padding: "24px" });
@@ -176,9 +167,7 @@ describe("createUseUtility", () => {
 		const s = styleframe();
 		useZIndex(s, { "10": "10", "20": "20", "50": "50" });
 
-		const utilities = s.root.children.filter(
-			(u): u is Utility => isUtility(u) && u.name === "z",
-		);
+		const utilities = s.root.children.filter((u): u is Utility => isUtility(u) && u.name === "z");
 		expect(utilities).toHaveLength(3);
 	});
 
@@ -190,8 +179,7 @@ describe("createUseUtility", () => {
 		useDisplay(s, { default: "block" });
 
 		const utility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "display" && u.value === "default",
+			(u): u is Utility => isUtility(u) && u.name === "display" && u.value === "default",
 		);
 		expect(utility).toBeDefined();
 
@@ -220,8 +208,7 @@ describe("createUseUtility", () => {
 		createColor({ primary: "#ef4444" });
 
 		const utilities = s.root.children.filter(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "text-color" && u.value === "primary",
+			(u): u is Utility => isUtility(u) && u.name === "text-color" && u.value === "primary",
 		);
 		expect(utilities).toHaveLength(1);
 		expect(utilities[0]?.declarations?.color).toBe("#3b82f6");
@@ -290,10 +277,7 @@ describe("createUseUtility", () => {
 
 		const hoverUtility = s.root.children.find(
 			(u): u is Utility =>
-				isUtility(u) &&
-				u.name === "margin" &&
-				u.value === "sm" &&
-				u.modifiers.includes("hover"),
+				isUtility(u) && u.name === "margin" && u.value === "sm" && u.modifiers.includes("hover"),
 		);
 		expect(hoverUtility).toBeDefined();
 	});
@@ -333,11 +317,7 @@ describe("createUseUtility", () => {
 		}));
 
 		// Nested array for combined modifier variant
-		useMargin(s, { sm: "8px" }, [
-			hoverModifier,
-			focusModifier,
-			[hoverModifier, focusModifier],
-		]);
+		useMargin(s, { sm: "8px" }, [hoverModifier, focusModifier, [hoverModifier, focusModifier]]);
 
 		// Should have: base, hover-only, focus-only, hover+focus
 		const utilities = s.root.children.filter(
@@ -478,12 +458,10 @@ describe("createUseUtility", () => {
 			useFlex(s, { row: "row", col: "col" });
 
 			const rowUtility = s.root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "flex" && u.value === "row",
+				(u): u is Utility => isUtility(u) && u.name === "flex" && u.value === "row",
 			);
 			const colUtility = s.root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "flex" && u.value === "col",
+				(u): u is Utility => isUtility(u) && u.name === "flex" && u.value === "col",
 			);
 
 			expect(rowUtility?.declarations).toEqual({
@@ -505,9 +483,7 @@ describe("createUseUtility", () => {
 			const s = styleframe();
 			useMargin(s, { sm: "8px" }, undefined, { name: "m" });
 
-			const utility = s.root.children.find(
-				(u): u is Utility => isUtility(u) && u.name === "m",
-			);
+			const utility = s.root.children.find((u): u is Utility => isUtility(u) && u.name === "m");
 			expect(utility).toBeDefined();
 			expect(utility?.declarations).toEqual({ margin: "8px" });
 		});
@@ -618,19 +594,15 @@ describe("createUseUtility", () => {
 		});
 
 		it("should work with composite utilities like margin-inline", () => {
-			const useMarginInline = createUseUtility(
-				"margin-inline",
-				({ value }) => ({
-					marginLeft: value,
-					marginRight: value,
-				}),
-			);
+			const useMarginInline = createUseUtility("margin-inline", ({ value }) => ({
+				marginLeft: value,
+				marginRight: value,
+			}));
 			const s = styleframe();
 			useMarginInline(s, { sm: "8px", auto: "auto" });
 
 			const smUtility = s.root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "margin-inline" && u.value === "sm",
+				(u): u is Utility => isUtility(u) && u.name === "margin-inline" && u.value === "sm",
 			);
 			expect(smUtility?.declarations).toEqual({
 				marginLeft: "8px",
@@ -638,8 +610,7 @@ describe("createUseUtility", () => {
 			});
 
 			const autoUtility = s.root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "margin-inline" && u.value === "auto",
+				(u): u is Utility => isUtility(u) && u.name === "margin-inline" && u.value === "auto",
 			);
 			expect(autoUtility?.declarations).toEqual({
 				marginLeft: "auto",

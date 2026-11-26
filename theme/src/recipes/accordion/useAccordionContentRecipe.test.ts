@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useAccordionContentRecipe } from "./index";
 
 function createInstance() {
@@ -41,11 +42,7 @@ describe("useAccordionContentRecipe", () => {
 		const s = createInstance();
 		const recipe = useAccordionContentRecipe(s);
 
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "ghost"]);
 		expect(Object.keys(recipe.variants!.size)).toEqual(["sm", "md", "lg"]);
 	});

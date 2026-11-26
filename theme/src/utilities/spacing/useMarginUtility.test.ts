@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useMarginBlockUtility,
 	useMarginBottomUtility,
@@ -88,8 +89,7 @@ describe("useMarginUtility", () => {
 		useMarginUtility(s, { sm: "8px" }, [hover]);
 
 		const hoverUtility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "margin" && u.modifiers.includes("hover"),
+			(u): u is Utility => isUtility(u) && u.name === "margin" && u.modifiers.includes("hover"),
 		);
 		expect(hoverUtility).toBeDefined();
 	});

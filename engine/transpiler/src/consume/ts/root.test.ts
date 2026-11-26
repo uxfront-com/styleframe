@@ -1,9 +1,6 @@
 import type { Root, StyleframeOptions } from "@styleframe/core";
-import {
-	createRecipeFunction,
-	createRoot,
-	createUtilityFunction,
-} from "@styleframe/core";
+import { createRecipeFunction, createRoot, createUtilityFunction } from "@styleframe/core";
+
 import type { TranspileContext } from "../../types";
 import { consume } from "./consume";
 import { createRootConsumer } from "./root";
@@ -505,9 +502,7 @@ export const simple = createRecipe("simple", simpleRecipe);
 		expect(result).toContain(
 			"export type MyRecipeProps = RecipeVariantProps<typeof myRecipeRecipe>;",
 		);
-		expect(result).toContain(
-			`export const myRecipe = createRecipe("myRecipe", myRecipeRecipe);`,
-		);
+		expect(result).toContain(`export const myRecipe = createRecipe("myRecipe", myRecipeRecipe);`);
 	});
 
 	it("should emit only recipes in _usage.recipes when set is non-empty", () => {

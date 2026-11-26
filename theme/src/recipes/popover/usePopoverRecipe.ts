@@ -223,8 +223,7 @@ export const usePopoverRecipe = createUseRecipe(
 			// The arrow sits half outside the panel, and the body scrolls instead.
 			overflow: "visible",
 			positionArea: "top",
-			positionTryFallbacks:
-				"flip-block, flip-inline, --popover-fit, flip-block --popover-fit",
+			positionTryFallbacks: "flip-block, flip-inline, --popover-fit, flip-block --popover-fit",
 		});
 		// The utility classes set `display: flex`, which would show it closed.
 		selector(".popover[popover]:not(:popover-open)", {
@@ -239,13 +238,11 @@ export const usePopoverRecipe = createUseRecipe(
 		// In the popover's own direction, which is its anchor's.
 		selector(".popover[popover].-placement-start", {
 			positionArea: "self-inline-start",
-			positionTryFallbacks:
-				"flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
+			positionTryFallbacks: "flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
 		});
 		selector(".popover[popover].-placement-end", {
 			positionArea: "self-inline-end",
-			positionTryFallbacks:
-				"flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
+			positionTryFallbacks: "flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
 		});
 
 		// It fades and grows in, unless people have asked for less motion.

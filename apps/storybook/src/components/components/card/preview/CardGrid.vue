@@ -29,13 +29,9 @@ const variants = ["solid", "soft", "subtle"] as const;
 						>
 					</CardHeader>
 					<CardBody>
-						<CardDescription
-							>This is a {{ variant }} {{ color }} card.</CardDescription
-						>
+						<CardDescription>This is a {{ variant }} {{ color }} card.</CardDescription>
 					</CardBody>
-					<CardFooter :color="color" :variant="variant">
-						Footer content
-					</CardFooter>
+					<CardFooter :color="color" :variant="variant"> Footer content </CardFooter>
 				</Card>
 			</div>
 		</div>

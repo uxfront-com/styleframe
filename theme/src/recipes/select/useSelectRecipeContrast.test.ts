@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
@@ -47,9 +48,8 @@ function collectPairs() {
 		return String(variable.value);
 	};
 
-	const readonlyCss = recipe.compoundVariants!.find(
-		(cv) => cv.match.readonly === "true",
-	)!.css as Slot;
+	const readonlyCss = recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!
+		.css as Slot;
 
 	const pairs: Array<{ label: string; border: string; against: string }> = [];
 
@@ -63,12 +63,7 @@ function collectPairs() {
 			["rest", css, css, false],
 			["hover", (css["&:hover"] ?? {}) as Slot, css, false],
 			["dark rest", css["&:dark"] as Slot, css["&:dark"] as Slot, true],
-			[
-				"dark hover",
-				(css["&:dark:hover"] ?? {}) as Slot,
-				css["&:dark"] as Slot,
-				true,
-			],
+			["dark hover", (css["&:dark:hover"] ?? {}) as Slot, css["&:dark"] as Slot, true],
 		];
 
 		for (const [state, slot, fillSlot, isDark] of slots) {
@@ -84,15 +79,10 @@ function collectPairs() {
 			const border = resolve(borderToken, isDark);
 			const fills = [
 				fillSlot.background,
-				isDark
-					? (readonlyCss["&:dark"] as Slot).background
-					: readonlyCss.background,
+				isDark ? (readonlyCss["&:dark"] as Slot).background : readonlyCss.background,
 			].filter((fill) => fill && fill !== "transparent");
 
-			for (const against of [
-				...fills.map((fill) => resolve(fill, isDark)),
-				...pageBackgrounds,
-			]) {
+			for (const against of [...fills.map((fill) => resolve(fill, isDark)), ...pageBackgrounds]) {
 				pairs.push({ label, border, against });
 			}
 		}
@@ -111,9 +101,7 @@ describe("useSelectRecipe border contrast", () => {
 	it.each(pairs)(
 		"$label border $border has at least 3:1 against $against",
 		({ border, against }) => {
-			expect(wcagContrast(border, against)).toBeGreaterThanOrEqual(
-				MIN_CONTRAST,
-			);
+			expect(wcagContrast(border, against)).toBeGreaterThanOrEqual(MIN_CONTRAST);
 		},
 	);
 });

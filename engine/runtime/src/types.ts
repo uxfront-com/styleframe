@@ -13,10 +13,7 @@ export type {
  * Represents a mapping of variant option names to their runtime declarations.
  * Used for cleaner type assertions when iterating over variant options.
  */
-export type RuntimeVariantOptions = Record<
-	string,
-	RuntimeVariantDeclarationsBlock | undefined
->;
+export type RuntimeVariantOptions = Record<string, RuntimeVariantDeclarationsBlock | undefined>;
 
 /**
  * Extracts the variant props type from a RecipeRuntime.

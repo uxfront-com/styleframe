@@ -38,11 +38,7 @@ const props = withDefaults(
 		:data-size="props.size"
 		:data-icon-only="props.iconOnly ? '' : undefined"
 	>
-		<span
-			v-if="props.loading"
-			:class="spinner({ size: 'auto' })"
-			aria-hidden="true"
-		>
+		<span v-if="props.loading" :class="spinner({ size: 'auto' })" aria-hidden="true">
 			<svg :class="spinnerCircle({ size: 'auto' })" viewBox="0 0 50 50">
 				<circle cx="25" cy="25" r="20" />
 			</svg>

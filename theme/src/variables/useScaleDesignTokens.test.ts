@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useScaleDesignTokens } from "./useScaleDesignTokens";
+
 import { scaleValues } from "../values";
+import { useScaleDesignTokens } from "./useScaleDesignTokens";
 
 describe("useScaleDesignTokens", () => {
 	it("should create all scale variables with correct names and values", () => {
@@ -203,18 +204,13 @@ describe("useScaleDesignTokens", () => {
 			const scales = useScaleDesignTokens(s);
 
 			// Type assertions to verify the generic types are preserved
-			const minorSecond: Variable<"scale.minor-second"> =
-				scales.scaleMinorSecond;
-			const majorSecond: Variable<"scale.major-second"> =
-				scales.scaleMajorSecond;
+			const minorSecond: Variable<"scale.minor-second"> = scales.scaleMinorSecond;
+			const majorSecond: Variable<"scale.major-second"> = scales.scaleMajorSecond;
 			const minorThird: Variable<"scale.minor-third"> = scales.scaleMinorThird;
 			const majorThird: Variable<"scale.major-third"> = scales.scaleMajorThird;
-			const perfectFourth: Variable<"scale.perfect-fourth"> =
-				scales.scalePerfectFourth;
-			const augmentedFourth: Variable<"scale.augmented-fourth"> =
-				scales.scaleAugmentedFourth;
-			const perfectFifth: Variable<"scale.perfect-fifth"> =
-				scales.scalePerfectFifth;
+			const perfectFourth: Variable<"scale.perfect-fourth"> = scales.scalePerfectFourth;
+			const augmentedFourth: Variable<"scale.augmented-fourth"> = scales.scaleAugmentedFourth;
+			const perfectFifth: Variable<"scale.perfect-fifth"> = scales.scalePerfectFifth;
 			const golden: Variable<"scale.golden"> = scales.scaleGolden;
 			const scale: Variable<"scale"> = scales.scale;
 
@@ -328,24 +324,12 @@ describe("useScaleDesignTokens", () => {
 				scaleGolden,
 			} = useScaleDesignTokens(s);
 
-			expect(scaleMinorSecond.value).toBeLessThan(
-				scaleMajorSecond.value as number,
-			);
-			expect(scaleMajorSecond.value).toBeLessThan(
-				scaleMinorThird.value as number,
-			);
-			expect(scaleMinorThird.value).toBeLessThan(
-				scaleMajorThird.value as number,
-			);
-			expect(scaleMajorThird.value).toBeLessThan(
-				scalePerfectFourth.value as number,
-			);
-			expect(scalePerfectFourth.value).toBeLessThan(
-				scaleAugmentedFourth.value as number,
-			);
-			expect(scaleAugmentedFourth.value).toBeLessThan(
-				scalePerfectFifth.value as number,
-			);
+			expect(scaleMinorSecond.value).toBeLessThan(scaleMajorSecond.value as number);
+			expect(scaleMajorSecond.value).toBeLessThan(scaleMinorThird.value as number);
+			expect(scaleMinorThird.value).toBeLessThan(scaleMajorThird.value as number);
+			expect(scaleMajorThird.value).toBeLessThan(scalePerfectFourth.value as number);
+			expect(scalePerfectFourth.value).toBeLessThan(scaleAugmentedFourth.value as number);
+			expect(scaleAugmentedFourth.value).toBeLessThan(scalePerfectFifth.value as number);
 			expect(scalePerfectFifth.value).toBeLessThan(scaleGolden.value as number);
 		});
 
@@ -397,17 +381,12 @@ describe("useScaleDesignTokens", () => {
 			const { scaleGolden } = useScaleDesignTokens(s);
 
 			const spacingBase = s.variable("spacing-base", "1rem");
-			s.variable(
-				"spacing-lg",
-				s.css`calc(${s.ref(spacingBase)} * ${s.ref(scaleGolden)})`,
-			);
+			s.variable("spacing-lg", s.css`calc(${s.ref(spacingBase)} * ${s.ref(scaleGolden)})`);
 
 			const css = consumeCSS(s.root, s.options);
 			expect(css).toContain("--spacing-base: 1rem;");
 			expect(css).toContain("--scale--golden: 1.618;");
-			expect(css).toContain(
-				"--spacing-lg: calc(var(--spacing-base) * var(--scale--golden));",
-			);
+			expect(css).toContain("--spacing-lg: calc(var(--spacing-base) * var(--scale--golden));");
 		});
 	});
 });

@@ -25,18 +25,14 @@ const capitalize = (value: string) =>
 					default-value="item-1"
 				>
 					<AccordionItem value="item-1">
-						<AccordionTrigger>
-							{{ capitalize(variant) }} {{ capitalize(color) }}
-						</AccordionTrigger>
+						<AccordionTrigger> {{ capitalize(variant) }} {{ capitalize(color) }} </AccordionTrigger>
 						<AccordionContent>
 							The first panel opens by default so the surface is visible.
 						</AccordionContent>
 					</AccordionItem>
 					<AccordionItem value="item-2">
 						<AccordionTrigger>Second panel</AccordionTrigger>
-						<AccordionContent>
-							Click a trigger to expand or collapse its panel.
-						</AccordionContent>
+						<AccordionContent> Click a trigger to expand or collapse its panel. </AccordionContent>
 					</AccordionItem>
 				</Accordion>
 			</div>

@@ -1,5 +1,7 @@
 import { readFileSync } from "node:fs";
+
 import { describe, expect, it } from "vitest";
+
 import {
 	INKLINE_PREVIEW_ORIGIN,
 	inklineExampleHeight,
@@ -16,18 +18,14 @@ function query(url: string) {
 
 describe("inklineExampleUrl", () => {
 	it("points at the preview's embed page", () => {
-		const { parsed } = query(
-			inklineExampleUrl({ example, target: "vue", theme: "light" }),
-		);
+		const { parsed } = query(inklineExampleUrl({ example, target: "vue", theme: "light" }));
 
 		expect(parsed.origin).toBe(INKLINE_PREVIEW_ORIGIN);
 		expect(parsed.pathname).toBe("/embed.html");
 	});
 
 	it("passes the example, the target, the theme and resize", () => {
-		const { params } = query(
-			inklineExampleUrl({ example, target: "vue", theme: "light" }),
-		);
+		const { params } = query(inklineExampleUrl({ example, target: "vue", theme: "light" }));
 
 		expect(params.get("example")).toBe(example);
 		expect(params.get("target")).toBe("vue");
@@ -37,9 +35,7 @@ describe("inklineExampleUrl", () => {
 	});
 
 	it("starts the frame in dark mode", () => {
-		const { params } = query(
-			inklineExampleUrl({ example, target: "vue", theme: "dark" }),
-		);
+		const { params } = query(inklineExampleUrl({ example, target: "vue", theme: "dark" }));
 
 		expect(params.get("theme")).toBe("dark");
 	});
@@ -95,9 +91,7 @@ describe("inklineExampleHeight", () => {
 		kind: "resize",
 		height,
 	});
-	const event = (
-		overrides: Partial<Pick<MessageEvent, "data" | "origin" | "source">> = {},
-	) => ({
+	const event = (overrides: Partial<Pick<MessageEvent, "data" | "origin" | "source">> = {}) => ({
 		data: resize(480),
 		origin: INKLINE_PREVIEW_ORIGIN,
 		source: frame,
@@ -109,15 +103,11 @@ describe("inklineExampleHeight", () => {
 	});
 
 	it("ignores a message from another origin", () => {
-		expect(
-			inklineExampleHeight(event({ origin: "https://example.com" }), frame),
-		).toBeNull();
+		expect(inklineExampleHeight(event({ origin: "https://example.com" }), frame)).toBeNull();
 	});
 
 	it("ignores a message from another window", () => {
-		expect(
-			inklineExampleHeight(event({ source: {} as Window }), frame),
-		).toBeNull();
+		expect(inklineExampleHeight(event({ source: {} as Window }), frame)).toBeNull();
 	});
 
 	it("ignores every message before the frame exists", () => {
@@ -127,16 +117,10 @@ describe("inklineExampleHeight", () => {
 
 	it("ignores another message type or kind", () => {
 		expect(
-			inklineExampleHeight(
-				event({ data: { ...resize(480), type: "styleframe:height" } }),
-				frame,
-			),
+			inklineExampleHeight(event({ data: { ...resize(480), type: "styleframe:height" } }), frame),
 		).toBeNull();
 		expect(
-			inklineExampleHeight(
-				event({ data: { ...resize(480), kind: "theme" } }),
-				frame,
-			),
+			inklineExampleHeight(event({ data: { ...resize(480), kind: "theme" } }), frame),
 		).toBeNull();
 		expect(inklineExampleHeight(event({ data: null }), frame)).toBeNull();
 	});
@@ -144,9 +128,7 @@ describe("inklineExampleHeight", () => {
 	it.each([0, -10, Number.NaN, Number.POSITIVE_INFINITY, "480", undefined])(
 		"ignores the height %s",
 		(height) => {
-			expect(
-				inklineExampleHeight(event({ data: resize(height) }), frame),
-			).toBeNull();
+			expect(inklineExampleHeight(event({ data: resize(height) }), frame)).toBeNull();
 		},
 	);
 });

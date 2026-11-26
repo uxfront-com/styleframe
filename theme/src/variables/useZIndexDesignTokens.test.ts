@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useZIndexDesignTokens } from "./useZIndexDesignTokens";
 
 describe("useZIndexDesignTokens", () => {
@@ -42,13 +43,12 @@ describe("useZIndexDesignTokens", () => {
 
 	it("should create multiple z-index variables", () => {
 		const s = styleframe();
-		const { zIndex, zIndexDropdown, zIndexModal, zIndexToast } =
-			useZIndexDesignTokens(s, {
-				default: "0",
-				dropdown: "100",
-				modal: "400",
-				toast: "600",
-			});
+		const { zIndex, zIndexDropdown, zIndexModal, zIndexToast } = useZIndexDesignTokens(s, {
+			default: "0",
+			dropdown: "100",
+			modal: "400",
+			toast: "600",
+		});
 
 		expect(zIndex).toEqual({
 			type: "variable",

@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	scrollSnapAlignValues,
-	scrollSnapStopValues,
-	scrollSnapTypeValues,
-} from "../../values";
+import { scrollSnapAlignValues, scrollSnapStopValues, scrollSnapTypeValues } from "../../values";
 
 /**
  * Create scroll-snap-align utility classes.

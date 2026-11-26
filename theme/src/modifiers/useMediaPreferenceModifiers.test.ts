@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useMediaPreferenceModifiers } from "./useMediaPreferenceModifiers";
 
 describe("useMediaPreferenceModifiers", () => {
@@ -68,9 +69,7 @@ describe("useMediaPreferenceModifiers", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain(String.raw`._transition-duration\:0 {`);
-		expect(css).toContain(
-			String.raw`._motion-reduce\:transition-duration\:0 {`,
-		);
+		expect(css).toContain(String.raw`._motion-reduce\:transition-duration\:0 {`);
 	});
 
 	it("should generate correct CSS class names for print modifier", () => {
@@ -111,9 +110,7 @@ describe("useMediaPreferenceModifiers", () => {
 		create({ primary: "#006cff" }, [hoverCapable]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain(
-			String.raw`._hover-capable\:background-color\:primary {`,
-		);
+		expect(css).toContain(String.raw`._hover-capable\:background-color\:primary {`);
 		expect(css).toContain("@media (hover: hover) {");
 	});
 
@@ -127,9 +124,7 @@ describe("useMediaPreferenceModifiers", () => {
 		create({ touch: "44px" }, [anyPointerCoarse]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain(
-			String.raw`._any-pointer-coarse\:min-height\:touch {`,
-		);
+		expect(css).toContain(String.raw`._any-pointer-coarse\:min-height\:touch {`);
 		expect(css).toContain("@media (any-pointer: coarse) {");
 	});
 

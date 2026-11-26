@@ -1,23 +1,24 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import {
 	useAriaInvalidModifier,
 	useAriaReadonlyModifier,
 } from "../../modifiers/useAriaStateModifiers";
 import {
-	useContrastMoreModifier,
-	useDarkModifier,
-	useForcedColorsModifier,
-} from "../../modifiers/useMediaPreferenceModifiers";
-import {
 	useCheckedModifier,
 	useDisabledModifier,
 	useIndeterminateModifier,
 } from "../../modifiers/useFormStateModifiers";
+import {
+	useContrastMoreModifier,
+	useDarkModifier,
+	useForcedColorsModifier,
+} from "../../modifiers/useMediaPreferenceModifiers";
 import { useFocusVisibleModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
-import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
+import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useCheckboxFieldRecipe } from "./useCheckboxFieldRecipe";
 
 function createInstance() {
@@ -127,10 +128,7 @@ describe("useCheckboxFieldRecipe", () => {
 		expect(checked.backgroundImage).toContain("data:image/svg+xml");
 		expect(checked.backgroundImage).toContain("M3.5 8.5l3 3 6-6");
 
-		const indeterminate = recipe.base?.["&:indeterminate"] as Record<
-			string,
-			string
-		>;
+		const indeterminate = recipe.base?.["&:indeterminate"] as Record<string, string>;
 		expect(indeterminate).toMatchObject({
 			backgroundColor: "@color.primary",
 			borderColor: "@color.primary",
@@ -156,11 +154,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -199,9 +193,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 			expect(cv?.css).toMatchObject({
 				backgroundColor: "@color.white",
 				borderColor: "@color.gray-450",
@@ -224,9 +216,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(v) => v.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((v) => v.match.color === "light");
 			expect(light?.css).toEqual({
 				backgroundColor: "@color.white",
 				borderColor: "@color.gray-450",
@@ -390,9 +380,8 @@ describe("useCheckboxFieldRecipe", () => {
 			expect(recipe.base?.["&:aria-invalid:indeterminate"]).toEqual({
 				borderColor: "@color.error",
 			});
-			const neutral = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			)?.css as Block;
+			const neutral = recipe.compoundVariants!.find((v) => v.match.color === "neutral")
+				?.css as Block;
 			expect(neutral["&:dark:aria-invalid"]).toEqual({
 				borderColor: "@color.error",
 			});
@@ -418,9 +407,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const outlinedCheck = expect.stringMatching(
 				/M3\.5 8\.5l3 3 6-6' stroke='black'.*M3\.5 8\.5l3 3 6-6' stroke='white'/,
 			);
-			const outlinedDash = expect.stringMatching(
-				/M4 8h8' stroke='black'.*M4 8h8' stroke='white'/,
-			);
+			const outlinedDash = expect.stringMatching(/M4 8h8' stroke='black'.*M4 8h8' stroke='white'/);
 			const gray = { backgroundColor: "GrayText", borderColor: "GrayText" };
 
 			expect(base["&:forced-colors:checked"]).toEqual({
@@ -428,17 +415,15 @@ describe("useCheckboxFieldRecipe", () => {
 				borderColor: "Highlight",
 				backgroundImage: outlinedCheck,
 			});
-			expect(base["&:forced-colors:checked"]?.backgroundImage).not.toContain(
-				"M4 8h8",
-			);
+			expect(base["&:forced-colors:checked"]?.backgroundImage).not.toContain("M4 8h8");
 			expect(base["&:forced-colors:indeterminate"]).toEqual({
 				backgroundColor: "Highlight",
 				borderColor: "Highlight",
 				backgroundImage: outlinedDash,
 			});
-			expect(
-				base["&:forced-colors:indeterminate"]?.backgroundImage,
-			).not.toContain("M3.5 8.5l3 3 6-6");
+			expect(base["&:forced-colors:indeterminate"]?.backgroundImage).not.toContain(
+				"M3.5 8.5l3 3 6-6",
+			);
 			expect(base["&:forced-colors:focus-visible"]).toEqual({
 				outlineColor: "Highlight",
 			});
@@ -451,9 +436,8 @@ describe("useCheckboxFieldRecipe", () => {
 
 			// The neutral dark surface out-specifies the base rules, so each one is
 			// re-asserted under `&:dark`.
-			const neutral = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			)?.css as Record<string, Block>;
+			const neutral = recipe.compoundVariants!.find((v) => v.match.color === "neutral")
+				?.css as Record<string, Block>;
 			const highlight = {
 				backgroundColor: "Highlight",
 				borderColor: "Highlight",
@@ -464,17 +448,14 @@ describe("useCheckboxFieldRecipe", () => {
 				borderColor: "GrayText",
 			});
 			expect(neutral["&:dark:forced-colors:disabled:checked"]).toEqual(gray);
-			expect(neutral["&:dark:forced-colors:disabled:indeterminate"]).toEqual(
-				gray,
-			);
+			expect(neutral["&:dark:forced-colors:disabled:indeterminate"]).toEqual(gray);
 		});
 
 		it("checkbox/more-contrast draws the border at full strength for every color", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 			const css = (color: string) =>
-				recipe.compoundVariants!.find((v) => v.match.color === color)
-					?.css as Record<string, Block>;
+				recipe.compoundVariants!.find((v) => v.match.color === color)?.css as Record<string, Block>;
 
 			expect(css("light")["&:contrast-more"]).toEqual({
 				borderColor: "@color.gray-900",

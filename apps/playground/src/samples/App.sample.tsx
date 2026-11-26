@@ -19,32 +19,16 @@ const COLORS = [
 	"light",
 	"dark",
 ] as const;
-const BUTTON_VARIANTS = [
-	"solid",
-	"outline",
-	"soft",
-	"subtle",
-	"ghost",
-	"link",
-] as const;
+const BUTTON_VARIANTS = ["solid", "outline", "soft", "subtle", "ghost", "link"] as const;
 const BADGE_VARIANTS = ["solid", "outline", "soft", "subtle"] as const;
 const SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
 const CARD_VARIANTS = ["solid", "soft", "subtle"] as const;
 
 // Color scales generated for every base color by the design-token preset.
 // (neutral / light / dark are surface colors without a 50–950 ramp.)
-const PALETTE = [
-	"primary",
-	"secondary",
-	"success",
-	"info",
-	"warning",
-	"error",
-	"gray",
-] as const;
+const PALETTE = ["primary", "secondary", "success", "info", "warning", "error", "gray"] as const;
 const LEVELS = [
-	50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800,
-	850, 900, 950,
+	50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950,
 ] as const;
 
 // Each chip applies exactly the utility classes printed beneath it.
@@ -62,9 +46,8 @@ export default function App() {
 				<header className="ui-kit-header">
 					<h1 className="ui-kit-title">Styleframe UI Kit</h1>
 					<p className="ui-kit-subtitle">
-						Components, tokens, and utilities generated from{" "}
-						<code>styleframe.config.ts</code>. Edit the config or any component
-						on the left, then press <kbd>Cmd+S</kbd> (macOS) or{" "}
+						Components, tokens, and utilities generated from <code>styleframe.config.ts</code>. Edit
+						the config or any component on the left, then press <kbd>Cmd+S</kbd> (macOS) or{" "}
 						<kbd>Ctrl+S</kbd> (otherwise).
 					</p>
 				</header>
@@ -195,8 +178,7 @@ export default function App() {
 								footer={<Button size="sm">Action</Button>}
 							>
 								<p className="_margin:0">
-									A {variant} card built from the card recipe with header, body,
-									and footer parts.
+									A {variant} card built from the card recipe with header, body, and footer parts.
 								</p>
 							</Card>
 						))}

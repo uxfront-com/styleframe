@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useResponsiveModifiers } from "./useResponsiveModifiers";
 
 describe("useResponsiveModifiers", () => {

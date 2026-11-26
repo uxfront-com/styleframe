@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -49,10 +50,7 @@ export function useSampElement(
 	s: Styleframe,
 	options: WithThemes<SampElementConfig> = {},
 ): SampElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultSampOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultSampOptions, options);
 
 	const result = useSampSelectors(s, config as Required<SampElementConfig>);
 

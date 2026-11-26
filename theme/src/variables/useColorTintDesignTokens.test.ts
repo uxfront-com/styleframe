@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useColorTintDesignTokens } from "./useColorTintDesignTokens";
+
 import { colorTintValues } from "../values";
+import { useColorTintDesignTokens } from "./useColorTintDesignTokens";
 
 describe("useColorTintDesignTokens", () => {
 	it("should create tint levels with default values", () => {
@@ -109,9 +110,7 @@ describe("useColorTintDesignTokens", () => {
 			"tint-50": 5,
 		} as const);
 
-		expect(tints.colorPrimaryLightTint50.name).toBe(
-			"color--primary-light-tint-50",
-		);
+		expect(tints.colorPrimaryLightTint50.name).toBe("color--primary-light-tint-50");
 	});
 
 	it("should handle empty levels object", () => {
@@ -150,10 +149,8 @@ describe("useColorTintDesignTokens", () => {
 				"tint-100": 10,
 			} as const);
 
-			const tint50: Variable<"color--primary-tint-50"> =
-				tints.colorPrimaryTint50;
-			const tint100: Variable<"color--primary-tint-100"> =
-				tints.colorPrimaryTint100;
+			const tint50: Variable<"color--primary-tint-50"> = tints.colorPrimaryTint50;
+			const tint100: Variable<"color--primary-tint-100"> = tints.colorPrimaryTint100;
 
 			expect(tint50.name).toBe("color--primary-tint-50");
 			expect(tint100.name).toBe("color--primary-tint-100");
@@ -166,8 +163,7 @@ describe("useColorTintDesignTokens", () => {
 				"tint-75": 7.5,
 			} as const);
 
-			const typed: Variable<"color--secondary-tint-75"> =
-				tints.colorSecondaryTint75;
+			const typed: Variable<"color--secondary-tint-75"> = tints.colorSecondaryTint75;
 			expect(typed.name).toBe("color--secondary-tint-75");
 		});
 	});

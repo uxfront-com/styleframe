@@ -1,9 +1,11 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+
 import type { Root } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+
 import { buildDTCG } from "./build-dtcg";
 
 export default defineCommand({
@@ -37,34 +39,24 @@ export default defineCommand({
 		const configPath = path.resolve(args.config);
 		const outputDir = path.resolve(args.output);
 
-		consola.info(
-			`Loading configuration from "${path.relative(process.cwd(), configPath)}"...`,
-		);
+		consola.info(`Loading configuration from "${path.relative(process.cwd(), configPath)}"...`);
 
 		const instance = await loadConfiguration({ entry: configPath });
 		const root = instance.root as Root;
 
 		consola.info("Building DTCG document...");
 
-		const {
-			tokens,
-			resolver,
-			diagnostics,
-			emittedCount,
-			fluidNormalisedCount,
-			maxViewport,
-		} = buildDTCG(root, {
-			collectionName: args.collection,
-			tokensSourceRef: "tokens.json",
-		});
+		const { tokens, resolver, diagnostics, emittedCount, fluidNormalisedCount, maxViewport } =
+			buildDTCG(root, {
+				collectionName: args.collection,
+				tokensSourceRef: "tokens.json",
+			});
 
 		await mkdir(outputDir, { recursive: true });
 
 		const tokensPath = path.join(outputDir, "tokens.json");
 		await writeFile(tokensPath, `${JSON.stringify(tokens, null, 2)}\n`);
-		consola.info(
-			`Wrote ${emittedCount} tokens to "${path.relative(process.cwd(), tokensPath)}"`,
-		);
+		consola.info(`Wrote ${emittedCount} tokens to "${path.relative(process.cwd(), tokensPath)}"`);
 
 		if (fluidNormalisedCount > 0) {
 			consola.info(
@@ -75,9 +67,7 @@ export default defineCommand({
 		if (resolver) {
 			const resolverPath = path.join(outputDir, "tokens.resolver.json");
 			await writeFile(resolverPath, `${JSON.stringify(resolver, null, 2)}\n`);
-			consola.info(
-				`Wrote resolver to "${path.relative(process.cwd(), resolverPath)}"`,
-			);
+			consola.info(`Wrote resolver to "${path.relative(process.cwd(), resolverPath)}"`);
 		}
 
 		const warnings = diagnostics.filter((d) => d.level === "warn");

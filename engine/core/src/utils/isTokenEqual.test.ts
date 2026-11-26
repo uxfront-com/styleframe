@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { isTokenEqual } from "./isTokenEqual";
+
 import type { Reference, CSS, TokenValue } from "../types";
+import { isTokenEqual } from "./isTokenEqual";
 
 describe("isTokenEqual", () => {
 	describe("primitive values", () => {
@@ -122,9 +123,7 @@ describe("isTokenEqual", () => {
 		});
 
 		it("should return false for array vs non-array", () => {
-			expect(isTokenEqual(["test"], { type: "reference", name: "test" })).toBe(
-				false,
-			);
+			expect(isTokenEqual(["test"], { type: "reference", name: "test" })).toBe(false);
 		});
 	});
 

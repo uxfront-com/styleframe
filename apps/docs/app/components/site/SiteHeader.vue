@@ -44,13 +44,7 @@ const starCount = computed(() =>
 		<!-- The logotype holds the mark, so UxHeader's default mark stays out. -->
 		<template #mark />
 		<template #brand>
-			<img
-				class="site-header__logotype"
-				src="/logotype-dark.svg"
-				alt=""
-				width="155"
-				height="24"
-			/>
+			<img class="site-header__logotype" src="/logotype-dark.svg" alt="" width="155" height="24" />
 		</template>
 		<template #byline>
 			by
@@ -61,9 +55,7 @@ const starCount = computed(() =>
 		</template>
 		<template #actions>
 			<NuxtLink class="site-header__link" :to="INTRODUCTION_URL">Docs</NuxtLink>
-			<NuxtLink class="site-header__link" :to="CHANGELOG_URL"
-				>Changelog</NuxtLink
-			>
+			<NuxtLink class="site-header__link" :to="CHANGELOG_URL">Changelog</NuxtLink>
 			<a
 				class="site-header__github"
 				:href="GITHUB_URL"

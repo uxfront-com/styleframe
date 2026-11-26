@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useFieldGroupRecipe } from "./useFieldGroupRecipe";
 
 function createInstance() {
@@ -26,8 +27,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	) as { children: Array<{ type: string; query?: string }> } | undefined;
 }
 
@@ -35,9 +35,9 @@ function findChildRule(
 	selector: { children: Array<{ type: string; query?: string }> } | undefined,
 	query: string,
 ) {
-	return selector?.children.find(
-		(child) => child.type === "selector" && child.query === query,
-	) as { declarations?: Record<string, unknown> } | undefined;
+	return selector?.children.find((child) => child.type === "selector" && child.query === query) as
+		| { declarations?: Record<string, unknown> }
+		| undefined;
 }
 
 describe("useFieldGroupRecipe", () => {
@@ -118,9 +118,7 @@ describe("useFieldGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useFieldGroupRecipe(s);
 
-			const vertical = recipe.compoundVariants!.find(
-				(cv) => cv.match.orientation === "vertical",
-			);
+			const vertical = recipe.compoundVariants!.find((cv) => cv.match.orientation === "vertical");
 
 			expect(vertical).toEqual({
 				match: { orientation: "vertical" },
@@ -132,9 +130,7 @@ describe("useFieldGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useFieldGroupRecipe(s);
 
-			const block = recipe.compoundVariants!.find(
-				(cv) => cv.match.block === "true",
-			);
+			const block = recipe.compoundVariants!.find((cv) => cv.match.block === "true");
 
 			expect(block).toEqual({
 				match: { block: "true" },
@@ -154,12 +150,12 @@ describe("useFieldGroupRecipe", () => {
 			const horizontal = findSelector(s, ".field-group.-horizontal");
 			expect(horizontal).toBeDefined();
 
-			expect(
-				findChildRule(horizontal, `& > ${C}:has(~ ${K})`)?.declarations,
-			).toMatchObject({ borderRightWidth: "0" });
-			expect(
-				findChildRule(horizontal, `& > ${C} ~ ${K}`)?.declarations,
-			).toMatchObject({ borderTopLeftRadius: "0" });
+			expect(findChildRule(horizontal, `& > ${C}:has(~ ${K})`)?.declarations).toMatchObject({
+				borderRightWidth: "0",
+			});
+			expect(findChildRule(horizontal, `& > ${C} ~ ${K}`)?.declarations).toMatchObject({
+				borderTopLeftRadius: "0",
+			});
 
 			for (const query of ["& > .input", "& > .select", "& > .textarea"]) {
 				expect(findChildRule(horizontal, query)?.declarations).toMatchObject({
@@ -176,12 +172,12 @@ describe("useFieldGroupRecipe", () => {
 			const vertical = findSelector(s, ".field-group.-vertical");
 			expect(vertical).toBeDefined();
 
-			expect(
-				findChildRule(vertical, `& > ${C}:has(~ ${K})`)?.declarations,
-			).toMatchObject({ borderBottomWidth: "0" });
-			expect(
-				findChildRule(vertical, `& > ${C} ~ ${K}`)?.declarations,
-			).toMatchObject({ borderTopLeftRadius: "0" });
+			expect(findChildRule(vertical, `& > ${C}:has(~ ${K})`)?.declarations).toMatchObject({
+				borderBottomWidth: "0",
+			});
+			expect(findChildRule(vertical, `& > ${C} ~ ${K}`)?.declarations).toMatchObject({
+				borderTopLeftRadius: "0",
+			});
 		});
 
 		it("equal-fills buttons in block mode", () => {

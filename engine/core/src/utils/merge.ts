@@ -1,23 +1,13 @@
-import {
-	isInstanceLicenseRequired,
-	markInstanceLicenseRequired,
-} from "@styleframe/license";
+import { isInstanceLicenseRequired, markInstanceLicenseRequired } from "@styleframe/license";
+
 import type { Styleframe } from "../styleframe";
 import { isRoot } from "../typeGuards";
-import type {
-	Container,
-	ContainerChild,
-	Root,
-	Theme,
-	Variable,
-} from "../types";
+import type { Container, ContainerChild, Root, Theme, Variable } from "../types";
 
 export function mergeVariablesArray(a: Array<Variable>, b: Array<Variable>) {
 	const variables = [...a];
 	for (const newVariable of b) {
-		const existingVariable = variables.find(
-			(variable) => variable.name === newVariable.name,
-		);
+		const existingVariable = variables.find((variable) => variable.name === newVariable.name);
 
 		if (existingVariable) {
 			existingVariable.value = newVariable.value;
@@ -32,15 +22,10 @@ export function mergeVariablesArray(a: Array<Variable>, b: Array<Variable>) {
 export function mergeThemesArray(a: Array<Theme>, b: Array<Theme>) {
 	const themes = [...a];
 	for (const themeToBeAdded of b) {
-		const existingTheme = themes.find(
-			(theme) => theme.name === themeToBeAdded.name,
-		);
+		const existingTheme = themes.find((theme) => theme.name === themeToBeAdded.name);
 
 		if (existingTheme) {
-			Object.assign(
-				existingTheme,
-				mergeContainers(existingTheme, themeToBeAdded),
-			);
+			Object.assign(existingTheme, mergeContainers(existingTheme, themeToBeAdded));
 		} else {
 			themes.push(themeToBeAdded);
 		}

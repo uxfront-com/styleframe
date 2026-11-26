@@ -1,6 +1,7 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+
 import { expectKeyframesRegistered } from "../../__tests__/expectKeyframesRegistered";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useProgressBarRecipe, useProgressRecipe } from "./useProgressRecipe";
 
 function createInstance() {
@@ -55,11 +56,7 @@ describe("useProgressRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have orientation variants", () => {
@@ -130,9 +127,7 @@ describe("useProgressRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((cv) => cv.match.color === "light");
 
 			expect(light).toEqual({
 				match: { color: "light" },
@@ -149,9 +144,7 @@ describe("useProgressRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressRecipe(s);
 
-			const dark = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "dark",
-			);
+			const dark = recipe.compoundVariants!.find((cv) => cv.match.color === "dark");
 
 			expect(dark).toEqual({
 				match: { color: "dark" },
@@ -168,9 +161,7 @@ describe("useProgressRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -232,9 +223,7 @@ describe("useProgressRecipe", () => {
 				(cv) => cv.match.color && !cv.match.orientation,
 			);
 			expect(colorOnlyCvs).toHaveLength(1);
-			expect(colorOnlyCvs.every((cv) => cv.match.color === "neutral")).toBe(
-				true,
-			);
+			expect(colorOnlyCvs.every((cv) => cv.match.color === "neutral")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {
@@ -397,9 +386,7 @@ describe("useProgressBarRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressBarRecipe(s);
 
-			const primary = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "primary",
-			);
+			const primary = recipe.compoundVariants!.find((cv) => cv.match.color === "primary");
 
 			expect(primary).toEqual({
 				match: { color: "primary" },
@@ -413,9 +400,7 @@ describe("useProgressBarRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressBarRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((cv) => cv.match.color === "light");
 
 			expect(light).toEqual({
 				match: { color: "light" },
@@ -432,9 +417,7 @@ describe("useProgressBarRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressBarRecipe(s);
 
-			const dark = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "dark",
-			);
+			const dark = recipe.compoundVariants!.find((cv) => cv.match.color === "dark");
 
 			expect(dark).toEqual({
 				match: { color: "dark" },
@@ -451,9 +434,7 @@ describe("useProgressBarRecipe", () => {
 			const s = createInstance();
 			const recipe = useProgressBarRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -471,8 +452,7 @@ describe("useProgressBarRecipe", () => {
 			const recipe = useProgressBarRecipe(s);
 
 			const invertedH = recipe.compoundVariants!.find(
-				(cv) =>
-					cv.match.inverted === "true" && cv.match.orientation === "horizontal",
+				(cv) => cv.match.inverted === "true" && cv.match.orientation === "horizontal",
 			);
 
 			expect(invertedH).toEqual({
@@ -486,8 +466,7 @@ describe("useProgressBarRecipe", () => {
 			const recipe = useProgressBarRecipe(s);
 
 			const invertedV = recipe.compoundVariants!.find(
-				(cv) =>
-					cv.match.inverted === "true" && cv.match.orientation === "vertical",
+				(cv) => cv.match.inverted === "true" && cv.match.orientation === "vertical",
 			);
 
 			expect(invertedV).toEqual({
@@ -501,9 +480,7 @@ describe("useProgressBarRecipe", () => {
 			const recipe = useProgressBarRecipe(s);
 
 			const carouselVertical = recipe.compoundVariants!.find(
-				(cv) =>
-					cv.match.animation === "carousel" &&
-					cv.match.orientation === "vertical",
+				(cv) => cv.match.animation === "carousel" && cv.match.orientation === "vertical",
 			);
 
 			expect(carouselVertical).toEqual({
@@ -531,10 +508,7 @@ describe("useProgressBarRecipe", () => {
 				filter: { color: ["primary", "success"] },
 			});
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"primary",
-				"success",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "success"]);
 		});
 
 		it("should prune compound variants when filtering colors", () => {
@@ -547,9 +521,7 @@ describe("useProgressBarRecipe", () => {
 				(cv) => cv.match.color && !cv.match.inverted && !cv.match.animation,
 			);
 			expect(colorOnlyCvs).toHaveLength(1);
-			expect(colorOnlyCvs.every((cv) => cv.match.color === "primary")).toBe(
-				true,
-			);
+			expect(colorOnlyCvs.every((cv) => cv.match.color === "primary")).toBe(true);
 		});
 
 		it("should adjust default variants when filtered out", () => {

@@ -123,16 +123,13 @@ const output = String.raw`/* Only the utilities your templates reference */
 				<UxHeroLine>at Build Time</UxHeroLine>
 			</template>
 			<template #lead>
-				If you've used Tailwind JIT, you already know the workflow. The
-				difference: your classes are backed by type-safe factories and your own
-				design tokens, and you control their syntax and naming.
+				If you've used Tailwind JIT, you already know the workflow. The difference: your classes are
+				backed by type-safe factories and your own design tokens, and you control their syntax and
+				naming.
 				<br />
 				<span class="scanner__actions">
 					<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
-					<UxPillLink
-						:href="SCANNER_DOCS_URL"
-						label="Read utility scanner docs"
-					/>
+					<UxPillLink :href="SCANNER_DOCS_URL" label="Read utility scanner docs" />
 				</span>
 			</template>
 		</UxHero>
@@ -156,8 +153,7 @@ const output = String.raw`/* Only the utilities your templates reference */
 		>
 			<template #lead>
 				The scanner reads your source files, extracts every
-				<code>_property:value</code> class, and generates the matching CSS at
-				build time.
+				<code>_property:value</code> class, and generates the matching CSS at build time.
 			</template>
 			<UxTraits :items="extraction" />
 			<template #aside>
@@ -165,16 +161,10 @@ const output = String.raw`/* Only the utilities your templates reference */
 			</template>
 		</UxSplit>
 
-		<UxSplit
-			id="output"
-			index="03"
-			role="Output"
-			title="See Exactly What Gets Generated"
-		>
+		<UxSplit id="output" index="03" role="Output" title="See Exactly What Gets Generated">
 			<template #lead>
-				Design tokens resolve to CSS custom properties. Arbitrary bracket values
-				produce literal CSS. Modifiers wrap declarations in the correct
-				pseudo-selectors and media queries.
+				Design tokens resolve to CSS custom properties. Arbitrary bracket values produce literal
+				CSS. Modifiers wrap declarations in the correct pseudo-selectors and media queries.
 			</template>
 			<template #aside>
 				<UxCode title="Output CSS" :code="output" />
@@ -182,19 +172,13 @@ const output = String.raw`/* Only the utilities your templates reference */
 		</UxSplit>
 
 		<UxFinale kicker="Utility Scanner">
-			<template #title>
-				Start Writing Utility Classes <em class="ux-serif">Today</em>
-			</template>
+			<template #title> Start Writing Utility Classes <em class="ux-serif">Today</em> </template>
 			<template #lead>
-				Enable the scanner, register your factories, and let your templates
-				drive your CSS output.
+				Enable the scanner, register your factories, and let your templates drive your CSS output.
 			</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started" />
-				<UxPillLink
-					:href="SCANNER_DOCS_URL"
-					label="Read utility scanner docs"
-				/>
+				<UxPillLink :href="SCANNER_DOCS_URL" label="Read utility scanner docs" />
 			</template>
 			<template #footer><SiteFooter /></template>
 		</UxFinale>

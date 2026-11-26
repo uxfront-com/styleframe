@@ -1,21 +1,19 @@
 import { createRequire } from "node:module";
 import path from "node:path";
-import { build } from "esbuild";
-import vue from "@vitejs/plugin-vue";
+
 import styleframe from "@styleframe/plugin/vite";
+import vue from "@vitejs/plugin-vue";
+import { build } from "esbuild";
 import { defineConfig } from "vite";
 import type { Plugin } from "vite";
 
-const dirname =
-	typeof __dirname !== "undefined" ? __dirname : import.meta.dirname;
+const dirname = typeof __dirname !== "undefined" ? __dirname : import.meta.dirname;
 
 const require = createRequire(import.meta.url);
 
 function moduleKeys(specifier: string): Array<string> {
 	const mod = require(specifier) as Record<string, unknown>;
-	return Object.keys(mod).filter(
-		(key) => key !== "default" && /^[A-Za-z_$][\w$]*$/.test(key),
-	);
+	return Object.keys(mod).filter((key) => key !== "default" && /^[A-Za-z_$][\w$]*$/.test(key));
 }
 
 /**

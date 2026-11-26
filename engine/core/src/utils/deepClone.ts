@@ -9,10 +9,7 @@
 
 type CloneFunction<T = any> = (obj: T) => T;
 type ConstructorHandler<T = any> = (obj: T, fn: CloneFunction) => T;
-type ConstructorHandlerTuple<T = any> = [
-	new (...args: Array<any>) => T,
-	ConstructorHandler<T>,
-];
+type ConstructorHandlerTuple<T = any> = [new (...args: Array<any>) => T, ConstructorHandler<T>];
 
 interface RfdcOptions {
 	circular?: boolean;
@@ -45,15 +42,11 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 		return rfdcCircular<T>(opts);
 	}
 
-	const constructorHandlers = new Map<
-		new (...args: Array<any>) => any,
-		ConstructorHandler
-	>();
+	const constructorHandlers = new Map<new (...args: Array<any>) => any, ConstructorHandler>();
 	constructorHandlers.set(Date, (o: Date) => new Date(o));
 	constructorHandlers.set(
 		Map,
-		(o: Map<any, any>, fn: CloneFunction) =>
-			new Map(cloneArray(Array.from(o), fn)),
+		(o: Map<any, any>, fn: CloneFunction) => new Map(cloneArray(Array.from(o), fn)),
 	);
 	constructorHandlers.set(
 		Set,
@@ -102,10 +95,7 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 			return cloneArray(o, clone);
 		}
 
-		if (
-			o.constructor !== Object &&
-			(handler = constructorHandlers.get(o.constructor))
-		) {
+		if (o.constructor !== Object && (handler = constructorHandlers.get(o.constructor))) {
 			return handler(o, clone);
 		}
 
@@ -142,10 +132,7 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 			return cloneArray(o, cloneProto);
 		}
 
-		if (
-			o.constructor !== Object &&
-			(handler = constructorHandlers.get(o.constructor))
-		) {
+		if (o.constructor !== Object && (handler = constructorHandlers.get(o.constructor))) {
 			return handler(o, cloneProto);
 		}
 
@@ -175,15 +162,11 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 	const refs: Array<any> = [];
 	const refsNew: Array<any> = [];
 
-	const constructorHandlers = new Map<
-		new (...args: Array<any>) => any,
-		ConstructorHandler
-	>();
+	const constructorHandlers = new Map<new (...args: Array<any>) => any, ConstructorHandler>();
 	constructorHandlers.set(Date, (o: Date) => new Date(o));
 	constructorHandlers.set(
 		Map,
-		(o: Map<any, any>, fn: CloneFunction) =>
-			new Map(cloneArray(Array.from(o), fn)),
+		(o: Map<any, any>, fn: CloneFunction) => new Map(cloneArray(Array.from(o), fn)),
 	);
 	constructorHandlers.set(
 		Set,
@@ -237,10 +220,7 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 			return cloneArray(o, clone);
 		}
 
-		if (
-			o.constructor !== Object &&
-			(handler = constructorHandlers.get(o.constructor))
-		) {
+		if (o.constructor !== Object && (handler = constructorHandlers.get(o.constructor))) {
 			return handler(o, clone);
 		}
 
@@ -287,10 +267,7 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 			return cloneArray(o, cloneProto);
 		}
 
-		if (
-			o.constructor !== Object &&
-			(handler = constructorHandlers.get(o.constructor))
-		) {
+		if (o.constructor !== Object && (handler = constructorHandlers.get(o.constructor))) {
 			return handler(o, cloneProto);
 		}
 

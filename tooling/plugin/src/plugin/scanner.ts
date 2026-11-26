@@ -1,11 +1,8 @@
 import { registerMatchedUtilities } from "@styleframe/scanner";
-import type {
-	Extractor,
-	Scanner,
-	ScannerUtilitiesConfig,
-} from "@styleframe/scanner";
+import type { Extractor, Scanner, ScannerUtilitiesConfig } from "@styleframe/scanner";
 import { createScanner } from "@styleframe/scanner/node";
 import { consola } from "consola";
+
 import type { PluginGlobalState } from "./state";
 
 /**
@@ -73,15 +70,9 @@ export async function scanAndRegister(
 		scannerState.scannedFiles.add(filePath);
 	}
 
-	const matches = scannerState.scanner.match(
-		result.allParsed,
-		pluginState.globalInstance.root,
-	);
+	const matches = scannerState.scanner.match(result.allParsed, pluginState.globalInstance.root);
 
-	const registered = registerMatchedUtilities(
-		pluginState.globalInstance.root,
-		matches,
-	);
+	const registered = registerMatchedUtilities(pluginState.globalInstance.root, matches);
 
 	if (!options?.silent) {
 		const unmatched = matches.filter((m) => m.factory === null);
@@ -125,15 +116,9 @@ export async function scanFileAndRegister(
 	scannerState.scanner.invalidate(filePath);
 	const fileResult = await scannerState.scanner.scanFile(filePath);
 
-	const matches = scannerState.scanner.match(
-		fileResult.parsed,
-		pluginState.globalInstance.root,
-	);
+	const matches = scannerState.scanner.match(fileResult.parsed, pluginState.globalInstance.root);
 
-	const registered = registerMatchedUtilities(
-		pluginState.globalInstance.root,
-		matches,
-	);
+	const registered = registerMatchedUtilities(pluginState.globalInstance.root, matches);
 
 	return registered > 0;
 }
@@ -141,9 +126,6 @@ export async function scanFileAndRegister(
 /**
  * Check if a file is a tracked content file.
  */
-export function isContentFile(
-	scannerState: PluginScannerState | null,
-	filePath: string,
-): boolean {
+export function isContentFile(scannerState: PluginScannerState | null, filePath: string): boolean {
 	return scannerState?.scannedFiles.has(filePath) ?? false;
 }

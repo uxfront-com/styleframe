@@ -174,24 +174,14 @@ export function createBenchmarkInstance() {
 
 	// Spacing
 	utility("padding", ({ value }) => ({ padding: value }))(spacingValues);
-	utility("padding-inline", ({ value }) => ({ paddingInline: value }))(
-		spacingValues,
-	);
-	utility("padding-block", ({ value }) => ({ paddingBlock: value }))(
-		spacingValues,
-	);
+	utility("padding-inline", ({ value }) => ({ paddingInline: value }))(spacingValues);
+	utility("padding-block", ({ value }) => ({ paddingBlock: value }))(spacingValues);
 	utility("padding-top", ({ value }) => ({ paddingTop: value }))(spacingValues);
-	utility("padding-bottom", ({ value }) => ({ paddingBottom: value }))(
-		spacingValues,
-	);
+	utility("padding-bottom", ({ value }) => ({ paddingBottom: value }))(spacingValues);
 	utility("margin", ({ value }) => ({ margin: value }))(spacingValues);
 	utility("margin-top", ({ value }) => ({ marginTop: value }))(spacingValues);
-	utility("margin-bottom", ({ value }) => ({ marginBottom: value }))(
-		spacingValues,
-	);
-	utility("margin-block", ({ value }) => ({ marginBlock: value }))(
-		spacingValues,
-	);
+	utility("margin-bottom", ({ value }) => ({ marginBottom: value }))(spacingValues);
+	utility("margin-block", ({ value }) => ({ marginBlock: value }))(spacingValues);
 	utility("margin-inline", ({ value }) => ({ marginInline: value }))({
 		auto: "auto",
 		...spacingValues,
@@ -251,9 +241,7 @@ export function createBenchmarkInstance() {
 
 	// Colors
 	utility("color", ({ value }) => ({ color: value }))(colorValues);
-	utility("background", ({ value }) => ({ backgroundColor: value }))(
-		colorValues,
-	);
+	utility("background", ({ value }) => ({ backgroundColor: value }))(colorValues);
 
 	// Borders
 	utility("border-width", ({ value }) => ({ borderWidth: value }))({
@@ -270,25 +258,17 @@ export function createBenchmarkInstance() {
 		solid: "solid",
 		none: "none",
 	});
-	utility("border-bottom-width", ({ value }) => ({ borderBottomWidth: value }))(
-		{
-			thin: ref(borderWidthThin),
-		},
-	);
-	utility("border-bottom-color", ({ value }) => ({ borderBottomColor: value }))(
-		colorValues,
-	);
-	utility("border-bottom-style", ({ value }) => ({ borderBottomStyle: value }))(
-		{
-			solid: "solid",
-		},
-	);
+	utility("border-bottom-width", ({ value }) => ({ borderBottomWidth: value }))({
+		thin: ref(borderWidthThin),
+	});
+	utility("border-bottom-color", ({ value }) => ({ borderBottomColor: value }))(colorValues);
+	utility("border-bottom-style", ({ value }) => ({ borderBottomStyle: value }))({
+		solid: "solid",
+	});
 	utility("border-top-width", ({ value }) => ({ borderTopWidth: value }))({
 		thin: ref(borderWidthThin),
 	});
-	utility("border-top-color", ({ value }) => ({ borderTopColor: value }))(
-		colorValues,
-	);
+	utility("border-top-color", ({ value }) => ({ borderTopColor: value }))(colorValues);
 	utility("border-top-style", ({ value }) => ({ borderTopStyle: value }))({
 		solid: "solid",
 	});

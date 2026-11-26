@@ -1,11 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useOverflowUtility,
-	useOverflowXUtility,
-	useOverflowYUtility,
-} from "./useOverflowUtility";
+
+import { useOverflowUtility, useOverflowXUtility, useOverflowYUtility } from "./useOverflowUtility";
 
 describe("useOverflowUtility", () => {
 	it("should create utility instances with provided values", () => {

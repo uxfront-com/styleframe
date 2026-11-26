@@ -1,5 +1,7 @@
 import path from "node:path";
+
 import { glob } from "tinyglobby";
+
 import { DEFAULT_IGNORE_PATTERNS } from "./constants";
 
 export interface DiscoveryOptions {
@@ -14,11 +16,8 @@ export interface DiscoveryOptions {
 /**
  * Discover all *.styleframe.ts files in the project
  */
-export async function discoverStyleframeFiles(
-	options: DiscoveryOptions,
-): Promise<Array<string>> {
-	const patterns =
-		options.include.length > 0 ? options.include : ["**/*.styleframe.ts"];
+export async function discoverStyleframeFiles(options: DiscoveryOptions): Promise<Array<string>> {
+	const patterns = options.include.length > 0 ? options.include : ["**/*.styleframe.ts"];
 
 	const files = await glob(patterns, {
 		cwd: options.cwd,

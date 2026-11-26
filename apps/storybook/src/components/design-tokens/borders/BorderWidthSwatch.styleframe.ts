@@ -1,17 +1,13 @@
-import { styleframe } from "virtual:styleframe";
 import { useDesignTokensPreset, useUtilitiesPreset } from "@styleframe/theme";
+import { styleframe } from "virtual:styleframe";
 
 const s = styleframe();
 const { ref, selector, recipe } = s;
 
 useUtilitiesPreset(s);
 
-const {
-	borderWidthNone,
-	borderWidthThin,
-	borderWidthMedium,
-	borderWidthThick,
-} = useDesignTokensPreset(s);
+const { borderWidthNone, borderWidthThin, borderWidthMedium, borderWidthThick } =
+	useDesignTokensPreset(s);
 
 selector(".border-width-swatch__preview", {
 	width: "calc(@spacing * 6)",

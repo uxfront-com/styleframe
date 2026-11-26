@@ -1,7 +1,9 @@
 import { readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+
 import { createResolver } from "@nuxt/kit";
+
 import { SECURITY_HEADERS } from "./server/lib/headers";
 
 const { resolve } = createResolver(import.meta.url);
@@ -74,9 +76,7 @@ export default defineNuxtConfig({
 	// own versions. The workspace's other apps use older ones, which pnpm hoists,
 	// and Nuxt looks a module up from this app first, then from its own package,
 	// which finds the hoisted ones. So look them up from Docus's package second.
-	modulesDir: [
-		join(dirname(require.resolve("docus/package.json")), "node_modules"),
-	],
+	modulesDir: [join(dirname(require.resolve("docus/package.json")), "node_modules")],
 
 	modules: [
 		// Drops the category folders under Elements and Components from the URLs,

@@ -1,4 +1,5 @@
 import { createRequire } from "node:module";
+
 import type * as esbuildTypes from "esbuild-wasm";
 
 const require = createRequire(import.meta.url);

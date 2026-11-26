@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -94,9 +95,7 @@ describe("homepage", () => {
 
 	it("has the homepage's title and description", () => {
 		expect(html).toContain(`<title>${TITLE}</title>`);
-		expect(html).toContain(
-			`<meta name="description" content="${DESCRIPTION}">`,
-		);
+		expect(html).toContain(`<meta name="description" content="${DESCRIPTION}">`);
 	});
 
 	it("is a UxSite with one <main> and one <h1>", () => {
@@ -106,18 +105,18 @@ describe("homepage", () => {
 	});
 
 	it("keeps main's calls to action", () => {
-		const links = [
-			...content.matchAll(/<a class="ux-pill-link[^"]*" href="([^"]+)"/g),
-		].map(([, href]) => href);
+		const links = [...content.matchAll(/<a class="ux-pill-link[^"]*" href="([^"]+)"/g)].map(
+			([, href]) => href,
+		);
 		expect(links).toEqual(CALLS_TO_ACTION);
 	});
 
 	it.each(Object.entries(ACTIONS))(
 		"fills Get started and stars Star on GitHub in the %s",
 		(_, [from, to]) => {
-			const pills = [
-				...content.matchAll(/<a class="ux-pill-link[\s\S]*?<\/a>/g),
-			].map(([markup]) => markup);
+			const pills = [...content.matchAll(/<a class="ux-pill-link[\s\S]*?<\/a>/g)].map(
+				([markup]) => markup,
+			);
 			const [getStarted, star] = pills.slice(from, to);
 			expect(getStarted).toContain("Get started");
 			expect(getStarted).toContain("ux-pill-link--filled");
@@ -162,21 +161,14 @@ describe("homepage", () => {
 
 	it("shows the docs' logotype in its header, with the byline after it", () => {
 		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
-		const home =
-			header.match(
-				/<a\b[^>]*aria-label="styleframe, home"[\s\S]*?<\/a>/,
-			)?.[0] ?? "";
+		const home = header.match(/<a\b[^>]*aria-label="styleframe, home"[\s\S]*?<\/a>/)?.[0] ?? "";
 		expect(home).not.toBe("");
-		expect(home).toMatch(
-			/<img\b(?=[^>]*\bsrc="\/logotype-dark\.svg")(?=[^>]*\balt="")[^>]*>/,
-		);
+		expect(home).toMatch(/<img\b(?=[^>]*\bsrc="\/logotype-dark\.svg")(?=[^>]*\balt="")[^>]*>/);
 		// No mark: neither the old one, nor the UxFrontMark UxHeader defaults to.
 		expect(home).not.toContain('src="/logo.svg"');
 		expect(home).not.toContain("<svg");
 		expect(home).not.toContain("ux-header__mark");
-		expect(header.indexOf('href="https://uxfront.com"')).toBeGreaterThan(
-			header.indexOf(home),
-		);
+		expect(header.indexOf('href="https://uxfront.com"')).toBeGreaterThan(header.indexOf(home));
 	});
 
 	// The hero lists the chapters; the header doesn't repeat them.
@@ -213,21 +205,14 @@ it("leaves the docs pages' stylesheet as it is", () => {
 	const html = existsSync(join(OUTPUT, "docs/api/variables.html"))
 		? read("docs/api/variables.html")
 		: read("docs/api/variables/index.html");
-	expect(html).toMatch(
-		/<link rel="stylesheet" href="[^"]*\/entry\.[\w-]+\.css"[^>]*crossorigin>/,
-	);
+	expect(html).toMatch(/<link rel="stylesheet" href="[^"]*\/entry\.[\w-]+\.css"[^>]*crossorigin>/);
 	expect(html).not.toContain('media="print"');
 });
 
-it.each(["index", "pro"])(
-	"%s holds the rule without the cards' arrow",
-	(route) => {
-		const file = existsSync(join(OUTPUT, `${route}.html`))
-			? `${route}.html`
-			: `${route}/index.html`;
-		expect(read(file)).toMatch(NO_CARD_ARROW);
-	},
-);
+it.each(["index", "pro"])("%s holds the rule without the cards' arrow", (route) => {
+	const file = existsSync(join(OUTPUT, `${route}.html`)) ? `${route}.html` : `${route}/index.html`;
+	expect(read(file)).toMatch(NO_CARD_ARROW);
+});
 
 // 404.html is the app's client-side shell: app/error.vue renders the UXFront
 // error page in the browser.

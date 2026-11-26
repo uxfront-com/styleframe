@@ -1,5 +1,6 @@
 import type { Recipe, StyleframeOptions } from "@styleframe/core";
 import { capitalizeFirst } from "@styleframe/core";
+
 import type { ConsumeFunction, TranspileContext } from "../../types";
 import { isUppercase, toCamelCase } from "../../utils";
 

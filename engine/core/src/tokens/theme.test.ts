@@ -77,18 +77,10 @@ describe("createThemeFunction", () => {
 			expect(receivedContext).toHaveProperty("keyframes");
 			expect(receivedContext).toHaveProperty("media");
 
-			expect(
-				(receivedContext as DeclarationsCallbackContext).variable,
-			).toBeTypeOf("function");
-			expect(
-				(receivedContext as DeclarationsCallbackContext).selector,
-			).toBeTypeOf("function");
-			expect(
-				(receivedContext as DeclarationsCallbackContext).keyframes,
-			).toBeTypeOf("function");
-			expect((receivedContext as DeclarationsCallbackContext).media).toBeTypeOf(
-				"function",
-			);
+			expect((receivedContext as DeclarationsCallbackContext).variable).toBeTypeOf("function");
+			expect((receivedContext as DeclarationsCallbackContext).selector).toBeTypeOf("function");
+			expect((receivedContext as DeclarationsCallbackContext).keyframes).toBeTypeOf("function");
+			expect((receivedContext as DeclarationsCallbackContext).media).toBeTypeOf("function");
 		});
 
 		it("should allow callback to add children to the theme", () => {

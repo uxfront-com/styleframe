@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { createUseSpacingUtility } from "./createUseSpacingUtility";
 
 describe("createUseSpacingUtility", () => {
@@ -91,11 +92,9 @@ describe("createUseSpacingUtility", () => {
 	});
 
 	it("should allow custom base variable", () => {
-		const useGap = createUseSpacingUtility(
-			"gap",
-			({ value }) => ({ gap: value }),
-			{ baseVariable: "gap-base" },
-		);
+		const useGap = createUseSpacingUtility("gap", ({ value }) => ({ gap: value }), {
+			baseVariable: "gap-base",
+		});
 		const s = styleframe();
 		s.variable("gap-base", "0.5rem");
 
@@ -110,11 +109,9 @@ describe("createUseSpacingUtility", () => {
 		const s = styleframe();
 		const spacingVar = s.variable("my-spacing", "0.5rem");
 
-		const useMargin = createUseSpacingUtility(
-			"margin",
-			({ value }) => ({ margin: value }),
-			{ baseVariable: spacingVar },
-		);
+		const useMargin = createUseSpacingUtility("margin", ({ value }) => ({ margin: value }), {
+			baseVariable: spacingVar,
+		});
 
 		const createMargin = useMargin(s);
 		createMargin(["@1.5"]);
@@ -126,11 +123,9 @@ describe("createUseSpacingUtility", () => {
 	});
 
 	it("should use fallback value when base variable is not defined", () => {
-		const useMargin = createUseSpacingUtility(
-			"margin",
-			({ value }) => ({ margin: value }),
-			{ fallback: "0.5rem" },
-		);
+		const useMargin = createUseSpacingUtility("margin", ({ value }) => ({ margin: value }), {
+			fallback: "0.5rem",
+		});
 		const s = styleframe();
 		// Note: spacing variable is NOT defined
 
@@ -185,11 +180,9 @@ describe("createUseSpacingUtility", () => {
 	});
 
 	it("should support defaults option", () => {
-		const useMargin = createUseSpacingUtility(
-			"margin",
-			({ value }) => ({ margin: value }),
-			{ defaults: { sm: "0.5rem", md: "1rem" } },
-		);
+		const useMargin = createUseSpacingUtility("margin", ({ value }) => ({ margin: value }), {
+			defaults: { sm: "0.5rem", md: "1rem" },
+		});
 		const s = styleframe();
 
 		useMargin(s);
@@ -200,11 +193,10 @@ describe("createUseSpacingUtility", () => {
 	});
 
 	it("should support mergeDefaults option", () => {
-		const useMargin = createUseSpacingUtility(
-			"margin",
-			({ value }) => ({ margin: value }),
-			{ defaults: { sm: "0.5rem" }, mergeDefaults: true },
-		);
+		const useMargin = createUseSpacingUtility("margin", ({ value }) => ({ margin: value }), {
+			defaults: { sm: "0.5rem" },
+			mergeDefaults: true,
+		});
 		const s = styleframe();
 
 		useMargin(s, { lg: "1.5rem" });

@@ -13,10 +13,7 @@ import type {
 	UtilityFactory,
 } from "../types";
 import { generateRandomId } from "../utils";
-import {
-	createDeclarationsCallbackContext,
-	parseDeclarationsBlock,
-} from "./declarations";
+import { createDeclarationsCallbackContext, parseDeclarationsBlock } from "./declarations";
 import { applyModifiers } from "./modifier";
 import { trackReferenceUsage } from "./resolve";
 
@@ -24,10 +21,7 @@ import { trackReferenceUsage } from "./resolve";
  * Create an autogenerate function for namespace arrays that resolves
  * against root.variables to pick the first namespace with a defined variable.
  */
-function createNamespaceAutogenerate(
-	namespaces: Array<string>,
-	root: Root,
-): UtilityAutogenerateFn {
+function createNamespaceAutogenerate(namespaces: Array<string>, root: Root): UtilityAutogenerateFn {
 	const baseTransform = transformUtilityKey({ namespace: namespaces });
 
 	return (value: TokenValue): Record<string, TokenValue> => {
@@ -41,8 +35,7 @@ function createNamespaceAutogenerate(
 			);
 
 			if (matchedNs) {
-				const keyName =
-					variableName.slice(matchedNs.length + 1) || variableName;
+				const keyName = variableName.slice(matchedNs.length + 1) || variableName;
 				if (root.variables.some((v) => v.name === variableName)) {
 					root._usage.variables.add(variableName);
 					return {
@@ -100,9 +93,7 @@ function createNamespaceAutogenerate(
  *
  * For mixed cases (multi-key + others), takes the cartesian product.
  */
-function expandModifierGroup(
-	group: Array<ModifierFactory>,
-): Array<Map<string, ModifierFactory>> {
+function expandModifierGroup(group: Array<ModifierFactory>): Array<Map<string, ModifierFactory>> {
 	// Start with a single empty map
 	let results: Array<Map<string, ModifierFactory>> = [new Map()];
 
@@ -149,9 +140,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 				options.autogenerate ??
 				(Array.isArray(options.namespace)
 					? createNamespaceAutogenerate(options.namespace, root)
-					: transformUtilityKey(
-							options.namespace ? { namespace: options.namespace } : undefined,
-						)),
+					: transformUtilityKey(options.namespace ? { namespace: options.namespace } : undefined)),
 			namespace: options.namespace,
 			create: (entries, modifiers = []) => {
 				let resolvedEntries = entries;
@@ -187,10 +176,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 					// e.g. { default: "@solid", solid: "solid" } → default resolves to "solid"
 					if (typeof entryValue === "string" && entryValue[0] === "@") {
 						const referencedKey = entryValue.slice(1);
-						if (
-							!Array.isArray(resolvedEntries) &&
-							referencedKey in resolvedEntries
-						) {
+						if (!Array.isArray(resolvedEntries) && referencedKey in resolvedEntries) {
 							value = resolvedEntries[referencedKey];
 						}
 					}
@@ -260,10 +246,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 
 					root._registry.set(instance.id, instance);
 
-					const callbackContext = createDeclarationsCallbackContext(
-						instance,
-						root,
-					);
+					const callbackContext = createDeclarationsCallbackContext(instance, root);
 
 					instance.declarations =
 						factory({
@@ -271,12 +254,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 							value,
 						}) ?? {};
 
-					parseDeclarationsBlock(
-						instance.declarations,
-						callbackContext,
-						instance,
-						root,
-					);
+					parseDeclarationsBlock(instance.declarations, callbackContext, instance, root);
 
 					if (!existingEntry) {
 						factoryInstance.values.push({
@@ -306,9 +284,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 									(existing) =>
 										existing.key === key &&
 										existing.modifiers.length === combination.length &&
-										existing.modifiers.every(
-											(mod, i) => mod === combination[i],
-										),
+										existing.modifiers.every((mod, i) => mod === combination[i]),
 								);
 
 								if (!isDuplicate) {
@@ -318,9 +294,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 										modifiers: combination,
 									});
 
-									parent.children.push(
-										applyModifiers(instance, root, modifiersByKey),
-									);
+									parent.children.push(applyModifiers(instance, root, modifiersByKey));
 								}
 							}
 						}

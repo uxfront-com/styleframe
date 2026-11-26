@@ -27,9 +27,6 @@ import { letterSpacingValues } from "../values";
  * });
  * ```
  */
-export const useLetterSpacingDesignTokens = createUseVariable(
-	"letter-spacing",
-	{
-		defaults: letterSpacingValues,
-	},
-);
+export const useLetterSpacingDesignTokens = createUseVariable("letter-spacing", {
+	defaults: letterSpacingValues,
+});

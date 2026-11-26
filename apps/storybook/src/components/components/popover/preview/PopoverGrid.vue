@@ -16,16 +16,8 @@ const variants = ["solid", "soft", "subtle"] as const;
 		<div v-for="variant in variants" :key="variant">
 			<div class="popover-label">{{ variant }}</div>
 			<div class="popover-row">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="popover-wrapper"
-				>
-					<Popover
-						:color="color"
-						:variant="variant"
-						class="popover-demo-narrow"
-					>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="popover-wrapper">
+					<Popover :color="color" :variant="variant" class="popover-demo-narrow">
 						<PopoverHeader :color="color" :variant="variant">
 							<PopoverTitle
 								>{{ variant.charAt(0).toUpperCase() + variant.slice(1) }}
@@ -33,20 +25,11 @@ const variants = ["solid", "soft", "subtle"] as const;
 							>
 						</PopoverHeader>
 						<PopoverBody>
-							<PopoverDescription
-								>This is a {{ variant }}
-								{{ color }} popover.</PopoverDescription
-							>
+							<PopoverDescription>This is a {{ variant }} {{ color }} popover.</PopoverDescription>
 						</PopoverBody>
-						<PopoverFooter :color="color" :variant="variant">
-							Footer content
-						</PopoverFooter>
+						<PopoverFooter :color="color" :variant="variant"> Footer content </PopoverFooter>
 					</Popover>
-					<PopoverArrow
-						:color="color"
-						:variant="variant"
-						class="popover-arrow-position"
-					/>
+					<PopoverArrow :color="color" :variant="variant" class="popover-arrow-position" />
 				</div>
 			</div>
 		</div>

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
+import SelectGrid from "@/components/components/select/preview/SelectGrid.vue";
+import SelectSizeGrid from "@/components/components/select/preview/SelectSizeGrid.vue";
 import Select from "@/components/components/select/Select.vue";
 import SelectChip from "@/components/components/select/SelectChip.vue";
 import SelectLabel from "@/components/components/select/SelectLabel.vue";
 import SelectOption from "@/components/components/select/SelectOption.vue";
 import SelectPanel from "@/components/components/select/SelectPanel.vue";
 import SelectSeparator from "@/components/components/select/SelectSeparator.vue";
-import SelectGrid from "@/components/components/select/preview/SelectGrid.vue";
-import SelectSizeGrid from "@/components/components/select/preview/SelectSizeGrid.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const variants = ["solid", "soft", "ghost"] as const;
@@ -59,8 +59,7 @@ const meta = {
 		setup() {
 			// Trigger variants (solid/soft/ghost) map onto the panel's
 			// vocabulary (solid/soft/subtle); ghost reads as subtle on a surface.
-			const panelVariant =
-				args.variant === "ghost" ? "subtle" : (args.variant ?? "solid");
+			const panelVariant = args.variant === "ghost" ? "subtle" : (args.variant ?? "solid");
 			return { args, panelVariant };
 		},
 		template: `
@@ -103,8 +102,7 @@ export const Default: Story = {
 			SelectSeparator,
 		},
 		setup() {
-			const panelVariant =
-				args.variant === "ghost" ? "subtle" : (args.variant ?? "solid");
+			const panelVariant = args.variant === "ghost" ? "subtle" : (args.variant ?? "solid");
 			return { args, panelVariant };
 		},
 		template: `

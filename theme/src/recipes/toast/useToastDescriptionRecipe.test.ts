@@ -1,15 +1,10 @@
 import { styleframe } from "@styleframe/core";
+
 import { useToastDescriptionRecipe } from "./useToastDescriptionRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"marginTop",
-		"fontSize",
-		"fontWeight",
-		"lineHeight",
-	]) {
+	for (const name of ["display", "marginTop", "fontSize", "fontWeight", "lineHeight"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

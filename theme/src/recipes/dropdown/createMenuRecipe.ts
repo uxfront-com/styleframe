@@ -1,4 +1,5 @@
 import type { Styleframe, VariantDeclarationsBlock } from "@styleframe/core";
+
 import { createUseRecipe } from "../../utils/createUseRecipe";
 import type { RecipeConfig } from "../../utils/createUseRecipe";
 
@@ -19,12 +20,7 @@ import type { RecipeConfig } from "../../utils/createUseRecipe";
  * consumer's overrides come last and win on cascade.
  */
 
-type MenuExtras<
-	ExtraVariants extends Record<
-		string,
-		Record<string, VariantDeclarationsBlock>
-	>,
-> = {
+type MenuExtras<ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>>> = {
 	base?: VariantDeclarationsBlock;
 	variants?: ExtraVariants;
 	compoundVariants?: RecipeConfig["compoundVariants"];
@@ -37,15 +33,11 @@ type MenuExtras<
  * background combinations. Select passes `maxHeight`/`overflowY` via `extras`.
  */
 export function createMenuPanelRecipe<
-	const ExtraVariants extends Record<
+	const ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
 		string,
 		Record<string, VariantDeclarationsBlock>
-	> = Record<string, Record<string, VariantDeclarationsBlock>>,
->(
-	name: string,
-	extras: MenuExtras<ExtraVariants> = {},
-	setup?: (s: Styleframe) => void,
-) {
+	>,
+>(name: string, extras: MenuExtras<ExtraVariants> = {}, setup?: (s: Styleframe) => void) {
 	const menuPanelVariants = {
 		color: {
 			light: {},
@@ -241,15 +233,11 @@ export function createMenuPanelRecipe<
  * `inset`/`destructive` and an indicator slot.
  */
 export function createMenuItemRecipe<
-	const ExtraVariants extends Record<
+	const ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
 		string,
 		Record<string, VariantDeclarationsBlock>
-	> = Record<string, Record<string, VariantDeclarationsBlock>>,
->(
-	name: string,
-	extras: MenuExtras<ExtraVariants> = {},
-	setup?: (s: Styleframe) => void,
-) {
+	>,
+>(name: string, extras: MenuExtras<ExtraVariants> = {}, setup?: (s: Styleframe) => void) {
 	const menuItemVariants = {
 		color: {
 			light: {},
@@ -480,15 +468,11 @@ export function createMenuItemRecipe<
  * `.context-menu-separator`): a 1px rule with a color axis only.
  */
 export function createMenuSeparatorRecipe<
-	const ExtraVariants extends Record<
+	const ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
 		string,
 		Record<string, VariantDeclarationsBlock>
-	> = Record<string, Record<string, VariantDeclarationsBlock>>,
->(
-	name: string,
-	extras: MenuExtras<ExtraVariants> = {},
-	setup?: (s: Styleframe) => void,
-) {
+	>,
+>(name: string, extras: MenuExtras<ExtraVariants> = {}, setup?: (s: Styleframe) => void) {
 	const menuSeparatorVariants = {
 		color: {
 			light: {},
@@ -558,15 +542,11 @@ export function createMenuSeparatorRecipe<
  * axes. Context Menu adds an `inset` axis via `extras`.
  */
 export function createMenuLabelRecipe<
-	const ExtraVariants extends Record<
+	const ExtraVariants extends Record<string, Record<string, VariantDeclarationsBlock>> = Record<
 		string,
 		Record<string, VariantDeclarationsBlock>
-	> = Record<string, Record<string, VariantDeclarationsBlock>>,
->(
-	name: string,
-	extras: MenuExtras<ExtraVariants> = {},
-	setup?: (s: Styleframe) => void,
-) {
+	>,
+>(name: string, extras: MenuExtras<ExtraVariants> = {}, setup?: (s: Styleframe) => void) {
 	const menuLabelVariants = {
 		color: {
 			light: {},

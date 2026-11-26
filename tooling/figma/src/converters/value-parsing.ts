@@ -1,4 +1,5 @@
 import { parse, formatHex, formatHex8 } from "culori";
+
 import type { FigmaRGBA, FigmaVariableType } from "../types";
 
 /**
@@ -65,10 +66,7 @@ export function parseDimension(value: string): ParsedDimension | null {
 /**
  * Convert a CSS dimension to a pixel number
  */
-export function dimensionToPixels(
-	value: string,
-	baseFontSize: number = 16,
-): number | null {
+export function dimensionToPixels(value: string, baseFontSize: number = 16): number | null {
 	const parsed = parseDimension(value);
 	if (!parsed) {
 		return null;

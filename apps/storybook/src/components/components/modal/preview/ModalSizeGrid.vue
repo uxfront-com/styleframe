@@ -21,14 +21,11 @@ const sizeTitles: Record<string, string> = {
 			<div class="modal-stage">
 				<Modal :size="size" :aria-labelledby="`modal-size-${size}`">
 					<ModalHeader :size="size">
-						<ModalTitle :id="`modal-size-${size}`"
-							>{{ sizeTitles[size] }} Modal</ModalTitle
-						>
+						<ModalTitle :id="`modal-size-${size}`">{{ sizeTitles[size] }} Modal</ModalTitle>
 					</ModalHeader>
 					<ModalBody :size="size">
 						<ModalDescription
-							>This is a {{ size }} modal showing the
-							{{ sizeTitles[size].toLowerCase() }} size
+							>This is a {{ size }} modal showing the {{ sizeTitles[size].toLowerCase() }} size
 							variant.</ModalDescription
 						>
 					</ModalBody>

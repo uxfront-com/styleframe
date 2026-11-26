@@ -16,10 +16,5 @@
 			"virtual:styleframe": ["./.styleframe/styleframe.d.ts"]
 		}
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		".styleframe/**/*.d.ts"
-	]
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", ".styleframe/**/*.d.ts"]
 }

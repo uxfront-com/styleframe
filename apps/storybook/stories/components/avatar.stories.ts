@@ -9,12 +9,7 @@ const variants = ["solid", "soft"] as const;
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 const shapes = ["circle", "square"] as const;
 const statuses = ["success", "warning", "error", "neutral"] as const;
-const statusPositions = [
-	"top-left",
-	"top-right",
-	"bottom-left",
-	"bottom-right",
-] as const;
+const statusPositions = ["top-left", "top-right", "bottom-left", "bottom-right"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Layout/Avatar",

@@ -1,3 +1,1 @@
-export const scalePowerValues: ReadonlyArray<number> = [
-	-4, -3, -2, -1, 0, 1, 2, 3, 4, 5,
-] as const;
+export const scalePowerValues: ReadonlyArray<number> = [-4, -3, -2, -1, 0, 1, 2, 3, 4, 5] as const;

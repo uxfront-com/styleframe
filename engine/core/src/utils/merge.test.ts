@@ -1,21 +1,17 @@
-import { describe, expect, it, beforeEach } from "vitest";
-import { styleframe } from "../styleframe";
-import type { Styleframe } from "../styleframe";
-import {
-	merge,
-	mergeVariablesArray,
-	mergeThemesArray,
-	mergeContainers,
-} from "./merge";
-import type { Container, Root } from "../types";
-import { createRoot } from "../tokens/root";
-import { createVariableFunction } from "../tokens/variable";
-import { createThemeFunction } from "../tokens/theme";
 import {
 	isInstanceLicenseRequired,
 	LICENSE_PROPERTY_NAME,
 	markInstanceLicenseRequired,
 } from "@styleframe/license";
+import { describe, expect, it, beforeEach } from "vitest";
+
+import { styleframe } from "../styleframe";
+import type { Styleframe } from "../styleframe";
+import { createRoot } from "../tokens/root";
+import { createThemeFunction } from "../tokens/theme";
+import { createVariableFunction } from "../tokens/variable";
+import type { Container, Root } from "../types";
+import { merge, mergeVariablesArray, mergeThemesArray, mergeContainers } from "./merge";
 
 describe("mergeVariablesArray", () => {
 	let root: Root;
@@ -275,17 +271,13 @@ describe("mergeContainers", () => {
 		it("should merge two containers", () => {
 			const a: Container = {
 				id: "a",
-				variables: [
-					{ type: "variable", id: "test-id", name: "var1", value: "a" },
-				],
+				variables: [{ type: "variable", id: "test-id", name: "var1", value: "a" }],
 				declarations: { color: "red" },
 				children: [],
 			};
 			const b: Container = {
 				id: "b",
-				variables: [
-					{ type: "variable", id: "test-id", name: "var2", value: "b" },
-				],
+				variables: [{ type: "variable", id: "test-id", name: "var2", value: "b" }],
 				declarations: { backgroundColor: "blue" },
 				children: [],
 			};

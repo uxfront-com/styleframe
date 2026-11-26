@@ -1,19 +1,15 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useFontStyleDesignTokens } from "./useFontStyleDesignTokens";
+
 import { fontStyleValues } from "../values";
+import { useFontStyleDesignTokens } from "./useFontStyleDesignTokens";
 
 describe("useFontStyleDesignTokens", () => {
 	it("should create all font style variables with correct names and values", () => {
 		const s = styleframe();
-		const {
-			fontStyleItalic,
-			fontStyleOblique,
-			fontStyleNormal,
-			fontStyleInherit,
-			fontStyle,
-		} = useFontStyleDesignTokens(s);
+		const { fontStyleItalic, fontStyleOblique, fontStyleNormal, fontStyleInherit, fontStyle } =
+			useFontStyleDesignTokens(s);
 
 		expect(fontStyleItalic).toEqual({
 			type: "variable",
@@ -123,10 +119,7 @@ describe("useFontStyleDesignTokens", () => {
 		const s = styleframe();
 		const { fontStyleItalic } = useFontStyleDesignTokens(s);
 
-		const customFontStyle = s.variable(
-			"custom-font-style",
-			s.ref(fontStyleItalic),
-		);
+		const customFontStyle = s.variable("custom-font-style", s.ref(fontStyleItalic));
 
 		expect(customFontStyle.value).toEqual({
 			type: "reference",
@@ -174,11 +167,9 @@ describe("useFontStyleDesignTokens", () => {
 
 			// Type assertions to verify the generic types are preserved
 			const italic: Variable<"font-style.italic"> = fontStyles.fontStyleItalic;
-			const oblique: Variable<"font-style.oblique"> =
-				fontStyles.fontStyleOblique;
+			const oblique: Variable<"font-style.oblique"> = fontStyles.fontStyleOblique;
 			const normal: Variable<"font-style.normal"> = fontStyles.fontStyleNormal;
-			const inherit: Variable<"font-style.inherit"> =
-				fontStyles.fontStyleInherit;
+			const inherit: Variable<"font-style.inherit"> = fontStyles.fontStyleInherit;
 			const fontStyle: Variable<"font-style"> = fontStyles.fontStyle;
 
 			expect(italic.name).toBe("font-style.italic");
@@ -269,8 +260,7 @@ describe("useFontStyleDesignTokens", () => {
 	describe("font style value relationships", () => {
 		it("should have all standard CSS font-style keyword values", () => {
 			const s = styleframe();
-			const { fontStyleItalic, fontStyleOblique, fontStyleNormal } =
-				useFontStyleDesignTokens(s);
+			const { fontStyleItalic, fontStyleOblique, fontStyleNormal } = useFontStyleDesignTokens(s);
 
 			expect(fontStyleItalic.value).toBe("italic");
 			expect(fontStyleOblique.value).toBe("oblique");
@@ -548,10 +538,7 @@ article blockquote {
 			const s = styleframe();
 			const { fontStyleItalic } = useFontStyleDesignTokens(s);
 
-			const emphasizedStyle = s.variable(
-				"emphasized-style",
-				s.ref(fontStyleItalic),
-			);
+			const emphasizedStyle = s.variable("emphasized-style", s.ref(fontStyleItalic));
 
 			expect(emphasizedStyle.value).toEqual({
 				type: "reference",

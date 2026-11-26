@@ -17,8 +17,6 @@ export const SITE_PAGES: Array<{ path: string; sources: Array<string> }> = [
 ];
 
 /** The latest of the dates, as YYYY-MM-DD, or undefined when there's none. */
-export function latestDate(
-	dates: Array<string | undefined>,
-): string | undefined {
+export function latestDate(dates: Array<string | undefined>): string | undefined {
 	return dates.filter(Boolean).sort().at(-1);
 }

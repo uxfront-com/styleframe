@@ -1,13 +1,11 @@
 import { styleframe } from "@styleframe/core";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
 	useHoverCapableModifier,
 } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusVisibleModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+import { useFocusVisibleModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useOtpCellRecipe } from "./useOtpCellRecipe";
 
 function createInstance() {
@@ -97,22 +95,14 @@ describe("useOtpCellRecipe", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"default",
-				"soft",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["default", "soft", "ghost"]);
 		});
 
 		it("should have square size variants with scaled font and radius", () => {
@@ -259,9 +249,7 @@ describe("useOtpCellRecipe", () => {
 			const ghost = recipe.compoundVariants!.findIndex(
 				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
 			);
-			const invalid = recipe.compoundVariants!.findIndex(
-				(v) => v.match.invalid === "true",
-			);
+			const invalid = recipe.compoundVariants!.findIndex((v) => v.match.invalid === "true");
 
 			// A later compound replaces an earlier one's key, so invalid must follow ghost.
 			expect(invalid).toBeGreaterThan(ghost);
@@ -277,9 +265,7 @@ describe("useOtpCellRecipe", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.invalid === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.invalid === "true");
 
 			expect(cv).toEqual({
 				match: { invalid: "true" },
@@ -318,9 +304,7 @@ describe("useOtpCellRecipe", () => {
 			const s = createInstance();
 			const recipe = useOtpCellRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.disabled === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.disabled === "true");
 
 			expect(cv).toEqual({
 				match: { disabled: "true" },

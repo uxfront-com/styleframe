@@ -18,11 +18,7 @@ const capitalize = (value: string) =>
 		<div v-for="variant in variants" :key="variant">
 			<div class="modal-label">{{ variant }}</div>
 			<div class="modal-row">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="modal-stage"
-				>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="modal-stage">
 					<Modal
 						:color="color"
 						:variant="variant"
@@ -34,13 +30,9 @@ const capitalize = (value: string) =>
 							>
 						</ModalHeader>
 						<ModalBody>
-							<ModalDescription
-								>This is a {{ variant }} {{ color }} modal.</ModalDescription
-							>
+							<ModalDescription>This is a {{ variant }} {{ color }} modal.</ModalDescription>
 						</ModalBody>
-						<ModalFooter :color="color" :variant="variant">
-							Footer content
-						</ModalFooter>
+						<ModalFooter :color="color" :variant="variant"> Footer content </ModalFooter>
 					</Modal>
 				</div>
 			</div>

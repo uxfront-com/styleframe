@@ -1,5 +1,7 @@
 import { queryCollection } from "@nuxt/content/server";
+
 import gitDates from "#git-dates";
+
 import { docsSourceStem } from "../../app/constants/sections";
 import { latestDate, SITE_PAGES } from "../lib/pages";
 
@@ -26,13 +28,8 @@ interface DocsPage {
  */
 export default defineEventHandler(async (event) => {
 	const { siteUrl } = useRuntimeConfig(event).public;
-	const pages = (await queryCollection(
-		event,
-		"docs" as never,
-	).all()) as Array<DocsPage>;
-	const entries = await queryCollection(event, "changelog")
-		.order("date", "DESC")
-		.all();
+	const pages = (await queryCollection(event, "docs" as never).all()) as Array<DocsPage>;
+	const entries = await queryCollection(event, "changelog").order("date", "DESC").all();
 
 	const urls = [
 		...SITE_PAGES.map(({ path, sources }) => ({
@@ -40,13 +37,10 @@ export default defineEventHandler(async (event) => {
 			lastmod: latestDate(sources.map((source) => gitDates[source])),
 		})),
 		...pages
-			.filter(
-				(page) => page.meta.sitemap !== false && !isNavigationPath(page.path),
-			)
+			.filter((page) => page.meta.sitemap !== false && !isNavigationPath(page.path))
 			.map((page) => ({
 				loc: page.path,
-				lastmod:
-					gitDates[`content/${docsSourceStem(page.stem)}.${page.extension}`],
+				lastmod: gitDates[`content/${docsSourceStem(page.stem)}.${page.extension}`],
 			})),
 		{ loc: "/changelog", lastmod: entries[0]?.date },
 		...entries.map((entry) => ({ loc: entry.path, lastmod: entry.date })),

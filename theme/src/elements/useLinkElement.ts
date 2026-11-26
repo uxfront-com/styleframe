@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -38,10 +39,7 @@ export function useLinkDesignTokens(
 		result.linkColor = ctx.variable("link.color", config.color);
 	}
 	if (config.textDecoration !== undefined) {
-		result.linkTextDecoration = ctx.variable(
-			"link.text-decoration",
-			config.textDecoration,
-		);
+		result.linkTextDecoration = ctx.variable("link.text-decoration", config.textDecoration);
 	}
 	if (config.hoverColor !== undefined) {
 		result.linkHoverColor = ctx.variable("link.hover.color", config.hoverColor);
@@ -82,10 +80,7 @@ export function useLinkElement(
 	s: Styleframe,
 	options: WithThemes<LinkElementConfig> = {},
 ): LinkElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultLinkOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultLinkOptions, options);
 
 	const result = useLinkSelectors(s, config as Required<LinkElementConfig>);
 

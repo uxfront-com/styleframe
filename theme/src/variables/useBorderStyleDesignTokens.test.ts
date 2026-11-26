@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useBorderStyleDesignTokens } from "./useBorderStyleDesignTokens";
+
 import { borderStyleValues } from "../values";
+import { useBorderStyleDesignTokens } from "./useBorderStyleDesignTokens";
 
 describe("useBorderStyleDesignTokens", () => {
 	it("should create all border style variables with correct names and values", () => {
@@ -171,10 +172,7 @@ describe("useBorderStyleDesignTokens", () => {
 		const s = styleframe();
 		const { borderStyleDotted } = useBorderStyleDesignTokens(s);
 
-		const customBorderStyle = s.variable(
-			"custom-border-style",
-			s.ref(borderStyleDotted),
-		);
+		const customBorderStyle = s.variable("custom-border-style", s.ref(borderStyleDotted));
 
 		expect(customBorderStyle.value).toEqual({
 			type: "reference",
@@ -230,20 +228,13 @@ describe("useBorderStyleDesignTokens", () => {
 
 			// Type assertions to verify the generic types are preserved
 			const none: Variable<"border-style.none"> = borderStyles.borderStyleNone;
-			const solid: Variable<"border-style.solid"> =
-				borderStyles.borderStyleSolid;
-			const dashed: Variable<"border-style.dashed"> =
-				borderStyles.borderStyleDashed;
-			const dotted: Variable<"border-style.dotted"> =
-				borderStyles.borderStyleDotted;
-			const double: Variable<"border-style.double"> =
-				borderStyles.borderStyleDouble;
-			const groove: Variable<"border-style.groove"> =
-				borderStyles.borderStyleGroove;
-			const inset: Variable<"border-style.inset"> =
-				borderStyles.borderStyleInset;
-			const outset: Variable<"border-style.outset"> =
-				borderStyles.borderStyleOutset;
+			const solid: Variable<"border-style.solid"> = borderStyles.borderStyleSolid;
+			const dashed: Variable<"border-style.dashed"> = borderStyles.borderStyleDashed;
+			const dotted: Variable<"border-style.dotted"> = borderStyles.borderStyleDotted;
+			const double: Variable<"border-style.double"> = borderStyles.borderStyleDouble;
+			const groove: Variable<"border-style.groove"> = borderStyles.borderStyleGroove;
+			const inset: Variable<"border-style.inset"> = borderStyles.borderStyleInset;
+			const outset: Variable<"border-style.outset"> = borderStyles.borderStyleOutset;
 			const borderStyle: Variable<"border-style"> = borderStyles.borderStyle;
 
 			expect(none.name).toBe("border-style.none");
@@ -408,8 +399,7 @@ describe("useBorderStyleDesignTokens", () => {
 	describe("practical usage", () => {
 		it("should work for creating borders with different styles", () => {
 			const s = styleframe();
-			const { borderStyleSolid, borderStyleDashed } =
-				useBorderStyleDesignTokens(s);
+			const { borderStyleSolid, borderStyleDashed } = useBorderStyleDesignTokens(s);
 
 			s.selector(".card", ({ variable }) => {
 				variable("border-style", s.ref(borderStyleSolid));
@@ -443,13 +433,9 @@ describe("useBorderStyleDesignTokens", () => {
 
 		it("should work for responsive border style adjustments", () => {
 			const s = styleframe();
-			const { borderStyleSolid, borderStyleDashed } =
-				useBorderStyleDesignTokens(s);
+			const { borderStyleSolid, borderStyleDashed } = useBorderStyleDesignTokens(s);
 
-			const buttonBorderStyle = s.variable(
-				"button-border-style",
-				s.ref(borderStyleSolid),
-			);
+			const buttonBorderStyle = s.variable("button-border-style", s.ref(borderStyleSolid));
 
 			s.selector("@media (max-width: 768px)", ({ variable }) => {
 				variable(buttonBorderStyle, s.ref(borderStyleDashed));
@@ -476,8 +462,7 @@ describe("useBorderStyleDesignTokens", () => {
 
 		it("should work for theme-specific border style overrides", () => {
 			const s = styleframe();
-			const { borderStyleSolid, borderStyleDotted } =
-				useBorderStyleDesignTokens(s);
+			const { borderStyleSolid, borderStyleDotted } = useBorderStyleDesignTokens(s);
 
 			s.selector(".theme-playful", ({ variable }) => {
 				variable(borderStyleSolid, s.ref(borderStyleDotted));
@@ -546,8 +531,7 @@ describe("useBorderStyleDesignTokens", () => {
 
 		it("should work for combining border styles with other border properties", () => {
 			const s = styleframe();
-			const { borderStyleSolid, borderStyleDouble } =
-				useBorderStyleDesignTokens(s);
+			const { borderStyleSolid, borderStyleDouble } = useBorderStyleDesignTokens(s);
 
 			const borderWidth = s.variable("border-width", "1px");
 			s.variable("border-color", "#000");

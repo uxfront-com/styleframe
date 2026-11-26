@@ -3,7 +3,21 @@
 	"version": "1.0.0",
 	"private": true,
 	"description": "From simple UI styles to full Design Systems, write code using Styleframe’s powerful TypeScript CSS API — AI-ready by design.",
+	"keywords": [
+		"css",
+		"styleframe"
+	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues",
+		"email": "support@styleframe.dev"
+	},
+	"license": "MIT",
 	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/styleframe-dev/styleframe"
+	},
 	"scripts": {
 		"dev": "turbo run dev",
 		"dev:docs": "turbo run dev --filter @styleframe/docs --filter @styleframe/storybook",
@@ -23,29 +37,17 @@
 		"typecheck": "turbo run typecheck",
 		"lint": "oxlint",
 		"lint:actions": "actionlint",
-		"format:check": "oxfmt --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,vue}\"",
-		"format": "oxfmt --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,vue}\"",
+		"format:check": "oxfmt --check",
+		"format": "oxfmt",
 		"prepare": "husky",
 		"cleanup": "git clean -ffdx -e '.env.*'"
-	},
-	"keywords": [
-		"styleframe",
-		"css"
-	],
-	"homepage": "https://styleframe.dev",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/styleframe-dev/styleframe"
-	},
-	"bugs": {
-		"email": "support@styleframe.dev",
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "^1.0.1",
 		"@changesets/cli": "^3.0.3",
 		"@styleframe/config-typescript": "workspace:^",
 		"@typescript/typescript6": "6.0.2",
+		"@uxfront/oxfmt-config": "catalog:",
 		"@uxfront/oxlint-config": "catalog:",
 		"husky": "catalog:",
 		"lint-staged": "catalog:",
@@ -54,11 +56,6 @@
 		"oxlint": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:"
-	},
-	"packageManager": "pnpm@11.25.0",
-	"engines": {
-		"node": ">=22.0.0",
-		"pnpm": ">=10.7.1"
 	},
 	"lint-staged": {
 		"*.{js,ts,jsx,tsx,mjs,cjs,json,jsonc,css,vue}": [
@@ -71,5 +68,9 @@
 			"actionlint"
 		]
 	},
-	"license": "MIT"
+	"engines": {
+		"node": ">=22.0.0",
+		"pnpm": ">=10.7.1"
+	},
+	"packageManager": "pnpm@11.25.0"
 }

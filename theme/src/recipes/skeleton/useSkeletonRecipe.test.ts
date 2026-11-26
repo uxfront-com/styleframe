@@ -1,6 +1,7 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+
 import { expectKeyframesRegistered } from "../../__tests__/expectKeyframesRegistered";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSkeletonRecipe } from "./useSkeletonRecipe";
 
 function createInstance() {
@@ -54,13 +55,7 @@ describe("useSkeletonRecipe", () => {
 			const s = createInstance();
 			const recipe = useSkeletonRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 
 		it("should have correct size variant styles", () => {

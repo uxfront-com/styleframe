@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import AvatarGroup from "@/components/components/avatar/AvatarGroup.vue";
 import Avatar from "@/components/components/avatar/Avatar.vue";
+import AvatarGroup from "@/components/components/avatar/AvatarGroup.vue";
 import AvatarGroupGrid from "@/components/components/avatar/preview/AvatarGroupGrid.vue";
 
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;

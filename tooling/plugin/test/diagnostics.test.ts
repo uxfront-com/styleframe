@@ -1,8 +1,10 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+
 import type { Diagnostic } from "@styleframe/core";
 import { consola } from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import {
 	RESOLVED_VIRTUAL_CONSUMER_ID,
 	RESOLVED_VIRTUAL_CSS_MODULE_ID,
@@ -186,12 +188,12 @@ describe("plugin diagnostics", () => {
 
 		const plugin = createPlugin({ dts: { enabled: false } });
 		await plugin.buildStart.call(context);
-		await expect(
-			plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID),
-		).rejects.toThrow(/Strict mode found 3 problems/);
-		await expect(
-			plugin.load.call(context, RESOLVED_VIRTUAL_CONSUMER_ID),
-		).rejects.toThrow(/Strict mode found 3 problems/);
+		await expect(plugin.load.call(context, RESOLVED_VIRTUAL_CSS_MODULE_ID)).rejects.toThrow(
+			/Strict mode found 3 problems/,
+		);
+		await expect(plugin.load.call(context, RESOLVED_VIRTUAL_CONSUMER_ID)).rejects.toThrow(
+			/Strict mode found 3 problems/,
+		);
 		expect(consola.warn).not.toHaveBeenCalled();
 	});
 

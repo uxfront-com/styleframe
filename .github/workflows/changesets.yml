@@ -8,29 +8,29 @@
 name: Changesets
 
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 # Only one release runs at a time, and a waiting one is never cancelled
 concurrency:
-    group: changesets-${{ github.ref }}
-    cancel-in-progress: false
+  group: changesets-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions: {}
 
 jobs:
-    release:
-        # A called workflow can only lower these. npm needs `id-token: write`
-        # here too, and the shared workflow passes it on only to its publish job.
-        permissions:
-            contents: write
-            pull-requests: write
-            id-token: write
-        uses: uxfront-com/.github/.github/workflows/release.yml@18a1d7cb1576c8053a80f3d166cfefecd470f5b3 # main
-        with:
-            build: pnpm run ci:prepublish
-            version-script: pnpm ci:version
-            commit-message: "chore: update versions"
-            pr-title: "chore: update versions"
+  release:
+    # A called workflow can only lower these. npm needs `id-token: write`
+    # here too, and the shared workflow passes it on only to its publish job.
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    uses: uxfront-com/.github/.github/workflows/release.yml@18a1d7cb1576c8053a80f3d166cfefecd470f5b3 # main
+    with:
+      build: pnpm run ci:prepublish
+      version-script: pnpm ci:version
+      commit-message: "chore: update versions"
+      pr-title: "chore: update versions"

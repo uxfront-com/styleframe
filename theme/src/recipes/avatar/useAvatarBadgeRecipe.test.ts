@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useAvatarBadgeRecipe } from "./useAvatarBadgeRecipe";
 
@@ -118,9 +119,7 @@ describe("useAvatarBadgeRecipe", () => {
 			const s = createInstance();
 			const recipe = useAvatarBadgeRecipe(s);
 
-			const success = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "success",
-			);
+			const success = recipe.compoundVariants!.find((cv) => cv.match.color === "success");
 
 			expect(success).toEqual({
 				match: { color: "success" },
@@ -134,9 +133,7 @@ describe("useAvatarBadgeRecipe", () => {
 			const s = createInstance();
 			const recipe = useAvatarBadgeRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -191,10 +188,7 @@ describe("useAvatarBadgeRecipe", () => {
 				filter: { position: ["top-right", "bottom-right"] },
 			});
 
-			expect(Object.keys(recipe.variants!.position)).toEqual([
-				"top-right",
-				"bottom-right",
-			]);
+			expect(Object.keys(recipe.variants!.position)).toEqual(["top-right", "bottom-right"]);
 			expect(recipe.defaultVariants?.position).toBe("bottom-right");
 		});
 	});

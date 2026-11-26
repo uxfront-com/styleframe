@@ -1,12 +1,13 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import { forcedColorAdjustValues } from "../../values";
 import {
 	useForcedColorAdjustUtility,
 	useSrOnlyUtility,
 	useNotSrOnlyUtility,
 } from "./useAccessibilityUtility";
-import { forcedColorAdjustValues } from "../../values";
 
 describe("useForcedColorAdjustUtility", () => {
 	it("should create utility instances with provided values", () => {

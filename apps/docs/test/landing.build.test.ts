@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -63,8 +64,7 @@ const PAGE_TEXT = {
 	index:
 		"Skip the breakpoints. Styleframe scales your typography and spacing fluidly from phone to desktop.",
 	pro: "| Prioritized feature requests        | Not included | Not included | Included     |",
-	pricing:
-		"| Number of developers                | 1            | 5            | Unlimited    |",
+	pricing: "| Number of developers                | 1            | 5            | Unlimited    |",
 	scanner:
 		"Enable the scanner, register your factories, and let your templates drive your CSS output.",
 	figma:
@@ -79,9 +79,7 @@ function read(path: string): string {
 
 /** The links under a `## <title>` section of llms.txt. */
 function section(llms: string, title: string): string {
-	return (
-		llms.split(/^## /m).find((part) => part.startsWith(`${title}\n`)) ?? ""
-	);
+	return llms.split(/^## /m).find((part) => part.startsWith(`${title}\n`)) ?? "";
 }
 
 describe("the site's pages for agents", () => {
@@ -96,19 +94,14 @@ describe("the site's pages for agents", () => {
 		},
 	);
 
-	it.each(Object.entries(PAGE_TEXT))(
-		"/raw/%s.md says what the page says",
-		(page, text) => {
-			const raw = read(`raw/${page}.md`);
-			expect(
-				raw.startsWith(`# ${LANDING[page as keyof typeof LANDING][0]}\n`),
-			).toBe(true);
-			expect(raw).toContain(text);
-			expect(read("llms-full.txt")).toContain(
-				text.startsWith("|") ? text.split("|")[1]!.trim() : text,
-			);
-		},
-	);
+	it.each(Object.entries(PAGE_TEXT))("/raw/%s.md says what the page says", (page, text) => {
+		const raw = read(`raw/${page}.md`);
+		expect(raw.startsWith(`# ${LANDING[page as keyof typeof LANDING][0]}\n`)).toBe(true);
+		expect(raw).toContain(text);
+		expect(read("llms-full.txt")).toContain(
+			text.startsWith("|") ? text.split("|")[1]!.trim() : text,
+		);
+	});
 
 	it.each([...Object.keys(LANDING), "404"])("%s has main's favicon", (page) => {
 		const file = [`${page}.html`, `${page}/index.html`].find((path) =>

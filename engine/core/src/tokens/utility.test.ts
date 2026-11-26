@@ -1,8 +1,8 @@
+import { isUtility } from "../typeGuards";
 import type { Container, ModifierFactory, Root, Utility } from "../types";
+import { applyModifiers } from "./modifier";
 import { createRoot } from "./root";
 import { createUtilityFunction } from "./utility";
-import { applyModifiers } from "./modifier";
-import { isUtility } from "../typeGuards";
 
 describe("createUtilityFunction", () => {
 	let root: Root;
@@ -95,9 +95,7 @@ describe("createUtilityFunction", () => {
 			primary: "red",
 		});
 
-		expect(root.utilities[0]?.values).toEqual([
-			{ key: "primary", value: "blue", modifiers: [] },
-		]);
+		expect(root.utilities[0]?.values).toEqual([{ key: "primary", value: "blue", modifiers: [] }]);
 		expect(root.children).toHaveLength(1);
 	});
 
@@ -188,9 +186,7 @@ describe("createUtilityFunction", () => {
 		// One utility instance should be created in children
 		expect(root.children).toHaveLength(1);
 
-		const hiddenUtility = root.children.find(
-			(u) => isUtility(u) && u.name === "hidden",
-		);
+		const hiddenUtility = root.children.find((u) => isUtility(u) && u.name === "hidden");
 		expect(hiddenUtility).toEqual({
 			type: "utility",
 			id: expect.any(String),
@@ -231,17 +227,11 @@ describe("createUtilityFunction", () => {
 
 		const primaryUtility = root.children.find(
 			(u) =>
-				isUtility(u) &&
-				u.name === "color" &&
-				u.value === "primary" &&
-				u.modifiers.length === 0,
+				isUtility(u) && u.name === "color" && u.value === "primary" && u.modifiers.length === 0,
 		);
 		const secondaryUtility = root.children.find(
 			(u) =>
-				isUtility(u) &&
-				u.name === "color" &&
-				u.value === "secondary" &&
-				u.modifiers.length === 0,
+				isUtility(u) && u.name === "color" && u.value === "secondary" && u.modifiers.length === 0,
 		);
 
 		expect(primaryUtility).toEqual({
@@ -320,8 +310,7 @@ describe("createUtilityFunction", () => {
 		expect(root.children).toHaveLength(3);
 
 		const backgroundUtility = root.children.find(
-			(u) =>
-				isUtility(u) && u.name === "background" && u.modifiers.length === 0,
+			(u) => isUtility(u) && u.name === "background" && u.modifiers.length === 0,
 		);
 		expect(backgroundUtility).toEqual({
 			type: "utility",
@@ -485,9 +474,7 @@ describe("createUtilityFunction", () => {
 		// One utility instance should be created with empty modifiers array
 		expect(root.children).toHaveLength(1);
 
-		const widthUtility = root.children.find(
-			(u) => isUtility(u) && u.name === "width",
-		);
+		const widthUtility = root.children.find((u) => isUtility(u) && u.name === "width");
 		expect(widthUtility).toEqual({
 			type: "utility",
 			id: expect.any(String),
@@ -513,9 +500,7 @@ describe("createUtilityFunction", () => {
 		// One utility instance should be created with empty modifiers array (default)
 		expect(root.children).toHaveLength(1);
 
-		const heightUtility = root.children.find(
-			(u) => isUtility(u) && u.name === "height",
-		);
+		const heightUtility = root.children.find((u) => isUtility(u) && u.name === "height");
 		expect(heightUtility).toEqual({
 			type: "utility",
 			id: expect.any(String),
@@ -738,8 +723,7 @@ describe("createUtilityFunction", () => {
 		expect(root.children).toHaveLength(1);
 
 		const utilities = root.children.filter(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "color" && u.value === "primary",
+			(u): u is Utility => isUtility(u) && u.name === "color" && u.value === "primary",
 		);
 		expect(utilities).toHaveLength(1);
 		expect(utilities[0]?.declarations?.color).toBe("#007bff");
@@ -788,12 +772,10 @@ describe("createUtilityFunction", () => {
 		expect(root.children).toHaveLength(4);
 
 		const primaryUtility = root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "button" && u.value === "primary",
+			(u): u is Utility => isUtility(u) && u.name === "button" && u.value === "primary",
 		);
 		const secondaryUtility = root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "button" && u.value === "secondary",
+			(u): u is Utility => isUtility(u) && u.name === "button" && u.value === "secondary",
 		);
 
 		expect(primaryUtility?.modifiers).toEqual([]);
@@ -820,17 +802,14 @@ describe("createUtilityFunction", () => {
 	});
 
 	test("should support callback context functions", () => {
-		const createAdvancedUtility = utility(
-			"advanced",
-			({ value, variable, selector }) => {
-				const colorVar = variable("color-var", value);
-				selector(".nested", { color: colorVar.value });
+		const createAdvancedUtility = utility("advanced", ({ value, variable, selector }) => {
+			const colorVar = variable("color-var", value);
+			selector(".nested", { color: colorVar.value });
 
-				return {
-					backgroundColor: colorVar.value,
-				};
-			},
-		);
+			return {
+				backgroundColor: colorVar.value,
+			};
+		});
 
 		createAdvancedUtility({
 			primary: "#007bff",
@@ -865,14 +844,12 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(3);
 
 			const redUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "color" && u.value === "[red]",
+				(u): u is Utility => isUtility(u) && u.name === "color" && u.value === "[red]",
 			);
 			expect(redUtility?.declarations).toEqual({ color: "red" });
 
 			const blueUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "color" && u.value === "[blue]",
+				(u): u is Utility => isUtility(u) && u.name === "color" && u.value === "[blue]",
 			);
 			expect(blueUtility?.declarations).toEqual({ color: "blue" });
 		});
@@ -906,8 +883,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(2);
 
 			const primaryUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "color" && u.value === "color.primary",
+				(u): u is Utility => isUtility(u) && u.name === "color" && u.value === "color.primary",
 			);
 			expect(primaryUtility?.declarations).toEqual({
 				color: {
@@ -935,8 +911,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(2);
 
 			const smUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "padding" && u.value === "spacing.sm",
+				(u): u is Utility => isUtility(u) && u.name === "padding" && u.value === "spacing.sm",
 			);
 			expect(smUtility?.declarations).toEqual({ padding: ref1 });
 		});
@@ -1008,8 +983,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(2);
 
 			const lgUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "size" && u.value === "size-lg",
+				(u): u is Utility => isUtility(u) && u.name === "size" && u.value === "size-lg",
 			);
 			expect(lgUtility?.declarations).toEqual({
 				width: { type: "reference", name: "lg" },
@@ -1017,8 +991,7 @@ describe("createUtilityFunction", () => {
 			});
 
 			const customUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "size" && u.value === "custom-100px",
+				(u): u is Utility => isUtility(u) && u.name === "size" && u.value === "custom-100px",
 			);
 			expect(customUtility?.declarations).toEqual({
 				width: "100px",
@@ -1074,8 +1047,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(2);
 
 			const primaryUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "bg" && u.value === "primary",
+				(u): u is Utility => isUtility(u) && u.name === "bg" && u.value === "primary",
 			);
 			expect(primaryUtility?.declarations).toEqual({
 				backgroundColor: {
@@ -1112,8 +1084,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(3);
 
 			const z10Utility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "z" && u.value === "[10]",
+				(u): u is Utility => isUtility(u) && u.name === "z" && u.value === "[10]",
 			);
 			expect(z10Utility?.declarations).toEqual({ zIndex: 10 });
 		});
@@ -1203,8 +1174,7 @@ describe("createUtilityFunction", () => {
 			]);
 
 			const borderUtility = root.children.find(
-				(u): u is Utility =>
-					isUtility(u) && u.name === "border" && u.value === "border.width",
+				(u): u is Utility => isUtility(u) && u.name === "border" && u.value === "border.width",
 			);
 			expect(borderUtility?.declarations).toEqual({
 				borderWidth: refWithFallback,
@@ -1255,8 +1225,7 @@ describe("createUtilityFunction", () => {
 			expect(root.children).toHaveLength(4);
 
 			const defaultUtility = root.children.find(
-				(u) =>
-					isUtility(u) && u.name === "border-style" && u.value === "default",
+				(u) => isUtility(u) && u.name === "border-style" && u.value === "default",
 			);
 			expect(defaultUtility).toMatchObject({
 				type: "utility",
@@ -2276,11 +2245,7 @@ describe("createModifiedUtilityFunction", () => {
 			}),
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["thick", widthModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["thick", widthModifier]]));
 
 		// The modifier augments the declarations with additional properties
 		expect(result.declarations).toEqual({
@@ -2310,11 +2275,7 @@ describe("createModifiedUtilityFunction", () => {
 			}),
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["md", responsiveModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["md", responsiveModifier]]));
 
 		expect(result.modifiers).toEqual(["md"]);
 	});
@@ -2402,11 +2363,7 @@ describe("createModifiedUtilityFunction", () => {
 			},
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["interactive", complexModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["interactive", complexModifier]]));
 
 		expect(result.variables).toHaveLength(2);
 		expect(result.variables[0]?.name).toBe("button-bg");
@@ -2453,11 +2410,7 @@ describe("createModifiedUtilityFunction", () => {
 			},
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["test", modifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["test", modifier]]));
 
 		// The declarations object should remain unchanged
 		expect(baseUtility.declarations).toEqual(originalDeclarations);
@@ -2496,11 +2449,7 @@ describe("createModifiedUtilityFunction", () => {
 			factory: () => ({}),
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["null", nullModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["null", nullModifier]]));
 
 		// Empty object return replaces declarations
 		expect(result.declarations).toEqual({});
@@ -2525,11 +2474,7 @@ describe("createModifiedUtilityFunction", () => {
 			factory: () => undefined,
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["undefined", undefinedModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["undefined", undefinedModifier]]));
 
 		expect(result.declarations).toEqual({ width: "auto" });
 		expect(result.modifiers).toEqual(["undefined"]);
@@ -2553,11 +2498,7 @@ describe("createModifiedUtilityFunction", () => {
 			factory: () => ({}),
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["empty", emptyModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["empty", emptyModifier]]));
 
 		// Empty object return replaces declarations
 		expect(result.declarations).toEqual({});
@@ -2605,11 +2546,7 @@ describe("createModifiedUtilityFunction", () => {
 			},
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["nested", nestedModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["nested", nestedModifier]]));
 
 		expect(result.children).toHaveLength(3);
 		expect(result.children[0]).toMatchObject({
@@ -2651,11 +2588,7 @@ describe("createModifiedUtilityFunction", () => {
 		};
 
 		// Duplicate keys in combination
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["hover", stateModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["hover", stateModifier]]));
 
 		expect(result.modifiers).toEqual(["hover"]);
 		expect(result.variables).toHaveLength(1);
@@ -2699,11 +2632,7 @@ describe("createModifiedUtilityFunction", () => {
 			},
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["additional", additionalModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["additional", additionalModifier]]));
 
 		// Modifiers reset instance variables/children, only modifier side effects remain
 		expect(result.variables).toHaveLength(1);
@@ -2748,11 +2677,7 @@ describe("createModifiedUtilityFunction", () => {
 			},
 		};
 
-		const result = applyModifiers(
-			baseUtility,
-			root,
-			new Map([["deep", deepModifier]]),
-		);
+		const result = applyModifiers(baseUtility, root, new Map([["deep", deepModifier]]));
 
 		// The modifier's return value replaces the base declarations
 		expect(result.declarations).toEqual({

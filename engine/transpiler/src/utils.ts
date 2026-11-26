@@ -1,6 +1,7 @@
-import { DEFAULT_INDENT } from "./constants";
 import { kebabCase, camelCase } from "scule";
 import type { KebabCase, CamelCase } from "scule";
+
+import { DEFAULT_INDENT } from "./constants";
 
 export function addIndentToLine(line: string): string {
 	return `${DEFAULT_INDENT}${line}`;

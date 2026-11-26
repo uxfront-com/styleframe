@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Progress from "../../src/components/components/progress/Progress.vue";
-import ProgressBar from "../../src/components/components/progress/ProgressBar.vue";
 import ProgressGrid from "../../src/components/components/progress/preview/ProgressGrid.vue";
 import ProgressSizeGrid from "../../src/components/components/progress/preview/ProgressSizeGrid.vue";
+import Progress from "../../src/components/components/progress/Progress.vue";
+import ProgressBar from "../../src/components/components/progress/ProgressBar.vue";
 
 const colors = [
 	"primary",
@@ -17,13 +17,7 @@ const colors = [
 	"neutral",
 ] as const;
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
-const animations = [
-	"none",
-	"carousel",
-	"carousel-inverse",
-	"swing",
-	"elastic",
-] as const;
+const animations = ["none", "carousel", "carousel-inverse", "swing", "elastic"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Feedback/Progress",

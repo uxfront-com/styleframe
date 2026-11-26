@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useColorLevelDesignTokens } from "./useColorLevelDesignTokens";
+
 import { colorLevelValues } from "../values";
+import { useColorLevelDesignTokens } from "./useColorLevelDesignTokens";
 
 describe("useColorLevelDesignTokens", () => {
 	it("should create color levels with default values", () => {
@@ -151,12 +152,8 @@ describe("useColorLevelDesignTokens", () => {
 		const css900 = consumeCSS(levels.colorPrimary900, s.options);
 
 		// Extract lightness from oklch strings
-		const l100 = Number.parseFloat(
-			css100.match(/oklch\(([0-9.]+)/)?.[1] ?? "0",
-		);
-		const l900 = Number.parseFloat(
-			css900.match(/oklch\(([0-9.]+)/)?.[1] ?? "0",
-		);
+		const l100 = Number.parseFloat(css100.match(/oklch\(([0-9.]+)/)?.[1] ?? "0");
+		const l900 = Number.parseFloat(css900.match(/oklch\(([0-9.]+)/)?.[1] ?? "0");
 
 		// Level 100 should be lighter than 900
 		expect(l100).toBeGreaterThan(l900);

@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useChatMessageAvatarRecipe } from "./index";
 
@@ -56,11 +57,7 @@ describe("useChatMessageAvatarRecipe", () => {
 			const s = createInstance();
 			const recipe = useChatMessageAvatarRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {

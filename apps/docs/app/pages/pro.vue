@@ -89,23 +89,15 @@ const features = [
 			<UxTraits :items="features" />
 		</UxChapter>
 
-		<UxSection
-			id="pricing"
-			index="02"
-			role="Pricing"
-			title="Simple, Transparent Pricing"
-		>
+		<UxSection id="pricing" index="02" role="Pricing" title="Simple, Transparent Pricing">
 			<template #lead>
-				One-time purchase. Unlimited projects. Lifetime access. Free in
-				development mode.
+				One-time purchase. Unlimited projects. Lifetime access. Free in development mode.
 			</template>
 			<SitePricing />
 		</UxSection>
 
 		<UxFinale kicker="styleframe Pro">
-			<template #title
-				>Build faster with <em class="ux-serif">Pro</em>.</template
-			>
+			<template #title>Build faster with <em class="ux-serif">Pro</em>.</template>
 			<template #actions>
 				<UxPillLink :href="PRICING_URL" label="Get it now" />
 			</template>

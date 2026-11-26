@@ -19,11 +19,7 @@ function getCompiledPattern(pattern: string): RegExp | null {
 	}
 
 	// Check if it's a glob pattern
-	if (
-		!normalized.includes("**") &&
-		!normalized.includes("*") &&
-		!normalized.includes("?")
-	) {
+	if (!normalized.includes("**") && !normalized.includes("*") && !normalized.includes("?")) {
 		compiledPatternCache.set(normalized, null);
 		return null;
 	}
@@ -149,10 +145,7 @@ function globToRegex(pattern: string): string {
  * This is a simple check that looks for common pattern matches.
  * For full glob support, use a library like micromatch.
  */
-export function matchesPatterns(
-	filePath: string,
-	patterns: Array<string>,
-): boolean {
+export function matchesPatterns(filePath: string, patterns: Array<string>): boolean {
 	const normalizedPath = filePath.replaceAll("\\", "/");
 
 	for (const pattern of patterns) {

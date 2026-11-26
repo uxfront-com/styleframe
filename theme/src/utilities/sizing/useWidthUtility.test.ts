@@ -1,11 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useMaxWidthUtility,
-	useMinWidthUtility,
-	useWidthUtility,
-} from "./useWidthUtility";
+
+import { useMaxWidthUtility, useMinWidthUtility, useWidthUtility } from "./useWidthUtility";
 
 describe("useWidthUtility", () => {
 	it("should create utility instances with provided values", () => {
@@ -91,8 +88,7 @@ describe("useWidthUtility", () => {
 		useWidthUtility(s, { full: "100%" }, [hover]);
 
 		const hoverUtility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "width" && u.modifiers.includes("hover"),
+			(u): u is Utility => isUtility(u) && u.name === "width" && u.modifiers.includes("hover"),
 		);
 		expect(hoverUtility).toBeDefined();
 	});

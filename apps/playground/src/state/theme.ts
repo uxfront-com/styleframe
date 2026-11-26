@@ -8,10 +8,7 @@ const THEME_ATTRIBUTE = "data-theme";
 const THEME_MODES: ReadonlyArray<ThemeMode> = ["auto", "light", "dark"];
 
 function isThemeMode(value: unknown): value is ThemeMode {
-	return (
-		typeof value === "string" &&
-		(THEME_MODES as ReadonlyArray<string>).includes(value)
-	);
+	return typeof value === "string" && (THEME_MODES as ReadonlyArray<string>).includes(value);
 }
 
 export function readStoredMode(): ThemeMode {
@@ -42,10 +39,7 @@ function writeStoredMode(value: ThemeMode): void {
 }
 
 export function systemPrefersDark(): boolean {
-	if (
-		typeof window === "undefined" ||
-		typeof window.matchMedia !== "function"
-	) {
+	if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
 		return false;
 	}
 	return window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -97,10 +91,7 @@ function ensureInitialized(): void {
 	mode.value = readStoredMode();
 	systemIsDark.value = systemPrefersDark();
 	applyToDom(mode.value, resolved.value);
-	if (
-		typeof window !== "undefined" &&
-		typeof window.matchMedia === "function"
-	) {
+	if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
 		mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 		mediaListener = (event) => {
 			systemIsDark.value = event.matches;

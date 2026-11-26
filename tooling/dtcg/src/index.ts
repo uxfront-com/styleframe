@@ -81,8 +81,4 @@ export * as duration from "./duration";
 export { isValidNamespace } from "./extensions";
 
 // Resolver
-export {
-	mergeDocuments,
-	parseResolver,
-	resolve as resolveResolver,
-} from "./resolver";
+export { mergeDocuments, parseResolver, resolve as resolveResolver } from "./resolver";

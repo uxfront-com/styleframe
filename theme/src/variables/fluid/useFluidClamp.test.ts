@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useFluidClamp } from "./useFluidClamp";
 
 describe("useFluidClamp", () => {
@@ -20,10 +21,7 @@ describe("useFluidClamp", () => {
 		s.variable("fluid.breakpoint", "0.5");
 		const result = useFluidClamp(s, [16, 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		// Should follow pattern: calc((min / 16 * 1rem) + (max - min) * breakpoint)
 		expect(css).toContain("calc(");
@@ -36,10 +34,7 @@ describe("useFluidClamp", () => {
 		const minVar = s.variable("min-value", 16);
 		const result = useFluidClamp(s, [minVar, 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--min-value)");
 	});
@@ -49,10 +44,7 @@ describe("useFluidClamp", () => {
 		const maxVar = s.variable("max-value", 20);
 		const result = useFluidClamp(s, [16, maxVar]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--max-value)");
 	});
@@ -63,10 +55,7 @@ describe("useFluidClamp", () => {
 		const maxVar = s.variable("max-value", 20);
 		const result = useFluidClamp(s, [minVar, maxVar]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--min-value)");
 		expect(css).toContain("var(--max-value)");
@@ -77,10 +66,7 @@ describe("useFluidClamp", () => {
 		s.variable("fluid.breakpoint", "0.5");
 		const result = useFluidClamp(s, [16, 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--fluid--breakpoint)");
 	});
@@ -90,10 +76,7 @@ describe("useFluidClamp", () => {
 		const customBreakpoint = s.variable("custom-breakpoint", "0.75");
 		const result = useFluidClamp(s, [16, 20], customBreakpoint);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--custom-breakpoint)");
 	});
@@ -102,10 +85,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [16, 20], "50vw");
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("50vw");
 	});
@@ -115,10 +95,7 @@ describe("useFluidClamp", () => {
 		const customBreakpoint = s.variable("custom-breakpoint", "0.75");
 		const result = useFluidClamp(s, [16, 20], s.ref(customBreakpoint));
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--custom-breakpoint)");
 	});
@@ -127,10 +104,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [0, 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 		expect(css).toContain("0");
@@ -140,10 +114,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [16, 0]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 		expect(css).toContain("0");
@@ -153,10 +124,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [16, 16]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 		expect(css).toContain("16");
@@ -166,10 +134,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [-10, -5]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 	});
@@ -178,10 +143,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [16.5, 20.75]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 		expect(css).toContain("16.5");
@@ -192,10 +154,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, ["1rem", 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("1rem");
 	});
@@ -204,10 +163,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [16, "1.5rem"]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("1.5rem");
 	});
@@ -216,10 +172,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, ["1rem", "1.5rem"]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("1rem");
 		expect(css).toContain("1.5rem");
@@ -229,10 +182,7 @@ describe("useFluidClamp", () => {
 		const s = styleframe();
 		const result = useFluidClamp(s, [1000, 2000]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("1000");
 		expect(css).toContain("2000");
@@ -267,10 +217,7 @@ describe("useFluidClamp", () => {
 		const maxExpr = s.css`18 * 1.2`;
 		const result = useFluidClamp(s, [minExpr, maxExpr]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("calc(");
 	});
@@ -288,10 +235,7 @@ describe("useFluidClamp", () => {
 		const minRef = s.ref("some-var");
 		const result = useFluidClamp(s, [minRef, 20]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--some-var)");
 	});
@@ -301,10 +245,7 @@ describe("useFluidClamp", () => {
 		const maxRef = s.ref("some-var");
 		const result = useFluidClamp(s, [16, maxRef]);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--some-var)");
 	});
@@ -314,10 +255,7 @@ describe("useFluidClamp", () => {
 		const bpRef = s.ref("custom-bp");
 		const result = useFluidClamp(s, [16, 20], bpRef);
 
-		const css = consumeCSS(
-			s.variable("test", result, { default: true }),
-			s.options,
-		);
+		const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 		expect(css).toContain("var(--custom-bp)");
 	});
@@ -329,16 +267,9 @@ describe("useFluidClamp", () => {
 			const fontSizeMax = s.variable("font-size.max", 20);
 			const fluidBreakpoint = s.variable("fluid.breakpoint", "0.5");
 
-			const result = useFluidClamp(
-				s,
-				[fontSizeMin, fontSizeMax],
-				fluidBreakpoint,
-			);
+			const result = useFluidClamp(s, [fontSizeMin, fontSizeMax], fluidBreakpoint);
 
-			const css = consumeCSS(
-				s.variable("font-size", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("font-size", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--font-size--min)");
 			expect(css).toContain("var(--font-size--max)");
@@ -354,10 +285,7 @@ describe("useFluidClamp", () => {
 
 			const result = useFluidClamp(s, [minMultiplied, maxMultiplied]);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--font-size--min) * 1.2");
 			expect(css).toContain("var(--font-size--max) * 1.25");
@@ -378,16 +306,9 @@ describe("useFluidClamp", () => {
 			);
 
 			// Create fluid range
-			const fluidSize = useFluidClamp(
-				s,
-				[fontSizeMin, fontSizeMax],
-				fluidBreakpoint,
-			);
+			const fluidSize = useFluidClamp(s, [fontSizeMin, fontSizeMax], fluidBreakpoint);
 
-			const css = consumeCSS(
-				s.variable("font-size", fluidSize, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("font-size", fluidSize, { default: true }), s.options);
 
 			expect(css).toContain("var(--font-size--min)");
 			expect(css).toContain("var(--font-size--max)");
@@ -406,10 +327,7 @@ describe("useFluidClamp", () => {
 
 			const result = useFluidClamp(s, [minScaled, maxScaled]);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--font-size--min) * 1.2");
 			expect(css).toContain("var(--font-size--max) * 1.25");
@@ -421,10 +339,7 @@ describe("useFluidClamp", () => {
 			const s = styleframe();
 			const result = useFluidClamp(s, [16, 20]);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("/ 16 * 1rem");
 		});
@@ -433,10 +348,7 @@ describe("useFluidClamp", () => {
 			const s = styleframe();
 			const result = useFluidClamp(s, [16, 20]);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			// Should contain (max - min) structure
 			expect(css).toContain("20 - 16");
@@ -462,10 +374,7 @@ describe("useFluidClamp", () => {
 			const s = styleframe();
 			const result = useFluidClamp(s, [16, 20]);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toMatch(/calc\(/);
 			expect(css).toMatch(/\);$/);
@@ -531,10 +440,7 @@ describe("useFluidClamp", () => {
 			const minVar = s.variable("min-value", 16);
 			const result = useFluidClamp(s, { min: minVar, max: 20 });
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--min-value)");
 		});
@@ -544,10 +450,7 @@ describe("useFluidClamp", () => {
 			const maxVar = s.variable("max-value", 20);
 			const result = useFluidClamp(s, { min: 16, max: maxVar });
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--max-value)");
 		});
@@ -557,10 +460,7 @@ describe("useFluidClamp", () => {
 			const bpVar: Variable<"breakpoint"> = s.variable("breakpoint", "0.5");
 			const result = useFluidClamp(s, { min: 16, max: 20 }, bpVar);
 
-			const css = consumeCSS(
-				s.variable("test", result, { default: true }),
-				s.options,
-			);
+			const css = consumeCSS(s.variable("test", result, { default: true }), s.options);
 
 			expect(css).toContain("var(--breakpoint)");
 		});

@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useDropdownSeparatorRecipe } from "./index";
 
@@ -47,11 +48,7 @@ describe("useDropdownSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useDropdownSeparatorRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should not have a variant axis", () => {
@@ -91,9 +88,7 @@ describe("useDropdownSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useDropdownSeparatorRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((cv) => cv.match.color === "light");
 
 			expect(light).toEqual({
 				match: { color: "light" },
@@ -108,9 +103,7 @@ describe("useDropdownSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useDropdownSeparatorRecipe(s);
 
-			const dark = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "dark",
-			);
+			const dark = recipe.compoundVariants!.find((cv) => cv.match.color === "dark");
 
 			expect(dark).toEqual({
 				match: { color: "dark" },
@@ -125,9 +118,7 @@ describe("useDropdownSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useDropdownSeparatorRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -167,9 +158,7 @@ describe("useDropdownSeparatorRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(1);
 		});
 

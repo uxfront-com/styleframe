@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -30,9 +31,7 @@ const section = (html: string, id: string) => {
 	}
 	const start = html.lastIndexOf("<section", at);
 	const end = html.indexOf("</section>", at);
-	return start < 0 || end < 0
-		? ""
-		: html.slice(start, end + "</section>".length);
+	return start < 0 || end < 0 ? "" : html.slice(start, end + "</section>".length);
 };
 
 // The chapters with a code sample, by page and section id.
@@ -92,18 +91,13 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 		const side = (
 			html.match(/@media not \(\(aspect-ratio[^{]*\{([\s\S]*?\})\}/)?.[1] ?? ""
 		).replaceAll(/\[data-v-[\w-]+\]/g, "");
-		expect(side).toContain(
-			".ux-split__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}",
-		);
+		expect(side).toContain(".ux-split__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}");
 		expect(side).toContain(".ux-split__copy{width:min(100%,33rem,40vw)}");
-		expect(side).toContain(
-			".ux-split__aside{padding-left:var(--ux-gutter-base)}",
-		);
+		expect(side).toContain(".ux-split__aside{padding-left:var(--ux-gutter-base)}");
 		expect(side).toContain(
 			".ux-split .ux-split__aside [data-outline]{max-width:52rem;margin-inline:auto}",
 		);
-		const grid =
-			html.match(/\.ux-split__grid\[data-v-[\w-]+\]\{([^}]*)\}/)?.[1] ?? "";
+		const grid = html.match(/\.ux-split__grid\[data-v-[\w-]+\]\{([^}]*)\}/)?.[1] ?? "";
 		expect(grid).toContain("row-gap:clamp(2rem,1rem + 3vw,4rem)");
 		expect(grid).not.toMatch(/(^|;)(column-)?gap:/);
 	});
@@ -148,8 +142,7 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 	it.each(ids)("shows the media of #%s beside its copy", (id) => {
 		const markup = section(html, id);
 		expect(markup).toMatch(/^<section\b[^>]*\bclass="ux-split\b/);
-		const aside =
-			markup.match(/<div class="ux-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
+		const aside = markup.match(/<div class="ux-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
 		if (!VIDEOS.has(id)) {
 			expect(aside).toMatch(/<img\b/);
 			return;
@@ -185,16 +178,12 @@ describe.each(
 		const markup = section(html, id);
 		expect(markup).toMatch(/^<section\b/);
 		expect(markup.match(/^<section\b[^>]*>/)?.[0]).not.toMatch(/\bid=/);
-		expect(markup).toMatch(
-			new RegExp(`<div id="${id}" class="ux-split__stage" data-stage\\b`),
-		);
+		expect(markup).toMatch(new RegExp(`<div id="${id}" class="ux-split__stage" data-stage\\b`));
 	});
 });
 
 it("centres the homepage's fluid section", () => {
 	const markup = section(read("index"), "fluid");
-	expect(markup).toMatch(
-		/^<section\b[^>]*\bclass="ux-split ux-split--center\b/,
-	);
+	expect(markup).toMatch(/^<section\b[^>]*\bclass="ux-split ux-split--center\b/);
 	expect(markup).not.toContain('class="ux-split__aside"');
 });

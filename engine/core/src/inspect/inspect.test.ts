@@ -66,10 +66,7 @@ describe("inspect", () => {
 			{
 				name: "background-color",
 				values: ["brand"],
-				classNames: [
-					"_background-color:brand",
-					"_hover:background-color:brand",
-				],
+				classNames: ["_background-color:brand", "_hover:background-color:brand"],
 				modifiers: ["hover"],
 			},
 		]);
@@ -110,8 +107,7 @@ describe("inspect", () => {
 				variables: { name: ({ name }) => `sf-${name}` },
 				themes: { selector: ({ name }) => `.theme-${name}` },
 				utilities: {
-					selector: ({ name, value, modifiers }) =>
-						[...modifiers, name, value].join("-"),
+					selector: ({ name, value, modifiers }) => [...modifiers, name, value].join("-"),
 				},
 			}),
 		);

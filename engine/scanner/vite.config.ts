@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+
 import { createViteConfig } from "@styleframe/config-vite";
 
 const __dirname = new URL(".", import.meta.url).pathname;

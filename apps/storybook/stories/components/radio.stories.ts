@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Radio from "@/components/components/radio/Radio.vue";
 import RadioGrid from "@/components/components/radio/preview/RadioGrid.vue";
 import RadioSizeGrid from "@/components/components/radio/preview/RadioSizeGrid.vue";
+import Radio from "@/components/components/radio/Radio.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const sizes = ["sm", "md", "lg"] as const;

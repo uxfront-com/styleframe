@@ -61,8 +61,7 @@ export function culoriToDtcg(culori: CuloriColor): DTCGColor {
 	const meta = COLOR_SPACES[colorSpace];
 	const components = meta.componentKeys.map((key, i) => {
 		const raw = culori[key] as number | undefined;
-		const scaled =
-			raw === undefined ? undefined : raw * (meta.componentScales[i] ?? 1);
+		const scaled = raw === undefined ? undefined : raw * (meta.componentScales[i] ?? 1);
 		return numberToDtcgComponent(scaled);
 	}) as unknown as DTCGColorComponents;
 

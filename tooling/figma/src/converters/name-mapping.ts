@@ -41,14 +41,10 @@ export function extractKey(name: string): string {
  * @example "spacing.md" → "spacingMd"
  */
 export function toVariableIdentifier(name: string): string {
-	const styleframeName = name.includes("/")
-		? figmaToStyleframeName(name)
-		: name;
+	const styleframeName = name.includes("/") ? figmaToStyleframeName(name) : name;
 	return styleframeName
 		.split(".")
-		.map((part, index) =>
-			index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1),
-		)
+		.map((part, index) => (index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
 		.join("");
 }
 

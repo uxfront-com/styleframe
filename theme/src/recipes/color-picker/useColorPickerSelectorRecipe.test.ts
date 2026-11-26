@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useColorPickerSelectorRecipe } from "./useColorPickerSelectorRecipe";
 
 function createInstance() {
@@ -33,13 +34,7 @@ describe("useColorPickerSelectorRecipe", () => {
 			const s = createInstance();
 			const recipe = useColorPickerSelectorRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 
 		it("should size the square equally on both axes", () => {
@@ -75,9 +70,7 @@ describe("useColorPickerSelectorRecipe", () => {
 			const s = createInstance();
 			useColorPickerSelectorRecipe(s);
 
-			expect(s.root.variables.some((v) => v.name === "color-picker.hue")).toBe(
-				true,
-			);
+			expect(s.root.variables.some((v) => v.name === "color-picker.hue")).toBe(true);
 		});
 
 		it("should paint the saturation/value gradient on the selector", () => {

@@ -1,12 +1,7 @@
 import { defaultUtilitySelectorFn } from "../defaults";
 import type { Styleframe } from "../styleframe";
 import { isCSS, isRef } from "../typeGuards";
-import type {
-	StyleframeOptions,
-	ThemeSelectorFn,
-	TokenValue,
-	VariableNameFn,
-} from "../types";
+import type { StyleframeOptions, ThemeSelectorFn, TokenValue, VariableNameFn } from "../types";
 import type { InspectSnapshot } from "./types";
 
 // The transpiler's defaults, which core can't import
@@ -24,8 +19,7 @@ const defaultThemeSelectorFn: ThemeSelectorFn = ({ name }) =>
 export function inspect(instance: Styleframe): InspectSnapshot {
 	const { root, options } = instance;
 	const themeSelectorFn = options.themes?.selector ?? defaultThemeSelectorFn;
-	const utilitySelectorFn =
-		options.utilities?.selector ?? defaultUtilitySelectorFn;
+	const utilitySelectorFn = options.utilities?.selector ?? defaultUtilitySelectorFn;
 
 	return {
 		variables: root.variables.map((variable) => ({
@@ -45,9 +39,7 @@ export function inspect(instance: Styleframe): InspectSnapshot {
 			name: utility.name,
 			values: [
 				...new Set(
-					utility.values
-						.filter((entry) => entry.modifiers.length === 0)
-						.map((entry) => entry.key),
+					utility.values.filter((entry) => entry.modifiers.length === 0).map((entry) => entry.key),
 				),
 			],
 			classNames: utility.values.map((entry) =>
@@ -57,9 +49,7 @@ export function inspect(instance: Styleframe): InspectSnapshot {
 					modifiers: entry.modifiers,
 				}),
 			),
-			modifiers: [
-				...new Set(utility.values.flatMap((entry) => entry.modifiers)),
-			],
+			modifiers: [...new Set(utility.values.flatMap((entry) => entry.modifiers))],
 		})),
 		modifiers: root.modifiers.map((modifier) => ({ key: [...modifier.key] })),
 		recipes: root.recipes.map((recipe) => ({

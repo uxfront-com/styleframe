@@ -22,31 +22,21 @@ const variants = ["solid", "soft", "subtle"] as const;
 					:color="color"
 					:variant="variant"
 				>
-					<ContextMenuLabel :color="color">
-						{{ variant }} {{ color }}
-					</ContextMenuLabel>
+					<ContextMenuLabel :color="color"> {{ variant }} {{ color }} </ContextMenuLabel>
 					<ContextMenuItem :color="color" :variant="variant">
 						Back
 						<ContextMenuShortcut :color="color">⌘[</ContextMenuShortcut>
 					</ContextMenuItem>
-					<ContextMenuItem :color="color" :variant="variant" disabled>
-						Forward
-					</ContextMenuItem>
+					<ContextMenuItem :color="color" :variant="variant" disabled> Forward </ContextMenuItem>
 					<ContextMenuSeparator :color="color" />
-					<ContextMenuCheckboxItem
-						:color="color"
-						:variant="variant"
-						:checked="true"
-					>
+					<ContextMenuCheckboxItem :color="color" :variant="variant" :checked="true">
 						Bookmarks
 					</ContextMenuCheckboxItem>
 					<ContextMenuSubTrigger :color="color" :variant="variant">
 						More Tools
 					</ContextMenuSubTrigger>
 					<ContextMenuSeparator :color="color" />
-					<ContextMenuItem :color="color" :variant="variant" destructive>
-						Delete
-					</ContextMenuItem>
+					<ContextMenuItem :color="color" :variant="variant" destructive> Delete </ContextMenuItem>
 				</ContextMenu>
 			</div>
 		</div>

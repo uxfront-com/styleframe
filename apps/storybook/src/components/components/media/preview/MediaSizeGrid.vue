@@ -30,9 +30,7 @@ const sizeAvatarClass: Record<string, string> = {
 					</MediaFigure>
 					<MediaBody :size="size">
 						<MediaTitle :size="size">{{ sizeTitles[size] }} media</MediaTitle>
-						<p class="_margin:0">
-							A {{ size }} media object with figure, body, and title.
-						</p>
+						<p class="_margin:0">A {{ size }} media object with figure, body, and title.</p>
 					</MediaBody>
 				</Media>
 			</div>

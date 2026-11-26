@@ -119,15 +119,9 @@ const features: Array<{ title: string; tiers: Record<TierId, string | boolean> }
 							:class="{ 'is-highlight': 'highlight' in tier }"
 						>
 							<span class="site-pricing__tier">{{ tier.title }}</span>
-							<span
-								class="site-pricing__description"
-								>{{ tier.description }}</span
-							>
+							<span class="site-pricing__description">{{ tier.description }}</span>
 							<span class="site-pricing__price">{{ tier.price }}</span>
-							<span
-								v-if="'billingPeriod' in tier"
-								class="site-pricing__billing"
-							>
+							<span v-if="'billingPeriod' in tier" class="site-pricing__billing">
 								<span>{{ tier.billingPeriod }}</span>
 								<span>{{ tier.billingCycle }}</span>
 							</span>
@@ -160,8 +154,8 @@ const features: Array<{ title: string; tiers: Record<TierId, string | boolean> }
 			<div>
 				<h3>Free in Development</h3>
 				<p>
-					Try styleframe Pro for free in development, no credit card required.
-					Upgrade when ready to deploy.
+					Try styleframe Pro for free in development, no credit card required. Upgrade when ready to
+					deploy.
 				</p>
 			</div>
 			<div class="site-pricing__cta">

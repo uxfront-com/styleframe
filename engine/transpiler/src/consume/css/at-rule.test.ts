@@ -1,9 +1,6 @@
 import type { Root, StyleframeOptions } from "@styleframe/core";
-import {
-	createAtRuleFunction,
-	createRefFunction,
-	createRoot,
-} from "@styleframe/core";
+import { createAtRuleFunction, createRefFunction, createRoot } from "@styleframe/core";
+
 import { createAtRuleConsumer } from "./at-rule";
 import { consume } from "./consume";
 
@@ -88,22 +85,18 @@ describe("createAtRuleConsumer", () => {
 	});
 
 	it("should create an at-rule with variables, declarations, and children", () => {
-		const mediaRule = atRule(
-			"media",
-			"(min-width: 1024px)",
-			({ variable, selector }) => {
-				const spacingVar = variable("large-spacing", "3rem");
+		const mediaRule = atRule("media", "(min-width: 1024px)", ({ variable, selector }) => {
+			const spacingVar = variable("large-spacing", "3rem");
 
-				selector(".container", {
-					maxWidth: "1200px",
-					padding: ref(spacingVar),
-				});
+			selector(".container", {
+				maxWidth: "1200px",
+				padding: ref(spacingVar),
+			});
 
-				return {
-					fontSize: "20px",
-				};
-			},
-		);
+			return {
+				fontSize: "20px",
+			};
+		});
 
 		const result = consumeAtRule(mediaRule, options);
 
@@ -188,17 +181,13 @@ describe("createAtRuleConsumer", () => {
 	});
 
 	it("should handle supports at-rule", () => {
-		const supportsRule = atRule(
-			"supports",
-			"(display: grid)",
-			({ selector }) => {
-				selector(".layout", {
-					display: "grid",
-					gridTemplateColumns: "repeat(3, 1fr)",
-					gap: "1rem",
-				});
-			},
-		);
+		const supportsRule = atRule("supports", "(display: grid)", ({ selector }) => {
+			selector(".layout", {
+				display: "grid",
+				gridTemplateColumns: "repeat(3, 1fr)",
+				gap: "1rem",
+			});
+		});
 
 		const result = consumeAtRule(supportsRule, options);
 
@@ -212,16 +201,12 @@ describe("createAtRuleConsumer", () => {
 	});
 
 	it("should handle container queries", () => {
-		const containerRule = atRule(
-			"container",
-			"(min-width: 400px)",
-			({ selector }) => {
-				selector(".card-content", {
-					fontSize: "1.2rem",
-					padding: "1.5rem",
-				});
-			},
-		);
+		const containerRule = atRule("container", "(min-width: 400px)", ({ selector }) => {
+			selector(".card-content", {
+				fontSize: "1.2rem",
+				padding: "1.5rem",
+			});
+		});
 
 		const result = consumeAtRule(containerRule, options);
 
@@ -264,13 +249,9 @@ describe("createAtRuleConsumer", () => {
 	});
 
 	it("should handle at-rules with complex rule strings", () => {
-		const mediaRule = atRule(
-			"media",
-			"screen and (min-width: 768px) and (max-width: 1024px)",
-			{
-				fontSize: "16px",
-			},
-		);
+		const mediaRule = atRule("media", "screen and (min-width: 768px) and (max-width: 1024px)", {
+			fontSize: "16px",
+		});
 
 		const result = consumeAtRule(mediaRule, options);
 

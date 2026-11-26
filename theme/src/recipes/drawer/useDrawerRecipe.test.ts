@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useDrawerRecipe } from "./index";
 
@@ -38,8 +39,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	);
 }
 
@@ -75,22 +75,14 @@ describe("useDrawerRecipe", () => {
 			const s = createInstance();
 			const recipe = useDrawerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useDrawerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should expose sizes (dimension applied via side × size compounds)", () => {
@@ -104,12 +96,7 @@ describe("useDrawerRecipe", () => {
 			const s = createInstance();
 			const recipe = useDrawerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.side)).toEqual([
-				"left",
-				"right",
-				"top",
-				"bottom",
-			]);
+			expect(Object.keys(recipe.variants!.side)).toEqual(["left", "right", "top", "bottom"]);
 		});
 
 		it("should anchor the right side with a left border", () => {

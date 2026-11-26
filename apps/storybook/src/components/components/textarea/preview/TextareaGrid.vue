@@ -10,15 +10,8 @@ const variants = ["default", "soft", "ghost"] as const;
 		<div v-for="variant in variants" :key="variant">
 			<div class="textarea-label">{{ variant }}</div>
 			<div class="textarea-row">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="textarea-stack"
-				>
-					<label
-						:for="`textarea-${variant}-${color}`"
-						class="textarea-story-label"
-					>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="textarea-stack">
+					<label :for="`textarea-${variant}-${color}`" class="textarea-story-label">
 						{{ variant }} {{ color }}
 					</label>
 					<!-- light is for light surfaces and dark for dark ones, in both themes. -->

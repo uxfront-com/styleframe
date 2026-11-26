@@ -11,13 +11,14 @@ const sideWidths = { sm: "16rem", md: "20rem", lg: "28rem" } as const;
  * at the viewport), so they get no fixed dimension here. Generated to keep the
  * entries DRY.
  */
-const sideSizeCompoundVariants: NonNullable<RecipeConfig["compoundVariants"]> =
-	(["left", "right"] as const).flatMap((side) =>
-		Object.entries(sideWidths).map(([size, value]) => ({
-			match: { side, size },
-			css: { width: value },
-		})),
-	);
+const sideSizeCompoundVariants: NonNullable<RecipeConfig["compoundVariants"]> = (
+	["left", "right"] as const
+).flatMap((side) =>
+	Object.entries(sideWidths).map(([size, value]) => ({
+		match: { side, size },
+		css: { width: value },
+	})),
+);
 
 /**
  * Drawer container recipe — an edge-anchored, slide-out overlay panel
@@ -100,10 +101,7 @@ export const useDrawerRecipe = createUseRecipe(
 				},
 			},
 		},
-		compoundVariants: [
-			...overlaySurfaceCompoundVariants,
-			...sideSizeCompoundVariants,
-		],
+		compoundVariants: [...overlaySurfaceCompoundVariants, ...sideSizeCompoundVariants],
 		defaultVariants: {
 			color: "neutral",
 			variant: "solid",

@@ -21,10 +21,6 @@ Pre.inheritAttrs = false;
 
 <template>
 	<UxCode v-if="sample" :title="sample.title">
-		<ContentRenderer
-			:value="sample"
-			:prose="false"
-			:components="{ pre: Pre }"
-		/>
+		<ContentRenderer :value="sample" :prose="false" :components="{ pre: Pre }" />
 	</UxCode>
 </template>

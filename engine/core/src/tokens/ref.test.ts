@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import type { Root, Selector } from "../types";
 import { createRefFunction } from "./ref";
 import { createRoot } from "./root";
@@ -171,9 +172,7 @@ describe("createRefFunction", () => {
 		});
 
 		it("should throw when @-prefixed fallback references undefined variable", () => {
-			expect(() => ref("color", "@nonexistent")).toThrow(
-				'Variable "nonexistent" is not defined',
-			);
+			expect(() => ref("color", "@nonexistent")).toThrow('Variable "nonexistent" is not defined');
 		});
 	});
 

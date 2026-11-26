@@ -67,9 +67,7 @@ const viewportLabel = computed(() => {
 </script>
 
 <template>
-	<div
-		class="fluid-responsive-design-demo relative flex flex-col items-center mx-2"
-	>
+	<div class="fluid-responsive-design-demo relative flex flex-col items-center mx-2">
 		<BrowserFrame
 			title="Fluid Responsive Design - styleframe Pro"
 			:style="{ width: `${screenWidth}px` }"
@@ -95,9 +93,8 @@ const viewportLabel = computed(() => {
 					class="font-medium text-center mx-auto"
 					style="font-size: var(--fluid-p-size); line-height: 1.6"
 				>
-					Say goodbye to cluttered breakpoint logic. Styleframe's fluid
-					responsive design automatically scales your typography and spacing
-					using mathematical precision.
+					Say goodbye to cluttered breakpoint logic. Styleframe's fluid responsive design
+					automatically scales your typography and spacing using mathematical precision.
 				</p>
 				<div
 					class="cards flex gap-4 max-sm:flex-col"
@@ -134,18 +131,10 @@ const viewportLabel = computed(() => {
 					<!-- A label for the controls, not a heading of the docs page. -->
 					<p class="u-h3 font-bold">Interactive Controls</p>
 					<div class="flex gap-2">
-						<UBadge
-							color="primary"
-							variant="subtle"
-							class="text-primary-700 dark:text-primary"
-						>
+						<UBadge color="primary" variant="subtle" class="text-primary-700 dark:text-primary">
 							{{ screenWidth }}px
 						</UBadge>
-						<UBadge
-							color="primary"
-							variant="subtle"
-							class="text-primary-700 dark:text-primary"
-						>
+						<UBadge color="primary" variant="subtle" class="text-primary-700 dark:text-primary">
 							{{ viewportLabel }}
 						</UBadge>
 					</div>
@@ -153,9 +142,7 @@ const viewportLabel = computed(() => {
 			</template>
 
 			<div>
-				<div
-					class="flex justify-between mb-2 text-sm text-gray-600 dark:text-gray-400"
-				>
+				<div class="flex justify-between mb-2 text-sm text-gray-600 dark:text-gray-400">
 					<span>{{ minViewport }}px</span>
 					<span>{{ maxViewport }}px</span>
 				</div>
@@ -166,9 +153,7 @@ const viewportLabel = computed(() => {
 					aria-label="Adjust viewport width"
 				/>
 
-				<div
-					class="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400"
-				>
+				<div class="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
 					<span>Mobile</span>
 					<span>Tablet</span>
 					<span>Laptop</span>

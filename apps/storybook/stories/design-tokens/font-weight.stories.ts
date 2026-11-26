@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { fontWeightValues } from "@styleframe/theme";
+
 import FontWeightSwatch from "../../src/components/design-tokens/typography/FontWeightSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 

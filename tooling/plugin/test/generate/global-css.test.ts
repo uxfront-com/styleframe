@@ -1,7 +1,8 @@
+import type { Styleframe } from "@styleframe/core";
 import { describe, expect, it, vi, beforeEach } from "vitest";
+
 import { generateGlobalCSS } from "../../src/plugin/generate/global-css";
 import type { PluginGlobalState } from "../../src/plugin/state";
-import type { Styleframe } from "@styleframe/core";
 
 vi.mock("@styleframe/transpiler", () => ({
 	transpile: vi.fn(),
@@ -26,9 +27,7 @@ import { transpile } from "@styleframe/transpiler";
 import { consola } from "consola";
 
 describe("generateGlobalCSS", () => {
-	const createMockState = (
-		globalInstance: Styleframe | null = null,
-	): PluginGlobalState => ({
+	const createMockState = (globalInstance: Styleframe | null = null): PluginGlobalState => ({
 		globalInstance,
 		configFile: {
 			path: "/path/to/config.ts",
@@ -122,9 +121,7 @@ describe("generateGlobalCSS", () => {
 
 		await generateGlobalCSS(state, false, { silent: false });
 
-		expect(consola.success).toHaveBeenCalledWith(
-			"[styleframe] Built global CSS successfully.",
-		);
+		expect(consola.success).toHaveBeenCalledWith("[styleframe] Built global CSS successfully.");
 	});
 
 	it("should not log success message when silent", async () => {

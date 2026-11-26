@@ -10,6 +10,7 @@ import {
 	createVariableFunction,
 	isUtility,
 } from "@styleframe/core";
+
 import { consume } from "./consume";
 
 describe("consume", () => {
@@ -106,9 +107,7 @@ describe("consume", () => {
 			md: "16px",
 		});
 
-		const marginUtility = root.children.find(
-			(u) => isUtility(u) && u.name === "margin",
-		);
+		const marginUtility = root.children.find((u) => isUtility(u) && u.name === "margin");
 		const result = consume(marginUtility, options);
 
 		expect(result).toEqual(`._margin\\:sm {

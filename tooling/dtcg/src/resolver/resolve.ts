@@ -19,7 +19,6 @@
 
 import { resolveAliases } from "../alias/resolve";
 import { ParseError, ValidationError } from "../parse/errors";
-import type { DTCGDocument } from "../types/token";
 import type {
 	DTCGFileLoader,
 	DTCGModifier,
@@ -30,6 +29,7 @@ import type {
 	DTCGSet,
 	DTCGSource,
 } from "../types/resolver";
+import type { DTCGDocument } from "../types/token";
 import { mergeDocuments } from "./merge";
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -40,10 +40,7 @@ function isRef(value: unknown): value is DTCGRef {
 	return isPlainObject(value) && typeof value.$ref === "string";
 }
 
-function lookupInternalRef(
-	doc: DTCGResolverDocument,
-	pointer: string,
-): unknown {
+function lookupInternalRef(doc: DTCGResolverDocument, pointer: string): unknown {
 	if (!pointer.startsWith("#/")) {
 		return undefined;
 	}
@@ -70,17 +67,13 @@ async function loadSource(
 		if (source.$ref.startsWith("#/")) {
 			const target = lookupInternalRef(doc, source.$ref);
 			if (!isPlainObject(target)) {
-				throw new ParseError(
-					`Internal $ref "${source.$ref}" did not resolve to an object`,
-				);
+				throw new ParseError(`Internal $ref "${source.$ref}" did not resolve to an object`);
 			}
 			return target as DTCGDocument;
 		}
 		const loaded = await loader(source.$ref);
 		if (!isPlainObject(loaded)) {
-			throw new ParseError(
-				`fileLoader for "${source.$ref}" did not return an object`,
-			);
+			throw new ParseError(`fileLoader for "${source.$ref}" did not return an object`);
 		}
 		return loaded as DTCGDocument;
 	}
@@ -134,9 +127,7 @@ function resolveResolutionItem(
 	if (isRef(item)) {
 		const target = lookupInternalRef(doc, item.$ref);
 		if (!isPlainObject(target)) {
-			throw new ParseError(
-				`resolutionOrder $ref "${item.$ref}" did not resolve to an object`,
-			);
+			throw new ParseError(`resolutionOrder $ref "${item.$ref}" did not resolve to an object`);
 		}
 		const ref = item.$ref;
 		const isModifierRef = ref.startsWith("#/modifiers/");
@@ -157,10 +148,7 @@ function resolveResolutionItem(
 	return { kind: "modifier", value: item };
 }
 
-function validateInputs(
-	doc: DTCGResolverDocument,
-	inputs: DTCGResolverInputs,
-): void {
+function validateInputs(doc: DTCGResolverDocument, inputs: DTCGResolverInputs): void {
 	const declaredModifiers = new Set<string>();
 	for (const item of doc.resolutionOrder) {
 		const { kind, name } = resolveResolutionItem(item, doc);
@@ -189,10 +177,7 @@ function validateInputs(
 		const value = inputs[name];
 		if (value === undefined) {
 			if (modifier.default === undefined) {
-				throw new ValidationError(
-					`Modifier "${name}" has no default — input value required`,
-					name,
-				);
+				throw new ValidationError(`Modifier "${name}" has no default — input value required`, name);
 			}
 			continue;
 		}
@@ -217,18 +202,11 @@ export async function resolve(
 	for (const item of doc.resolutionOrder) {
 		const resolved = resolveResolutionItem(item, doc);
 		if (resolved.kind === "set") {
-			accumulator = await applySet(
-				resolved.value,
-				doc,
-				fileLoader,
-				accumulator,
-			);
+			accumulator = await applySet(resolved.value, doc, fileLoader, accumulator);
 		} else {
 			const modifierName = resolved.name;
 			if (!modifierName) {
-				throw new ParseError(
-					"Inline modifier in resolutionOrder requires a name",
-				);
+				throw new ParseError("Inline modifier in resolutionOrder requires a name");
 			}
 			const contextName = inputs[modifierName] ?? resolved.value.default;
 			if (!contextName) {
@@ -237,13 +215,7 @@ export async function resolve(
 					modifierName,
 				);
 			}
-			accumulator = await applyModifier(
-				resolved.value,
-				contextName,
-				doc,
-				fileLoader,
-				accumulator,
-			);
+			accumulator = await applyModifier(resolved.value, contextName, doc, fileLoader, accumulator);
 		}
 	}
 	return resolveAliases(accumulator);

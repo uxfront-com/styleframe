@@ -1,28 +1,38 @@
 {
 	"name": "styleframe",
 	"version": "3.9.2",
+	"description": "From simple UI styles to full Design Systems, write code using Styleframe’s powerful TypeScript CSS API — AI-ready by design.",
+	"keywords": [
+		"css",
+		"css-in-ts",
+		"design-system",
+		"design-tokens",
+		"styleframe",
+		"theming",
+		"typescript",
+		"utility-css"
+	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
+	"license": "MIT",
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/styleframe"
+	},
 	"bin": {
 		"styleframe": "./dist/cli.js"
 	},
-	"description": "From simple UI styles to full Design Systems, write code using Styleframe’s powerful TypeScript CSS API — AI-ready by design.",
-	"keywords": [
-		"styleframe",
-		"css",
-		"css-in-ts",
-		"design-tokens",
-		"design-system",
-		"typescript",
-		"utility-css",
-		"theming"
-	],
-	"type": "module",
-	"license": "MIT",
 	"files": [
 		"dist",
 		"LICENSE",
 		"CHANGELOG.md",
 		"README.md"
 	],
+	"type": "module",
 	"sideEffects": false,
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
@@ -164,18 +174,12 @@
 		"@styleframe/cli": "workspace:^4.1.2",
 		"@styleframe/license": "catalog:"
 	},
-	"peerDependencies": {
-		"@styleframe/plugin": "workspace:^3.4.0",
-		"@styleframe/core": "workspace:^",
-		"@styleframe/loader": "workspace:^3.0.3",
-		"@styleframe/transpiler": "workspace:^3.4.1"
-	},
 	"devDependencies": {
-		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/cli": "workspace:^4.1.2",
-		"@styleframe/plugin": "workspace:^3.4.2",
+		"@styleframe/config-typescript": "workspace:^3.0.1",
 		"@styleframe/core": "workspace:^3.7.0",
 		"@styleframe/loader": "workspace:^3.0.4",
+		"@styleframe/plugin": "workspace:^3.4.2",
 		"@styleframe/transpiler": "workspace:^3.5.0",
 		"@types/node": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
@@ -184,14 +188,10 @@
 		"typescript": "catalog:",
 		"vitest": "catalog:"
 	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "engine/styleframe"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	"peerDependencies": {
+		"@styleframe/core": "workspace:^",
+		"@styleframe/loader": "workspace:^3.0.3",
+		"@styleframe/plugin": "workspace:^3.4.0",
+		"@styleframe/transpiler": "workspace:^3.4.1"
+	}
 }

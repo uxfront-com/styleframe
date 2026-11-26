@@ -5,12 +5,7 @@
 
 import { isValidNamespace } from "../extensions/namespace";
 import { ValidationError } from "../parse/errors";
-import type {
-	DTCGModifier,
-	DTCGRef,
-	DTCGResolverDocument,
-	DTCGSet,
-} from "../types/resolver";
+import type { DTCGModifier, DTCGRef, DTCGResolverDocument, DTCGSet } from "../types/resolver";
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -46,21 +41,13 @@ function validateExtensions(
 	}
 }
 
-function validateSources(
-	sources: unknown,
-	path: string,
-	errors: Array<ValidationError>,
-): void {
+function validateSources(sources: unknown, path: string, errors: Array<ValidationError>): void {
 	if (!Array.isArray(sources)) {
-		errors.push(
-			new ValidationError("sources must be an array", path, "array", sources),
-		);
+		errors.push(new ValidationError("sources must be an array", path, "array", sources));
 		return;
 	}
 	if (sources.length === 0) {
-		errors.push(
-			new ValidationError("sources must not be empty", path, "non-empty array"),
-		);
+		errors.push(new ValidationError("sources must not be empty", path, "non-empty array"));
 	}
 	sources.forEach((s, i) => {
 		if (!isRef(s) && !isPlainObject(s)) {
@@ -76,20 +63,11 @@ function validateSources(
 	});
 }
 
-function validateSet(
-	set: DTCGSet,
-	path: string,
-	errors: Array<ValidationError>,
-): void {
+function validateSet(set: DTCGSet, path: string, errors: Array<ValidationError>): void {
 	validateSources(set.sources, `${path}.sources`, errors);
 	validateExtensions(set.$extensions, `${path}.$extensions`, errors);
 	if (set.description !== undefined && typeof set.description !== "string") {
-		errors.push(
-			new ValidationError(
-				"description must be a string",
-				`${path}.description`,
-			),
-		);
+		errors.push(new ValidationError("description must be a string", `${path}.description`));
 	}
 }
 
@@ -99,18 +77,13 @@ function validateModifier(
 	errors: Array<ValidationError>,
 ): void {
 	if (!isPlainObject(modifier.contexts)) {
-		errors.push(
-			new ValidationError("contexts must be an object", `${path}.contexts`),
-		);
+		errors.push(new ValidationError("contexts must be an object", `${path}.contexts`));
 		return;
 	}
 	const contextNames = Object.keys(modifier.contexts);
 	if (contextNames.length === 0) {
 		errors.push(
-			new ValidationError(
-				"contexts must define at least one context",
-				`${path}.contexts`,
-			),
+			new ValidationError("contexts must define at least one context", `${path}.contexts`),
 		);
 	}
 	for (const [name, sources] of Object.entries(modifier.contexts)) {
@@ -118,9 +91,7 @@ function validateModifier(
 	}
 	if (modifier.default !== undefined) {
 		if (typeof modifier.default !== "string") {
-			errors.push(
-				new ValidationError("default must be a string", `${path}.default`),
-			);
+			errors.push(new ValidationError("default must be a string", `${path}.default`));
 		} else if (!contextNames.includes(modifier.default)) {
 			errors.push(
 				new ValidationError(
@@ -135,9 +106,7 @@ function validateModifier(
 	validateExtensions(modifier.$extensions, `${path}.$extensions`, errors);
 }
 
-export function validateResolver(
-	doc: DTCGResolverDocument,
-): Array<ValidationError> {
+export function validateResolver(doc: DTCGResolverDocument): Array<ValidationError> {
 	const errors: Array<ValidationError> = [];
 
 	if (doc.version !== "2025.10") {
@@ -163,9 +132,7 @@ export function validateResolver(
 
 	if (doc.modifiers !== undefined) {
 		if (!isPlainObject(doc.modifiers)) {
-			errors.push(
-				new ValidationError("modifiers must be an object", "modifiers"),
-			);
+			errors.push(new ValidationError("modifiers must be an object", "modifiers"));
 		} else {
 			for (const [name, modifier] of Object.entries(doc.modifiers)) {
 				validateModifier(modifier as DTCGModifier, `modifiers.${name}`, errors);
@@ -183,12 +150,7 @@ export function validateResolver(
 			),
 		);
 	} else if (doc.resolutionOrder.length === 0) {
-		errors.push(
-			new ValidationError(
-				"resolutionOrder must not be empty",
-				"resolutionOrder",
-			),
-		);
+		errors.push(new ValidationError("resolutionOrder must not be empty", "resolutionOrder"));
 	} else {
 		doc.resolutionOrder.forEach((item, i) => {
 			if (isRef(item)) {

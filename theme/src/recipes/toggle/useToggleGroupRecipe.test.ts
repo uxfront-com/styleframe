@@ -1,17 +1,12 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useToggleGroupRecipe } from "./useToggleGroupRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"flexDirection",
-		"flexWrap",
-		"alignItems",
-		"gap",
-	]) {
+	for (const name of ["display", "flexDirection", "flexWrap", "alignItems", "gap"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
@@ -39,10 +34,7 @@ describe("useToggleGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useToggleGroupRecipe(s);
 
-			expect(Object.keys(recipe.variants!.orientation)).toEqual([
-				"horizontal",
-				"vertical",
-			]);
+			expect(Object.keys(recipe.variants!.orientation)).toEqual(["horizontal", "vertical"]);
 			expect(recipe.variants!.orientation.horizontal).toEqual({
 				flexDirection: "row",
 				flexWrap: "wrap",

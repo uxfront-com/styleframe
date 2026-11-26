@@ -1,9 +1,11 @@
-import { createResolver, defineNuxtModule } from "@nuxt/kit";
-import { defu } from "defu";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { inferSiteURL, getPackageJsonMetadata } from "../utils/meta";
+
+import { createResolver, defineNuxtModule } from "@nuxt/kit";
+import { defu } from "defu";
+
 import { getGitBranch, getGitEnv, getLocalGitInfo } from "../utils/git";
+import { inferSiteURL, getPackageJsonMetadata } from "../utils/meta";
 
 export default defineNuxtModule({
 	meta: {
@@ -16,10 +18,7 @@ export default defineNuxtModule({
 		const gitInfo = (await getLocalGitInfo(dir)) || getGitEnv();
 		const site = nuxt.options.site;
 		const siteName =
-			(typeof site === "object" ? site.name : undefined) ||
-			meta.name ||
-			gitInfo?.name ||
-			"";
+			(typeof site === "object" ? site.name : undefined) || meta.name || gitInfo?.name || "";
 
 		nuxt.options.llms = defu(nuxt.options.llms, {
 			domain: url,

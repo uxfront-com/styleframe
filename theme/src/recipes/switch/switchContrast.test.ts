@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { formatHex8, wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useSwitchFieldRecipe } from "./useSwitchFieldRecipe";
 
@@ -54,18 +51,14 @@ describe("useSwitchFieldRecipe contrast", () => {
 
 	const base = recipe.base as Block;
 	const checked = base["&:checked"] as Block;
-	const pages = (theme: Theme) => [
-		themes[theme].background!,
-		themes[theme].surface!,
-	];
+	const pages = (theme: Theme) => [themes[theme].background!, themes[theme].surface!];
 
 	const cases = (["light", "dark"] as const).flatMap((theme) =>
 		recipe.compoundVariants!.flatMap((cv) => {
 			const css = cv.css as Block;
 			const offThumb = css.backgroundImage ?? base.backgroundImage;
 			const onThumb =
-				(css["&:checked"] as Block | undefined)?.backgroundImage ??
-				base.backgroundImage;
+				(css["&:checked"] as Block | undefined)?.backgroundImage ?? base.backgroundImage;
 			return [
 				{
 					name: `${cv.match.color} off in the ${theme} theme`,
@@ -166,29 +159,19 @@ describe("useSwitchFieldRecipe contrast", () => {
 	// one color compares equal whichever way its theme spells it.
 	function applied(value: unknown, theme: Theme): unknown {
 		if (typeof value === "string") {
-			return value.replaceAll(/@color\.[\w-]+/g, (token) =>
-				formatHex8(resolve(token, theme)),
-			);
+			return value.replaceAll(/@color\.[\w-]+/g, (token) => formatHex8(resolve(token, theme)));
 		}
 		return Object.fromEntries(
-			Object.entries(value as Block).map(([key, inner]) => [
-				key,
-				applied(inner, theme),
-			]),
+			Object.entries(value as Block).map(([key, inner]) => [key, applied(inner, theme)]),
 		);
 	}
 
 	it.each(
 		recipe
-			.compoundVariants!.filter(
-				(cv) => cv.match.color === "light" || cv.match.color === "dark",
-			)
+			.compoundVariants!.filter((cv) => cv.match.color === "light" || cv.match.color === "dark")
 			.map((cv) => ({ name: cv.match.color, css: cv.css as Block })),
-	)(
-		"switch/fixed-colors keeps the $name switch the same in both themes",
-		({ css }) => {
-			expect(css).not.toHaveProperty("&:dark");
-			expect(applied(css, "dark")).toEqual(applied(css, "light"));
-		},
-	);
+	)("switch/fixed-colors keeps the $name switch the same in both themes", ({ css }) => {
+		expect(css).not.toHaveProperty("&:dark");
+		expect(applied(css, "dark")).toEqual(applied(css, "light"));
+	});
 });

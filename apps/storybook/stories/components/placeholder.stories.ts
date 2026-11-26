@@ -17,7 +17,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
 	render: () => ({
 		components: { Placeholder },
-		template:
-			'<Placeholder class="_height:8">Placeholder content</Placeholder>',
+		template: '<Placeholder class="_height:8">Placeholder content</Placeholder>',
 	}),
 };

@@ -20,12 +20,9 @@ export const useBackfaceVisibilityUtility = createUseUtility(
 /**
  * Create perspective utility classes.
  */
-export const usePerspectiveUtility = createUseUtility(
-	"perspective",
-	({ value }) => ({
-		perspective: value,
-	}),
-);
+export const usePerspectiveUtility = createUseUtility("perspective", ({ value }) => ({
+	perspective: value,
+}));
 
 /**
  * Create perspective-origin utility classes.
@@ -136,58 +133,43 @@ export const useTransformStyleUtility = createUseUtility(
 /**
  * Create translate utility classes (both x and y).
  */
-export const useTranslateUtility = createUseUtility(
-	"translate",
-	({ value }) => ({
-		"--transform-translate-x": value,
-		"--transform-translate-y": value,
-		transform:
-			"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
-	}),
-);
+export const useTranslateUtility = createUseUtility("translate", ({ value }) => ({
+	"--transform-translate-x": value,
+	"--transform-translate-y": value,
+	transform:
+		"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
+}));
 
 /**
  * Create translate-x utility classes.
  */
-export const useTranslateXUtility = createUseUtility(
-	"translate-x",
-	({ value }) => ({
-		"--transform-translate-x": value,
-		transform:
-			"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
-	}),
-);
+export const useTranslateXUtility = createUseUtility("translate-x", ({ value }) => ({
+	"--transform-translate-x": value,
+	transform:
+		"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
+}));
 
 /**
  * Create translate-y utility classes.
  */
-export const useTranslateYUtility = createUseUtility(
-	"translate-y",
-	({ value }) => ({
-		"--transform-translate-y": value,
-		transform:
-			"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
-	}),
-);
+export const useTranslateYUtility = createUseUtility("translate-y", ({ value }) => ({
+	"--transform-translate-y": value,
+	transform:
+		"translate(var(--transform-translate-x), var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
+}));
 
 /**
  * Create translate-z utility classes.
  */
-export const useTranslateZUtility = createUseUtility(
-	"translate-z",
-	({ value }) => ({
-		"--transform-translate-z": value,
-		transform:
-			"translate3d(var(--transform-translate-x), var(--transform-translate-y), var(--transform-translate-z)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
-	}),
-);
+export const useTranslateZUtility = createUseUtility("translate-z", ({ value }) => ({
+	"--transform-translate-z": value,
+	transform:
+		"translate3d(var(--transform-translate-x), var(--transform-translate-y), var(--transform-translate-z)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
+}));
 
 /**
  * Create transform utility classes.
  */
-export const useTransformUtility = createUseUtility(
-	"transform",
-	({ value }) => ({
-		transform: value,
-	}),
-);
+export const useTransformUtility = createUseUtility("transform", ({ value }) => ({
+	transform: value,
+}));

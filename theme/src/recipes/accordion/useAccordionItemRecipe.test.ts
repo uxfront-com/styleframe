@@ -1,14 +1,11 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useAccordionItemRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"borderBottomWidth",
-		"borderBottomStyle",
-		"borderBottomColor",
-	]) {
+	for (const name of ["borderBottomWidth", "borderBottomStyle", "borderBottomColor"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
@@ -40,11 +37,7 @@ describe("useAccordionItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useAccordionItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have solid and ghost style variants", () => {
@@ -67,9 +60,7 @@ describe("useAccordionItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useAccordionItemRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },

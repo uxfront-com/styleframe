@@ -1,5 +1,6 @@
 import { copyFile } from "node:fs/promises";
 import path from "node:path";
+
 import init from "../src/commands/init";
 
 const __dirname = new URL(".", import.meta.url).pathname;

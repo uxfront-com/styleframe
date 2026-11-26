@@ -1,15 +1,10 @@
 import { styleframe } from "@styleframe/core";
+
 import { useColorPickerThumbRecipe } from "./useColorPickerThumbRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"position",
-		"width",
-		"height",
-		"borderRadius",
-		"cursor",
-	]) {
+	for (const name of ["position", "width", "height", "borderRadius", "cursor"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

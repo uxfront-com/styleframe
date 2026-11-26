@@ -27,12 +27,8 @@ const sizeTitles: Record<string, string> = {
 					default-value="item-1"
 				>
 					<AccordionItem value="item-1">
-						<AccordionTrigger>
-							{{ sizeTitles[size] }} {{ color }}
-						</AccordionTrigger>
-						<AccordionContent>
-							Padding and type scale with the size axis.
-						</AccordionContent>
+						<AccordionTrigger> {{ sizeTitles[size] }} {{ color }} </AccordionTrigger>
+						<AccordionContent> Padding and type scale with the size axis. </AccordionContent>
 					</AccordionItem>
 					<AccordionItem value="item-2">
 						<AccordionTrigger>Second panel</AccordionTrigger>

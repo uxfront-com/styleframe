@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useSidebarContentRecipe } from "./index";
 
 function createInstance() {

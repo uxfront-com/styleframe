@@ -1,4 +1,5 @@
 import type { TokenValue } from "@styleframe/core";
+
 import type { RangeInput } from "../utils/normalizeRange";
 
 export type FontSizeValue = TokenValue | RangeInput<TokenValue>;

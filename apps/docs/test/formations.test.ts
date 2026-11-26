@@ -1,13 +1,13 @@
 import { empty } from "@uxfront/scene/formations";
 import { describe, expect, it } from "vitest";
+
 import { device, deviceAt } from "../app/lib/formations";
 
 describe("formations", () => {
 	it("gives the device formation a key of its own, apart from the scene's empty", () => {
-		const keys = [
-			empty({ label: "Empty" }),
-			device({ label: "Fluid design" }),
-		].map((formation) => formation.key);
+		const keys = [empty({ label: "Empty" }), device({ label: "Fluid design" })].map(
+			(formation) => formation.key,
+		);
 		expect(new Set(keys).size).toBe(keys.length);
 	});
 

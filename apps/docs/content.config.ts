@@ -1,4 +1,5 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
+
 import { DOCS_FOLDERS, docsFolderPrefix } from "./app/constants/sections";
 
 // Nuxt Content merges these with the collections Docus defines. `docs` replaces

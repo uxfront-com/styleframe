@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	justifyContentValues,
-	justifyItemsValues,
-	justifySelfValues,
-} from "../../values";
+import { justifyContentValues, justifyItemsValues, justifySelfValues } from "../../values";
 
 /**
  * Create justify-content utility classes.

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genSelector } from "./genSelector";
 
 describe("genSelector", () => {
@@ -13,14 +14,8 @@ describe("genSelector", () => {
 	});
 
 	it("should generate a selector with multiple declarations", () => {
-		const result = genSelector(".card", [
-			"color: red;",
-			"background: blue;",
-			"margin: 10px;",
-		]);
-		expect(result).toBe(
-			".card {\n\tcolor: red;\n\tbackground: blue;\n\tmargin: 10px;\n}",
-		);
+		const result = genSelector(".card", ["color: red;", "background: blue;", "margin: 10px;"]);
+		expect(result).toBe(".card {\n\tcolor: red;\n\tbackground: blue;\n\tmargin: 10px;\n}");
 	});
 
 	it("should handle class selectors", () => {
@@ -94,12 +89,8 @@ describe("genSelector", () => {
 	});
 
 	it("should handle :not() pseudo-class", () => {
-		const result = genSelector("input:not([type='submit'])", [
-			"background: white;",
-		]);
-		expect(result).toBe(
-			"input:not([type='submit']) {\n\tbackground: white;\n}",
-		);
+		const result = genSelector("input:not([type='submit'])", ["background: white;"]);
+		expect(result).toBe("input:not([type='submit']) {\n\tbackground: white;\n}");
 	});
 
 	it("should handle :nth-child() pseudo-class", () => {
@@ -128,18 +119,12 @@ describe("genSelector", () => {
 	});
 
 	it("should handle complex nested selectors", () => {
-		const result = genSelector(".container > .row .col:first-child::before", [
-			"content: '';",
-		]);
-		expect(result).toBe(
-			".container > .row .col:first-child::before {\n\tcontent: '';\n}",
-		);
+		const result = genSelector(".container > .row .col:first-child::before", ["content: '';"]);
+		expect(result).toBe(".container > .row .col:first-child::before {\n\tcontent: '';\n}");
 	});
 
 	it("should handle selectors with special characters", () => {
-		const result = genSelector(String.raw`.btn-primary\:hover`, [
-			"opacity: 0.8;",
-		]);
+		const result = genSelector(String.raw`.btn-primary\:hover`, ["opacity: 0.8;"]);
 		expect(result).toBe(".btn-primary\\:hover {\n\topacity: 0.8;\n}");
 	});
 
@@ -149,20 +134,13 @@ describe("genSelector", () => {
 	});
 
 	it("should handle case-insensitive attribute selectors", () => {
-		const result = genSelector("[type='email' i]", [
-			"text-transform: lowercase;",
-		]);
+		const result = genSelector("[type='email' i]", ["text-transform: lowercase;"]);
 		expect(result).toBe("[type='email' i] {\n\ttext-transform: lowercase;\n}");
 	});
 
 	it("should handle :root selector", () => {
-		const result = genSelector(":root", [
-			"--primary-color: #007bff;",
-			"--font-size: 16px;",
-		]);
-		expect(result).toBe(
-			":root {\n\t--primary-color: #007bff;\n\t--font-size: 16px;\n}",
-		);
+		const result = genSelector(":root", ["--primary-color: #007bff;", "--font-size: 16px;"]);
+		expect(result).toBe(":root {\n\t--primary-color: #007bff;\n\t--font-size: 16px;\n}");
 	});
 
 	it("should handle :host selector", () => {
@@ -256,9 +234,7 @@ describe("genSelector", () => {
 	});
 
 	it("should handle :out-of-range pseudo-class", () => {
-		const result = genSelector("input:out-of-range", [
-			"background: lightcoral;",
-		]);
+		const result = genSelector("input:out-of-range", ["background: lightcoral;"]);
 		expect(result).toBe("input:out-of-range {\n\tbackground: lightcoral;\n}");
 	});
 
@@ -278,13 +254,8 @@ describe("genSelector", () => {
 	});
 
 	it("should handle ::selection pseudo-element", () => {
-		const result = genSelector("::selection", [
-			"background: blue;",
-			"color: white;",
-		]);
-		expect(result).toBe(
-			"::selection {\n\tbackground: blue;\n\tcolor: white;\n}",
-		);
+		const result = genSelector("::selection", ["background: blue;", "color: white;"]);
+		expect(result).toBe("::selection {\n\tbackground: blue;\n\tcolor: white;\n}");
 	});
 
 	it("should handle ::first-line pseudo-element", () => {
@@ -293,22 +264,13 @@ describe("genSelector", () => {
 	});
 
 	it("should handle ::first-letter pseudo-element", () => {
-		const result = genSelector("p::first-letter", [
-			"font-size: 2em;",
-			"float: left;",
-		]);
-		expect(result).toBe(
-			"p::first-letter {\n\tfont-size: 2em;\n\tfloat: left;\n}",
-		);
+		const result = genSelector("p::first-letter", ["font-size: 2em;", "float: left;"]);
+		expect(result).toBe("p::first-letter {\n\tfont-size: 2em;\n\tfloat: left;\n}");
 	});
 
 	it("should handle ::backdrop pseudo-element", () => {
-		const result = genSelector("dialog::backdrop", [
-			"background: rgba(0,0,0,0.5);",
-		]);
-		expect(result).toBe(
-			"dialog::backdrop {\n\tbackground: rgba(0,0,0,0.5);\n}",
-		);
+		const result = genSelector("dialog::backdrop", ["background: rgba(0,0,0,0.5);"]);
+		expect(result).toBe("dialog::backdrop {\n\tbackground: rgba(0,0,0,0.5);\n}");
 	});
 
 	it("should handle ::marker pseudo-element", () => {
@@ -332,8 +294,7 @@ describe("genSelector", () => {
 	});
 
 	it("should handle very long selector strings", () => {
-		const longSelector =
-			".container .section .row .column .card .header .title .text";
+		const longSelector = ".container .section .row .column .card .header .title .text";
 		const result = genSelector(longSelector, ["color: blue;"]);
 		expect(result).toBe(`${longSelector} {\n\tcolor: blue;\n}`);
 	});
@@ -349,11 +310,7 @@ describe("genSelector", () => {
 	});
 
 	it("should handle complex selector with all combinator types", () => {
-		const result = genSelector(".parent > .child + .sibling ~ .distant", [
-			"display: block;",
-		]);
-		expect(result).toBe(
-			".parent > .child + .sibling ~ .distant {\n\tdisplay: block;\n}",
-		);
+		const result = genSelector(".parent > .child + .sibling ~ .distant", ["display: block;"]);
+		expect(result).toBe(".parent > .child + .sibling ~ .distant {\n\tdisplay: block;\n}");
 	});
 });

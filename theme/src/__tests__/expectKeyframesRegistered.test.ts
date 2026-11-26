@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { expectKeyframesRegistered } from "./expectKeyframesRegistered";
 
 describe("expectKeyframesRegistered", () => {

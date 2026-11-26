@@ -1,7 +1,9 @@
+import path from "node:path";
+
 import type { Styleframe } from "@styleframe/core";
 import { isRecipe, isSelector, isStyleframe } from "@styleframe/core";
 import { createJiti } from "jiti";
-import path from "node:path";
+
 import type {
 	ExportInfo,
 	LoadExtensionModuleResult,
@@ -27,9 +29,7 @@ export function createLoader(basePath: string, alias?: Record<string, string>) {
  * Track _exportName on recipes and selectors in a module.
  * Returns a map of export info for recipes and selectors.
  */
-export function trackExports(
-	module: Record<string, unknown>,
-): Map<string, ExportInfo> {
+export function trackExports(module: Record<string, unknown>): Map<string, ExportInfo> {
 	const exports = new Map<string, ExportInfo>();
 
 	for (const [name, value] of Object.entries(module)) {
@@ -72,9 +72,7 @@ export async function loadModule(
 	const module = (await jiti.import(filePath)) as Record<string, unknown>;
 
 	if (!module.default) {
-		throw new Error(
-			`Missing default export in ${filePath}. Expected a Styleframe instance.`,
-		);
+		throw new Error(`Missing default export in ${filePath}. Expected a Styleframe instance.`);
 	}
 
 	if (validateInstance && !isStyleframe(module.default)) {

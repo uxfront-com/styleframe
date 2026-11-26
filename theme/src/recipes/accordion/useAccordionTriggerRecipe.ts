@@ -155,11 +155,8 @@ export const useAccordionTriggerRecipe = createUseRecipe(
 			transitionTimingFunction: "ease-in-out",
 			transitionDuration: "150ms",
 		});
-		s.selector(
-			'.accordion-trigger[data-state="open"] .accordion-trigger-icon',
-			{
-				transform: "rotate(180deg)",
-			},
-		);
+		s.selector('.accordion-trigger[data-state="open"] .accordion-trigger-icon', {
+			transform: "rotate(180deg)",
+		});
 	},
 );

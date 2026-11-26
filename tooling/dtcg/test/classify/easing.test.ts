@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-	easingKeywordToBezier,
-	isEasingKeyword,
-} from "../../src/classify/easing";
+
+import { easingKeywordToBezier, isEasingKeyword } from "../../src/classify/easing";
 
 describe("easingKeywordToBezier", () => {
 	it("maps the five spec keywords", () => {

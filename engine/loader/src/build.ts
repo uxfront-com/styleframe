@@ -1,13 +1,12 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+
 import type { Styleframe } from "@styleframe/core";
+import { getLicenseKeyFromEnv, validateInstanceLicense } from "@styleframe/license";
 import type { TranspileOptions } from "@styleframe/transpiler";
 import { transpile } from "@styleframe/transpiler";
+
 import { directoryExists } from "./utils";
-import {
-	getLicenseKeyFromEnv,
-	validateInstanceLicense,
-} from "@styleframe/license";
 
 export type BuildOptions = {
 	clean?: boolean;

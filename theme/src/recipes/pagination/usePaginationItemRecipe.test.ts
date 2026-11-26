@@ -1,4 +1,6 @@
 import { styleframe } from "@styleframe/core";
+
+import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useHoverModifier,
@@ -6,7 +8,6 @@ import {
 	useFocusVisibleModifier,
 	useActiveModifier,
 } from "../../modifiers/usePseudoStateModifiers";
-import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { usePaginationItemRecipe } from "./index";
 
 function createInstance() {
@@ -114,11 +115,7 @@ describe("usePaginationItemRecipe", () => {
 			const s = createInstance();
 			const recipe = usePaginationItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
@@ -395,9 +392,7 @@ describe("usePaginationItemRecipe", () => {
 			});
 
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => !cv.match.color || cv.match.color === "neutral",
-				),
+				recipe.compoundVariants!.every((cv) => !cv.match.color || cv.match.color === "neutral"),
 			).toBe(true);
 		});
 
@@ -410,10 +405,7 @@ describe("usePaginationItemRecipe", () => {
 			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "ghost"]);
 			expect(
 				recipe.compoundVariants!.every(
-					(cv) =>
-						!cv.match.variant ||
-						cv.match.variant === "ghost" ||
-						cv.match.variant === "solid",
+					(cv) => !cv.match.variant || cv.match.variant === "ghost" || cv.match.variant === "solid",
 				),
 			).toBe(true);
 		});

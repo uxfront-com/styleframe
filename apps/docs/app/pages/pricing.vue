@@ -54,10 +54,9 @@ const support = "mailto:support@styleframe.dev";
 				<UxHeroLine>styleframe for <em class="ux-serif">free</em></UxHeroLine>
 			</template>
 			<template #lead>
-				On top of all the core features and open source composables from
-				styleframe, <strong>styleframe Pro</strong> gives you access to premium
-				composables to create beautiful &amp; responsive Design Systems in
-				minutes.
+				On top of all the core features and open source composables from styleframe,
+				<strong>styleframe Pro</strong> gives you access to premium composables to create beautiful
+				&amp; responsive Design Systems in minutes.
 			</template>
 		</UxHero>
 
@@ -65,74 +64,60 @@ const support = "mailto:support@styleframe.dev";
 			<SitePricing />
 		</UxSection>
 
-		<UxSection
-			id="faq"
-			index="02"
-			role="FAQ"
-			title="Frequently Asked Questions"
-		>
+		<UxSection id="faq" index="02" role="FAQ" title="Frequently Asked Questions">
 			<template #lead>
-				If you can't find what you're looking for, email our support team and
-				someone will get back to you.
+				If you can't find what you're looking for, email our support team and someone will get back
+				to you.
 			</template>
 
 			<div class="faq">
 				<section class="faq__group" aria-labelledby="general">
 					<h3 id="general">General</h3>
 					<details>
-						<summary>
-							What is the difference between styleframe and styleframe Pro?
-						</summary>
+						<summary>What is the difference between styleframe and styleframe Pro?</summary>
 						<p>
 							Styleframe Pro is a
 							<strong>collection of premium composables</strong>
-							built on top of styleframe. It includes advanced features designed
-							to help you build web applications faster.
+							built on top of styleframe. It includes advanced features designed to help you build
+							web applications faster.
 						</p>
 					</details>
 					<details>
-						<summary>
-							What does "Unlimited minor &amp; patch updates" include?
-						</summary>
+						<summary>What does "Unlimited minor &amp; patch updates" include?</summary>
 						<p>
-							We add new composables and improvements to styleframe Pro as we
-							get new ideas and feedback, you will receive these updates for the
-							major version you purchased.
+							We add new composables and improvements to styleframe Pro as we get new ideas and
+							feedback, you will receive these updates for the major version you purchased.
 						</p>
 						<p>
-							Your license key will work forever for the major version you
-							purchased. We may release a major version including more advanced
-							components and features in the future, and you will be able to
-							upgrade to this version with a generous discount.
+							Your license key will work forever for the major version you purchased. We may release
+							a major version including more advanced components and features in the future, and you
+							will be able to upgrade to this version with a generous discount.
 						</p>
 					</details>
 					<details>
 						<summary>What does "Lifetime access" mean exactly?</summary>
 						<p>
 							Buying a styleframe Pro license is a
-							<strong>one-time purchase, with no recurring subscription</strong
-							>. When you purchase a styleframe Pro license, you get access to
-							everything in the current major version of styleframe Pro forever.
+							<strong>one-time purchase, with no recurring subscription</strong>. When you purchase
+							a styleframe Pro license, you get access to everything in the current major version of
+							styleframe Pro forever.
 						</p>
 					</details>
 					<details>
 						<summary>Do you have a free trial?</summary>
 						<p>
-							We have something much better than a free trial, you can use
-							styleframe Pro for <strong>free in development mode</strong>. Once
-							you are ready to deploy your application, you can purchase a
-							license.
+							We have something much better than a free trial, you can use styleframe Pro for
+							<strong>free in development mode</strong>. Once you are ready to deploy your
+							application, you can purchase a license.
 						</p>
 					</details>
 					<details>
-						<summary>
-							Do you offer discounts for students or non-profits?
-						</summary>
+						<summary>Do you offer discounts for students or non-profits?</summary>
 						<p>
-							Yes, we offer a <strong>50% discount</strong> for students and
-							non-profits using styleframe Pro purely for educational purposes.
-							Contact us at <a :href="support">support@styleframe.dev</a> with
-							your details and we'll send you a discount code.
+							Yes, we offer a <strong>50% discount</strong> for students and non-profits using
+							styleframe Pro purely for educational purposes. Contact us at
+							<a :href="support">support@styleframe.dev</a> with your details and we'll send you a
+							discount code.
 						</p>
 					</details>
 				</section>
@@ -142,18 +127,15 @@ const support = "mailto:support@styleframe.dev";
 					<details>
 						<summary>Do I need a license for each project I work on?</summary>
 						<p>
-							One license, unlimited projects. With Styleframe Pro, you can
-							build as many sites as you want without purchasing additional
-							licenses.
+							One license, unlimited projects. With Styleframe Pro, you can build as many sites as
+							you want without purchasing additional licenses.
 						</p>
 						<p>
-							Use it for all your client work, personal projects, and SaaS
-							applications — as long as they comply with our license terms. No
-							per-project fees, no hidden costs.
+							Use it for all your client work, personal projects, and SaaS applications — as long as
+							they comply with our license terms. No per-project fees, no hidden costs.
 						</p>
 						<p>
-							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full
-							details and examples.
+							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full details and examples.
 						</p>
 					</details>
 					<details>
@@ -161,91 +143,70 @@ const support = "mailto:support@styleframe.dev";
 						<p>Yes! Styleframe Pro is perfect for client work:</p>
 						<ul>
 							<li>
-								<strong>Single client projects</strong>: Use your license to
-								build custom websites
+								<strong>Single client projects</strong>: Use your license to build custom websites
 							</li>
-							<li>
-								<strong>Multi-client templates</strong>: Each client needs their
-								own license
-							</li>
+							<li><strong>Multi-client templates</strong>: Each client needs their own license</li>
 						</ul>
 						<p>Build with confidence knowing you're properly licensed.</p>
 						<p>
-							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full
-							details and examples.
+							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full details and examples.
 						</p>
 					</details>
 					<details>
-						<summary>
-							Can I use styleframe Pro for my own commercial projects?
-						</summary>
+						<summary>Can I use styleframe Pro for my own commercial projects?</summary>
 						<p>
-							Absolutely! Your license covers unlimited projects — from public
-							websites to paid SaaS applications.
+							Absolutely! Your license covers unlimited projects — from public websites to paid SaaS
+							applications.
 						</p>
 						<p>
-							The only restriction: you can't create website builders or tools
-							that let users generate their own sites using Styleframe Pro
-							components. Please contact
-							<a :href="support">support@styleframe.dev</a> for more information
-							about a Builder License. Everything else is fair game.
+							The only restriction: you can't create website builders or tools that let users
+							generate their own sites using Styleframe Pro components. Please contact
+							<a :href="support">support@styleframe.dev</a> for more information about a Builder
+							License. Everything else is fair game.
 						</p>
 						<p>
-							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full
-							details and examples.
+							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full details and examples.
 						</p>
 					</details>
 					<details>
-						<summary>
-							Can I use styleframe Pro for Open Source projects?
-						</summary>
+						<summary>Can I use styleframe Pro for Open Source projects?</summary>
 						<p>
-							Yes, you can use styleframe Pro for your open source projects as
-							well as your commercial projects as long as you don't sell
-							styleframe Pro as a product and you don't share your license key.
+							Yes, you can use styleframe Pro for your open source projects as well as your
+							commercial projects as long as you don't sell styleframe Pro as a product and you
+							don't share your license key.
 						</p>
 						<p>
-							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full
-							details and examples.
+							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full details and examples.
 						</p>
 					</details>
 					<details>
-						<summary>
-							Can I sell templates/themes I build with styleframe Pro?
-						</summary>
+						<summary>Can I sell templates/themes I build with styleframe Pro?</summary>
 						<p>
-							Yes, you can use styleframe Pro to create derivative products like
-							themes, UI kits, page builders, or anything else where you would
-							be repackaging and redistributing our components or templates for
-							someone else to use to build their own sites, but this will
-							require a special Builder License. Contact
+							Yes, you can use styleframe Pro to create derivative products like themes, UI kits,
+							page builders, or anything else where you would be repackaging and redistributing our
+							components or templates for someone else to use to build their own sites, but this
+							will require a special Builder License. Contact
 							<a :href="support">support@styleframe.dev</a>
 							for more information.
 						</p>
 						<p>
-							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full
-							details and examples.
+							<NuxtLink :to="LICENSE_URL">Read our license</NuxtLink> for full details and examples.
 						</p>
 					</details>
 					<details>
 						<summary>
-							Can I purchase an organization license that includes more than 20
-							developers?
+							Can I purchase an organization license that includes more than 20 developers?
 						</summary>
+						<p>For organizations needing more than 20 seats, we offer two approaches:</p>
 						<p>
-							For organizations needing more than 20 seats, we offer two
-							approaches:
+							<strong>Multiple teams?</strong> Purchase separate team licenses for each division.
+							For example, one for your storefront team, another for marketing, and another for data
+							science.
 						</p>
 						<p>
-							<strong>Multiple teams?</strong> Purchase separate team licenses
-							for each division. For example, one for your storefront team,
-							another for marketing, and another for data science.
-						</p>
-						<p>
-							<strong>Single large team or organization?</strong> If you're an
-							agency or unified organization without clear divisions, contact us
-							at <a :href="support">support@styleframe.dev</a> for enterprise
-							pricing.
+							<strong>Single large team or organization?</strong> If you're an agency or unified
+							organization without clear divisions, contact us at
+							<a :href="support">support@styleframe.dev</a> for enterprise pricing.
 						</p>
 					</details>
 				</section>
@@ -256,20 +217,17 @@ const support = "mailto:support@styleframe.dev";
 						<summary>What do I get with my license?</summary>
 						<p>
 							Once you purchase a license, you will receive a
-							<strong>license key</strong> to activate. The license key will
-							allow you to build your project to production.
+							<strong>license key</strong> to activate. The license key will allow you to build your
+							project to production.
 						</p>
 					</details>
 					<details>
 						<summary>Are Figma, Sketch, or Adobe XD files included?</summary>
+						<p>Design assets for Figma, Sketch, or Adobe XD are not included.</p>
 						<p>
-							Design assets for Figma, Sketch, or Adobe XD are not included.
-						</p>
-						<p>
-							We focus exclusively on delivering production-ready code
-							components and templates. This allows us to provide more features,
-							better documentation, and faster updates where it matters most —
-							in your actual codebase.
+							We focus exclusively on delivering production-ready code components and templates.
+							This allows us to provide more features, better documentation, and faster updates
+							where it matters most — in your actual codebase.
 						</p>
 					</details>
 				</section>
@@ -279,21 +237,16 @@ const support = "mailto:support@styleframe.dev";
 					<details>
 						<summary>Do you offer technical support?</summary>
 						<p>
-							Styleframe Pro is designed for developers comfortable with CSS and
-							TypeScript. We provide support for account management and
-							licensing questions, but expect you to have the technical skills
-							needed to integrate our tools into your projects.
+							Styleframe Pro is designed for developers comfortable with CSS and TypeScript. We
+							provide support for account management and licensing questions, but expect you to have
+							the technical skills needed to integrate our tools into your projects.
 						</p>
 						<p>
 							While
-							<strong>
-								we don't provide project-specific technical support or
-								consulting
-							</strong>
+							<strong> we don't provide project-specific technical support or consulting </strong>
 							due to the unique nature of every codebase, our comprehensive
-							<NuxtLink :to="INTRODUCTION_URL">documentation</NuxtLink> and
-							active <a :href="DISCORD_URL">community forum</a> are here to help
-							you succeed.
+							<NuxtLink :to="INTRODUCTION_URL">documentation</NuxtLink> and active
+							<a :href="DISCORD_URL">community forum</a> are here to help you succeed.
 						</p>
 					</details>
 					<details>
@@ -301,8 +254,7 @@ const support = "mailto:support@styleframe.dev";
 						<p>
 							If you are not satisfied with styleframe Pro, let us know within
 							<strong>14 days</strong> of your purchase at
-							<a :href="support">support@styleframe.dev</a> and we'll refund
-							your money.
+							<a :href="support">support@styleframe.dev</a> and we'll refund your money.
 						</p>
 					</details>
 				</section>
@@ -310,9 +262,7 @@ const support = "mailto:support@styleframe.dev";
 		</UxSection>
 
 		<UxFinale kicker="Pricing">
-			<template #title
-				>Start using styleframe for <em class="ux-serif">free</em>.</template
-			>
+			<template #title>Start using styleframe for <em class="ux-serif">free</em>.</template>
 			<template #actions>
 				<UxPillLink :href="INTRODUCTION_URL" label="Get started for free" />
 			</template>

@@ -1,16 +1,16 @@
-import path from "node:path";
 import { readFile, readdir, stat, writeFile } from "node:fs/promises";
-import { defineCommand } from "citty";
-import consola from "consola";
+import path from "node:path";
+
 import type { DTCGDocument } from "@styleframe/dtcg";
 import { generateStyleframeCode, fromDTCG } from "@styleframe/figma";
 import type { FigmaExportFormat, FigmaExportVariable } from "@styleframe/figma";
+import { defineCommand } from "citty";
+import consola from "consola";
 
 export default defineCommand({
 	meta: {
 		name: "import",
-		description:
-			"Generate Styleframe code from Figma-compatible DTCG per-mode files",
+		description: "Generate Styleframe code from Figma-compatible DTCG per-mode files",
 	},
 	args: {
 		input: {
@@ -29,8 +29,7 @@ export default defineCommand({
 		},
 		composables: {
 			type: "boolean",
-			description:
-				"Use @styleframe/theme composables (useColor, useSpacing, etc.)",
+			description: "Use @styleframe/theme composables (useColor, useSpacing, etc.)",
 			default: true,
 		},
 		rem: {
@@ -54,9 +53,7 @@ export default defineCommand({
 		const outputPath = path.resolve(args.output);
 		const baseFontSize = Number.parseInt(args.baseFontSize, 10) || 16;
 
-		consola.info(
-			`Reading from "${path.relative(process.cwd(), inputPath)}"...`,
-		);
+		consola.info(`Reading from "${path.relative(process.cwd(), inputPath)}"...`);
 
 		let data: FigmaExportFormat;
 		try {
@@ -64,9 +61,7 @@ export default defineCommand({
 
 			if (inputStat.isDirectory()) {
 				const files = await readdir(inputPath);
-				const tokenFiles = files
-					.filter((f) => f.endsWith(".tokens.json"))
-					.sort();
+				const tokenFiles = files.filter((f) => f.endsWith(".tokens.json")).sort();
 
 				if (tokenFiles.length === 0) {
 					consola.error(
@@ -75,9 +70,7 @@ export default defineCommand({
 					process.exit(1);
 				}
 
-				consola.info(
-					`Found ${tokenFiles.length} mode file(s): ${tokenFiles.join(", ")}`,
-				);
+				consola.info(`Found ${tokenFiles.length} mode file(s): ${tokenFiles.join(", ")}`);
 
 				const modeFormats: Array<FigmaExportFormat> = [];
 				for (const file of tokenFiles) {
@@ -103,9 +96,7 @@ export default defineCommand({
 			process.exit(1);
 		}
 
-		consola.info(
-			`Generating Styleframe code for ${data.variables.length} variables...`,
-		);
+		consola.info(`Generating Styleframe code for ${data.variables.length} variables...`);
 
 		const result = generateStyleframeCode(data, {
 			useComposables: args.composables,
@@ -122,9 +113,7 @@ export default defineCommand({
 		consola.info(`  - ${result.variables.length} variables`);
 		consola.info(`  - ${result.themes.length} theme(s)`);
 		if (args.composables && result.imports.length > 1) {
-			consola.info(
-				`  - Using composables: ${result.imports.slice(1).join(", ")}`,
-			);
+			consola.info(`  - Using composables: ${result.imports.slice(1).join(", ")}`);
 		}
 		consola.info(`\nOutput: ${path.relative(process.cwd(), outputPath)}`);
 	},
@@ -142,9 +131,7 @@ function extractModeName(doc: DTCGDocument, filename: string): string {
 	return filename.replace(/\.tokens\.json$/, "");
 }
 
-function mergeModeFormats(
-	formats: Array<FigmaExportFormat>,
-): FigmaExportFormat {
+function mergeModeFormats(formats: Array<FigmaExportFormat>): FigmaExportFormat {
 	if (formats.length === 1) {
 		return formats[0]!;
 	}

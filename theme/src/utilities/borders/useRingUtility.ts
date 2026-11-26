@@ -21,8 +21,7 @@ export const useRingWidthUtility = createUseUtility("ring", ({ value }) => ({
 	"--box-shadow-ring-offset":
 		"var(--box-shadow-ring-inset) 0 0 0 var(--box-shadow-ring-offset-width) var(--box-shadow-ring-offset-color)",
 	"--box-shadow-ring": `var(--box-shadow-ring-inset) 0 0 0 calc(${value} + var(--box-shadow-ring-offset-width)) var(--box-shadow-ring-color)`,
-	boxShadow:
-		"var(--box-shadow-ring-offset), var(--box-shadow-ring), var(--box-shadow, 0 0 #0000)",
+	boxShadow: "var(--box-shadow-ring-offset), var(--box-shadow-ring), var(--box-shadow, 0 0 #0000)",
 }));
 
 /**
@@ -54,12 +53,9 @@ export const useRingColorUtility = createUseUtility(
 /**
  * Create ring-offset-width utility classes.
  */
-export const useRingOffsetWidthUtility = createUseUtility(
-	"ring-offset",
-	({ value }) => ({
-		"--box-shadow-ring-offset-width": value,
-	}),
-);
+export const useRingOffsetWidthUtility = createUseUtility("ring-offset", ({ value }) => ({
+	"--box-shadow-ring-offset-width": value,
+}));
 
 /**
  * Create ring-offset-color utility classes.

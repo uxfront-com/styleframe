@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
@@ -116,22 +117,14 @@ describe("useDropdownItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useDropdownItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useDropdownItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -292,9 +285,7 @@ describe("useDropdownItemRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});
 

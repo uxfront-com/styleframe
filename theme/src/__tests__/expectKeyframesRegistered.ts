@@ -17,8 +17,7 @@ import { expect } from "vitest";
  */
 export function expectKeyframesRegistered(s: Styleframe, name: string): AtRule {
 	const keyframes = s.root.children.filter(
-		(child): child is AtRule =>
-			child.type === "at-rule" && child.identifier === "keyframes",
+		(child): child is AtRule => child.type === "at-rule" && child.identifier === "keyframes",
 	);
 
 	expect(keyframes.map((rule) => rule.rule)).toContain(name);

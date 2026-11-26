@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { useButtonRecipe } from "./useButtonRecipe";
 
 type Slot = Record<string, unknown>;
@@ -38,10 +35,7 @@ function blocks(recipe: ReturnType<typeof useButtonRecipe>) {
 		}
 	}
 	for (const cv of recipe.compoundVariants!) {
-		visit(
-			`${cv.match.color ?? "*"}/${cv.match.variant ?? "*"}`,
-			cv.css as Slot,
-		);
+		visit(`${cv.match.color ?? "*"}/${cv.match.variant ?? "*"}`, cv.css as Slot);
 	}
 	return result;
 }
@@ -94,13 +88,7 @@ describe("useButtonRecipe", () => {
 				"ghost",
 				"link",
 			]);
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 
 		it("should have correct default variants", () => {
@@ -161,9 +149,7 @@ describe("useButtonRecipe", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
-		const minHeights = Object.values(recipe.variants!.size).map(
-			(size) => (size as Slot).minHeight,
-		);
+		const minHeights = Object.values(recipe.variants!.size).map((size) => (size as Slot).minHeight);
 		expect(minHeights).toEqual(["@1.5", "@2", "@2.25", "@2.5", "@3"]);
 		for (const size of Object.values(recipe.variants!.size)) {
 			expect((size as Slot).minWidth).toBe((size as Slot).minHeight);
@@ -189,14 +175,8 @@ describe("useButtonRecipe", () => {
 		}
 		expect(recipe.base!.textAlign).toBe("center");
 		for (const size of Object.values(recipe.variants!.size)) {
-			const { paddingTop, paddingBottom, paddingInline, minHeight } =
-				size as Slot;
-			for (const value of [
-				paddingTop,
-				paddingBottom,
-				paddingInline,
-				minHeight,
-			]) {
+			const { paddingTop, paddingBottom, paddingInline, minHeight } = size as Slot;
+			for (const value of [paddingTop, paddingBottom, paddingInline, minHeight]) {
 				expect(value).toMatch(/^@\d+(\.\d+)?$/);
 			}
 		}
@@ -231,10 +211,7 @@ describe("useButtonRecipe", () => {
 				continue;
 			}
 			for (const property of sizing) {
-				expect(
-					block.declarations,
-					`${block.name} ${block.key}`,
-				).not.toHaveProperty(property);
+				expect(block.declarations, `${block.name} ${block.key}`).not.toHaveProperty(property);
 			}
 		}
 	});
@@ -254,22 +231,18 @@ describe("useButtonRecipe", () => {
 				continue;
 			}
 			const css = cv.css as Slot;
-			expect(
+			expect(css["&:aria-pressed"], `${cv.match.color}/${cv.match.variant}`).toEqual(
+				css["&:active"],
+			);
+			expect(css["&:dark:aria-pressed"], `${cv.match.color}/${cv.match.variant}`).toEqual(
+				css["&:dark:active"],
+			);
+			expect(css["&:aria-expanded"], `${cv.match.color}/${cv.match.variant}`).toEqual(
 				css["&:aria-pressed"],
-				`${cv.match.color}/${cv.match.variant}`,
-			).toEqual(css["&:active"]);
-			expect(
+			);
+			expect(css["&:dark:aria-expanded"], `${cv.match.color}/${cv.match.variant}`).toEqual(
 				css["&:dark:aria-pressed"],
-				`${cv.match.color}/${cv.match.variant}`,
-			).toEqual(css["&:dark:active"]);
-			expect(
-				css["&:aria-expanded"],
-				`${cv.match.color}/${cv.match.variant}`,
-			).toEqual(css["&:aria-pressed"]);
-			expect(
-				css["&:dark:aria-expanded"],
-				`${cv.match.color}/${cv.match.variant}`,
-			).toEqual(css["&:dark:aria-pressed"]);
+			);
 		}
 
 		const css = consumeCSS(s.root, s.options);
@@ -289,9 +262,7 @@ describe("useButtonRecipe", () => {
 		expect(css).toMatch(
 			/\.button\[data-loading\]:is\(:disabled, \[aria-disabled="true"\]\) \{\s*opacity: 1;/,
 		);
-		expect(css).toMatch(
-			/\.button\[data-loading\] > :not\(\.spinner\) \{\s*opacity: 0;/,
-		);
+		expect(css).toMatch(/\.button\[data-loading\] > :not\(\.spinner\) \{\s*opacity: 0;/);
 		expect(css).toMatch(
 			/\.button\[data-loading\] > \.spinner \{\s*position: absolute;\s*inset: 0;\s*width: 1em;\s*height: 1em;\s*margin: auto;\s*color: currentColor;/,
 		);
@@ -302,17 +273,14 @@ describe("useButtonRecipe", () => {
 		const recipe = useButtonRecipe(s);
 
 		for (const block of blocks(recipe)) {
-			expect(block.declarations, block.name).not.toHaveProperty(
-				"pointerEvents",
-			);
+			expect(block.declarations, block.name).not.toHaveProperty("pointerEvents");
 		}
 
 		const pairs = recipe.compoundVariants!.filter(
 			(cv) => cv.match.color && cv.match.variant && "color" in (cv.css as Slot),
 		);
 		const resets = recipe.compoundVariants!.filter(
-			(cv) =>
-				cv.match.color && cv.match.variant && "&:disabled" in (cv.css as Slot),
+			(cv) => cv.match.color && cv.match.variant && "&:disabled" in (cv.css as Slot),
 		);
 		expect(resets).toHaveLength(pairs.length);
 		expect(recipe.variants!.variant.link["&:disabled"]).toEqual({
@@ -350,20 +318,14 @@ describe("useButtonRecipe", () => {
 			}
 		}
 		expect(
-			css.lastIndexOf(
-				String.raw`._hover-capable\:hover\:text-decoration-thickness`,
-			),
-		).toBeLessThan(
-			css.indexOf(String.raw`._disabled\:text-decoration-thickness`),
-		);
+			css.lastIndexOf(String.raw`._hover-capable\:hover\:text-decoration-thickness`),
+		).toBeLessThan(css.indexOf(String.raw`._disabled\:text-decoration-thickness`));
 		expect(recipe.compoundVariants!.slice(-resets.length)).toEqual(resets);
 		for (const cv of pairs) {
 			const css = cv.css as Slot;
 			const dark = (css["&:dark"] ?? {}) as Slot;
 			const reset = resets.find(
-				(r) =>
-					r.match.color === cv.match.color &&
-					r.match.variant === cv.match.variant,
+				(r) => r.match.color === cv.match.color && r.match.variant === cv.match.variant,
 			)!.css as Slot;
 			const rest = {
 				background: css.background ?? "transparent",
@@ -443,11 +405,7 @@ describe("useButtonRecipe", () => {
 		);
 		// A disabled toggle keeps the pressed background and turns GrayText, so
 		// the disabled rule follows the pressed one.
-		expect(
-			css.indexOf(
-				':root .button.button.button.button:is([aria-pressed="true"]',
-			),
-		).toBeLessThan(
+		expect(css.indexOf(':root .button.button.button.button:is([aria-pressed="true"]')).toBeLessThan(
 			css.indexOf(":root .button.button.button.button:is(:disabled"),
 		);
 	});
@@ -457,10 +415,7 @@ describe("useButtonRecipe", () => {
 		const recipe = useButtonRecipe(s);
 
 		const trailing = recipe.compoundVariants!.filter((cv) => !cv.match.color);
-		expect(trailing.map((cv) => cv.match)).toEqual([
-			{ variant: "outline" },
-			{ variant: "subtle" },
-		]);
+		expect(trailing.map((cv) => cv.match)).toEqual([{ variant: "outline" }, { variant: "subtle" }]);
 		for (const cv of trailing) {
 			expect(cv.css).toEqual({
 				"&:contrast-more": { borderColor: "currentColor" },
@@ -476,9 +431,7 @@ describe("useButtonRecipe", () => {
 		const s = createInstance();
 		const recipe = useButtonRecipe(s);
 
-		expect(recipe.base!.transitionProperty).toBe(
-			"color, background-color, border-color",
-		);
+		expect(recipe.base!.transitionProperty).toBe("color, background-color, border-color");
 		for (const block of blocks(recipe)) {
 			for (const property of [
 				"animation",
@@ -543,23 +496,19 @@ describe("useButtonRecipe", () => {
 
 			// The size's block padding utility and the icon-only inline padding
 			// compute the same length.
-			const length = rule(css, `._padding-top\\:${step}`).match(
-				/padding-top: (.+);/,
-			)![1];
-			expect(
-				rule(css, `.button[data-icon-only][data-size="${size}"]`),
-			).toContain(`padding-inline: ${length};`);
+			const length = rule(css, `._padding-top\\:${step}`).match(/padding-top: (.+);/)![1];
+			expect(rule(css, `.button[data-icon-only][data-size="${size}"]`)).toContain(
+				`padding-inline: ${length};`,
+			);
 
 			// The only box in the flow is as wide as it is tall, so the button is.
-			expect(
-				rule(css, '.button[data-icon-only] > [data-slot="leading"]'),
-			).toMatch(
+			expect(rule(css, '.button[data-icon-only] > [data-slot="leading"]')).toMatch(
 				/\{\s*width: max\(1lh, var\(--button--icon--size\)\);\s*height: max\(1lh, var\(--button--icon--size\)\);\s*$/,
 			);
 			// The label leaves the flow, so it adds no width.
-			expect(
-				rule(css, '.button[data-icon-only] > [data-slot="label"]'),
-			).toContain("position: absolute;");
+			expect(rule(css, '.button[data-icon-only] > [data-slot="label"]')).toContain(
+				"position: absolute;",
+			);
 		},
 	);
 
@@ -570,10 +519,7 @@ describe("useButtonRecipe", () => {
 			useButtonRecipe(s);
 			const css = consumeCSS(s.root, s.options);
 
-			const selector =
-				size === "md"
-					? ":where(.button)"
-					: `:where(.button[data-size="${size}"])`;
+			const selector = size === "md" ? ":where(.button)" : `:where(.button[data-size="${size}"])`;
 			expect(rule(css, selector)).toContain(
 				`--button--icon--size: calc(var(--spacing, 1rem) * ${step});`,
 			);
@@ -585,26 +531,19 @@ describe("useButtonRecipe", () => {
 		useButtonRecipe(s);
 		const css = consumeCSS(s.root, s.options);
 
-		const slots =
-			'.button > :is([data-slot="leading"], [data-slot="trailing"])';
+		const slots = '.button > :is([data-slot="leading"], [data-slot="trailing"])';
 		expect(rule(css, slots)).toMatch(
 			/display: inline-flex;\s*align-items: center;\s*justify-content: center;\s*flex-shrink: 0;\s*width: var\(--button--icon--size\);\s*height: var\(--button--icon--size\);/,
 		);
 		expect(rule(css, `${slots} > *`)).toMatch(/width: 100%;\s*height: 100%;/);
 		// In an icon-only button the slot is a line-tall box, and the icon keeps
 		// its size inside it.
-		expect(
-			rule(css, '.button[data-icon-only] > [data-slot="leading"] > *'),
-		).toMatch(
+		expect(rule(css, '.button[data-icon-only] > [data-slot="leading"] > *')).toMatch(
 			/width: var\(--button--icon--size\);\s*height: var\(--button--icon--size\);/,
 		);
 		// The default is also a root theme variable.
-		expect(s.root.variables.map((variable) => variable.name)).toContain(
-			"button.icon.size",
-		);
-		expect(css).toMatch(
-			/:root \{[^}]*--button--icon--size: calc\(var\(--spacing, 1rem\) \* 1\);/,
-		);
+		expect(s.root.variables.map((variable) => variable.name)).toContain("button.icon.size");
+		expect(css).toMatch(/:root \{[^}]*--button--icon--size: calc\(var\(--spacing, 1rem\) \* 1\);/);
 		// The default comes first, so a size overrides it.
 		expect(css.indexOf("\n:where(.button) {")).toBeLessThan(
 			css.indexOf('\n:where(.button[data-size="xs"]) {'),
@@ -628,9 +567,9 @@ describe("useButtonRecipe", () => {
 		useButtonRecipe(s);
 		const css = consumeCSS(s.root, s.options);
 
-		const selectors = [
-			...css.matchAll(/^(.*\[data-(?:icon-only|slot|size)\b.*) \{$/gm),
-		].map((match) => match[1]!);
+		const selectors = [...css.matchAll(/^(.*\[data-(?:icon-only|slot|size)\b.*) \{$/gm)].map(
+			(match) => match[1]!,
+		);
 		// Four icon sizes, two slot rules, five squares, the line box, its
 		// icon and the label. The default icon size, `:where(.button)`, sets
 		// only the variable.
@@ -668,9 +607,7 @@ describe("useButtonRecipe", () => {
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["primary"]);
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => !cv.match.color || cv.match.color === "primary",
-				),
+				recipe.compoundVariants!.every((cv) => !cv.match.color || cv.match.color === "primary"),
 			).toBe(true);
 		});
 	});

@@ -119,9 +119,7 @@ onUnmounted(() => {
 			<div class="color-swatch__checks">
 				<div class="color-swatch__check">
 					<span class="color-swatch__check-label">Text</span>
-					<span class="color-swatch__check-ratio"
-						>{{ textContrastRatio ?? '–' }}:1</span
-					>
+					<span class="color-swatch__check-ratio">{{ textContrastRatio ?? '–' }}:1</span>
 					<span
 						:class="['color-swatch__check-badge', textPassesAAA || textPassesAA ? '_color:success' : '_color:error']"
 					>
@@ -130,9 +128,7 @@ onUnmounted(() => {
 				</div>
 				<div class="color-swatch__check">
 					<span class="color-swatch__check-label">Adjacent</span>
-					<span class="color-swatch__check-ratio"
-						>{{ adjacentContrastRatio ?? '–' }}:1</span
-					>
+					<span class="color-swatch__check-ratio">{{ adjacentContrastRatio ?? '–' }}:1</span>
 					<span
 						:class="['color-swatch__check-badge', adjacentPassesAA ? '_color:success' : '_color:error']"
 					>

@@ -1,4 +1,5 @@
 import type { Properties as CSSProperties } from "csstype";
+
 import type {
 	createAtRuleFunction,
 	createCssFunction,

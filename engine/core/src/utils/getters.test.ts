@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { Container } from "../types";
+
 import { createRoot } from "../tokens/root";
+import type { Container } from "../types";
 import { getVariable, getUtility, getModifier } from "./getters";
 
 describe("getVariable", () => {
@@ -232,17 +233,13 @@ describe("getUtility", () => {
 				},
 			];
 
-			expect(() => getUtility(root, "non-existent")).toThrow(
-				'Utility "non-existent" not found',
-			);
+			expect(() => getUtility(root, "non-existent")).toThrow('Utility "non-existent" not found');
 		});
 
 		it("should throw an error when utilities array is empty", () => {
 			const root = createRoot();
 
-			expect(() => getUtility(root, "padding")).toThrow(
-				'Utility "padding" not found',
-			);
+			expect(() => getUtility(root, "padding")).toThrow('Utility "padding" not found');
 		});
 	});
 
@@ -279,9 +276,7 @@ describe("getUtility", () => {
 				},
 			];
 
-			expect(() => getUtility(root, "Padding")).toThrow(
-				'Utility "Padding" not found',
-			);
+			expect(() => getUtility(root, "Padding")).toThrow('Utility "Padding" not found');
 		});
 	});
 });
@@ -370,17 +365,13 @@ describe("getModifier", () => {
 				},
 			];
 
-			expect(() => getModifier(root, "non-existent")).toThrow(
-				'Modifier "non-existent" not found',
-			);
+			expect(() => getModifier(root, "non-existent")).toThrow('Modifier "non-existent" not found');
 		});
 
 		it("should throw an error when modifiers array is empty", () => {
 			const root = createRoot();
 
-			expect(() => getModifier(root, "hover")).toThrow(
-				'Modifier "hover" not found',
-			);
+			expect(() => getModifier(root, "hover")).toThrow('Modifier "hover" not found');
 		});
 	});
 
@@ -436,9 +427,7 @@ describe("getModifier", () => {
 				},
 			];
 
-			expect(() => getModifier(root, "Hover")).toThrow(
-				'Modifier "Hover" not found',
-			);
+			expect(() => getModifier(root, "Hover")).toThrow('Modifier "Hover" not found');
 		});
 	});
 });

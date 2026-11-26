@@ -1,336 +1,336 @@
 name: CI
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
-    workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 # Cancel in-progress runs for the same workflow/ref
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 env:
-    # Turbo configuration
-    TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-    TURBO_TEAM: ${{ vars.VERCEL_TEAM }}
-    TURBO_CACHE: remote:rw
+  # Turbo configuration
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ vars.VERCEL_TEAM }}
+  TURBO_CACHE: remote:rw
 
 permissions:
-    contents: read
-    pull-requests: write
-    checks: write
+  contents: read
+  pull-requests: write
+  checks: write
 
 jobs:
-    # Build job runs first to generate artifacts (excluding docs)
-    build:
-        name: Build Packages
-        runs-on: ubuntu-latest
-        timeout-minutes: 15
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Build job runs first to generate artifacts (excluding docs)
+  build:
+    name: Build Packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Build packages
-              run: pnpm build --filter '!@styleframe/docs' --filter '!@styleframe/playground' --filter '!@styleframe/storybook' --filter '!@styleframe/app'
-              env:
-                  NODE_ENV: production
+      - name: Build packages
+        run: pnpm build --filter '!@styleframe/docs' --filter '!@styleframe/playground' --filter '!@styleframe/storybook' --filter '!@styleframe/app'
+        env:
+          NODE_ENV: production
 
-            - name: Upload build artifacts
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: build-artifacts
-                  path: |
-                      engine/*/dist
-                      theme/dist
-                      tooling/*/dist
-                      testing/*/dist
-                  retention-days: 7
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: build-artifacts
+          path: |
+            engine/*/dist
+            theme/dist
+            tooling/*/dist
+            testing/*/dist
+          retention-days: 7
 
-    # Build docs separately
-    build-docs:
-        name: Build Docs
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Build docs separately
+  build-docs:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Build docs
-              run: pnpm build --filter '@styleframe/docs'
-              env:
-                  NODE_ENV: production
+      - name: Build docs
+        run: pnpm build --filter '@styleframe/docs'
+        env:
+          NODE_ENV: production
 
-            - name: Check compiled CSS (duplicate-utility guard)
-              run: pnpm --filter '@styleframe/docs' test:build
+      - name: Check compiled CSS (duplicate-utility guard)
+        run: pnpm --filter '@styleframe/docs' test:build
 
-            - name: Check search and AI search
-              run: pnpm --filter '@styleframe/docs' check:seo
+      - name: Check search and AI search
+        run: pnpm --filter '@styleframe/docs' check:seo
 
-    # Build playground separately
-    build-playground:
-        name: Build Playground
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Build playground separately
+  build-playground:
+    name: Build Playground
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Build playground
-              run: pnpm build --filter '@styleframe/playground'
-              env:
-                  NODE_ENV: production
+      - name: Build playground
+        run: pnpm build --filter '@styleframe/playground'
+        env:
+          NODE_ENV: production
 
-            - name: Upload playground build
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: playground-build
-                  path: apps/playground/dist
-                  retention-days: 7
+      - name: Upload playground build
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playground-build
+          path: apps/playground/dist
+          retention-days: 7
 
-    # Build storybook separately
-    build-storybook:
-        name: Build Storybook
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Build storybook separately
+  build-storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Build storybook
-              run: pnpm build --filter '@styleframe/storybook'
-              env:
-                  NODE_ENV: production
+      - name: Build storybook
+        run: pnpm build --filter '@styleframe/storybook'
+        env:
+          NODE_ENV: production
 
-            - name: Upload storybook build
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: storybook-build
-                  path: apps/storybook/storybook-static
-                  retention-days: 7
+      - name: Upload storybook build
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: storybook-build
+          path: apps/storybook/storybook-static
+          retention-days: 7
 
-    # Build app separately
-    build-app:
-        name: Build App
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Build app separately
+  build-app:
+    name: Build App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Build app
-              run: pnpm build --filter '@styleframe/app'
-              env:
-                  NODE_ENV: production
+      - name: Build app
+        run: pnpm build --filter '@styleframe/app'
+        env:
+          NODE_ENV: production
 
-            - name: Upload app build
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: app-build
-                  path: |
-                      apps/app/.nuxt
-                      apps/app/.output
-                  retention-days: 7
+      - name: Upload app build
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: app-build
+          path: |
+            apps/app/.nuxt
+            apps/app/.output
+          retention-days: 7
 
-    # Lint job - runs oxlint and oxfmt format check
-    lint:
-        name: Lint
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Lint job - runs oxlint and oxfmt format check
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Run oxlint
-              run: pnpm lint
+      - name: Run oxlint
+        run: pnpm lint
 
-            - name: Check formatting with oxfmt
-              run: pnpm run format:check
+      - name: Check formatting with oxfmt
+        run: pnpm run format:check
 
-    # Type checking job
-    typecheck:
-        name: Type Check
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Type checking job
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Run type checking
-              run: pnpm typecheck
+      - name: Run type checking
+        run: pnpm typecheck
 
-    # Test job
-    unit-tests:
-        name: Unit Tests
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  # Test job
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Run tests
-              run: pnpm test -- --coverage
-              env:
-                  NODE_ENV: test
+      - name: Run tests
+        run: pnpm test -- --coverage
+        env:
+          NODE_ENV: test
 
-            - name: Upload coverage reports
-              uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-              with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
-                  files: ./engine/*/coverage/lcov.info,./theme/*/coverage/lcov.info
-                  slug: styleframe-dev/styleframe
-                  fail_ci_if_error: false
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./engine/*/coverage/lcov.info,./theme/*/coverage/lcov.info
+          slug: styleframe-dev/styleframe
+          fail_ci_if_error: false
 
-    detect-changes:
-        name: Detect Changes
-        runs-on: ubuntu-latest
-        outputs:
-            run-integration: ${{ steps.check.outputs.run }}
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  fetch-depth: 0
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      run-integration: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-            - name: Check for relevant changes
-              id: check
-              run: |
-                  # Always run on push to main or manual dispatch
-                  if [[ "${{ github.event_name }}" != "pull_request" ]]; then
-                    echo "run=true" >> "$GITHUB_OUTPUT"
-                    exit 0
-                  fi
-                  # Run if engine/ or tooling/ changed
-                  CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
-                  if echo "$CHANGED" | grep -qE '^(engine|tooling)/'; then
-                    echo "run=true" >> "$GITHUB_OUTPUT"
-                  else
-                    echo "run=false" >> "$GITHUB_OUTPUT"
-                  fi
+      - name: Check for relevant changes
+        id: check
+        run: |
+          # Always run on push to main or manual dispatch
+          if [[ "${{ github.event_name }}" != "pull_request" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Run if engine/ or tooling/ changed
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          if echo "$CHANGED" | grep -qE '^(engine|tooling)/'; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
 
-    integration-tests:
-        name: Integration Tests
-        # Playwright's Chromium doesn't support ubuntu-26.04, which ubuntu-latest became in October 2026
-        runs-on: ubuntu-24.04
-        needs: [build, detect-changes]
-        if: needs.detect-changes.outputs.run-integration == 'true'
-        steps:
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+  integration-tests:
+    name: Integration Tests
+    # Playwright's Chromium doesn't support ubuntu-26.04, which ubuntu-latest became in October 2026
+    runs-on: ubuntu-24.04
+    needs: [build, detect-changes]
+    if: needs.detect-changes.outputs.run-integration == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-            - name: Setup
-              uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
+      - name: Setup
+        uses: uxfront-com/.github/.github/actions/setup@35f7cdaf9b3c62c04b411c6c454c6f75ae43e54b # main
 
-            - name: Download build artifacts
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: build-artifacts
-                  path: .
+      - name: Download build artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: build-artifacts
+          path: .
 
-            - name: Install Playwright Browsers
-              run: pnpm exec playwright install --with-deps
-              working-directory: testing/integration
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+        working-directory: testing/integration
 
-            - name: Run Integration tests
-              run: pnpm test:integration
+      - name: Run Integration tests
+        run: pnpm test:integration
 
-            - name: Upload Playwright report
-              if: always()
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: playwright-report
-                  path: testing/integration/playwright-report
-                  retention-days: 30
-    ci-success:
-        name: CI Success
-        runs-on: ubuntu-latest
-        needs:
-            [
-                build,
-                build-docs,
-                build-playground,
-                build-storybook,
-                build-app,
-                lint,
-                typecheck,
-                unit-tests,
-                detect-changes,
-                integration-tests,
-            ]
+      - name: Upload Playwright report
         if: always()
-        steps:
-            - name: Check job status
-              run: |
-                  if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
-                      exit 1
-                  fi
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: testing/integration/playwright-report
+          retention-days: 30
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs:
+      [
+        build,
+        build-docs,
+        build-playground,
+        build-storybook,
+        build-app,
+        lint,
+        typecheck,
+        unit-tests,
+        detect-changes,
+        integration-tests,
+      ]
+    if: always()
+    steps:
+      - name: Check job status
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+              exit 1
+          fi

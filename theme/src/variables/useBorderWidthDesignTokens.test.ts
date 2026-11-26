@@ -1,19 +1,15 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useBorderWidthDesignTokens } from "./useBorderWidthDesignTokens";
+
 import { borderWidthValues } from "../values";
+import { useBorderWidthDesignTokens } from "./useBorderWidthDesignTokens";
 
 describe("useBorderWidthDesignTokens", () => {
 	it("should create all border width variables with correct names and values", () => {
 		const s = styleframe();
-		const {
-			borderWidthNone,
-			borderWidthThin,
-			borderWidthMedium,
-			borderWidthThick,
-			borderWidth,
-		} = useBorderWidthDesignTokens(s);
+		const { borderWidthNone, borderWidthThin, borderWidthMedium, borderWidthThick, borderWidth } =
+			useBorderWidthDesignTokens(s);
 
 		expect(borderWidthNone).toEqual({
 			type: "variable",
@@ -123,10 +119,7 @@ describe("useBorderWidthDesignTokens", () => {
 		const s = styleframe();
 		const { borderWidthThick } = useBorderWidthDesignTokens(s);
 
-		const customBorderWidth = s.variable(
-			"custom-border-width",
-			s.ref(borderWidthThick),
-		);
+		const customBorderWidth = s.variable("custom-border-width", s.ref(borderWidthThick));
 
 		expect(customBorderWidth.value).toEqual({
 			type: "reference",
@@ -175,10 +168,8 @@ describe("useBorderWidthDesignTokens", () => {
 			// Type assertions to verify the generic types are preserved
 			const none: Variable<"border-width.none"> = borderWidths.borderWidthNone;
 			const thin: Variable<"border-width.thin"> = borderWidths.borderWidthThin;
-			const medium: Variable<"border-width.medium"> =
-				borderWidths.borderWidthMedium;
-			const thick: Variable<"border-width.thick"> =
-				borderWidths.borderWidthThick;
+			const medium: Variable<"border-width.medium"> = borderWidths.borderWidthMedium;
+			const thick: Variable<"border-width.thick"> = borderWidths.borderWidthThick;
 			const borderWidth: Variable<"border-width"> = borderWidths.borderWidth;
 
 			expect(none.name).toBe("border-width.none");
@@ -269,12 +260,8 @@ describe("useBorderWidthDesignTokens", () => {
 	describe("border width values", () => {
 		it("should have correct CSS keyword values", () => {
 			const s = styleframe();
-			const {
-				borderWidthNone,
-				borderWidthThin,
-				borderWidthMedium,
-				borderWidthThick,
-			} = useBorderWidthDesignTokens(s);
+			const { borderWidthNone, borderWidthThin, borderWidthMedium, borderWidthThick } =
+				useBorderWidthDesignTokens(s);
 
 			expect(borderWidthNone.value).toBe("0");
 			expect(borderWidthThin.value).toBe("thin");
@@ -309,8 +296,7 @@ describe("useBorderWidthDesignTokens", () => {
 	describe("practical usage", () => {
 		it("should work for creating borders with different widths", () => {
 			const s = styleframe();
-			const { borderWidthThin, borderWidthThick } =
-				useBorderWidthDesignTokens(s);
+			const { borderWidthThin, borderWidthThick } = useBorderWidthDesignTokens(s);
 
 			s.selector(".card", ({ variable }) => {
 				variable("border-width", s.ref(borderWidthThin));
@@ -340,13 +326,9 @@ describe("useBorderWidthDesignTokens", () => {
 
 		it("should work for responsive border width adjustments", () => {
 			const s = styleframe();
-			const { borderWidthThin, borderWidthMedium } =
-				useBorderWidthDesignTokens(s);
+			const { borderWidthThin, borderWidthMedium } = useBorderWidthDesignTokens(s);
 
-			const buttonBorderWidth = s.variable(
-				"button-border-width",
-				s.ref(borderWidthThin),
-			);
+			const buttonBorderWidth = s.variable("button-border-width", s.ref(borderWidthThin));
 
 			s.selector("@media (min-width: 768px)", ({ variable }) => {
 				variable(buttonBorderWidth, s.ref(borderWidthMedium));
@@ -369,8 +351,7 @@ describe("useBorderWidthDesignTokens", () => {
 
 		it("should work for theme-specific border width overrides", () => {
 			const s = styleframe();
-			const { borderWidthThin, borderWidthThick } =
-				useBorderWidthDesignTokens(s);
+			const { borderWidthThin, borderWidthThick } = useBorderWidthDesignTokens(s);
 
 			s.selector(".theme-bold", ({ variable }) => {
 				variable(borderWidthThin, s.ref(borderWidthThick));
@@ -392,8 +373,7 @@ describe("useBorderWidthDesignTokens", () => {
 
 		it("should work for state-specific border widths", () => {
 			const s = styleframe();
-			const { borderWidthThin, borderWidthMedium, borderWidthNone } =
-				useBorderWidthDesignTokens(s);
+			const { borderWidthThin, borderWidthMedium, borderWidthNone } = useBorderWidthDesignTokens(s);
 
 			s.selector(".input", ({ variable }) => {
 				variable("border-width", s.ref(borderWidthThin));
@@ -431,8 +411,7 @@ describe("useBorderWidthDesignTokens", () => {
 
 		it("should work for combining border widths with other border properties", () => {
 			const s = styleframe();
-			const { borderWidthThin, borderWidthThick } =
-				useBorderWidthDesignTokens(s);
+			const { borderWidthThin, borderWidthThick } = useBorderWidthDesignTokens(s);
 
 			const borderStyle = s.variable("border-style", "solid");
 			s.variable("border-color", "#000");

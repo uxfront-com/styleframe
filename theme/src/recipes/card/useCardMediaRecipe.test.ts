@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useCardMediaRecipe } from "./index";
 
 function createInstance() {
@@ -46,16 +47,8 @@ describe("useCardMediaRecipe", () => {
 		const s = createInstance();
 		const recipe = useCardMediaRecipe(s);
 
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
-		expect(Object.keys(recipe.variants!.variant)).toEqual([
-			"solid",
-			"soft",
-			"subtle",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
+		expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		expect(recipe.variants!.size).toEqual({
 			sm: {
 				borderStartStartRadius: "calc(@border-radius.sm - 1px)",
@@ -100,8 +93,7 @@ describe("useCardMediaRecipe", () => {
 			const image = s.root.children.find(
 				(child) =>
 					child.type === "selector" &&
-					(child as { query: string }).query ===
-						".card-media > :is(img, picture, video, svg)",
+					(child as { query: string }).query === ".card-media > :is(img, picture, video, svg)",
 			) as { declarations: Record<string, unknown> } | undefined;
 			expect(image?.declarations).toEqual({
 				display: "block",

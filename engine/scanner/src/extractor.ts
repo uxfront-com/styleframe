@@ -1,5 +1,5 @@
-import type { Extractor } from "./types";
 import { extractUtilityClasses } from "./parser";
+import type { Extractor } from "./types";
 
 // Module-level compiled regex patterns for performance
 // Patterns with 'g' flag require lastIndex reset before .exec() loops
@@ -219,10 +219,7 @@ function extractFromAstro(content: string, pattern?: RegExp): Array<string> {
 	const classes: Array<string> = [];
 
 	// Astro uses both class and className
-	classes.push(
-		...extractFromHTML(content, pattern),
-		...extractFromJSX(content, pattern),
-	);
+	classes.push(...extractFromHTML(content, pattern), ...extractFromJSX(content, pattern));
 
 	// Extract from frontmatter and script
 	const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
@@ -241,10 +238,7 @@ function extractFromAstro(content: string, pattern?: RegExp): Array<string> {
  * extract the static portions. Dynamic class names cannot be statically analyzed.
  * For full coverage, use explicit string arrays or safelist patterns.
  */
-function extractFromStringLiterals(
-	content: string,
-	pattern?: RegExp,
-): Array<string> {
+function extractFromStringLiterals(content: string, pattern?: RegExp): Array<string> {
 	const classes: Array<string> = [];
 	let match: RegExpExecArray | null;
 
@@ -284,10 +278,7 @@ function extractFromStringLiterals(
 function extractFromMDX(content: string, pattern?: RegExp): Array<string> {
 	const classes: Array<string> = [];
 
-	classes.push(
-		...extractFromHTML(content, pattern),
-		...extractFromJSX(content, pattern),
-	);
+	classes.push(...extractFromHTML(content, pattern), ...extractFromJSX(content, pattern));
 
 	return [...new Set(classes)];
 }
@@ -295,10 +286,7 @@ function extractFromMDX(content: string, pattern?: RegExp): Array<string> {
 /**
  * Default extractors mapped by file extension.
  */
-const defaultExtractors: Record<
-	string,
-	(content: string, pattern?: RegExp) => Array<string>
-> = {
+const defaultExtractors: Record<string, (content: string, pattern?: RegExp) => Array<string>> = {
 	html: extractFromHTML,
 	htm: extractFromHTML,
 	vue: extractFromVue,

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genDeclareVariable } from "./genDeclareVariable";
 
 describe("genDeclareVariable", () => {
@@ -73,18 +74,12 @@ describe("genDeclareVariable", () => {
 	});
 
 	it("should handle var() with fallback", () => {
-		const result = genDeclareVariable(
-			"safe-color",
-			"var(--custom-color, #000000)",
-		);
+		const result = genDeclareVariable("safe-color", "var(--custom-color, #000000)");
 		expect(result).toBe("--safe-color: var(--custom-color, #000000);");
 	});
 
 	it("should handle gradient values", () => {
-		const result = genDeclareVariable(
-			"gradient",
-			"linear-gradient(to right, red, blue)",
-		);
+		const result = genDeclareVariable("gradient", "linear-gradient(to right, red, blue)");
 		expect(result).toBe("--gradient: linear-gradient(to right, red, blue);");
 	});
 
@@ -94,10 +89,7 @@ describe("genDeclareVariable", () => {
 	});
 
 	it("should handle font-family values", () => {
-		const result = genDeclareVariable(
-			"font-stack",
-			"'Helvetica Neue', Arial, sans-serif",
-		);
+		const result = genDeclareVariable("font-stack", "'Helvetica Neue', Arial, sans-serif");
 		expect(result).toBe("--font-stack: 'Helvetica Neue', Arial, sans-serif;");
 	});
 
@@ -241,9 +233,7 @@ describe("genDeclareVariable", () => {
 			"shadows",
 			"0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
 		);
-		expect(result).toBe(
-			"--shadows: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);",
-		);
+		expect(result).toBe("--shadows: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);");
 	});
 
 	it("should handle grid template values", () => {
@@ -312,12 +302,7 @@ describe("genDeclareVariable", () => {
 	});
 
 	it("should handle data URI values", () => {
-		const result = genDeclareVariable(
-			"icon",
-			"url('data:image/svg+xml;base64,PHN2ZyB4...')",
-		);
-		expect(result).toBe(
-			"--icon: url('data:image/svg+xml;base64,PHN2ZyB4...');",
-		);
+		const result = genDeclareVariable("icon", "url('data:image/svg+xml;base64,PHN2ZyB4...')");
+		expect(result).toBe("--icon: url('data:image/svg+xml;base64,PHN2ZyB4...');");
 	});
 });

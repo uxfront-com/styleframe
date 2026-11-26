@@ -7,11 +7,7 @@
  */
 
 import { isAlias } from "../guards/alias";
-import {
-	isColorValue,
-	isDimensionValue,
-	isStrokeStyleValue,
-} from "../guards/values";
+import { isColorValue, isDimensionValue, isStrokeStyleValue } from "../guards/values";
 import type { DTCGBorder } from "../types/composite";
 
 function isObject(value: unknown): value is Record<string, unknown> {

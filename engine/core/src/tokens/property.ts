@@ -52,9 +52,7 @@ export function createPropertyFunction(parent: Container, root: Root) {
 
 		if (!alreadyRegistered) {
 			const initialValue =
-				options.initialValue !== undefined
-					? options.initialValue
-					: instance.value;
+				options.initialValue !== undefined ? options.initialValue : instance.value;
 
 			atRule("property", registrationName, {
 				syntax: JSON.stringify(options.syntax),

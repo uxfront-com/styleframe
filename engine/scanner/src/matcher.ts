@@ -6,10 +6,8 @@ import type {
 	UtilitySelectorFn,
 	UtilitySelectorOptions,
 } from "@styleframe/core";
-import {
-	classNameToCssSelector,
-	defaultUtilitySelectorFn,
-} from "@styleframe/core";
+import { classNameToCssSelector, defaultUtilitySelectorFn } from "@styleframe/core";
+
 import type { ParsedUtility, UtilityMatch } from "./types";
 
 /**
@@ -31,10 +29,7 @@ function generateValueKey(value: string, modifiers: Array<string>): string {
  * @param root The Styleframe root instance
  * @returns Array of match results
  */
-export function matchUtilities(
-	parsed: Array<ParsedUtility>,
-	root: Root,
-): Array<UtilityMatch> {
+export function matchUtilities(parsed: Array<ParsedUtility>, root: Root): Array<UtilityMatch> {
 	// Build lookup maps for efficient matching
 	const utilityMap = new Map<string, UtilityFactory>();
 	const modifierMap = new Map<string, ModifierFactory>();
@@ -75,10 +70,7 @@ export function matchUtilities(
 		let exists = false;
 
 		if (factory) {
-			const lookupKey = generateValueKey(
-				parsedClass.value,
-				parsedClass.modifiers,
-			);
+			const lookupKey = generateValueKey(parsedClass.value, parsedClass.modifiers);
 			const valueSet = factoryValueSets.get(factory);
 			exists = valueSet?.has(lookupKey) ?? false;
 		}
@@ -182,26 +174,20 @@ export function getUsedClassNames(matches: Array<UtilityMatch>): Set<string> {
 /**
  * Get matches that have a corresponding utility factory.
  */
-export function getValidMatches(
-	matches: Array<UtilityMatch>,
-): Array<UtilityMatch> {
+export function getValidMatches(matches: Array<UtilityMatch>): Array<UtilityMatch> {
 	return matches.filter((m) => m.factory !== null);
 }
 
 /**
  * Get matches that exist in the registered values.
  */
-export function getExistingMatches(
-	matches: Array<UtilityMatch>,
-): Array<UtilityMatch> {
+export function getExistingMatches(matches: Array<UtilityMatch>): Array<UtilityMatch> {
 	return matches.filter((m) => m.exists);
 }
 
 /**
  * Get matches for arbitrary values.
  */
-export function getArbitraryMatches(
-	matches: Array<UtilityMatch>,
-): Array<UtilityMatch> {
+export function getArbitraryMatches(matches: Array<UtilityMatch>): Array<UtilityMatch> {
 	return matches.filter((m) => m.parsed.isArbitrary);
 }

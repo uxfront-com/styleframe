@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	borderCollapseValues,
-	tableLayoutValues,
-	captionSideValues,
-} from "../../values";
+import { borderCollapseValues, tableLayoutValues, captionSideValues } from "../../values";
 
 /**
  * Create border-collapse utility classes.
@@ -19,32 +15,23 @@ export const useBorderCollapseUtility = createUseUtility(
 /**
  * Create border-spacing utility classes.
  */
-export const useBorderSpacingUtility = createUseUtility(
-	"border-spacing",
-	({ value }) => ({
-		borderSpacing: value,
-	}),
-);
+export const useBorderSpacingUtility = createUseUtility("border-spacing", ({ value }) => ({
+	borderSpacing: value,
+}));
 
 /**
  * Create border-spacing-x utility classes.
  */
-export const useBorderSpacingXUtility = createUseUtility(
-	"border-spacing-x",
-	({ value }) => ({
-		borderSpacing: `${value} var(--border-spacing-y, 0)`,
-	}),
-);
+export const useBorderSpacingXUtility = createUseUtility("border-spacing-x", ({ value }) => ({
+	borderSpacing: `${value} var(--border-spacing-y, 0)`,
+}));
 
 /**
  * Create border-spacing-y utility classes.
  */
-export const useBorderSpacingYUtility = createUseUtility(
-	"border-spacing-y",
-	({ value }) => ({
-		borderSpacing: `var(--border-spacing-x, 0) ${value}`,
-	}),
-);
+export const useBorderSpacingYUtility = createUseUtility("border-spacing-y", ({ value }) => ({
+	borderSpacing: `var(--border-spacing-x, 0) ${value}`,
+}));
 
 /**
  * Create table-layout utility classes.

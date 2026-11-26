@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useBorderRadiusDesignTokens } from "./useBorderRadiusDesignTokens";
 
 describe("useBorderRadiusDesignTokens", () => {
@@ -220,13 +221,10 @@ describe("useBorderRadiusDesignTokens", () => {
 
 	it("should handle special keyword values", () => {
 		const s = styleframe();
-		const { borderRadiusNone, borderRadiusFull } = useBorderRadiusDesignTokens(
-			s,
-			{
-				none: "0",
-				full: "9999px",
-			},
-		);
+		const { borderRadiusNone, borderRadiusFull } = useBorderRadiusDesignTokens(s, {
+			none: "0",
+			full: "9999px",
+		});
 
 		expect(borderRadiusNone.value).toBe("0");
 		expect(borderRadiusFull.value).toBe("9999px");
@@ -341,8 +339,7 @@ describe("useBorderRadiusDesignTokens", () => {
 				"extra-large": "1rem",
 			});
 
-			const typed: Variable<"border-radius.extra-large"> =
-				borderRadiusExtraLarge;
+			const typed: Variable<"border-radius.extra-large"> = borderRadiusExtraLarge;
 			expect(typed.name).toBe("border-radius.extra-large");
 		});
 

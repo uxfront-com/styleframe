@@ -1,5 +1,6 @@
 import type { Recipe, StyleframeOptions } from "@styleframe/core";
 import { capitalizeFirst } from "@styleframe/core";
+
 import type { ConsumeFunction } from "../../types";
 import { isUppercase, toCamelCase } from "../../utils";
 
@@ -21,11 +22,8 @@ function generateVariantPropsType(runtime: Recipe["_runtime"]): string {
 		const optionKeys = Object.keys(variantOptions);
 		if (optionKeys.length > 0) {
 			const optionUnion = optionKeys.map((k) => `"${k}"`).join(" | ");
-			const isBooleanVariant =
-				optionKeys.includes("true") && optionKeys.includes("false");
-			const typeUnion = isBooleanVariant
-				? `${optionUnion} | boolean`
-				: optionUnion;
+			const isBooleanVariant = optionKeys.includes("true") && optionKeys.includes("false");
+			const typeUnion = isBooleanVariant ? `${optionUnion} | boolean` : optionUnion;
 			entries.push(`${variantKey}?: ${typeUnion}`);
 		}
 	}
@@ -42,10 +40,7 @@ function generateVariantPropsType(runtime: Recipe["_runtime"]): string {
  * Outputs the function signature with variant props type.
  */
 export function createRecipeConsumer(_consume: ConsumeFunction) {
-	return function consumeRecipe(
-		instance: Recipe,
-		_options: StyleframeOptions,
-	): string {
+	return function consumeRecipe(instance: Recipe, _options: StyleframeOptions): string {
 		// Use _exportName if present, otherwise derive from recipe name
 		let exportName = instance._exportName;
 

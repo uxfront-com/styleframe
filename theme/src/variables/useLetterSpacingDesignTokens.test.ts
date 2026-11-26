@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useLetterSpacingDesignTokens } from "./useLetterSpacingDesignTokens";
+
 import { letterSpacingValues } from "../values";
+import { useLetterSpacingDesignTokens } from "./useLetterSpacingDesignTokens";
 
 describe("useLetterSpacingDesignTokens", () => {
 	it("should create all letter spacing variables with correct names and values", () => {
@@ -126,9 +127,7 @@ describe("useLetterSpacingDesignTokens", () => {
 		const letterSpacings2 = useLetterSpacingDesignTokens(s);
 
 		// Should return the same variables (default: true behavior)
-		expect(letterSpacings1.letterSpacingTighter).toBe(
-			letterSpacings2.letterSpacingTighter,
-		);
+		expect(letterSpacings1.letterSpacingTighter).toBe(letterSpacings2.letterSpacingTighter);
 		expect(letterSpacings1.letterSpacing).toBe(letterSpacings2.letterSpacing);
 		expect(s.root.variables).toHaveLength(6);
 	});
@@ -137,10 +136,7 @@ describe("useLetterSpacingDesignTokens", () => {
 		const s = styleframe();
 		const { letterSpacingWider } = useLetterSpacingDesignTokens(s);
 
-		const customLetterSpacing = s.variable(
-			"custom-letter-spacing",
-			s.ref(letterSpacingWider),
-		);
+		const customLetterSpacing = s.variable("custom-letter-spacing", s.ref(letterSpacingWider));
 
 		expect(customLetterSpacing.value).toEqual({
 			type: "reference",
@@ -189,18 +185,12 @@ describe("useLetterSpacingDesignTokens", () => {
 			const letterSpacings = useLetterSpacingDesignTokens(s);
 
 			// Type assertions to verify the generic types are preserved
-			const tighter: Variable<"letter-spacing.tighter"> =
-				letterSpacings.letterSpacingTighter;
-			const tight: Variable<"letter-spacing.tight"> =
-				letterSpacings.letterSpacingTight;
-			const normal: Variable<"letter-spacing.normal"> =
-				letterSpacings.letterSpacingNormal;
-			const wide: Variable<"letter-spacing.wide"> =
-				letterSpacings.letterSpacingWide;
-			const wider: Variable<"letter-spacing.wider"> =
-				letterSpacings.letterSpacingWider;
-			const letterSpacing: Variable<"letter-spacing"> =
-				letterSpacings.letterSpacing;
+			const tighter: Variable<"letter-spacing.tighter"> = letterSpacings.letterSpacingTighter;
+			const tight: Variable<"letter-spacing.tight"> = letterSpacings.letterSpacingTight;
+			const normal: Variable<"letter-spacing.normal"> = letterSpacings.letterSpacingNormal;
+			const wide: Variable<"letter-spacing.wide"> = letterSpacings.letterSpacingWide;
+			const wider: Variable<"letter-spacing.wider"> = letterSpacings.letterSpacingWider;
+			const letterSpacing: Variable<"letter-spacing"> = letterSpacings.letterSpacing;
 
 			expect(tighter.name).toBe("letter-spacing.tighter");
 			expect(tight.name).toBe("letter-spacing.tight");
@@ -293,8 +283,7 @@ describe("useLetterSpacingDesignTokens", () => {
 	describe("letter spacing value relationships", () => {
 		it("should have negative values for tighter and tight", () => {
 			const s = styleframe();
-			const { letterSpacingTighter, letterSpacingTight } =
-				useLetterSpacingDesignTokens(s);
+			const { letterSpacingTighter, letterSpacingTight } = useLetterSpacingDesignTokens(s);
 
 			expect(letterSpacingTighter.value).toBe("-0.05em");
 			expect(letterSpacingTight.value).toBe("-0.025em");
@@ -302,8 +291,7 @@ describe("useLetterSpacingDesignTokens", () => {
 
 		it("should have positive values for wide and wider", () => {
 			const s = styleframe();
-			const { letterSpacingWide, letterSpacingWider } =
-				useLetterSpacingDesignTokens(s);
+			const { letterSpacingWide, letterSpacingWider } = useLetterSpacingDesignTokens(s);
 
 			expect(letterSpacingWide.value).toBe("0.05em");
 			expect(letterSpacingWider.value).toBe("0.1em");
@@ -334,8 +322,7 @@ describe("useLetterSpacingDesignTokens", () => {
 	describe("practical usage", () => {
 		it("should work for creating typography with different letter spacings", () => {
 			const s = styleframe();
-			const { letterSpacingTight, letterSpacingWide } =
-				useLetterSpacingDesignTokens(s);
+			const { letterSpacingTight, letterSpacingWide } = useLetterSpacingDesignTokens(s);
 
 			s.selector("h1, h2, h3", ({ variable }) => {
 				variable("letter-spacing", s.ref(letterSpacingTight));
@@ -366,13 +353,9 @@ p, li {
 
 		it("should work for responsive letter spacing adjustments", () => {
 			const s = styleframe();
-			const { letterSpacingNormal, letterSpacingWide } =
-				useLetterSpacingDesignTokens(s);
+			const { letterSpacingNormal, letterSpacingWide } = useLetterSpacingDesignTokens(s);
 
-			const bodyLetterSpacing = s.variable(
-				"body-letter-spacing",
-				s.ref(letterSpacingNormal),
-			);
+			const bodyLetterSpacing = s.variable("body-letter-spacing", s.ref(letterSpacingNormal));
 
 			s.selector("@media (min-width: 768px)", ({ variable }) => {
 				variable(bodyLetterSpacing, s.ref(letterSpacingWide));
@@ -396,8 +379,7 @@ p, li {
 
 		it("should work for theme-specific letter spacing overrides", () => {
 			const s = styleframe();
-			const { letterSpacingNormal, letterSpacingWider } =
-				useLetterSpacingDesignTokens(s);
+			const { letterSpacingNormal, letterSpacingWider } = useLetterSpacingDesignTokens(s);
 
 			s.selector(".theme-spacious", ({ variable }) => {
 				variable(letterSpacingNormal, s.ref(letterSpacingWider));

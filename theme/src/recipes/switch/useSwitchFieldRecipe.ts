@@ -183,15 +183,12 @@ export const useSwitchFieldRecipe = createUseRecipe(
 		});
 		// Invalid keeps its second pixel of border, which tells it apart without
 		// color, around the Highlight fill too.
-		selector(
-			`${field}[aria-invalid="true"], ${field}[aria-invalid="true"]:checked`,
-			{
-				"@media (forced-colors: active)": {
-					borderColor: "CanvasText",
-					boxShadow: "inset 0 0 0 1px CanvasText",
-				},
+		selector(`${field}[aria-invalid="true"], ${field}[aria-invalid="true"]:checked`, {
+			"@media (forced-colors: active)": {
+				borderColor: "CanvasText",
+				boxShadow: "inset 0 0 0 1px CanvasText",
 			},
-		);
+		});
 		selector(`${field}:focus-visible`, {
 			"@media (forced-colors: active)": {
 				outlineColor: "Highlight",

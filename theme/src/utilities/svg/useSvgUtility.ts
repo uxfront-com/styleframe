@@ -35,9 +35,6 @@ export const useStrokeUtility = createUseUtility(
 /**
  * Create stroke-width utility classes for SVG elements.
  */
-export const useStrokeWidthUtility = createUseUtility(
-	"stroke-width",
-	({ value }) => ({
-		strokeWidth: value,
-	}),
-);
+export const useStrokeWidthUtility = createUseUtility("stroke-width", ({ value }) => ({
+	strokeWidth: value,
+}));

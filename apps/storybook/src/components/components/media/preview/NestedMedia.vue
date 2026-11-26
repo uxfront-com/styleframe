@@ -14,8 +14,8 @@ import MediaTitle from "../MediaTitle.vue";
 			<MediaBody>
 				<MediaTitle>Alex Grozav</MediaTitle>
 				<p class="_margin:0">
-					Just shipped the new Media recipe — perfect for nested comment threads
-					and social-feed layouts.
+					Just shipped the new Media recipe — perfect for nested comment threads and social-feed
+					layouts.
 				</p>
 
 				<Media class="_margin-top:0.75">
@@ -25,8 +25,8 @@ import MediaTitle from "../MediaTitle.vue";
 					<MediaBody size="sm">
 						<MediaTitle size="sm">Jane Smith</MediaTitle>
 						<p class="_margin:0">
-							Love it — the layout-only design means I can drop it inside any
-							Card without conflicts.
+							Love it — the layout-only design means I can drop it inside any Card without
+							conflicts.
 						</p>
 
 						<Media class="_margin-top:0.75">
@@ -36,8 +36,7 @@ import MediaTitle from "../MediaTitle.vue";
 							<MediaBody size="sm">
 								<MediaTitle size="sm">Alex Grozav</MediaTitle>
 								<p class="_margin:0">
-									Exactly the design intent — compose freely, no surface
-									opinions baked in.
+									Exactly the design intent — compose freely, no surface opinions baked in.
 								</p>
 							</MediaBody>
 						</Media>

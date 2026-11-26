@@ -21,9 +21,6 @@ export const useContainerTypeUtility = createUseUtility(
  * Names a query container so `@container <name> (…)` queries can target it.
  * Names are project-defined, so this utility ships without defaults.
  */
-export const useContainerNameUtility = createUseUtility(
-	"container-name",
-	({ value }) => ({
-		containerName: value,
-	}),
-);
+export const useContainerNameUtility = createUseUtility("container-name", ({ value }) => ({
+	containerName: value,
+}));

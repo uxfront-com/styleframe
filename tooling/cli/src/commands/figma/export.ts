@@ -1,17 +1,18 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+
 import type { Root } from "@styleframe/core";
-import { loadConfiguration } from "@styleframe/loader";
 import { flattenToFigmaDTCG } from "@styleframe/figma";
+import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+
 import { buildDTCG } from "../dtcg/build-dtcg";
 
 export default defineCommand({
 	meta: {
 		name: "export",
-		description:
-			"Export Styleframe variables to Figma-compatible DTCG format (per-mode files)",
+		description: "Export Styleframe variables to Figma-compatible DTCG format (per-mode files)",
 	},
 	args: {
 		config: {
@@ -39,9 +40,7 @@ export default defineCommand({
 		const configPath = path.resolve(args.config);
 		const outputDir = path.resolve(args.output);
 
-		consola.info(
-			`Loading configuration from "${path.relative(process.cwd(), configPath)}"...`,
-		);
+		consola.info(`Loading configuration from "${path.relative(process.cwd(), configPath)}"...`);
 
 		const instance = await loadConfiguration({ entry: configPath });
 		const root = instance.root as Root;
@@ -59,10 +58,7 @@ export default defineCommand({
 
 		consola.info("Flattening to Figma-compatible format...");
 
-		const { modes, diagnostics: flattenDiags } = await flattenToFigmaDTCG(
-			tokens,
-			resolver,
-		);
+		const { modes, diagnostics: flattenDiags } = await flattenToFigmaDTCG(tokens, resolver);
 
 		await mkdir(outputDir, { recursive: true });
 
@@ -72,9 +68,7 @@ export default defineCommand({
 			await writeFile(filePath, `${JSON.stringify(modeDoc, null, 2)}\n`);
 
 			const tokenCount = countTokens(modeDoc);
-			consola.info(
-				`Wrote "${path.relative(process.cwd(), filePath)}" (${tokenCount} tokens)`,
-			);
+			consola.info(`Wrote "${path.relative(process.cwd(), filePath)}" (${tokenCount} tokens)`);
 		}
 
 		if (fluidNormalisedCount > 0) {
@@ -83,10 +77,7 @@ export default defineCommand({
 			);
 		}
 
-		const allDiags = [
-			...buildDiags.filter((d) => d.level === "warn"),
-			...flattenDiags,
-		];
+		const allDiags = [...buildDiags.filter((d) => d.level === "warn"), ...flattenDiags];
 		if (allDiags.length > 0) {
 			consola.warn(`${allDiags.length} token(s) needed special handling`);
 			for (const d of allDiags.slice(0, 10)) {

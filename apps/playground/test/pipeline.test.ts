@@ -33,12 +33,9 @@ const input = {
 
 async function loadMocks() {
 	const { transformTs } = await import("@/pipeline/transformTs");
-	const { evalUserConfig, evalStyleframeFile } =
-		await import("@/pipeline/evalUserConfig");
-	const { transpileStyleframe } =
-		await import("@/pipeline/transpileStyleframe");
-	const { scanAndRegisterUtilities } =
-		await import("@/pipeline/scanAndRegisterUtilities");
+	const { evalUserConfig, evalStyleframeFile } = await import("@/pipeline/evalUserConfig");
+	const { transpileStyleframe } = await import("@/pipeline/transpileStyleframe");
+	const { scanAndRegisterUtilities } = await import("@/pipeline/scanAndRegisterUtilities");
 	const { bundlePreview } = await import("@/pipeline/bundlePreview");
 	const { buildSrcdoc } = await import("@/pipeline/buildSrcdoc");
 	return {
@@ -115,10 +112,7 @@ describe("runPipeline", () => {
 
 		expect(mocks.evalStyleframeFile).toHaveBeenCalledTimes(1);
 		// The compiled extension source is evaluated against the config instance.
-		expect(mocks.evalStyleframeFile).toHaveBeenCalledWith(
-			"js:export default s;",
-			{},
-		);
+		expect(mocks.evalStyleframeFile).toHaveBeenCalledWith("js:export default s;", {});
 	});
 
 	it("scans component files but not the config or *.styleframe.ts files", async () => {

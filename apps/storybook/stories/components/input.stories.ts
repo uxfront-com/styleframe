@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Button from "@/components/components/button/Button.vue";
-import Input from "@/components/components/input/Input.vue";
 import FieldGroup from "@/components/components/field-group/FieldGroup.vue";
+import Input from "@/components/components/input/Input.vue";
 import InputGrid from "@/components/components/input/preview/InputGrid.vue";
 import InputSizeGrid from "@/components/components/input/preview/InputSizeGrid.vue";
 

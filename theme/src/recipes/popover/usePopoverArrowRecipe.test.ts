@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import type { Selector } from "@styleframe/core";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
@@ -15,11 +16,7 @@ function createInstance() {
 		"position",
 		"width",
 		"height",
-		...sides.flatMap((side) => [
-			`border${side}Width`,
-			`border${side}Style`,
-			`border${side}Color`,
-		]),
+		...sides.flatMap((side) => [`border${side}Width`, `border${side}Style`, `border${side}Color`]),
 		"zIndex",
 		"insetInlineStart",
 		"top",
@@ -34,13 +31,9 @@ function createInstance() {
 	return s;
 }
 
-function findSelector(
-	s: ReturnType<typeof createInstance>,
-	query: string,
-): Selector | undefined {
+function findSelector(s: ReturnType<typeof createInstance>, query: string): Selector | undefined {
 	return s.root.children.find(
-		(child): child is Selector =>
-			child.type === "selector" && child.query === query,
+		(child): child is Selector => child.type === "selector" && child.query === query,
 	);
 }
 
@@ -77,22 +70,14 @@ describe("usePopoverArrowRecipe", () => {
 			const s = createInstance();
 			const recipe = usePopoverArrowRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = usePopoverArrowRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should keep the downward arrow as the top placement", () => {
@@ -242,10 +227,7 @@ describe("usePopoverArrowRecipe", () => {
 					sides.flatMap((side) => [
 						[`border${side}Width`, width],
 						[`border${side}Style`, "@border-style.solid"],
-						[
-							`border${side}Color`,
-							side === colored ? "currentColor" : "transparent",
-						],
+						[`border${side}Color`, side === colored ? "currentColor" : "transparent"],
 					]),
 				);
 			return {
@@ -279,14 +261,8 @@ describe("usePopoverArrowRecipe", () => {
 				const s = createInstance();
 				const recipe = usePopoverArrowRecipe(s);
 
-				expect(recipe.variants!.placement[placement]).toEqual(
-					expected[placement],
-				);
-				expect(
-					recipe.compoundVariants!.find(
-						(cv) => cv.match.placement === placement,
-					),
-				).toEqual({
+				expect(recipe.variants!.placement[placement]).toEqual(expected[placement]);
+				expect(recipe.compoundVariants!.find((cv) => cv.match.placement === placement)).toEqual({
 					match: { placement },
 					className: `-placement-${placement}`,
 				});
@@ -300,27 +276,19 @@ describe("usePopoverArrowRecipe", () => {
 			// Centred on the edge: half the panel, less half the outer triangle.
 			const centred = {
 				type: "css",
-				value: [
-					"calc(50% - ",
-					{ type: "reference", name: "popover.arrow.size" },
-					" - 1px)",
-				],
+				value: ["calc(50% - ", { type: "reference", name: "popover.arrow.size" }, " - 1px)"],
 			};
 			expect(
-				findSelector(s, ".popover[popover] > .popover-arrow.-placement-top")
-					?.declarations,
+				findSelector(s, ".popover[popover] > .popover-arrow.-placement-top")?.declarations,
 			).toEqual({ top: "100%", insetInlineStart: centred });
 			expect(
-				findSelector(s, ".popover[popover] > .popover-arrow.-placement-bottom")
-					?.declarations,
+				findSelector(s, ".popover[popover] > .popover-arrow.-placement-bottom")?.declarations,
 			).toEqual({ bottom: "100%", insetInlineStart: centred });
 			expect(
-				findSelector(s, ".popover[popover] > .popover-arrow.-placement-start")
-					?.declarations,
+				findSelector(s, ".popover[popover] > .popover-arrow.-placement-start")?.declarations,
 			).toEqual({ top: centred, insetInlineStart: "100%" });
 			expect(
-				findSelector(s, ".popover[popover] > .popover-arrow.-placement-end")
-					?.declarations,
+				findSelector(s, ".popover[popover] > .popover-arrow.-placement-end")?.declarations,
 			).toEqual({ top: centred, insetInlineEnd: "100%" });
 		});
 
@@ -328,9 +296,7 @@ describe("usePopoverArrowRecipe", () => {
 			const s = createInstance();
 			const recipe = usePopoverArrowRecipe(s);
 
-			expect(JSON.stringify(recipe)).not.toMatch(
-				/"(left|right|border(Left|Right)\w*)"/,
-			);
+			expect(JSON.stringify(recipe)).not.toMatch(/"(left|right|border(Left|Right)\w*)"/);
 		});
 
 		it("popover/forced-colors hides the border-drawn arrow rather than drawing a block", () => {
@@ -344,9 +310,7 @@ describe("usePopoverArrowRecipe", () => {
 			const s = createInstance();
 			usePopoverArrowRecipe(s);
 
-			expect(
-				s.root.variables.find((v) => v.name === "popover.arrow.size")?.value,
-			).toBe("0.375rem");
+			expect(s.root.variables.find((v) => v.name === "popover.arrow.size")?.value).toBe("0.375rem");
 		});
 	});
 });

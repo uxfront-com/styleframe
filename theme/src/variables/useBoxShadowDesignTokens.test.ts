@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useBoxShadowDesignTokens } from "./useBoxShadowDesignTokens";
 
 describe("useBoxShadowDesignTokens", () => {
@@ -42,13 +43,12 @@ describe("useBoxShadowDesignTokens", () => {
 
 	it("should create multiple box-shadow variables", () => {
 		const s = styleframe();
-		const { boxShadow, boxShadowSm, boxShadowMd, boxShadowLg } =
-			useBoxShadowDesignTokens(s, {
-				default: "0 2px 4px rgba(0, 0, 0, 0.1)",
-				sm: "0 1px 2px rgba(0, 0, 0, 0.05)",
-				md: "0 4px 8px rgba(0, 0, 0, 0.1)",
-				lg: "0 8px 16px rgba(0, 0, 0, 0.15)",
-			});
+		const { boxShadow, boxShadowSm, boxShadowMd, boxShadowLg } = useBoxShadowDesignTokens(s, {
+			default: "0 2px 4px rgba(0, 0, 0, 0.1)",
+			sm: "0 1px 2px rgba(0, 0, 0, 0.05)",
+			md: "0 4px 8px rgba(0, 0, 0, 0.1)",
+			lg: "0 8px 16px rgba(0, 0, 0, 0.15)",
+		});
 
 		expect(boxShadow).toEqual({
 			type: "variable",
@@ -236,10 +236,7 @@ describe("useBoxShadowDesignTokens", () => {
 
 	it("should handle box-shadow references", () => {
 		const s = styleframe();
-		const baseBoxShadow = s.variable(
-			"base-box-shadow",
-			"0 2px 4px rgba(0, 0, 0, 0.1)",
-		);
+		const baseBoxShadow = s.variable("base-box-shadow", "0 2px 4px rgba(0, 0, 0, 0.1)");
 		const { boxShadow } = useBoxShadowDesignTokens(s, {
 			default: s.ref(baseBoxShadow),
 		});

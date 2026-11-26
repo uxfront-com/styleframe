@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
 	computeLightnessColor,
 	computeRelativeColor,
@@ -110,23 +111,11 @@ describe("oklchGamut", () => {
 			const parsed = parseOklch("#007bff")!;
 
 			// Light tint
-			const light = computeLightnessColor(
-				parsed.l,
-				parsed.c,
-				parsed.h,
-				parsed.alpha,
-				0.93,
-			);
+			const light = computeLightnessColor(parsed.l, parsed.c, parsed.h, parsed.alpha, 0.93);
 			expect(light).toMatch(/^oklch\(/);
 
 			// Dark shade
-			const dark = computeLightnessColor(
-				parsed.l,
-				parsed.c,
-				parsed.h,
-				parsed.alpha,
-				0.17,
-			);
+			const dark = computeLightnessColor(parsed.l, parsed.c, parsed.h, parsed.alpha, 0.17);
 			expect(dark).toMatch(/^oklch\(/);
 		});
 	});
@@ -134,47 +123,27 @@ describe("oklchGamut", () => {
 	describe("computeRelativeColor", () => {
 		it("should produce a lighter color with positive offset", () => {
 			const base = parseOklch("#007bff")!;
-			const result = computeRelativeColor(
-				base.l,
-				base.c,
-				base.h,
-				base.alpha,
-				0.1,
-			);
-			const resultL = Number.parseFloat(
-				result.match(/oklch\(([0-9.]+)/)?.[1] ?? "0",
-			);
+			const result = computeRelativeColor(base.l, base.c, base.h, base.alpha, 0.1);
+			const resultL = Number.parseFloat(result.match(/oklch\(([0-9.]+)/)?.[1] ?? "0");
 			expect(resultL).toBeGreaterThan(base.l);
 		});
 
 		it("should produce a darker color with negative offset", () => {
 			const base = parseOklch("#007bff")!;
-			const result = computeRelativeColor(
-				base.l,
-				base.c,
-				base.h,
-				base.alpha,
-				-0.1,
-			);
-			const resultL = Number.parseFloat(
-				result.match(/oklch\(([0-9.]+)/)?.[1] ?? "0",
-			);
+			const result = computeRelativeColor(base.l, base.c, base.h, base.alpha, -0.1);
+			const resultL = Number.parseFloat(result.match(/oklch\(([0-9.]+)/)?.[1] ?? "0");
 			expect(resultL).toBeLessThan(base.l);
 		});
 
 		it("should clamp lightness to 0", () => {
 			const result = computeRelativeColor(0.1, 0.15, 240, 1, -0.5);
-			const resultL = Number.parseFloat(
-				result.match(/oklch\(([0-9.]+)/)?.[1] ?? "-1",
-			);
+			const resultL = Number.parseFloat(result.match(/oklch\(([0-9.]+)/)?.[1] ?? "-1");
 			expect(resultL).toBe(0);
 		});
 
 		it("should clamp lightness to 1", () => {
 			const result = computeRelativeColor(0.9, 0.15, 240, 1, 0.5);
-			const resultL = Number.parseFloat(
-				result.match(/oklch\(([0-9.]+)/)?.[1] ?? "-1",
-			);
+			const resultL = Number.parseFloat(result.match(/oklch\(([0-9.]+)/)?.[1] ?? "-1");
 			expect(resultL).toBe(1);
 		});
 	});

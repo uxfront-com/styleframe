@@ -6,5 +6,4 @@ import { createMenuSeparatorRecipe } from "./createMenuRecipe";
  *
  * Built on the shared menu-surface builder (see `createMenuRecipe.ts`).
  */
-export const useDropdownSeparatorRecipe =
-	createMenuSeparatorRecipe("dropdown-separator");
+export const useDropdownSeparatorRecipe = createMenuSeparatorRecipe("dropdown-separator");

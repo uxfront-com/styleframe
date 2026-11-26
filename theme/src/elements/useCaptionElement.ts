@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -49,34 +50,19 @@ export function useCaptionDesignTokens(
 		result.captionColor = ctx.variable("caption.color", config.color);
 	}
 	if (config.paddingTop !== undefined) {
-		result.captionPaddingTop = ctx.variable(
-			"caption.padding-top",
-			config.paddingTop,
-		);
+		result.captionPaddingTop = ctx.variable("caption.padding-top", config.paddingTop);
 	}
 	if (config.paddingRight !== undefined) {
-		result.captionPaddingRight = ctx.variable(
-			"caption.padding-right",
-			config.paddingRight,
-		);
+		result.captionPaddingRight = ctx.variable("caption.padding-right", config.paddingRight);
 	}
 	if (config.paddingBottom !== undefined) {
-		result.captionPaddingBottom = ctx.variable(
-			"caption.padding-bottom",
-			config.paddingBottom,
-		);
+		result.captionPaddingBottom = ctx.variable("caption.padding-bottom", config.paddingBottom);
 	}
 	if (config.paddingLeft !== undefined) {
-		result.captionPaddingLeft = ctx.variable(
-			"caption.padding-left",
-			config.paddingLeft,
-		);
+		result.captionPaddingLeft = ctx.variable("caption.padding-left", config.paddingLeft);
 	}
 	if (config.textAlign !== undefined) {
-		result.captionTextAlign = ctx.variable(
-			"caption.text-align",
-			config.textAlign,
-		);
+		result.captionTextAlign = ctx.variable("caption.text-align", config.textAlign);
 	}
 
 	return result;
@@ -104,15 +90,9 @@ export function useCaptionElement(
 	s: Styleframe,
 	options: WithThemes<CaptionElementConfig> = {},
 ): CaptionElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultCaptionOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultCaptionOptions, options);
 
-	const result = useCaptionSelectors(
-		s,
-		config as Required<CaptionElementConfig>,
-	);
+	const result = useCaptionSelectors(s, config as Required<CaptionElementConfig>);
 
 	registerElementThemes(s, themes, useCaptionDesignTokens);
 

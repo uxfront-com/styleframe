@@ -1,5 +1,6 @@
 import type { Diagnostic } from "@styleframe/core";
 import { consola } from "consola";
+
 import type { PluginGlobalState } from "./state";
 
 /**

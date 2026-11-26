@@ -58,9 +58,7 @@ export interface PreviewVariable {
  * Extract variables from a DTCG document for preview in the plugin UI.
  * Applies inheritance so every variable carries an effective `$type`.
  */
-export function extractDTCGVariables(
-	doc: DTCGDocument,
-): Array<PreviewVariable> {
+export function extractDTCGVariables(doc: DTCGDocument): Array<PreviewVariable> {
 	const inherited = applyInheritance(doc);
 	const variables: Array<PreviewVariable> = [];
 	for (const { path, token } of walk(inherited)) {

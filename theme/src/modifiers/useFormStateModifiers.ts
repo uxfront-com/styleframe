@@ -35,12 +35,9 @@ export function useCheckedModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useIndeterminateModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"indeterminate",
-		({ declarations, variables, children }) => ({
-			"&:indeterminate": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("indeterminate", ({ declarations, variables, children }) => ({
+		"&:indeterminate": { declarations, variables, children },
+	}));
 }
 
 export function useRequiredModifier(s: Styleframe): ModifierFactory {
@@ -68,12 +65,9 @@ export function useInvalidModifier(s: Styleframe): ModifierFactory {
 }
 
 export function usePlaceholderShownModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"placeholder-shown",
-		({ declarations, variables, children }) => ({
-			"&:placeholder-shown": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("placeholder-shown", ({ declarations, variables, children }) => ({
+		"&:placeholder-shown": { declarations, variables, children },
+	}));
 }
 
 export function useAutofillModifier(s: Styleframe): ModifierFactory {
@@ -95,12 +89,9 @@ export function useReadonlyModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useReadonlyAttrModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"readonly-attr",
-		({ declarations, variables, children }) => ({
-			"&[readonly]": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("readonly-attr", ({ declarations, variables, children }) => ({
+		"&[readonly]": { declarations, variables, children },
+	}));
 }
 
 /**

@@ -1,6 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import { borderCollapseValues, tableLayoutValues, captionSideValues } from "../../values";
 import {
 	useBorderCollapseUtility,
 	useBorderSpacingUtility,
@@ -9,11 +11,6 @@ import {
 	useTableLayoutUtility,
 	useCaptionSideUtility,
 } from "./useTableUtility";
-import {
-	borderCollapseValues,
-	tableLayoutValues,
-	captionSideValues,
-} from "../../values";
 
 describe("useBorderCollapseUtility", () => {
 	it("should create utility instances with provided values", () => {

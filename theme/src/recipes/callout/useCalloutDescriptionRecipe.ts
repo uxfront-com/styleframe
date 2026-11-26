@@ -13,24 +13,21 @@ import { createUseRecipe } from "../../utils/createUseRecipe";
  * at each size. Mirrors `useToastDescriptionRecipe` exactly so the two siblings
  * can't drift. Defaults to `md` to match the callout.
  */
-export const useCalloutDescriptionRecipe = createUseRecipe(
-	"callout-description",
-	{
-		base: {
-			display: "block",
-			marginTop: "@0.25",
-			fontWeight: "@font-weight.normal",
-			lineHeight: "@line-height.normal",
-		},
-		variants: {
-			size: {
-				sm: { fontSize: "@font-size.xs" },
-				md: { fontSize: "@font-size.sm" },
-				lg: { fontSize: "@font-size.md" },
-			},
-		},
-		defaultVariants: {
-			size: "md",
+export const useCalloutDescriptionRecipe = createUseRecipe("callout-description", {
+	base: {
+		display: "block",
+		marginTop: "@0.25",
+		fontWeight: "@font-weight.normal",
+		lineHeight: "@line-height.normal",
+	},
+	variants: {
+		size: {
+			sm: { fontSize: "@font-size.xs" },
+			md: { fontSize: "@font-size.sm" },
+			lg: { fontSize: "@font-size.md" },
 		},
 	},
-);
+	defaultVariants: {
+		size: "md",
+	},
+});

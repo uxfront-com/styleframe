@@ -17,12 +17,6 @@ const classes = computed(() => avatarGroup({ size: props.size }));
 <template>
 	<div :class="classes">
 		<slot />
-		<Avatar
-			v-if="count"
-			:size="size"
-			color="neutral"
-			variant="soft"
-			:label="`+${count}`"
-		/>
+		<Avatar v-if="count" :size="size" color="neutral" variant="soft" :label="`+${count}`" />
 	</div>
 </template>

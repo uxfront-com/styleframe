@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import type { DTCGDocument } from "../../src/types/token";
 import { validate } from "../../src/validate/document";
 
@@ -86,9 +87,7 @@ describe("validate", () => {
 			"bad.name": { $type: "number", $value: 1 },
 		} as unknown as DTCGDocument;
 		const errs = validate(doc);
-		expect(errs.some((e) => e.message.includes("reserved character"))).toBe(
-			true,
-		);
+		expect(errs.some((e) => e.message.includes("reserved character"))).toBe(true);
 	});
 
 	it("validates composite types", () => {

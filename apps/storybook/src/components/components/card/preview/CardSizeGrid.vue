@@ -34,9 +34,7 @@ const sizeTitles: Record<string, string> = {
 						>
 					</CardHeader>
 					<CardBody :size="size">
-						<CardDescription
-							>This is a {{ size }} {{ color }} card.</CardDescription
-						>
+						<CardDescription>This is a {{ size }} {{ color }} card.</CardDescription>
 					</CardBody>
 					<CardFooter :color="color" :size="size"> Footer content </CardFooter>
 				</Card>

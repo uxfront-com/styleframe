@@ -1,10 +1,6 @@
-import type {
-	ContainerChild,
-	Root,
-	Selector,
-	StyleframeOptions,
-} from "@styleframe/core";
+import type { ContainerChild, Root, Selector, StyleframeOptions } from "@styleframe/core";
 import { isSelector } from "@styleframe/core";
+
 import type { ConsumeFunction, TranspileContext } from "../../types";
 
 /**
@@ -12,12 +8,8 @@ import type { ConsumeFunction, TranspileContext } from "../../types";
  * Exported selectors are always direct children of root since
  * _exportName is only set on module-level exports.
  */
-function collectExportedSelectors(
-	children: Array<ContainerChild>,
-): Array<Selector> {
-	return children.filter(
-		(child): child is Selector => isSelector(child) && !!child._exportName,
-	);
+function collectExportedSelectors(children: Array<ContainerChild>): Array<Selector> {
+	return children.filter((child): child is Selector => isSelector(child) && !!child._exportName);
 }
 
 export function createRootConsumer(consume: ConsumeFunction) {
@@ -50,9 +42,7 @@ export function createRootConsumer(consume: ConsumeFunction) {
 			];
 
 			if (context?.shortMap) {
-				importParts.push(
-					"import type { ShorteningMap } from '@styleframe/runtime';",
-				);
+				importParts.push("import type { ShorteningMap } from '@styleframe/runtime';");
 			}
 
 			parts.push(`${importParts.join("\n")}\n`);

@@ -2,12 +2,7 @@ export const DOCS_SECTIONS = [
 	{
 		key: "gettingStarted",
 		slug: "getting-started",
-		folder: [
-			"01.getting-started",
-			"08.tooling",
-			"09.integrations",
-			"10.migration",
-		],
+		folder: ["01.getting-started", "08.tooling", "09.integrations", "10.migration"],
 		rootFolder: 0,
 		label: "Getting Started",
 		icon: "i-lucide-rocket",
@@ -22,13 +17,7 @@ export const DOCS_SECTIONS = [
 	{
 		key: "theme",
 		slug: "theme",
-		folder: [
-			"03.design-tokens",
-			"04.elements",
-			"05.components",
-			"06.utilities",
-			"07.modifiers",
-		],
+		folder: ["03.design-tokens", "04.elements", "05.components", "06.utilities", "07.modifiers"],
 		label: "Theme",
 		icon: "i-lucide-palette",
 	},
@@ -47,9 +36,8 @@ export function findDocsSectionBySlug(slug: string): DocsSection | undefined {
 }
 
 /** Every folder in `content/docs/`, in section order. */
-export const DOCS_FOLDERS = DOCS_SECTIONS.flatMap(
-	(section): ReadonlyArray<string> =>
-		typeof section.folder === "string" ? [section.folder] : section.folder,
+export const DOCS_FOLDERS = DOCS_SECTIONS.flatMap((section): ReadonlyArray<string> =>
+	typeof section.folder === "string" ? [section.folder] : section.folder,
 );
 
 /**
@@ -93,12 +81,7 @@ export function docsStem(file: string): string {
 	if (root !== "docs" || index === -1) {
 		return file;
 	}
-	return [
-		root,
-		`${index + 1}.${DOCS_SECTIONS[index]!.slug}`,
-		folder,
-		...rest,
-	].join("/");
+	return [root, `${index + 1}.${DOCS_SECTIONS[index]!.slug}`, folder, ...rest].join("/");
 }
 
 /** The file of a docs page, without its extension, from its `stem` (see docsStem). */

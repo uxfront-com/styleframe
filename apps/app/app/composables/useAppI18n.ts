@@ -24,8 +24,7 @@ export const useAppI18n = () => {
 
 	const { locale, t } = useI18n();
 	const filteredLocales =
-		(config.docus as { filteredLocales: Array<LocaleObject<string>> })
-			?.filteredLocales || [];
+		(config.docus as { filteredLocales: Array<LocaleObject<string>> })?.filteredLocales || [];
 
 	return {
 		isEnabled,

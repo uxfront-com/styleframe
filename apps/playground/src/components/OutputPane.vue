@@ -68,11 +68,7 @@ const viewport = ref<"mobile" | "tablet" | "desktop">("desktop");
 			>
 				<CodeOutput :value="props.js" language="typescript" />
 			</div>
-			<ErrorBanner
-				v-if="error"
-				:message="error"
-				@dismiss="emit('dismiss-error')"
-			/>
+			<ErrorBanner v-if="error" :message="error" @dismiss="emit('dismiss-error')" />
 		</div>
 	</div>
 </template>

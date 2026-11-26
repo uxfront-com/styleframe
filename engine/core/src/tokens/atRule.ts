@@ -8,19 +8,13 @@ import type {
 	Root,
 } from "../types";
 import { generateRandomId } from "../utils";
-import {
-	createDeclarationsCallbackContext,
-	parseDeclarationsBlock,
-} from "./declarations";
+import { createDeclarationsCallbackContext, parseDeclarationsBlock } from "./declarations";
 
 export function createAtRuleFunction(parent: Container, root: Root) {
 	return function atRule(
 		identifier: string,
 		rule: string,
-		declarationsOrCallback?:
-			| DeclarationsBlock
-			| ContainerInput
-			| DeclarationsCallback,
+		declarationsOrCallback?: DeclarationsBlock | ContainerInput | DeclarationsCallback,
 	): AtRule {
 		const instance: AtRule = {
 			type: "at-rule",
@@ -50,12 +44,7 @@ export function createAtRuleFunction(parent: Container, root: Root) {
 			instance.declarations = declarationsOrCallback;
 		}
 
-		parseDeclarationsBlock(
-			instance.declarations,
-			callbackContext,
-			instance,
-			root,
-		);
+		parseDeclarationsBlock(instance.declarations, callbackContext, instance, root);
 
 		parent.children.push(instance);
 
@@ -68,10 +57,7 @@ export function createMediaFunction(parent: Container, root: Root) {
 
 	return function media(
 		query: string,
-		declarationsOrCallback?:
-			| DeclarationsBlock
-			| ContainerInput
-			| DeclarationsCallback,
+		declarationsOrCallback?: DeclarationsBlock | ContainerInput | DeclarationsCallback,
 	): AtRule {
 		return atRule("media", query, declarationsOrCallback);
 	};
@@ -80,10 +66,7 @@ export function createMediaFunction(parent: Container, root: Root) {
 export function createKeyframesFunction(parent: Container, root: Root) {
 	const atRule = createAtRuleFunction(parent, root);
 
-	return function keyframes(
-		name: string,
-		declarations: Record<string, DeclarationsBlock>,
-	): AtRule {
+	return function keyframes(name: string, declarations: Record<string, DeclarationsBlock>): AtRule {
 		return atRule("keyframes", name, declarations);
 	};
 }

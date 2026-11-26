@@ -11,9 +11,7 @@ export interface UseUtilityOptions {
 	name?: string;
 }
 
-export interface CreateUseUtilityOptions<
-	Defaults extends Record<string, TokenValue>,
-> {
+export interface CreateUseUtilityOptions<Defaults extends Record<string, TokenValue>> {
 	/** Default values for the utility */
 	defaults?: Defaults;
 	/** Whether to merge user values with defaults (true) or replace them (false) */
@@ -73,9 +71,7 @@ export function createUseUtility<
 		const createUtility = s.utility(resolvedName, factory, { namespace });
 
 		// Only call creator if values are provided (or defaults exist)
-		const resolvedValues = mergeDefaults
-			? { ...defaults, ...values }
-			: (values ?? defaults);
+		const resolvedValues = mergeDefaults ? { ...defaults, ...values } : (values ?? defaults);
 
 		if (resolvedValues && Object.keys(resolvedValues).length > 0) {
 			createUtility(resolvedValues as Record<string, TokenValue>, modifiers);

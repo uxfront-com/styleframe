@@ -1,6 +1,18 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import {
+	appearanceValues,
+	colorSchemeValues,
+	cursorValues,
+	pointerEventsValues,
+	resizeValues,
+	scrollBehaviorValues,
+	touchActionValues,
+	userSelectValues,
+	willChangeValues,
+} from "../../values";
 import {
 	useAccentColorUtility,
 	useAppearanceUtility,
@@ -15,17 +27,6 @@ import {
 	useUserSelectUtility,
 	useWillChangeUtility,
 } from "./useInteractivityUtility";
-import {
-	appearanceValues,
-	colorSchemeValues,
-	cursorValues,
-	pointerEventsValues,
-	resizeValues,
-	scrollBehaviorValues,
-	touchActionValues,
-	userSelectValues,
-	willChangeValues,
-} from "../../values";
 
 describe("useAccentColorUtility", () => {
 	it("should create utility instances with provided values", () => {

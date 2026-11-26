@@ -1,17 +1,11 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import {
-	matchUtilities,
-	quickScan,
-	registerMatchedUtilities,
-} from "@styleframe/scanner";
-import {
-	buildClassNameLookup,
-	generateShorteningMap,
-	transpile,
-} from "styleframe/transpiler";
-import { renderDocument } from "../template";
+
+import { matchUtilities, quickScan, registerMatchedUtilities } from "@styleframe/scanner";
 import type { Styleframe } from "styleframe";
+import { buildClassNameLookup, generateShorteningMap, transpile } from "styleframe/transpiler";
+
+import { renderDocument } from "../template";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const RESULTS = join(ROOT, "results");
@@ -63,16 +57,9 @@ async function buildVariant(
 	return { dir, html, css };
 }
 
-export async function buildStyleframe(
-	bodyHtml: string,
-	pageName: string,
-): Promise<BuildResult> {
+export async function buildStyleframe(bodyHtml: string, pageName: string): Promise<BuildResult> {
 	const { createBenchmarkInstance } = await import("./config");
-	return buildVariant(
-		createBenchmarkInstance(),
-		bodyHtml,
-		`${pageName}/styleframe`,
-	);
+	return buildVariant(createBenchmarkInstance(), bodyHtml, `${pageName}/styleframe`);
 }
 
 export async function buildStyleframeMinified(
@@ -80,12 +67,7 @@ export async function buildStyleframeMinified(
 	pageName: string,
 ): Promise<BuildResult> {
 	const { createBenchmarkInstance } = await import("./config");
-	return buildVariant(
-		createBenchmarkInstance(),
-		bodyHtml,
-		`${pageName}/styleframe-minified`,
-		true,
-	);
+	return buildVariant(createBenchmarkInstance(), bodyHtml, `${pageName}/styleframe-minified`, true);
 }
 
 export async function buildStyleframeShorthand(
@@ -93,9 +75,5 @@ export async function buildStyleframeShorthand(
 	pageName: string,
 ): Promise<BuildResult> {
 	const { createShorthandInstance } = await import("./config-shorthand");
-	return buildVariant(
-		createShorthandInstance(),
-		bodyHtml,
-		`${pageName}/styleframe-shorthand`,
-	);
+	return buildVariant(createShorthandInstance(), bodyHtml, `${pageName}/styleframe-shorthand`);
 }

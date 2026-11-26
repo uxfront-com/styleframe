@@ -1,13 +1,7 @@
-import type {
-	Diagnostic,
-	Styleframe,
-	StyleframeOptions,
-} from "@styleframe/core";
+import type { Diagnostic, Styleframe, StyleframeOptions } from "@styleframe/core";
 import { validate } from "@styleframe/core";
-import {
-	isInstanceLicenseRequired,
-	getInstanceLicenseValidationInfo,
-} from "@styleframe/license";
+import { isInstanceLicenseRequired, getInstanceLicenseValidationInfo } from "@styleframe/license";
+
 import { consume as consumeCSS } from "./consume/css";
 import {
 	DTS_SHIMS_FILENAME,
@@ -19,12 +13,7 @@ import { consume as consumeTS } from "./consume/ts";
 import { defaultUtilitySelectorFn } from "./defaults";
 import { addLicenseWatermark } from "./license";
 import { generateShorteningMap, shortenUtilityOptions } from "./minify";
-import type {
-	Output,
-	OutputFile,
-	TranspileContext,
-	TranspileOptions,
-} from "./types";
+import type { Output, OutputFile, TranspileContext, TranspileOptions } from "./types";
 
 export function createFile(name: string, content: string = ""): OutputFile {
 	return {
@@ -68,18 +57,12 @@ export async function transpile(
 
 	if (type === "all" || type === "css") {
 		const cssOptions = createCSSOptions(options, context);
-		const indexFile = createFile(
-			"index.css",
-			consumers.css(instance.root, cssOptions, context),
-		);
+		const indexFile = createFile("index.css", consumers.css(instance.root, cssOptions, context));
 		output.files.push(indexFile);
 	}
 
 	if (type === "all" || type === "ts") {
-		const indexFile = createFile(
-			"index.ts",
-			consumers.ts(instance.root, options, context),
-		);
+		const indexFile = createFile("index.ts", consumers.ts(instance.root, options, context));
 		output.files.push(indexFile);
 	}
 
@@ -96,9 +79,7 @@ export async function transpile(
 
 function formatDiagnostics(diagnostics: Array<Diagnostic>): string {
 	const count = `${diagnostics.length} ${diagnostics.length === 1 ? "problem" : "problems"}`;
-	const lines = diagnostics.map(
-		({ code, path, message }) => `  ${code} ${path}: ${message}`,
-	);
+	const lines = diagnostics.map(({ code, path, message }) => `  ${code} ${path}: ${message}`);
 
 	return [`[styleframe] Strict mode found ${count}:`, ...lines].join("\n");
 }
@@ -111,15 +92,13 @@ function createCSSOptions(
 		return options;
 	}
 
-	const baseSelectorFn =
-		options.utilities?.selector ?? defaultUtilitySelectorFn;
+	const baseSelectorFn = options.utilities?.selector ?? defaultUtilitySelectorFn;
 
 	return {
 		...options,
 		utilities: {
 			...options.utilities,
-			selector: (opts) =>
-				baseSelectorFn(shortenUtilityOptions(opts, context.shortMap!)),
+			selector: (opts) => baseSelectorFn(shortenUtilityOptions(opts, context.shortMap!)),
 		},
 	};
 }

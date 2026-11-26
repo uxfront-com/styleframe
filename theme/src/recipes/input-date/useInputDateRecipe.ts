@@ -1,7 +1,4 @@
-import {
-	FIELD_MUTED_TEXT,
-	createFieldRecipe,
-} from "../input/createFieldRecipe";
+import { FIELD_MUTED_TEXT, createFieldRecipe } from "../input/createFieldRecipe";
 
 /**
  * InputDate wrapper recipe. The `.input-date` class sits on a wrapper element

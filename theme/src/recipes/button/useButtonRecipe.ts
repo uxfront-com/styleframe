@@ -1,13 +1,6 @@
 import { createUseRecipe } from "../../utils/createUseRecipe";
 
-const colors = [
-	"primary",
-	"secondary",
-	"success",
-	"info",
-	"warning",
-	"error",
-] as const;
+const colors = ["primary", "secondary", "success", "info", "warning", "error"] as const;
 
 type Color = (typeof colors)[number];
 
@@ -15,14 +8,12 @@ type Color = (typeof colors)[number];
  * Warning is a light colour, so a white label on it, or warning text on the
  * page, would fall below 4.5:1. It takes a dark label and darker levels.
  */
-const solidLabel = (color: Color) =>
-	color === "warning" ? "@color.warning-900" : "@color.white";
+const solidLabel = (color: Color) => (color === "warning" ? "@color.warning-900" : "@color.white");
 const solidHover = (color: Color) =>
 	color === "warning" ? "@color.warning-tint-50" : `@color.${color}-shade-50`;
 const solidActive = (color: Color) =>
 	color === "warning" ? "@color.warning-tint-100" : `@color.${color}-shade-100`;
-const pageText = (color: Color) =>
-	color === "warning" ? "@color.warning-700" : `@color.${color}`;
+const pageText = (color: Color) => (color === "warning" ? "@color.warning-700" : `@color.${color}`);
 const linkHoverText = (color: Color) =>
 	color === "warning" ? "@color.warning-750" : `@color.${color}-shade-50`;
 // Borders keep 3:1 against the page: level 450 does in both themes.
@@ -1199,18 +1190,13 @@ export const useButtonRecipe = createUseRecipe(
 	(s) => {
 		const { selector, variable, ref, css } = s;
 		// Steps of `spacing`, with the fallback the spacing utilities use.
-		const spacing = (step: number) =>
-			css`calc(${ref("spacing", "1rem")} * ${step})`;
+		const spacing = (step: number) => css`calc(${ref("spacing", "1rem")} * ${step})`;
 
 		// The icon size of each size. The root default makes it a theme variable,
 		// and each button sets its own size's value. `:where()` keeps those at
 		// zero specificity, so a consumer can set `--button--icon--size` with any
 		// single class on the button.
-		const iconSizeVariable = variable(
-			"button.icon.size",
-			spacing(iconSize.md),
-			{ default: true },
-		);
+		const iconSizeVariable = variable("button.icon.size", spacing(iconSize.md), { default: true });
 		selector(":where(.button)", ({ variable }) => {
 			variable(iconSizeVariable, spacing(iconSize.md));
 		});
@@ -1223,8 +1209,7 @@ export const useButtonRecipe = createUseRecipe(
 
 		// The leading and trailing icons take the size's icon size, and the icon
 		// inside fills its slot.
-		const slots =
-			'.button > :is([data-slot="leading"], [data-slot="trailing"])';
+		const slots = '.button > :is([data-slot="leading"], [data-slot="trailing"])';
 		selector(slots, {
 			display: "inline-flex",
 			alignItems: "center",

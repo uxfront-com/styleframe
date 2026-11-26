@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useContainerQueryModifiers } from "./useContainerQueryModifiers";
 
 describe("useContainerQueryModifiers", () => {
@@ -51,18 +52,12 @@ describe("useContainerQueryModifiers", () => {
 
 	it("should render every breakpoint at its shared scale value", () => {
 		const s = styleframe();
-		const { containerSm, containerLg, containerXl, container2xl } =
-			useContainerQueryModifiers(s);
+		const { containerSm, containerLg, containerXl, container2xl } = useContainerQueryModifiers(s);
 
 		const createDisplay = s.utility("display", ({ value }) => ({
 			display: value,
 		}));
-		createDisplay({ block: "block" }, [
-			containerSm,
-			containerLg,
-			containerXl,
-			container2xl,
-		]);
+		createDisplay({ block: "block" }, [containerSm, containerLg, containerXl, container2xl]);
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("@container (min-width: 576px) {");
@@ -85,9 +80,7 @@ describe("useContainerQueryModifiers", () => {
 		);
 		expect(utilities).toHaveLength(2);
 
-		const containerUtility = utilities.find((u) =>
-			u.modifiers.includes("container-lg"),
-		);
+		const containerUtility = utilities.find((u) => u.modifiers.includes("container-lg"));
 		expect(containerUtility).toBeDefined();
 	});
 });

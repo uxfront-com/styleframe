@@ -1,11 +1,9 @@
 import type { Root, Theme, Variable } from "@styleframe/core";
 import type { CSS, Reference, TokenValue } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
-import {
-	useFluidViewportDesignTokens,
-	useFontSizeDesignTokens,
-} from "@styleframe/theme";
+import { useFluidViewportDesignTokens, useFontSizeDesignTokens } from "@styleframe/theme";
 import { describe, expect, it } from "vitest";
+
 import { buildDTCG } from "./build-dtcg";
 
 function v(name: string, value: TokenValue): Variable {
@@ -58,28 +56,31 @@ describe("buildDTCG", () => {
 		const { tokens, resolver, diagnostics } = buildDTCG(root);
 		expect(resolver).toBeUndefined();
 		expect(diagnostics).toEqual([]);
-		const primary = (tokens.color as unknown as Record<string, any>)
-			.primary as Record<string, unknown>;
+		const primary = (tokens.color as unknown as Record<string, any>).primary as Record<
+			string,
+			unknown
+		>;
 		expect(primary.$type).toBe("color");
 	});
 
 	it("emits a dimension token", () => {
 		const root = makeRoot([v("spacing.small", "4px")]);
 		const { tokens } = buildDTCG(root);
-		const small = (tokens.spacing as unknown as Record<string, any>)
-			.small as Record<string, unknown>;
+		const small = (tokens.spacing as unknown as Record<string, any>).small as Record<
+			string,
+			unknown
+		>;
 		expect(small.$type).toBe("dimension");
 		expect(small.$value).toEqual({ value: 4, unit: "px" });
 	});
 
 	it("emits an alias with the target's stamped $type", () => {
-		const root = makeRoot([
-			v("color.primary", "#ff0000"),
-			v("color.accent", ref("color.primary")),
-		]);
+		const root = makeRoot([v("color.primary", "#ff0000"), v("color.accent", ref("color.primary"))]);
 		const { tokens } = buildDTCG(root);
-		const accent = (tokens.color as unknown as Record<string, any>)
-			.accent as Record<string, unknown>;
+		const accent = (tokens.color as unknown as Record<string, any>).accent as Record<
+			string,
+			unknown
+		>;
 		expect(accent.$value).toBe("{color.primary}");
 		expect(accent.$type).toBe("color");
 	});
@@ -91,8 +92,10 @@ describe("buildDTCG", () => {
 			v("scale.product", css(ref("scale.base"), " * ", ref("scale.ratio"))),
 		]);
 		const { tokens } = buildDTCG(root);
-		const product = (tokens.scale as unknown as Record<string, any>)
-			.product as Record<string, unknown>;
+		const product = (tokens.scale as unknown as Record<string, any>).product as Record<
+			string,
+			unknown
+		>;
 		expect(product.$value).toBe(3);
 		expect(product.$type).toBe("number");
 	});
@@ -100,28 +103,23 @@ describe("buildDTCG", () => {
 	it("classifies a numeric value under duration/ as duration", () => {
 		const root = makeRoot([v("duration.fast", 200)]);
 		const { tokens } = buildDTCG(root);
-		const fast = (tokens.duration as unknown as Record<string, any>)
-			.fast as Record<string, unknown>;
+		const fast = (tokens.duration as unknown as Record<string, any>).fast as Record<
+			string,
+			unknown
+		>;
 		expect(fast.$type).toBe("duration");
 	});
 
 	it("emits an unevaluable expression as a dev.styleframe.expression extension", () => {
-		const root = makeRoot([
-			v("fluid.x", css("clamp(", ref("missing"), ", 1vw, 100px)")),
-		]);
+		const root = makeRoot([v("fluid.x", css("clamp(", ref("missing"), ", 1vw, 100px)"))]);
 		const { tokens, diagnostics } = buildDTCG(root);
-		const fluid = (tokens.fluid as unknown as Record<string, any>).x as Record<
-			string,
-			unknown
-		>;
+		const fluid = (tokens.fluid as unknown as Record<string, any>).x as Record<string, unknown>;
 		expect(fluid.$value).toContain("clamp(");
-		const ext = (
-			fluid.$extensions as unknown as Record<string, Record<string, any>>
-		)["dev.styleframe"];
+		const ext = (fluid.$extensions as unknown as Record<string, Record<string, any>>)[
+			"dev.styleframe"
+		];
 		expect(ext?.expression).toContain("clamp(");
-		expect(
-			diagnostics.some((d) => d.name === "fluid.x" && d.level === "warn"),
-		).toBe(true);
+		expect(diagnostics.some((d) => d.name === "fluid.x" && d.level === "warn")).toBe(true);
 	});
 
 	it("skips boolean variables with a diagnostic", () => {
@@ -132,10 +130,7 @@ describe("buildDTCG", () => {
 	});
 
 	it("emits a resolver document for themed configs", () => {
-		const root = makeRoot(
-			[v("color.bg", "#ffffff")],
-			[theme("dark", [v("color.bg", "#000000")])],
-		);
+		const root = makeRoot([v("color.bg", "#ffffff")], [theme("dark", [v("color.bg", "#000000")])]);
 		const { resolver } = buildDTCG(root);
 		expect(resolver).toBeDefined();
 		// Default context exists with no overrides — base `set` already supplies it.
@@ -143,10 +138,11 @@ describe("buildDTCG", () => {
 		expect(resolver?.modifiers?.theme?.default).toBe("Default");
 		// Themed context name is capitalized.
 		expect(resolver?.modifiers?.theme?.contexts.Dark).toBeDefined();
-		const darkCtx = resolver?.modifiers?.theme?.contexts
-			.Dark?.[0] as unknown as Record<string, any>;
-		const darkBg = (darkCtx.color as unknown as Record<string, any>)
-			.bg as Record<string, unknown>;
+		const darkCtx = resolver?.modifiers?.theme?.contexts.Dark?.[0] as unknown as Record<
+			string,
+			any
+		>;
+		const darkBg = (darkCtx.color as unknown as Record<string, any>).bg as Record<string, unknown>;
 		expect(darkBg.$value).toMatchObject({ colorSpace: "srgb" });
 		// resolutionOrder begins with a `set` referencing the base tokens file
 		// so the resolver merges deltas on top of the full token document.
@@ -177,8 +173,10 @@ describe("buildDTCG", () => {
 			],
 		);
 		const { resolver } = buildDTCG(root);
-		const darkCtx = resolver?.modifiers?.theme?.contexts
-			.Dark?.[0] as unknown as Record<string, any>;
+		const darkCtx = resolver?.modifiers?.theme?.contexts.Dark?.[0] as unknown as Record<
+			string,
+			any
+		>;
 		// Direct value override carries `$type`.
 		expect(darkCtx.color.bg.$type).toBe("color");
 		// Alias override stamps `$type` from the alias target.
@@ -187,10 +185,7 @@ describe("buildDTCG", () => {
 	});
 
 	it("respects tokensSourceRef for the base set $ref", () => {
-		const root = makeRoot(
-			[v("color.bg", "#ffffff")],
-			[theme("dark", [v("color.bg", "#000000")])],
-		);
+		const root = makeRoot([v("color.bg", "#ffffff")], [theme("dark", [v("color.bg", "#000000")])]);
 		const { resolver } = buildDTCG(root, {
 			tokensSourceRef: "design-tokens.json",
 		});
@@ -201,10 +196,7 @@ describe("buildDTCG", () => {
 	});
 
 	it("omits theme overrides identical to the default", () => {
-		const root = makeRoot(
-			[v("color.bg", "#ffffff")],
-			[theme("dark", [v("color.bg", "#ffffff")])],
-		);
+		const root = makeRoot([v("color.bg", "#ffffff")], [theme("dark", [v("color.bg", "#ffffff")])]);
 		const { resolver } = buildDTCG(root);
 		// Identical override → context drops out → resolver omitted entirely.
 		expect(resolver).toBeUndefined();
@@ -213,9 +205,9 @@ describe("buildDTCG", () => {
 	it("respects the collection name option", () => {
 		const root = makeRoot([v("color.x", "#000")]);
 		const { tokens } = buildDTCG(root, { collectionName: "Storybook Tokens" });
-		const ext = (
-			tokens.$extensions as unknown as Record<string, Record<string, any>>
-		)["dev.styleframe"];
+		const ext = (tokens.$extensions as unknown as Record<string, Record<string, any>>)[
+			"dev.styleframe"
+		];
 		expect(ext?.collection).toBe("Storybook Tokens");
 	});
 
@@ -224,9 +216,7 @@ describe("buildDTCG", () => {
 		expect(buildDTCG(root).tokens.$schema).toBe(
 			"https://design-tokens.org/schemas/2025.10/tokens.json",
 		);
-		expect(
-			buildDTCG(root, { includeSchema: false }).tokens.$schema,
-		).toBeUndefined();
+		expect(buildDTCG(root, { includeSchema: false }).tokens.$schema).toBeUndefined();
 	});
 
 	it("uses $root when a parent token coexists with children (parent first)", () => {
@@ -277,9 +267,7 @@ describe("buildDTCG", () => {
 		useFluidViewportDesignTokens(s); // fluid.min-width=320, fluid.max-width=1440
 		useFontSizeDesignTokens(s, { md: [16, 18] });
 
-		const { tokens, fluidNormalisedCount, maxViewport } = buildDTCG(
-			s.root as Root,
-		);
+		const { tokens, fluidNormalisedCount, maxViewport } = buildDTCG(s.root as Root);
 		const fontSize = tokens["font-size"] as unknown as Record<string, any>;
 		const md = fontSize.md as Record<string, any>;
 
@@ -296,8 +284,7 @@ describe("buildDTCG", () => {
 		useFontSizeDesignTokens(s, { md: [16, 24] });
 
 		const { tokens, maxViewport } = buildDTCG(s.root as Root);
-		const md = (tokens["font-size"] as unknown as Record<string, any>)
-			.md as Record<string, any>;
+		const md = (tokens["font-size"] as unknown as Record<string, any>).md as Record<string, any>;
 
 		expect(maxViewport).toBe(1920);
 		// At the locked max viewport (1920px), the formula reduces to max=24.
@@ -317,16 +304,14 @@ describe("buildDTCG", () => {
 		);
 		const { resolver } = buildDTCG(root);
 		expect(resolver).toBeDefined();
-		const darkContext = resolver!.modifiers!["theme"]!.contexts[
-			"Dark"
-		] as unknown as Array<Record<string, unknown>>;
+		const darkContext = resolver!.modifiers!["theme"]!.contexts["Dark"] as unknown as Array<
+			Record<string, unknown>
+		>;
 		expect(darkContext).toHaveLength(1);
 		const overrideDoc = darkContext[0] as Record<string, unknown>;
 		const bc = overrideDoc["border-color"] as Record<string, unknown>;
 		expect(bc.$root).toBeDefined();
-		expect((bc.$root as Record<string, unknown>).$value).toBe(
-			"{color.gray-700}",
-		);
+		expect((bc.$root as Record<string, unknown>).$value).toBe("{color.gray-700}");
 		expect(bc.$value).toBeUndefined();
 	});
 });

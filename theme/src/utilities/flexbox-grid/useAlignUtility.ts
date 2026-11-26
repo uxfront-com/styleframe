@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	alignContentValues,
-	alignItemsValues,
-	alignSelfValues,
-} from "../../values";
+import { alignContentValues, alignItemsValues, alignSelfValues } from "../../values";
 
 /**
  * Create align-content utility classes.

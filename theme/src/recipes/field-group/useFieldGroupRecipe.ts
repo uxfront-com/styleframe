@@ -62,13 +62,7 @@ export const useFieldGroupRecipe = createUseRecipe(
 	(s) => {
 		const { selector } = s;
 
-		const fieldGroupChildren = [
-			".input",
-			".textarea",
-			".select",
-			".button",
-			".dropdown",
-		];
+		const fieldGroupChildren = [".input", ".textarea", ".select", ".button", ".dropdown"];
 		const C = `:where(${fieldGroupChildren.join(", ")})`; // subject anchor, 0 specificity
 		const K = `:is(${fieldGroupChildren.join(", ")})`; // adjacency key, (0,1,0) specificity
 

@@ -19,12 +19,9 @@ export function useInertModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useDataLoadingModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"data-loading",
-		({ declarations, variables, children }) => ({
-			"&[data-loading]": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("data-loading", ({ declarations, variables, children }) => ({
+		"&[data-loading]": { declarations, variables, children },
+	}));
 }
 
 /**

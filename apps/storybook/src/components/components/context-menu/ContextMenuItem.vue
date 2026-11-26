@@ -30,12 +30,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-	<button
-		type="button"
-		role="menuitem"
-		:class="classes"
-		:disabled="props.disabled"
-	>
+	<button type="button" role="menuitem" :class="classes" :disabled="props.disabled">
 		<slot />
 	</button>
 </template>

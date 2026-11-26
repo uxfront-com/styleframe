@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useMediaTitleRecipe } from "./useMediaTitleRecipe";
 
 function createInstance() {

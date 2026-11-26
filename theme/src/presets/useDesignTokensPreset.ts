@@ -8,6 +8,7 @@ import type {
 import { defu } from "defu";
 import type { CamelCase } from "scule";
 import { camelCase } from "scule";
+
 import type { ExportKeys } from "../types";
 import {
 	borderColorValues,
@@ -286,56 +287,35 @@ const domains = [
 
 			const meta = defu(config.meta?.colors ?? {}, defaultColorsMetaConfig);
 
-			for (const colorVariable of Object.values(baseColors) as Array<
-				Variable<string>
-			>) {
+			for (const colorVariable of Object.values(baseColors) as Array<Variable<string>>) {
 				const colorKey = colorVariable.name.slice("color.".length);
 				const colorOverride = meta.overrides?.[colorKey];
 
 				if (colorOverride?.generateLevels ?? meta.generateLevels) {
 					result = {
 						...result,
-						...useColorLevelDesignTokens(
-							s,
-							colorVariable,
-							meta.levels,
-							options,
-						),
+						...useColorLevelDesignTokens(s, colorVariable, meta.levels, options),
 					};
 				}
 
 				if (colorOverride?.generateShades ?? meta.generateShades) {
 					result = {
 						...result,
-						...useColorShadeDesignTokens(
-							s,
-							colorVariable,
-							meta.shadeLevels,
-							options,
-						),
+						...useColorShadeDesignTokens(s, colorVariable, meta.shadeLevels, options),
 					};
 				}
 
 				if (colorOverride?.generateTints ?? meta.generateTints) {
 					result = {
 						...result,
-						...useColorTintDesignTokens(
-							s,
-							colorVariable,
-							meta.tintLevels,
-							options,
-						),
+						...useColorTintDesignTokens(s, colorVariable, meta.tintLevels, options),
 					};
 				}
 			}
 
 			// Create reference color variables (shade/tint vars now exist)
 			if (Object.keys(referenceColorValues).length > 0) {
-				const referenceColors = useColorDesignTokens(
-					s,
-					referenceColorValues,
-					options,
-				);
+				const referenceColors = useColorDesignTokens(s, referenceColorValues, options);
 				result = { ...result, ...referenceColors };
 			}
 
@@ -378,16 +358,8 @@ const domains = [
 
 			// Materialize per-power variables so default fluidFontSizeValues
 			// can reference them via `@scale.min-powers.<n>` / `@scale.max-powers.<n>`.
-			const minPowers = useScalePowersDesignTokens(
-				s,
-				scaleMin,
-				scalePowerValues,
-			);
-			const maxPowers = useScalePowersDesignTokens(
-				s,
-				scaleMax,
-				scalePowerValues,
-			);
+			const minPowers = useScalePowersDesignTokens(s, scaleMin, scalePowerValues);
+			const maxPowers = useScalePowersDesignTokens(s, scaleMax, scalePowerValues);
 			for (const n of scalePowerValues) {
 				s.variable(`scale.min-powers.${n}`, minPowers[n], { default: true });
 				s.variable(`scale.max-powers.${n}`, maxPowers[n], { default: true });
@@ -418,9 +390,7 @@ const domains = [
  * Returns true unless the user explicitly opted out of fluid font size with `false`.
  * Default (undefined) is treated as enabled.
  */
-function isFluidFontSizeEnabled(
-	config: DesignTokensPresetConfig<boolean>,
-): boolean {
+function isFluidFontSizeEnabled(config: DesignTokensPresetConfig<boolean>): boolean {
 	return config.fluidFontSize !== false;
 }
 
@@ -429,10 +399,7 @@ function isFluidFontSizeEnabled(
  * Uses the domain's custom `enabled` predicate when provided, otherwise
  * falls back to checking that `config[camelCase(key)]` is not `false`.
  */
-function isDomainEnabled(
-	domain: Domain,
-	config: DesignTokensPresetConfig<boolean>,
-): boolean {
+function isDomainEnabled(domain: Domain, config: DesignTokensPresetConfig<boolean>): boolean {
 	if (domain.enabled) {
 		return domain.enabled(config);
 	}
@@ -446,10 +413,7 @@ function isDomainEnabled(
  * typography while disabling the scale or viewport it depends on) as a hard
  * error rather than producing partial output.
  */
-function assertDomainDependencies(
-	domain: Domain,
-	config: DesignTokensPresetConfig<boolean>,
-): void {
+function assertDomainDependencies(domain: Domain, config: DesignTokensPresetConfig<boolean>): void {
 	if (!domain.requires) {
 		return;
 	}
@@ -493,11 +457,9 @@ type DomainDefaultsMap = {
  * Extracts a domain's config type from TConfig, falling back to TDefault
  * when the key is not present in TConfig.
  */
-type GetDomainConfig<
-	TConfig,
-	K extends string,
-	TDefault,
-> = K extends keyof TConfig ? TConfig[K] : TDefault;
+type GetDomainConfig<TConfig, K extends string, TDefault> = K extends keyof TConfig
+	? TConfig[K]
+	: TDefault;
 
 /**
  * Extracts the merge flag from config by structural matching.
@@ -535,16 +497,14 @@ type FlatTokenResult<
 	TPrefix extends string,
 	TDefault extends Record<string, unknown>,
 	TMerge extends boolean = true,
-> = TConfig extends false
-	? {}
-	: ExportKeys<TPrefix, ResolveTokens<TConfig, TDefault, TMerge>>;
+> = TConfig extends false ? {} : ExportKeys<TPrefix, ResolveTokens<TConfig, TDefault, TMerge>>;
 
 /**
  * Helper to convert a union to an intersection
  */
-type UnionToIntersection<U> = (
-	U extends unknown ? (k: U) => void : never
-) extends (k: infer I) => void
+type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
+	k: infer I,
+) => void
 	? I
 	: never;
 
@@ -574,8 +534,9 @@ type BaseColorKeys<TColors extends Record<string, string>> = {
 /**
  * Generates all variation keys for all base colors in the record
  */
-type AllColorVariations<TColors extends Record<string, string>> =
-	UnionToIntersection<ColorVariationsForKey<BaseColorKeys<TColors>>>;
+type AllColorVariations<TColors extends Record<string, string>> = UnionToIntersection<
+	ColorVariationsForKey<BaseColorKeys<TColors>>
+>;
 
 /**
  * Resolves which color record to use based on config and merge flag.
@@ -591,10 +552,7 @@ type ResolvedColors<TColors, TMerge extends boolean = true> =
  * Color result type that strongly types base colors and all variations.
  * Returns {} for disabled colors so they contribute no keys to the flat intersection.
  */
-type FlatColorResult<
-	TColors,
-	TMerge extends boolean = true,
-> = TColors extends false
+type FlatColorResult<TColors, TMerge extends boolean = true> = TColors extends false
 	? {}
 	: ExportKeys<"color", ResolvedColors<TColors, TMerge>, "."> &
 			AllColorVariations<ResolvedColors<TColors, TMerge>>;
@@ -642,10 +600,7 @@ export interface MetaConfig {
 /**
  * Meta configuration with merge option typed for inference
  */
-export type MetaConfigWithMerge<TMerge extends boolean = true> = Omit<
-	MetaConfig,
-	"merge"
-> & {
+export type MetaConfigWithMerge<TMerge extends boolean = true> = Omit<MetaConfig, "merge"> & {
 	merge?: TMerge;
 };
 
@@ -689,10 +644,7 @@ export interface DesignTokensPresetConfig<TMerge extends boolean = true> {
 	 * - `false`: disable. The preset throws unless you also disable the
 	 *   dependent fluid domain via `fluidFontSize: false`.
 	 */
-	fluidViewport?:
-		| { minWidth?: TokenValue; maxWidth?: TokenValue }
-		| true
-		| false;
+	fluidViewport?: { minWidth?: TokenValue; maxWidth?: TokenValue } | true | false;
 	/**
 	 * Fluid font size configuration. When enabled (the default), the `font-size`
 	 * domain emits `--font-size--min` and `--font-size--max` as configurable
@@ -725,12 +677,7 @@ export interface DesignTokensPresetConfig<TMerge extends boolean = true> {
  */
 type ConfigurableDomainKeys = Exclude<
 	keyof DesignTokensPresetConfig,
-	| "meta"
-	| "scalePowers"
-	| "themes"
-	| "fluidViewport"
-	| "fluidFontSize"
-	| "fluidScale"
+	"meta" | "scalePowers" | "themes" | "fluidViewport" | "fluidFontSize" | "fluidScale"
 >;
 
 export type ThemeTokenOverrides = {
@@ -769,10 +716,7 @@ type IsFluidViewportEnabled<TConfig> = TConfig extends {
  * via `FluidFontSizeResult`; the static `font-size` keys remain in the type
  * (intersected as compatible `Variable` types).
  */
-type FlatSimpleDomainResults<
-	TConfig,
-	TMerge extends boolean,
-> = UnionToIntersection<
+type FlatSimpleDomainResults<TConfig, TMerge extends boolean> = UnionToIntersection<
 	{
 		[K in SimpleDomainKey]: FlatTokenResult<
 			GetDomainConfig<TConfig, CamelCase<K>, DomainDefaultsMap[K]>,
@@ -956,12 +900,8 @@ function collectThemeNames(
  * const power = scalePowers[-1];
  * ```
  */
-export function useDesignTokensPreset(
-	s: Styleframe,
-): DesignTokensPresetResult<{}, true>;
-export function useDesignTokensPreset<
-	TConfig extends DesignTokensPresetConfig<boolean>,
->(
+export function useDesignTokensPreset(s: Styleframe): DesignTokensPresetResult<{}, true>;
+export function useDesignTokensPreset<TConfig extends DesignTokensPresetConfig<boolean>>(
 	s: Styleframe,
 	config: TConfig,
 ): DesignTokensPresetResult<TConfig, ExtractMerge<TConfig>>;
@@ -987,12 +927,7 @@ export function useDesignTokensPreset(
 		assertDomainDependencies(entry, config);
 
 		if (entry.configurable === false) {
-			const domainResult = entry.composable(
-				s,
-				entry.defaults,
-				{ default: true },
-				context,
-			);
+			const domainResult = entry.composable(s, entry.defaults, { default: true }, context);
 			if (domainResult) {
 				// scalePowers stays nested (numeric keys)
 				if (configKey === "scalePowers") {
@@ -1023,12 +958,7 @@ export function useDesignTokensPreset(
 					: (configValue as Record<string, TokenValue>)
 				: entry.defaults;
 
-		const domainResult = entry.composable(
-			s,
-			values,
-			{ default: true },
-			context,
-		);
+		const domainResult = entry.composable(s, values, { default: true }, context);
 		if (domainResult) {
 			Object.assign(result, domainResult);
 		}
@@ -1038,8 +968,7 @@ export function useDesignTokensPreset(
 	const allThemeNames = collectThemeNames(config.themes);
 	for (const themeName of allThemeNames) {
 		s.theme(themeName, (ctx) => {
-			const userOverrides =
-				config.themes?.[themeName] ?? ({} as ThemeTokenOverrides);
+			const userOverrides = config.themes?.[themeName] ?? ({} as ThemeTokenOverrides);
 
 			for (const entry of domains) {
 				if (entry.configurable === false) {
@@ -1054,8 +983,7 @@ export function useDesignTokensPreset(
 				}
 
 				const themeValues =
-					userOverrides[configKey as keyof ThemeTokenOverrides] ??
-					entry.themes?.[themeName];
+					userOverrides[configKey as keyof ThemeTokenOverrides] ?? entry.themes?.[themeName];
 
 				if (themeValues && themeValues !== (false as unknown)) {
 					entry.composable(

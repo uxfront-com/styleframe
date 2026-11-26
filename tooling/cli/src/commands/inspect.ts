@@ -3,15 +3,10 @@ import type { InspectSnapshot } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+
 import { resolveConfigFile } from "../utils";
 
-const SECTIONS = [
-	"variables",
-	"themes",
-	"utilities",
-	"modifiers",
-	"recipes",
-] as const;
+const SECTIONS = ["variables", "themes", "utilities", "modifiers", "recipes"] as const;
 
 type Section = (typeof SECTIONS)[number];
 
@@ -43,10 +38,7 @@ const formatters: {
 	],
 };
 
-function formatSection<S extends Section>(
-	section: S,
-	items: InspectSnapshot[S],
-): string {
+function formatSection<S extends Section>(section: S, items: InspectSnapshot[S]): string {
 	const lines = (items as Array<InspectSnapshot[S][number]>).flatMap((item) =>
 		formatters[section](item).map((line) => `  ${line}`),
 	);
@@ -88,9 +80,7 @@ export default defineCommand({
 		}
 
 		if (section !== undefined && !isSection(section)) {
-			consola.error(
-				`Unknown section: ${section}. Use one of ${SECTIONS.join(", ")}.`,
-			);
+			consola.error(`Unknown section: ${section}. Use one of ${SECTIONS.join(", ")}.`);
 			process.exitCode = 1;
 			return;
 		}
@@ -105,9 +95,7 @@ export default defineCommand({
 		const sections = section ? [section] : SECTIONS;
 
 		if (args.json) {
-			const document = Object.fromEntries(
-				sections.map((name) => [name, snapshot[name]]),
-			);
+			const document = Object.fromEntries(sections.map((name) => [name, snapshot[name]]));
 			process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
 			return;
 		}

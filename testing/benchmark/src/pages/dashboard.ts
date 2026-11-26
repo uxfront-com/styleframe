@@ -217,8 +217,7 @@ export const styleframePage = page({
 	layout: "_display:flex",
 	sidebar:
 		"_width:60 _padding:lg _background:surface _border-style:solid _border-width:thin _border-color:neutral-200 _display:flex _flex-direction:column _gap:lg",
-	sidebarLabel:
-		"_font-size:xs _font-weight:semibold _color:text-weak _padding-bottom:xs",
+	sidebarLabel: "_font-size:xs _font-weight:semibold _color:text-weak _padding-bottom:xs",
 	sidebarList: "_list-style:none _display:flex _flex-direction:column _gap:xs",
 	sidebarItem:
 		"_color:text-weak _text-decoration:none _font-size:sm _padding-inline:sm _padding-block:xs _border-radius:md _display:block",
@@ -252,8 +251,7 @@ export const styleframePage = page({
 		"_display:inline-flex _font-size:xs _font-weight:medium _padding-inline:sm _padding-block:xs _border-radius:full _background:error-100 _color:error-700",
 	hero: "_background:primary-50 _border-radius:lg _padding:xl _margin-bottom:sm",
 	heroTitle: "_font-size:lg _font-weight:bold _color:text _margin-bottom:xs",
-	heroDesc:
-		"_font-size:sm _color:text-weak _margin-bottom:md _line-height:normal",
+	heroDesc: "_font-size:sm _color:text-weak _margin-bottom:md _line-height:normal",
 	heroActions: "_display:flex _gap:sm",
 	btnPrimary:
 		"_display:inline-flex _align-items:center _justify-content:center _background:primary _color:white _font-size:sm _font-weight:medium _padding-inline:lg _padding-block:sm _border-radius:md _border-style:none _cursor:pointer",
@@ -266,8 +264,7 @@ export const styleframePage = page({
 	formRow: "_display:flex _flex-direction:column _gap:xs",
 	formHelp: "_font-size:xs _color:text-weak",
 	chatWrap: "_display:flex _flex-direction:column _gap:sm",
-	chatBubble:
-		"_background:neutral-50 _border-radius:lg _padding:md _max-width:2xl",
+	chatBubble: "_background:neutral-50 _border-radius:lg _padding:md _max-width:2xl",
 	chatBubbleAlt:
 		"_background:primary-50 _border-radius:lg _padding:md _max-width:2xl _margin-inline:auto",
 	chatText: "_font-size:sm _color:text _line-height:normal",
@@ -288,8 +285,7 @@ export const styleframeShorthandPage = page({
 	navBrand: "_text:lg _font:bold _color:text",
 	navLinks: "_display:flex _gap:sm _list:none",
 	navLink: "_color:text-weak _text-decoration:none _text:sm _px:sm _py:xs",
-	navLinkActive:
-		"_color:primary _text-decoration:none _text:sm _font:medium _px:sm _py:xs",
+	navLinkActive: "_color:primary _text-decoration:none _text:sm _font:medium _px:sm _py:xs",
 	navRight: "_display:flex _items:center",
 	navAvatar: "_w:lg _h:lg _rounded:full _bg:primary-100",
 	layout: "_display:flex",
@@ -365,12 +361,10 @@ export const tailwindPage = page({
 	navRight: "flex items-center",
 	navAvatar: "w-lg h-lg rounded-full bg-primary-100",
 	layout: "flex",
-	sidebar:
-		"w-60 p-lg bg-surface border border-neutral-200 flex flex-col gap-lg",
+	sidebar: "w-60 p-lg bg-surface border border-neutral-200 flex flex-col gap-lg",
 	sidebarLabel: "text-xs font-semibold text-text-weak pb-xs",
 	sidebarList: "list-none flex flex-col gap-xs",
-	sidebarItem:
-		"text-text-weak no-underline text-sm px-sm py-xs rounded-md block",
+	sidebarItem: "text-text-weak no-underline text-sm px-sm py-xs rounded-md block",
 	sidebarItemActive:
 		"text-primary no-underline text-sm font-medium px-sm py-xs rounded-md bg-primary-50 block",
 	main: "p-xl flex flex-col gap-lg",
@@ -389,8 +383,7 @@ export const tailwindPage = page({
 	tableRow: "border-b border-neutral-100",
 	tableCell: "px-lg py-md text-sm text-text",
 	tableCellBold: "px-lg py-md text-sm font-medium text-text",
-	badge:
-		"inline-flex text-xs font-medium px-sm py-xs rounded-full bg-neutral-100 text-neutral-700",
+	badge: "inline-flex text-xs font-medium px-sm py-xs rounded-full bg-neutral-100 text-neutral-700",
 	badgeSuccess:
 		"inline-flex text-xs font-medium px-sm py-xs rounded-full bg-success-100 text-success-700",
 	badgeError:
@@ -405,8 +398,7 @@ export const tailwindPage = page({
 		"inline-flex items-center justify-center bg-transparent text-primary text-sm font-medium px-lg py-sm rounded-md border border-primary cursor-pointer",
 	formGroup: "flex flex-col gap-lg",
 	formLabel: "text-sm font-medium text-text",
-	formInput:
-		"px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
+	formInput: "px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
 	formRow: "flex flex-col gap-xs",
 	formHelp: "text-xs text-text-weak",
 	chatWrap: "flex flex-col gap-sm",
@@ -414,8 +406,7 @@ export const tailwindPage = page({
 	chatBubbleAlt: "bg-primary-50 rounded-lg p-md max-w-2xl mx-auto",
 	chatText: "text-sm text-text leading-normal",
 	chatMeta: "text-xs text-text-weak mt-xs",
-	footer:
-		"flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
+	footer: "flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
 	footerLink: "text-text-weak no-underline text-sm",
 	footerText: "text-sm text-text-weak",
 });

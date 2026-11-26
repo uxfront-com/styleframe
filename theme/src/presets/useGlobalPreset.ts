@@ -1,4 +1,5 @@
 import type { Styleframe } from "@styleframe/core";
+
 import {
 	useAbbrElement,
 	useAddressElement,
@@ -238,10 +239,7 @@ function mergeElementThemes<T>(
 	}
 
 	const merged: Record<string, T> = {};
-	const themeNames = new Set([
-		...Object.keys(elementThemes),
-		...Object.keys(centralThemes),
-	]);
+	const themeNames = new Set([...Object.keys(elementThemes), ...Object.keys(centralThemes)]);
 	for (const name of themeNames) {
 		merged[name] = {
 			...elementThemes[name],
@@ -280,11 +278,7 @@ export function useGlobalPreset(
 	if (config.address !== false) {
 		result.address = useAddressElement(
 			s,
-			buildElementOptions(
-				config.address || undefined,
-				config.themes,
-				"address",
-			),
+			buildElementOptions(config.address || undefined, config.themes, "address"),
 		);
 	}
 
@@ -298,11 +292,7 @@ export function useGlobalPreset(
 	if (config.heading !== false) {
 		result.heading = useHeadingElement(
 			s,
-			buildElementOptions(
-				config.heading || undefined,
-				config.themes,
-				"heading",
-			),
+			buildElementOptions(config.heading || undefined, config.themes, "heading"),
 		);
 	}
 
@@ -323,11 +313,7 @@ export function useGlobalPreset(
 	if (config.selection !== false) {
 		result.selection = useSelectionState(
 			s,
-			buildElementOptions(
-				config.selection || undefined,
-				config.themes,
-				"selection",
-			),
+			buildElementOptions(config.selection || undefined, config.themes, "selection"),
 		);
 	}
 
@@ -339,10 +325,7 @@ export function useGlobalPreset(
 	}
 
 	if (config.hr !== false) {
-		result.hr = useHrElement(
-			s,
-			buildElementOptions(config.hr || undefined, config.themes, "hr"),
-		);
+		result.hr = useHrElement(s, buildElementOptions(config.hr || undefined, config.themes, "hr"));
 	}
 
 	if (config.kbd !== false) {
@@ -362,11 +345,7 @@ export function useGlobalPreset(
 	if (config.caption !== false) {
 		result.caption = useCaptionElement(
 			s,
-			buildElementOptions(
-				config.caption || undefined,
-				config.themes,
-				"caption",
-			),
+			buildElementOptions(config.caption || undefined, config.themes, "caption"),
 		);
 	}
 
@@ -378,24 +357,15 @@ export function useGlobalPreset(
 	}
 
 	if (config.dl !== false) {
-		result.dl = useDlElement(
-			s,
-			buildElementOptions(config.dl || undefined, config.themes, "dl"),
-		);
+		result.dl = useDlElement(s, buildElementOptions(config.dl || undefined, config.themes, "dl"));
 	}
 
 	if (config.dt !== false) {
-		result.dt = useDtElement(
-			s,
-			buildElementOptions(config.dt || undefined, config.themes, "dt"),
-		);
+		result.dt = useDtElement(s, buildElementOptions(config.dt || undefined, config.themes, "dt"));
 	}
 
 	if (config.dd !== false) {
-		result.dd = useDdElement(
-			s,
-			buildElementOptions(config.dd || undefined, config.themes, "dd"),
-		);
+		result.dd = useDdElement(s, buildElementOptions(config.dd || undefined, config.themes, "dd"));
 	}
 
 	if (config.abbr !== false) {
@@ -413,27 +383,17 @@ export function useGlobalPreset(
 	}
 
 	if (config.ol !== false) {
-		result.ol = useOlElement(
-			s,
-			buildElementOptions(config.ol || undefined, config.themes, "ol"),
-		);
+		result.ol = useOlElement(s, buildElementOptions(config.ol || undefined, config.themes, "ol"));
 	}
 
 	if (config.ul !== false) {
-		result.ul = useUlElement(
-			s,
-			buildElementOptions(config.ul || undefined, config.themes, "ul"),
-		);
+		result.ul = useUlElement(s, buildElementOptions(config.ul || undefined, config.themes, "ul"));
 	}
 
 	if (config.paragraph !== false) {
 		result.paragraph = useParagraphElement(
 			s,
-			buildElementOptions(
-				config.paragraph || undefined,
-				config.themes,
-				"paragraph",
-			),
+			buildElementOptions(config.paragraph || undefined, config.themes, "paragraph"),
 		);
 	}
 

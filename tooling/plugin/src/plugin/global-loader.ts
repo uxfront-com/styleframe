@@ -1,3 +1,7 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
 import type { Styleframe } from "@styleframe/core";
 import {
 	clearJitiCache,
@@ -7,16 +11,14 @@ import {
 } from "@styleframe/loader";
 import type { ExportInfo } from "@styleframe/loader";
 import type { Jiti } from "jiti";
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-import type { PluginGlobalState } from "./state";
-import { findExportCollision, resetState } from "./state";
+
 import {
 	CircularDependencyError,
 	ExportCollisionError,
 	GlobalInstanceNotInitializedError,
 } from "./errors";
+import type { PluginGlobalState } from "./state";
+import { findExportCollision, resetState } from "./state";
 
 // Global key for injecting the global instance during loading
 // This is necessary because jiti loads files in a separate context,
@@ -119,8 +121,7 @@ export async function loadStyleframeFile(
 
 	try {
 		// Set the global instance on globalThis for the extension shim to access
-		(globalThis as Record<string, unknown>)[GLOBAL_INSTANCE_KEY] =
-			state.globalInstance;
+		(globalThis as Record<string, unknown>)[GLOBAL_INSTANCE_KEY] = state.globalInstance;
 
 		const { exports } = await loadExtensionModule(filePath, {
 			alias: {
@@ -167,9 +168,7 @@ export async function loadAllStyleframeFiles(
  * Includes the virtual:styleframe alias pointing to the extension shim.
  * Uses moduleCache: true so unchanged dependencies stay cached across reloads.
  */
-export function createPersistentJiti(
-	userAliases?: Record<string, string>,
-): Jiti {
+export function createPersistentJiti(userAliases?: Record<string, string>): Jiti {
 	return createSharedJiti({
 		alias: {
 			"virtual:styleframe": getExtensionShimPath(),
@@ -198,9 +197,7 @@ export async function reloadAll(
 ): Promise<void> {
 	// Save current state before resetting, so we can restore on failure
 	const previousGlobalInstance = state.globalInstance;
-	const previousConfigExports = state.configFile
-		? new Map(state.configFile.exports)
-		: null;
+	const previousConfigExports = state.configFile ? new Map(state.configFile.exports) : null;
 	const previousConfigLastModified = state.configFile?.lastModified ?? 0;
 	const previousFiles = new Map(state.files);
 

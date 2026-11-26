@@ -329,10 +329,7 @@ function indentStyle(depth: number) {
 					@mouseleave="hovered = null"
 				>
 					<span :class="pgFileTreeTwisty()">
-						<component
-							:is="isCollapsed(row.path) ? ChevronRight : ChevronDown"
-							:size="14"
-						/>
+						<component :is="isCollapsed(row.path) ? ChevronRight : ChevronDown" :size="14" />
 					</span>
 					<component :is="rowIcon(row)" :size="15" :class="pgFileTreeIcon()" />
 					<span :class="pgFileTreeLabel()">{{ row.label }}</span>
@@ -371,11 +368,7 @@ function indentStyle(depth: number) {
 				>
 					<span :class="pgFileTreeTwisty()" aria-hidden="true" />
 					<component :is="rowIcon(row)" :size="15" :class="pgFileTreeIcon()" />
-					<span
-						v-if="dirty?.[row.path]"
-						:class="pgFileTabDot()"
-						aria-label="Edited"
-					/>
+					<span v-if="dirty?.[row.path]" :class="pgFileTabDot()" aria-label="Edited" />
 					<span :class="pgFileTreeLabel()">{{ row.label }}</span>
 					<button
 						v-if="hasMenu(row)"

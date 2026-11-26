@@ -39,10 +39,7 @@ export interface SanitizeConfig {
  * @param s - The Styleframe instance to register selectors with
  * @param config - Configuration for which categories to apply
  */
-export function useSanitizePreset(
-	s: Styleframe,
-	config: SanitizeConfig = {},
-): void {
+export function useSanitizePreset(s: Styleframe, config: SanitizeConfig = {}): void {
 	if (config.base !== false) {
 		useSanitizeBaseSelectors(s);
 	}

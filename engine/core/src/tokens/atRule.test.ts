@@ -1,10 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import type { AtRule, Root, Selector } from "../types";
-import {
-	createAtRuleFunction,
-	createKeyframesFunction,
-	createMediaFunction,
-} from "./atRule";
+import { createAtRuleFunction, createKeyframesFunction, createMediaFunction } from "./atRule";
 import { createRoot } from "./root";
 import { createSelectorFunction } from "./selector";
 import { createVariableFunction } from "./variable";
@@ -128,16 +125,12 @@ describe("createAtRuleFunction", () => {
 		});
 
 		it("should create a supports at-rule with multiple conditions", () => {
-			const result = atRule(
-				"supports",
-				"(display: grid) and (gap: 1rem)",
-				({ selector }) => {
-					selector(".modern-grid", {
-						display: "grid",
-						gap: "1rem",
-					});
-				},
-			);
+			const result = atRule("supports", "(display: grid) and (gap: 1rem)", ({ selector }) => {
+				selector(".modern-grid", {
+					display: "grid",
+					gap: "1rem",
+				});
+			});
 
 			expect(result.identifier).toBe("supports");
 			expect(result.rule).toBe("(display: grid) and (gap: 1rem)");
@@ -362,21 +355,17 @@ describe("createAtRuleFunction", () => {
 		});
 
 		it("should support deep nesting with multiple at-rules", () => {
-			const result = atRule(
-				"supports",
-				"(display: grid)",
-				({ atRule, selector }) => {
-					atRule("media", "(min-width: 768px)", ({ atRule }) => {
-						atRule("container", "(min-width: 500px)", {
-							display: "grid",
-						});
+			const result = atRule("supports", "(display: grid)", ({ atRule, selector }) => {
+				atRule("media", "(min-width: 768px)", ({ atRule }) => {
+					atRule("container", "(min-width: 500px)", {
+						display: "grid",
 					});
+				});
 
-					selector(".fallback", {
-						display: "flex",
-					});
-				},
-			);
+				selector(".fallback", {
+					display: "flex",
+				});
+			});
 
 			const nestedMedia = result.children[0] as AtRule;
 			expect(nestedMedia.type).toBe("at-rule");
@@ -537,14 +526,11 @@ describe("createMediaFunction", () => {
 		it("should work with root context", () => {
 			const mediaWithRootContext = createMediaFunction(root, root);
 
-			const result = mediaWithRootContext(
-				"(min-width: 768px)",
-				({ selector }) => {
-					selector(".root-selector", {
-						margin: "0 auto",
-					});
-				},
-			);
+			const result = mediaWithRootContext("(min-width: 768px)", ({ selector }) => {
+				selector(".root-selector", {
+					margin: "0 auto",
+				});
+			});
 
 			expect(result.children[0]).toEqual({
 				type: "selector",
@@ -661,16 +647,11 @@ describe("createMediaFunction", () => {
 		});
 
 		it("should handle resolution queries", () => {
-			const result = media(
-				"(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)",
-				{
-					backgroundImage: 'url("image@2x.png")',
-				},
-			);
+			const result = media("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)", {
+				backgroundImage: 'url("image@2x.png")',
+			});
 
-			expect(result.rule).toBe(
-				"(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)",
-			);
+			expect(result.rule).toBe("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)");
 			// A retina URL's mid-token @ must stay a literal string, not parse as
 			// a reference (no throw, no dead var(--2x--png)). See SF-33.
 			expect(result.declarations.backgroundImage).toBe('url("image@2x.png")');
@@ -826,15 +807,12 @@ describe("createMediaFunction", () => {
 		it("should support breakpoint variables", () => {
 			const breakpointMd = variable("breakpoint-md", "768px");
 
-			const result = media(
-				`(min-width: ${breakpointMd.value})`,
-				({ selector, variable }) => {
-					const spacing = variable("tablet-spacing", "1.5rem");
-					selector(".responsive-container", {
-						padding: spacing.value as string,
-					});
-				},
-			);
+			const result = media(`(min-width: ${breakpointMd.value})`, ({ selector, variable }) => {
+				const spacing = variable("tablet-spacing", "1.5rem");
+				selector(".responsive-container", {
+					padding: spacing.value as string,
+				});
+			});
 
 			expect(result.children).toHaveLength(1); // selector
 			expect(result.variables).toHaveLength(1); // variable
@@ -852,15 +830,12 @@ describe("createMediaFunction", () => {
 		});
 
 		it("should support reduced motion queries", () => {
-			const result = media(
-				"(prefers-reduced-motion: reduce)",
-				({ selector }) => {
-					selector(".animated", {
-						animation: "none",
-						transition: "none",
-					});
-				},
-			);
+			const result = media("(prefers-reduced-motion: reduce)", ({ selector }) => {
+				selector(".animated", {
+					animation: "none",
+					transition: "none",
+				});
+			});
 
 			expect(result.rule).toBe("(prefers-reduced-motion: reduce)");
 		});
@@ -927,8 +902,7 @@ describe("createMediaFunction", () => {
 		});
 
 		it("should handle special characters in media queries", () => {
-			const complexQuery =
-				"screen and (min-width: 768px) and (max-width: 1023.98px)";
+			const complexQuery = "screen and (min-width: 768px) and (max-width: 1023.98px)";
 			const result = media(complexQuery, {});
 
 			expect(result.rule).toBe(complexQuery);

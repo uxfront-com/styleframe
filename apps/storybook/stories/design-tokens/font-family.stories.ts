@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { fontFamilyValues } from "@styleframe/theme";
+
 import FontFamilySwatch from "../../src/components/design-tokens/typography/FontFamilySwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 

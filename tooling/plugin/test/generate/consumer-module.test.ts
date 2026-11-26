@@ -1,7 +1,8 @@
+import type { Styleframe } from "@styleframe/core";
 import { describe, expect, it, vi, beforeEach } from "vitest";
+
 import { generateConsumerModule } from "../../src/plugin/generate/consumer-module";
 import type { PluginGlobalState } from "../../src/plugin/state";
-import type { Styleframe } from "@styleframe/core";
 
 vi.mock("@styleframe/transpiler", () => ({
 	transpile: vi.fn(),
@@ -10,9 +11,7 @@ vi.mock("@styleframe/transpiler", () => ({
 import { transpile } from "@styleframe/transpiler";
 
 describe("generateConsumerModule", () => {
-	const createMockState = (
-		globalInstance: Styleframe | null = null,
-	): PluginGlobalState => ({
+	const createMockState = (globalInstance: Styleframe | null = null): PluginGlobalState => ({
 		globalInstance,
 		configFile: {
 			path: "/path/to/config.ts",

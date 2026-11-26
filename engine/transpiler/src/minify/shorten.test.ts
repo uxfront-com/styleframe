@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
 import type { ShorteningMap } from "@styleframe/core";
-import { shortenUtilityOptions, buildClassNameLookup } from "./shorten";
 import type { Root, Utility } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
+import { shortenUtilityOptions, buildClassNameLookup } from "./shorten";
 
 const map: ShorteningMap = {
 	p: {
@@ -24,18 +25,12 @@ const map: ShorteningMap = {
 
 describe("shortenUtilityOptions", () => {
 	it("shortens property and value", () => {
-		const result = shortenUtilityOptions(
-			{ name: "color", value: "primary", modifiers: [] },
-			map,
-		);
+		const result = shortenUtilityOptions({ name: "color", value: "primary", modifiers: [] }, map);
 		expect(result).toEqual({ name: "c", value: "pr", modifiers: [] });
 	});
 
 	it("shortens property only when value is not in map", () => {
-		const result = shortenUtilityOptions(
-			{ name: "margin-top", value: "2", modifiers: [] },
-			map,
-		);
+		const result = shortenUtilityOptions({ name: "margin-top", value: "2", modifiers: [] }, map);
 		expect(result).toEqual({ name: "mt", value: "2", modifiers: [] });
 	});
 
@@ -76,10 +71,7 @@ describe("shortenUtilityOptions", () => {
 	});
 
 	it("preserves default value", () => {
-		const result = shortenUtilityOptions(
-			{ name: "color", value: "default", modifiers: [] },
-			map,
-		);
+		const result = shortenUtilityOptions({ name: "color", value: "default", modifiers: [] }, map);
 		expect(result).toEqual({ name: "c", value: "default", modifiers: [] });
 	});
 
@@ -92,10 +84,7 @@ describe("shortenUtilityOptions", () => {
 	});
 
 	it("preserves hash values", () => {
-		const result = shortenUtilityOptions(
-			{ name: "color", value: "#1E3A8A", modifiers: [] },
-			map,
-		);
+		const result = shortenUtilityOptions({ name: "color", value: "#1E3A8A", modifiers: [] }, map);
 		expect(result).toEqual({ name: "c", value: "#1E3A8A", modifiers: [] });
 	});
 
@@ -158,9 +147,7 @@ describe("buildClassNameLookup", () => {
 	});
 
 	it("includes utilities with a single modifier", () => {
-		const root = createMockRoot([
-			{ name: "color", value: "primary", modifiers: ["hover"] },
-		]);
+		const root = createMockRoot([{ name: "color", value: "primary", modifiers: ["hover"] }]);
 
 		const lookup = buildClassNameLookup(root, map);
 		expect(lookup["_hover:color:primary"]).toBe("_h:c:pr");
@@ -178,30 +165,21 @@ describe("buildClassNameLookup", () => {
 
 		const lookup = buildClassNameLookup(root, map);
 		expect(lookup["_hover:focus:color:primary"]).toBe("_h:f:c:pr");
-		expect(lookup["_hover:focus:focus-within:border-width:medium"]).toBe(
-			"_h:f:fw:bw:me",
-		);
+		expect(lookup["_hover:focus:focus-within:border-width:medium"]).toBe("_h:f:fw:bw:me");
 	});
 
 	it("skips entries where full and short names are identical", () => {
-		const root = createMockRoot([
-			{ name: "unknown", value: "thing", modifiers: [] },
-		]);
+		const root = createMockRoot([{ name: "unknown", value: "thing", modifiers: [] }]);
 
 		const lookup = buildClassNameLookup(root, map);
 		expect(lookup["_unknown:thing"]).toBeUndefined();
 	});
 
 	it("uses custom selector function", () => {
-		const root = createMockRoot([
-			{ name: "color", value: "primary", modifiers: [] },
-		]);
+		const root = createMockRoot([{ name: "color", value: "primary", modifiers: [] }]);
 
-		const customFn = (opts: {
-			name: string;
-			value: string;
-			modifiers: Array<string>;
-		}) => `u-${opts.name}-${opts.value}`;
+		const customFn = (opts: { name: string; value: string; modifiers: Array<string> }) =>
+			`u-${opts.name}-${opts.value}`;
 
 		const lookup = buildClassNameLookup(root, map, customFn);
 		expect(lookup["u-color-primary"]).toBe("u-c-pr");

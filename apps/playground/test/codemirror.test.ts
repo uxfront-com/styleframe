@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import type { EditorView } from "@codemirror/view";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import {
 	createEditor,
 	getEditorSelection,
@@ -10,9 +11,7 @@ import {
 
 const openEditors: Array<EditorView> = [];
 
-function mount(
-	overrides: Partial<Parameters<typeof createEditor>[0]> = {},
-): EditorView {
+function mount(overrides: Partial<Parameters<typeof createEditor>[0]> = {}): EditorView {
 	const parent = document.createElement("div");
 	document.body.append(parent);
 	const view = createEditor({

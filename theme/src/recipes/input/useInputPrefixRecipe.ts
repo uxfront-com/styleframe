@@ -7,7 +7,4 @@ import { createFieldAddonRecipe } from "./createFieldRecipe";
  * caret. Distinct from `input-prepend`, which renders an OUTSIDE joined block
  * alongside the input.
  */
-export const useInputPrefixRecipe = createFieldAddonRecipe(
-	"input-prefix",
-	"paddingInlineEnd",
-);
+export const useInputPrefixRecipe = createFieldAddonRecipe("input-prefix", "paddingInlineEnd");

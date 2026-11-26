@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
+
 import { initRealEsbuild } from "./helpers/esbuild";
 
 vi.mock("@/pipeline/esbuild", () => ({
@@ -63,8 +64,7 @@ describe("bundlePreview", () => {
 				].join("\n"),
 				"helper.ts": 'export const tsHelper = "PG_TS_VALUE";',
 				"util.js": 'export const jsUtil = "PG_JS_VALUE";',
-				"widget.jsx":
-					"export default function Widget(){ return <span>w</span>; }",
+				"widget.jsx": "export default function Widget(){ return <span>w</span>; }",
 				"styles.css": ".pg-user { color: red; }",
 			},
 			entryPath: "App.tsx",

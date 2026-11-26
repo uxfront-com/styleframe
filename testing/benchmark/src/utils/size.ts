@@ -1,4 +1,5 @@
 import { gzipSync } from "node:zlib";
+
 import type { SizeMeasurement } from "../types";
 
 export function measureBytes(content: string): number {
@@ -24,9 +25,7 @@ export function extractClassAttributes(html: string): Array<string> {
 }
 
 export function classCountsPerElement(html: string): Array<number> {
-	return extractClassAttributes(html).map(
-		(attr) => attr.trim().split(/\s+/).length,
-	);
+	return extractClassAttributes(html).map((attr) => attr.trim().split(/\s+/).length);
 }
 
 export function p95(values: Array<number>): number {
@@ -42,8 +41,7 @@ export function measure(html: string, css: string): SizeMeasurement {
 	const counts = classCountsPerElement(html);
 	const totalClasses = counts.reduce((sum, c) => sum + c, 0);
 	const elementsWithClasses = counts.length;
-	const avg =
-		elementsWithClasses === 0 ? 0 : totalClasses / elementsWithClasses;
+	const avg = elementsWithClasses === 0 ? 0 : totalClasses / elementsWithClasses;
 
 	return {
 		rawHtmlBytes: measureBytes(html),

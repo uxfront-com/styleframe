@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-	splitLongRoutes,
-	VERCEL_ROUTE_SRC_LIMIT,
-} from "../modules/vercelRouteLimit";
+
+import { splitLongRoutes, VERCEL_ROUTE_SRC_LIMIT } from "../modules/vercelRouteLimit";
 
 describe("splitLongRoutes", () => {
 	const paths = Array.from(
@@ -30,9 +28,7 @@ describe("splitLongRoutes", () => {
 
 	it("keeps every path, in order", () => {
 		const routes = splitLongRoutes([vary]);
-		const split = routes.flatMap((route) =>
-			route.src.replaceAll(/^\^\(|\)\$$/g, "").split("|"),
-		);
+		const split = routes.flatMap((route) => route.src.replaceAll(/^\^\(|\)\$$/g, "").split("|"));
 
 		expect(split).toEqual(paths);
 	});

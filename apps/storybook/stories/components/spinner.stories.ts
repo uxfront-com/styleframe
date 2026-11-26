@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Spinner from "../../src/components/components/spinner/Spinner.vue";
-import SpinnerOverlay from "../../src/components/components/spinner/SpinnerOverlay.vue";
 import SpinnerGrid from "../../src/components/components/spinner/preview/SpinnerGrid.vue";
 import SpinnerSizeGrid from "../../src/components/components/spinner/preview/SpinnerSizeGrid.vue";
+import Spinner from "../../src/components/components/spinner/Spinner.vue";
+import SpinnerOverlay from "../../src/components/components/spinner/SpinnerOverlay.vue";
 
 const colors = ["primary", "light", "dark", "neutral"] as const;
 const sizes = ["auto", "sm", "md", "lg", "inherit"] as const;
@@ -98,8 +98,7 @@ export const Neutral: Story = {
 export const Auto: StoryObj = {
 	render: () => ({
 		components: { Spinner },
-		template:
-			'<div class="_width:[100px] _height:[100px]"><Spinner size="auto" /></div>',
+		template: '<div class="_width:[100px] _height:[100px]"><Spinner size="auto" /></div>',
 	}),
 };
 

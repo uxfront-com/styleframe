@@ -1,9 +1,7 @@
 import type { Root, ShorteningMap } from "@styleframe/core";
 import { hashValue } from "@styleframe/core";
-import {
-	defaultModifierShortNames,
-	defaultPropertyShortNames,
-} from "./defaults";
+
+import { defaultModifierShortNames, defaultPropertyShortNames } from "./defaults";
 
 export type ShorteningMapDefaults = {
 	properties?: Record<string, string>;
@@ -93,10 +91,7 @@ function buildMap(
 	return result;
 }
 
-export function generateShorteningMap(
-	root: Root,
-	defaults?: ShorteningMapDefaults,
-): ShorteningMap {
+export function generateShorteningMap(root: Root, defaults?: ShorteningMapDefaults): ShorteningMap {
 	const propertyNames = root.utilities.map((u) => u.name);
 	const modifierKeys = root.modifiers.flatMap((m) => m.key);
 

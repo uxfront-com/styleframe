@@ -138,10 +138,7 @@ export interface Breadcrumb {
  * The trail to a page. Give it only items that are pages: a sidebar group with
  * no page of its own, like Theme, would send the crawler to a 404.
  */
-export function breadcrumbList(
-	siteUrl: string,
-	pages: Array<Breadcrumb>,
-): JsonLdNode | undefined {
+export function breadcrumbList(siteUrl: string, pages: Array<Breadcrumb>): JsonLdNode | undefined {
 	if (!pages.length) {
 		return undefined;
 	}

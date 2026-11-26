@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genReferenceVariable } from "./genReferenceVariable";
 
 describe("genReferenceVariable", () => {
@@ -83,31 +84,18 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle gradient as fallback", () => {
-		const result = genReferenceVariable(
-			"gradient",
-			"linear-gradient(to right, red, blue)",
-		);
-		expect(result).toBe(
-			"var(--gradient, linear-gradient(to right, red, blue))",
-		);
+		const result = genReferenceVariable("gradient", "linear-gradient(to right, red, blue)");
+		expect(result).toBe("var(--gradient, linear-gradient(to right, red, blue))");
 	});
 
 	it("should handle shadow as fallback", () => {
-		const result = genReferenceVariable(
-			"shadow",
-			"0 4px 6px rgba(0, 0, 0, 0.1)",
-		);
+		const result = genReferenceVariable("shadow", "0 4px 6px rgba(0, 0, 0, 0.1)");
 		expect(result).toBe("var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1))");
 	});
 
 	it("should handle font-family as fallback", () => {
-		const result = genReferenceVariable(
-			"font-stack",
-			"'Helvetica Neue', Arial, sans-serif",
-		);
-		expect(result).toBe(
-			"var(--font-stack, 'Helvetica Neue', Arial, sans-serif)",
-		);
+		const result = genReferenceVariable("font-stack", "'Helvetica Neue', Arial, sans-serif");
+		expect(result).toBe("var(--font-stack, 'Helvetica Neue', Arial, sans-serif)");
 	});
 
 	it("should handle transition timing as fallback", () => {
@@ -116,18 +104,12 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle transform as fallback", () => {
-		const result = genReferenceVariable(
-			"transform",
-			"rotate(45deg) scale(1.5)",
-		);
+		const result = genReferenceVariable("transform", "rotate(45deg) scale(1.5)");
 		expect(result).toBe("var(--transform, rotate(45deg) scale(1.5))");
 	});
 
 	it("should handle url() as fallback", () => {
-		const result = genReferenceVariable(
-			"background-image",
-			"url('default.jpg')",
-		);
+		const result = genReferenceVariable("background-image", "url('default.jpg')");
 		expect(result).toBe("var(--background-image, url('default.jpg'))");
 	});
 
@@ -242,10 +224,7 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle cubic-bezier as fallback", () => {
-		const result = genReferenceVariable(
-			"easing",
-			"cubic-bezier(0.4, 0, 0.2, 1)",
-		);
+		const result = genReferenceVariable("easing", "cubic-bezier(0.4, 0, 0.2, 1)");
 		expect(result).toBe("var(--easing, cubic-bezier(0.4, 0, 0.2, 1))");
 	});
 
@@ -259,9 +238,7 @@ describe("genReferenceVariable", () => {
 			"shadows",
 			"0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
 		);
-		expect(result).toBe(
-			"var(--shadows, 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24))",
-		);
+		expect(result).toBe("var(--shadows, 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24))");
 	});
 
 	it("should handle grid template as fallback", () => {
@@ -330,13 +307,8 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle data URI as fallback", () => {
-		const result = genReferenceVariable(
-			"icon",
-			"url('data:image/svg+xml;base64,PHN2ZyB4...')",
-		);
-		expect(result).toBe(
-			"var(--icon, url('data:image/svg+xml;base64,PHN2ZyB4...'))",
-		);
+		const result = genReferenceVariable("icon", "url('data:image/svg+xml;base64,PHN2ZyB4...')");
+		expect(result).toBe("var(--icon, url('data:image/svg+xml;base64,PHN2ZyB4...'))");
 	});
 
 	it("should handle undefined fallback", () => {
@@ -360,10 +332,7 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle comma-separated fallback values", () => {
-		const result = genReferenceVariable(
-			"fonts",
-			"Arial, Helvetica, sans-serif",
-		);
+		const result = genReferenceVariable("fonts", "Arial, Helvetica, sans-serif");
 		expect(result).toBe("var(--fonts, Arial, Helvetica, sans-serif)");
 	});
 
@@ -373,10 +342,7 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle complex nested calc as fallback", () => {
-		const result = genReferenceVariable(
-			"width",
-			"calc(100% - calc(20px + 2em))",
-		);
+		const result = genReferenceVariable("width", "calc(100% - calc(20px + 2em))");
 		expect(result).toBe("var(--width, calc(100% - calc(20px + 2em)))");
 	});
 

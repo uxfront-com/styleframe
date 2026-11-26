@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useTabsListRecipe } from "./useTabsListRecipe";
 
@@ -49,22 +50,14 @@ describe("useTabsListRecipe", () => {
 			const s = createInstance();
 			const recipe = useTabsListRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have the line/pill/soft variant axis", () => {
 			const s = createInstance();
 			const recipe = useTabsListRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"line",
-				"pill",
-				"soft",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["line", "pill", "soft"]);
 		});
 
 		it("should flip flex direction per orientation", () => {
@@ -125,8 +118,7 @@ describe("useTabsListRecipe", () => {
 			const recipe = useTabsListRecipe(s);
 
 			const cv = recipe.compoundVariants!.find(
-				(v) =>
-					v.match.variant === "line" && v.match.orientation === "horizontal",
+				(v) => v.match.variant === "line" && v.match.orientation === "horizontal",
 			);
 
 			expect(cv).toEqual({

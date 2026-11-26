@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useTabsRecipe } from "./useTabsRecipe";
 
 function createInstance() {

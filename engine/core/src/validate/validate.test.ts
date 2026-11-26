@@ -42,8 +42,7 @@ describe("validate", () => {
 				{
 					code: "unresolved-reference",
 					severity: "warning",
-					message:
-						'Reference "@color.brnad" resolves to no variable. Did you mean "@color.brand"?',
+					message: 'Reference "@color.brnad" resolves to no variable. Did you mean "@color.brand"?',
 					path: 'recipe "button" › base › background',
 					suggestion: "color.brand",
 				},
@@ -66,15 +65,10 @@ describe("validate", () => {
 				],
 			});
 
-			expect(
-				validate(s).map(({ path, suggestion }) => [path, suggestion]),
-			).toEqual([
+			expect(validate(s).map(({ path, suggestion }) => [path, suggestion])).toEqual([
 				['recipe "button" › base › hover › background', undefined],
 				['recipe "button" › variants › tone › solid › background', undefined],
-				[
-					'recipe "button" › compoundVariants[0] › hover:enabled › background',
-					"color.brand-hover",
-				],
+				['recipe "button" › compoundVariants[0] › hover:enabled › background', "color.brand-hover"],
 			]);
 		});
 
@@ -150,9 +144,7 @@ describe("validate", () => {
 			const s = createInstance();
 			s.selector(".a", { color: s.ref("color.bxxxd") });
 
-			expect(validate(s)).toEqual([
-				expect.not.objectContaining({ suggestion: expect.anything() }),
-			]);
+			expect(validate(s)).toEqual([expect.not.objectContaining({ suggestion: expect.anything() })]);
 		});
 
 		it("suggests a variable from the enclosing selector", () => {
@@ -162,9 +154,7 @@ describe("validate", () => {
 				selector(".b", { width: s.ref("gutter-sise") });
 			});
 
-			expect(validate(s)).toEqual([
-				expect.objectContaining({ suggestion: "gutter-size" }),
-			]);
+			expect(validate(s)).toEqual([expect.objectContaining({ suggestion: "gutter-size" })]);
 		});
 
 		it("resolves root variables after merge()", () => {
@@ -238,8 +228,7 @@ describe("validate", () => {
 			expect(validate(s)).toEqual([
 				expect.objectContaining({
 					code: "duplicate-variable",
-					message:
-						'Variable "spacing" is defined twice: "2rem", then "3rem". The last value wins.',
+					message: 'Variable "spacing" is defined twice: "2rem", then "3rem". The last value wins.',
 				}),
 			]);
 		});
@@ -284,8 +273,6 @@ describe("validate", () => {
 		const s = createInstance({ strict: true });
 		s.recipe({ name: "button", base: { background: "@color.brnad" } });
 
-		expect(validate(s)).toEqual([
-			expect.objectContaining({ severity: "error" }),
-		]);
+		expect(validate(s)).toEqual([expect.objectContaining({ severity: "error" })]);
 	});
 });

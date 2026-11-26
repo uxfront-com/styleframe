@@ -9,6 +9,7 @@
  */
 
 import { parse as parseCss } from "culori";
+
 import type { DTCGColor } from "../types/color";
 import { culoriToDtcg } from "./culori-bridge";
 
@@ -18,9 +19,7 @@ export function parse(input: string): DTCGColor | undefined {
 		return undefined;
 	}
 	try {
-		return culoriToDtcg(
-			parsed as unknown as Parameters<typeof culoriToDtcg>[0],
-		);
+		return culoriToDtcg(parsed as unknown as Parameters<typeof culoriToDtcg>[0]);
 	} catch {
 		return undefined;
 	}

@@ -1,12 +1,9 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
+
 import type { Root } from "../types";
 import { hashValue } from "../utils/hash";
 import { createModifierFunction } from "./modifier";
-import {
-	createRecipeFunction,
-	processRecipeUtilities,
-	registerRecipeUtilities,
-} from "./recipe";
+import { createRecipeFunction, processRecipeUtilities, registerRecipeUtilities } from "./recipe";
 import { createRoot } from "./root";
 import { createUtilityFunction } from "./utility";
 
@@ -70,9 +67,7 @@ describe("createRecipeFunction", () => {
 		expect(root.recipes[0]).toBe(instance);
 
 		// Ensure no selectors/variables were created (only utilities from registration)
-		const nonUtilityChildren = root.children.filter(
-			(child) => child.type !== "utility",
-		);
+		const nonUtilityChildren = root.children.filter((child) => child.type !== "utility");
 		expect(nonUtilityChildren).toHaveLength(0);
 	});
 
@@ -568,9 +563,7 @@ describe("processRecipeUtilities", () => {
 			// Check that there's a utility with both modifiers
 			const hoverFocusBoxShadow = boxShadowUtilities.find(
 				(u) =>
-					u.type === "utility" &&
-					u.modifiers?.includes("hover") &&
-					u.modifiers?.includes("focus"),
+					u.type === "utility" && u.modifiers?.includes("hover") && u.modifiers?.includes("focus"),
 			);
 			expect(hoverFocusBoxShadow).toBeDefined();
 		});
@@ -805,9 +798,7 @@ describe("processRecipeUtilities", () => {
 
 			processRecipeUtilities(instance, root);
 
-			expect(warnSpy).not.toHaveBeenCalledWith(
-				expect.stringContaining('Modifier "&"'),
-			);
+			expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining('Modifier "&"'));
 
 			warnSpy.mockRestore();
 		});
@@ -945,9 +936,7 @@ describe("processRecipeUtilities", () => {
 
 			processRecipeUtilities(instance, root);
 
-			expect(warnSpy).not.toHaveBeenCalledWith(
-				expect.stringContaining('Modifier "&"'),
-			);
+			expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining('Modifier "&"'));
 
 			warnSpy.mockRestore();
 		});
@@ -1757,9 +1746,7 @@ describe("generateRecipeRuntime", () => {
 
 		expect(root._usage.utilities.size).toBe(0);
 		expect(root._usage.recipeUtilities.has("button")).toBe(true);
-		expect(root._usage.recipeUtilities.get("button")).toEqual(
-			new Set(["_padding:[1rem]"]),
-		);
+		expect(root._usage.recipeUtilities.get("button")).toEqual(new Set(["_padding:[1rem]"]));
 	});
 
 	test("should track multiple recipes independently in recipeUtilities", () => {
@@ -1779,12 +1766,8 @@ describe("generateRecipeRuntime", () => {
 		});
 
 		expect(root._usage.recipeUtilities.size).toBe(2);
-		expect(root._usage.recipeUtilities.get("button")).toEqual(
-			new Set(["_padding:[1rem]"]),
-		);
-		expect(root._usage.recipeUtilities.get("badge")).toEqual(
-			new Set(["_background:[blue]"]),
-		);
+		expect(root._usage.recipeUtilities.get("button")).toEqual(new Set(["_padding:[1rem]"]));
+		expect(root._usage.recipeUtilities.get("badge")).toEqual(new Set(["_background:[blue]"]));
 	});
 });
 
@@ -1808,9 +1791,7 @@ describe("registerRecipeUtilities", () => {
 
 		registerRecipeUtilities(root);
 
-		expect(root._usage.utilities).toEqual(
-			new Set(["_padding:[1rem]", "_background:[blue]"]),
-		);
+		expect(root._usage.utilities).toEqual(new Set(["_padding:[1rem]", "_background:[blue]"]));
 	});
 
 	test("should promote only named recipes when called with a set", () => {

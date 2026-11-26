@@ -3,12 +3,12 @@ import { ref } from "vue";
 
 import Button from "@/components/components/button/Button.vue";
 import Modal from "@/components/components/modal/Modal.vue";
-import ModalOverlay from "@/components/components/modal/ModalOverlay.vue";
-import ModalHeader from "@/components/components/modal/ModalHeader.vue";
 import ModalBody from "@/components/components/modal/ModalBody.vue";
-import ModalFooter from "@/components/components/modal/ModalFooter.vue";
-import ModalTitle from "@/components/components/modal/ModalTitle.vue";
 import ModalDescription from "@/components/components/modal/ModalDescription.vue";
+import ModalFooter from "@/components/components/modal/ModalFooter.vue";
+import ModalHeader from "@/components/components/modal/ModalHeader.vue";
+import ModalOverlay from "@/components/components/modal/ModalOverlay.vue";
+import ModalTitle from "@/components/components/modal/ModalTitle.vue";
 import ModalGrid from "@/components/components/modal/preview/ModalGrid.vue";
 import ModalSizeGrid from "@/components/components/modal/preview/ModalSizeGrid.vue";
 

@@ -1,7 +1,8 @@
 import type { StyleframeOptions, Theme } from "@styleframe/core";
+
+import { defaultThemeSelectorFn } from "../../defaults";
 import type { ConsumeFunction } from "../../types";
 import { createContainerConsumer } from "./container";
-import { defaultThemeSelectorFn } from "../../defaults";
 
 export function createThemeConsumer(consume: ConsumeFunction) {
 	const consumeContainer = createContainerConsumer(consume);

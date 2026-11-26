@@ -1,8 +1,8 @@
 {
 	"name": "@styleframe/app-shared",
-	"type": "module",
-	"private": true,
 	"version": "2.0.3",
+	"private": true,
+	"type": "module",
 	"scripts": {
 		"postinstall": "nuxt prepare"
 	},
@@ -14,11 +14,11 @@
 		"@nuxtjs/i18n": "catalog:nuxt",
 		"@nuxtjs/mdc": "catalog:nuxt",
 		"@nuxtjs/robots": "catalog:nuxt",
+		"defu": "catalog:",
 		"git-url-parse": "catalog:nuxt",
 		"nuxt": "catalog:nuxt",
 		"nuxt-llms": "catalog:nuxt",
 		"nuxt-og-image": "catalog:nuxt",
-		"defu": "catalog:",
 		"pkg-types": "catalog:nuxt",
 		"posthog-js": "catalog:nuxt",
 		"tailwindcss": "catalog:nuxt",

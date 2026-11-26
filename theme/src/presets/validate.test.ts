@@ -1,4 +1,5 @@
 import { styleframe, validate } from "@styleframe/core";
+
 import * as recipes from "../recipes";
 import { useDesignTokensPreset } from "./useDesignTokensPreset";
 import { useModifiersPreset } from "./useModifiersPreset";
@@ -12,8 +13,7 @@ describe("validate with every preset and recipe", () => {
 		useUtilitiesPreset(s);
 
 		const recipeComposables = Object.entries(recipes).filter(
-			([name, value]) =>
-				/^use\w+Recipe$/.test(name) && typeof value === "function",
+			([name, value]) => /^use\w+Recipe$/.test(name) && typeof value === "function",
 		);
 		expect(recipeComposables.length).toBeGreaterThan(40);
 

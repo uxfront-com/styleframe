@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useEasingDesignTokens } from "./useEasingDesignTokens";
+
 import { easingValues } from "../values";
+import { useEasingDesignTokens } from "./useEasingDesignTokens";
 
 describe("useEasingDesignTokens", () => {
 	it("should create a single easing variable with 'default' key", () => {
@@ -38,20 +39,17 @@ describe("useEasingDesignTokens", () => {
 		});
 
 		const css = consumeCSS(easingEaseOutCubic, s.options);
-		expect(css).toBe(
-			`--easing--ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);`,
-		);
+		expect(css).toBe(`--easing--ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);`);
 	});
 
 	it("should create multiple easing variables", () => {
 		const s = styleframe();
-		const { easing, easingEaseIn, easingEaseOut, easingEaseInOut } =
-			useEasingDesignTokens(s, {
-				default: "@easing.ease-in-out",
-				"ease-in": "ease-in",
-				"ease-out": "ease-out",
-				"ease-in-out": "ease-in-out",
-			});
+		const { easing, easingEaseIn, easingEaseOut, easingEaseInOut } = useEasingDesignTokens(s, {
+			default: "@easing.ease-in-out",
+			"ease-in": "ease-in",
+			"ease-out": "ease-out",
+			"ease-in-out": "ease-in-out",
+		});
 
 		expect(easingEaseIn).toEqual({
 			type: "variable",
@@ -204,15 +202,9 @@ describe("useEasingDesignTokens", () => {
 		expect(easings.easingEaseInOut.value).toBe("ease-in-out");
 
 		// Check cubic-bezier values
-		expect(easings.easingEaseInSine.value).toBe(
-			"cubic-bezier(0.47, 0, 0.745, 0.715)",
-		);
-		expect(easings.easingEaseOutCubic.value).toBe(
-			"cubic-bezier(0.215, 0.61, 0.355, 1)",
-		);
-		expect(easings.easingEaseInOutBack.value).toBe(
-			"cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-		);
+		expect(easings.easingEaseInSine.value).toBe("cubic-bezier(0.47, 0, 0.745, 0.715)");
+		expect(easings.easingEaseOutCubic.value).toBe("cubic-bezier(0.215, 0.61, 0.355, 1)");
+		expect(easings.easingEaseInOutBack.value).toBe("cubic-bezier(0.68, -0.55, 0.265, 1.55)");
 
 		// Check spring and bounce
 		expect(easings.easingSpring.value).toContain("linear(");
@@ -228,26 +220,14 @@ describe("useEasingDesignTokens", () => {
 		expect(easingValues["ease-in-out"]).toBe("ease-in-out");
 
 		// Sine family
-		expect(easingValues["ease-in-sine"]).toBe(
-			"cubic-bezier(0.47, 0, 0.745, 0.715)",
-		);
-		expect(easingValues["ease-out-sine"]).toBe(
-			"cubic-bezier(0.39, 0.575, 0.565, 1)",
-		);
-		expect(easingValues["ease-in-out-sine"]).toBe(
-			"cubic-bezier(0.445, 0.05, 0.55, 0.95)",
-		);
+		expect(easingValues["ease-in-sine"]).toBe("cubic-bezier(0.47, 0, 0.745, 0.715)");
+		expect(easingValues["ease-out-sine"]).toBe("cubic-bezier(0.39, 0.575, 0.565, 1)");
+		expect(easingValues["ease-in-out-sine"]).toBe("cubic-bezier(0.445, 0.05, 0.55, 0.95)");
 
 		// Back family (with overshoot)
-		expect(easingValues["ease-in-back"]).toBe(
-			"cubic-bezier(0.6, -0.28, 0.735, 0.045)",
-		);
-		expect(easingValues["ease-out-back"]).toBe(
-			"cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-		);
-		expect(easingValues["ease-in-out-back"]).toBe(
-			"cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-		);
+		expect(easingValues["ease-in-back"]).toBe("cubic-bezier(0.6, -0.28, 0.735, 0.045)");
+		expect(easingValues["ease-out-back"]).toBe("cubic-bezier(0.175, 0.885, 0.32, 1.275)");
+		expect(easingValues["ease-in-out-back"]).toBe("cubic-bezier(0.68, -0.55, 0.265, 1.55)");
 
 		// Spring and bounce
 		expect(easingValues.spring).toContain("linear(");
@@ -264,8 +244,7 @@ describe("useEasingDesignTokens", () => {
 
 			// Type assertions to verify the generic types are preserved
 			const defaultEasing: Variable<"easing"> = easings.easing;
-			const cubicEasing: Variable<"easing.ease-out-cubic"> =
-				easings.easingEaseOutCubic;
+			const cubicEasing: Variable<"easing.ease-out-cubic"> = easings.easingEaseOutCubic;
 
 			expect(defaultEasing.name).toBe("easing");
 			expect(cubicEasing.name).toBe("easing.ease-out-cubic");

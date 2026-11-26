@@ -1,12 +1,10 @@
-import type { ContentNavigationItem } from "@nuxt/content";
 import { existsSync, readFileSync } from "node:fs";
-import { computed, ref } from "vue";
+
+import type { ContentNavigationItem } from "@nuxt/content";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-	DOCS_SECTIONS,
-	THEME_SUBSECTIONS,
-	themeSegmentFromPath,
-} from "../app/constants/sections";
+import { computed, ref } from "vue";
+
+import { DOCS_SECTIONS, THEME_SUBSECTIONS, themeSegmentFromPath } from "../app/constants/sections";
 import { flattenNavigation } from "../app/utils/flattenNavigation";
 import { foldNonRouteCategories } from "../app/utils/foldNonRouteCategories";
 
@@ -22,14 +20,10 @@ import { foldNonRouteCategories } from "../app/utils/foldNonRouteCategories";
  */
 
 const read = (name: string) =>
-	readFileSync(
-		new URL(`../app/components/${name}.vue`, import.meta.url),
-		"utf8",
-	);
+	readFileSync(new URL(`../app/components/${name}.vue`, import.meta.url), "utf8");
 
 // The function the variable `tabs` comes from.
-const tabsSource = (source: string) =>
-	source.match(/const \{ tabs \} = (\w+)\(\);/)?.[1];
+const tabsSource = (source: string) => source.match(/const \{ tabs \} = (\w+)\(\);/)?.[1];
 
 // The props of a <UContentNavigation>, without the tree it shows and its name.
 // The sidebar's `:key`, which renders it again once the page has loaded (see
@@ -38,12 +32,7 @@ const contentNavProps = (source: string) =>
 	(source.match(/<UContentNavigation\b([^>]*)\/>/)?.[1] ?? "")
 		.replace(/:key="[^"]*"/, "")
 		.split(/\s+/)
-		.filter(
-			(prop) =>
-				prop &&
-				!prop.startsWith(":navigation=") &&
-				!prop.startsWith(":aria-label="),
-		);
+		.filter((prop) => prop && !prop.startsWith(":navigation=") && !prop.startsWith(":aria-label="));
 
 describe("the header's links", () => {
 	const body = read("app/AppHeaderBody");
@@ -69,11 +58,9 @@ describe("the header's links", () => {
 	});
 
 	it("show in the bar from the layer's own AppHeaderCTA", () => {
-		expect(
-			existsSync(
-				new URL("../app/components/app/AppHeaderCTA.vue", import.meta.url),
-			),
-		).toBe(false);
+		expect(existsSync(new URL("../app/components/app/AppHeaderCTA.vue", import.meta.url))).toBe(
+			false,
+		);
 	});
 
 	it("start the menu below md, then the Framework select, then the sections", () => {
@@ -120,9 +107,7 @@ describe("the docs' sections", () => {
 
 	it("hold their sidebar's tree in the menu, rendered as the sidebar renders it", () => {
 		const sidebar = read("docs/DocsAsideLeftBody");
-		expect(body).toMatch(
-			/<UContentNavigation\b[^>]*:navigation="section\.navigation"/,
-		);
+		expect(body).toMatch(/<UContentNavigation\b[^>]*:navigation="section\.navigation"/);
 		expect(contentNavProps(body)).toEqual(contentNavProps(sidebar));
 		expect(contentNavProps(body)).not.toEqual([]);
 	});
@@ -159,36 +144,27 @@ describe("useDocsSections().sidebars", () => {
 			title: "Theme",
 			path: "/docs/theme",
 			stem: "docs/3.theme",
-			children: [
-				"design-tokens",
-				"elements",
-				"components",
-				"utilities",
-				"modifiers",
-			].map((folder, index) => ({
-				title: folder,
-				path: `/docs/theme/${folder}`,
-				stem: `docs/3.theme/0${index + 3}.${folder}`,
-				children: [
-					page(
-						`/docs/theme/${folder}/overview`,
-						`docs/3.theme/0${index + 3}.${folder}/00.index`,
-					),
-					page(
-						`/docs/theme/${folder}/button`,
-						`docs/3.theme/0${index + 3}.${folder}/02.actions/01.button`,
-					),
-				],
-			})),
+			children: ["design-tokens", "elements", "components", "utilities", "modifiers"].map(
+				(folder, index) => ({
+					title: folder,
+					path: `/docs/theme/${folder}`,
+					stem: `docs/3.theme/0${index + 3}.${folder}`,
+					children: [
+						page(`/docs/theme/${folder}/overview`, `docs/3.theme/0${index + 3}.${folder}/00.index`),
+						page(
+							`/docs/theme/${folder}/button`,
+							`docs/3.theme/0${index + 3}.${folder}/02.actions/01.button`,
+						),
+					],
+				}),
+			),
 		},
 	];
 	const nonRouteCategories = Object.fromEntries(
-		["design-tokens", "elements", "components", "utilities", "modifiers"].map(
-			(folder, index) => [
-				`docs/3.theme/0${index + 3}.${folder}/02.actions`,
-				{ title: "Actions", order: 2 },
-			],
-		),
+		["design-tokens", "elements", "components", "utilities", "modifiers"].map((folder, index) => [
+			`docs/3.theme/0${index + 3}.${folder}/02.actions`,
+			{ title: "Actions", order: 2 },
+		]),
 	);
 
 	// useDocsSections() on `path`, with Nuxt's auto-imports in place.
@@ -203,8 +179,7 @@ describe("useDocsSections().sidebars", () => {
 		vi.stubGlobal("themeSegmentFromPath", themeSegmentFromPath);
 		vi.stubGlobal("flattenNavigation", flattenNavigation);
 		vi.stubGlobal("foldNonRouteCategories", foldNonRouteCategories);
-		const { useDocsSections } =
-			await import("../app/composables/useDocsSections");
+		const { useDocsSections } = await import("../app/composables/useDocsSections");
 		return useDocsSections();
 	};
 
@@ -224,24 +199,17 @@ describe("useDocsSections().sidebars", () => {
 
 	it("lists every section, with only the reader's open", async () => {
 		const { sidebars } = await sectionsAt(pages.Components);
-		expect(sidebars.value.map((section) => section.label)).toEqual(
-			Object.keys(pages),
-		);
+		expect(sidebars.value.map((section) => section.label)).toEqual(Object.keys(pages));
 		expect(
-			sidebars.value
-				.filter((section) => section.active)
-				.map((section) => section.label),
+			sidebars.value.filter((section) => section.active).map((section) => section.label),
 		).toEqual(["Components"]);
 	});
 
-	it.each(Object.entries(pages))(
-		"gives %s the tree its sidebar shows",
-		async (label, path) => {
-			const { sidebarNavigation } = await sectionsAt(path);
-			const menu = await sectionsAt(pages["Getting Started"]);
-			const section = menu.sidebars.value.find((item) => item.label === label);
-			expect(sidebarNavigation.value).not.toEqual([]);
-			expect(section?.navigation).toEqual(sidebarNavigation.value);
-		},
-	);
+	it.each(Object.entries(pages))("gives %s the tree its sidebar shows", async (label, path) => {
+		const { sidebarNavigation } = await sectionsAt(path);
+		const menu = await sectionsAt(pages["Getting Started"]);
+		const section = menu.sidebars.value.find((item) => item.label === label);
+		expect(sidebarNavigation.value).not.toEqual([]);
+		expect(section?.navigation).toEqual(sidebarNavigation.value);
+	});
 });

@@ -53,9 +53,7 @@ const XYZ_LIKE = (mode: CuloriMode): DTCGColorSpaceMeta => ({
 	componentScales: [1, 1, 1],
 });
 
-export const COLOR_SPACES: Readonly<
-	Record<DTCGColorSpace, DTCGColorSpaceMeta>
-> = {
+export const COLOR_SPACES: Readonly<Record<DTCGColorSpace, DTCGColorSpaceMeta>> = {
 	srgb: RGB_LIKE("rgb"),
 	"srgb-linear": RGB_LIKE("lrgb"),
 	"display-p3": RGB_LIKE("p3"),
@@ -113,8 +111,6 @@ const REVERSE_MODE_MAP: Record<CuloriMode, DTCGColorSpace> = {
 	xyz65: "xyz-d65",
 };
 
-export function culoriModeToColorSpace(
-	mode: string,
-): DTCGColorSpace | undefined {
+export function culoriModeToColorSpace(mode: string): DTCGColorSpace | undefined {
 	return REVERSE_MODE_MAP[mode as CuloriMode];
 }

@@ -54,11 +54,7 @@ export function parseAtReferences(str: string): Array<TokenValue> {
  * Checks whether a variable with the given name exists in the scope chain,
  * walking from the given scope up through ancestors via parentId.
  */
-export function findVariableInScope(
-	name: string,
-	scope: Container,
-	root: Root,
-): boolean {
+export function findVariableInScope(name: string, scope: Container, root: Root): boolean {
 	let current: Container | Root | undefined = scope;
 	while (current) {
 		if (current.variables.some((v) => v.name === name)) {
@@ -80,11 +76,7 @@ export function findVariableInScope(
  * Walks from the given scope up through ancestors to root.
  * Throws if the variable is not defined.
  */
-export function validateReference(
-	name: string,
-	scope: Container,
-	root: Root,
-): void {
+export function validateReference(name: string, scope: Container, root: Root): void {
 	if (!findVariableInScope(name, scope, root)) {
 		throw new Error(
 			`[styleframe] Variable "${name}" is not defined. Check that the variable exists before referencing it with "@${name}".`,
