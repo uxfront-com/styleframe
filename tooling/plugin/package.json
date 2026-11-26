@@ -97,7 +97,7 @@
 		"importree": "catalog:",
 		"jiti": "catalog:",
 		"tinyglobby": "catalog:",
-		"unplugin": "^3.0.0"
+		"unplugin": "^3.7.0"
 	},
 	"devDependencies": {
 		"@farmfe/core": "^1.7.11",
@@ -108,13 +108,13 @@
 		"@types/node": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"nodemon": "^3.1.14",
-		"rollup": "^4.62.0",
+		"rollup": "^4.68.8",
 		"tsdown": "catalog:",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
 		"vitest": "catalog:",
-		"webpack": "^5.107.2"
+		"webpack": "^5.113.0"
 	},
 	"homepage": "https://styleframe.dev",
 	"bugs": {
