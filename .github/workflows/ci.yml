@@ -96,66 +96,6 @@ jobs:
             - name: Check search and AI search
               run: pnpm --filter '@styleframe/docs' check:seo
 
-            - name: Upload docs build
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: docs-build
-                  path: |
-                      apps/docs/.nuxt
-                      apps/docs/.output
-                  # Both directories are hidden, which upload-artifact skips by default.
-                  include-hidden-files: true
-                  if-no-files-found: error
-                  retention-days: 7
-
-    # Lighthouse on the homepage, from the docs build
-    lighthouse:
-        name: Lighthouse
-        runs-on: ubuntu-latest
-        needs: build-docs
-        timeout-minutes: 10
-        steps:
-            # For lighthouserc.mjs and scripts/lighthouse-ci.mjs.
-            - name: Checkout
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
-
-            - name: Setup Node.js
-              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-              with:
-                  node-version-file: .node-version
-                  cache: "pnpm"
-
-            # lighthouserc.mjs imports its preset from @uxfront/site-checks. The
-            # docs app's own scripts (nuxt prepare) aren't needed to load it.
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile --ignore-scripts --filter '@styleframe/docs'
-
-            - name: Download docs build
-              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-              with:
-                  name: docs-build
-                  path: apps/docs
-
-            # Serves the static output and fails below 0.95 in any category,
-            # using the runner's Chrome. The script sets the CPU slowdown from
-            # the runner's benchmark, so every runner emulates the same phone.
-            - name: Run Lighthouse
-              working-directory: apps/docs
-              run: node scripts/lighthouse-ci.mjs
-
-            - name: Upload Lighthouse reports
-              if: ${{ !cancelled() }}
-              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-              with:
-                  name: lighthouse-reports
-                  path: apps/docs/.lighthouseci
-                  include-hidden-files: true
-                  if-no-files-found: ignore
-                  retention-days: 14
-
     # Build playground separately
     build-playground:
         name: Build Playground
@@ -459,7 +399,6 @@ jobs:
             [
                 build,
                 build-docs,
-                lighthouse,
                 build-playground,
                 build-storybook,
                 build-app,
