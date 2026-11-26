@@ -22,6 +22,7 @@ README.md @alexgrozav
 tsconfig.json @alexgrozav
 turbo.json @alexgrozav
 .oxfmtrc.json @alexgrozav
+oxlint.config.mts @alexgrozav
 
 # Package management
 package.json @alexgrozav
