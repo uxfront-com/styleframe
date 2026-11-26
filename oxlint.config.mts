@@ -44,25 +44,17 @@ export default defineConfig({
 	},
 	overrides: [
 		{
-			// Type tests read a property to check that it exists, or under `@ts-expect-error` that it
-			// doesn't. The expression is the check.
 			files: ["**/*.test.ts"],
 			rules: {
+				// Type tests read a property to check that it exists, or under `@ts-expect-error` that it
+				// doesn't. The expression is the check.
 				"no-unused-expressions": "off",
-			},
-		},
-		{
-			// Tests that read values as data: a filter, then a map, over a few rows, as the case reads
-			// them.
-			files: ["**/*.test.ts"],
-			rules: {
+				// Tests that read values as data: a filter, then a map, over a few rows, as the case reads
+				// them.
 				"quality/no-array-filter-map": "off",
 			},
 		},
 		{
-			// The console is what these report to: the CLI and the bundler plugin print to the
-			// terminal, the scanner and the Figma plugin warn about input they skip, the apps log the
-			// errors they catch, and the scripts, playgrounds and benchmarks print their results.
 			files: [
 				"tooling/**",
 				"engine/scanner/src/node.ts",
@@ -71,148 +63,165 @@ export default defineConfig({
 				"apps/**",
 			],
 			rules: {
+				// The console is what these report to: the CLI and the bundler plugin print to the
+				// terminal, the scanner and the Figma plugin warn about input they skip, the apps log the
+				// errors they catch, and the scripts, playgrounds and benchmarks print their results.
 				"no-console": "off",
 			},
 		},
 		{
-			// These scripts run as their own entry points and handle a failure themselves, in an async
-			// function or with `main().catch`, which prints it and sets the exit code.
 			files: ["**/playground/*.ts", "testing/benchmark/src/*.ts"],
 			rules: {
+				// These scripts run as their own entry points and handle a failure themselves, in an async
+				// function or with `main().catch`, which prints it and sets the exit code.
 				"unicorn/prefer-top-level-await": "off",
 			},
 		},
 		{
-			// A port of rfdc, which clones a value of any type.
 			files: ["engine/core/src/utils/deepClone.ts"],
 			rules: {
+				// A port of rfdc, which clones a value of any type.
 				"typescript/no-explicit-any": "off",
 				// A clone is made for a buffer, a `Map` or a `Set` by its class.
 				"@nkzw/no-instanceof": "off",
 			},
 		},
 		{
-			// jiti's cache is a `Map` or a plain object, depending on its version.
 			files: ["engine/loader/src/jiti.ts"],
 			rules: {
+				// jiti's cache is a `Map` or a plain object, depending on its version.
 				"@nkzw/no-instanceof": "off",
 			},
 		},
 		{
-			// The test runs in the browser and finds a `@keyframes` rule by its CSSOM class.
 			files: ["testing/integration/tests/keyframes.spec.ts"],
 			rules: {
+				// The test runs in the browser and finds a `@keyframes` rule by its CSSOM class.
 				"@nkzw/no-instanceof": "off",
 			},
 		},
 		{
-			// An event bus with no listener map takes any payload, as its untyped callers expect.
 			files: ["apps/storybook/src/utils/eventBus.ts"],
 			rules: {
+				// An event bus with no listener map takes any payload, as its untyped callers expect.
 				"typescript/no-explicit-any": "off",
 			},
 		},
 		{
-			// Vue's shim for `*.vue` modules, in the form Vue gives it.
 			files: ["**/env.d.ts"],
 			rules: {
+				// Vue's shim for `*.vue` modules types a component's props as `any`, as Vue gives it.
 				"typescript/no-explicit-any": "off",
+				// The same shim leaves a component's props and emits open with `{}`.
 				"typescript/no-empty-object-type": "off",
 			},
 		},
 		{
-			// The playground scripts call a citty command with the arguments it reads, which its types
-			// don't describe.
 			files: ["tooling/cli/playground/*.ts"],
 			rules: {
+				// The playground scripts call a citty command with the arguments it reads, which its types
+				// don't describe.
 				"typescript/no-explicit-any": "off",
 			},
 		},
 		{
-			// Astro's integration and its hook are typed `any`, so the plugin doesn't depend on Astro.
 			files: ["tooling/plugin/src/astro.ts"],
 			rules: {
+				// Astro's integration and its hook are typed `any`, so the plugin doesn't depend on Astro.
 				"typescript/no-explicit-any": "off",
 			},
 		},
 		{
-			// `{}` is the type of "no keys" here: a recipe with no filter, and a preset group that's
-			// turned off.
-			files: ["theme/src/utils/createUseRecipe.ts", "theme/src/presets/useDesignTokensPreset.ts"],
+			files: [
+				"theme/src/utils/createUseRecipe.ts",
+				"theme/src/presets/useDesignTokensPreset.ts",
+			],
 			rules: {
+				// `{}` is the type of "no keys" here: a recipe with no filter, and a preset group that's
+				// turned off.
 				"typescript/no-empty-object-type": "off",
 			},
 		},
 		{
-			// `ModuleOptions` is the Nuxt module's public options type, the plugin's `Options` under
-			// Nuxt's name.
 			files: ["tooling/plugin/src/nuxt.ts"],
 			rules: {
+				// `ModuleOptions` is the Nuxt module's public options type, the plugin's `Options` under
+				// Nuxt's name.
 				"typescript/no-empty-object-type": "off",
 			},
 		},
 		{
-			// The design token preset merges each colour's levels into one result, a few times per
-			// config. The merge in `merge.ts` combines a few instances, once.
-			files: ["theme/src/presets/useDesignTokensPreset.ts", "engine/core/src/utils/merge.ts"],
+			files: [
+				"theme/src/presets/useDesignTokensPreset.ts",
+				"engine/core/src/utils/merge.ts",
+			],
 			rules: {
+				// The design token preset merges each colour's levels into one result, a few times per
+				// config. The merge in `merge.ts` combines a few instances, once.
 				"oxc/no-accumulating-spread": "off",
 			},
 		},
 		{
-			// The augmented fourth's ratio is 1.414 as the type scales write it, not `Math.SQRT2`.
-			files: ["theme/src/values/scale.ts", "theme/src/variables/useScaleDesignTokens.test.ts"],
+			files: [
+				"theme/src/values/scale.ts",
+				"theme/src/variables/useScaleDesignTokens.test.ts",
+			],
 			rules: {
+				// The augmented fourth's ratio is 1.414 as the type scales write it, not `Math.SQRT2`.
 				"oxc/approx-constant": "off",
 			},
 		},
 		{
-			// `@charset` takes the encoding's name as CSS spells it, `UTF-8`.
 			files: ["engine/core/src/tokens/atRule.test.ts"],
 			rules: {
+				// `@charset` takes the encoding's name as CSS spells it, `UTF-8`.
 				"unicorn/text-encoding-identifier-case": "off",
 			},
 		},
 		{
-			// These tests copy a JSON document as JSON, or check that a value survives a JSON round
-			// trip, which `structuredClone` would carry through whatever it is.
 			files: [
 				"engine/core/src/inspect/inspect.test.ts",
 				"tooling/dtcg/test/**/*.test.ts",
 			],
 			rules: {
+				// These tests copy a JSON document as JSON, or check that a value survives a JSON round
+				// trip, which `structuredClone` would carry through whatever it is.
 				"unicorn/prefer-structured-clone": "off",
 			},
 		},
 		{
-			// The Figma plugin fills a variable's values mode by mode, then hands them on as the
-			// export's type.
 			files: ["tooling/figma/src/plugin/code.ts"],
 			rules: {
+				// The Figma plugin fills a variable's values mode by mode, then hands them on as the
+				// export's type.
 				"quality/no-widen-then-assert": "off",
 			},
 		},
 		{
-			// Vite's `?raw` suffix gives the file's text as the default export, which the rule reads
-			// as the TypeScript module itself.
 			files: ["apps/playground/src/state/playground.ts"],
 			rules: {
+				// Vite's `?raw` suffix gives the file's text as the default export, which the rule reads
+				// as the TypeScript module itself.
 				"import/default": "off",
 			},
 		},
 		{
-			// The licence app reads Nuxt UI's locales by the current locale's code.
 			files: ["apps/app/app/app.vue", "apps/app/app/error.vue"],
 			rules: {
+				// The licence app reads Nuxt UI's locales by the current locale's code.
 				"import/namespace": "off",
 			},
 		},
 		{
-			// Supabase's generated database types, which are empty until `supabase gen types` writes
-			// them, and the index that exports them.
-			files: ["apps/app/app/types/database.types.ts", "apps/app/app/types/index.ts"],
+			files: [
+				"apps/app/app/types/database.types.ts",
+				"apps/app/app/types/index.ts",
+			],
 			rules: {
+				// Supabase's generated database types, which are empty until `supabase gen types` writes
+				// them.
 				"unicorn/no-empty-file": "off",
+				// The types index exports the generated file, which has no exports until it's written.
 				"import/export": "off",
 			},
 		},
