@@ -93,6 +93,9 @@ jobs:
             - name: Check compiled CSS (duplicate-utility guard)
               run: pnpm --filter '@styleframe/docs' test:build
 
+            - name: Check search and AI search
+              run: pnpm --filter '@styleframe/docs' check:seo
+
     # Build playground separately
     build-playground:
         name: Build Playground

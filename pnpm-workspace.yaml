@@ -53,6 +53,7 @@ catalogs:
     '@uxfront/layer-docs': ^0.9.1
     '@uxfront/layer-ui': ^0.1.11
     '@uxfront/scene': ^0.5.1
+    '@uxfront/site-checks': 0.1.0
     '@uxfront/ui': ^0.9.1
     '@vueuse/core': ^14.4.0
     docus: ^5.13.0
