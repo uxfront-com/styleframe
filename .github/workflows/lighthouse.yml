@@ -1,0 +1,27 @@
+name: Lighthouse
+
+on:
+    schedule:
+        - cron: "37 2 * * *"
+    workflow_dispatch:
+    # Tests the caller itself, and each later pin bump, before it merges.
+    pull_request:
+        paths: [.github/workflows/lighthouse.yml]
+
+concurrency:
+    group: lighthouse-${{ github.ref }}
+    cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+    lighthouse:
+        name: Lighthouse
+        permissions:
+            actions: read # the change check reads earlier runs
+            contents: read
+        uses: uxfront-com/.github/.github/workflows/lighthouse.yml@d2f86bc4b9602818601b0415509c5be0348bb8bc # main
+        with:
+            build: NODE_ENV=production pnpm build --filter '@styleframe/docs'
+            audit: cd apps/docs && node scripts/lighthouse-ci.mjs
+            reports: apps/docs/.lighthouseci
