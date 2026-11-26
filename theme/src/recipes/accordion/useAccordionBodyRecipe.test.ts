@@ -1,15 +1,10 @@
 import { styleframe } from "@styleframe/core";
+
 import { useAccordionBodyRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"fontSize",
-		"paddingTop",
-		"paddingBottom",
-		"paddingLeft",
-		"paddingRight",
-	]) {
+	for (const name of ["fontSize", "paddingTop", "paddingBottom", "paddingLeft", "paddingRight"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

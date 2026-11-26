@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -29,10 +30,7 @@ export function useDdDesignTokens(
 	const result: Partial<DdElementResult> = {};
 
 	if (config.marginBottom !== undefined) {
-		result.ddMarginBottom = ctx.variable(
-			"dd.margin-bottom",
-			config.marginBottom,
-		);
+		result.ddMarginBottom = ctx.variable("dd.margin-bottom", config.marginBottom);
 	}
 	if (config.marginLeft !== undefined) {
 		result.ddMarginLeft = ctx.variable("dd.margin-left", config.marginLeft);

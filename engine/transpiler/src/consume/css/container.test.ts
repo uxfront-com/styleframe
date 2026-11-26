@@ -1,16 +1,13 @@
-import type {
-	DeclarationsBlock,
-	Root,
-	StyleframeOptions,
-} from "@styleframe/core";
+import type { DeclarationsBlock, Root, StyleframeOptions } from "@styleframe/core";
 import {
 	createRefFunction,
 	createRoot,
 	createSelectorFunction,
 	createVariableFunction,
 } from "@styleframe/core";
-import { createContainerConsumer } from "./container";
+
 import { consume } from "./consume";
+import { createContainerConsumer } from "./container";
 
 describe("createContainerConsumer", () => {
 	let root: Root;
@@ -349,10 +346,7 @@ describe("createContainerConsumer", () => {
 	});
 
 	it("should handle variables with complex values", () => {
-		const gradientVar = variable(
-			"gradient",
-			"linear-gradient(45deg, #ff0000, #0000ff)",
-		);
+		const gradientVar = variable("gradient", "linear-gradient(45deg, #ff0000, #0000ff)");
 		const shadowVar = variable(
 			"shadow",
 			"0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1)",

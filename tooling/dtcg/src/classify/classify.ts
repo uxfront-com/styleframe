@@ -16,6 +16,9 @@
  * either skip or attach a `dev.styleframe.unknownType` extension).
  */
 
+import { parse as parseColor } from "../color/parse";
+import { parse as parseDimension } from "../dimension/parse";
+import { parse as parseDuration } from "../duration/parse";
 import { isAlias } from "../guards/alias";
 import {
 	isBorderValue,
@@ -28,9 +31,6 @@ import {
 	isTransitionValue,
 	isTypographyValue,
 } from "../guards/values";
-import { parse as parseColor } from "../color/parse";
-import { parse as parseDimension } from "../dimension/parse";
-import { parse as parseDuration } from "../duration/parse";
 import type { DTCGTokenType, DTCGTokenValue } from "../types/values";
 import { CUBIC_BEZIER_PATTERN, parseCubicBezier } from "./cubic-bezier";
 import { easingKeywordToBezier } from "./easing";
@@ -128,10 +128,7 @@ function numericPathType(path: string | undefined): DTCGTokenType | undefined {
 	return undefined;
 }
 
-function classifyStringByPath(
-	value: string,
-	path: string | undefined,
-): Classification | undefined {
+function classifyStringByPath(value: string, path: string | undefined): Classification | undefined {
 	if (!path) {
 		return undefined;
 	}
@@ -147,10 +144,7 @@ function classifyStringByPath(
 			};
 		}
 	}
-	if (
-		pathContains(path, "border-style") ||
-		pathContains(path, "outline-style")
-	) {
+	if (pathContains(path, "border-style") || pathContains(path, "outline-style")) {
 		if (STROKE_STYLE_KEYWORDS.has(value)) {
 			return { type: "strokeStyle", value };
 		}
@@ -229,9 +223,7 @@ export function classifyValue(
 		// named color keyword. Plain numerics like "100" would be misinterpreted
 		// by culori as 3-digit shorthand hex (#100 = a dark red).
 		const colorParsed =
-			raw[0] === "#" || raw.includes("(") || /^[a-zA-Z]/.test(raw)
-				? parseColor(raw)
-				: undefined;
+			raw[0] === "#" || raw.includes("(") || /^[a-zA-Z]/.test(raw) ? parseColor(raw) : undefined;
 		if (colorParsed) {
 			return { type: "color", value: colorParsed };
 		}

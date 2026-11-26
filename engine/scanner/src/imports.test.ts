@@ -1,9 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import {
-	scanFileImports,
-	createEmptyImportScanResult,
-	mergeImportScanResults,
-} from "./imports";
+
+import { scanFileImports, createEmptyImportScanResult, mergeImportScanResults } from "./imports";
 
 vi.mock("importree", () => ({
 	parseImports: (filePath: string) => {

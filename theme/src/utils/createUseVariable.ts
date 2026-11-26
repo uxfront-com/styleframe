@@ -7,6 +7,7 @@ import type {
 } from "@styleframe/core";
 import type { CamelCase } from "scule";
 import { camelCase } from "scule";
+
 import type { ExportKeys } from "../types";
 import { useFluidClamp } from "../variables/fluid/useFluidClamp";
 import { isRangeInput } from "./normalizeRange";
@@ -95,11 +96,8 @@ export function createUseVariable<
 	} = {},
 ) {
 	type WithDefaults<T> = MergeDefaults extends true ? Defaults & T : T;
-	type Value = Fluid extends true
-		? PropertyType | RangeInput<PropertyType>
-		: PropertyType;
-	type DefaultsWidened =
-		Defaults extends Record<string, Value> ? Defaults : Record<string, Value>;
+	type Value = Fluid extends true ? PropertyType | RangeInput<PropertyType> : PropertyType;
+	type DefaultsWidened = Defaults extends Record<string, Value> ? Defaults : Record<string, Value>;
 
 	return function useVariable<
 		Context extends DeclarationsCallbackContext = DeclarationsCallbackContext,
@@ -135,14 +133,11 @@ export function createUseVariable<
 		const createVariableName = (key: string) =>
 			`${propertyName}${key === "default" ? "" : `${delimiter}${key}`}` as const;
 
-		const resolvedBreakpoint = fluid
-			? (breakpoint ?? s.ref("fluid.breakpoint"))
-			: breakpoint;
+		const resolvedBreakpoint = fluid ? (breakpoint ?? s.ref("fluid.breakpoint")) : breakpoint;
 
 		for (const [key, value] of pairs) {
 			const variableName = createVariableName(key);
-			const exportName: CamelCase<typeof variableName> =
-				camelCase(variableName);
+			const exportName: CamelCase<typeof variableName> = camelCase(variableName);
 
 			let variableValue: TokenValue;
 			if (isKeyReferenceValue(value)) {

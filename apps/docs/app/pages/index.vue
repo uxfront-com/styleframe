@@ -204,16 +204,11 @@ const fluid = [
 				<UxHeroLine><em class="ux-serif">the AI era</em></UxHeroLine>
 			</template>
 			<template #lead>
-				Author tokens, themes, utilities and recipes in TypeScript, and ship
-				zero-runtime CSS. The types catch a renamed token before your users do,
-				whether you or an agent made the change.
+				Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtime CSS. The
+				types catch a renamed token before your users do, whether you or an agent made the change.
 				<br />
 				<span class="home__actions">
-					<UxPillLink
-						:href="INTRODUCTION_URL"
-						label="Get started"
-						variant="filled"
-					/>
+					<UxPillLink :href="INTRODUCTION_URL" label="Get started" variant="filled" />
 					<UxPillLink :href="GITHUB_URL" label="Star on GitHub">
 						<template #icon><UxStarIcon /></template>
 					</UxPillLink>
@@ -228,9 +223,8 @@ const fluid = [
 			title="Your design system, in one TypeScript config"
 		>
 			<template #lead>
-				Tokens, themes, utilities and recipes live in one typed source. Change a
-				token once, and it flows to every selector, theme and recipe that uses
-				it.
+				Tokens, themes, utilities and recipes live in one typed source. Change a token once, and it
+				flows to every selector, theme and recipe that uses it.
 			</template>
 			<template #aside><SiteSample name="config" /></template>
 		</UxSplit>
@@ -246,8 +240,8 @@ const fluid = [
 			:steps="compose.length"
 		>
 			<template #lead>
-				Build your design system from composables you already have, all
-				resolving through one source.
+				Build your design system from composables you already have, all resolving through one
+				source.
 			</template>
 			<UxTraits :items="compose" />
 			<template #aside><SiteSample name="compose" /></template>
@@ -263,8 +257,8 @@ const fluid = [
 			:steps="themes.length"
 		>
 			<template #lead>
-				Light, dark and custom themes come from the same tokens, with no
-				separate stylesheet to keep in sync.
+				Light, dark and custom themes come from the same tokens, with no separate stylesheet to keep
+				in sync.
 			</template>
 			<UxTraits :items="themes" />
 			<template #aside><SiteSample name="themes" /></template>
@@ -280,9 +274,8 @@ const fluid = [
 			:steps="output.length"
 		>
 			<template #lead>
-				Your tokens, themes and utilities compile to static CSS at build time,
-				so they cost nothing at runtime. When a component needs prop-based
-				variants, an optional runtime handles recipes.
+				Your tokens, themes and utilities compile to static CSS at build time, so they cost nothing
+				at runtime. When a component needs prop-based variants, an optional runtime handles recipes.
 			</template>
 			<UxTraits :items="output" />
 			<template #aside><SiteSample name="output" /></template>
@@ -298,9 +291,8 @@ const fluid = [
 			:steps="scanner.length"
 		>
 			<template #lead>
-				Our Utility Scanner is like Tailwind JIT, but type-safe and built on
-				your own design system. Write utility classes in your markup, and it
-				generates only the CSS you use.
+				Our Utility Scanner is like Tailwind JIT, but type-safe and built on your own design system.
+				Write utility classes in your markup, and it generates only the CSS you use.
 			</template>
 			<UxTraits :items="scanner" />
 			<template #aside><SiteSample name="scanner" /></template>
@@ -316,8 +308,8 @@ const fluid = [
 			:steps="figma.length"
 		>
 			<template #lead>
-				Export your Styleframe design tokens to the W3C DTCG format and import
-				them into Figma, with a mode for each theme.
+				Export your Styleframe design tokens to the W3C DTCG format and import them into Figma, with
+				a mode for each theme.
 			</template>
 			<UxTraits :items="figma" />
 			<template #aside>
@@ -342,9 +334,8 @@ const fluid = [
 			:steps="ai.length"
 		>
 			<template #lead>
-				Hand work on your design system to AI agents, from writing tokens and
-				recipes to other technical tasks. It's all typed TypeScript, so the
-				compiler checks what they write.
+				Hand work on your design system to AI agents, from writing tokens and recipes to other
+				technical tasks. It's all typed TypeScript, so the compiler checks what they write.
 			</template>
 			<UxTraits :items="ai" />
 			<SiteWaitlist group="ai" label="Join waitlist for styleframe AI" />
@@ -372,8 +363,8 @@ const fluid = [
 			align="center"
 		>
 			<template #lead>
-				Skip the breakpoints. Styleframe scales your typography and spacing
-				fluidly from phone to desktop.
+				Skip the breakpoints. Styleframe scales your typography and spacing fluidly from phone to
+				desktop.
 			</template>
 			<UxPillars :items="fluid" />
 		</UxSplit>
@@ -383,11 +374,7 @@ const fluid = [
 				Type-safe styling engine <em class="ux-serif">for the AI era</em>
 			</template>
 			<template #actions>
-				<UxPillLink
-					:href="INTRODUCTION_URL"
-					label="Get started"
-					variant="filled"
-				/>
+				<UxPillLink :href="INTRODUCTION_URL" label="Get started" variant="filled" />
 				<UxPillLink :href="GITHUB_URL" label="Star on GitHub">
 					<template #icon><UxStarIcon /></template>
 				</UxPillLink>

@@ -1,12 +1,5 @@
-import type {
-	AtRule,
-	Container,
-	CSS,
-	Root,
-	TokenValue,
-	Variable,
-} from "../types";
 import { isAtRule, isRef, isVariable } from "../typeGuards";
+import type { AtRule, Container, CSS, Root, TokenValue, Variable } from "../types";
 import { createRefFunction } from "./ref";
 import { parseAtReferences } from "./resolve";
 
@@ -37,10 +30,7 @@ export function createCssFunction(_parent: Container, root: Root) {
 					acc.push(ref(interpolation));
 				} else if (isAtRule(interpolation)) {
 					acc.push(interpolation.rule);
-				} else if (
-					typeof interpolation === "string" &&
-					interpolation.includes("@")
-				) {
+				} else if (typeof interpolation === "string" && interpolation.includes("@")) {
 					acc.push(...parseAndTrack(interpolation));
 				} else {
 					acc.push(interpolation);

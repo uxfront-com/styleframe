@@ -1,8 +1,10 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+
 import type { Styleframe } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { watch } from "chokidar";
-import { existsSync } from "node:fs";
-import path from "node:path";
+
 import { loadModule } from "./module";
 
 const SUPPORTED_EXTENSIONS = [".ts", ".mts", ".cts", ".js", ".mjs", ".cjs"];

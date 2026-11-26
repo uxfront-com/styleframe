@@ -1,24 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import { test, expect } from "@playwright/test";
 
-const projectDir =
-	process.env.PROJECT_DIR || path.join(import.meta.dirname, "..", ".app");
+const projectDir = process.env.PROJECT_DIR || path.join(import.meta.dirname, "..", ".app");
 
 function readBuildCSS(): string {
 	const distDir = path.join(projectDir, "dist", "assets");
 	const cssFiles = fs.readdirSync(distDir).filter((f) => f.endsWith(".css"));
-	return cssFiles
-		.map((f) => fs.readFileSync(path.join(distDir, f), "utf8"))
-		.join("\n");
+	return cssFiles.map((f) => fs.readFileSync(path.join(distDir, f), "utf8")).join("\n");
 }
 
 function readBuildJS(): string {
 	const distDir = path.join(projectDir, "dist", "assets");
 	const jsFiles = fs.readdirSync(distDir).filter((f) => f.endsWith(".js"));
-	return jsFiles
-		.map((f) => fs.readFileSync(path.join(distDir, f), "utf8"))
-		.join("\n");
+	return jsFiles.map((f) => fs.readFileSync(path.join(distDir, f), "utf8")).join("\n");
 }
 
 function readBuildDTS(): string {
@@ -63,9 +59,7 @@ test.describe("Recipe tree-shaking", () => {
 		expect(styles.alignItems).toBe("center");
 	});
 
-	test("used recipe with explicit variants renders correctly at runtime", async ({
-		page,
-	}) => {
+	test("used recipe with explicit variants renders correctly at runtime", async ({ page }) => {
 		await page.goto("/#/tree-shaking");
 
 		const element = page.locator("#test-treeshake-variant");
@@ -83,9 +77,7 @@ test.describe("Recipe tree-shaking", () => {
 		expect(styles.backgroundColor).toContain("oklch(");
 	});
 
-	test("unused recipe class names produce no styling at runtime", async ({
-		page,
-	}) => {
+	test("unused recipe class names produce no styling at runtime", async ({ page }) => {
 		await page.goto("/#/tree-shaking");
 
 		const padding = await page.evaluate(() => {
@@ -162,9 +154,7 @@ test.describe("Variable tree-shaking", () => {
 });
 
 test.describe("Edge cases", () => {
-	test("shared utilities between used and unused recipes are preserved", async ({
-		page,
-	}) => {
+	test("shared utilities between used and unused recipes are preserved", async ({ page }) => {
 		await page.goto("/#/recipes");
 
 		const element = page.locator("#test-badge-default");

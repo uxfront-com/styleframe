@@ -1,5 +1,5 @@
-import type { ParsedUtility } from "./types";
 import { ARBITRARY_VALUE_PATTERN, UTILITY_CLASS_PATTERN } from "./constants";
+import type { ParsedUtility } from "./types";
 
 /**
  * Parse a utility class name into its components.
@@ -120,10 +120,7 @@ function splitByColons(str: string): Array<string> {
  * @param pattern Optional custom regex pattern (must use global flag). Defaults to UTILITY_CLASS_PATTERN.
  * @returns Array of unique utility class names found
  */
-export function extractUtilityClasses(
-	content: string,
-	pattern?: RegExp,
-): Array<string> {
+export function extractUtilityClasses(content: string, pattern?: RegExp): Array<string> {
 	// String.match() with global regex handles state correctly
 	const matches = content.match(pattern ?? UTILITY_CLASS_PATTERN);
 	return matches ? [...new Set(matches)] : [];

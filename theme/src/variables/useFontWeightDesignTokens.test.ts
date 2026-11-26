@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useFontWeightDesignTokens } from "./useFontWeightDesignTokens";
+
 import { fontWeightValues } from "../values";
+import { useFontWeightDesignTokens } from "./useFontWeightDesignTokens";
 
 describe("useFontWeightDesignTokens", () => {
 	it("should create all font weight variables with correct names and values", () => {
@@ -177,9 +178,7 @@ describe("useFontWeightDesignTokens", () => {
 		const fontWeights2 = useFontWeightDesignTokens(s);
 
 		// Should return the same variables (default: true behavior)
-		expect(fontWeights1.fontWeightExtralight).toBe(
-			fontWeights2.fontWeightExtralight,
-		);
+		expect(fontWeights1.fontWeightExtralight).toBe(fontWeights2.fontWeightExtralight);
 		expect(fontWeights1.fontWeight).toBe(fontWeights2.fontWeight);
 		expect(s.root.variables).toHaveLength(11);
 	});
@@ -188,10 +187,7 @@ describe("useFontWeightDesignTokens", () => {
 		const s = styleframe();
 		const { fontWeightBold } = useFontWeightDesignTokens(s);
 
-		const customFontWeight = s.variable(
-			"custom-font-weight",
-			s.ref(fontWeightBold),
-		);
+		const customFontWeight = s.variable("custom-font-weight", s.ref(fontWeightBold));
 
 		expect(customFontWeight.value).toEqual({
 			type: "reference",
@@ -250,21 +246,15 @@ describe("useFontWeightDesignTokens", () => {
 			const fontWeights = useFontWeightDesignTokens(s);
 
 			// Type assertions to verify the generic types are preserved
-			const extralight: Variable<"font-weight.extralight"> =
-				fontWeights.fontWeightExtralight;
+			const extralight: Variable<"font-weight.extralight"> = fontWeights.fontWeightExtralight;
 			const light: Variable<"font-weight.light"> = fontWeights.fontWeightLight;
-			const normal: Variable<"font-weight.normal"> =
-				fontWeights.fontWeightNormal;
-			const medium: Variable<"font-weight.medium"> =
-				fontWeights.fontWeightMedium;
-			const semibold: Variable<"font-weight.semibold"> =
-				fontWeights.fontWeightSemibold;
+			const normal: Variable<"font-weight.normal"> = fontWeights.fontWeightNormal;
+			const medium: Variable<"font-weight.medium"> = fontWeights.fontWeightMedium;
+			const semibold: Variable<"font-weight.semibold"> = fontWeights.fontWeightSemibold;
 			const bold: Variable<"font-weight.bold"> = fontWeights.fontWeightBold;
 			const black: Variable<"font-weight.black"> = fontWeights.fontWeightBlack;
-			const lighter: Variable<"font-weight.lighter"> =
-				fontWeights.fontWeightLighter;
-			const bolder: Variable<"font-weight.bolder"> =
-				fontWeights.fontWeightBolder;
+			const lighter: Variable<"font-weight.lighter"> = fontWeights.fontWeightLighter;
+			const bolder: Variable<"font-weight.bolder"> = fontWeights.fontWeightBolder;
 			const fontWeight: Variable<"font-weight"> = fontWeights.fontWeight;
 
 			expect(extralight.name).toBe("font-weight.extralight");
@@ -395,18 +385,10 @@ describe("useFontWeightDesignTokens", () => {
 			expect(fontWeightSemibold.value).toBe(600);
 			expect(fontWeightBlack.value).toBe(900);
 
-			expect(fontWeightExtralight.value).toBeLessThan(
-				fontWeightLight.value as number,
-			);
-			expect(fontWeightLight.value).toBeLessThan(
-				fontWeightMedium.value as number,
-			);
-			expect(fontWeightMedium.value).toBeLessThan(
-				fontWeightSemibold.value as number,
-			);
-			expect(fontWeightSemibold.value).toBeLessThan(
-				fontWeightBlack.value as number,
-			);
+			expect(fontWeightExtralight.value).toBeLessThan(fontWeightLight.value as number);
+			expect(fontWeightLight.value).toBeLessThan(fontWeightMedium.value as number);
+			expect(fontWeightMedium.value).toBeLessThan(fontWeightSemibold.value as number);
+			expect(fontWeightSemibold.value).toBeLessThan(fontWeightBlack.value as number);
 		});
 
 		it("should have black as the heaviest numeric weight", () => {
@@ -435,12 +417,8 @@ describe("useFontWeightDesignTokens", () => {
 
 		it("should have CSS keyword values for normal, bold, lighter, and bolder", () => {
 			const s = styleframe();
-			const {
-				fontWeightNormal,
-				fontWeightBold,
-				fontWeightLighter,
-				fontWeightBolder,
-			} = useFontWeightDesignTokens(s);
+			const { fontWeightNormal, fontWeightBold, fontWeightLighter, fontWeightBolder } =
+				useFontWeightDesignTokens(s);
 
 			expect(fontWeightNormal.value).toBe("normal");
 			expect(fontWeightBold.value).toBe("bold");
@@ -488,8 +466,7 @@ strong, b {
 
 		it("should work for heading hierarchy with different weights", () => {
 			const s = styleframe();
-			const { fontWeightBlack, fontWeightBold, fontWeightSemibold } =
-				useFontWeightDesignTokens(s);
+			const { fontWeightBlack, fontWeightBold, fontWeightSemibold } = useFontWeightDesignTokens(s);
 
 			s.selector("h1", ({ variable }) => {
 				variable("font-weight", s.ref(fontWeightBlack));
@@ -533,8 +510,7 @@ h3, h4, h5, h6 {
 
 		it("should work for theme-specific font weight overrides", () => {
 			const s = styleframe();
-			const { fontWeightNormal, fontWeightMedium } =
-				useFontWeightDesignTokens(s);
+			const { fontWeightNormal, fontWeightMedium } = useFontWeightDesignTokens(s);
 
 			s.selector(".theme-strong", ({ variable }) => {
 				variable(fontWeightNormal, s.ref(fontWeightMedium));
@@ -562,8 +538,7 @@ h3, h4, h5, h6 {
 
 		it("should work with lighter and bolder relative weights", () => {
 			const s = styleframe();
-			const { fontWeightLighter, fontWeightBolder } =
-				useFontWeightDesignTokens(s);
+			const { fontWeightLighter, fontWeightBolder } = useFontWeightDesignTokens(s);
 
 			s.selector(".text-lighter", ({ variable }) => {
 				variable("font-weight", s.ref(fontWeightLighter));
@@ -599,13 +574,9 @@ h3, h4, h5, h6 {
 
 		it("should work for responsive font weight adjustments", () => {
 			const s = styleframe();
-			const { fontWeightNormal, fontWeightMedium } =
-				useFontWeightDesignTokens(s);
+			const { fontWeightNormal, fontWeightMedium } = useFontWeightDesignTokens(s);
 
-			const bodyFontWeight = s.variable(
-				"body-font-weight",
-				s.ref(fontWeightNormal),
-			);
+			const bodyFontWeight = s.variable("body-font-weight", s.ref(fontWeightNormal));
 
 			s.selector("@media (min-width: 768px)", ({ variable }) => {
 				variable(bodyFontWeight, s.ref(fontWeightMedium));
@@ -634,8 +605,7 @@ h3, h4, h5, h6 {
 
 		it("should work for light text on dark backgrounds", () => {
 			const s = styleframe();
-			const { fontWeightLight, fontWeightExtralight } =
-				useFontWeightDesignTokens(s);
+			const { fontWeightLight, fontWeightExtralight } = useFontWeightDesignTokens(s);
 
 			s.selector(".dark-theme", ({ variable }) => {
 				variable("font-weight", s.ref(fontWeightLight));

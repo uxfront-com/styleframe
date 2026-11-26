@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -32,10 +33,7 @@ export function useAbbrDesignTokens(
 		result.abbrCursor = ctx.variable("abbr.cursor", config.cursor);
 	}
 	if (config.textDecoration !== undefined) {
-		result.abbrTextDecoration = ctx.variable(
-			"abbr.text-decoration",
-			config.textDecoration,
-		);
+		result.abbrTextDecoration = ctx.variable("abbr.text-decoration", config.textDecoration);
 	}
 
 	return result;
@@ -60,10 +58,7 @@ export function useAbbrElement(
 	s: Styleframe,
 	options: WithThemes<AbbrElementConfig> = {},
 ): AbbrElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultAbbrOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultAbbrOptions, options);
 
 	const result = useAbbrSelectors(s, config as Required<AbbrElementConfig>);
 

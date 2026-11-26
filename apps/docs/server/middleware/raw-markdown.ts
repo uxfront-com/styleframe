@@ -22,8 +22,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const path = match[1] === "/index" ? "/" : match[1];
-	const found =
-		(await readDocsPage(event, path)) ?? (await readLandingPage(event, path));
+	const found = (await readDocsPage(event, path)) ?? (await readLandingPage(event, path));
 	if (!found) {
 		return;
 	}

@@ -1,11 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useFillUtility,
-	useStrokeUtility,
-	useStrokeWidthUtility,
-} from "./useSvgUtility";
+
+import { useFillUtility, useStrokeUtility, useStrokeWidthUtility } from "./useSvgUtility";
 
 describe("useFillUtility", () => {
 	it("should create utility instances with provided values", () => {

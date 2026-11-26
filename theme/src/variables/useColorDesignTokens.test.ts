@@ -2,6 +2,7 @@ import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
 import { oklch } from "culori";
+
 import { useColorDesignTokens } from "./useColorDesignTokens";
 import { useColorLevelDesignTokens } from "./useColorLevelDesignTokens";
 import { useColorShadeDesignTokens } from "./useColorShadeDesignTokens";
@@ -38,12 +39,11 @@ describe("useColorDesignTokens", () => {
 
 	it("should create multiple color variables", () => {
 		const s = styleframe();
-		const { colorPrimary, colorSecondary, colorTertiary } =
-			useColorDesignTokens(s, {
-				primary: "#007bff",
-				secondary: "#6c757d",
-				tertiary: "#28a745",
-			});
+		const { colorPrimary, colorSecondary, colorTertiary } = useColorDesignTokens(s, {
+			primary: "#007bff",
+			secondary: "#6c757d",
+			tertiary: "#28a745",
+		});
 
 		expect(colorPrimary).toEqual({
 			type: "variable",
@@ -286,18 +286,10 @@ describe("integration", () => {
 		expect(primaryLevels.colorPrimary100.name).toBe("color.primary-100");
 		expect(primaryLevels.colorPrimary500.name).toBe("color.primary-500");
 		expect(primaryLevels.colorPrimary900.name).toBe("color.primary-900");
-		expect(secondaryShades.colorSecondaryShade50.name).toBe(
-			"color.secondary-shade-50",
-		);
-		expect(secondaryShades.colorSecondaryShade100.name).toBe(
-			"color.secondary-shade-100",
-		);
-		expect(secondaryTints.colorSecondaryTint50.name).toBe(
-			"color.secondary-tint-50",
-		);
-		expect(secondaryTints.colorSecondaryTint100.name).toBe(
-			"color.secondary-tint-100",
-		);
+		expect(secondaryShades.colorSecondaryShade50.name).toBe("color.secondary-shade-50");
+		expect(secondaryShades.colorSecondaryShade100.name).toBe("color.secondary-shade-100");
+		expect(secondaryTints.colorSecondaryTint50.name).toBe("color.secondary-tint-50");
+		expect(secondaryTints.colorSecondaryTint100.name).toBe("color.secondary-tint-100");
 
 		// All variables should be in root
 		expect(s.root.variables.length).toBe(9);

@@ -1,16 +1,35 @@
 {
 	"name": "@styleframe/dtcg",
-	"type": "module",
 	"version": "1.1.0",
 	"description": "DTCG (Design Tokens Community Group) format parser, validator, and serializer for Styleframe.",
 	"keywords": [
-		"styleframe",
-		"dtcg",
 		"design-tokens",
+		"dtcg",
+		"styleframe",
 		"tokens",
 		"w3c"
 	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
 	"license": "MIT",
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "tooling/dtcg"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
+	],
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -18,15 +37,6 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown -w",
@@ -43,15 +53,5 @@
 		"tsdown": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "catalog:"
-	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "tooling/dtcg"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	}
 }

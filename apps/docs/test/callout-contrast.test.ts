@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -9,10 +10,7 @@ import { describe, expect, it } from "vitest";
  * 500 shade at 10% on white.
  */
 
-const config = readFileSync(
-	new URL("../app/app.config.ts", import.meta.url),
-	"utf8",
-);
+const config = readFileSync(new URL("../app/app.config.ts", import.meta.url), "utf8");
 
 // Tailwind CSS 4's palette, which Nuxt UI's success, info, warning and error
 // colours use (green, blue, amber and red).
@@ -68,12 +66,8 @@ describe("the callouts", () => {
 		});
 
 		it(`pass WCAG AA for ${color} on its tint in light mode`, () => {
-			const tint = oklchToRgb(shades[500]).map(
-				(channel) => channel * 0.1 + 0.9,
-			) as Rgb;
-			expect(contrast(oklchToRgb(shades[800]), tint)).toBeGreaterThanOrEqual(
-				4.5,
-			);
+			const tint = oklchToRgb(shades[500]).map((channel) => channel * 0.1 + 0.9) as Rgb;
+			expect(contrast(oklchToRgb(shades[800]), tint)).toBeGreaterThanOrEqual(4.5);
 		});
 	}
 });

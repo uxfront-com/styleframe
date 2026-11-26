@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
+import { describe, expect, it } from "vitest";
+
 import { useAriaPressedModifier } from "../../modifiers/useAriaStateModifiers";
+import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useActiveModifier,
 	useFocusModifier,
@@ -10,8 +11,8 @@ import {
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
-import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
+import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useToggleRecipe } from "./useToggleRecipe";
 
 function createInstance() {
@@ -119,22 +120,14 @@ describe("useToggleRecipe", () => {
 			const s = createInstance();
 			const recipe = useToggleRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useToggleRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "ghost"]);
 			expect(recipe.variants!.variant.solid).toEqual({});
 		});
 

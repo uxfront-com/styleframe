@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useBorderColorDesignTokens } from "./useBorderColorDesignTokens";
 
 describe("useBorderColorDesignTokens", () => {
@@ -50,11 +51,7 @@ describe("useBorderColorDesignTokens", () => {
 		});
 
 		expect(Object.keys(borderColors)).toEqual(
-			expect.arrayContaining([
-				"borderColor",
-				"borderColorPrimary",
-				"borderColorSuccess",
-			]),
+			expect.arrayContaining(["borderColor", "borderColorPrimary", "borderColorSuccess"]),
 		);
 	});
 
@@ -93,9 +90,7 @@ describe("useBorderColorDesignTokens", () => {
 			primary: "#3b82f6",
 		});
 
-		expect(borderColors1.borderColorPrimary).toBe(
-			borderColors2.borderColorPrimary,
-		);
+		expect(borderColors1.borderColorPrimary).toBe(borderColors2.borderColorPrimary);
 		expect(borderColors1.borderColor).toBe(borderColors2.borderColor);
 		expect(s.root.variables).toHaveLength(2);
 	});
@@ -106,10 +101,7 @@ describe("useBorderColorDesignTokens", () => {
 			primary: "#3b82f6",
 		});
 
-		const customBorderColor = s.variable(
-			"custom-border-color",
-			s.ref(borderColorPrimary),
-		);
+		const customBorderColor = s.variable("custom-border-color", s.ref(borderColorPrimary));
 
 		expect(customBorderColor.value).toEqual({
 			type: "reference",
@@ -117,9 +109,7 @@ describe("useBorderColorDesignTokens", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain(
-			"--custom-border-color: var(--border-color--primary);",
-		);
+		expect(css).toContain("--custom-border-color: var(--border-color--primary);");
 	});
 
 	it("should work with selector overrides", () => {
@@ -147,8 +137,7 @@ describe("useBorderColorDesignTokens", () => {
 				primary: "#3b82f6",
 			});
 
-			const primary: Variable<"border-color.primary"> =
-				borderColors.borderColorPrimary;
+			const primary: Variable<"border-color.primary"> = borderColors.borderColorPrimary;
 			const borderColor: Variable<"border-color"> = borderColors.borderColor;
 
 			expect(primary.name).toBe("border-color.primary");
@@ -223,9 +212,7 @@ describe("useBorderColorDesignTokens", () => {
 
 			const css = consumeCSS(s.root, s.options);
 
-			expect(css).toContain(
-				"--border-color--primary: var(--color--primary-shade-50);",
-			);
+			expect(css).toContain("--border-color--primary: var(--color--primary-shade-50);");
 			expect(css).toContain("--border-color: var(--color--surface-shade-50);");
 		});
 	});
@@ -233,13 +220,10 @@ describe("useBorderColorDesignTokens", () => {
 	describe("practical usage", () => {
 		it("should work for creating borders with different colors", () => {
 			const s = styleframe();
-			const { borderColor, borderColorPrimary } = useBorderColorDesignTokens(
-				s,
-				{
-					default: "#e5e5e5",
-					primary: "#3b82f6",
-				},
-			);
+			const { borderColor, borderColorPrimary } = useBorderColorDesignTokens(s, {
+				default: "#e5e5e5",
+				primary: "#3b82f6",
+			});
 
 			s.selector(".card", ({ variable }) => {
 				variable("border-color", s.ref(borderColor));
@@ -271,14 +255,11 @@ describe("useBorderColorDesignTokens", () => {
 
 		it("should work for state-specific border colors", () => {
 			const s = styleframe();
-			const { borderColor, borderColorPrimary } = useBorderColorDesignTokens(
-				s,
-				{
-					default: "#e5e5e5",
-					primary: "#3b82f6",
-					error: "#ef4444",
-				},
-			);
+			const { borderColor, borderColorPrimary } = useBorderColorDesignTokens(s, {
+				default: "#e5e5e5",
+				primary: "#3b82f6",
+				error: "#ef4444",
+			});
 
 			s.selector(".input", ({ variable }) => {
 				variable("border-color", s.ref(borderColor));

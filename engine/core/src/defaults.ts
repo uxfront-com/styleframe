@@ -19,11 +19,7 @@ export function transformUtilityKey(
 			: (replacerOrOptions ?? {});
 
 	const { replacer = (v) => v, namespace } = options;
-	const namespaces = Array.isArray(namespace)
-		? namespace
-		: namespace
-			? [namespace]
-			: [];
+	const namespaces = Array.isArray(namespace) ? namespace : namespace ? [namespace] : [];
 
 	return (value: TokenValue): Record<string, TokenValue> => {
 		let resolvedValue = value;
@@ -85,16 +81,8 @@ export function transformUtilityKey(
 	};
 }
 
-export const defaultUtilitySelectorFn: UtilitySelectorFn = ({
-	name,
-	value,
-	modifiers,
-}) => {
-	const parts = [
-		...modifiers,
-		name,
-		...(value === "default" ? [] : [value]),
-	].filter(Boolean);
+export const defaultUtilitySelectorFn: UtilitySelectorFn = ({ name, value, modifiers }) => {
+	const parts = [...modifiers, name, ...(value === "default" ? [] : [value])].filter(Boolean);
 
 	return `_${parts.join(":")}`;
 };

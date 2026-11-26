@@ -1,13 +1,8 @@
-import {
-	getLicenseKeyFromEnv,
-	validateInstanceLicense,
-} from "@styleframe/license";
+import { getLicenseKeyFromEnv, validateInstanceLicense } from "@styleframe/license";
 import { transpile } from "@styleframe/transpiler";
-import {
-	generateShorteningMap,
-	buildClassNameLookup,
-} from "@styleframe/transpiler";
+import { generateShorteningMap, buildClassNameLookup } from "@styleframe/transpiler";
 import { consola } from "consola";
+
 import { reportDiagnostics } from "../diagnostics";
 import type { PluginGlobalState } from "../state";
 import type { Options } from "../types";
@@ -30,20 +25,13 @@ export async function generateGlobalCSS(
 		isBuild,
 	});
 
-	const minifyConfig =
-		typeof options.minify === "object" ? options.minify : undefined;
+	const minifyConfig = typeof options.minify === "object" ? options.minify : undefined;
 	const minify = isBuild && options.minify !== false;
 	const minifyOptions = minify ? minifyConfig : undefined;
 
 	if (minify && state.globalInstance) {
-		const shortMap = generateShorteningMap(
-			state.globalInstance.root,
-			minifyOptions,
-		);
-		state.classNameLookup = buildClassNameLookup(
-			state.globalInstance.root,
-			shortMap,
-		);
+		const shortMap = generateShorteningMap(state.globalInstance.root, minifyOptions);
+		state.classNameLookup = buildClassNameLookup(state.globalInstance.root, shortMap);
 	}
 
 	const result = await transpile(state.globalInstance, {

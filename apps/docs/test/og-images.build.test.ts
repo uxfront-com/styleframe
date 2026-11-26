@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -21,9 +22,7 @@ import { describe, expect, it } from "vitest";
 
 const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 
-const PNG_SIGNATURE = Buffer.from([
-	0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
-]);
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 function findPages(): Array<string> {
 	if (!existsSync(OUTPUT)) {
@@ -35,15 +34,10 @@ function findPages(): Array<string> {
 			(entry) =>
 				entry.isFile() &&
 				entry.name.endsWith(".html") &&
-				!(
-					entry.parentPath === OUTPUT &&
-					["200.html", "404.html"].includes(entry.name)
-				),
+				!(entry.parentPath === OUTPUT && ["200.html", "404.html"].includes(entry.name)),
 		)
 		.map((entry) => join(entry.parentPath, entry.name))
-		.filter(
-			(file) => !readFileSync(file, "utf8").includes('http-equiv="refresh"'),
-		)
+		.filter((file) => !readFileSync(file, "utf8").includes('http-equiv="refresh"'))
 		.sort();
 }
 
@@ -61,10 +55,7 @@ function toOutputFile(url: string): string {
 function readPngSize(file: string): { width: number; height: number } {
 	const header = readFileSync(file).subarray(0, 24);
 
-	expect(
-		header.subarray(0, 8).equals(PNG_SIGNATURE),
-		`${file} is not a PNG`,
-	).toBe(true);
+	expect(header.subarray(0, 8).equals(PNG_SIGNATURE), `${file} is not a PNG`).toBe(true);
 
 	return { width: header.readUInt32BE(16), height: header.readUInt32BE(20) };
 }
@@ -73,10 +64,7 @@ const pages = findPages();
 
 describe("social cards", () => {
 	it("finds the prerendered pages", () => {
-		expect(
-			pages.length,
-			`no pages in ${OUTPUT}: run the build first`,
-		).toBeGreaterThan(0);
+		expect(pages.length, `no pages in ${OUTPUT}: run the build first`).toBeGreaterThan(0);
 	});
 
 	it.each(pages.map((file) => [relative(OUTPUT, file), file]))(

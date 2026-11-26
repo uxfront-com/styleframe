@@ -18,29 +18,16 @@ const sizeTitles: Record<string, string> = {
 		<div v-for="size in sizes" :key="size">
 			<div class="select-caption">{{ sizeTitles[size] }}</div>
 			<div class="select-row">
-				<div
-					v-for="color in colors"
-					:key="`${size}-${color}`"
-					class="select-wrapper"
-				>
+				<div v-for="color in colors" :key="`${size}-${color}`" class="select-wrapper">
 					<Select :color="color" :size="size" variant="solid" :open="true">
 						<SelectChip :color="color" :size="size">Apple</SelectChip>
 					</Select>
 					<SelectPanel :color="color" :size="size" variant="solid">
-						<SelectOption
-							:color="color"
-							:size="size"
-							variant="solid"
-							:selected="true"
-						>
+						<SelectOption :color="color" :size="size" variant="solid" :selected="true">
 							Apple
 						</SelectOption>
-						<SelectOption :color="color" :size="size" variant="solid">
-							Banana
-						</SelectOption>
-						<SelectOption :color="color" :size="size" variant="solid">
-							Cherry
-						</SelectOption>
+						<SelectOption :color="color" :size="size" variant="solid"> Banana </SelectOption>
+						<SelectOption :color="color" :size="size" variant="solid"> Cherry </SelectOption>
 					</SelectPanel>
 				</div>
 			</div>

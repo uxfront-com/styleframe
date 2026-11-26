@@ -1,20 +1,14 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
 import { formatHex8 } from "culori";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
 	useHoverCapableModifier,
 } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusWithinModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+import { useFocusWithinModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
 import { useInputDateRecipe } from "./useInputDateRecipe";
@@ -128,22 +122,14 @@ describe("useInputDateRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"default",
-				"soft",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["default", "soft", "ghost"]);
 		});
 
 		it("should have size variants matching the field family", () => {
@@ -266,9 +252,7 @@ describe("useInputDateRecipe", () => {
 			const ghost = recipe.compoundVariants!.findIndex(
 				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
 			);
-			const invalid = recipe.compoundVariants!.findIndex(
-				(v) => v.match.invalid === "true",
-			);
+			const invalid = recipe.compoundVariants!.findIndex((v) => v.match.invalid === "true");
 
 			// A later compound replaces an earlier one's key, so invalid must follow ghost.
 			expect(invalid).toBeGreaterThan(ghost);
@@ -284,9 +268,7 @@ describe("useInputDateRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.readonly === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.readonly === "true");
 
 			expect(cv).toEqual({
 				match: { readonly: "true" },
@@ -301,9 +283,7 @@ describe("useInputDateRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.invalid === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.invalid === "true");
 
 			expect(cv).toEqual({
 				match: { invalid: "true" },
@@ -331,9 +311,7 @@ describe("useInputDateRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputDateRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.disabled === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.disabled === "true");
 
 			expect(cv).toEqual({
 				match: { disabled: "true" },
@@ -361,8 +339,7 @@ describe("useInputDateRecipe", () => {
 
 			const found = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".input-date-field",
+					child.type === "selector" && (child as { query: string }).query === ".input-date-field",
 			);
 
 			expect(found).toBeDefined();
@@ -390,8 +367,7 @@ describe("useInputDateRecipe", () => {
 			const touch = (
 				s.root.children.filter(
 					(child) =>
-						child.type === "selector" &&
-						(child as { query: string }).query === ".input-date-field",
+						child.type === "selector" && (child as { query: string }).query === ".input-date-field",
 				) as unknown as Array<{
 					children: Array<{
 						rule?: string;
@@ -460,9 +436,7 @@ describe("useInputDateRecipe separator colors", () => {
 		const key = name.slice("color.".length);
 		const themed = themes[theme][key];
 		if (themed) {
-			return themed.startsWith("@")
-				? resolve(themed.slice(1), theme)
-				: formatHex8(themed);
+			return themed.startsWith("@") ? resolve(themed.slice(1), theme) : formatHex8(themed);
 		}
 		const variable = s.root.variables.find((v) => v.name === name);
 		if (!variable) {
@@ -473,9 +447,7 @@ describe("useInputDateRecipe separator colors", () => {
 
 	function rule(query: string) {
 		return s.root.children.find(
-			(child) =>
-				child.type === "selector" &&
-				(child as { query: string }).query === query,
+			(child) => child.type === "selector" && (child as { query: string }).query === query,
 		) as unknown as
 			| {
 					declarations: Slot;
@@ -501,9 +473,7 @@ describe("useInputDateRecipe separator colors", () => {
 			const surface = recipe.compoundVariants!.find(
 				(cv) => cv.match.color === color && cv.match.variant === variant,
 			)!.css as Slot;
-			const text = (
-				theme === "dark" ? (surface["&:dark"] as Slot).color : surface.color
-			) as string;
+			const text = (theme === "dark" ? (surface["&:dark"] as Slot).color : surface.color) as string;
 			return `${resolve(text.slice(1), theme)} at 75%`;
 		}
 		return resolve((value as { name: string }).name, theme);
@@ -516,21 +486,15 @@ describe("useInputDateRecipe separator colors", () => {
 	it.each(fields.filter(({ color }) => color !== "neutral"))(
 		"input-date/fixed-colors keeps the $color $variant separator the same in both themes",
 		({ color, variant }) => {
-			expect(separator(color, variant, "dark")).toBe(
-				separator(color, variant, "light"),
-			);
+			expect(separator(color, variant, "dark")).toBe(separator(color, variant, "light"));
 		},
 	);
 
 	it.each(fields.filter(({ color }) => color === "neutral"))(
 		"input-date/separator keeps the neutral $variant separator adaptive",
 		({ color, variant }) => {
-			expect(separator(color, variant, "light")).toBe(
-				resolve("color.text-weak", "light"),
-			);
-			expect(separator(color, variant, "dark")).toBe(
-				resolve("color.gray-400", "dark"),
-			);
+			expect(separator(color, variant, "light")).toBe(resolve("color.text-weak", "light"));
+			expect(separator(color, variant, "dark")).toBe(resolve("color.gray-400", "dark"));
 		},
 	);
 

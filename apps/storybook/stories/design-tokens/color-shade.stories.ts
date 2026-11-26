@@ -1,17 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+
 import ColorSwatch from "../../src/components/design-tokens/colors/ColorSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 
 const shades = ["base", "50", "100", "150", "200"];
-const colors = [
-	"primary",
-	"secondary",
-	"success",
-	"warning",
-	"error",
-	"info",
-	"gray",
-];
+const colors = ["primary", "secondary", "success", "warning", "error", "info", "gray"];
 
 const shadeLabels: Record<string, string> = {
 	base: "Base",
@@ -28,9 +21,7 @@ const meta = {
 	argTypes: {
 		value: {
 			control: "select",
-			options: colors.flatMap((color) =>
-				shades.map((shade) => `${color}-shade-${shade}`),
-			),
+			options: colors.flatMap((color) => shades.map((shade) => `${color}-shade-${shade}`)),
 		},
 	},
 } satisfies Meta<typeof ColorSwatch>;

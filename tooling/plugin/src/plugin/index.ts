@@ -1,9 +1,11 @@
 import path from "node:path";
+
 import { consola } from "consola";
-import { transformWithOxc } from "vite";
 import type { Jiti } from "jiti";
 import type { UnpluginFactory } from "unplugin";
 import { createUnplugin } from "unplugin";
+import { transformWithOxc } from "vite";
+
 import {
 	DEFAULT_ENTRY,
 	DEFAULT_OPTIONS,
@@ -17,8 +19,22 @@ import {
 } from "./constants";
 import type { Options } from "./types";
 export type { Options } from "./types";
-import { createPluginState } from "./state";
+import { registerRecipeUtilities } from "@styleframe/core";
+
+import {
+	createDependencyGraph,
+	buildDependencyGraph,
+	getFilesToInvalidate,
+	isTrackedDependency,
+} from "./dependency-graph";
+import type { DependencyGraph } from "./dependency-graph";
 import { discoverStyleframeFiles, sortByLoadOrder } from "./discovery";
+import {
+	generateExtensionModule,
+	generateConsumerModule,
+	generateGlobalCSS,
+	generateTypeDeclarations,
+} from "./generate";
 import {
 	createPersistentJiti,
 	loadConfigFile,
@@ -27,27 +43,14 @@ import {
 	reloadAll,
 } from "./global-loader";
 import {
-	generateExtensionModule,
-	generateConsumerModule,
-	generateGlobalCSS,
-	generateTypeDeclarations,
-} from "./generate";
-import {
 	createPluginScanner,
 	scanAndRegister,
 	scanFileAndRegister,
 	isContentFile,
 } from "./scanner";
 import type { PluginScannerState } from "./scanner";
-import {
-	createDependencyGraph,
-	buildDependencyGraph,
-	getFilesToInvalidate,
-	isTrackedDependency,
-} from "./dependency-graph";
-import type { DependencyGraph } from "./dependency-graph";
+import { createPluginState } from "./state";
 import { transformSourceClassNames } from "./transform";
-import { registerRecipeUtilities } from "@styleframe/core";
 
 // Matches the source file: ./button.styleframe.ts
 const STYLEFRAME_SOURCE_REGEX = /\.styleframe\.ts$/;
@@ -63,17 +66,11 @@ const ALL_VIRTUAL_MODULE_IDS = [
 	RESOLVED_VIRTUAL_CONSUMER_ID,
 ];
 
-const CSS_AND_CONSUMER_MODULE_IDS = [
-	RESOLVED_VIRTUAL_CSS_MODULE_ID,
-	RESOLVED_VIRTUAL_CONSUMER_ID,
-];
+const CSS_AND_CONSUMER_MODULE_IDS = [RESOLVED_VIRTUAL_CSS_MODULE_ID, RESOLVED_VIRTUAL_CONSUMER_ID];
 
 type DevServerErrorChannel = {
 	ws: {
-		send(payload: {
-			type: "error";
-			err: { message: string; stack: string };
-		}): void;
+		send(payload: { type: "error"; err: { message: string; stack: string } }): void;
 	};
 };
 
@@ -141,17 +138,9 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 	// Reload all styleframe files with selective cache invalidation,
 	// re-scan content, rebuild the dependency graph, and re-register recipe utilities.
-	const reloadAndRescan = async (
-		files: Array<string>,
-		filesToInvalidate?: Array<string>,
-	) => {
+	const reloadAndRescan = async (files: Array<string>, filesToInvalidate?: Array<string>) => {
 		state.reportedDiagnostics.clear();
-		await reloadAll(
-			state,
-			files,
-			persistentJiti ?? undefined,
-			filesToInvalidate,
-		);
+		await reloadAll(state, files, persistentJiti ?? undefined, filesToInvalidate);
 
 		if (scannerState) {
 			await scanAndRegister(state, scannerState, {
@@ -197,9 +186,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 		try {
 			await reloadAndRescan([...state.files.keys()], filesToInvalidate);
 
-			const modulesToInvalidate = (
-				await Promise.all(moduleIds.map(resolveModule))
-			).filter(Boolean);
+			const modulesToInvalidate = (await Promise.all(moduleIds.map(resolveModule))).filter(Boolean);
 
 			scheduleTypeGeneration();
 
@@ -241,20 +228,13 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				const styleframeFiles = files.filter((f) => f !== configPath);
 
 				// 4. Sort by load order
-				const sortedFiles = sortByLoadOrder(
-					styleframeFiles,
-					options.loadOrder ?? "alphabetical",
-				);
+				const sortedFiles = sortByLoadOrder(styleframeFiles, options.loadOrder ?? "alphabetical");
 
 				// 5. Load all styleframe files
 				await loadAllStyleframeFiles(state, sortedFiles, persistentJiti);
 
 				// 6. Build dependency graph for selective cache invalidation
-				depGraph = await buildDependencyGraph(
-					configPath,
-					sortedFiles,
-					resolvedAliases,
-				);
+				depGraph = await buildDependencyGraph(configPath, sortedFiles, resolvedAliases);
 
 				// 7. Scan content files and auto-register utilities
 				if (options.scanner?.content?.length) {
@@ -274,8 +254,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 					const shouldTreeshake = options.recipes?.treeshake ?? isBuildCommand;
 
 					if (shouldTreeshake && scannerState) {
-						const importResult =
-							await scannerState.scanner.scanImports("virtual:styleframe");
+						const importResult = await scannerState.scanner.scanImports("virtual:styleframe");
 
 						const root = state.globalInstance.root;
 						const recipeNames = new Set(root._usage.recipeUtilities.keys());
@@ -287,10 +266,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 								);
 							}
 							registerRecipeUtilities(root);
-						} else if (
-							importResult.specifiers.size === 0 &&
-							recipeNames.size > 0
-						) {
+						} else if (importResult.specifiers.size === 0 && recipeNames.size > 0) {
 							if (!options.silent) {
 								consola.warn(
 									`[styleframe] No recipe imports detected but ${recipeNames.size} recipe(s) registered. Including all recipes. Check scanner.content patterns.`,
@@ -358,12 +334,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 				// 9. Generate type declarations
 				if (options.dts?.enabled !== false) {
-					await generateTypeDeclarations(
-						state,
-						cwd,
-						options.dts,
-						options.silent,
-					);
+					await generateTypeDeclarations(state, cwd, options.dts, options.silent);
 				}
 
 				if (!options.silent) {
@@ -406,15 +377,9 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 			// Consumer face: return aggregated exports
 			if (id === RESOLVED_VIRTUAL_CONSUMER_ID) {
 				const minify = isBuildCommand && options.minify !== false;
-				const minifyOptions =
-					typeof options.minify === "object" ? options.minify : undefined;
+				const minifyOptions = typeof options.minify === "object" ? options.minify : undefined;
 				return {
-					code: await generateConsumerModule(
-						state,
-						minify,
-						minifyOptions,
-						options.silent,
-					),
+					code: await generateConsumerModule(state, minify, minifyOptions, options.silent),
 				};
 			}
 
@@ -467,25 +432,14 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 				// Watch for new *.styleframe.ts files
 				server.watcher.on("add", async (file) => {
-					if (
-						isStyleframeSourceFile(file) &&
-						file !== configPath &&
-						!state.files.has(file)
-					) {
+					if (isStyleframeSourceFile(file) && file !== configPath && !state.files.has(file)) {
 						try {
 							state.reportedDiagnostics.clear();
 							const loadOrder = state.files.size;
-							await loadStyleframeFile(
-								state,
-								file,
-								loadOrder,
-								persistentJiti ?? undefined,
-							);
+							await loadStyleframeFile(state, file, loadOrder, persistentJiti ?? undefined);
 
 							if (!options.silent) {
-								consola.info(
-									`[styleframe] Discovered new file: ${path.relative(cwd, file)}`,
-								);
+								consola.info(`[styleframe] Discovered new file: ${path.relative(cwd, file)}`);
 							}
 
 							// Rebuild dependency graph to include the new file
@@ -509,10 +463,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 							invalidateServerModules(server);
 						} catch (error) {
-							consola.error(
-								`[styleframe] Failed to load new file: ${file}`,
-								error,
-							);
+							consola.error(`[styleframe] Failed to load new file: ${file}`, error);
 						}
 					}
 				});
@@ -521,9 +472,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				server.watcher.on("unlink", async (file) => {
 					if (state.files.has(file)) {
 						if (!options.silent) {
-							consola.info(
-								`[styleframe] File removed: ${path.relative(cwd, file)}`,
-							);
+							consola.info(`[styleframe] File removed: ${path.relative(cwd, file)}`);
 						}
 
 						try {
@@ -536,10 +485,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 							await reloadAndRescan(remainingFiles);
 							invalidateServerModules(server);
 						} catch (error) {
-							consola.error(
-								`[styleframe] Failed to reload after file removal: ${file}`,
-								error,
-							);
+							consola.error(`[styleframe] Failed to reload after file removal: ${file}`, error);
 						}
 					}
 				});
@@ -571,9 +517,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				// Styleframe file change → reload all with selective invalidation
 				if (state.files.has(ctx.file)) {
 					if (!options.silent) {
-						consola.info(
-							`[styleframe] File changed: ${path.relative(cwd, ctx.file)}`,
-						);
+						consola.info(`[styleframe] File changed: ${path.relative(cwd, ctx.file)}`);
 					}
 
 					const affected = getFilesToInvalidate(depGraph, ctx.file);
@@ -590,16 +534,11 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				// Content file change → incremental scan and register new utilities
 				if (isContentFile(scannerState, ctx.file)) {
 					try {
-						const hasNewValues = await scanFileAndRegister(
-							state,
-							scannerState!,
-							ctx.file,
-						);
+						const hasNewValues = await scanFileAndRegister(state, scannerState!, ctx.file);
 
 						// Check for recipe import changes
 						let recipeImportsChanged = false;
-						const shouldTreeshake =
-							options.recipes?.treeshake ?? isBuildCommand;
+						const shouldTreeshake = options.recipes?.treeshake ?? isBuildCommand;
 						if (shouldTreeshake && state.globalInstance) {
 							const fileImports = scannerState!.scanner.scanFileImports(
 								ctx.file,
@@ -620,26 +559,16 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 						}
 
 						if (hasNewValues || recipeImportsChanged) {
-							const modulesToInvalidate = [
-								...ctx.modules,
-							] as typeof ctx.modules;
-							const cssModule = await resolveModule(
-								RESOLVED_VIRTUAL_CSS_MODULE_ID,
-							);
+							const modulesToInvalidate = [...ctx.modules] as typeof ctx.modules;
+							const cssModule = await resolveModule(RESOLVED_VIRTUAL_CSS_MODULE_ID);
 							if (cssModule) {
-								modulesToInvalidate.push(
-									cssModule as (typeof ctx.modules)[number],
-								);
+								modulesToInvalidate.push(cssModule as (typeof ctx.modules)[number]);
 							}
 
 							if (recipeImportsChanged) {
-								const consumerModule = await resolveModule(
-									RESOLVED_VIRTUAL_CONSUMER_ID,
-								);
+								const consumerModule = await resolveModule(RESOLVED_VIRTUAL_CONSUMER_ID);
 								if (consumerModule) {
-									modulesToInvalidate.push(
-										consumerModule as (typeof ctx.modules)[number],
-									);
+									modulesToInvalidate.push(consumerModule as (typeof ctx.modules)[number]);
 								}
 								scheduleTypeGeneration();
 							}
@@ -647,10 +576,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 							return modulesToInvalidate;
 						}
 					} catch (error) {
-						consola.error(
-							`[styleframe] Failed to scan content file: ${ctx.file}`,
-							error,
-						);
+						consola.error(`[styleframe] Failed to scan content file: ${ctx.file}`, error);
 					}
 
 					return ctx.modules;
@@ -660,9 +586,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 				// e.g., shared theme composable, token utility, etc.
 				if (isTrackedDependency(depGraph, ctx.file, configPath, state.files)) {
 					if (!options.silent) {
-						consola.info(
-							`[styleframe] Dependency changed: ${path.relative(cwd, ctx.file)}`,
-						);
+						consola.info(`[styleframe] Dependency changed: ${path.relative(cwd, ctx.file)}`);
 					}
 
 					const affected = getFilesToInvalidate(depGraph, ctx.file);

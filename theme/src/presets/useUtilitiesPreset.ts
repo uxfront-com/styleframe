@@ -1,5 +1,356 @@
 import type { Styleframe } from "@styleframe/core";
 
+// Accessibility
+import {
+	useForcedColorAdjustUtility,
+	useNotSrOnlyUtility,
+	useSrOnlyUtility,
+} from "../utilities/accessibility";
+// Backgrounds
+import {
+	useBackgroundAttachmentUtility,
+	useBackgroundClipUtility,
+	useBackgroundColorUtility,
+	useBackgroundImageUtility,
+	useBackgroundOriginUtility,
+	useBackgroundPositionUtility,
+	useBackgroundRepeatUtility,
+	useBackgroundSizeUtility,
+	useBackgroundUtility,
+	useGradientFromUtility,
+	useGradientToUtility,
+	useGradientViaUtility,
+} from "../utilities/backgrounds";
+// Borders
+import {
+	useBorderColorBottomUtility,
+	useBorderBottomUtility,
+	useBorderColorEndUtility,
+	useBorderColorLeftUtility,
+	useBorderColorRightUtility,
+	useBorderColorStartUtility,
+	useBorderColorTopUtility,
+	useBorderColorUtility,
+	useBorderColorXUtility,
+	useBorderColorYUtility,
+	useBorderLeftUtility,
+	useBorderRightUtility,
+	useBorderTopUtility,
+	useBorderUtility,
+	useBorderRadiusBottomLeftUtility,
+	useBorderRadiusBottomRightUtility,
+	useBorderRadiusBottomUtility,
+	useBorderRadiusEndEndUtility,
+	useBorderRadiusEndStartUtility,
+	useBorderRadiusEndUtility,
+	useBorderRadiusLeftUtility,
+	useBorderRadiusRightUtility,
+	useBorderRadiusStartEndUtility,
+	useBorderRadiusStartStartUtility,
+	useBorderRadiusStartUtility,
+	useBorderRadiusTopLeftUtility,
+	useBorderRadiusTopRightUtility,
+	useBorderRadiusTopUtility,
+	useBorderRadiusUtility,
+	useBorderStyleBottomUtility,
+	useBorderStyleEndUtility,
+	useBorderStyleLeftUtility,
+	useBorderStyleRightUtility,
+	useBorderStyleStartUtility,
+	useBorderStyleTopUtility,
+	useBorderStyleUtility,
+	useBorderStyleXUtility,
+	useBorderStyleYUtility,
+	useBorderWidthBottomUtility,
+	useBorderWidthEndUtility,
+	useBorderWidthLeftUtility,
+	useBorderWidthRightUtility,
+	useBorderWidthStartUtility,
+	useBorderWidthTopUtility,
+	useBorderWidthUtility,
+	useBorderWidthXUtility,
+	useBorderWidthYUtility,
+	useDivideColorUtility,
+	useDivideStyleUtility,
+	useDivideXReverseUtility,
+	useDivideXUtility,
+	useDivideYReverseUtility,
+	useDivideYUtility,
+	useOutlineColorUtility,
+	useOutlineOffsetUtility,
+	useOutlineStyleUtility,
+	useOutlineUtility,
+	useOutlineWidthUtility,
+	useRingColorUtility,
+	useRingInsetUtility,
+	useRingOffsetColorUtility,
+	useRingOffsetWidthUtility,
+	useRingWidthUtility,
+} from "../utilities/borders";
+// Effects
+import {
+	useBackgroundBlendModeUtility,
+	useBoxShadowColorUtility,
+	useBoxShadowUtility,
+	useMixBlendModeUtility,
+	useOpacityUtility,
+	useTextShadowColorUtility,
+	useTextShadowUtility,
+} from "../utilities/effects";
+// Filters
+import {
+	useBackdropBlurUtility,
+	useBackdropBrightnessUtility,
+	useBackdropContrastUtility,
+	useBackdropGrayscaleUtility,
+	useBackdropHueRotateUtility,
+	useBackdropInvertUtility,
+	useBackdropOpacityUtility,
+	useBackdropSaturateUtility,
+	useBackdropSepiaUtility,
+	useBlurUtility,
+	useBrightnessUtility,
+	useContrastUtility,
+	useDropShadowUtility,
+	useFilterUtility,
+	useGrayscaleUtility,
+	useHueRotateUtility,
+	useInvertUtility,
+	useSaturateUtility,
+	useSepiaUtility,
+} from "../utilities/filters";
+// Flexbox and Grid
+import {
+	useAlignContentUtility,
+	useAlignItemsUtility,
+	useAlignSelfUtility,
+	useFlexBasisUtility,
+	useFlexDirectionUtility,
+	useFlexGrowUtility,
+	useFlexShrinkUtility,
+	useFlexUtility,
+	useFlexWrapUtility,
+	useGapUtility,
+	useGapXUtility,
+	useGapYUtility,
+	useGridAutoColumnsUtility,
+	useGridAutoFlowUtility,
+	useGridAutoRowsUtility,
+	useGridColumnEndUtility,
+	useGridColumnStartUtility,
+	useGridColumnUtility,
+	useGridRowEndUtility,
+	useGridRowStartUtility,
+	useGridRowUtility,
+	useGridTemplateColumnsUtility,
+	useGridTemplateRowsUtility,
+	useJustifyContentUtility,
+	useJustifyItemsUtility,
+	useJustifySelfUtility,
+	useOrderUtility,
+	usePlaceContentUtility,
+	usePlaceItemsUtility,
+	usePlaceSelfUtility,
+} from "../utilities/flexbox-grid";
+// Interactivity
+import {
+	useAccentColorUtility,
+	useAppearanceUtility,
+	useWebkitAppearanceUtility,
+	useCaretColorUtility,
+	useColorSchemeUtility,
+	useCursorUtility,
+	usePointerEventsUtility,
+	useResizeUtility,
+	useScrollBehaviorUtility,
+	useScrollMarginBottomUtility,
+	useScrollMarginEndUtility,
+	useScrollMarginLeftUtility,
+	useScrollMarginRightUtility,
+	useScrollMarginStartUtility,
+	useScrollMarginTopUtility,
+	useScrollMarginUtility,
+	useScrollMarginXUtility,
+	useScrollMarginYUtility,
+	useScrollPaddingBottomUtility,
+	useScrollPaddingEndUtility,
+	useScrollPaddingLeftUtility,
+	useScrollPaddingRightUtility,
+	useScrollPaddingStartUtility,
+	useScrollPaddingTopUtility,
+	useScrollPaddingUtility,
+	useScrollPaddingXUtility,
+	useScrollPaddingYUtility,
+	useScrollSnapAlignUtility,
+	useScrollSnapStopUtility,
+	useScrollSnapTypeUtility,
+	useTouchActionUtility,
+	useUserSelectUtility,
+	useWillChangeUtility,
+} from "../utilities/interactivity";
+// Layout
+import {
+	useAnchorNameUtility,
+	useAspectRatioUtility,
+	useBottomUtility,
+	useBoxDecorationBreakUtility,
+	useBoxSizingUtility,
+	useBreakAfterUtility,
+	useBreakBeforeUtility,
+	useBreakInsideUtility,
+	useClearUtility,
+	useColumnsUtility,
+	useContainerNameUtility,
+	useContainerTypeUtility,
+	useDisplayUtility,
+	useFloatUtility,
+	useInsetEndUtility,
+	useInsetStartUtility,
+	useInsetUtility,
+	useInsetXUtility,
+	useInsetYUtility,
+	useIsolationUtility,
+	useLeftUtility,
+	useObjectFitUtility,
+	useObjectPositionUtility,
+	useOverflowUtility,
+	useOverflowXUtility,
+	useOverflowYUtility,
+	useOverscrollUtility,
+	useOverscrollXUtility,
+	useOverscrollYUtility,
+	usePositionAnchorUtility,
+	usePositionAreaUtility,
+	usePositionTryFallbacksUtility,
+	usePositionUtility,
+	useRightUtility,
+	useTopUtility,
+	useVisibilityUtility,
+	useZIndexUtility,
+} from "../utilities/layout";
+// Sizing
+import {
+	useHeightUtility,
+	useMaxHeightUtility,
+	useMaxWidthUtility,
+	useMinHeightUtility,
+	useMinWidthUtility,
+	useSizeUtility,
+	useWidthUtility,
+} from "../utilities/sizing";
+// Spacing
+import {
+	useMarginBlockUtility,
+	useMarginBottomUtility,
+	useMarginInlineEndUtility,
+	useMarginInlineStartUtility,
+	useMarginInlineUtility,
+	useMarginLeftUtility,
+	useMarginRightUtility,
+	useMarginTopUtility,
+	useMarginUtility,
+	useMarginXUtility,
+	useMarginYUtility,
+	usePaddingBlockUtility,
+	usePaddingBottomUtility,
+	usePaddingInlineEndUtility,
+	usePaddingInlineStartUtility,
+	usePaddingInlineUtility,
+	usePaddingLeftUtility,
+	usePaddingRightUtility,
+	usePaddingTopUtility,
+	usePaddingUtility,
+	usePaddingXUtility,
+	usePaddingYUtility,
+	useSpaceXReverseUtility,
+	useSpaceXUtility,
+	useSpaceYReverseUtility,
+	useSpaceYUtility,
+} from "../utilities/spacing";
+// SVG
+import { useFillUtility, useStrokeUtility, useStrokeWidthUtility } from "../utilities/svg";
+// Tables
+import {
+	useBorderCollapseUtility,
+	useBorderSpacingUtility,
+	useBorderSpacingXUtility,
+	useBorderSpacingYUtility,
+	useCaptionSideUtility,
+	useTableLayoutUtility,
+} from "../utilities/tables";
+// Transforms
+import {
+	useBackfaceVisibilityUtility,
+	usePerspectiveOriginUtility,
+	usePerspectiveUtility,
+	useRotateUtility,
+	useRotateXUtility,
+	useRotateYUtility,
+	useScaleUtility,
+	useScaleXUtility,
+	useScaleYUtility,
+	useSkewXUtility,
+	useSkewYUtility,
+	useTransformOriginUtility,
+	useTransformStyleUtility,
+	useTransformUtility,
+	useTranslateUtility,
+	useTranslateXUtility,
+	useTranslateYUtility,
+	useTranslateZUtility,
+} from "../utilities/transforms";
+// Transitions and Animation
+import {
+	useAnimationUtility,
+	useAnimationNameUtility,
+	useAnimationDurationUtility,
+	useAnimationTimingFunctionUtility,
+	useAnimationIterationCountUtility,
+	useTransitionBehaviorUtility,
+	useTransitionDelayUtility,
+	useTransitionDurationUtility,
+	useTransitionPropertyUtility,
+	useTransitionTimingFunctionUtility,
+	useTransitionUtility,
+	useViewTransitionNameUtility,
+} from "../utilities/transitions-animation";
+// Typography
+import {
+	useColorUtility,
+	useContentUtility,
+	useFontFamilyUtility,
+	useFontSizeUtility,
+	useFontSmoothingUtility,
+	useFontStretchUtility,
+	useFontStyleUtility,
+	useFontVariantNumericUtility,
+	useFontWeightUtility,
+	useHyphensUtility,
+	useLetterSpacingUtility,
+	useLineClampUtility,
+	useLineHeightUtility,
+	useListStyleImageUtility,
+	useListStylePositionUtility,
+	useListStyleTypeUtility,
+	useListStyleUtility,
+	useOverflowWrapUtility,
+	useTextAlignUtility,
+	useTextColorUtility,
+	useTextDecorationColorUtility,
+	useTextDecorationLineUtility,
+	useTextDecorationStyleUtility,
+	useTextDecorationThicknessUtility,
+	useTextDecorationUtility,
+	useTextIndentUtility,
+	useTextOverflowUtility,
+	useTextTransformUtility,
+	useTextUnderlineOffsetUtility,
+	useTextWrapUtility,
+	useVerticalAlignUtility,
+	useWhitespaceUtility,
+	useWhiteSpaceUtility,
+	useWordBreakUtility,
+} from "../utilities/typography";
 // Import default values from centralized values folder
 import {
 	// Accessibility
@@ -101,376 +452,6 @@ import {
 	whitespaceValues,
 	wordBreakValues,
 } from "../values";
-
-// Accessibility
-import {
-	useForcedColorAdjustUtility,
-	useNotSrOnlyUtility,
-	useSrOnlyUtility,
-} from "../utilities/accessibility";
-
-// Backgrounds
-import {
-	useBackgroundAttachmentUtility,
-	useBackgroundClipUtility,
-	useBackgroundColorUtility,
-	useBackgroundImageUtility,
-	useBackgroundOriginUtility,
-	useBackgroundPositionUtility,
-	useBackgroundRepeatUtility,
-	useBackgroundSizeUtility,
-	useBackgroundUtility,
-	useGradientFromUtility,
-	useGradientToUtility,
-	useGradientViaUtility,
-} from "../utilities/backgrounds";
-
-// Borders
-import {
-	useBorderColorBottomUtility,
-	useBorderBottomUtility,
-	useBorderColorEndUtility,
-	useBorderColorLeftUtility,
-	useBorderColorRightUtility,
-	useBorderColorStartUtility,
-	useBorderColorTopUtility,
-	useBorderColorUtility,
-	useBorderColorXUtility,
-	useBorderColorYUtility,
-	useBorderLeftUtility,
-	useBorderRightUtility,
-	useBorderTopUtility,
-	useBorderUtility,
-	useBorderRadiusBottomLeftUtility,
-	useBorderRadiusBottomRightUtility,
-	useBorderRadiusBottomUtility,
-	useBorderRadiusEndEndUtility,
-	useBorderRadiusEndStartUtility,
-	useBorderRadiusEndUtility,
-	useBorderRadiusLeftUtility,
-	useBorderRadiusRightUtility,
-	useBorderRadiusStartEndUtility,
-	useBorderRadiusStartStartUtility,
-	useBorderRadiusStartUtility,
-	useBorderRadiusTopLeftUtility,
-	useBorderRadiusTopRightUtility,
-	useBorderRadiusTopUtility,
-	useBorderRadiusUtility,
-	useBorderStyleBottomUtility,
-	useBorderStyleEndUtility,
-	useBorderStyleLeftUtility,
-	useBorderStyleRightUtility,
-	useBorderStyleStartUtility,
-	useBorderStyleTopUtility,
-	useBorderStyleUtility,
-	useBorderStyleXUtility,
-	useBorderStyleYUtility,
-	useBorderWidthBottomUtility,
-	useBorderWidthEndUtility,
-	useBorderWidthLeftUtility,
-	useBorderWidthRightUtility,
-	useBorderWidthStartUtility,
-	useBorderWidthTopUtility,
-	useBorderWidthUtility,
-	useBorderWidthXUtility,
-	useBorderWidthYUtility,
-	useDivideColorUtility,
-	useDivideStyleUtility,
-	useDivideXReverseUtility,
-	useDivideXUtility,
-	useDivideYReverseUtility,
-	useDivideYUtility,
-	useOutlineColorUtility,
-	useOutlineOffsetUtility,
-	useOutlineStyleUtility,
-	useOutlineUtility,
-	useOutlineWidthUtility,
-	useRingColorUtility,
-	useRingInsetUtility,
-	useRingOffsetColorUtility,
-	useRingOffsetWidthUtility,
-	useRingWidthUtility,
-} from "../utilities/borders";
-
-// Effects
-import {
-	useBackgroundBlendModeUtility,
-	useBoxShadowColorUtility,
-	useBoxShadowUtility,
-	useMixBlendModeUtility,
-	useOpacityUtility,
-	useTextShadowColorUtility,
-	useTextShadowUtility,
-} from "../utilities/effects";
-
-// Filters
-import {
-	useBackdropBlurUtility,
-	useBackdropBrightnessUtility,
-	useBackdropContrastUtility,
-	useBackdropGrayscaleUtility,
-	useBackdropHueRotateUtility,
-	useBackdropInvertUtility,
-	useBackdropOpacityUtility,
-	useBackdropSaturateUtility,
-	useBackdropSepiaUtility,
-	useBlurUtility,
-	useBrightnessUtility,
-	useContrastUtility,
-	useDropShadowUtility,
-	useFilterUtility,
-	useGrayscaleUtility,
-	useHueRotateUtility,
-	useInvertUtility,
-	useSaturateUtility,
-	useSepiaUtility,
-} from "../utilities/filters";
-
-// Flexbox and Grid
-import {
-	useAlignContentUtility,
-	useAlignItemsUtility,
-	useAlignSelfUtility,
-	useFlexBasisUtility,
-	useFlexDirectionUtility,
-	useFlexGrowUtility,
-	useFlexShrinkUtility,
-	useFlexUtility,
-	useFlexWrapUtility,
-	useGapUtility,
-	useGapXUtility,
-	useGapYUtility,
-	useGridAutoColumnsUtility,
-	useGridAutoFlowUtility,
-	useGridAutoRowsUtility,
-	useGridColumnEndUtility,
-	useGridColumnStartUtility,
-	useGridColumnUtility,
-	useGridRowEndUtility,
-	useGridRowStartUtility,
-	useGridRowUtility,
-	useGridTemplateColumnsUtility,
-	useGridTemplateRowsUtility,
-	useJustifyContentUtility,
-	useJustifyItemsUtility,
-	useJustifySelfUtility,
-	useOrderUtility,
-	usePlaceContentUtility,
-	usePlaceItemsUtility,
-	usePlaceSelfUtility,
-} from "../utilities/flexbox-grid";
-
-// Interactivity
-import {
-	useAccentColorUtility,
-	useAppearanceUtility,
-	useWebkitAppearanceUtility,
-	useCaretColorUtility,
-	useColorSchemeUtility,
-	useCursorUtility,
-	usePointerEventsUtility,
-	useResizeUtility,
-	useScrollBehaviorUtility,
-	useScrollMarginBottomUtility,
-	useScrollMarginEndUtility,
-	useScrollMarginLeftUtility,
-	useScrollMarginRightUtility,
-	useScrollMarginStartUtility,
-	useScrollMarginTopUtility,
-	useScrollMarginUtility,
-	useScrollMarginXUtility,
-	useScrollMarginYUtility,
-	useScrollPaddingBottomUtility,
-	useScrollPaddingEndUtility,
-	useScrollPaddingLeftUtility,
-	useScrollPaddingRightUtility,
-	useScrollPaddingStartUtility,
-	useScrollPaddingTopUtility,
-	useScrollPaddingUtility,
-	useScrollPaddingXUtility,
-	useScrollPaddingYUtility,
-	useScrollSnapAlignUtility,
-	useScrollSnapStopUtility,
-	useScrollSnapTypeUtility,
-	useTouchActionUtility,
-	useUserSelectUtility,
-	useWillChangeUtility,
-} from "../utilities/interactivity";
-
-// Layout
-import {
-	useAnchorNameUtility,
-	useAspectRatioUtility,
-	useBottomUtility,
-	useBoxDecorationBreakUtility,
-	useBoxSizingUtility,
-	useBreakAfterUtility,
-	useBreakBeforeUtility,
-	useBreakInsideUtility,
-	useClearUtility,
-	useColumnsUtility,
-	useContainerNameUtility,
-	useContainerTypeUtility,
-	useDisplayUtility,
-	useFloatUtility,
-	useInsetEndUtility,
-	useInsetStartUtility,
-	useInsetUtility,
-	useInsetXUtility,
-	useInsetYUtility,
-	useIsolationUtility,
-	useLeftUtility,
-	useObjectFitUtility,
-	useObjectPositionUtility,
-	useOverflowUtility,
-	useOverflowXUtility,
-	useOverflowYUtility,
-	useOverscrollUtility,
-	useOverscrollXUtility,
-	useOverscrollYUtility,
-	usePositionAnchorUtility,
-	usePositionAreaUtility,
-	usePositionTryFallbacksUtility,
-	usePositionUtility,
-	useRightUtility,
-	useTopUtility,
-	useVisibilityUtility,
-	useZIndexUtility,
-} from "../utilities/layout";
-
-// Sizing
-import {
-	useHeightUtility,
-	useMaxHeightUtility,
-	useMaxWidthUtility,
-	useMinHeightUtility,
-	useMinWidthUtility,
-	useSizeUtility,
-	useWidthUtility,
-} from "../utilities/sizing";
-
-// Spacing
-import {
-	useMarginBlockUtility,
-	useMarginBottomUtility,
-	useMarginInlineEndUtility,
-	useMarginInlineStartUtility,
-	useMarginInlineUtility,
-	useMarginLeftUtility,
-	useMarginRightUtility,
-	useMarginTopUtility,
-	useMarginUtility,
-	useMarginXUtility,
-	useMarginYUtility,
-	usePaddingBlockUtility,
-	usePaddingBottomUtility,
-	usePaddingInlineEndUtility,
-	usePaddingInlineStartUtility,
-	usePaddingInlineUtility,
-	usePaddingLeftUtility,
-	usePaddingRightUtility,
-	usePaddingTopUtility,
-	usePaddingUtility,
-	usePaddingXUtility,
-	usePaddingYUtility,
-	useSpaceXReverseUtility,
-	useSpaceXUtility,
-	useSpaceYReverseUtility,
-	useSpaceYUtility,
-} from "../utilities/spacing";
-
-// SVG
-import {
-	useFillUtility,
-	useStrokeUtility,
-	useStrokeWidthUtility,
-} from "../utilities/svg";
-
-// Tables
-import {
-	useBorderCollapseUtility,
-	useBorderSpacingUtility,
-	useBorderSpacingXUtility,
-	useBorderSpacingYUtility,
-	useCaptionSideUtility,
-	useTableLayoutUtility,
-} from "../utilities/tables";
-
-// Transforms
-import {
-	useBackfaceVisibilityUtility,
-	usePerspectiveOriginUtility,
-	usePerspectiveUtility,
-	useRotateUtility,
-	useRotateXUtility,
-	useRotateYUtility,
-	useScaleUtility,
-	useScaleXUtility,
-	useScaleYUtility,
-	useSkewXUtility,
-	useSkewYUtility,
-	useTransformOriginUtility,
-	useTransformStyleUtility,
-	useTransformUtility,
-	useTranslateUtility,
-	useTranslateXUtility,
-	useTranslateYUtility,
-	useTranslateZUtility,
-} from "../utilities/transforms";
-
-// Transitions and Animation
-import {
-	useAnimationUtility,
-	useAnimationNameUtility,
-	useAnimationDurationUtility,
-	useAnimationTimingFunctionUtility,
-	useAnimationIterationCountUtility,
-	useTransitionBehaviorUtility,
-	useTransitionDelayUtility,
-	useTransitionDurationUtility,
-	useTransitionPropertyUtility,
-	useTransitionTimingFunctionUtility,
-	useTransitionUtility,
-	useViewTransitionNameUtility,
-} from "../utilities/transitions-animation";
-
-// Typography
-import {
-	useColorUtility,
-	useContentUtility,
-	useFontFamilyUtility,
-	useFontSizeUtility,
-	useFontSmoothingUtility,
-	useFontStretchUtility,
-	useFontStyleUtility,
-	useFontVariantNumericUtility,
-	useFontWeightUtility,
-	useHyphensUtility,
-	useLetterSpacingUtility,
-	useLineClampUtility,
-	useLineHeightUtility,
-	useListStyleImageUtility,
-	useListStylePositionUtility,
-	useListStyleTypeUtility,
-	useListStyleUtility,
-	useOverflowWrapUtility,
-	useTextAlignUtility,
-	useTextColorUtility,
-	useTextDecorationColorUtility,
-	useTextDecorationLineUtility,
-	useTextDecorationStyleUtility,
-	useTextDecorationThicknessUtility,
-	useTextDecorationUtility,
-	useTextIndentUtility,
-	useTextOverflowUtility,
-	useTextTransformUtility,
-	useTextUnderlineOffsetUtility,
-	useTextWrapUtility,
-	useVerticalAlignUtility,
-	useWhitespaceUtility,
-	useWhiteSpaceUtility,
-	useWordBreakUtility,
-} from "../utilities/typography";
 
 // =============================================================================
 // Configuration Types
@@ -684,10 +665,7 @@ export interface UtilitiesPresetConfig {
  * utilities.createMarginUtility({ sm: '0.5rem', md: '1rem', lg: '1.5rem' });
  * ```
  */
-export function useUtilitiesPreset(
-	s: Styleframe,
-	config: UtilitiesPresetConfig = {},
-) {
+export function useUtilitiesPreset(s: Styleframe, config: UtilitiesPresetConfig = {}) {
 	const shouldMerge = config.meta?.merge !== false;
 
 	/**
@@ -721,55 +699,25 @@ export function useUtilitiesPreset(
 	}
 
 	// Resolve all utility values
-	const forcedColorAdjust = resolveValues(
-		config.forcedColorAdjust,
-		forcedColorAdjustValues,
-	);
+	const forcedColorAdjust = resolveValues(config.forcedColorAdjust, forcedColorAdjustValues);
 	const backgroundAttachment = resolveValues(
 		config.backgroundAttachment,
 		backgroundAttachmentValues,
 	);
-	const backgroundClip = resolveValues(
-		config.backgroundClip,
-		backgroundClipValues,
-	);
-	const backgroundImage = resolveValues(
-		config.backgroundImage,
-		backgroundImageValues,
-	);
-	const backgroundOrigin = resolveValues(
-		config.backgroundOrigin,
-		backgroundOriginValues,
-	);
-	const backgroundPosition = resolveValues(
-		config.backgroundPosition,
-		backgroundPositionValues,
-	);
-	const backgroundRepeat = resolveValues(
-		config.backgroundRepeat,
-		backgroundRepeatValues,
-	);
-	const backgroundSize = resolveValues(
-		config.backgroundSize,
-		backgroundSizeValues,
-	);
-	const backgroundBlendMode = resolveValues(
-		config.backgroundBlendMode,
-		backgroundBlendModeValues,
-	);
+	const backgroundClip = resolveValues(config.backgroundClip, backgroundClipValues);
+	const backgroundImage = resolveValues(config.backgroundImage, backgroundImageValues);
+	const backgroundOrigin = resolveValues(config.backgroundOrigin, backgroundOriginValues);
+	const backgroundPosition = resolveValues(config.backgroundPosition, backgroundPositionValues);
+	const backgroundRepeat = resolveValues(config.backgroundRepeat, backgroundRepeatValues);
+	const backgroundSize = resolveValues(config.backgroundSize, backgroundSizeValues);
+	const backgroundBlendMode = resolveValues(config.backgroundBlendMode, backgroundBlendModeValues);
 	const mixBlendMode = resolveValues(config.mixBlendMode, mixBlendModeValues);
 	const divideStyle = resolveValues(config.divideStyle, divideStyleValues);
 	const outlineStyle = resolveValues(config.outlineStyle, outlineStyleValues);
 	const flex = resolveValues(config.flex, flexValues);
-	const flexDirection = resolveValues(
-		config.flexDirection,
-		flexDirectionValues,
-	);
+	const flexDirection = resolveValues(config.flexDirection, flexDirectionValues);
 	const flexWrap = resolveValues(config.flexWrap, flexWrapValues);
-	const justifyContent = resolveValues(
-		config.justifyContent,
-		justifyContentValues,
-	);
+	const justifyContent = resolveValues(config.justifyContent, justifyContentValues);
 	const justifyItems = resolveValues(config.justifyItems, justifyItemsValues);
 	const justifySelf = resolveValues(config.justifySelf, justifySelfValues);
 	const alignContent = resolveValues(config.alignContent, alignContentValues);
@@ -780,60 +728,33 @@ export function useUtilitiesPreset(
 	const placeSelf = resolveValues(config.placeSelf, placeSelfValues);
 	const gridAutoFlow = resolveValues(config.gridAutoFlow, gridAutoFlowValues);
 	const appearance = resolveValues(config.appearance, appearanceValues);
-	const webkitAppearance = resolveValues(
-		config.webkitAppearance,
-		appearanceValues,
-	);
+	const webkitAppearance = resolveValues(config.webkitAppearance, appearanceValues);
 	const colorScheme = resolveValues(config.colorScheme, colorSchemeValues);
 	const cursor = resolveValues(config.cursor, cursorValues);
-	const pointerEvents = resolveValues(
-		config.pointerEvents,
-		pointerEventsValues,
-	);
+	const pointerEvents = resolveValues(config.pointerEvents, pointerEventsValues);
 	const resize = resolveValues(config.resize, resizeValues);
-	const scrollBehavior = resolveValues(
-		config.scrollBehavior,
-		scrollBehaviorValues,
-	);
-	const scrollSnapAlign = resolveValues(
-		config.scrollSnapAlign,
-		scrollSnapAlignValues,
-	);
-	const scrollSnapStop = resolveValues(
-		config.scrollSnapStop,
-		scrollSnapStopValues,
-	);
-	const scrollSnapType = resolveValues(
-		config.scrollSnapType,
-		scrollSnapTypeValues,
-	);
+	const scrollBehavior = resolveValues(config.scrollBehavior, scrollBehaviorValues);
+	const scrollSnapAlign = resolveValues(config.scrollSnapAlign, scrollSnapAlignValues);
+	const scrollSnapStop = resolveValues(config.scrollSnapStop, scrollSnapStopValues);
+	const scrollSnapType = resolveValues(config.scrollSnapType, scrollSnapTypeValues);
 	const touchAction = resolveValues(config.touchAction, touchActionValues);
 	const userSelect = resolveValues(config.userSelect, userSelectValues);
 	const willChange = resolveValues(config.willChange, willChangeValues);
 	const anchorName = resolveValues(config.anchorName, {});
 	const aspectRatio = resolveValues(config.aspectRatio, aspectRatioValues);
-	const boxDecorationBreak = resolveValues(
-		config.boxDecorationBreak,
-		boxDecorationBreakValues,
-	);
+	const boxDecorationBreak = resolveValues(config.boxDecorationBreak, boxDecorationBreakValues);
 	const boxSizing = resolveValues(config.boxSizing, boxSizingValues);
 	const breakAfter = resolveValues(config.breakAfter, breakAfterValues);
 	const breakBefore = resolveValues(config.breakBefore, breakBeforeValues);
 	const breakInside = resolveValues(config.breakInside, breakInsideValues);
 	const clear = resolveValues(config.clear, clearValues);
-	const containerType = resolveValues(
-		config.containerType,
-		containerTypeValues,
-	);
+	const containerType = resolveValues(config.containerType, containerTypeValues);
 	const containerName = resolveValues(config.containerName, {});
 	const display = resolveValues(config.display, displayValues);
 	const float = resolveValues(config.float, floatValues);
 	const isolation = resolveValues(config.isolation, isolationValues);
 	const objectFit = resolveValues(config.objectFit, objectFitValues);
-	const objectPosition = resolveValues(
-		config.objectPosition,
-		objectPositionValues,
-	);
+	const objectPosition = resolveValues(config.objectPosition, objectPositionValues);
 	const overflow = resolveValues(config.overflow, overflowValues);
 	const overscroll = resolveValues(config.overscroll, overscrollValues);
 	const position = resolveValues(config.position, positionValues);
@@ -850,91 +771,37 @@ export function useUtilitiesPreset(
 	const maxHeight = resolveValues(config.maxHeight, {});
 	const borderStyle = resolveValues(config.borderStyle, borderStyleValues);
 	const borderWidth = resolveValues(config.borderWidth, borderWidthValues);
-	const borderCollapse = resolveValues(
-		config.borderCollapse,
-		borderCollapseValues,
-	);
+	const borderCollapse = resolveValues(config.borderCollapse, borderCollapseValues);
 	const captionSide = resolveValues(config.captionSide, captionSideValues);
 	const tableLayout = resolveValues(config.tableLayout, tableLayoutValues);
-	const backfaceVisibility = resolveValues(
-		config.backfaceVisibility,
-		backfaceVisibilityValues,
-	);
-	const perspectiveOrigin = resolveValues(
-		config.perspectiveOrigin,
-		perspectiveOriginValues,
-	);
+	const backfaceVisibility = resolveValues(config.backfaceVisibility, backfaceVisibilityValues);
+	const perspectiveOrigin = resolveValues(config.perspectiveOrigin, perspectiveOriginValues);
 	const transform = resolveValues(config.transform, {});
-	const transformOrigin = resolveValues(
-		config.transformOrigin,
-		transformOriginValues,
-	);
-	const transformStyle = resolveValues(
-		config.transformStyle,
-		transformStyleValues,
-	);
+	const transformOrigin = resolveValues(config.transformOrigin, transformOriginValues);
+	const transformStyle = resolveValues(config.transformStyle, transformStyleValues);
 	const animation = resolveValues(config.animation, animationValues);
 	const animationName = resolveValues(config.animationName, {});
 	const animationDuration = resolveValues(config.animationDuration, {});
-	const animationTimingFunction = resolveValues(
-		config.animationTimingFunction,
-		{},
-	);
-	const animationIterationCount = resolveValues(
-		config.animationIterationCount,
-		{},
-	);
-	const transitionBehavior = resolveValues(
-		config.transitionBehavior,
-		transitionBehaviorValues,
-	);
-	const transitionProperty = resolveValues(
-		config.transitionProperty,
-		transitionPropertyValues,
-	);
+	const animationTimingFunction = resolveValues(config.animationTimingFunction, {});
+	const animationIterationCount = resolveValues(config.animationIterationCount, {});
+	const transitionBehavior = resolveValues(config.transitionBehavior, transitionBehaviorValues);
+	const transitionProperty = resolveValues(config.transitionProperty, transitionPropertyValues);
 	const viewTransitionName = resolveValues(config.viewTransitionName, {});
-	const fontSmoothing = resolveValues(
-		config.fontSmoothing,
-		fontSmoothingValues,
-	);
+	const fontSmoothing = resolveValues(config.fontSmoothing, fontSmoothingValues);
 	const fontStretch = resolveValues(config.fontStretch, fontStretchValues);
-	const fontVariantNumeric = resolveValues(
-		config.fontVariantNumeric,
-		fontVariantNumericValues,
-	);
+	const fontVariantNumeric = resolveValues(config.fontVariantNumeric, fontVariantNumericValues);
 	const hyphens = resolveValues(config.hyphens, hyphensValues);
-	const listStylePosition = resolveValues(
-		config.listStylePosition,
-		listStylePositionValues,
-	);
-	const listStyleType = resolveValues(
-		config.listStyleType,
-		listStyleTypeValues,
-	);
+	const listStylePosition = resolveValues(config.listStylePosition, listStylePositionValues);
+	const listStyleType = resolveValues(config.listStyleType, listStyleTypeValues);
 	const overflowWrap = resolveValues(config.overflowWrap, overflowWrapValues);
 	const textAlign = resolveValues(config.textAlign, textAlignValues);
-	const textDecoration = resolveValues(
-		config.textDecoration,
-		textDecorationValues,
-	);
-	const textDecorationLine = resolveValues(
-		config.textDecorationLine,
-		textDecorationLineValues,
-	);
-	const textDecorationStyle = resolveValues(
-		config.textDecorationStyle,
-		textDecorationStyleValues,
-	);
+	const textDecoration = resolveValues(config.textDecoration, textDecorationValues);
+	const textDecorationLine = resolveValues(config.textDecorationLine, textDecorationLineValues);
+	const textDecorationStyle = resolveValues(config.textDecorationStyle, textDecorationStyleValues);
 	const textOverflow = resolveValues(config.textOverflow, textOverflowValues);
-	const textTransform = resolveValues(
-		config.textTransform,
-		textTransformValues,
-	);
+	const textTransform = resolveValues(config.textTransform, textTransformValues);
 	const textWrap = resolveValues(config.textWrap, textWrapValues);
-	const verticalAlign = resolveValues(
-		config.verticalAlign,
-		verticalAlignValues,
-	);
+	const verticalAlign = resolveValues(config.verticalAlign, verticalAlignValues);
 	const whiteSpace = resolveValues(config.whiteSpace, whitespaceValues);
 	const whitespace = resolveValues(config.whitespace, whitespaceValues);
 	const wordBreak = resolveValues(config.wordBreak, wordBreakValues);
@@ -1062,12 +929,7 @@ export function useUtilitiesPreset(
 		createOutlineStyleUtility(outlineStyle);
 	}
 
-	const createFlexUtility = useFlexUtility(
-		s,
-		undefined,
-		undefined,
-		resolveUtilityOptions("flex"),
-	);
+	const createFlexUtility = useFlexUtility(s, undefined, undefined, resolveUtilityOptions("flex"));
 	if (flex) {
 		createFlexUtility(flex);
 	}
@@ -1828,24 +1690,22 @@ export function useUtilitiesPreset(
 		createAnimationDurationUtility(animationDuration);
 	}
 
-	const createAnimationTimingFunctionUtility =
-		useAnimationTimingFunctionUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("animation-timing-function"),
-		);
+	const createAnimationTimingFunctionUtility = useAnimationTimingFunctionUtility(
+		s,
+		undefined,
+		undefined,
+		resolveUtilityOptions("animation-timing-function"),
+	);
 	if (animationTimingFunction) {
 		createAnimationTimingFunctionUtility(animationTimingFunction);
 	}
 
-	const createAnimationIterationCountUtility =
-		useAnimationIterationCountUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("animation-iteration-count"),
-		);
+	const createAnimationIterationCountUtility = useAnimationIterationCountUtility(
+		s,
+		undefined,
+		undefined,
+		resolveUtilityOptions("animation-iteration-count"),
+	);
 	if (animationIterationCount) {
 		createAnimationIterationCountUtility(animationIterationCount);
 	}
@@ -2486,12 +2346,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("backdrop-sepia"),
 		),
-		createBlurUtility: useBlurUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("blur"),
-		),
+		createBlurUtility: useBlurUtility(s, undefined, undefined, resolveUtilityOptions("blur")),
 		createBrightnessUtility: useBrightnessUtility(
 			s,
 			undefined,
@@ -2510,12 +2365,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("drop-shadow"),
 		),
-		createFilterUtility: useFilterUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("filter"),
-		),
+		createFilterUtility: useFilterUtility(s, undefined, undefined, resolveUtilityOptions("filter")),
 		createGrayscaleUtility: useGrayscaleUtility(
 			s,
 			undefined,
@@ -2528,24 +2378,14 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("hue-rotate"),
 		),
-		createInvertUtility: useInvertUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("invert"),
-		),
+		createInvertUtility: useInvertUtility(s, undefined, undefined, resolveUtilityOptions("invert")),
 		createSaturateUtility: useSaturateUtility(
 			s,
 			undefined,
 			undefined,
 			resolveUtilityOptions("saturate"),
 		),
-		createSepiaUtility: useSepiaUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("sepia"),
-		),
+		createSepiaUtility: useSepiaUtility(s, undefined, undefined, resolveUtilityOptions("sepia")),
 
 		// Flexbox and Grid
 		createAlignContentUtility,
@@ -2572,24 +2412,9 @@ export function useUtilitiesPreset(
 		),
 		createFlexUtility,
 		createFlexWrapUtility,
-		createGapUtility: useGapUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("gap"),
-		),
-		createGapXUtility: useGapXUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("gap-x"),
-		),
-		createGapYUtility: useGapYUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("gap-y"),
-		),
+		createGapUtility: useGapUtility(s, undefined, undefined, resolveUtilityOptions("gap")),
+		createGapXUtility: useGapXUtility(s, undefined, undefined, resolveUtilityOptions("gap-x")),
+		createGapYUtility: useGapYUtility(s, undefined, undefined, resolveUtilityOptions("gap-y")),
 		createGridAutoColumnsUtility: useGridAutoColumnsUtility(
 			s,
 			undefined,
@@ -2654,12 +2479,7 @@ export function useUtilitiesPreset(
 		createJustifyContentUtility,
 		createJustifyItemsUtility,
 		createJustifySelfUtility,
-		createOrderUtility: useOrderUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("order"),
-		),
+		createOrderUtility: useOrderUtility(s, undefined, undefined, resolveUtilityOptions("order")),
 		createPlaceContentUtility,
 		createPlaceItemsUtility,
 		createPlaceSelfUtility,
@@ -2801,12 +2621,7 @@ export function useUtilitiesPreset(
 
 		// Layout
 		createAspectRatioUtility,
-		createBottomUtility: useBottomUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("bottom"),
-		),
+		createBottomUtility: useBottomUtility(s, undefined, undefined, resolveUtilityOptions("bottom")),
 		createBoxDecorationBreakUtility,
 		createBoxSizingUtility,
 		createAnchorNameUtility,
@@ -2836,12 +2651,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("inset-inline-start"),
 		),
-		createInsetUtility: useInsetUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("inset"),
-		),
+		createInsetUtility: useInsetUtility(s, undefined, undefined, resolveUtilityOptions("inset")),
 		createInsetXUtility: useInsetXUtility(
 			s,
 			undefined,
@@ -2855,12 +2665,7 @@ export function useUtilitiesPreset(
 			resolveUtilityOptions("inset-y"),
 		),
 		createIsolationUtility,
-		createLeftUtility: useLeftUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("left"),
-		),
+		createLeftUtility: useLeftUtility(s, undefined, undefined, resolveUtilityOptions("left")),
 		createObjectFitUtility,
 		createObjectPositionUtility,
 		createOverflowUtility,
@@ -2893,18 +2698,8 @@ export function useUtilitiesPreset(
 		createPositionAnchorUtility,
 		createPositionAreaUtility,
 		createPositionTryFallbacksUtility,
-		createRightUtility: useRightUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("right"),
-		),
-		createTopUtility: useTopUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("top"),
-		),
+		createRightUtility: useRightUtility(s, undefined, undefined, resolveUtilityOptions("right")),
+		createTopUtility: useTopUtility(s, undefined, undefined, resolveUtilityOptions("top")),
 		createVisibilityUtility,
 		createZIndexUtility,
 
@@ -2914,12 +2709,7 @@ export function useUtilitiesPreset(
 		createMaxWidthUtility,
 		createMinHeightUtility,
 		createMinWidthUtility,
-		createSizeUtility: useSizeUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("size"),
-		),
+		createSizeUtility: useSizeUtility(s, undefined, undefined, resolveUtilityOptions("size")),
 		createWidthUtility,
 
 		// Spacing
@@ -2971,12 +2761,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("margin-top"),
 		),
-		createMarginUtility: useMarginUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("margin"),
-		),
+		createMarginUtility: useMarginUtility(s, undefined, undefined, resolveUtilityOptions("margin")),
 		createMarginXUtility: useMarginXUtility(
 			s,
 			undefined,
@@ -3081,18 +2866,8 @@ export function useUtilitiesPreset(
 		),
 
 		// SVG
-		createFillUtility: useFillUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("fill"),
-		),
-		createStrokeUtility: useStrokeUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("stroke"),
-		),
+		createFillUtility: useFillUtility(s, undefined, undefined, resolveUtilityOptions("fill")),
+		createStrokeUtility: useStrokeUtility(s, undefined, undefined, resolveUtilityOptions("stroke")),
 		createStrokeWidthUtility: useStrokeWidthUtility(
 			s,
 			undefined,
@@ -3132,12 +2907,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("perspective"),
 		),
-		createRotateUtility: useRotateUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("rotate"),
-		),
+		createRotateUtility: useRotateUtility(s, undefined, undefined, resolveUtilityOptions("rotate")),
 		createRotateXUtility: useRotateXUtility(
 			s,
 			undefined,
@@ -3150,12 +2920,7 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("rotate-y"),
 		),
-		createScaleUtility: useScaleUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("scale"),
-		),
+		createScaleUtility: useScaleUtility(s, undefined, undefined, resolveUtilityOptions("scale")),
 		createScaleXUtility: useScaleXUtility(
 			s,
 			undefined,
@@ -3168,18 +2933,8 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("scale-y"),
 		),
-		createSkewXUtility: useSkewXUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("skew-x"),
-		),
-		createSkewYUtility: useSkewYUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("skew-y"),
-		),
+		createSkewXUtility: useSkewXUtility(s, undefined, undefined, resolveUtilityOptions("skew-x")),
+		createSkewYUtility: useSkewYUtility(s, undefined, undefined, resolveUtilityOptions("skew-y")),
 		createTransformOriginUtility,
 		createTransformStyleUtility,
 		createTransformUtility,
@@ -3243,12 +2998,7 @@ export function useUtilitiesPreset(
 		createViewTransitionNameUtility,
 
 		// Typography
-		createColorUtility: useColorUtility(
-			s,
-			undefined,
-			undefined,
-			resolveUtilityOptions("color"),
-		),
+		createColorUtility: useColorUtility(s, undefined, undefined, resolveUtilityOptions("color")),
 		createContentUtility: useContentUtility(
 			s,
 			undefined,

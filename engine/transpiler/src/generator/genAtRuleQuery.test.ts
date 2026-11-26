@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genAtRuleQuery } from "./genAtRuleQuery";
 
 describe("genAtRuleQuery", () => {
@@ -28,13 +29,8 @@ describe("genAtRuleQuery", () => {
 	});
 
 	it("should handle complex media queries", () => {
-		const result = genAtRuleQuery(
-			"media",
-			"screen and (min-width: 768px) and (max-width: 1024px)",
-		);
-		expect(result).toBe(
-			"@media screen and (min-width: 768px) and (max-width: 1024px)",
-		);
+		const result = genAtRuleQuery("media", "screen and (min-width: 768px) and (max-width: 1024px)");
+		expect(result).toBe("@media screen and (min-width: 768px) and (max-width: 1024px)");
 	});
 
 	it("should handle print media type", () => {
@@ -53,10 +49,7 @@ describe("genAtRuleQuery", () => {
 	});
 
 	it("should handle namespace rules", () => {
-		const result = genAtRuleQuery(
-			"namespace",
-			"url(http://www.w3.org/1999/xhtml)",
-		);
+		const result = genAtRuleQuery("namespace", "url(http://www.w3.org/1999/xhtml)");
 		expect(result).toBe("@namespace url(http://www.w3.org/1999/xhtml)");
 	});
 
@@ -106,10 +99,7 @@ describe("genAtRuleQuery", () => {
 	});
 
 	it("should handle multiple conditions in supports", () => {
-		const result = genAtRuleQuery(
-			"supports",
-			"(display: grid) and (aspect-ratio: 1/1)",
-		);
+		const result = genAtRuleQuery("supports", "(display: grid) and (aspect-ratio: 1/1)");
 		expect(result).toBe("@supports (display: grid) and (aspect-ratio: 1/1)");
 	});
 
@@ -119,21 +109,13 @@ describe("genAtRuleQuery", () => {
 	});
 
 	it("should handle or operator in supports", () => {
-		const result = genAtRuleQuery(
-			"supports",
-			"(display: flex) or (display: grid)",
-		);
+		const result = genAtRuleQuery("supports", "(display: flex) or (display: grid)");
 		expect(result).toBe("@supports (display: flex) or (display: grid)");
 	});
 
 	it("should preserve exact spacing in complex queries", () => {
-		const result = genAtRuleQuery(
-			"media",
-			"(prefers-color-scheme: dark) and (min-width: 900px)",
-		);
-		expect(result).toBe(
-			"@media (prefers-color-scheme: dark) and (min-width: 900px)",
-		);
+		const result = genAtRuleQuery("media", "(prefers-color-scheme: dark) and (min-width: 900px)");
+		expect(result).toBe("@media (prefers-color-scheme: dark) and (min-width: 900px)");
 	});
 
 	it("should handle nested parentheses in queries", () => {
@@ -141,8 +123,6 @@ describe("genAtRuleQuery", () => {
 			"supports",
 			"((display: flex) and (gap: 1rem)) or (display: grid)",
 		);
-		expect(result).toBe(
-			"@supports ((display: flex) and (gap: 1rem)) or (display: grid)",
-		);
+		expect(result).toBe("@supports ((display: flex) and (gap: 1rem)) or (display: grid)");
 	});
 });

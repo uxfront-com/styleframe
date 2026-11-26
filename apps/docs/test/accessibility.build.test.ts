@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -32,12 +33,10 @@ const HEADINGS = [
 	"docs/getting-started/installation/manual/nuxt",
 ];
 
-const read = (page: string) =>
-	readFileSync(join(OUTPUT, `${page}.html`), "utf8");
+const read = (page: string) => readFileSync(join(OUTPUT, `${page}.html`), "utf8");
 
 const tags = (html: string, pattern: RegExp) => html.match(pattern) ?? [];
-const attr = (tag: string, name: string) =>
-	tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1];
+const attr = (tag: string, name: string) => tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1];
 
 describe.each(AUDITED)("/%s", (page) => {
 	const html = read(page);
@@ -48,18 +47,14 @@ describe.each(AUDITED)("/%s", (page) => {
 	});
 
 	it("names the page menu's trigger", () => {
-		expect(html).toMatch(
-			/<button[^>]*id="reka-dropdown-menu-trigger[^"]*"[^>]*aria-label="[^"]+"/,
-		);
+		expect(html).toMatch(/<button[^>]*id="reka-dropdown-menu-trigger[^"]*"[^>]*aria-label="[^"]+"/);
 	});
 
 	it("names the sidebar's framework select by its label", () => {
 		const select = html.match(/<button[^>]*role="combobox"[^>]*>/)?.[0] ?? "";
 		const label = attr(select, "aria-labelledby") ?? "";
 		const id = label.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
-		const named = html.match(
-			new RegExp(`<[a-z]+[^>]*\\sid="${id}"[^>]*>([^<]*)<`),
-		);
+		const named = html.match(new RegExp(`<[a-z]+[^>]*\\sid="${id}"[^>]*>([^<]*)<`));
 		expect(named?.[1]?.trim(), label).toBe("Framework");
 	});
 
@@ -110,9 +105,7 @@ describe("code colours", () => {
 		...new Set(
 			blocks.flatMap((block) =>
 				[
-					...block.matchAll(
-						new RegExp(`--shiki-(?:${modes.join("|")}):(#[0-9a-fA-F]{6})`, "g"),
-					),
+					...block.matchAll(new RegExp(`--shiki-(?:${modes.join("|")}):(#[0-9a-fA-F]{6})`, "g")),
 				].map((m) => m[1]!.toLowerCase()),
 			),
 		),
@@ -126,10 +119,7 @@ describe("code colours", () => {
 		const light = colours("light", "default");
 		expect(light.length).toBeGreaterThan(0);
 		for (const colour of light) {
-			expect(
-				contrast(hexToRgb(colour), ZINC_50),
-				colour,
-			).toBeGreaterThanOrEqual(4.5);
+			expect(contrast(hexToRgb(colour), ZINC_50), colour).toBeGreaterThanOrEqual(4.5);
 		}
 	});
 
@@ -137,10 +127,7 @@ describe("code colours", () => {
 		const dark = colours("dark");
 		expect(dark.length).toBeGreaterThan(0);
 		for (const colour of dark) {
-			expect(
-				contrast(hexToRgb(colour), ZINC_800),
-				colour,
-			).toBeGreaterThanOrEqual(4.5);
+			expect(contrast(hexToRgb(colour), ZINC_800), colour).toBeGreaterThanOrEqual(4.5);
 		}
 	});
 });
@@ -148,19 +135,14 @@ describe("code colours", () => {
 type Triple = [number, number, number];
 
 function hexToRgb(hex: string): Triple {
-	return [1, 3, 5].map(
-		(i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255,
-	) as Triple;
+	return [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255) as Triple;
 }
 
-const toLinear = (c: number) =>
-	c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+const toLinear = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
 
 function contrast(a: Triple, b: Triple) {
 	const luminance = (rgb: Triple) =>
-		rgb
-			.map(toLinear)
-			.reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i]!, 0);
+		rgb.map(toLinear).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i]!, 0);
 	const [light, dark] = [luminance(a), luminance(b)].sort((x, y) => y - x);
 	return (light! + 0.05) / (dark! + 0.05);
 }

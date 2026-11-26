@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
@@ -95,11 +96,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useBreadcrumbItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -171,9 +168,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useBreadcrumbItemRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((cv) => cv.match.color === "light");
 
 			expect(light).toEqual({
 				match: { color: "light" },
@@ -214,9 +209,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useBreadcrumbItemRecipe(s);
 
-			const dark = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "dark",
-			);
+			const dark = recipe.compoundVariants!.find((cv) => cv.match.color === "dark");
 
 			expect(dark).toEqual({
 				match: { color: "dark" },
@@ -257,9 +250,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useBreadcrumbItemRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -300,9 +291,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useBreadcrumbItemRecipe(s);
 
-			const active = recipe.compoundVariants!.find(
-				(cv) => cv.match.active === "true",
-			);
+			const active = recipe.compoundVariants!.find((cv) => cv.match.active === "true");
 
 			expect(active).toEqual({
 				match: { active: "true" },
@@ -351,9 +340,7 @@ describe("useBreadcrumbItemRecipe", () => {
 			});
 
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => !cv.match.color || cv.match.color === "neutral",
-				),
+				recipe.compoundVariants!.every((cv) => !cv.match.color || cv.match.color === "neutral"),
 			).toBe(true);
 		});
 

@@ -1,8 +1,6 @@
 import { styleframe } from "@styleframe/core";
-import {
-	useFocusVisibleModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+
+import { useFocusVisibleModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useCalloutDismissRecipe } from "./useCalloutDismissRecipe";
 
 function createInstance() {

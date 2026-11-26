@@ -45,9 +45,7 @@ export type CSS = {
 	value: Array<TokenValue>;
 };
 
-export type UtilityAutogenerateFn = (
-	value: TokenValue,
-) => Record<string, TokenValue>;
+export type UtilityAutogenerateFn = (value: TokenValue) => Record<string, TokenValue>;
 
 export type UtilityFactory<Name extends string = string> = {
 	type: "utility";
@@ -83,8 +81,7 @@ export type UtilityCreatorFn = (
 ) => void;
 
 export type ModifierCallbackFn = DeclarationsCallback<
-	DeclarationsCallbackContext &
-		Pick<Utility, "declarations" | "variables" | "children">
+	DeclarationsCallbackContext & Pick<Utility, "declarations" | "variables" | "children">
 >;
 
 export type ModifierFactory = {
@@ -99,24 +96,15 @@ export type VariantDeclarationsValue = TokenValue | ModifierDeclarationsBlock;
 
 export type VariantDeclarationsBlock = Record<string, VariantDeclarationsValue>;
 
-export type VariantsBase = Record<
-	string,
-	Record<string, VariantDeclarationsBlock>
->;
+export type VariantsBase = Record<string, Record<string, VariantDeclarationsBlock>>;
 
-export type RuntimeModifierDeclarationsBlock = Record<
-	string,
-	PrimitiveTokenValue
->;
+export type RuntimeModifierDeclarationsBlock = Record<string, PrimitiveTokenValue>;
 
 export type RuntimeVariantDeclarationsValue =
 	| PrimitiveTokenValue
 	| RuntimeModifierDeclarationsBlock;
 
-export type RuntimeVariantDeclarationsBlock = Record<
-	string,
-	RuntimeVariantDeclarationsValue
->;
+export type RuntimeVariantDeclarationsBlock = Record<string, RuntimeVariantDeclarationsValue>;
 
 export type RecipeRuntime<Variants extends VariantsBase = VariantsBase> = {
 	base?: RuntimeVariantDeclarationsBlock;
@@ -137,10 +125,7 @@ export type RecipeRuntime<Variants extends VariantsBase = VariantsBase> = {
 	}>;
 };
 
-export type Recipe<
-	Name extends string = string,
-	Variants extends VariantsBase = VariantsBase,
-> = {
+export type Recipe<Name extends string = string, Variants extends VariantsBase = VariantsBase> = {
 	type: "recipe";
 	name: Name;
 	base?: VariantDeclarationsBlock;
@@ -187,10 +172,7 @@ export type Container = {
 	declarations: DeclarationsBlock;
 };
 
-export type ContainerInput = Pick<
-	Container,
-	"declarations" | "variables" | "children"
->;
+export type ContainerInput = Pick<Container, "declarations" | "variables" | "children">;
 
 export type ContainerChild = Variable | Selector | AtRule | Utility;
 

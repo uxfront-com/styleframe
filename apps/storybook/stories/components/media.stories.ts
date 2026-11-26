@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Media from "@/components/components/media/Media.vue";
-import MediaFigure from "@/components/components/media/MediaFigure.vue";
 import MediaBody from "@/components/components/media/MediaBody.vue";
+import MediaFigure from "@/components/components/media/MediaFigure.vue";
 import MediaTitle from "@/components/components/media/MediaTitle.vue";
 import MediaGrid from "@/components/components/media/preview/MediaGrid.vue";
 import MediaSizeGrid from "@/components/components/media/preview/MediaSizeGrid.vue";
@@ -28,8 +28,7 @@ const meta = {
 		align: {
 			control: "select",
 			options: aligns,
-			description:
-				"The cross-axis alignment of the figure relative to the body",
+			description: "The cross-axis alignment of the figure relative to the body",
 		},
 		size: {
 			control: "select",

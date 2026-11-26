@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
@@ -127,10 +128,7 @@ describe("useContextMenuItemRecipe", () => {
 				"destructive",
 			]);
 			expect(Object.keys(recipe.variants!.inset)).toEqual(["true", "false"]);
-			expect(Object.keys(recipe.variants!.destructive)).toEqual([
-				"true",
-				"false",
-			]);
+			expect(Object.keys(recipe.variants!.destructive)).toEqual(["true", "false"]);
 		});
 	});
 
@@ -192,9 +190,7 @@ describe("useContextMenuItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useContextMenuItemRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.destructive === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.destructive === "true");
 
 			expect(cv?.css).toEqual({
 				color: "@color.error",

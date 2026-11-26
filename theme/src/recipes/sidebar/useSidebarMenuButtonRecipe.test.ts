@@ -1,4 +1,6 @@
 import { styleframe } from "@styleframe/core";
+
+import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useActiveModifier,
@@ -6,7 +8,6 @@ import {
 	useFocusVisibleModifier,
 	useHoverModifier,
 } from "../../modifiers/usePseudoStateModifiers";
-import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useSidebarMenuButtonRecipe } from "./index";
 
 function createInstance() {
@@ -111,21 +112,14 @@ describe("useSidebarMenuButtonRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarMenuButtonRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have ghost and subtle style variants", () => {
 			const s = createInstance();
 			const recipe = useSidebarMenuButtonRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"ghost",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["ghost", "subtle"]);
 		});
 
 		it("should have size variants", () => {
@@ -231,17 +225,13 @@ describe("useSidebarMenuButtonRecipe", () => {
 				(cv) => cv.match.color === "light" && cv.match.variant === "ghost",
 			);
 			expect(lightGhost!.css!.color).toBe("@color.gray-900");
-			expect((lightGhost!.css!["&:dark"] as { color: string }).color).toBe(
-				"@color.gray-900",
-			);
+			expect((lightGhost!.css!["&:dark"] as { color: string }).color).toBe("@color.gray-900");
 
 			const lightActive = recipe.compoundVariants!.find(
 				(cv) => cv.match.color === "light" && cv.match.active === "true",
 			);
 			expect(lightActive!.css!.color).toBe("@color.gray-900");
-			expect((lightActive!.css!["&:dark"] as { color: string }).color).toBe(
-				"@color.gray-900",
-			);
+			expect((lightActive!.css!["&:dark"] as { color: string }).color).toBe("@color.gray-900");
 		});
 	});
 
@@ -265,9 +255,7 @@ describe("useSidebarMenuButtonRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			// neutral ghost + neutral subtle + neutral active
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});

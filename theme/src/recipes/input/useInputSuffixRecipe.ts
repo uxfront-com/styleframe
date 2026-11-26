@@ -7,7 +7,4 @@ import { createFieldAddonRecipe } from "./createFieldRecipe";
  * right of the caret. Distinct from `input-append`, which renders an OUTSIDE
  * joined block alongside the input.
  */
-export const useInputSuffixRecipe = createFieldAddonRecipe(
-	"input-suffix",
-	"paddingInlineStart",
-);
+export const useInputSuffixRecipe = createFieldAddonRecipe("input-suffix", "paddingInlineStart");

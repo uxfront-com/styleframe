@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useDesignTokensPreset } from "./useDesignTokensPreset";
 import { useModifiersPreset } from "./useModifiersPreset";
 import { useUtilitiesPreset } from "./useUtilitiesPreset";
@@ -58,8 +59,7 @@ describe("useModifiersPreset", () => {
 		}
 	}
 }`);
-		expect(css)
-			.toContain(`._dark\\:hover-capable\\:hover\\:background\\:\\[green\\] {
+		expect(css).toContain(`._dark\\:hover-capable\\:hover\\:background\\:\\[green\\] {
 	:is(.dark-theme, [data-theme="dark"]) & {
 		@media (hover: hover) {
 			&:hover {

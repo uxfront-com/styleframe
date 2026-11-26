@@ -7,8 +7,9 @@ import {
 	createVariableFunction,
 	isSelector,
 } from "@styleframe/core";
-import { createSelectorConsumer } from "./selector";
+
 import { consume } from "./consume";
+import { createSelectorConsumer } from "./selector";
 
 describe("createSelectorConsumer", () => {
 	let root: Root;
@@ -289,9 +290,7 @@ describe("createSelectorConsumer", () => {
 		});
 
 		// Extract the created nested selectors
-		const nestedSelectors = cardSelector.children.filter((child) =>
-			isSelector(child),
-		);
+		const nestedSelectors = cardSelector.children.filter((child) => isSelector(child));
 
 		// Confirm we have the expected nested selectors
 		expect(nestedSelectors.length).toBe(2);

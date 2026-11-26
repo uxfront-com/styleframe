@@ -1,6 +1,7 @@
-import { defineNuxtModule } from "@nuxt/kit";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+
+import { defineNuxtModule } from "@nuxt/kit";
 
 /** The longest `src` Vercel's Build Output API accepts in a route. */
 export const VERCEL_ROUTE_SRC_LIMIT = 4096;
@@ -15,9 +16,7 @@ interface VercelRoute {
  * like `^(/a|/b|…)$`, into routes over parts of it, each with the route's other
  * fields. Every other route keeps its place.
  */
-export function splitLongRoutes<Route extends VercelRoute>(
-	routes: Array<Route>,
-): Array<Route> {
+export function splitLongRoutes<Route extends VercelRoute>(routes: Array<Route>): Array<Route> {
 	return routes.flatMap((route) => {
 		if (!route.src || route.src.length <= VERCEL_ROUTE_SRC_LIMIT) {
 			return [route];

@@ -304,8 +304,7 @@ export const styleframePage = page({
 		"_background:surface _border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid _padding-block:md",
 	headerInner:
 		"_display:flex _align-items:center _justify-content:between _padding-inline:xl _max-width:2xl _margin-inline:auto _width:full",
-	headerBrand:
-		"_font-size:lg _font-weight:bold _color:text _text-decoration:none",
+	headerBrand: "_font-size:lg _font-weight:bold _color:text _text-decoration:none",
 	headerNav: "_display:flex _gap:md _align-items:center",
 	headerLink:
 		"_color:text-weak _text-decoration:none _font-size:sm _padding-inline:sm _padding-block:xs",
@@ -318,22 +317,18 @@ export const styleframePage = page({
 	articleSidebar:
 		"_display:flex _flex-direction:column _gap:lg _padding:lg _background:surface _border-radius:lg _border-width:thin _border-style:solid _border-color:neutral-200 _height:fit-content",
 	// Article
-	articleTitle:
-		"_font-size:lg _font-weight:bold _color:text _line-height:tight",
+	articleTitle: "_font-size:lg _font-weight:bold _color:text _line-height:tight",
 	articleMeta: "_display:flex _gap:md _font-size:xs _color:text-weak",
 	articleMetaLink: "_color:primary _text-decoration:none _font-weight:medium",
-	heroImage:
-		"_width:full _height:2xl _background:neutral-100 _border-radius:lg",
+	heroImage: "_width:full _height:2xl _background:neutral-100 _border-radius:lg",
 	articleBody: "_display:flex _flex-direction:column _gap:md",
 	heading2: "_font-size:lg _font-weight:bold _color:text _margin-top:md",
 	heading3: "_font-size:md _font-weight:semibold _color:text _margin-top:sm",
 	paragraph: "_font-size:sm _color:text _line-height:normal",
 	blockquote:
 		"_border-style:solid _border-width:thin _border-color:primary _padding:lg _background:primary-50 _border-radius:md _margin-block:sm",
-	blockquoteText:
-		"_font-size:sm _color:text _line-height:normal _font-weight:medium",
-	blockquoteCite:
-		"_font-size:xs _color:text-weak _margin-top:sm _display:block",
+	blockquoteText: "_font-size:sm _color:text _line-height:normal _font-weight:medium",
+	blockquoteCite: "_font-size:xs _color:text-weak _margin-top:sm _display:block",
 	codeBlock:
 		"_background:neutral-900 _color:neutral-100 _padding:lg _border-radius:md _font-size:xs _line-height:normal _overflow:auto _white-space:pre",
 	orderedList:
@@ -348,8 +343,7 @@ export const styleframePage = page({
 	relatedList: "_display:flex _flex-direction:column _gap:xs _list-style:none",
 	relatedItem:
 		"_padding-block:xs _border-bottom-width:thin _border-bottom-color:neutral-100 _border-bottom-style:solid",
-	relatedLink:
-		"_font-size:sm _color:primary _text-decoration:none _line-height:normal",
+	relatedLink: "_font-size:sm _color:primary _text-decoration:none _line-height:normal",
 	tagsList: "_display:flex _flex-wrap:wrap _gap:xs",
 	tag: "_display:inline-flex _font-size:xs _font-weight:medium _padding-inline:sm _padding-block:xs _border-radius:full _background:neutral-100 _color:neutral-700",
 	newsletterForm: "_display:flex _flex-direction:column _gap:sm",
@@ -360,16 +354,13 @@ export const styleframePage = page({
 	newsletterBtn:
 		"_display:inline-flex _align-items:center _justify-content:center _background:primary _color:white _font-size:sm _font-weight:medium _padding-inline:lg _padding-block:sm _border-radius:md _border-style:none _cursor:pointer _width:full",
 	// Comments
-	commentsSection:
-		"_padding-inline:xl _padding-block:xl _max-width:2xl _margin-inline:auto",
-	commentsTitle:
-		"_font-size:lg _font-weight:bold _color:text _margin-bottom:md",
+	commentsSection: "_padding-inline:xl _padding-block:xl _max-width:2xl _margin-inline:auto",
+	commentsTitle: "_font-size:lg _font-weight:bold _color:text _margin-bottom:md",
 	commentsList: "_display:flex _flex-direction:column _gap:lg",
 	comment:
 		"_background:surface _border-radius:lg _padding:lg _border-width:thin _border-style:solid _border-color:neutral-200",
 	commentHeader: "_display:flex _align-items:center _gap:sm _margin-bottom:sm",
-	commentAvatar:
-		"_width:lg _height:lg _border-radius:full _background:primary-100",
+	commentAvatar: "_width:lg _height:lg _border-radius:full _background:primary-100",
 	commentAuthor: "_font-size:sm _font-weight:medium _color:text",
 	commentDate: "_font-size:xs _color:text-weak",
 	commentText: "_font-size:sm _color:text _line-height:normal",
@@ -390,13 +381,11 @@ export const styleframeShorthandPage = page({
 	// Header
 	header:
 		"_bg:surface _border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid _py:md",
-	headerInner:
-		"_display:flex _items:center _justify:between _px:xl _max-w:2xl _mx:auto _w:full",
+	headerInner: "_display:flex _items:center _justify:between _px:xl _max-w:2xl _mx:auto _w:full",
 	headerBrand: "_text:lg _font:bold _color:text _text-decoration:none",
 	headerNav: "_display:flex _gap:md _items:center",
 	headerLink: "_color:text-weak _text-decoration:none _text:sm _px:sm _py:xs",
-	headerLinkActive:
-		"_color:primary _text-decoration:none _text:sm _font:medium _px:sm _py:xs",
+	headerLinkActive: "_color:primary _text-decoration:none _text:sm _font:medium _px:sm _py:xs",
 	// Article layout
 	articleLayout: "_display:flex _gap:xl _px:xl _py:xl _max-w:2xl _mx:auto",
 	articleMain: "_display:flex _flex-direction:column _gap:md",
@@ -466,8 +455,7 @@ export const tailwindPage = page({
 	body: "bg-background",
 	// Header
 	header: "bg-surface border-b border-neutral-200 py-md",
-	headerInner:
-		"flex items-center justify-between px-xl max-w-2xl mx-auto w-full",
+	headerInner: "flex items-center justify-between px-xl max-w-2xl mx-auto w-full",
 	headerBrand: "text-lg font-bold text-text no-underline",
 	headerNav: "flex gap-md items-center",
 	headerLink: "text-text-weak no-underline text-sm px-sm py-xs",
@@ -475,8 +463,7 @@ export const tailwindPage = page({
 	// Article layout
 	articleLayout: "flex gap-xl px-xl py-xl max-w-2xl mx-auto",
 	articleMain: "flex flex-col gap-md",
-	articleSidebar:
-		"flex flex-col gap-lg p-lg bg-surface rounded-lg border border-neutral-200 h-fit",
+	articleSidebar: "flex flex-col gap-lg p-lg bg-surface rounded-lg border border-neutral-200 h-fit",
 	// Article
 	articleTitle: "text-lg font-bold text-text leading-tight",
 	articleMeta: "flex gap-md text-xs text-text-weak",
@@ -492,8 +479,7 @@ export const tailwindPage = page({
 	codeBlock:
 		"bg-neutral-900 text-neutral-100 p-lg rounded-md text-xs leading-normal overflow-auto whitespace-pre",
 	orderedList: "flex flex-col gap-sm px-lg text-sm text-text leading-normal",
-	unorderedList:
-		"flex flex-col gap-sm px-lg text-sm text-text leading-normal list-disc",
+	unorderedList: "flex flex-col gap-sm px-lg text-sm text-text leading-normal list-disc",
 	listItem: "text-sm text-text leading-normal",
 	inlineLink: "text-primary underline font-medium",
 	// Sidebar
@@ -507,8 +493,7 @@ export const tailwindPage = page({
 	newsletterForm: "flex flex-col gap-sm",
 	newsletterLabel: "text-sm font-medium text-text",
 	newsletterDesc: "text-xs text-text-weak leading-normal",
-	newsletterInput:
-		"px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
+	newsletterInput: "px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white",
 	newsletterBtn:
 		"inline-flex items-center justify-center bg-primary text-white text-sm font-medium px-lg py-sm rounded-md border-0 cursor-pointer w-full",
 	// Comments
@@ -522,8 +507,7 @@ export const tailwindPage = page({
 	commentDate: "text-xs text-text-weak",
 	commentText: "text-sm text-text leading-normal",
 	// Footer
-	footer:
-		"flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
+	footer: "flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
 	footerLinks: "flex gap-md",
 	footerLink: "text-text-weak no-underline text-sm",
 	footerText: "text-sm text-text-weak",

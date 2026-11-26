@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useSizeUtility } from "./useSizeUtility";
 
 describe("useSizeUtility", () => {
@@ -84,8 +85,7 @@ describe("useSizeUtility", () => {
 		useSizeUtility(s, { full: "100%" }, [hover]);
 
 		const hoverUtility = s.root.children.find(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "size" && u.modifiers.includes("hover"),
+			(u): u is Utility => isUtility(u) && u.name === "size" && u.modifiers.includes("hover"),
 		);
 		expect(hoverUtility).toBeDefined();
 	});

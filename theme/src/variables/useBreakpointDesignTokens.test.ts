@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useBreakpointDesignTokens } from "./useBreakpointDesignTokens";
 
 describe("useBreakpointDesignTokens", () => {
@@ -42,13 +43,15 @@ describe("useBreakpointDesignTokens", () => {
 
 	it("should create multiple breakpoint variables", () => {
 		const s = styleframe();
-		const { breakpointXs, breakpointSm, breakpointMd, breakpointLg } =
-			useBreakpointDesignTokens(s, {
+		const { breakpointXs, breakpointSm, breakpointMd, breakpointLg } = useBreakpointDesignTokens(
+			s,
+			{
 				xs: 0,
 				sm: 576,
 				md: 768,
 				lg: 992,
-			});
+			},
+		);
 
 		expect(breakpointXs).toEqual({
 			type: "variable",
@@ -412,23 +415,17 @@ describe("useBreakpointDesignTokens", () => {
 				lg: 992,
 			});
 
-			s.selector(
-				`@media (min-width: ${breakpointMd.value}px)`,
-				({ selector }) => {
-					selector(".container", {
-						maxWidth: "720px",
-					});
-				},
-			);
+			s.selector(`@media (min-width: ${breakpointMd.value}px)`, ({ selector }) => {
+				selector(".container", {
+					maxWidth: "720px",
+				});
+			});
 
-			s.selector(
-				`@media (min-width: ${breakpointLg.value}px)`,
-				({ selector }) => {
-					selector(".container", {
-						maxWidth: "960px",
-					});
-				},
-			);
+			s.selector(`@media (min-width: ${breakpointLg.value}px)`, ({ selector }) => {
+				selector(".container", {
+					maxWidth: "960px",
+				});
+			});
 
 			const css = consumeCSS(s.root, s.options);
 			expect(css).toContain("--breakpoint--md: 768;");

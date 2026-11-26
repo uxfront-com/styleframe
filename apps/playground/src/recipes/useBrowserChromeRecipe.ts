@@ -169,29 +169,26 @@ export const useBrowserViewportRecipe = createUseRecipe("pg-browser-viewport", {
 	},
 });
 
-export const useBrowserViewportFrameRecipe = createUseRecipe(
-	"pg-browser-viewport-frame",
-	{
-		base: {
-			width: "100%",
-			height: "100%",
-			minHeight: "0",
-			background: "@color.white",
-			transitionProperty: "max-width",
-			transitionDuration: "@duration.fast",
-			"&:dark": {
-				background: "@color.gray-950",
-			},
-		},
-		variants: {
-			size: {
-				mobile: { maxWidth: "375px" },
-				tablet: { maxWidth: "768px" },
-				desktop: { maxWidth: "none" },
-			},
-		},
-		defaultVariants: {
-			size: "desktop",
+export const useBrowserViewportFrameRecipe = createUseRecipe("pg-browser-viewport-frame", {
+	base: {
+		width: "100%",
+		height: "100%",
+		minHeight: "0",
+		background: "@color.white",
+		transitionProperty: "max-width",
+		transitionDuration: "@duration.fast",
+		"&:dark": {
+			background: "@color.gray-950",
 		},
 	},
-);
+	variants: {
+		size: {
+			mobile: { maxWidth: "375px" },
+			tablet: { maxWidth: "768px" },
+			desktop: { maxWidth: "none" },
+		},
+	},
+	defaultVariants: {
+		size: "desktop",
+	},
+});

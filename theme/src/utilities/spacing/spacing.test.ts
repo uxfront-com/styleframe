@@ -1,7 +1,8 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { usePaddingUtility } from "./usePaddingUtility";
+
 import { useMarginUtility } from "./useMarginUtility";
+import { usePaddingUtility } from "./usePaddingUtility";
 
 describe("spacing utilities in recipes", () => {
 	it("should resolve named spacing values in recipe base", () => {

@@ -1,115 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Styleframe - Design Tokens Sync</title>
-	<link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-	<div class="container">
-		<div class="tabs">
-			<button class="tab active" data-tab="import">Import</button>
-			<button class="tab" data-tab="export">Export</button>
-		</div>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Styleframe - Design Tokens Sync</title>
+		<link rel="stylesheet" href="./styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="tabs">
+				<button class="tab active" data-tab="import">Import</button>
+				<button class="tab" data-tab="export">Export</button>
+			</div>
 
-		<!-- Import Panel -->
-		<div id="import-panel" class="panel active">
-			<div class="file-drop-zone" id="file-drop-zone">
-				<input type="file" id="file-input" accept=".json" multiple hidden>
-				<div class="file-drop-content">
-					<svg class="file-icon" width="32" height="32" viewBox="0 0 24 24" fill="none">
-						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-						<path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
-					<span class="file-drop-text">Drop .tokens.json file(s) or <span class="file-browse-link">browse</span></span>
-					<span class="file-drop-hint">Per-mode files or tokens.json + resolver</span>
-				</div>
-				<div class="file-selected" id="file-selected" hidden>
-					<svg class="file-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-						<path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-						<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-					</svg>
-					<span class="file-name" id="file-name"></span>
-					<button class="file-clear-btn" id="file-clear-btn" type="button">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-							<path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+			<!-- Import Panel -->
+			<div id="import-panel" class="panel active">
+				<div class="file-drop-zone" id="file-drop-zone">
+					<input type="file" id="file-input" accept=".json" multiple hidden />
+					<div class="file-drop-content">
+						<svg class="file-icon" width="32" height="32" viewBox="0 0 24 24" fill="none">
+							<path
+								d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
+								stroke="currentColor"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+							<path
+								d="M14 2v6h6M12 18v-6M9 15l3-3 3 3"
+								stroke="currentColor"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
 						</svg>
-					</button>
+						<span class="file-drop-text"
+							>Drop .tokens.json file(s) or <span class="file-browse-link">browse</span></span
+						>
+						<span class="file-drop-hint">Per-mode files or tokens.json + resolver</span>
+					</div>
+					<div class="file-selected" id="file-selected" hidden>
+						<svg class="file-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+							<path
+								d="M9 12l2 2 4-4"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+							<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" />
+						</svg>
+						<span class="file-name" id="file-name"></span>
+						<button class="file-clear-btn" id="file-clear-btn" type="button">
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+								<path
+									d="M18 6L6 18M6 6l12 12"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+								/>
+							</svg>
+						</button>
+					</div>
 				</div>
+
+				<div id="import-preview" class="preview">
+					<div class="preview-empty">Select a JSON file to preview variables</div>
+				</div>
+
+				<div id="import-status" class="status"></div>
+
+				<button id="import-btn" class="btn btn-primary" disabled>Import Variables</button>
 			</div>
 
-			<div id="import-preview" class="preview">
-				<div class="preview-empty">Select a JSON file to preview variables</div>
-			</div>
+			<!-- Export Panel -->
+			<div id="export-panel" class="panel">
+				<div class="form-group">
+					<label for="collection-select">Collection</label>
+					<div class="collection-select">
+						<select id="collection-select">
+							<option value="">Loading...</option>
+						</select>
+						<button id="refresh-btn" class="refresh-btn" title="Refresh">
+							<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+								<path
+									d="M13.65 2.35a8 8 0 1 0 1.86 5.15h-2.02a6 6 0 1 1-1.28-3.71L10 6h6V0l-2.35 2.35z"
+									fill="currentColor"
+								/>
+							</svg>
+						</button>
+					</div>
+				</div>
 
-			<div id="import-status" class="status"></div>
-
-			<button id="import-btn" class="btn btn-primary" disabled>
-				Import Variables
-			</button>
-		</div>
-
-		<!-- Export Panel -->
-		<div id="export-panel" class="panel">
-			<div class="form-group">
-				<label for="collection-select">Collection</label>
-				<div class="collection-select">
-					<select id="collection-select">
-						<option value="">Loading...</option>
+				<div class="form-group">
+					<label for="mode-select">Mode</label>
+					<select id="mode-select">
+						<option value="">All modes</option>
 					</select>
-					<button id="refresh-btn" class="refresh-btn" title="Refresh">
-						<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-							<path d="M13.65 2.35a8 8 0 1 0 1.86 5.15h-2.02a6 6 0 1 1-1.28-3.71L10 6h6V0l-2.35 2.35z" fill="currentColor"/>
-						</svg>
-					</button>
 				</div>
-			</div>
 
-			<div class="form-group">
-				<label for="mode-select">Mode</label>
-				<select id="mode-select">
-					<option value="">All modes</option>
-				</select>
-			</div>
+				<button id="export-btn" class="btn btn-primary" disabled>Export Variables</button>
 
-			<button id="export-btn" class="btn btn-primary" disabled>
-				Export Variables
-			</button>
-
-			<div class="output-wrapper">
-				<label>Output</label>
-				<textarea
-					id="export-output"
-					readonly
-					placeholder="Click Export to generate DTCG JSON..."
-				></textarea>
-				<div class="output-actions">
-					<button id="copy-btn" class="btn btn-secondary btn-icon" disabled title="Copy">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-							<rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
-							<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
-						</svg>
-					</button>
-					<button id="download-btn" class="btn btn-secondary btn-icon" disabled title="Download">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-							<polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-							<line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-						</svg>
-					</button>
+				<div class="output-wrapper">
+					<label>Output</label>
+					<textarea
+						id="export-output"
+						readonly
+						placeholder="Click Export to generate DTCG JSON..."
+					></textarea>
+					<div class="output-actions">
+						<button id="copy-btn" class="btn btn-secondary btn-icon" disabled title="Copy">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+								<rect
+									x="9"
+									y="9"
+									width="13"
+									height="13"
+									rx="2"
+									stroke="currentColor"
+									stroke-width="2"
+								/>
+								<path
+									d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+									stroke="currentColor"
+									stroke-width="2"
+								/>
+							</svg>
+						</button>
+						<button id="download-btn" class="btn btn-secondary btn-icon" disabled title="Download">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+								<path
+									d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<polyline
+									points="7 10 12 15 17 10"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<line
+									x1="12"
+									y1="15"
+									x2="12"
+									y2="3"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</button>
+					</div>
 				</div>
+
+				<div id="export-status" class="status"></div>
 			</div>
 
-			<div id="export-status" class="status"></div>
+			<a
+				class="footer"
+				href="https://styleframe.dev/figma"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<span>Powered by</span>
+				<span class="logo" role="img" aria-label="Styleframe"></span>
+			</a>
 		</div>
 
-		<a class="footer" href="https://styleframe.dev/figma" target="_blank" rel="noopener noreferrer">
-			<span>Powered by</span>
-			<span class="logo" role="img" aria-label="Styleframe"></span>
-		</a>
-	</div>
-
-	<script type="module" src="./main.ts"></script>
-</body>
+		<script type="module" src="./main.ts"></script>
+	</body>
 </html>

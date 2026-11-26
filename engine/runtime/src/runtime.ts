@@ -24,26 +24,18 @@ function toClassName(
 	modifiers: Array<string> = [],
 	shortMap?: ShorteningMap,
 ): string {
-	const kebabName = utilityName.replaceAll(
-		/[A-Z]/g,
-		(letter) => `-${letter.toLowerCase()}`,
-	);
+	const kebabName = utilityName.replaceAll(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 
 	const resolvedUtilityName = shortMap?.p[kebabName] ?? kebabName;
-	const resolvedModifiers = shortMap
-		? modifiers.map((m) => shortMap.m[m] ?? m)
-		: modifiers;
-	const modifierPrefix =
-		resolvedModifiers.length > 0 ? `${resolvedModifiers.join(":")}:` : "";
+	const resolvedModifiers = shortMap ? modifiers.map((m) => shortMap.m[m] ?? m) : modifiers;
+	const modifierPrefix = resolvedModifiers.length > 0 ? `${resolvedModifiers.join(":")}:` : "";
 
 	if (value === true) {
 		return `_${modifierPrefix}${resolvedUtilityName}`;
 	}
 
 	const resolvedValue =
-		shortMap && typeof value === "string"
-			? (shortMap.v[value] ?? value)
-			: value;
+		shortMap && typeof value === "string" ? (shortMap.v[value] ?? value) : value;
 
 	return `_${modifierPrefix}${resolvedUtilityName}:${resolvedValue}`;
 }
@@ -64,10 +56,7 @@ function resolveVariantValue(
 	defaultVariants?: Record<string, string>,
 ): string | undefined {
 	const raw = props[variantKey];
-	return (
-		(raw !== undefined ? String(raw) : undefined) ??
-		defaultVariants?.[variantKey]
-	);
+	return (raw !== undefined ? String(raw) : undefined) ?? defaultVariants?.[variantKey];
 }
 
 function isModifierBlock(
@@ -85,10 +74,7 @@ function isModifierBlock(
  */
 function processDeclarationsBlock(
 	declarations: RuntimeVariantDeclarationsBlock,
-	declarationsMap: Map<
-		string,
-		{ value: PrimitiveTokenValue; modifiers: Array<string> }
-	>,
+	declarationsMap: Map<string, { value: PrimitiveTokenValue; modifiers: Array<string> }>,
 ): void {
 	for (const [key, value] of Object.entries(declarations)) {
 		if (isModifierBlock(value)) {
@@ -173,9 +159,7 @@ export function createRecipe<R extends RecipeRuntime>(
 
 		// 2. Apply variant declarations (with defaultVariants as fallback)
 		if (runtime.variants) {
-			for (const [variantKey, variantOptions] of Object.entries(
-				runtime.variants,
-			)) {
+			for (const [variantKey, variantOptions] of Object.entries(runtime.variants)) {
 				// Get the selected variant value from props or defaultVariants
 				const selectedVariant = resolveVariantValue(
 					props as Record<string, string | boolean>,
@@ -184,9 +168,7 @@ export function createRecipe<R extends RecipeRuntime>(
 				);
 
 				const options = variantOptions as RuntimeVariantOptions;
-				const declarations = selectedVariant
-					? options[selectedVariant]
-					: undefined;
+				const declarations = selectedVariant ? options[selectedVariant] : undefined;
 
 				if (declarations) {
 					processDeclarationsBlock(declarations, declarationsMap);
@@ -201,9 +183,7 @@ export function createRecipe<R extends RecipeRuntime>(
 				// Check if all variant conditions match
 				let allConditionsMatch = true;
 
-				for (const [variantKey, variantValue] of Object.entries(
-					compoundVariant.match,
-				)) {
+				for (const [variantKey, variantValue] of Object.entries(compoundVariant.match)) {
 					// Get the selected variant value from props or defaultVariants
 					const selectedVariant = resolveVariantValue(
 						props as Record<string, string | boolean>,
@@ -237,8 +217,7 @@ export function createRecipe<R extends RecipeRuntime>(
 		for (const [key, { value, modifiers }] of declarationsMap.entries()) {
 			// The key might be "hover:focus:padding" or just "padding"
 			// We need to extract just the utility name for toClassName
-			const utilityName =
-				modifiers.length > 0 ? key.slice(modifiers.join(":").length + 1) : key;
+			const utilityName = modifiers.length > 0 ? key.slice(modifiers.join(":").length + 1) : key;
 			classNames.push(toClassName(utilityName, value, modifiers, shortMap));
 		}
 

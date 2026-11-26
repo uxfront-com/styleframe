@@ -1,10 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useContainerNameUtility,
-	useContainerTypeUtility,
-} from "./useContainerUtility";
+
+import { useContainerNameUtility, useContainerTypeUtility } from "./useContainerUtility";
 
 describe("useContainerTypeUtility", () => {
 	it("should create utility instances with provided values", () => {

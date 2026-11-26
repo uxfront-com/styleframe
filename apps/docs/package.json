@@ -1,8 +1,12 @@
 {
 	"name": "@styleframe/docs",
-	"private": true,
-	"type": "module",
 	"version": "2.0.1",
+	"private": true,
+	"files": [
+		"LICENSE",
+		"app"
+	],
+	"type": "module",
 	"scripts": {
 		"build": "nuxt generate",
 		"dev": "nuxt dev",
@@ -43,9 +47,5 @@
 		"typescript": "catalog:nuxt",
 		"vitest": "catalog:",
 		"vue-tsc": "catalog:nuxt"
-	},
-	"files": [
-		"LICENSE",
-		"app"
-	]
+	}
 }

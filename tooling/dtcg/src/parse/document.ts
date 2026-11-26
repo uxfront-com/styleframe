@@ -39,10 +39,7 @@ export function parse(input: string | unknown): DTCGDocument {
 	if (parsed.$schema !== undefined && typeof parsed.$schema !== "string") {
 		throw new ParseError("$schema must be a string", "$schema");
 	}
-	if (
-		parsed.$description !== undefined &&
-		typeof parsed.$description !== "string"
-	) {
+	if (parsed.$description !== undefined && typeof parsed.$description !== "string") {
 		throw new ParseError("$description must be a string", "$description");
 	}
 	if (parsed.$extensions !== undefined && !isPlainObject(parsed.$extensions)) {

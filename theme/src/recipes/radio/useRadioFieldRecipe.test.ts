@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
-import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
+import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useRadioFieldRecipe } from "./useRadioFieldRecipe";
 
 function createInstance() {
@@ -88,11 +89,7 @@ describe("useRadioFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useRadioFieldRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants with a circular radius", () => {
@@ -130,9 +127,7 @@ describe("useRadioFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useRadioFieldRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 			expect(cv?.css).toEqual({
 				backgroundColor: "@color.white",
 				borderColor: "@color.gray-450",
@@ -153,9 +148,7 @@ describe("useRadioFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useRadioFieldRecipe(s);
 
-			const light = recipe.compoundVariants!.find(
-				(v) => v.match.color === "light",
-			);
+			const light = recipe.compoundVariants!.find((v) => v.match.color === "light");
 			expect(light?.css).toEqual({
 				backgroundColor: "@color.white",
 				borderColor: "@color.gray-450",

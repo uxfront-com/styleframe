@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useSliderRecipe } from "./useSliderRecipe";
 
 function createInstance() {
@@ -129,9 +130,7 @@ describe("useSliderRecipe", () => {
 			const s = createInstance();
 			const recipe = useSliderRecipe(s);
 
-			const disabled = recipe.compoundVariants!.find(
-				(cv) => cv.match.disabled === "true",
-			);
+			const disabled = recipe.compoundVariants!.find((cv) => cv.match.disabled === "true");
 
 			expect(disabled).toEqual({
 				match: { disabled: "true" },

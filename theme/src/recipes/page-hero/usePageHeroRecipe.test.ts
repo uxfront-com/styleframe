@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { usePageHeroRecipe } from "./index";
 
@@ -64,11 +65,7 @@ describe("usePageHeroRecipe", () => {
 			const s = createInstance();
 			const recipe = usePageHeroRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -113,11 +110,7 @@ describe("usePageHeroRecipe", () => {
 			const s = createInstance();
 			const recipe = usePageHeroRecipe(s);
 
-			expect(Object.keys(recipe.variants!.alignment)).toEqual([
-				"start",
-				"center",
-				"end",
-			]);
+			expect(Object.keys(recipe.variants!.alignment)).toEqual(["start", "center", "end"]);
 		});
 	});
 
@@ -146,9 +139,7 @@ describe("usePageHeroRecipe", () => {
 			const s = createInstance();
 			const recipe = usePageHeroRecipe(s);
 
-			const lightCv = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "light",
-			);
+			const lightCv = recipe.compoundVariants!.find((cv) => cv.match.color === "light");
 
 			expect(lightCv).toEqual({
 				match: { color: "light" },
@@ -167,9 +158,7 @@ describe("usePageHeroRecipe", () => {
 			const s = createInstance();
 			const recipe = usePageHeroRecipe(s);
 
-			const darkCv = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "dark",
-			);
+			const darkCv = recipe.compoundVariants!.find((cv) => cv.match.color === "dark");
 
 			expect(darkCv).toEqual({
 				match: { color: "dark" },
@@ -188,9 +177,7 @@ describe("usePageHeroRecipe", () => {
 			const s = createInstance();
 			const recipe = usePageHeroRecipe(s);
 
-			const neutralCv = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutralCv = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutralCv).toEqual({
 				match: { color: "neutral" },
@@ -210,8 +197,7 @@ describe("usePageHeroRecipe", () => {
 			const recipe = usePageHeroRecipe(s);
 
 			const cv = recipe.compoundVariants!.find(
-				(c) =>
-					c.match.orientation === "vertical" && c.match.alignment === "start",
+				(c) => c.match.orientation === "vertical" && c.match.alignment === "start",
 			);
 
 			expect(cv?.css).toEqual({
@@ -225,8 +211,7 @@ describe("usePageHeroRecipe", () => {
 			const recipe = usePageHeroRecipe(s);
 
 			const cv = recipe.compoundVariants!.find(
-				(c) =>
-					c.match.orientation === "horizontal" && c.match.reverse === "true",
+				(c) => c.match.orientation === "horizontal" && c.match.reverse === "true",
 			);
 
 			expect(cv?.css).toEqual({
@@ -263,9 +248,7 @@ describe("usePageHeroRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			const colorCvs = recipe.compoundVariants!.filter(
-				(cv) => cv.match.color !== undefined,
-			);
+			const colorCvs = recipe.compoundVariants!.filter((cv) => cv.match.color !== undefined);
 			expect(colorCvs.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(colorCvs).toHaveLength(1);
 		});

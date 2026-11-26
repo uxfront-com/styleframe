@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
 	extractClasses,
 	extractFromHTML,
@@ -297,8 +298,7 @@ describe("extractClasses", () => {
 	});
 
 	it("should use Vue extractor for .vue files", () => {
-		const content =
-			'<template><div class="_margin:sm">content</div></template>';
+		const content = '<template><div class="_margin:sm">content</div></template>';
 		const result = extractClasses(content, "test.vue");
 
 		expect(result).toContain("_margin:sm");

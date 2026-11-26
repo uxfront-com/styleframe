@@ -29,9 +29,7 @@ test.describe("Theme Switching", () => {
 			(el) => window.getComputedStyle(el).backgroundColor,
 		);
 
-		const darkBg = await darkElement.evaluate(
-			(el) => window.getComputedStyle(el).backgroundColor,
-		);
+		const darkBg = await darkElement.evaluate((el) => window.getComputedStyle(el).backgroundColor);
 
 		// Default and dark should have different background colors
 		expect(defaultBg).not.toBe(darkBg);
@@ -41,9 +39,7 @@ test.describe("Theme Switching", () => {
 		expect(darkBg).toBe("rgb(96, 165, 250)");
 	});
 
-	test("dark theme color values cascade through data-theme attribute", async ({
-		page,
-	}) => {
+	test("dark theme color values cascade through data-theme attribute", async ({ page }) => {
 		const darkElement = page.locator("#test-theme-dark");
 
 		const styles = await darkElement.evaluate((el) => {

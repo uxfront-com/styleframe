@@ -1,8 +1,5 @@
-import type {
-	DeclarationsCallbackContext,
-	TokenValue,
-	Variable,
-} from "@styleframe/core";
+import type { DeclarationsCallbackContext, TokenValue, Variable } from "@styleframe/core";
+
 import type { ExportKeys } from "../types";
 import { createUseVariable } from "./createUseVariable";
 

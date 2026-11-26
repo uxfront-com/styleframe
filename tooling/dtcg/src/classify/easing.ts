@@ -15,9 +15,7 @@ const KEYWORD_TO_BEZIER: Readonly<Record<string, DTCGCubicBezier>> = {
 	"ease-in-out": [0.42, 0, 0.58, 1] as unknown as DTCGCubicBezier,
 };
 
-export function easingKeywordToBezier(
-	keyword: string,
-): DTCGCubicBezier | undefined {
+export function easingKeywordToBezier(keyword: string): DTCGCubicBezier | undefined {
 	return KEYWORD_TO_BEZIER[keyword.trim().toLowerCase()];
 }
 

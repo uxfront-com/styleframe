@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useColorShadeDesignTokens } from "./useColorShadeDesignTokens";
+
 import { colorShadeValues } from "../values";
+import { useColorShadeDesignTokens } from "./useColorShadeDesignTokens";
 
 describe("useColorShadeDesignTokens", () => {
 	it("should create shade levels with default values", () => {
@@ -156,10 +157,8 @@ describe("useColorShadeDesignTokens", () => {
 				"shade-100": 10,
 			} as const);
 
-			const shade50: Variable<"color--primary-shade-50"> =
-				shades.colorPrimaryShade50;
-			const shade100: Variable<"color--primary-shade-100"> =
-				shades.colorPrimaryShade100;
+			const shade50: Variable<"color--primary-shade-50"> = shades.colorPrimaryShade50;
+			const shade100: Variable<"color--primary-shade-100"> = shades.colorPrimaryShade100;
 
 			expect(shade50.name).toBe("color--primary-shade-50");
 			expect(shade100.name).toBe("color--primary-shade-100");
@@ -172,8 +171,7 @@ describe("useColorShadeDesignTokens", () => {
 				"shade-75": 7.5,
 			} as const);
 
-			const typed: Variable<"color--secondary-shade-75"> =
-				shades.colorSecondaryShade75;
+			const typed: Variable<"color--secondary-shade-75"> = shades.colorSecondaryShade75;
 			expect(typed.name).toBe("color--secondary-shade-75");
 		});
 	});

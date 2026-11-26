@@ -99,24 +99,17 @@ onMounted(() => {
 	<main class="_padding:xl" style="max-width: 1200px; margin-inline: auto">
 		<!-- Page Header -->
 		<header class="_margin-bottom:2xl">
-			<h1
-				class="_font-size:4xl _font-weight:bold _margin:[0] _margin-bottom:xs"
-			>
+			<h1 class="_font-size:4xl _font-weight:bold _margin:[0] _margin-bottom:xs">
 				Component Showcase
 			</h1>
 			<p class="_font-size:lg _color:secondary _margin:[0]">
-				Real-world components built with Styleframe recipes, selectors, and
-				utilities.
+				Real-world components built with Styleframe recipes, selectors, and utilities.
 			</p>
 		</header>
 
 		<!-- Buttons -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Buttons
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Buttons</h2>
 
 			<template v-for="variant in buttonVariants" :key="variant">
 				<h3
@@ -124,9 +117,7 @@ onMounted(() => {
 				>
 					{{ capitalize(variant) }}
 				</h3>
-				<div
-					class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg"
-				>
+				<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
 					<Button
 						v-for="color in buttonColors"
 						:key="color"
@@ -137,14 +128,10 @@ onMounted(() => {
 				</div>
 			</template>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Sizes
 			</h3>
-			<div
-				class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg"
-			>
+			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
 				<Button
 					v-for="size in buttonSizes"
 					:key="size"
@@ -153,9 +140,7 @@ onMounted(() => {
 				/>
 			</div>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Disabled
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center">
@@ -167,20 +152,12 @@ onMounted(() => {
 
 		<!-- Badges -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Badges
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Badges</h2>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Solid
 			</h3>
-			<div
-				class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg"
-			>
+			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
 				<Badge
 					v-for="color in badgeColors"
 					:key="color"
@@ -189,14 +166,10 @@ onMounted(() => {
 				/>
 			</div>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Outline
 			</h3>
-			<div
-				class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg"
-			>
+			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
 				<Badge
 					v-for="color in badgeColors"
 					:key="color"
@@ -206,28 +179,17 @@ onMounted(() => {
 				/>
 			</div>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Sizes
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center">
-				<Badge
-					v-for="size in badgeSizes"
-					:key="size"
-					:size="size"
-					:label="size.toUpperCase()"
-				/>
+				<Badge v-for="size in badgeSizes" :key="size" :size="size" :label="size.toUpperCase()" />
 			</div>
 		</section>
 
 		<!-- Cards -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Cards
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Cards</h2>
 			<div
 				class="_display:grid _gap:lg"
 				style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))"
@@ -238,8 +200,8 @@ onMounted(() => {
 					</div>
 					<div class="card__body">
 						<p class="card__description">
-							Create type-safe, composable CSS with Styleframe's design token
-							system. Define variables, selectors, utilities, and recipes.
+							Create type-safe, composable CSS with Styleframe's design token system. Define
+							variables, selectors, utilities, and recipes.
 						</p>
 					</div>
 					<div class="card__footer">
@@ -253,8 +215,8 @@ onMounted(() => {
 					</div>
 					<div class="card__body">
 						<p class="card__description">
-							Manage colors, spacing, typography, and more with a unified token
-							system. Tokens cascade through themes and breakpoints.
+							Manage colors, spacing, typography, and more with a unified token system. Tokens
+							cascade through themes and breakpoints.
 						</p>
 					</div>
 					<div class="card__footer">
@@ -268,8 +230,8 @@ onMounted(() => {
 					</div>
 					<div class="card__body">
 						<p class="card__description">
-							Build component variants with recipes. Combine base styles,
-							variants, and compound variants for complete component APIs.
+							Build component variants with recipes. Combine base styles, variants, and compound
+							variants for complete component APIs.
 						</p>
 					</div>
 					<div class="card__footer">
@@ -281,11 +243,7 @@ onMounted(() => {
 
 		<!-- Alerts / Callouts -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Alerts
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Alerts</h2>
 			<div class="_display:flex _flex-direction:column _gap:md">
 				<Callout
 					v-for="color in alertColors"
@@ -301,20 +259,12 @@ onMounted(() => {
 
 		<!-- Avatars -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Avatars
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Avatars</h2>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Sizes
 			</h3>
-			<div
-				class="_display:flex _flex-wrap:wrap _gap:md _align-items:end _margin-bottom:lg"
-			>
+			<div class="_display:flex _flex-wrap:wrap _gap:md _align-items:end _margin-bottom:lg">
 				<div
 					v-for="(size, i) in avatarSizes"
 					:key="size"
@@ -324,9 +274,7 @@ onMounted(() => {
 				</div>
 			</div>
 
-			<h3
-				class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm"
-			>
+			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Shapes
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:md _align-items:center">
@@ -342,32 +290,20 @@ onMounted(() => {
 
 		<!-- Inputs -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Inputs
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Inputs</h2>
 			<div
 				class="_display:grid _gap:lg"
 				style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))"
 			>
 				<div class="input-group">
 					<label class="input-group__label">Email</label>
-					<input
-						class="input-group__input"
-						type="email"
-						placeholder="you@example.com"
-					/>
+					<input class="input-group__input" type="email" placeholder="you@example.com" />
 					<p class="input-group__helper">We'll never share your email.</p>
 				</div>
 
 				<div class="input-group">
 					<label class="input-group__label">Password</label>
-					<input
-						class="input-group__input"
-						type="password"
-						placeholder="Enter your password"
-					/>
+					<input class="input-group__input" type="password" placeholder="Enter your password" />
 				</div>
 
 				<div class="input-group">
@@ -383,23 +319,14 @@ onMounted(() => {
 
 				<div class="input-group">
 					<label class="input-group__label">Disabled Field</label>
-					<input
-						class="input-group__input"
-						type="text"
-						placeholder="Can't edit this"
-						disabled
-					/>
+					<input class="input-group__input" type="text" placeholder="Can't edit this" disabled />
 				</div>
 			</div>
 		</section>
 
 		<!-- Dark Theme Preview -->
 		<section class="_margin-bottom:2xl">
-			<h2
-				class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg"
-			>
-				Dark Theme
-			</h2>
+			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Dark Theme</h2>
 			<div
 				data-theme="dark"
 				class="_padding:xl _border-radius:lg"
@@ -415,8 +342,7 @@ onMounted(() => {
 						</div>
 						<div class="card__body">
 							<p class="card__description">
-								This card inherits the dark theme automatically through CSS
-								custom properties.
+								This card inherits the dark theme automatically through CSS custom properties.
 							</p>
 						</div>
 						<div class="card__footer">
@@ -429,14 +355,8 @@ onMounted(() => {
 						<div class="card__body">
 							<div class="input-group">
 								<label class="input-group__label">Dark Input</label>
-								<input
-									class="input-group__input"
-									type="text"
-									placeholder="Type here..."
-								/>
-								<p class="input-group__helper">
-									Inputs adapt to the dark theme automatically.
-								</p>
+								<input class="input-group__input" type="text" placeholder="Type here..." />
+								<p class="input-group__helper">Inputs adapt to the dark theme automatically.</p>
 							</div>
 						</div>
 					</div>

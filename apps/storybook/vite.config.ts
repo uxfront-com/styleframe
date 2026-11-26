@@ -1,14 +1,13 @@
-/// <reference types="vitest/config" />
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import styleframe from "@styleframe/plugin/vite";
-
 // https://vite.dev/config/
 import path from "node:path";
+
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import styleframe from "@styleframe/plugin/vite";
+import vue from "@vitejs/plugin-vue";
 import { playwright } from "@vitest/browser-playwright";
-const dirname =
-	typeof __dirname !== "undefined" ? __dirname : import.meta.dirname;
+/// <reference types="vitest/config" />
+import { defineConfig } from "vite";
+const dirname = typeof __dirname !== "undefined" ? __dirname : import.meta.dirname;
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({

@@ -1,4 +1,6 @@
 import { styleframe } from "@styleframe/core";
+
+import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	useHoverModifier,
@@ -6,7 +8,6 @@ import {
 	useFocusVisibleModifier,
 	useActiveModifier,
 } from "../../modifiers/usePseudoStateModifiers";
-import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useNavItemRecipe } from "./index";
 
 function createInstance() {
@@ -101,11 +102,7 @@ describe("useNavItemRecipe", () => {
 			const s = createInstance();
 			const recipe = useNavItemRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
@@ -432,9 +429,7 @@ describe("useNavItemRecipe", () => {
 			});
 
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => !cv.match.color || cv.match.color === "neutral",
-				),
+				recipe.compoundVariants!.every((cv) => !cv.match.color || cv.match.color === "neutral"),
 			).toBe(true);
 		});
 
@@ -446,9 +441,7 @@ describe("useNavItemRecipe", () => {
 
 			expect(Object.keys(recipe.variants!.variant)).toEqual(["ghost"]);
 			expect(
-				recipe.compoundVariants!.every(
-					(cv) => !cv.match.variant || cv.match.variant === "ghost",
-				),
+				recipe.compoundVariants!.every((cv) => !cv.match.variant || cv.match.variant === "ghost"),
 			).toBe(true);
 		});
 

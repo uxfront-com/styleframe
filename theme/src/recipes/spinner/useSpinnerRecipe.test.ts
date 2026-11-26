@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSpinnerRecipe } from "./useSpinnerRecipe";
 
@@ -50,25 +51,14 @@ describe("useSpinnerRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"primary",
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "light", "dark", "neutral"]);
 		});
 
 		it("should have all size variants", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"auto",
-				"sm",
-				"md",
-				"lg",
-				"inherit",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["auto", "sm", "md", "lg", "inherit"]);
 		});
 
 		it("should have correct size variant styles", () => {
@@ -107,9 +97,7 @@ describe("useSpinnerRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "primary",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "primary");
 			expect(cv?.css).toEqual({
 				color: "@color.primary",
 				"&:dark": {
@@ -122,9 +110,7 @@ describe("useSpinnerRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "light",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "light");
 			expect(cv?.css).toEqual({
 				color: "@color.gray-700",
 				"&:dark": {
@@ -150,9 +136,7 @@ describe("useSpinnerRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 			expect(cv?.css).toEqual({
 				color: "@color.gray-700",
 				"&:dark": {

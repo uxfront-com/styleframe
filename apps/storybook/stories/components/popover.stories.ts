@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Popover from "@/components/components/popover/Popover.vue";
-import PopoverHeader from "@/components/components/popover/PopoverHeader.vue";
-import PopoverBody from "@/components/components/popover/PopoverBody.vue";
-import PopoverFooter from "@/components/components/popover/PopoverFooter.vue";
 import PopoverArrow from "@/components/components/popover/PopoverArrow.vue";
-import PopoverTitle from "@/components/components/popover/PopoverTitle.vue";
+import PopoverBody from "@/components/components/popover/PopoverBody.vue";
 import PopoverDescription from "@/components/components/popover/PopoverDescription.vue";
+import PopoverFooter from "@/components/components/popover/PopoverFooter.vue";
+import PopoverHeader from "@/components/components/popover/PopoverHeader.vue";
+import PopoverTitle from "@/components/components/popover/PopoverTitle.vue";
 import PopoverGrid from "@/components/components/popover/preview/PopoverGrid.vue";
 import PopoverSizeGrid from "@/components/components/popover/preview/PopoverSizeGrid.vue";
 import PopoverTopLayer from "@/components/components/popover/preview/PopoverTopLayer.vue";
@@ -171,8 +171,7 @@ export const Placements: StoryObj = {
 		setup() {
 			return { placements };
 		},
-		template:
-			'<PopoverTopLayer name="placements" :placements="[...placements]" />',
+		template: '<PopoverTopLayer name="placements" :placements="[...placements]" />',
 	}),
 };
 

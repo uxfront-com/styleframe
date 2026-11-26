@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Switch from "@/components/components/switch/Switch.vue";
 import SwitchGrid from "@/components/components/switch/preview/SwitchGrid.vue";
 import SwitchSizeGrid from "@/components/components/switch/preview/SwitchSizeGrid.vue";
+import Switch from "@/components/components/switch/Switch.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const sizes = ["sm", "md", "lg"] as const;

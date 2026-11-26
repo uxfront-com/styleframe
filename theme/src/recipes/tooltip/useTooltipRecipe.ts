@@ -254,8 +254,7 @@ export const useTooltipRecipe = createUseRecipe(
 
 		// It fades and grows in as it opens, and only fades with reduced motion.
 		selector(".tooltip[popover]:popover-open", {
-			transition:
-				"opacity @duration.fast @easing.ease-out, scale @duration.fast @easing.ease-out",
+			transition: "opacity @duration.fast @easing.ease-out, scale @duration.fast @easing.ease-out",
 			"@starting-style": {
 				opacity: "0",
 				scale: "0.96",

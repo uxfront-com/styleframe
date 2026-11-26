@@ -1,19 +1,15 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+
 import {
 	buildStyleframe,
 	buildStyleframeMinified,
 	buildStyleframeShorthand,
 } from "./styleframe/build";
 import { buildTailwind } from "./tailwind/build";
-import type {
-	BenchmarkEntry,
-	BenchmarkReport,
-	PageResult,
-	PageSpec,
-} from "./types";
-import { measure } from "./utils/size";
+import type { BenchmarkEntry, BenchmarkReport, PageResult, PageSpec } from "./types";
 import { formatReport } from "./utils/report";
+import { measure } from "./utils/size";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const RESULTS = join(ROOT, "results");
@@ -33,12 +29,7 @@ function extractBodyHtml(html: string): string {
 	return match?.[1]?.trim() ?? html;
 }
 
-function entry(
-	label: string,
-	dir: string,
-	html: string,
-	css: string,
-): BenchmarkEntry {
+function entry(label: string, dir: string, html: string, css: string): BenchmarkEntry {
 	return {
 		label,
 		htmlPath: join(dir, "index.html"),
@@ -54,10 +45,7 @@ async function buildPage(spec: PageSpec): Promise<PageResult> {
 	const tw = buildTailwind(spec.tailwind, pageName);
 	const sf = await buildStyleframe(spec.styleframe, pageName);
 	const sfMin = await buildStyleframeMinified(spec.styleframe, pageName);
-	const sfShort = await buildStyleframeShorthand(
-		spec.styleframeShorthand,
-		pageName,
-	);
+	const sfShort = await buildStyleframeShorthand(spec.styleframeShorthand, pageName);
 
 	return {
 		page: pageName,

@@ -1,14 +1,11 @@
 import { describe, expect, it } from "vitest";
+
 import { format } from "../../src/color/format";
 
 describe("color.format", () => {
 	it("formats sRGB without alpha as a hex string", () => {
-		expect(format({ colorSpace: "srgb", components: [1, 0, 0] })).toBe(
-			"#ff0000",
-		);
-		expect(format({ colorSpace: "srgb", components: [0, 1, 0] })).toBe(
-			"#00ff00",
-		);
+		expect(format({ colorSpace: "srgb", components: [1, 0, 0] })).toBe("#ff0000");
+		expect(format({ colorSpace: "srgb", components: [0, 1, 0] })).toBe("#00ff00");
 	});
 
 	it("formats sRGB with alpha as 8-digit hex", () => {
@@ -22,9 +19,7 @@ describe("color.format", () => {
 	});
 
 	it("prefers a precomputed hex when present", () => {
-		expect(
-			format({ colorSpace: "srgb", components: [1, 0, 0], hex: "#FF0000" }),
-		).toBe("#FF0000");
+		expect(format({ colorSpace: "srgb", components: [1, 0, 0], hex: "#FF0000" })).toBe("#FF0000");
 	});
 
 	it("formats HSL via color() syntax", () => {

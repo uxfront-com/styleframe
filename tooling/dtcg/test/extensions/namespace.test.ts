@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { isValidNamespace } from "../../src/extensions/namespace";
 
 describe("isValidNamespace", () => {

@@ -14,8 +14,7 @@ export const DISCORD_URL = "https://discord.com/invite/KCVwuGz44M";
 
 export const INTRODUCTION_URL = "/docs/getting-started/introduction";
 
-export const GITHUB_API_URL =
-	"https://api.github.com/repos/uxfront-com/styleframe";
+export const GITHUB_API_URL = "https://api.github.com/repos/uxfront-com/styleframe";
 
 // The product and legal pages. As on main, the site's header and footer don't
 // link /pro or /pricing.

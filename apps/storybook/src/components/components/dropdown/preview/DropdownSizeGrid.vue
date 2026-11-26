@@ -19,11 +19,7 @@ const sizeTitles: Record<string, string> = {
 		<div v-for="size in sizes" :key="size">
 			<div class="dropdown-label">{{ size }}</div>
 			<div class="dropdown-row">
-				<div
-					v-for="color in colors"
-					:key="`${size}-${color}`"
-					class="dropdown-wrapper"
-				>
+				<div v-for="color in colors" :key="`${size}-${color}`" class="dropdown-wrapper">
 					<Dropdown :color="color" :size="size">
 						<DropdownLabel :color="color" :size="size">
 							{{ sizeTitles[size] }} {{ color }}

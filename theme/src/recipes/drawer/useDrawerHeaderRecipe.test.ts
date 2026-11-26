@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useDrawerHeaderRecipe } from "./index";
 
@@ -32,8 +33,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	);
 }
 

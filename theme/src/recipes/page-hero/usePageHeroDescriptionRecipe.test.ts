@@ -1,17 +1,11 @@
 import { styleframe } from "@styleframe/core";
 import { describe, expect, it } from "vitest";
+
 import { usePageHeroDescriptionRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"color",
-		"lineHeight",
-		"maxWidth",
-		"marginTop",
-		"marginBottom",
-		"fontSize",
-	]) {
+	for (const name of ["color", "lineHeight", "maxWidth", "marginTop", "marginBottom", "fontSize"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

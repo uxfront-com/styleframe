@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -62,22 +63,13 @@ export function useKbdDesignTokens(
 		result.kbdFontSize = ctx.variable("kbd.font-size", config.fontSize);
 	}
 	if (config.borderRadius !== undefined) {
-		result.kbdBorderRadius = ctx.variable(
-			"kbd.border-radius",
-			config.borderRadius,
-		);
+		result.kbdBorderRadius = ctx.variable("kbd.border-radius", config.borderRadius);
 	}
 	if (config.paddingBlock !== undefined) {
-		result.kbdPaddingBlock = ctx.variable(
-			"kbd.padding-block",
-			config.paddingBlock,
-		);
+		result.kbdPaddingBlock = ctx.variable("kbd.padding-block", config.paddingBlock);
 	}
 	if (config.paddingInline !== undefined) {
-		result.kbdPaddingInline = ctx.variable(
-			"kbd.padding-inline",
-			config.paddingInline,
-		);
+		result.kbdPaddingInline = ctx.variable("kbd.padding-inline", config.paddingInline);
 	}
 
 	return result;

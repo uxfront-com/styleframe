@@ -1,6 +1,7 @@
 import path from "node:path";
-import { loadConfiguration } from "../src/config";
+
 import { build } from "../src/build";
+import { loadConfiguration } from "../src/config";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 

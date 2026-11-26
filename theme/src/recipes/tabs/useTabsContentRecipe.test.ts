@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useFocusVisibleModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useTabsContentRecipe } from "./useTabsContentRecipe";
 

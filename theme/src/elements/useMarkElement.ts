@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -55,22 +56,13 @@ export function useMarkDesignTokens(
 		result.markPaddingTop = ctx.variable("mark.padding-top", config.paddingTop);
 	}
 	if (config.paddingRight !== undefined) {
-		result.markPaddingRight = ctx.variable(
-			"mark.padding-right",
-			config.paddingRight,
-		);
+		result.markPaddingRight = ctx.variable("mark.padding-right", config.paddingRight);
 	}
 	if (config.paddingBottom !== undefined) {
-		result.markPaddingBottom = ctx.variable(
-			"mark.padding-bottom",
-			config.paddingBottom,
-		);
+		result.markPaddingBottom = ctx.variable("mark.padding-bottom", config.paddingBottom);
 	}
 	if (config.paddingLeft !== undefined) {
-		result.markPaddingLeft = ctx.variable(
-			"mark.padding-left",
-			config.paddingLeft,
-		);
+		result.markPaddingLeft = ctx.variable("mark.padding-left", config.paddingLeft);
 	}
 
 	return result;
@@ -100,10 +92,7 @@ export function useMarkElement(
 	s: Styleframe,
 	options: WithThemes<MarkElementConfig> = {},
 ): MarkElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultMarkOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultMarkOptions, options);
 
 	const result = useMarkSelectors(s, config as Required<MarkElementConfig>);
 

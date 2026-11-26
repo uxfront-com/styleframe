@@ -21,19 +21,14 @@ import type {
 	DTCGDuration,
 	DTCGTokenType,
 } from "@styleframe/dtcg";
-import type {
-	FigmaExportVariable,
-	FigmaRGBA,
-	FigmaVariableType,
-} from "../../types";
+
+import type { FigmaExportVariable, FigmaRGBA, FigmaVariableType } from "../../types";
 
 /**
  * Map a DTCG `$type` to the closest Figma variable type. Composite types
  * have no native Figma equivalent and resolve to `STRING` (serialised JSON).
  */
-export function dtcgTypeToFigma(
-	dtcgType: DTCGTokenType | undefined,
-): FigmaVariableType {
+export function dtcgTypeToFigma(dtcgType: DTCGTokenType | undefined): FigmaVariableType {
 	switch (dtcgType) {
 		case "color":
 			return "COLOR";
@@ -63,9 +58,7 @@ export function dtcgTypeToFigma(
  * variable's name is available, since it disambiguates via path heuristics
  * (e.g. `duration/fast` → duration, `font-family/body` → fontFamily).
  */
-export function figmaTypeToDtcg(
-	figmaType: FigmaVariableType,
-): DTCGTokenType | undefined {
+export function figmaTypeToDtcg(figmaType: FigmaVariableType): DTCGTokenType | undefined {
 	switch (figmaType) {
 		case "COLOR":
 			return "color";
@@ -102,9 +95,7 @@ export function classifyFigmaVariable(
 	}
 	// Convert Figma RGBA to canonical DTCG color first so the classifier
 	// recognises it as a color.
-	const normalised = isFigmaRgbaShape(modeValue)
-		? figmaRgbaToDtcgColor(modeValue)
-		: modeValue;
+	const normalised = isFigmaRgbaShape(modeValue) ? figmaRgbaToDtcgColor(modeValue) : modeValue;
 	const classification = classifyValue(normalised, {
 		path: figmaPathToDtcg(variable.name),
 	});
@@ -140,12 +131,9 @@ function isFigmaRgbaShape(value: unknown): value is FigmaRGBA {
  * sRGB — wider-gamut colors are converted via `dtcgColor.convert`.
  */
 export function dtcgColorToFigmaRgba(color: DTCGColor): FigmaRGBA {
-	const srgb =
-		color.colorSpace === "srgb" ? color : dtcgColor.convert(color, "srgb");
+	const srgb = color.colorSpace === "srgb" ? color : dtcgColor.convert(color, "srgb");
 	const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
-	const [r, g, b] = srgb.components.map((c: number | "none") =>
-		c === "none" ? 0 : clamp01(c),
-	);
+	const [r, g, b] = srgb.components.map((c: number | "none") => (c === "none" ? 0 : clamp01(c)));
 	return {
 		r: r as number,
 		g: g as number,
@@ -177,10 +165,7 @@ export function figmaRgbaToDtcgColor(rgba: FigmaRGBA): DTCGColor {
  * Viewport-relative units (vw, vh, dvw, svw, etc.) have no pixel equivalent
  * and return `undefined` — callers should skip the token rather than crash.
  */
-export function dtcgDimensionToFloat(
-	dim: DTCGDimension,
-	baseFontSize = 16,
-): number | undefined {
+export function dtcgDimensionToFloat(dim: DTCGDimension, baseFontSize = 16): number | undefined {
 	switch (dim.unit) {
 		case "px":
 			return dim.value;
@@ -198,10 +183,7 @@ export function dtcgDimensionToFloat(
  * Wrap a Figma FLOAT in a spec-conformant DTCG dimension object. Always
  * uses `px` since Figma's variables are pixel-based.
  */
-export function floatToDtcgDimension(
-	value: number,
-	unit = "px",
-): DTCGDimension {
+export function floatToDtcgDimension(value: number, unit = "px"): DTCGDimension {
 	return { value, unit };
 }
 
@@ -269,9 +251,7 @@ export function dtcgValueToFigma(
 	figmaType: FigmaVariableType,
 ): DtcgFigmaConversion {
 	if (isAlias(value)) {
-		const aliasPath = (value as DTCGAlias)
-			.slice(1, -1)
-			.replace(/\.\$root$/, "");
+		const aliasPath = (value as DTCGAlias).slice(1, -1).replace(/\.\$root$/, "");
 		return {
 			kind: "alias",
 			id: dtcgPathToFigma(aliasPath),
@@ -280,11 +260,7 @@ export function dtcgValueToFigma(
 
 	switch (figmaType) {
 		case "COLOR":
-			if (
-				typeof value === "object" &&
-				value !== null &&
-				"colorSpace" in value
-			) {
+			if (typeof value === "object" && value !== null && "colorSpace" in value) {
 				return {
 					kind: "value",
 					figmaType: "COLOR",
@@ -343,9 +319,7 @@ export function dtcgValueToFigma(
 	}
 }
 
-function isDimensionObject(
-	value: unknown,
-): value is { value: number; unit: string } {
+function isDimensionObject(value: unknown): value is { value: number; unit: string } {
 	return (
 		typeof value === "object" &&
 		value !== null &&

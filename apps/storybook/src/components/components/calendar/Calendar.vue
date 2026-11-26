@@ -193,25 +193,14 @@ function weekNumber(row: Array<Cell>): number {
 							</button>
 						</div>
 
-						<div
-							v-if="props.dropdownCaption"
-							class="calendar-caption-dropdowns"
-						>
+						<div v-if="props.dropdownCaption" class="calendar-caption-dropdowns">
 							<select aria-label="Month">
-								<option
-									v-for="(name, i) in monthNames"
-									:key="name"
-									:selected="i === m.month"
-								>
+								<option v-for="(name, i) in monthNames" :key="name" :selected="i === m.month">
 									{{ name }}
 								</option>
 							</select>
 							<select aria-label="Year">
-								<option
-									v-for="y in [2025, 2026, 2027]"
-									:key="y"
-									:selected="y === m.year"
-								>
+								<option v-for="y in [2025, 2026, 2027]" :key="y" :selected="y === m.year">
 									{{ y }}
 								</option>
 							</select>
@@ -229,11 +218,7 @@ function weekNumber(row: Array<Cell>): number {
 						</div>
 					</div>
 
-					<div
-						v-if="props.type === 'month'"
-						role="grid"
-						class="calendar-grid -months"
-					>
+					<div v-if="props.type === 'month'" role="grid" class="calendar-grid -months">
 						<CalendarDay
 							v-for="(label, i) in monthLabels"
 							:key="label"
@@ -246,11 +231,7 @@ function weekNumber(row: Array<Cell>): number {
 						</CalendarDay>
 					</div>
 
-					<div
-						v-else-if="props.type === 'year'"
-						role="grid"
-						class="calendar-grid -years"
-					>
+					<div v-else-if="props.type === 'year'" role="grid" class="calendar-grid -years">
 						<CalendarDay
 							v-for="y in years"
 							:key="y"
@@ -269,11 +250,7 @@ function weekNumber(row: Array<Cell>): number {
 						:class="['calendar-grid', { '-week-numbers': props.weekNumbers }]"
 					>
 						<div class="calendar-weekdays" role="row">
-							<div
-								v-if="props.weekNumbers"
-								class="calendar-weekday"
-								aria-hidden="true"
-							></div>
+							<div v-if="props.weekNumbers" class="calendar-weekday" aria-hidden="true"></div>
 							<div
 								v-for="label in weekdayLabels"
 								:key="label"
@@ -284,20 +261,12 @@ function weekNumber(row: Array<Cell>): number {
 							</div>
 						</div>
 
-						<div
-							v-for="(row, ri) in m.weeks"
-							:key="ri"
-							class="calendar-week"
-							role="row"
-						>
+						<div v-for="(row, ri) in m.weeks" :key="ri" class="calendar-week" role="row">
 							<div v-if="props.weekNumbers" class="calendar-week-number">
 								{{ weekNumber(row) }}
 							</div>
 							<template v-for="cell in row" :key="cell.iso">
-								<div
-									v-if="cell.outside && hideOutside"
-									class="calendar-day-spacer"
-								></div>
+								<div v-if="cell.outside && hideOutside" class="calendar-day-spacer"></div>
 								<CalendarDay
 									v-else
 									:variant="props.variant"
@@ -309,10 +278,7 @@ function weekNumber(row: Array<Cell>): number {
 									:range="rangeOf(cell)"
 								>
 									{{ cell.day }}
-									<span
-										v-if="!cell.outside && props.prices[cell.iso]"
-										class="calendar-day-price"
-									>
+									<span v-if="!cell.outside && props.prices[cell.iso]" class="calendar-day-price">
 										{{ props.prices[cell.iso] }}
 									</span>
 								</CalendarDay>
@@ -320,10 +286,7 @@ function weekNumber(row: Array<Cell>): number {
 						</div>
 					</div>
 
-					<div
-						v-if="props.time && mi === months.length - 1"
-						class="calendar-footer"
-					>
+					<div v-if="props.time && mi === months.length - 1" class="calendar-footer">
 						<Input type="time" size="sm" model-value="09:00" />
 						<span>–</span>
 						<Input type="time" size="sm" model-value="17:00" />

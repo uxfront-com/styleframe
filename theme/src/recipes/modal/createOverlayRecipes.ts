@@ -16,9 +16,7 @@ import type { RecipeConfig } from "../../utils/createUseRecipe";
  * Shared by the modal and drawer container recipes. The `neutral` soft panel
  * gains a border in the dark theme, where the backdrop barely dims a dark page.
  */
-export const overlaySurfaceCompoundVariants: NonNullable<
-	RecipeConfig["compoundVariants"]
-> = [
+export const overlaySurfaceCompoundVariants: NonNullable<RecipeConfig["compoundVariants"]> = [
 	// Light color (neutral light-mode values, fixed across themes)
 	{
 		match: { color: "light", variant: "solid" },
@@ -142,9 +140,7 @@ export const overlaySurfaceCompoundVariants: NonNullable<
  * Header / footer separator border colors. The `soft` variant hides the
  * separators; `solid`/`subtle` show them.
  */
-const overlaySeparatorCompoundVariants: NonNullable<
-	RecipeConfig["compoundVariants"]
-> = [
+const overlaySeparatorCompoundVariants: NonNullable<RecipeConfig["compoundVariants"]> = [
 	// Light
 	{
 		match: { color: "light", variant: "solid" },

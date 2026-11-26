@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	breakAfterValues,
-	breakBeforeValues,
-	breakInsideValues,
-} from "../../values";
+import { breakAfterValues, breakBeforeValues, breakInsideValues } from "../../values";
 
 /**
  * Create break-after utility classes.

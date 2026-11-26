@@ -15,9 +15,7 @@ type ExportKeyVariableName<
 	Prefix extends string,
 	K,
 	Separator extends string = ".",
-> = K extends "default"
-	? Prefix
-	: `${Prefix}${Separator}${K & (string | number)}`;
+> = K extends "default" ? Prefix : `${Prefix}${Separator}${K & (string | number)}`;
 
 /**
  * Generic type that transforms keys to their export names with a given prefix
@@ -33,7 +31,7 @@ export type ExportKeys<
 	T extends Record<string, unknown>,
 	Separator extends string = ".",
 > = {
-	[K in keyof T as CamelCase<
+	[K in keyof T as CamelCase<ExportKeyVariableName<Prefix, K, Separator>>]: Variable<
 		ExportKeyVariableName<Prefix, K, Separator>
-	>]: Variable<ExportKeyVariableName<Prefix, K, Separator>>;
+	>;
 };

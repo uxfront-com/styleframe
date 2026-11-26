@@ -22,12 +22,9 @@ export const useAnimationUtility = createUseUtility(
 /**
  * Create animation-name utility classes.
  */
-export const useAnimationNameUtility = createUseUtility(
-	"animation-name",
-	({ value }) => ({
-		animationName: value,
-	}),
-);
+export const useAnimationNameUtility = createUseUtility("animation-name", ({ value }) => ({
+	animationName: value,
+}));
 
 /**
  * Create animation-duration utility classes.

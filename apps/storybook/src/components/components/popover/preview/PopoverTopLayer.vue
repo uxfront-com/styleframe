@@ -69,20 +69,13 @@ onMounted(() => {
 				role="dialog"
 				:aria-labelledby="`popover-${props.name}-${placement}-title`"
 			>
-				<PopoverArrow
-					:color="props.color"
-					:variant="props.variant"
-					:placement="placement"
-				/>
+				<PopoverArrow :color="props.color" :variant="props.variant" :placement="placement" />
 				<PopoverHeader :color="props.color" :variant="props.variant">
-					<PopoverTitle :id="`popover-${props.name}-${placement}-title`"
-						>Filters</PopoverTitle
-					>
+					<PopoverTitle :id="`popover-${props.name}-${placement}-title`">Filters</PopoverTitle>
 				</PopoverHeader>
 				<PopoverBody>
 					<PopoverDescription>
-						Opens {{ labels[placement].toLowerCase() }} its button, and flips
-						when there's no room.
+						Opens {{ labels[placement].toLowerCase() }} its button, and flips when there's no room.
 					</PopoverDescription>
 				</PopoverBody>
 			</Popover>

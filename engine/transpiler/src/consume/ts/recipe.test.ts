@@ -6,6 +6,7 @@ import {
 	createUtilityFunction,
 	createVariableFunction,
 } from "@styleframe/core";
+
 import { createRecipeConsumer } from "./recipe";
 
 describe("createRecipeConsumer", () => {
@@ -1013,9 +1014,7 @@ export const matrix = createRecipe("matrix", matrixRecipe);
 		expect(result).toContain(
 			"export type ExportedProps = RecipeVariantProps<typeof exportedRecipe>;",
 		);
-		expect(result).toContain(
-			`export const exported = createRecipe("exported", exportedRecipe);`,
-		);
+		expect(result).toContain(`export const exported = createRecipe("exported", exportedRecipe);`);
 	});
 
 	it("should handle recipe without _runtime by outputting empty object", () => {
@@ -1036,8 +1035,7 @@ export const matrix = createRecipe("matrix", matrixRecipe);
 
 		const result = consumeRecipe(instance, options);
 
-		expect(result)
-			.toEqual(`const noRuntimeRecipe = {} as const satisfies RecipeRuntime;
+		expect(result).toEqual(`const noRuntimeRecipe = {} as const satisfies RecipeRuntime;
 
 export type NoRuntimeProps = RecipeVariantProps<typeof noRuntimeRecipe>;
 export const noRuntime = createRecipe("noRuntime", noRuntimeRecipe);

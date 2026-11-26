@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import type { Root } from "../types";
 import { createRoot } from "./root";
 

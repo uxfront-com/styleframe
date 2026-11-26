@@ -127,15 +127,12 @@ npx styleframe figma export \\
 				<UxHeroLine><em class="ux-serif">to Figma</em> and Back</UxHeroLine>
 			</template>
 			<template #lead>
-				Sync your design tokens between Figma and code as W3C DTCG JSON, with a
-				mode for each theme, completely free.
+				Sync your design tokens between Figma and code as W3C DTCG JSON, with a mode for each theme,
+				completely free.
 				<br />
 				<span class="figma__actions">
 					<UxPillLink :href="FIGMA_PLUGIN_URL" label="Install Figma plugin" />
-					<UxPillLink
-						:href="PLUGIN_DOCS_URL"
-						label="Read plugin documentation"
-					/>
+					<UxPillLink :href="PLUGIN_DOCS_URL" label="Read plugin documentation" />
 				</span>
 			</template>
 		</UxHero>
@@ -168,9 +165,8 @@ npx styleframe figma export \\
 			:steps="sync.length"
 		>
 			<template #lead>
-				Your code is your source of truth. Export it to the Design Tokens
-				Community Group format, which Figma, Style Dictionary, Tokens Studio and
-				other tools read.
+				Your code is your source of truth. Export it to the Design Tokens Community Group format,
+				which Figma, Style Dictionary, Tokens Studio and other tools read.
 			</template>
 			<UxTraits :items="sync" />
 		</UxChapter>
@@ -183,8 +179,8 @@ npx styleframe figma export \\
 			:steps="importing.length"
 		>
 			<template #lead>
-				Drop a Styleframe DTCG JSON file into the plugin, preview its variables
-				and modes, and create a Figma variable collection with one click.
+				Drop a Styleframe DTCG JSON file into the plugin, preview its variables and modes, and
+				create a Figma variable collection with one click.
 			</template>
 			<UxTraits :items="importing" />
 			<template #aside>
@@ -211,8 +207,7 @@ npx styleframe figma export \\
 			link-label="Learn about DTCG Format"
 		>
 			<template #lead>
-				Select a Figma variable collection and export it to the Styleframe W3C
-				DTCG format.
+				Select a Figma variable collection and export it to the Styleframe W3C DTCG format.
 			</template>
 			<UxTraits :items="exporting" />
 			<template #aside>
@@ -239,8 +234,8 @@ npx styleframe figma export \\
 			link-label="CLI Documentation"
 		>
 			<template #lead>
-				Export design tokens directly from your Styleframe config. Run in CI/CD
-				pipelines to keep Figma tokens in sync with every code change.
+				Export design tokens directly from your Styleframe config. Run in CI/CD pipelines to keep
+				Figma tokens in sync with every code change.
 			</template>
 			<UxTraits :items="workflow" />
 			<template #aside>
@@ -249,12 +244,10 @@ npx styleframe figma export \\
 		</UxSplit>
 
 		<UxFinale kicker="Figma Plugin">
-			<template #title>
-				Sync Design Tokens to Figma in <em class="ux-serif">Minutes</em>
-			</template>
+			<template #title> Sync Design Tokens to Figma in <em class="ux-serif">Minutes</em> </template>
 			<template #lead>
-				Install the Figma plugin, export your Styleframe config, and sync your
-				design tokens. No subscriptions.
+				Install the Figma plugin, export your Styleframe config, and sync your design tokens. No
+				subscriptions.
 			</template>
 			<template #actions>
 				<UxPillLink :href="FIGMA_PLUGIN_URL" label="Install Figma plugin" />

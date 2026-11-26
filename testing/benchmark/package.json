@@ -1,8 +1,8 @@
 {
 	"name": "@styleframe/testing-benchmark",
 	"version": "0.0.1",
-	"type": "module",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"measure": "tsx src/measure.ts",
 		"build:styleframe": "tsx src/styleframe/build.ts",

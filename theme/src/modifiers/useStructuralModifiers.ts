@@ -43,30 +43,21 @@ export function useEvenModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useFirstOfTypeModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"first-of-type",
-		({ declarations, variables, children }) => ({
-			"&:first-of-type": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("first-of-type", ({ declarations, variables, children }) => ({
+		"&:first-of-type": { declarations, variables, children },
+	}));
 }
 
 export function useLastOfTypeModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"last-of-type",
-		({ declarations, variables, children }) => ({
-			"&:last-of-type": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("last-of-type", ({ declarations, variables, children }) => ({
+		"&:last-of-type": { declarations, variables, children },
+	}));
 }
 
 export function useOnlyOfTypeModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"only-of-type",
-		({ declarations, variables, children }) => ({
-			"&:only-of-type": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("only-of-type", ({ declarations, variables, children }) => ({
+		"&:only-of-type": { declarations, variables, children },
+	}));
 }
 
 export function useEmptyModifier(s: Styleframe): ModifierFactory {

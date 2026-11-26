@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSidebarGroupLabelRecipe } from "./index";
 
@@ -52,11 +53,7 @@ describe("useSidebarGroupLabelRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarGroupLabelRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants", () => {
@@ -89,9 +86,7 @@ describe("useSidebarGroupLabelRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarGroupLabelRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },
@@ -113,9 +108,7 @@ describe("useSidebarGroupLabelRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(1);
 		});
 	});

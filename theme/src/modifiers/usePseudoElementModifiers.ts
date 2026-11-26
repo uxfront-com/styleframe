@@ -45,12 +45,9 @@ export function useSelectionModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useFirstLetterModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"first-letter",
-		({ declarations, variables, children }) => ({
-			"&::first-letter": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("first-letter", ({ declarations, variables, children }) => ({
+		"&::first-letter": { declarations, variables, children },
+	}));
 }
 
 export function useFirstLineModifier(s: Styleframe): ModifierFactory {
@@ -92,9 +89,7 @@ export function useFileModifier(s: Styleframe): ModifierFactory {
  * createColor({ muted: "#999" }, [placeholder]);
  * ```
  */
-export function usePseudoElementModifiers(
-	s: Styleframe,
-): PseudoElementModifiers {
+export function usePseudoElementModifiers(s: Styleframe): PseudoElementModifiers {
 	return {
 		before: useBeforeModifier(s),
 		after: useAfterModifier(s),

@@ -1,15 +1,6 @@
 import { isTokenValue } from "../typeGuards";
-import type {
-	Container,
-	DeclarationsBlock,
-	DeclarationsCallbackContext,
-	Root,
-} from "../types";
-import {
-	createAtRuleFunction,
-	createKeyframesFunction,
-	createMediaFunction,
-} from "./atRule";
+import type { Container, DeclarationsBlock, DeclarationsCallbackContext, Root } from "../types";
+import { createAtRuleFunction, createKeyframesFunction, createMediaFunction } from "./atRule";
 import { createCssFunction } from "./css";
 import { createPropertyFunction } from "./property";
 import { createRefFunction } from "./ref";
@@ -62,10 +53,7 @@ export function parseDeclarationsBlock(
 				context.atRule(identifier, rule, atRuleDeclarations);
 				delete declarations[key];
 			}
-		} else if (
-			/^[.&:]/.test(key) ||
-			/^(\d+%|from|to)(\s*,\s*(\d+%|from|to))*$/.test(key)
-		) {
+		} else if (/^[.&:]/.test(key) || /^(\d+%|from|to)(\s*,\s*(\d+%|from|to))*$/.test(key)) {
 			// If the key starts with a special character or is a keyframe selector, treat it as a nested selector
 			const nested = declarations[key] as DeclarationsBlock;
 			if (typeof nested === "object") {

@@ -469,9 +469,7 @@ describe("createCSSFunction", () => {
 
 			expect(result).toEqual({
 				type: "css",
-				value: [
-					{ type: "reference", name: "color.primary", fallback: undefined },
-				],
+				value: [{ type: "reference", name: "color.primary", fallback: undefined }],
 			});
 		});
 
@@ -480,10 +478,7 @@ describe("createCSSFunction", () => {
 
 			expect(result).toEqual({
 				type: "css",
-				value: [
-					"1px solid ",
-					{ type: "reference", name: "color.primary", fallback: undefined },
-				],
+				value: ["1px solid ", { type: "reference", name: "color.primary", fallback: undefined }],
 			});
 		});
 
@@ -521,11 +516,7 @@ describe("createCSSFunction", () => {
 
 			expect(result).toEqual({
 				type: "css",
-				value: [
-					{ type: "reference", name: "color.primary", fallback: undefined },
-					" ",
-					"0.8",
-				],
+				value: [{ type: "reference", name: "color.primary", fallback: undefined }, " ", "0.8"],
 			});
 		});
 
@@ -554,11 +545,7 @@ describe("createCSSFunction", () => {
 
 			expect(result).toEqual({
 				type: "css",
-				value: [
-					"calc(",
-					{ type: "reference", name: "scale.min-powers.-2" },
-					" * 1rem)",
-				],
+				value: ["calc(", { type: "reference", name: "scale.min-powers.-2" }, " * 1rem)"],
 			});
 		});
 
@@ -582,9 +569,7 @@ describe("createCSSFunction", () => {
 				value: "#006cff",
 			});
 
-			expect(() =>
-				validateReference("color.primary", root, root),
-			).not.toThrow();
+			expect(() => validateReference("color.primary", root, root)).not.toThrow();
 		});
 
 		it("should throw when variable does not exist in root", () => {
@@ -629,10 +614,7 @@ describe("createCSSFunction", () => {
 
 			expect(result).toEqual({
 				type: "css",
-				value: [
-					"1px solid ",
-					{ type: "reference", name: "color.primary", fallback: undefined },
-				],
+				value: ["1px solid ", { type: "reference", name: "color.primary", fallback: undefined }],
 			});
 		});
 

@@ -55,34 +55,23 @@ const requestResetPassword = async (payload: { data: { email: string } }) => {
 		<!-- Email Sent Confirmation Screen -->
 		<div v-if="resetEmailSent" class="text-center">
 			<div class="mb-4">
-				<Icon
-					name="i-lucide-mail-check"
-					class="w-16 h-16 mx-auto text-primary mb-4"
-				/>
+				<Icon name="i-lucide-mail-check" class="w-16 h-16 mx-auto text-primary mb-4" />
 				<h2 class="text-2xl font-bold mb-2">Check your email</h2>
 			</div>
 			<p class="mb-4">
 				We've sent a password reset link to
 				<strong>{{ userEmail }}</strong>
 			</p>
-			<p class="text-md mb-6">
-				Please click the link in the email to reset your password.
-			</p>
+			<p class="text-md mb-6">Please click the link in the email to reset your password.</p>
 			<div class="space-y-3">
 				<p class="text-md text-gray-500">
 					Didn't receive the email? Check your spam folder or
-					<UButton
-						variant="link"
-						class="p-0 text-md"
-						@click="resetEmailSent = false"
-					>
+					<UButton variant="link" class="p-0 text-md" @click="resetEmailSent = false">
 						try again </UButton
 					>.
 				</p>
 				<p class="text-md">
-					<UButton variant="link" class="p-0" to="/login">
-						Back to login
-					</UButton>
+					<UButton variant="link" class="p-0" to="/login"> Back to login </UButton>
 				</p>
 			</div>
 		</div>

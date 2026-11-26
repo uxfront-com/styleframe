@@ -1,5 +1,6 @@
-import { defineNuxtModule, createResolver } from "@nuxt/kit";
 import { readdirSync } from "node:fs";
+
+import { defineNuxtModule, createResolver } from "@nuxt/kit";
 
 /**
  * Prerenders `/raw/changelog/<version>.md` for every changelog entry. Nuxt

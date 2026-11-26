@@ -1,9 +1,5 @@
 import { DEFAULT_INDENT } from "../../constants";
-import {
-	DTS_HEADER,
-	VIRTUAL_CSS_MODULE_ID,
-	VIRTUAL_TS_MODULE_ID,
-} from "./constants";
+import { DTS_HEADER, VIRTUAL_CSS_MODULE_ID, VIRTUAL_TS_MODULE_ID } from "./constants";
 
 /**
  * Wraps the top-level typed exports (the `styleframe.d.ts` body) into a

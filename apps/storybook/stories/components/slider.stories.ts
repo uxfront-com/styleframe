@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Slider from "../../src/components/components/slider/Slider.vue";
 import SliderGrid from "../../src/components/components/slider/preview/SliderGrid.vue";
 import SliderSizeGrid from "../../src/components/components/slider/preview/SliderSizeGrid.vue";
+import Slider from "../../src/components/components/slider/Slider.vue";
 
 const colors = [
 	"primary",

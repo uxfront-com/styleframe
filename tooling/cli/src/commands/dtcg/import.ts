@@ -1,14 +1,11 @@
-import path from "node:path";
 import { readFile, stat, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
+import { generateStyleframeCode, fromDTCG, fromDTCGResolver } from "@styleframe/figma";
+import type { FigmaExportFormat } from "@styleframe/figma";
 import { defineCommand } from "citty";
 import consola from "consola";
-import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
-import {
-	generateStyleframeCode,
-	fromDTCG,
-	fromDTCGResolver,
-} from "@styleframe/figma";
-import type { FigmaExportFormat } from "@styleframe/figma";
 
 export default defineCommand({
 	meta: {
@@ -32,8 +29,7 @@ export default defineCommand({
 		},
 		composables: {
 			type: "boolean",
-			description:
-				"Use @styleframe/theme composables (useColor, useSpacing, etc.)",
+			description: "Use @styleframe/theme composables (useColor, useSpacing, etc.)",
 			default: true,
 		},
 		rem: {
@@ -57,9 +53,7 @@ export default defineCommand({
 		const outputPath = path.resolve(args.output);
 		const baseFontSize = Number.parseInt(args.baseFontSize, 10) || 16;
 
-		consola.info(
-			`Reading from "${path.relative(process.cwd(), inputPath)}"...`,
-		);
+		consola.info(`Reading from "${path.relative(process.cwd(), inputPath)}"...`);
 
 		let data: FigmaExportFormat;
 		try {
@@ -77,9 +71,7 @@ export default defineCommand({
 			process.exit(1);
 		}
 
-		consola.info(
-			`Generating Styleframe code for ${data.variables.length} variables...`,
-		);
+		consola.info(`Generating Styleframe code for ${data.variables.length} variables...`);
 
 		const result = generateStyleframeCode(data, {
 			useComposables: args.composables,
@@ -96,9 +88,7 @@ export default defineCommand({
 		consola.info(`  - ${result.variables.length} variables`);
 		consola.info(`  - ${result.themes.length} theme(s)`);
 		if (args.composables && result.imports.length > 1) {
-			consola.info(
-				`  - Using composables: ${result.imports.slice(1).join(", ")}`,
-			);
+			consola.info(`  - Using composables: ${result.imports.slice(1).join(", ")}`);
 		}
 		consola.info(`\nOutput: ${path.relative(process.cwd(), outputPath)}`);
 	},
@@ -113,17 +103,13 @@ async function readFromDirectory(dirPath: string): Promise<FigmaExportFormat> {
 	const resolverDoc = await tryReadJson<DTCGResolverDocument>(resolverPath);
 
 	if (resolverDoc) {
-		consola.info(
-			`Found resolver: "${path.relative(process.cwd(), resolverPath)}"`,
-		);
+		consola.info(`Found resolver: "${path.relative(process.cwd(), resolverPath)}"`);
 		return fromDTCGResolver(resolverDoc, {
 			fileLoader: async (ref) => {
 				if (ref === "tokens.json") {
 					return tokensDoc;
 				}
-				throw new Error(
-					`Resolver references "${ref}" but only "tokens.json" was found`,
-				);
+				throw new Error(`Resolver references "${ref}" but only "tokens.json" was found`);
 			},
 		});
 	}
@@ -139,9 +125,7 @@ async function readFromFile(filePath: string): Promise<FigmaExportFormat> {
 	const resolverDoc = await tryReadJson<DTCGResolverDocument>(resolverPath);
 
 	if (resolverDoc) {
-		consola.info(
-			`Auto-detected resolver: "${path.relative(process.cwd(), resolverPath)}"`,
-		);
+		consola.info(`Auto-detected resolver: "${path.relative(process.cwd(), resolverPath)}"`);
 		return fromDTCGResolver(resolverDoc, {
 			fileLoader: async (ref) => {
 				if (ref === path.basename(filePath)) {

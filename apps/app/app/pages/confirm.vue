@@ -49,10 +49,7 @@ watch(
 		</div>
 		<div v-else class="text-center">
 			<div class="mb-4">
-				<Icon
-					name="i-lucide-loader-2"
-					class="w-12 h-12 mx-auto animate-spin text-primary"
-				/>
+				<Icon name="i-lucide-loader-2" class="w-12 h-12 mx-auto animate-spin text-primary" />
 			</div>
 			<p class="font-semibold mb-2">Completing authentication...</p>
 			<p class="text-sm text-gray-500">Please wait while we sign you in.</p>

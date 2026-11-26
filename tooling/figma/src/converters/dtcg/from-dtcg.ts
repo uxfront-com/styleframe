@@ -22,17 +22,14 @@ import type {
 	DTCGFileLoader,
 	DTCGResolverDocument,
 } from "@styleframe/dtcg";
+
 import type {
 	FigmaExportFormat,
 	FigmaExportVariable,
 	FigmaVariableType,
 	FigmaVariableValue,
 } from "../../types";
-import {
-	dtcgPathToFigma,
-	dtcgTypeToFigma,
-	dtcgValueToFigma,
-} from "./figma-bridge";
+import { dtcgPathToFigma, dtcgTypeToFigma, dtcgValueToFigma } from "./figma-bridge";
 
 export interface FromDTCGOptions {
 	/** Collection name. Defaults to `"Design Tokens"`. */
@@ -80,8 +77,7 @@ function tokenToFigmaVariable(
 			values[modeName] = { type: "VARIABLE_ALIAS", id: conversion.id };
 			aliasTo = conversion.id;
 		} else {
-			const raw =
-				conversion.kind === "value" ? conversion.value : conversion.value;
+			const raw = conversion.kind === "value" ? conversion.value : conversion.value;
 			values[modeName] = (raw === "true") as FigmaVariableValue;
 		}
 		const variable: FigmaExportVariable = {
@@ -152,10 +148,7 @@ function buildSingleModeFormat(
  * Convert a single DTCG document (no resolver) to a single-mode
  * FigmaExportFormat.
  */
-export function fromDTCG(
-	doc: DTCGDocument,
-	options: FromDTCGOptions = {},
-): FigmaExportFormat {
+export function fromDTCG(doc: DTCGDocument, options: FromDTCGOptions = {}): FigmaExportFormat {
 	const modeName = options.defaultModeName ?? "Default";
 	const collection = options.collectionName ?? "Design Tokens";
 	return buildSingleModeFormat(doc, modeName, collection);
@@ -183,10 +176,7 @@ export async function fromDTCGResolver(
 	if (!defaultContext) {
 		throw new Error(`Modifier "${modeModifier}" has no contexts`);
 	}
-	const orderedModes = [
-		defaultContext,
-		...contextNames.filter((c) => c !== defaultContext),
-	];
+	const orderedModes = [defaultContext, ...contextNames.filter((c) => c !== defaultContext)];
 
 	const accumulators = new Map<string, VariableAccumulator>();
 
@@ -229,8 +219,7 @@ export async function fromDTCGResolver(
 					acc.variable.aliasTo = conversion.id;
 				}
 			} else if (isBoolean) {
-				const raw =
-					conversion.kind === "value" ? conversion.value : conversion.value;
+				const raw = conversion.kind === "value" ? conversion.value : conversion.value;
 				acc.variable.values[modeName] = (raw === "true") as FigmaVariableValue;
 				if (modeName === defaultContext) {
 					acc.variable.type = "BOOLEAN";

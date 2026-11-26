@@ -1,8 +1,9 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import { useDurationDesignTokens } from "./useDurationDesignTokens";
+
 import { durationValues } from "../values";
+import { useDurationDesignTokens } from "./useDurationDesignTokens";
 
 describe("useDurationDesignTokens", () => {
 	it("should create a single duration variable with 'default' key", () => {
@@ -43,13 +44,12 @@ describe("useDurationDesignTokens", () => {
 
 	it("should create multiple duration variables", () => {
 		const s = styleframe();
-		const { duration, durationFast, durationNormal, durationSlow } =
-			useDurationDesignTokens(s, {
-				default: "@duration.normal",
-				fast: "150ms",
-				normal: "250ms",
-				slow: "300ms",
-			});
+		const { duration, durationFast, durationNormal, durationSlow } = useDurationDesignTokens(s, {
+			default: "@duration.normal",
+			fast: "150ms",
+			normal: "250ms",
+			slow: "300ms",
+		});
 
 		expect(durationFast).toEqual({
 			type: "variable",

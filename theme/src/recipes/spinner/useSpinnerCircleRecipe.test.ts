@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import type { AtRule, Selector } from "@styleframe/core";
+
 import { expectKeyframesRegistered } from "../../__tests__/expectKeyframesRegistered";
 import { useMotionReduceModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSpinnerCircleRecipe } from "./useSpinnerCircleRecipe";
@@ -24,8 +25,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child): child is Selector =>
-			child.type === "selector" && (child as Selector).query === query,
+		(child): child is Selector => child.type === "selector" && (child as Selector).query === query,
 	);
 }
 
@@ -63,13 +63,7 @@ describe("useSpinnerCircleRecipe", () => {
 			const s = createInstance();
 			const recipe = useSpinnerCircleRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"auto",
-				"sm",
-				"md",
-				"lg",
-				"inherit",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["auto", "sm", "md", "lg", "inherit"]);
 		});
 
 		it("should have correct size variant styles", () => {
@@ -168,10 +162,7 @@ describe("useSpinnerCircleRecipe", () => {
 
 			expect(recipe.base?.flexShrink).toBe("0");
 			for (const size of ["sm", "md", "lg", "inherit"] as const) {
-				const { width, height } = recipe.variants!.size[size] as Record<
-					string,
-					string
-				>;
+				const { width, height } = recipe.variants!.size[size] as Record<string, string>;
 				expect(width).toBe(height);
 			}
 			const rotate = expectKeyframesRegistered(s, "spinner-rotate");

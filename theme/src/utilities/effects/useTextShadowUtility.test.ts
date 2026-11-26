@@ -1,10 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useTextShadowUtility,
-	useTextShadowColorUtility,
-} from "./useTextShadowUtility";
+
+import { useTextShadowUtility, useTextShadowColorUtility } from "./useTextShadowUtility";
 
 describe("useTextShadowUtility", () => {
 	it("should create utility instances with provided values", () => {

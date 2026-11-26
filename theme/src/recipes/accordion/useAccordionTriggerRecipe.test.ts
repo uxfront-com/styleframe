@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
@@ -96,11 +97,7 @@ describe("useAccordionTriggerRecipe", () => {
 			const s = createInstance();
 			const recipe = useAccordionTriggerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should scale padding and font with size", () => {
@@ -130,9 +127,7 @@ describe("useAccordionTriggerRecipe", () => {
 			const s = createInstance();
 			const recipe = useAccordionTriggerRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },

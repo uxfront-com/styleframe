@@ -7,11 +7,7 @@ import type {
 	FigmaVariableValue,
 	FigmaRGBA,
 } from "../types";
-import {
-	figmaToStyleframeName,
-	toVariableIdentifier,
-	extractCategory,
-} from "./name-mapping";
+import { figmaToStyleframeName, toVariableIdentifier, extractCategory } from "./name-mapping";
 import { figmaValueToStyleframe } from "./value-parsing";
 
 /**
@@ -49,11 +45,7 @@ function isVariableAlias(
  */
 function isFigmaColor(value: FigmaVariableValue): value is FigmaRGBA {
 	return (
-		typeof value === "object" &&
-		value !== null &&
-		"r" in value &&
-		"g" in value &&
-		"b" in value
+		typeof value === "object" && value !== null && "r" in value && "g" in value && "b" in value
 	);
 }
 
@@ -108,24 +100,12 @@ function parseVariables(
 
 		if (isReference) {
 			// For aliases, we need to find the target variable name
-			referenceTo = variable.aliasTo
-				? figmaToStyleframeName(variable.aliasTo)
-				: undefined;
+			referenceTo = variable.aliasTo ? figmaToStyleframeName(variable.aliasTo) : undefined;
 			value = ""; // Will be rendered as ref()
 		} else if (isFigmaColor(defaultValue)) {
-			value = figmaValueToStyleframe(
-				defaultValue,
-				"COLOR",
-				useRem,
-				baseFontSize,
-			) as string;
+			value = figmaValueToStyleframe(defaultValue, "COLOR", useRem, baseFontSize) as string;
 		} else if (typeof defaultValue === "number") {
-			value = figmaValueToStyleframe(
-				defaultValue,
-				"FLOAT",
-				useRem,
-				baseFontSize,
-			) as string;
+			value = figmaValueToStyleframe(defaultValue, "FLOAT", useRem, baseFontSize) as string;
 		} else if (typeof defaultValue === "boolean") {
 			value = defaultValue;
 		} else {
@@ -202,9 +182,7 @@ function parseVariables(
 /**
  * Group variables by category
  */
-function groupByCategory(
-	variables: Array<ParsedVariable>,
-): Map<string, Array<ParsedVariable>> {
+function groupByCategory(variables: Array<ParsedVariable>): Map<string, Array<ParsedVariable>> {
 	const groups = new Map<string, Array<ParsedVariable>>();
 	for (const v of variables) {
 		const existing = groups.get(v.category) || [];
@@ -241,8 +219,7 @@ function generateComposableCode(
 		const identifier = toVariableIdentifier(v.name);
 		identifiers.push(identifier);
 
-		const valueStr =
-			typeof v.value === "string" ? `"${v.value}"` : String(v.value);
+		const valueStr = typeof v.value === "string" ? `"${v.value}"` : String(v.value);
 		valueEntries.push(`\t${key}: ${valueStr},`);
 	}
 
@@ -269,9 +246,7 @@ function generateVariableCode(variable: ParsedVariable): string | null {
 	}
 
 	const valueStr =
-		typeof variable.value === "string"
-			? `"${variable.value}"`
-			: String(variable.value);
+		typeof variable.value === "string" ? `"${variable.value}"` : String(variable.value);
 	return `const ${identifier} = variable("${variable.name}", ${valueStr});`;
 }
 
@@ -284,8 +259,7 @@ function generateThemeCode(theme: ParsedTheme, instanceName: string): string {
 
 	for (const v of theme.variables) {
 		const identifier = toVariableIdentifier(v.name);
-		const valueStr =
-			typeof v.value === "string" ? `"${v.value}"` : String(v.value);
+		const valueStr = typeof v.value === "string" ? `"${v.value}"` : String(v.value);
 		lines.push(`\tctx.variable(${identifier}, ${valueStr});`);
 	}
 
@@ -312,16 +286,10 @@ export function generateStyleframeCode(
 	const generatedIdentifiers = new Set<string>();
 
 	for (const [category, vars] of grouped) {
-		lines.push(
-			`\n// ${category.charAt(0).toUpperCase() + category.slice(1)} variables`,
-		);
+		lines.push(`\n// ${category.charAt(0).toUpperCase() + category.slice(1)} variables`);
 
 		if (useComposables) {
-			const composableResult = generateComposableCode(
-				category,
-				vars,
-				instanceName,
-			);
+			const composableResult = generateComposableCode(category, vars, instanceName);
 			if (composableResult) {
 				lines.push(composableResult.code);
 				usedComposables.add(composableResult.composable);

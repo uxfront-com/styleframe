@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { applyInheritance } from "../../src/inheritance/apply";
 import type { DTCGDocument } from "../../src/types/token";
 
@@ -11,9 +12,7 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect((out.color as unknown as Record<string, any>)["primary"].$type).toBe(
-			"color",
-		);
+		expect((out.color as unknown as Record<string, any>)["primary"].$type).toBe("color");
 	});
 
 	it("inherits transitively through nested groups", () => {
@@ -28,10 +27,9 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.color as unknown as Record<string, any>)["palette"].brand.primary
-				.$type,
-		).toBe("color");
+		expect((out.color as unknown as Record<string, any>)["palette"].brand.primary.$type).toBe(
+			"color",
+		);
 	});
 
 	it("preserves explicit $type on tokens", () => {
@@ -42,9 +40,7 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.mixed as unknown as Record<string, any>)["explicit"].$type,
-		).toBe("dimension");
+		expect((out.mixed as unknown as Record<string, any>)["explicit"].$type).toBe("dimension");
 	});
 
 	it("supports $type override on intermediate group", () => {
@@ -61,12 +57,8 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.mixed as unknown as Record<string, any>)["dims"].small.$type,
-		).toBe("dimension");
-		expect(
-			(out.mixed as unknown as Record<string, any>)["colors"].primary.$type,
-		).toBe("color");
+		expect((out.mixed as unknown as Record<string, any>)["dims"].small.$type).toBe("dimension");
+		expect((out.mixed as unknown as Record<string, any>)["colors"].primary.$type).toBe("color");
 	});
 
 	it("inherits $deprecated boolean from group", () => {
@@ -77,9 +69,7 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.legacy as unknown as Record<string, any>)["old"].$deprecated,
-		).toBe(true);
+		expect((out.legacy as unknown as Record<string, any>)["old"].$deprecated).toBe(true);
 	});
 
 	it("inherits $deprecated string message from group", () => {
@@ -90,9 +80,9 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.legacy as unknown as Record<string, any>)["old"].$deprecated,
-		).toBe("Use newColors instead");
+		expect((out.legacy as unknown as Record<string, any>)["old"].$deprecated).toBe(
+			"Use newColors instead",
+		);
 	});
 
 	it("preserves explicit $deprecated on tokens", () => {
@@ -103,9 +93,9 @@ describe("applyInheritance", () => {
 			},
 		};
 		const out = applyInheritance(doc);
-		expect(
-			(out.legacy as unknown as Record<string, any>)["old"].$deprecated,
-		).toBe("specific message");
+		expect((out.legacy as unknown as Record<string, any>)["old"].$deprecated).toBe(
+			"specific message",
+		);
 	});
 
 	it("does not mutate the input", () => {

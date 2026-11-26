@@ -15,10 +15,7 @@ export function createEmptyImportScanResult(): ImportScanResult {
 	};
 }
 
-export function mergeImportScanResults(
-	target: ImportScanResult,
-	source: ImportScanResult,
-): void {
+export function mergeImportScanResults(target: ImportScanResult, source: ImportScanResult): void {
 	for (const specifier of source.specifiers) {
 		target.specifiers.add(specifier);
 	}
@@ -30,10 +27,7 @@ export function mergeImportScanResults(
 	}
 }
 
-export function scanFileImports(
-	filePath: string,
-	moduleId: string,
-): ImportScanResult {
+export function scanFileImports(filePath: string, moduleId: string): ImportScanResult {
 	const result = createEmptyImportScanResult();
 	let edges: Array<ImportEdge>;
 

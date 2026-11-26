@@ -38,26 +38,20 @@ const readJson = (path) => {
 	try {
 		return JSON.parse(readFileSync(path, "utf8"));
 	} catch (error) {
-		fail(
-			`can't read ${path}. Run this from apps/docs, after the docs build. ${error.message}`,
-		);
+		fail(`can't read ${path}. Run this from apps/docs, after the docs build. ${error.message}`);
 	}
 };
 
 const pkg = readJson("package.json");
 const lhciVersion = pkg.scripts?.lighthouse?.match(/@lhci\/cli@([^\s]+)/)?.[1];
 if (!lhciVersion) {
-	fail(
-		"can't read the @lhci/cli version from the `lighthouse` script in package.json.",
-	);
+	fail("can't read the @lhci/cli version from the `lighthouse` script in package.json.");
 }
 
 const lhci = (args) => {
-	const result = spawnSync(
-		"pnpm",
-		["dlx", `@lhci/cli@${lhciVersion}`, ...args],
-		{ stdio: "inherit" },
-	);
+	const result = spawnSync("pnpm", ["dlx", `@lhci/cli@${lhciVersion}`, ...args], {
+		stdio: "inherit",
+	});
 	if (result.error) {
 		fail(result.error.message);
 	}
@@ -98,8 +92,7 @@ if (!Number.isFinite(benchmarkIndex) || benchmarkIndex <= 0) {
 	fail("the calibration report has no benchmarkIndex.");
 }
 
-const multiplier =
-	Math.round((benchmarkIndex / TARGET_BENCHMARK_INDEX) * 100) / 100;
+const multiplier = Math.round((benchmarkIndex / TARGET_BENCHMARK_INDEX) * 100) / 100;
 if (multiplier < 1) {
 	fail(
 		`benchmarkIndex ${benchmarkIndex} is below the target ${TARGET_BENCHMARK_INDEX}, so this machine can't emulate the target phone (cpuSlowdownMultiplier ${multiplier}).`,
@@ -114,9 +107,5 @@ console.log(
 );
 
 process.exit(
-	lhci([
-		"autorun",
-		`--collect.settings.throttling.cpuSlowdownMultiplier=${multiplier}`,
-		...args,
-	]),
+	lhci(["autorun", `--collect.settings.throttling.cpuSlowdownMultiplier=${multiplier}`, ...args]),
 );

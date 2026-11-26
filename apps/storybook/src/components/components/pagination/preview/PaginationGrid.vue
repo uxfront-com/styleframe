@@ -23,33 +23,15 @@ const variants = [
 			<div class="pagination-row">
 				<div v-for="color in colors" :key="`${variant}-${color}`">
 					<Pagination>
-						<PaginationItem
-							:color="color"
-							:variant="variant"
-							href="#"
-							aria-label="Previous page"
-						>
+						<PaginationItem :color="color" :variant="variant" href="#" aria-label="Previous page">
 							‹
 						</PaginationItem>
-						<PaginationItem :color="color" :variant="variant" href="#">
-							1
-						</PaginationItem>
-						<PaginationItem :color="color" :variant="variant" href="#" active>
-							2
-						</PaginationItem>
-						<PaginationItem :color="color" :variant="variant" href="#">
-							3
-						</PaginationItem>
+						<PaginationItem :color="color" :variant="variant" href="#"> 1 </PaginationItem>
+						<PaginationItem :color="color" :variant="variant" href="#" active> 2 </PaginationItem>
+						<PaginationItem :color="color" :variant="variant" href="#"> 3 </PaginationItem>
 						<PaginationEllipsis />
-						<PaginationItem :color="color" :variant="variant" href="#">
-							9
-						</PaginationItem>
-						<PaginationItem
-							:color="color"
-							:variant="variant"
-							href="#"
-							aria-label="Next page"
-						>
+						<PaginationItem :color="color" :variant="variant" href="#"> 9 </PaginationItem>
+						<PaginationItem :color="color" :variant="variant" href="#" aria-label="Next page">
 							›
 						</PaginationItem>
 					</Pagination>

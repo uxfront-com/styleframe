@@ -1,10 +1,9 @@
-import consola from "consola";
 import path from "node:path";
-import {
-	loadFile as loadMagicastFile,
-	writeFile as writeMagicastFile,
-} from "magicast";
+
+import consola from "consola";
+import { loadFile as loadMagicastFile, writeFile as writeMagicastFile } from "magicast";
 import { addNuxtModule } from "magicast/helpers";
+
 import { DOCS_MANUAL_INSTALLATION_NUXT_URL } from "../../constants";
 
 export async function initializeNuxtFrameworkFile(cwd: string) {
@@ -23,9 +22,7 @@ export async function initializeNuxtFrameworkFile(cwd: string) {
 		consola.error(`Failed to update Nuxt config file.`);
 		consola.log(error);
 		console.log("");
-		console.log(
-			"Please read the documentation for manually installing styleframe for Nuxt.",
-		);
+		console.log("Please read the documentation for manually installing styleframe for Nuxt.");
 		console.log(DOCS_MANUAL_INSTALLATION_NUXT_URL);
 	}
 }

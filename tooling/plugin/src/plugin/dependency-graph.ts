@@ -118,8 +118,6 @@ export function isTrackedDependency(
 	styleframeFiles: Map<string, unknown>,
 ): boolean {
 	return (
-		depGraph.trackedFiles.has(filePath) &&
-		filePath !== configPath &&
-		!styleframeFiles.has(filePath)
+		depGraph.trackedFiles.has(filePath) && filePath !== configPath && !styleframeFiles.has(filePath)
 	);
 }

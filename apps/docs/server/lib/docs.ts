@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+
 import type { H3Event } from "h3";
+
 import { docsSourceStem } from "../../app/constants/sections";
 
 // The fields read below. Nitro's types don't see the collections Docus defines.
@@ -29,11 +31,7 @@ export async function readDocsPage(event: H3Event, path: string) {
 	}
 
 	const source = await readFile(
-		join(
-			process.cwd(),
-			"content",
-			`${docsSourceStem(page.stem)}.${page.extension}`,
-		),
+		join(process.cwd(), "content", `${docsSourceStem(page.stem)}.${page.extension}`),
 		"utf8",
 	);
 	return { page, source };

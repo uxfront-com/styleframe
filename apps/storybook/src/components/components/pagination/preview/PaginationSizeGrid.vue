@@ -11,17 +11,13 @@ const sizes = ["sm", "md", "lg"] as const;
 		<div v-for="size in sizes" :key="size">
 			<div class="pagination-label">{{ size }}</div>
 			<Pagination :size="size">
-				<PaginationItem :size="size" href="#" aria-label="Previous page">
-					‹
-				</PaginationItem>
+				<PaginationItem :size="size" href="#" aria-label="Previous page"> ‹ </PaginationItem>
 				<PaginationItem :size="size" href="#">1</PaginationItem>
 				<PaginationItem :size="size" href="#" active>2</PaginationItem>
 				<PaginationItem :size="size" href="#">3</PaginationItem>
 				<PaginationEllipsis :size="size" />
 				<PaginationItem :size="size" href="#">9</PaginationItem>
-				<PaginationItem :size="size" href="#" aria-label="Next page">
-					›
-				</PaginationItem>
+				<PaginationItem :size="size" href="#" aria-label="Next page"> › </PaginationItem>
 			</Pagination>
 		</div>
 	</div>

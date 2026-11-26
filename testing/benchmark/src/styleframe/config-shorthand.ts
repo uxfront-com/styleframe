@@ -248,21 +248,15 @@ export function createShorthandInstance() {
 		solid: "solid",
 		none: "none",
 	});
-	utility("border-bottom-width", ({ value }) => ({ borderBottomWidth: value }))(
-		{ thin: ref(borderWidthThin) },
-	);
-	utility("border-bottom-color", ({ value }) => ({ borderBottomColor: value }))(
-		colorValues,
-	);
-	utility("border-bottom-style", ({ value }) => ({ borderBottomStyle: value }))(
-		{ solid: "solid" },
-	);
+	utility("border-bottom-width", ({ value }) => ({ borderBottomWidth: value }))({
+		thin: ref(borderWidthThin),
+	});
+	utility("border-bottom-color", ({ value }) => ({ borderBottomColor: value }))(colorValues);
+	utility("border-bottom-style", ({ value }) => ({ borderBottomStyle: value }))({ solid: "solid" });
 	utility("border-top-width", ({ value }) => ({ borderTopWidth: value }))({
 		thin: ref(borderWidthThin),
 	});
-	utility("border-top-color", ({ value }) => ({ borderTopColor: value }))(
-		colorValues,
-	);
+	utility("border-top-color", ({ value }) => ({ borderTopColor: value }))(colorValues);
 	utility("border-top-style", ({ value }) => ({ borderTopStyle: value }))({
 		solid: "solid",
 	});

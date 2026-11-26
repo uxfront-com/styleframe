@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useTextareaSuffixRecipe } from "./useTextareaSuffixRecipe";
 
 function createInstance() {

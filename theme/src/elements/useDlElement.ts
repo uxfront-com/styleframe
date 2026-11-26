@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -26,10 +27,7 @@ export function useDlDesignTokens(
 	const result: Partial<DlElementResult> = {};
 
 	if (config.marginBottom !== undefined) {
-		result.dlMarginBottom = ctx.variable(
-			"dl.margin-bottom",
-			config.marginBottom,
-		);
+		result.dlMarginBottom = ctx.variable("dl.margin-bottom", config.marginBottom);
 	}
 
 	return result;

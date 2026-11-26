@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSidebarSeparatorRecipe } from "./index";
 
@@ -48,11 +49,7 @@ describe("useSidebarSeparatorRecipe", () => {
 		const s = createInstance();
 		const recipe = useSidebarSeparatorRecipe(s);
 
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 	});
 
 	it("should have correct default variants", () => {
@@ -76,9 +73,7 @@ describe("useSidebarSeparatorRecipe", () => {
 			const s = createInstance();
 			const recipe = useSidebarSeparatorRecipe(s);
 
-			const neutral = recipe.compoundVariants!.find(
-				(cv) => cv.match.color === "neutral",
-			);
+			const neutral = recipe.compoundVariants!.find((cv) => cv.match.color === "neutral");
 
 			expect(neutral).toEqual({
 				match: { color: "neutral" },

@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import {
 	useAriaDisabledModifier,
 	useAriaSelectedModifier,
@@ -98,9 +99,7 @@ describe("useSelectOptionRecipe", () => {
 		});
 		// The adaptive background must NOT be in base.
 		expect(
-			(recipe.base as Record<string, Record<string, unknown>>)[
-				"&:aria-selected"
-			]?.background,
+			(recipe.base as Record<string, Record<string, unknown>>)["&:aria-selected"]?.background,
 		).toBeUndefined();
 	});
 
@@ -135,22 +134,14 @@ describe("useSelectOptionRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectOptionRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have the dropdown-style variant axis (solid, soft, subtle)", () => {
 			const s = createInstance();
 			const recipe = useSelectOptionRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants", () => {
@@ -215,9 +206,7 @@ describe("useSelectOptionRecipe", () => {
 				.map((child) => (child as { query: string }).query);
 
 			expect(queries).toContain(".select-option-check");
-			expect(queries).toContain(
-				'.select-option[aria-selected="true"] .select-option-check',
-			);
+			expect(queries).toContain('.select-option[aria-selected="true"] .select-option-check');
 		});
 
 		it("should pin the check to the trailing edge via margin-left auto", () => {
@@ -242,9 +231,7 @@ describe("useSelectOptionRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			// 3 neutral color×variant + 1 neutral color-only selected-tint compound
 			expect(recipe.compoundVariants).toHaveLength(4);
 		});

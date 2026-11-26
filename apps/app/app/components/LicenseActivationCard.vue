@@ -71,17 +71,14 @@ function activateAnother() {
 <template>
 	<UPageCard class="w-full">
 		<div v-if="success" class="text-center py-8">
-			<UIcon
-				name="i-lucide-check-circle"
-				class="w-16 h-16 mx-auto text-green-500 mb-4"
-			/>
+			<UIcon name="i-lucide-check-circle" class="w-16 h-16 mx-auto text-green-500 mb-4" />
 			<h3 class="text-xl font-semibold mb-2">License Activated!</h3>
 			<p class="text-gray-600 dark:text-gray-400 mb-2">
 				Your Styleframe Pro license has been successfully activated.
 			</p>
 			<p class="text-gray-400 dark:text-gray-600 mb-6 max-w-md mx-auto">
-				Thank you so much for supporting us! Your purchase helps make styleframe
-				better for everyone. We truly appreciate your trust and contribution. ❤️
+				Thank you so much for supporting us! Your purchase helps make styleframe better for
+				everyone. We truly appreciate your trust and contribution. ❤️
 			</p>
 			<UButton color="primary" size="lg" @click="activateAnother">
 				Activate Another License
@@ -96,8 +93,7 @@ function activateAnother() {
 		>
 			<template #description>
 				<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-					Enter your license key and your GitHub username to activate your
-					Styleframe Pro license.
+					Enter your license key and your GitHub username to activate your Styleframe Pro license.
 				</p>
 			</template>
 		</UAuthForm>

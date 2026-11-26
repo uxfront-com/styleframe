@@ -1,14 +1,8 @@
-import { createBenchmarkInstance } from "./styleframe/config";
-import {
-	generateShorteningMap,
-	buildClassNameLookup,
-} from "styleframe/transpiler";
-import {
-	quickScan,
-	matchUtilities,
-	registerMatchedUtilities,
-} from "@styleframe/scanner";
+import { quickScan, matchUtilities, registerMatchedUtilities } from "@styleframe/scanner";
+import { generateShorteningMap, buildClassNameLookup } from "styleframe/transpiler";
+
 import { styleframePage } from "./pages/ecommerce";
+import { createBenchmarkInstance } from "./styleframe/config";
 
 const s = createBenchmarkInstance();
 const parsed = quickScan(styleframePage);
@@ -40,20 +34,11 @@ for (const [from, to] of entries) {
 	origLen += from.length;
 	shortLen += to.length;
 }
-console.log(
-	"Avg original class length:",
-	(origLen / entries.length).toFixed(1),
-);
-console.log(
-	"Avg minified class length:",
-	(shortLen / entries.length).toFixed(1),
-);
+console.log("Avg original class length:", (origLen / entries.length).toFixed(1));
+console.log("Avg minified class length:", (shortLen / entries.length).toFixed(1));
 console.log(
 	"Avg reduction per class:",
 	((origLen - shortLen) / entries.length).toFixed(1),
 	"chars",
 );
-console.log(
-	"Overall reduction:",
-	((1 - shortLen / origLen) * 100).toFixed(1) + "%",
-);
+console.log("Overall reduction:", ((1 - shortLen / origLen) * 100).toFixed(1) + "%");

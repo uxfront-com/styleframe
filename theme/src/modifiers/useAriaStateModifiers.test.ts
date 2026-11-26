@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useAriaStateModifiers } from "./useAriaStateModifiers";
 
 describe("useAriaStateModifiers", () => {
@@ -66,9 +67,7 @@ describe("useAriaStateModifiers", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain(String.raw`._background-color\:blue {`);
-		expect(css).toContain(
-			String.raw`._aria-selected\:background-color\:blue {`,
-		);
+		expect(css).toContain(String.raw`._aria-selected\:background-color\:blue {`);
 	});
 
 	it("should target aria-invalid true with the aria-invalid modifier", () => {
@@ -99,9 +98,7 @@ describe("useAriaStateModifiers", () => {
 		);
 		expect(utilities).toHaveLength(2);
 
-		const ariaHiddenUtility = utilities.find((u) =>
-			u.modifiers.includes("aria-hidden"),
-		);
+		const ariaHiddenUtility = utilities.find((u) => u.modifiers.includes("aria-hidden"));
 		expect(ariaHiddenUtility).toBeDefined();
 	});
 });

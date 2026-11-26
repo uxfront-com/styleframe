@@ -1,16 +1,11 @@
 import { styleframe } from "@styleframe/core";
 import { describe, expect, it } from "vitest";
+
 import { usePageHeroHeadlineRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"flexDirection",
-		"gap",
-		"alignItems",
-		"textAlign",
-	]) {
+	for (const name of ["display", "flexDirection", "gap", "alignItems", "textAlign"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

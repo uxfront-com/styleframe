@@ -140,8 +140,7 @@ export const useCheckboxFieldRecipe = createUseRecipe("checkbox-field", {
 			sm: {
 				width: "0.875rem",
 				height: "0.875rem",
-				marginBlock:
-					"calc((@font-size.xs * @line-height.normal - 0.875rem) / 2)",
+				marginBlock: "calc((@font-size.xs * @line-height.normal - 0.875rem) / 2)",
 				borderRadius: "@border-radius.sm",
 			},
 			md: {
@@ -153,8 +152,7 @@ export const useCheckboxFieldRecipe = createUseRecipe("checkbox-field", {
 			lg: {
 				width: "1.25rem",
 				height: "1.25rem",
-				marginBlock:
-					"calc((@font-size.md * @line-height.normal - 1.25rem) / 2)",
+				marginBlock: "calc((@font-size.md * @line-height.normal - 1.25rem) / 2)",
 				borderRadius: "@border-radius.md",
 			},
 		},

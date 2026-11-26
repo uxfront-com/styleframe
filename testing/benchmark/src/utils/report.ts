@@ -1,9 +1,4 @@
-import type {
-	BenchmarkEntry,
-	BenchmarkReport,
-	PageResult,
-	SizeMeasurement,
-} from "../types";
+import type { BenchmarkEntry, BenchmarkReport, PageResult, SizeMeasurement } from "../types";
 
 function kb(bytes: number): string {
 	return `${(bytes / 1024).toFixed(2)} kB`;
@@ -28,10 +23,7 @@ function row(cells: Array<string | number>): string {
 
 function gzippedTable(entries: Array<BenchmarkEntry>): string {
 	const baseline = entries[0]?.size.gzippedTotalBytes ?? 0;
-	const lines = [
-		"| Configuration | HTML | CSS | Total | vs Tailwind |",
-		"|---|---|---|---|---|",
-	];
+	const lines = ["| Configuration | HTML | CSS | Total | vs Tailwind |", "|---|---|---|---|---|"];
 	for (const entry of entries) {
 		const isBaseline = entry === entries[0];
 		lines.push(
@@ -48,8 +40,7 @@ function gzippedTable(entries: Array<BenchmarkEntry>): string {
 }
 
 function rawTable(entries: Array<BenchmarkEntry>): string {
-	const baselineRaw =
-		(entries[0]?.size.rawHtmlBytes ?? 0) + (entries[0]?.size.rawCssBytes ?? 0);
+	const baselineRaw = (entries[0]?.size.rawHtmlBytes ?? 0) + (entries[0]?.size.rawCssBytes ?? 0);
 	const lines = [
 		"| Configuration | HTML | CSS | HTML+CSS | vs Tailwind |",
 		"|---|---|---|---|---|",
@@ -71,10 +62,7 @@ function rawTable(entries: Array<BenchmarkEntry>): string {
 }
 
 function densityTable(entries: Array<BenchmarkEntry>): string {
-	const lines = [
-		"| Configuration | Total classes | Avg/el | P95/el |",
-		"|---|---|---|---|",
-	];
+	const lines = ["| Configuration | Total classes | Avg/el | P95/el |", "|---|---|---|---|"];
 	for (const entry of entries) {
 		lines.push(
 			row([
@@ -96,8 +84,7 @@ function aggregateEntries(pages: Array<PageResult>): Array<BenchmarkEntry> {
 	const labels = pages[0]!.entries.map((e) => e.label);
 	return labels.map((label, i) => {
 		const sizes = pages.map((p) => p.entries[i]!.size);
-		const sum = (fn: (s: SizeMeasurement) => number) =>
-			sizes.reduce((acc, s) => acc + fn(s), 0);
+		const sum = (fn: (s: SizeMeasurement) => number) => sizes.reduce((acc, s) => acc + fn(s), 0);
 
 		return {
 			label,
@@ -117,18 +104,13 @@ function aggregateEntries(pages: Array<PageResult>): Array<BenchmarkEntry> {
 						1,
 						sum((s) => s.elementsWithClasses),
 					),
-				p95ClassesPerElement: Math.max(
-					...sizes.map((s) => s.p95ClassesPerElement),
-				),
+				p95ClassesPerElement: Math.max(...sizes.map((s) => s.p95ClassesPerElement)),
 			},
 		};
 	});
 }
 
-export function formatReport(
-	report: BenchmarkReport,
-	pages: Array<PageResult>,
-): string {
+export function formatReport(report: BenchmarkReport, pages: Array<PageResult>): string {
 	const aggregate = aggregateEntries(pages);
 	const sections: Array<string> = [
 		"# Styleframe vs Tailwind CSS Benchmark",

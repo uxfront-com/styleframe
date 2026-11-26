@@ -14,9 +14,6 @@ import { createUseUtility } from "../../utils";
  * });
  * ```
  */
-export const useTextIndentUtility = createUseUtility(
-	"text-indent",
-	({ value }) => ({
-		textIndent: value,
-	}),
-);
+export const useTextIndentUtility = createUseUtility("text-indent", ({ value }) => ({
+	textIndent: value,
+}));

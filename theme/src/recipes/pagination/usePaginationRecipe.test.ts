@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { usePaginationRecipe } from "./index";
 
 function createInstance() {
@@ -117,9 +118,7 @@ describe("usePaginationRecipe", () => {
 			const s = createInstance();
 			const recipe = usePaginationRecipe(s);
 
-			const vertical = recipe.compoundVariants!.find(
-				(cv) => cv.match.orientation === "vertical",
-			);
+			const vertical = recipe.compoundVariants!.find((cv) => cv.match.orientation === "vertical");
 
 			expect(vertical).toEqual({
 				match: { orientation: "vertical" },

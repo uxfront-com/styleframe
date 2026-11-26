@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useChipIndicatorRecipe } from "./useChipIndicatorRecipe";
 
@@ -321,10 +322,7 @@ describe("useChipIndicatorRecipe", () => {
 				filter: { color: ["primary", "success"] },
 			});
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"primary",
-				"success",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "success"]);
 		});
 
 		it("should prune compound variants when filtering colors", () => {
@@ -333,12 +331,8 @@ describe("useChipIndicatorRecipe", () => {
 				filter: { color: ["primary"] },
 			});
 
-			const colorCompounds = recipe.compoundVariants!.filter(
-				(cv) => cv.match.color !== undefined,
-			);
-			expect(colorCompounds.every((cv) => cv.match.color === "primary")).toBe(
-				true,
-			);
+			const colorCompounds = recipe.compoundVariants!.filter((cv) => cv.match.color !== undefined);
+			expect(colorCompounds.every((cv) => cv.match.color === "primary")).toBe(true);
 			expect(colorCompounds).toHaveLength(2);
 		});
 

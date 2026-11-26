@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Button from "@/components/components/button/Button.vue";
-import Textarea from "@/components/components/textarea/Textarea.vue";
 import FieldGroup from "@/components/components/field-group/FieldGroup.vue";
 import TextareaGrid from "@/components/components/textarea/preview/TextareaGrid.vue";
-import TextareaSizeGrid from "@/components/components/textarea/preview/TextareaSizeGrid.vue";
 import TextareaResizeGrid from "@/components/components/textarea/preview/TextareaResizeGrid.vue";
+import TextareaSizeGrid from "@/components/components/textarea/preview/TextareaSizeGrid.vue";
+import Textarea from "@/components/components/textarea/Textarea.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const variants = ["default", "soft", "ghost"] as const;

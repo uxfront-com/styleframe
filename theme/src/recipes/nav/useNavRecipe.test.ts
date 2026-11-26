@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useNavRecipe } from "./index";
 
 function createInstance() {
@@ -117,9 +118,7 @@ describe("useNavRecipe", () => {
 			const s = createInstance();
 			const recipe = useNavRecipe(s);
 
-			const vertical = recipe.compoundVariants!.find(
-				(cv) => cv.match.orientation === "vertical",
-			);
+			const vertical = recipe.compoundVariants!.find((cv) => cv.match.orientation === "vertical");
 
 			expect(vertical).toEqual({
 				match: { orientation: "vertical" },

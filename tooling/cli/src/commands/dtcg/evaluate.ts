@@ -16,12 +16,7 @@
  *     the caller can attach it as a `dev.styleframe.expression` extension.
  */
 
-import type {
-	Reference,
-	CSS as StyleframeCSS,
-	TokenValue,
-	Variable,
-} from "@styleframe/core";
+import type { Reference, CSS as StyleframeCSS, TokenValue, Variable } from "@styleframe/core";
 
 export interface EvaluateContext {
 	variables: Map<string, Variable>;
@@ -71,21 +66,14 @@ function isCss(value: unknown): value is StyleframeCSS {
 }
 
 function isPrimitive(value: unknown): value is string | number | boolean {
-	return (
-		typeof value === "string" ||
-		typeof value === "number" ||
-		typeof value === "boolean"
-	);
+	return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
 }
 
 /**
  * Resolve a Reference's *primitive* value (following alias chains). Returns
  * null if the chain is broken (missing target or cycle).
  */
-function resolveReferenceTarget(
-	ref: Reference,
-	context: EvaluateContext,
-): EvaluatedValue {
+function resolveReferenceTarget(ref: Reference, context: EvaluateContext): EvaluatedValue {
 	const visited = context.visited ?? new Set<string>();
 	if (visited.has(ref.name)) {
 		return {
@@ -123,10 +111,7 @@ function resolveReferenceTarget(
  * Otherwise, return `{resolved: null, cssExpression: <fold>}` so the caller
  * can preserve the expression in an extension.
  */
-function evaluateCss(
-	css: StyleframeCSS,
-	context: EvaluateContext,
-): EvaluatedValue {
+function evaluateCss(css: StyleframeCSS, context: EvaluateContext): EvaluatedValue {
 	const parts: Array<{
 		kind: "literal" | "value";
 		text: string;
@@ -148,8 +133,7 @@ function evaluateCss(
 			continue;
 		}
 		const text = String(evaluated.resolved);
-		const numeric =
-			typeof evaluated.resolved === "number" ? evaluated.resolved : undefined;
+		const numeric = typeof evaluated.resolved === "number" ? evaluated.resolved : undefined;
 		parts.push({ kind: "value", text, numeric });
 	}
 
@@ -159,9 +143,7 @@ function evaluateCss(
 		return {
 			resolved: null,
 			cssExpression: folded,
-			reason:
-				unevaluableReason ??
-				"Computed expression includes an unresolvable reference",
+			reason: unevaluableReason ?? "Computed expression includes an unresolvable reference",
 		};
 	}
 
@@ -202,9 +184,7 @@ function evaluateCss(
 			if (typeof result === "number" && Number.isFinite(result)) {
 				return {
 					resolved: result,
-					...(subResult.substituted
-						? { normalisationSource: "fluid-max" as const }
-						: {}),
+					...(subResult.substituted ? { normalisationSource: "fluid-max" as const } : {}),
 				};
 			}
 		} catch {
@@ -270,10 +250,7 @@ function safeArithmetic(expression: string): number {
 	return fn() as number;
 }
 
-export function evaluateValue(
-	value: TokenValue,
-	context: EvaluateContext,
-): EvaluatedValue {
+export function evaluateValue(value: TokenValue, context: EvaluateContext): EvaluatedValue {
 	if (value === null || value === undefined) {
 		return { resolved: null, reason: "Value is null/undefined" };
 	}
@@ -303,8 +280,7 @@ export function evaluateValue(
 		// the primitive evaluator. Caller should attach as an extension.
 		return {
 			resolved: null,
-			reason:
-				"Heterogeneous array — DTCG composite encoding not yet implemented",
+			reason: "Heterogeneous array — DTCG composite encoding not yet implemented",
 		};
 	}
 

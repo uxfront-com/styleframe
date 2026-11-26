@@ -1,5 +1,6 @@
 import type { DTCGAnyToken, DTCGDocument } from "@styleframe/dtcg";
 import { describe, expect, it } from "vitest";
+
 import type { FigmaExportFormat } from "../../types";
 import { toDTCG } from "./to-dtcg";
 
@@ -18,9 +19,7 @@ describe("toDTCG (single-mode)", () => {
 		};
 		const { tokens, resolver } = toDTCG(data);
 		expect(resolver).toBeUndefined();
-		expect(tokens.$schema).toBe(
-			"https://design-tokens.org/schemas/2025.10/tokens.json",
-		);
+		expect(tokens.$schema).toBe("https://design-tokens.org/schemas/2025.10/tokens.json");
 		expect((tokens.color as DTCGDocument).primary).toMatchObject({
 			$type: "color",
 			$value: { colorSpace: "srgb", components: [1, 0, 0], hex: "#ff0000" },
@@ -116,9 +115,9 @@ describe("toDTCG (single-mode)", () => {
 		expect(token).toBeDefined();
 		expect(token.$value).toBe("true");
 		expect(token.$type).toBe("string");
-		expect(
-			(token.$extensions as Record<string, unknown>)?.["dev.styleframe"],
-		).toEqual({ boolean: true });
+		expect((token.$extensions as Record<string, unknown>)?.["dev.styleframe"]).toEqual({
+			boolean: true,
+		});
 	});
 });
 
@@ -142,8 +141,7 @@ describe("toDTCG (multi-mode)", () => {
 		expect(resolver).toBeDefined();
 		expect(resolver?.version).toBe("2025.10");
 		expect(resolver?.modifiers?.theme?.default).toBe("light");
-		const darkContext = resolver?.modifiers?.theme?.contexts
-			.dark?.[0] as DTCGDocument;
+		const darkContext = resolver?.modifiers?.theme?.contexts.dark?.[0] as DTCGDocument;
 		const darkBg = (darkContext.color as DTCGDocument).bg as {
 			$value: unknown;
 		};
@@ -175,10 +173,7 @@ describe("toDTCG (multi-mode)", () => {
 			],
 		};
 		const { resolver } = toDTCG(data);
-		const darkCtx = resolver?.modifiers?.theme?.contexts.dark?.[0] as Record<
-			string,
-			unknown
-		>;
+		const darkCtx = resolver?.modifiers?.theme?.contexts.dark?.[0] as Record<string, unknown>;
 		expect(Object.keys(darkCtx)).toHaveLength(0);
 	});
 
@@ -286,9 +281,7 @@ describe("toDTCG round-trip", () => {
 		};
 		const { tokens, resolver } = toDTCG(data);
 		// Only the non-default override is emitted as a context entry
-		expect(Object.keys(resolver?.modifiers?.theme?.contexts ?? {})).toEqual([
-			"dark",
-		]);
+		expect(Object.keys(resolver?.modifiers?.theme?.contexts ?? {})).toEqual(["dark"]);
 		// The default value lives in tokens
 		const lightBg = (tokens.color as DTCGDocument).bg as {
 			$value: { components: Array<number> };

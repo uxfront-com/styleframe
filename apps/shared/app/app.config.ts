@@ -44,8 +44,7 @@ export default defineAppConfig({
 		},
 		contentNavigation: {
 			slots: {
-				trigger:
-					"font-normal text-muted data-[state=open]:text-muted cursor-pointer",
+				trigger: "font-normal text-muted data-[state=open]:text-muted cursor-pointer",
 				linkLeadingIcon: "size-4 mr-1",
 				linkTrailing: "hidden",
 			},
@@ -76,8 +75,7 @@ export default defineAppConfig({
 		},
 		pricingTable: {
 			slots: {
-				tierTitle:
-					"text-highlighted text-2xl sm:text-3xl text-pretty font-semibold",
+				tierTitle: "text-highlighted text-2xl sm:text-3xl text-pretty font-semibold",
 			},
 		},
 	},

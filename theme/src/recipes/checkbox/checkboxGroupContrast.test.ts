@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useCheckboxFieldRecipe } from "./useCheckboxFieldRecipe";
 import { useCheckboxGroupRecipe } from "./useCheckboxGroupRecipe";
@@ -50,16 +47,13 @@ describe("checkbox group contrast", () => {
 		return String(variable.value);
 	}
 
-	const pages = (theme: Theme) => [
-		themes[theme].background!,
-		themes[theme].surface!,
-	];
+	const pages = (theme: Theme) => [themes[theme].background!, themes[theme].surface!];
 
 	// A setup selector's declaration, as the `@color.<name>` token it references.
 	function selectorColor(query: string, property: string) {
-		const node = s.root.children.find(
-			(child) => (child as Node).query === query,
-		) as Node | undefined;
+		const node = s.root.children.find((child) => (child as Node).query === query) as
+			| Node
+			| undefined;
 		expect(node, query).toBeDefined();
 		return `@${(node!.declarations[property] as { name: string }).name}`;
 	}
@@ -84,10 +78,7 @@ describe("checkbox group contrast", () => {
 		return (["light", "dark"] as const).map((theme) => ({
 			name: `${cv.match.color} in the ${theme} theme`,
 			theme,
-			fill: resolve(
-				(theme === "light" ? css : inDark).backgroundColor as string,
-				theme,
-			),
+			fill: resolve((theme === "light" ? css : inDark).backgroundColor as string, theme),
 		}));
 	});
 
@@ -106,10 +97,7 @@ describe("checkbox group contrast", () => {
 				theme,
 			);
 			for (const neighbour of [...pages(theme), fill]) {
-				expect(
-					wcagContrast(error, neighbour),
-					neighbour,
-				).toBeGreaterThanOrEqual(3);
+				expect(wcagContrast(error, neighbour), neighbour).toBeGreaterThanOrEqual(3);
 			}
 		},
 	);

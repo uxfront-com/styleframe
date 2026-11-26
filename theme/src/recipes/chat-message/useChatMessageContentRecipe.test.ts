@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useChatMessageContentRecipe } from "./index";
 
@@ -52,11 +53,7 @@ describe("useChatMessageContentRecipe", () => {
 			const s = createInstance();
 			const recipe = useChatMessageContentRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants including outline and ghost", () => {
@@ -187,9 +184,7 @@ describe("useChatMessageContentRecipe", () => {
 			const s = createInstance();
 			const recipe = useChatMessageContentRecipe(s);
 
-			const ghostEntries = recipe.compoundVariants!.filter(
-				(cv) => cv.match.variant === "ghost",
-			);
+			const ghostEntries = recipe.compoundVariants!.filter((cv) => cv.match.variant === "ghost");
 
 			expect(ghostEntries).toHaveLength(0);
 		});
@@ -203,9 +198,7 @@ describe("useChatMessageContentRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(4);
 		});
 
@@ -215,14 +208,10 @@ describe("useChatMessageContentRecipe", () => {
 				filter: { variant: ["solid", "outline"] },
 			});
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline"]);
 			expect(
 				recipe.compoundVariants!.every(
-					(cv) =>
-						cv.match.variant === "solid" || cv.match.variant === "outline",
+					(cv) => cv.match.variant === "solid" || cv.match.variant === "outline",
 				),
 			).toBe(true);
 		});

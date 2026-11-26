@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { evalStyleframeFile, evalUserConfig } from "@/pipeline/evalUserConfig";
 
 describe("evalUserConfig", () => {
@@ -35,9 +36,7 @@ describe("evalUserConfig", () => {
 
 	it("throws when the default export is missing", async () => {
 		const compiled = `const foo = 1;`;
-		await expect(evalUserConfig(compiled)).rejects.toThrow(
-			/must export a Styleframe instance/i,
-		);
+		await expect(evalUserConfig(compiled)).rejects.toThrow(/must export a Styleframe instance/i);
 	});
 });
 

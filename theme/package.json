@@ -2,17 +2,33 @@
 	"name": "@styleframe/theme",
 	"version": "3.11.0",
 	"keywords": [
-		"styleframe",
-		"theme",
+		"design-system",
 		"design-tokens",
 		"recipes",
-		"utilities",
-		"design-system"
+		"styleframe",
+		"theme",
+		"utilities"
+	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "theme"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
 	],
 	"type": "module",
-	"types": "./dist/index.d.ts",
-	"module": "./dist/theme.js",
 	"main": "./dist/theme.umd.cjs",
+	"module": "./dist/theme.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -25,18 +41,17 @@
 			}
 		}
 	},
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"dev": "vite build --watch",
 		"build": "pnpm typecheck && vite build",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
 		"test:dev": "vitest --watch"
+	},
+	"dependencies": {
+		"culori": "catalog:",
+		"defu": "catalog:",
+		"scule": "catalog:"
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
@@ -45,26 +60,11 @@
 		"@styleframe/transpiler": "workspace:^3.5.1",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
-		"vite": "catalog:",
 		"unplugin-dts": "catalog:",
+		"vite": "catalog:",
 		"vitest": "catalog:"
 	},
 	"peerDependencies": {
 		"@styleframe/core": "workspace:^3.6.1"
-	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "theme"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>",
-	"dependencies": {
-		"culori": "catalog:",
-		"defu": "catalog:",
-		"scule": "catalog:"
 	}
 }

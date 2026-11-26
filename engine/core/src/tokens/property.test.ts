@@ -6,9 +6,7 @@ import { createSelectorFunction } from "./selector";
 function findPropertyRule(root: Root, name: string): AtRule | undefined {
 	return root.children.find(
 		(child): child is AtRule =>
-			child.type === "at-rule" &&
-			child.identifier === "property" &&
-			child.rule === name,
+			child.type === "at-rule" && child.identifier === "property" && child.rule === name,
 	);
 }
 
@@ -58,9 +56,7 @@ describe("createPropertyFunction", () => {
 	it("should default initial-value to the variable value", () => {
 		property("brand", "#006cff", { syntax: "<color>" });
 
-		expect(
-			findPropertyRule(root, "--brand")?.declarations["initial-value"],
-		).toBe("#006cff");
+		expect(findPropertyRule(root, "--brand")?.declarations["initial-value"]).toBe("#006cff");
 	});
 
 	it("should honor an explicit initialValue", () => {
@@ -87,9 +83,7 @@ describe("createPropertyFunction", () => {
 	it("should support numeric values", () => {
 		property("z", 10, { syntax: "<number>" });
 
-		expect(findPropertyRule(root, "--z")?.declarations["initial-value"]).toBe(
-			10,
-		);
+		expect(findPropertyRule(root, "--z")?.declarations["initial-value"]).toBe(10);
 	});
 
 	it("should keep the value declaration local while hoisting @property to root", () => {
@@ -106,9 +100,7 @@ describe("createPropertyFunction", () => {
 		// The @property registration hoists to root, not the child container.
 		expect(findPropertyRule(root, "--card-space")).toBeDefined();
 		expect(
-			card.children.some(
-				(child) => child.type === "at-rule" && child.identifier === "property",
-			),
+			card.children.some((child) => child.type === "at-rule" && child.identifier === "property"),
 		).toBe(false);
 	});
 });

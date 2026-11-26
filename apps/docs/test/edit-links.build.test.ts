@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -15,8 +16,7 @@ import { describe, expect, it } from "vitest";
 const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 const CONTENT = fileURLToPath(new URL("../content", import.meta.url));
 
-const EDIT_PREFIX =
-	"https://github.com/uxfront-com/styleframe/edit/main/apps/docs/content/";
+const EDIT_PREFIX = "https://github.com/uxfront-com/styleframe/edit/main/apps/docs/content/";
 
 function editLinks(): Array<[string, string]> {
 	const docs = join(OUTPUT, "docs");
@@ -28,9 +28,7 @@ function editLinks(): Array<[string, string]> {
 		.filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
 		.map((entry) => join(entry.parentPath, entry.name))
 		.flatMap((file): Array<[string, string]> => {
-			const href = readFileSync(file, "utf8").match(
-				/href="([^"]*\/edit\/[^"]*)"/,
-			)?.[1];
+			const href = readFileSync(file, "utf8").match(/href="([^"]*\/edit\/[^"]*)"/)?.[1];
 			return href ? [[relative(OUTPUT, file), href]] : [];
 		})
 		.sort();
@@ -45,8 +43,6 @@ describe("Edit this page", () => {
 
 	it.each(links)("%s links its file", (_page, href) => {
 		expect(href.startsWith(EDIT_PREFIX)).toBe(true);
-		expect(existsSync(join(CONTENT, href.slice(EDIT_PREFIX.length)))).toBe(
-			true,
-		);
+		expect(existsSync(join(CONTENT, href.slice(EDIT_PREFIX.length)))).toBe(true);
 	});
 });

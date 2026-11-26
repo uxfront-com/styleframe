@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
 	addHostRules,
 	countHeaderRules,
@@ -9,22 +10,15 @@ import {
 
 describe("dropNotFoundRedirects", () => {
 	it("drops the 404 fallback Nitro writes for Cloudflare Pages", () => {
-		const redirects = [
-			"/docs\t/docs/getting-started/introduction\t307",
-			"/*\t/404.html\t404",
-		].join("\n");
-
-		expect(dropNotFoundRedirects(redirects)).toBe(
-			"/docs\t/docs/getting-started/introduction\t307",
+		const redirects = ["/docs\t/docs/getting-started/introduction\t307", "/*\t/404.html\t404"].join(
+			"\n",
 		);
+
+		expect(dropNotFoundRedirects(redirects)).toBe("/docs\t/docs/getting-started/introduction\t307");
 	});
 
 	it("keeps every other rule, in order", () => {
-		const redirects = [
-			"/a\t/b\t301",
-			"/c /d",
-			"/e\thttps://example.com/f\t308",
-		].join("\n");
+		const redirects = ["/a\t/b\t301", "/c /d", "/e\thttps://example.com/f\t308"].join("\n");
 
 		expect(dropNotFoundRedirects(redirects)).toBe(redirects);
 	});
@@ -75,9 +69,7 @@ function parseHeaders(headers: string): Record<string, Rule> {
 			const key = name.trim().toLowerCase();
 			const prev = rule?.set[key];
 			if (rule) {
-				rule.set[key] = prev
-					? `${prev}, ${value.join(":").trim()}`
-					: value.join(":").trim();
+				rule.set[key] = prev ? `${prev}, ${value.join(":").trim()}` : value.join(":").trim();
 			}
 		}
 	}
@@ -99,18 +91,12 @@ function ruleRegExp(rule: string): RegExp {
  * The `X-Robots-Tag` a URL is sent: each matching rule detaches, then sets or
  * joins, in the order given, as Cloudflare's asset worker does.
  */
-function robotsTag(
-	rules: Record<string, Rule>,
-	order: Array<string>,
-	url: string,
-): string | null {
+function robotsTag(rules: Record<string, Rule>, order: Array<string>, url: string): string | null {
 	const { hostname, pathname } = new URL(url);
 	let value: string | null = null;
 	let wasSet = false;
 	for (const key of order) {
-		const test = key.startsWith("https://")
-			? `https://${hostname}${pathname}`
-			: pathname;
+		const test = key.startsWith("https://") ? `https://${hostname}${pathname}` : pathname;
 		if (!ruleRegExp(key).test(test)) {
 			continue;
 		}
@@ -133,49 +119,43 @@ function robotsTag(
  * file's order.
  */
 const ORDERS = {
-	"Cloudflare's sorted order": (rules: Record<string, Rule>) =>
-		Object.keys(rules).sort(),
+	"Cloudflare's sorted order": (rules: Record<string, Rule>) => Object.keys(rules).sort(),
 	"the file's order": (rules: Record<string, Rule>) => Object.keys(rules),
 };
 
-describe.each(Object.entries(ORDERS))(
-	"the built _headers, applied in %s",
-	(_name, order) => {
-		const rules = parseHeaders(addHostRules(NITRO_HEADERS));
-		const tag = (url: string) => robotsTag(rules, order(rules), url);
+describe.each(Object.entries(ORDERS))("the built _headers, applied in %s", (_name, order) => {
+	const rules = parseHeaders(addHostRules(NITRO_HEADERS));
+	const tag = (url: string) => robotsTag(rules, order(rules), url);
 
-		it("keeps production's pages indexable", () => {
-			expect(tag("https://styleframe.dev/")).toBeNull();
-			expect(tag("https://styleframe.dev/docs/api/variables")).toBeNull();
-			expect(tag("https://styleframe.dev/llms.txt")).toBeNull();
-			expect(tag("https://styleframe.dev/_nuxt/entry.js")).toBeNull();
-			expect(tag("https://styleframe.dev/_nuxt")).toBeNull();
-		});
+	it("keeps production's pages indexable", () => {
+		expect(tag("https://styleframe.dev/")).toBeNull();
+		expect(tag("https://styleframe.dev/docs/api/variables")).toBeNull();
+		expect(tag("https://styleframe.dev/llms.txt")).toBeNull();
+		expect(tag("https://styleframe.dev/_nuxt/entry.js")).toBeNull();
+		expect(tag("https://styleframe.dev/_nuxt")).toBeNull();
+	});
 
-		it("sends noindex once on production's /raw/ copies", () => {
-			expect(tag("https://styleframe.dev/raw/docs/api/variables.md")).toBe(
-				"noindex",
-			);
-			expect(tag("https://styleframe.dev/raw/index.md")).toBe("noindex");
-		});
+	it("sends noindex once on production's /raw/ copies", () => {
+		expect(tag("https://styleframe.dev/raw/docs/api/variables.md")).toBe("noindex");
+		expect(tag("https://styleframe.dev/raw/index.md")).toBe("noindex");
+	});
 
-		it("sends noindex on www's /raw/ copies only", () => {
-			expect(tag("https://www.styleframe.dev/")).toBeNull();
-			expect(tag("https://www.styleframe.dev/raw/index.md")).toBe("noindex");
-		});
+	it("sends noindex on www's /raw/ copies only", () => {
+		expect(tag("https://www.styleframe.dev/")).toBeNull();
+		expect(tag("https://www.styleframe.dev/raw/index.md")).toBe("noindex");
+	});
 
-		it.each([
-			"https://7c854e4d.styleframe.dev",
-			"https://my-branch.styleframe.dev",
-			"https://7c854e4d-styleframe.blue-water-0397.workers.dev",
-			"https://styleframe.blue-water-0397.workers.dev",
-		])("sends noindex on every path of the Preview host %s", (origin) => {
-			for (const path of ["/", "/docs/api/variables", "/raw/index.md"]) {
-				expect(tag(`${origin}${path}`)?.split(", ")).toContain("noindex");
-			}
-		});
-	},
-);
+	it.each([
+		"https://7c854e4d.styleframe.dev",
+		"https://my-branch.styleframe.dev",
+		"https://7c854e4d-styleframe.blue-water-0397.workers.dev",
+		"https://styleframe.blue-water-0397.workers.dev",
+	])("sends noindex on every path of the Preview host %s", (origin) => {
+		for (const path of ["/", "/docs/api/variables", "/raw/index.md"]) {
+			expect(tag(`${origin}${path}`)?.split(", ")).toContain("noindex");
+		}
+	});
+});
 
 describe("addHostRules", () => {
 	it("puts the host rules after every path rule, in sorted order", () => {
@@ -197,9 +177,7 @@ describe("addHostRules", () => {
 	});
 
 	it("keeps Nitro's rules as they are", () => {
-		expect(addHostRules(NITRO_HEADERS).startsWith(NITRO_HEADERS.trim())).toBe(
-			true,
-		);
+		expect(addHostRules(NITRO_HEADERS).startsWith(NITRO_HEADERS.trim())).toBe(true);
 	});
 
 	it("adds them once, however often the build runs", () => {
@@ -215,14 +193,9 @@ describe("addHostRules", () => {
 	it("fails the build rather than let Cloudflare drop the host rules", () => {
 		const hostRules = countHeaderRules(HOST_RULES);
 		const rule = (n: number) => `/path-${n}/*\n  cache-control: no-store`;
-		const fill = (count: number) =>
-			Array.from({ length: count }, (_, n) => rule(n)).join("\n");
+		const fill = (count: number) => Array.from({ length: count }, (_, n) => rule(n)).join("\n");
 
-		expect(() =>
-			addHostRules(fill(MAX_HEADER_RULES - hostRules)),
-		).not.toThrow();
-		expect(() => addHostRules(fill(MAX_HEADER_RULES - hostRules + 1))).toThrow(
-			/101 rules/,
-		);
+		expect(() => addHostRules(fill(MAX_HEADER_RULES - hostRules))).not.toThrow();
+		expect(() => addHostRules(fill(MAX_HEADER_RULES - hostRules + 1))).toThrow(/101 rules/);
 	});
 });

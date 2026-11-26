@@ -1,13 +1,6 @@
 import { createUseRecipe } from "../../utils/createUseRecipe";
 
-const colors = [
-	"primary",
-	"secondary",
-	"success",
-	"info",
-	"warning",
-	"error",
-] as const;
+const colors = ["primary", "secondary", "success", "info", "warning", "error"] as const;
 
 /**
  * Slider thumb recipe.

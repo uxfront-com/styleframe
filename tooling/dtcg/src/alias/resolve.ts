@@ -65,13 +65,7 @@ function resolveValue(
 			}
 			return value;
 		}
-		return resolveValue(
-			doc,
-			targetToken.$value,
-			target,
-			[...visited, target],
-			strict,
-		);
+		return resolveValue(doc, targetToken.$value, target, [...visited, target], strict);
 	}
 
 	if (Array.isArray(value)) {
@@ -126,10 +120,7 @@ function resolveTreeInPlace(
  * modified. Throws `CircularReferenceError` for cycles. When `strict: true`,
  * also throws `UnknownReferenceError` for missing targets.
  */
-export function resolveAliases(
-	doc: DTCGDocument,
-	options: ResolveOptions = {},
-): DTCGDocument {
+export function resolveAliases(doc: DTCGDocument, options: ResolveOptions = {}): DTCGDocument {
 	const cloned = deepClone(doc);
 	resolveTreeInPlace(
 		cloned,

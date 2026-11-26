@@ -34,9 +34,6 @@ function mergeNodes(left: unknown, right: unknown): unknown {
 	return out;
 }
 
-export function mergeDocuments(
-	left: DTCGDocument,
-	right: DTCGDocument,
-): DTCGDocument {
+export function mergeDocuments(left: DTCGDocument, right: DTCGDocument): DTCGDocument {
 	return mergeNodes(left, right) as DTCGDocument;
 }

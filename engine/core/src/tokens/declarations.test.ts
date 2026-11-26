@@ -1,9 +1,6 @@
 import type { AtRule, Container, Root, Selector, Variable } from "../types";
 import { createAtRuleFunction } from "./atRule";
-import {
-	createDeclarationsCallbackContext,
-	parseDeclarationsBlock,
-} from "./declarations";
+import { createDeclarationsCallbackContext, parseDeclarationsBlock } from "./declarations";
 import { createRoot } from "./root";
 import { createSelectorFunction } from "./selector";
 import { createVariableFunction } from "./variable";
@@ -221,11 +218,9 @@ describe("parseDeclarationsBlock", () => {
 
 			expect(declarations).not.toHaveProperty("@media (min-width: 768px)");
 			expect(mockContext.atRule).toHaveBeenCalledTimes(1);
-			expect(mockContext.atRule).toHaveBeenCalledWith(
-				"media",
-				"(min-width: 768px)",
-				{ width: "50%" },
-			);
+			expect(mockContext.atRule).toHaveBeenCalledWith("media", "(min-width: 768px)", {
+				width: "50%",
+			});
 		});
 
 		it.each([
@@ -477,9 +472,7 @@ describe("parseDeclarationsBlock", () => {
 				color: "@color.doesnotexist",
 			};
 
-			expect(() =>
-				parseDeclarationsBlock(declarations, mockContext, root, root),
-			).toThrow(
+			expect(() => parseDeclarationsBlock(declarations, mockContext, root, root)).toThrow(
 				'[styleframe] Variable "color.doesnotexist" is not defined. Check that the variable exists before referencing it with "@color.doesnotexist".',
 			);
 		});
@@ -497,9 +490,9 @@ describe("parseDeclarationsBlock", () => {
 				color: "@color.dark",
 			};
 
-			expect(() =>
-				parseDeclarationsBlock(declarations, mockContext, root, root),
-			).toThrow('Variable "color.dark" is not defined');
+			expect(() => parseDeclarationsBlock(declarations, mockContext, root, root)).toThrow(
+				'Variable "color.dark" is not defined',
+			);
 		});
 	});
 });
@@ -734,10 +727,7 @@ describe("createDeclarationsCallbackContext", () => {
 
 		it("should handle when parent and root are different", () => {
 			const differentRoot = createRoot();
-			const context = createDeclarationsCallbackContext(
-				selector,
-				differentRoot,
-			);
+			const context = createDeclarationsCallbackContext(selector, differentRoot);
 
 			const testVar = context.variable("different-root-var", "value");
 

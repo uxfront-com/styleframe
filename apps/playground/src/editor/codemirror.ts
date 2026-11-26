@@ -1,5 +1,7 @@
+import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
+import { bracketMatching, indentOnInput } from "@codemirror/language";
 import { Compartment, EditorState } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
 import {
@@ -9,13 +11,7 @@ import {
 	keymap,
 	lineNumbers,
 } from "@codemirror/view";
-import {
-	defaultKeymap,
-	history,
-	historyKeymap,
-	indentWithTab,
-} from "@codemirror/commands";
-import { bracketMatching, indentOnInput } from "@codemirror/language";
+
 import { playgroundTheme } from "./theme";
 import type { PlaygroundEditorTheme } from "./theme";
 
@@ -83,10 +79,7 @@ export function createEditor(options: CreateEditorOptions): EditorView {
 		if (update.docChanged && onChange) {
 			onChange(update.state.doc.toString());
 		}
-		if (
-			onSelectionChange &&
-			(update.selectionSet || update.docChanged || update.focusChanged)
-		) {
+		if (onSelectionChange && (update.selectionSet || update.docChanged || update.focusChanged)) {
 			onSelectionChange(getEditorSelection(update.view));
 		}
 	});
@@ -122,10 +115,7 @@ export function setEditorValue(view: EditorView, value: string): void {
 	});
 }
 
-export function setEditorTheme(
-	view: EditorView,
-	resolved: PlaygroundEditorTheme,
-): void {
+export function setEditorTheme(view: EditorView, resolved: PlaygroundEditorTheme): void {
 	view.dispatch({
 		effects: themeCompartment.reconfigure(playgroundTheme(resolved)),
 	});

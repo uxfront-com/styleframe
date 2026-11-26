@@ -16,7 +16,5 @@ export default function Avatar({
 	size = "md",
 	children,
 }: AvatarProps) {
-	return (
-		<div className={avatar({ color, variant, shape, size })}>{children}</div>
-	);
+	return <div className={avatar({ color, variant, shape, size })}>{children}</div>;
 }

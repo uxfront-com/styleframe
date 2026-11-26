@@ -181,8 +181,7 @@ export const useCardRecipe = createUseRecipe(
 
 		const heading = ":is(h1, h2, h3, h4, h5, h6)";
 		const headerLink = `> .card-header ${heading} a[href]`;
-		const interactive =
-			":is(a[href], button, input, select, textarea, summary, [tabindex])";
+		const interactive = ":is(a[href], button, input, select, textarea, summary, [tabindex])";
 
 		// The link in the heading stretches over the card with a pseudo-element,
 		// so pressing anywhere on the card follows it, while its name stays the
@@ -244,9 +243,7 @@ export const useCardRecipe = createUseRecipe(
 
 		// Projects that replace the default colors may not define `color.focus`,
 		// so the ring falls back to the primary color it references.
-		const focusColor = s.root.variables.some(
-			(variable) => variable.name === "color.focus",
-		)
+		const focusColor = s.root.variables.some((variable) => variable.name === "color.focus")
 			? "@color.focus"
 			: "@color.primary";
 

@@ -7,33 +7,25 @@ test.describe("Utility Classes", () => {
 
 	test("margin utility applies correct spacing", async ({ page }) => {
 		const element = page.locator("#test-margin");
-		const margin = await element.evaluate(
-			(el) => window.getComputedStyle(el).margin,
-		);
+		const margin = await element.evaluate((el) => window.getComputedStyle(el).margin);
 		expect(margin).toBe("12px");
 	});
 
 	test("padding utility applies correct spacing", async ({ page }) => {
 		const element = page.locator("#test-padding");
-		const padding = await element.evaluate(
-			(el) => window.getComputedStyle(el).padding,
-		);
+		const padding = await element.evaluate((el) => window.getComputedStyle(el).padding);
 		expect(padding).toBe("16px");
 	});
 
 	test("background utility applies correct color", async ({ page }) => {
 		const element = page.locator("#test-bg");
-		const bg = await element.evaluate(
-			(el) => window.getComputedStyle(el).backgroundColor,
-		);
+		const bg = await element.evaluate((el) => window.getComputedStyle(el).backgroundColor);
 		expect(bg).toContain("oklch(0.623083");
 	});
 
 	test("text utility applies correct color", async ({ page }) => {
 		const element = page.locator("#test-text");
-		const color = await element.evaluate(
-			(el) => window.getComputedStyle(el).color,
-		);
+		const color = await element.evaluate((el) => window.getComputedStyle(el).color);
 		expect(color).toContain("oklch(0.551019");
 	});
 

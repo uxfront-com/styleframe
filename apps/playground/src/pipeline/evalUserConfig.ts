@@ -1,6 +1,6 @@
 import type { Styleframe } from "@styleframe/core";
-import { styleframe as styleframeFactory } from "styleframe";
 import * as themeExports from "@styleframe/theme";
+import { styleframe as styleframeFactory } from "styleframe";
 
 type ModuleShape = Record<string, unknown> & { default?: unknown };
 
@@ -17,11 +17,9 @@ function rewriteImports(source: string): string {
 	const output: Array<string> = [];
 
 	const namedImportRe = /import\s*\{([^}]+)\}\s*from\s*["']([^"']+)["'];?/g;
-	const defaultNamedImportRe =
-		/import\s+(\w+)\s*,\s*\{([^}]+)\}\s*from\s*["']([^"']+)["'];?/g;
+	const defaultNamedImportRe = /import\s+(\w+)\s*,\s*\{([^}]+)\}\s*from\s*["']([^"']+)["'];?/g;
 	const defaultImportRe = /import\s+(\w+)\s+from\s*["']([^"']+)["'];?/g;
-	const namespaceImportRe =
-		/import\s*\*\s*as\s+(\w+)\s+from\s*["']([^"']+)["'];?/g;
+	const namespaceImportRe = /import\s*\*\s*as\s+(\w+)\s+from\s*["']([^"']+)["'];?/g;
 	const sideEffectImportRe = /import\s*["']([^"']+)["'];?/g;
 
 	const rewritten = source
@@ -82,9 +80,7 @@ export async function evalUserConfig(compiledJs: string): Promise<Styleframe> {
 		modules: Record<string, ModuleShape>,
 	) => Record<string, unknown>;
 	const exports = fn(moduleShims);
-	const candidate = (exports.default ?? exports["default"]) as
-		| Styleframe
-		| undefined;
+	const candidate = (exports.default ?? exports["default"]) as Styleframe | undefined;
 	if (!candidate || typeof candidate !== "object" || !("root" in candidate)) {
 		throw new Error(
 			"styleframe.config.ts must export a Styleframe instance as its default export.",
@@ -99,10 +95,7 @@ export async function evalUserConfig(compiledJs: string): Promise<Styleframe> {
  * instance the config created, so the extension's recipe registrations mutate
  * it — exactly how `@styleframe/plugin` loads extension files.
  */
-export function evalStyleframeFile(
-	compiledJs: string,
-	instance: Styleframe,
-): void {
+export function evalStyleframeFile(compiledJs: string, instance: Styleframe): void {
 	const rewritten = rewriteImports(compiledJs);
 	const wrapped = `"use strict";\nconst __pgOutput = {};\n${rewritten}\nreturn __pgOutput;`;
 	const fn = new Function("__pgModules", wrapped) as (

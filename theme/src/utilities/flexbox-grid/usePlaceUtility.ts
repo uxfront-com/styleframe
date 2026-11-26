@@ -1,9 +1,5 @@
 import { createUseUtility } from "../../utils";
-import {
-	placeContentValues,
-	placeItemsValues,
-	placeSelfValues,
-} from "../../values";
+import { placeContentValues, placeItemsValues, placeSelfValues } from "../../values";
 
 /**
  * Create place-content utility classes.

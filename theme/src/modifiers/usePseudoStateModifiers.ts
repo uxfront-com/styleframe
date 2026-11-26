@@ -23,21 +23,15 @@ export function useFocusModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useFocusWithinModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"focus-within",
-		({ declarations, variables, children }) => ({
-			"&:focus-within": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("focus-within", ({ declarations, variables, children }) => ({
+		"&:focus-within": { declarations, variables, children },
+	}));
 }
 
 export function useFocusVisibleModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"focus-visible",
-		({ declarations, variables, children }) => ({
-			"&:focus-visible": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("focus-visible", ({ declarations, variables, children }) => ({
+		"&:focus-visible": { declarations, variables, children },
+	}));
 }
 
 export function useActiveModifier(s: Styleframe): ModifierFactory {

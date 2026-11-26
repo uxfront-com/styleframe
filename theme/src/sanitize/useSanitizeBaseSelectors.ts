@@ -204,12 +204,9 @@ export function useSanitizeBaseSelectors(s: Styleframe): void {
 	/**
 	 * Correct the inability to style buttons in iOS and Safari.
 	 */
-	selector(
-		':where(button, [type="button" i], [type="reset" i], [type="submit" i])',
-		{
-			WebkitAppearance: "button",
-		},
-	);
+	selector(':where(button, [type="button" i], [type="reset" i], [type="submit" i])', {
+		WebkitAppearance: "button",
+	});
 
 	/**
 	 * Change the inconsistent appearance in all browsers (opinionated).

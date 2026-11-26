@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import { isKeyReferenceValue, isTokenValue } from "./typeGuards";
 import type { Reference, CSS } from "./types";
 

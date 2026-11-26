@@ -363,8 +363,7 @@ export const styleframePage = page({
 	productBody: "_padding:md _display:flex _flex-direction:column _gap:xs",
 	productTitle: "_font-size:sm _font-weight:semibold _color:text",
 	productPrice: "_font-size:md _font-weight:bold _color:text",
-	productOldPrice:
-		"_font-size:sm _color:text-weak _text-decoration:line-through",
+	productOldPrice: "_font-size:sm _color:text-weak _text-decoration:line-through",
 	productPriceRow: "_display:flex _align-items:center _gap:sm",
 	productRating: "_display:flex _align-items:center _gap:xs",
 	ratingStar: "_color:primary _font-size:sm",
@@ -373,8 +372,7 @@ export const styleframePage = page({
 	addToCartBtn:
 		"_display:inline-flex _align-items:center _justify-content:center _background:primary _color:white _font-size:sm _font-weight:medium _padding-inline:md _padding-block:sm _border-radius:md _border-style:none _cursor:pointer _margin-top:xs",
 	// Pagination
-	pagination:
-		"_display:flex _align-items:center _justify-content:center _gap:xs",
+	pagination: "_display:flex _align-items:center _justify-content:center _gap:xs",
 	pageBtn:
 		"_display:inline-flex _align-items:center _justify-content:center _padding-inline:sm _padding-block:xs _border-radius:md _border-width:thin _border-style:solid _border-color:neutral-200 _background:white _color:text _font-size:sm _cursor:pointer",
 	pageBtnActive:
@@ -384,8 +382,7 @@ export const styleframePage = page({
 	// Cart summary
 	cartSummary:
 		"_position:fixed _background:white _border-radius:lg _padding:lg _border-width:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:sm _width:xl",
-	cartSummaryTitle:
-		"_font-size:md _font-weight:bold _color:text _margin-bottom:xs",
+	cartSummaryTitle: "_font-size:md _font-weight:bold _color:text _margin-bottom:xs",
 	cartSummaryRow: "_display:flex _justify-content:between _align-items:center",
 	cartSummaryLabel: "_font-size:sm _color:text-weak",
 	cartSummaryValue: "_font-size:sm _color:text _font-weight:medium",
@@ -510,12 +507,10 @@ export const tailwindPage = page({
 	body: "bg-background",
 	// Header
 	header: "bg-surface border-b border-neutral-200",
-	headerInner:
-		"flex items-center justify-between px-xl py-md max-w-2xl mx-auto gap-lg",
+	headerInner: "flex items-center justify-between px-xl py-md max-w-2xl mx-auto gap-lg",
 	logo: "text-lg font-bold text-primary whitespace-nowrap",
 	searchBar: "flex items-center gap-sm",
-	searchInput:
-		"px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white w-full",
+	searchInput: "px-md py-sm border border-neutral-200 rounded-md text-sm text-text bg-white w-full",
 	cartIcon:
 		"flex items-center gap-xs cursor-pointer text-text text-sm font-medium whitespace-nowrap",
 	cartBadge:
@@ -529,8 +524,7 @@ export const tailwindPage = page({
 	// Layout
 	layout: "flex max-w-2xl mx-auto gap-lg py-lg px-xl",
 	// Filters sidebar
-	sidebar:
-		"w-xl flex flex-col gap-lg p-lg bg-white rounded-lg border border-neutral-200 h-full",
+	sidebar: "w-xl flex flex-col gap-lg p-lg bg-white rounded-lg border border-neutral-200 h-full",
 	sidebarTitle: "text-md font-bold text-text mb-sm",
 	filterSection: "flex flex-col gap-sm pb-md border-b border-neutral-100",
 	filterLabel: "text-sm font-semibold text-text",
@@ -538,13 +532,10 @@ export const tailwindPage = page({
 	filterCheckbox: "flex items-center gap-xs cursor-pointer",
 	filterCheckboxLabel: "text-sm text-text-weak",
 	colorSwatchRow: "flex gap-sm",
-	colorSwatch:
-		"w-md h-md rounded-full bg-neutral-200 cursor-pointer border border-neutral-200",
-	colorSwatchActive:
-		"w-md h-md rounded-full bg-primary cursor-pointer border border-primary-700",
+	colorSwatch: "w-md h-md rounded-full bg-neutral-200 cursor-pointer border border-neutral-200",
+	colorSwatchActive: "w-md h-md rounded-full bg-primary cursor-pointer border border-primary-700",
 	priceRange: "flex items-center gap-sm",
-	priceInput:
-		"px-sm py-xs border border-neutral-200 rounded-md text-sm text-text bg-white w-full",
+	priceInput: "px-sm py-xs border border-neutral-200 rounded-md text-sm text-text bg-white w-full",
 	priceSep: "text-text-weak text-sm",
 	// Product grid
 	main: "flex flex-col gap-lg",
@@ -552,8 +543,7 @@ export const tailwindPage = page({
 	gridTitle: "text-lg font-bold text-text",
 	gridCount: "text-sm text-text-weak",
 	productGrid: "grid grid-cols-3 gap-lg",
-	productCard:
-		"bg-white rounded-lg border border-neutral-200 overflow-hidden flex flex-col",
+	productCard: "bg-white rounded-lg border border-neutral-200 overflow-hidden flex flex-col",
 	productImage: "w-full h-2xl bg-neutral-100",
 	productBody: "p-md flex flex-col gap-xs",
 	productTitle: "text-sm font-semibold text-text",
@@ -575,8 +565,7 @@ export const tailwindPage = page({
 	pageBtnDisabled:
 		"inline-flex items-center justify-center px-sm py-xs rounded-md border border-neutral-200 bg-neutral-50 text-text-weak text-sm opacity-50 cursor-pointer",
 	// Cart summary
-	cartSummary:
-		"fixed bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-sm w-xl",
+	cartSummary: "fixed bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-sm w-xl",
 	cartSummaryTitle: "text-md font-bold text-text mb-xs",
 	cartSummaryRow: "flex justify-between items-center",
 	cartSummaryLabel: "text-sm text-text-weak",
@@ -589,8 +578,7 @@ export const tailwindPage = page({
 	continueBtn:
 		"inline-flex items-center justify-center bg-transparent text-primary text-sm font-medium px-lg py-sm rounded-md border border-primary cursor-pointer w-full",
 	// Footer
-	footer:
-		"flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
+	footer: "flex justify-between items-center px-xl py-lg border border-neutral-200 bg-surface",
 	footerLinks: "flex gap-sm",
 	footerLink: "text-text-weak no-underline text-sm",
 	footerText: "text-sm text-text-weak",

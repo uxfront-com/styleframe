@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -26,10 +27,7 @@ export function useAddressDesignTokens(
 	const result: Partial<AddressElementResult> = {};
 
 	if (config.marginBottom !== undefined) {
-		result.addressMarginBottom = ctx.variable(
-			"address.margin-bottom",
-			config.marginBottom,
-		);
+		result.addressMarginBottom = ctx.variable("address.margin-bottom", config.marginBottom);
 	}
 
 	return result;
@@ -54,15 +52,9 @@ export function useAddressElement(
 	s: Styleframe,
 	options: WithThemes<AddressElementConfig> = {},
 ): AddressElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultAddressOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultAddressOptions, options);
 
-	const result = useAddressSelectors(
-		s,
-		config as Required<AddressElementConfig>,
-	);
+	const result = useAddressSelectors(s, config as Required<AddressElementConfig>);
 
 	registerElementThemes(s, themes, useAddressDesignTokens);
 

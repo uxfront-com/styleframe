@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -29,10 +30,7 @@ export function useOlDesignTokens(
 	const result: Partial<OlElementResult> = {};
 
 	if (config.marginBottom !== undefined) {
-		result.olMarginBottom = ctx.variable(
-			"ol.margin-bottom",
-			config.marginBottom,
-		);
+		result.olMarginBottom = ctx.variable("ol.margin-bottom", config.marginBottom);
 	}
 	if (config.paddingLeft !== undefined) {
 		result.olPaddingLeft = ctx.variable("ol.padding-left", config.paddingLeft);

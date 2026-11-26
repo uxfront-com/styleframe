@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useColorPickerTrackRecipe } from "./useColorPickerTrackRecipe";
 
 function createInstance() {
@@ -33,13 +34,7 @@ describe("useColorPickerTrackRecipe", () => {
 			const s = createInstance();
 			const recipe = useColorPickerTrackRecipe(s);
 
-			expect(Object.keys(recipe.variants!.size)).toEqual([
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			]);
+			expect(Object.keys(recipe.variants!.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 		});
 
 		it("should scale rail thickness (width) and height per size", () => {

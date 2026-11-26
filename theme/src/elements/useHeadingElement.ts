@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -55,22 +56,13 @@ export function useHeadingDesignTokens(
 		result.headingColor = ctx.variable("heading.color", config.color);
 	}
 	if (config.fontFamily !== undefined) {
-		result.headingFontFamily = ctx.variable(
-			"heading.font-family",
-			config.fontFamily,
-		);
+		result.headingFontFamily = ctx.variable("heading.font-family", config.fontFamily);
 	}
 	if (config.fontWeight !== undefined) {
-		result.headingFontWeight = ctx.variable(
-			"heading.font-weight",
-			config.fontWeight,
-		);
+		result.headingFontWeight = ctx.variable("heading.font-weight", config.fontWeight);
 	}
 	if (config.lineHeight !== undefined) {
-		result.headingLineHeight = ctx.variable(
-			"heading.line-height",
-			config.lineHeight,
-		);
+		result.headingLineHeight = ctx.variable("heading.line-height", config.lineHeight);
 	}
 
 	if (config.sizes) {
@@ -141,10 +133,7 @@ export function useHeadingElement(
 	s: Styleframe,
 	options: WithThemes<HeadingElementConfig> = {},
 ): HeadingElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultHeadingOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultHeadingOptions, options);
 
 	// Deep-merge sizes since mergeElementOptions does shallow spread
 	config.sizes = {
@@ -152,10 +141,7 @@ export function useHeadingElement(
 		...config.sizes,
 	};
 
-	const result = useHeadingSelectors(
-		s,
-		config as Required<HeadingElementConfig>,
-	);
+	const result = useHeadingSelectors(s, config as Required<HeadingElementConfig>);
 
 	registerElementThemes(s, themes, useHeadingDesignTokens);
 

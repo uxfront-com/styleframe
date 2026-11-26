@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { format } from "../../src/duration/format";
 import { parse } from "../../src/duration/parse";
 

@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
@@ -43,10 +44,7 @@ describe("useRadioGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useRadioGroupRecipe(s);
 
-			expect(Object.keys(recipe.variants!.orientation)).toEqual([
-				"vertical",
-				"horizontal",
-			]);
+			expect(Object.keys(recipe.variants!.orientation)).toEqual(["vertical", "horizontal"]);
 			expect(recipe.variants!.orientation.vertical).toEqual({
 				flexDirection: "column",
 			});
@@ -142,9 +140,7 @@ describe("Open Components rules", () => {
 	}
 
 	const selectors = (s: ReturnType<typeof styleframe>) =>
-		s.root.children.filter(
-			(child) => child.type === "selector",
-		) as unknown as Array<Node>;
+		s.root.children.filter((child) => child.type === "selector") as unknown as Array<Node>;
 
 	function find(s: ReturnType<typeof styleframe>, query: string) {
 		const node = selectors(s).find((child) => child.query === query);
@@ -153,9 +149,7 @@ describe("Open Components rules", () => {
 	}
 
 	function media(node: Node, rule: string) {
-		const child = node.children.find(
-			(c) => c.type === "at-rule" && c.rule === rule,
-		);
+		const child = node.children.find((c) => c.type === "at-rule" && c.rule === rule);
 		expect(child, rule).toBeDefined();
 		return child!;
 	}
@@ -212,9 +206,7 @@ describe("Open Components rules", () => {
 		const outlines = blocks(createAll())
 			.flatMap((block) => Object.entries(block))
 			.filter(([key]) => key !== "&:focus-visible")
-			.filter(([key, value]) =>
-				JSON.stringify({ [key]: value }).includes("outline"),
-			)
+			.filter(([key, value]) => JSON.stringify({ [key]: value }).includes("outline"))
 			.map(([key]) => key);
 		expect(outlines).toEqual(["&:forced-colors:focus-visible"]);
 		for (const node of own(s)) {
@@ -226,14 +218,9 @@ describe("Open Components rules", () => {
 		const { s, radio } = createAll();
 
 		for (const size of Object.values(radio.variants!.size)) {
-			expect(
-				Number.parseFloat(size.minHeight as string),
-			).toBeGreaterThanOrEqual(1.5);
+			expect(Number.parseFloat(size.minHeight as string)).toBeGreaterThanOrEqual(1.5);
 		}
-		const coarse = media(
-			find(s, ".radio:has(> .radio-field)"),
-			"(any-pointer: coarse)",
-		);
+		const coarse = media(find(s, ".radio:has(> .radio-field)"), "(any-pointer: coarse)");
 		expect(coarse.declarations).toEqual({ minHeight: "2.75rem" });
 	});
 
@@ -268,19 +255,14 @@ describe("Open Components rules", () => {
 			.filter(([key]) => key.startsWith("&:"))
 			.map(([, value]) => value as Block);
 		expect(states.length).toBeGreaterThan(0);
-		for (const block of [
-			...states,
-			...field.compoundVariants!.map((cv) => cv.css as Block),
-		]) {
+		for (const block of [...states, ...field.compoundVariants!.map((cv) => cv.css as Block)]) {
 			expect(keys(block).filter((key) => sizing.test(key))).toEqual([]);
 		}
 		for (const query of [
 			".radio:has(.radio-field:disabled)",
 			'.radio-group[aria-invalid="true"] .radio > .radio-field',
 		]) {
-			expect(
-				keys(find(s, query).declarations).filter((key) => sizing.test(key)),
-			).toEqual([]);
+			expect(keys(find(s, query).declarations).filter((key) => sizing.test(key))).toEqual([]);
 		}
 	});
 
@@ -301,17 +283,12 @@ describe("Open Components rules", () => {
 	it("radio-group/invalid-state turns the rings red from the group's aria-invalid, through the border and an inset shadow", () => {
 		const { s } = createAll();
 
-		const invalid = find(
-			s,
-			'.radio-group[aria-invalid="true"] .radio > .radio-field',
-		);
+		const invalid = find(s, '.radio-group[aria-invalid="true"] .radio > .radio-field');
 		expect(invalid.declarations).toMatchObject({
 			borderColor: expect.objectContaining({ name: "color.error" }),
 			boxShadow: expect.objectContaining({ type: "css" }),
 		});
-		expect(JSON.stringify(invalid.declarations.boxShadow)).toContain(
-			"inset 0 0 0 1px",
-		);
+		expect(JSON.stringify(invalid.declarations.boxShadow)).toContain("inset 0 0 0 1px");
 		expect(JSON.stringify(invalid)).not.toContain("outline");
 	});
 
@@ -341,10 +318,7 @@ describe("Open Components rules", () => {
 			outlineColor: "Highlight",
 		});
 		expect(field.base!["&:forced-colors:disabled"]).toEqual({ opacity: "1" });
-		const disabled = media(
-			find(s, ".radio:has(.radio-field:disabled)"),
-			"(forced-colors: active)",
-		);
+		const disabled = media(find(s, ".radio:has(.radio-field:disabled)"), "(forced-colors: active)");
 		expect(disabled.declarations).toEqual({ color: "GrayText", opacity: "1" });
 	});
 
@@ -354,20 +328,13 @@ describe("Open Components rules", () => {
 		const rings = field
 			.compoundVariants!.flatMap((cv) => {
 				const css = cv.css as Block;
-				return [
-					css.borderColor,
-					(css["&:dark"] as Block | undefined)?.borderColor,
-				];
+				return [css.borderColor, (css["&:dark"] as Block | undefined)?.borderColor];
 			})
 			.filter((value) => value && value !== "@color.primary");
-		expect(new Set(rings)).toEqual(
-			new Set(["@color.gray-450", "@color.gray-500"]),
-		);
+		expect(new Set(rings)).toEqual(new Set(["@color.gray-450", "@color.gray-500"]));
 		const more = media(find(s, ".radio-field"), "(prefers-contrast: more)");
 		expect(
-			Object.fromEntries(
-				more.variables!.map((variable) => [variable.name, variable.value]),
-			),
+			Object.fromEntries(more.variables!.map((variable) => [variable.name, variable.value])),
 		).toEqual({
 			"color.gray-450": "currentColor",
 			"color.gray-500": "currentColor",

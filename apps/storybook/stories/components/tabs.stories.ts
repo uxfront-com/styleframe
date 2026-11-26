@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
+import TabsGrid from "@/components/components/tabs/preview/TabsGrid.vue";
+import TabsOrientationGrid from "@/components/components/tabs/preview/TabsOrientationGrid.vue";
+import TabsSizeGrid from "@/components/components/tabs/preview/TabsSizeGrid.vue";
 import Tabs from "@/components/components/tabs/Tabs.vue";
 import TabsContent from "@/components/components/tabs/TabsContent.vue";
 import TabsList from "@/components/components/tabs/TabsList.vue";
 import TabsTrigger from "@/components/components/tabs/TabsTrigger.vue";
-import TabsGrid from "@/components/components/tabs/preview/TabsGrid.vue";
-import TabsOrientationGrid from "@/components/components/tabs/preview/TabsOrientationGrid.vue";
-import TabsSizeGrid from "@/components/components/tabs/preview/TabsSizeGrid.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
 const variants = ["line", "pill", "soft"] as const;

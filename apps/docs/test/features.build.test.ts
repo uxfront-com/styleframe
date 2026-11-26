@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -13,9 +14,7 @@ import { describe, expect, it } from "vitest";
  */
 
 const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
-const LANDING = fileURLToPath(
-	new URL("../content/landing/index.md", import.meta.url),
-);
+const LANDING = fileURLToPath(new URL("../content/landing/index.md", import.meta.url));
 
 const FEATURES = [
 	{
@@ -65,9 +64,7 @@ const sectionEnd = (id: string) => {
 };
 const section = (id: string) => {
 	const at = html.indexOf(` id="${id}"`);
-	return at < 0
-		? ""
-		: html.slice(html.lastIndexOf("<section", at), sectionEnd(id));
+	return at < 0 ? "" : html.slice(html.lastIndexOf("<section", at), sectionEnd(id));
 };
 
 describe("the config section's features", () => {
@@ -101,8 +98,6 @@ describe("the config section's features", () => {
 
 	it.each(FEATURES)("says $title in the landing Markdown", (feature) => {
 		const lines = readFileSync(LANDING, "utf8").split("\n");
-		expect(lines).toContain(
-			`- **[${feature.title}](${feature.href})**: ${feature.text}`,
-		);
+		expect(lines).toContain(`- **[${feature.title}](${feature.href})**: ${feature.text}`);
 	});
 });

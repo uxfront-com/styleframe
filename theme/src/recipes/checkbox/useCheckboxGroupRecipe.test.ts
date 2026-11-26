@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
@@ -43,10 +44,7 @@ describe("useCheckboxGroupRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxGroupRecipe(s);
 
-			expect(Object.keys(recipe.variants!.orientation)).toEqual([
-				"vertical",
-				"horizontal",
-			]);
+			expect(Object.keys(recipe.variants!.orientation)).toEqual(["vertical", "horizontal"]);
 			expect(recipe.variants!.orientation.vertical).toEqual({
 				flexDirection: "column",
 			});
@@ -147,8 +145,7 @@ describe("Open Components rules", () => {
 	// The group's own setup selectors.
 	const own = (s: ReturnType<typeof styleframe>) =>
 		(s.root.children as unknown as Array<Node>).filter(
-			(child) =>
-				child.type === "selector" && child.query!.startsWith(".checkbox-group"),
+			(child) => child.type === "selector" && child.query!.startsWith(".checkbox-group"),
 		);
 
 	function find(s: ReturnType<typeof styleframe>, query: string) {
@@ -161,9 +158,7 @@ describe("Open Components rules", () => {
 	function blocks(group: ReturnType<typeof useCheckboxGroupRecipe>) {
 		return [
 			group.base as Block,
-			...Object.values(group.variants ?? {}).flatMap(
-				(axis) => Object.values(axis) as Array<Block>,
-			),
+			...Object.values(group.variants ?? {}).flatMap((axis) => Object.values(axis) as Array<Block>),
 		];
 	}
 
@@ -191,9 +186,7 @@ describe("Open Components rules", () => {
 			flexWrap: "wrap",
 		});
 		// Options in a `[data-slot="options"]` wrapper take the group's direction.
-		expect(
-			find(s, '.checkbox-group > [data-slot="options"]').declarations,
-		).toMatchObject({
+		expect(find(s, '.checkbox-group > [data-slot="options"]').declarations).toMatchObject({
 			display: "flex",
 			flexDirection: "inherit",
 			flexWrap: "inherit",
@@ -206,15 +199,11 @@ describe("Open Components rules", () => {
 		// `@<n>` is a multiple of the 1rem spacing unit.
 		for (const size of Object.values(group.variants!.size)) {
 			expect(size).toEqual({ gapY: expect.stringMatching(/^@/) });
-			expect(
-				Number.parseFloat((size.gapY as string).slice(1)),
-			).toBeGreaterThanOrEqual(0.5);
+			expect(Number.parseFloat((size.gapY as string).slice(1))).toBeGreaterThanOrEqual(0.5);
 		}
 		expect(group.variants!.orientation.horizontal.gapX).toBe("@1.5");
 		expect(group.variants!.orientation.vertical).not.toHaveProperty("gapX");
-		expect(
-			find(s, '.checkbox-group > [data-slot="options"]').declarations.gap,
-		).toBe("inherit");
+		expect(find(s, '.checkbox-group > [data-slot="options"]').declarations.gap).toBe("inherit");
 	});
 
 	it("checkbox-group/select-all-indent sits the options in from a select-all box by its box and gap", () => {
@@ -226,9 +215,7 @@ describe("Open Components rules", () => {
 				`.checkbox-group.-size-${size} > [data-slot="select-all"] + [data-slot="options"]`,
 			).declarations.paddingInlineStart;
 			const box = field.variants!.size[size].width as string;
-			const gap = Number(
-				(checkbox.variants!.size[size].gap as string).slice(1),
-			);
+			const gap = Number((checkbox.variants!.size[size].gap as string).slice(1));
 			expect(JSON.stringify(indent), size).toBe(
 				JSON.stringify(s.css`calc(${box} + ${s.ref("spacing")} * ${gap})`),
 			);
@@ -244,9 +231,7 @@ describe("Open Components rules", () => {
 			'.checkbox-group > [data-slot="select-all"], .checkbox-group > [data-slot="options"]',
 		).declarations;
 		expect(parts).toEqual({ boxSizing: "border-box", width: "100%" });
-		expect(group.variants!.orientation.horizontal.alignContent).toBe(
-			"flex-start",
-		);
+		expect(group.variants!.orientation.horizontal.alignContent).toBe("flex-start");
 	});
 
 	it("checkbox-group/resizable sizes the legend, gaps and indent in rem, and lets the legend and a row wrap", () => {
@@ -265,9 +250,9 @@ describe("Open Components rules", () => {
 			["md", "font-size.sm"],
 			["lg", "font-size.md"],
 		] as const) {
-			expect(
-				find(s, `.checkbox-group.-size-${size} > legend`).declarations.fontSize,
-			).toMatchObject({ name: font });
+			expect(find(s, `.checkbox-group.-size-${size} > legend`).declarations.fontSize).toMatchObject(
+				{ name: font },
+			);
 		}
 		const legend = find(s, ".checkbox-group > legend").declarations;
 		expect(legend.marginBlockEnd).toMatchObject({ name: "spacing.xs" });
@@ -282,8 +267,7 @@ describe("Open Components rules", () => {
 		const disabled = find(s, ".checkbox-group:disabled > legend");
 		expect(disabled.declarations).toEqual({ opacity: "0.5" });
 		const forced = disabled.children.find(
-			(child) =>
-				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+			(child) => child.type === "at-rule" && child.rule === "(forced-colors: active)",
 		);
 		expect(forced?.declarations).toEqual({ opacity: "1", color: "GrayText" });
 	});
@@ -297,8 +281,7 @@ describe("Open Components rules", () => {
 		);
 		expect(disabled.declarations).toEqual({});
 		const forced = disabled.children.find(
-			(child) =>
-				child.type === "at-rule" && child.rule === "(forced-colors: active)",
+			(child) => child.type === "at-rule" && child.rule === "(forced-colors: active)",
 		);
 		expect(forced?.declarations).toEqual({ borderColor: "GrayText" });
 	});
@@ -311,10 +294,7 @@ describe("Open Components rules", () => {
 			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field',
 		]) {
 			const node = find(s, query);
-			const all = [
-				node.declarations,
-				...node.children.map((child) => child.declarations),
-			];
+			const all = [node.declarations, ...node.children.map((child) => child.declarations)];
 			expect(
 				all.flatMap((block) => keys(block)).filter((key) => sizing.test(key)),
 				query,
@@ -325,10 +305,7 @@ describe("Open Components rules", () => {
 	it("checkbox-group/invalid-state gives every box the invalid border from the group's aria-invalid, never from :invalid", () => {
 		const { s, group } = createAll();
 
-		const invalid = find(
-			s,
-			'.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field',
-		);
+		const invalid = find(s, '.checkbox-group[aria-invalid="true"] .checkbox > .checkbox-field');
 		expect(invalid.declarations).toMatchObject({
 			borderColor: expect.objectContaining({ name: "color.error" }),
 			boxShadow: expect.objectContaining({ type: "css" }),
@@ -338,10 +315,7 @@ describe("Open Components rules", () => {
 			value: ["inset 0 0 0 1px ", { type: "reference", name: "color.error" }],
 		});
 		expect(JSON.stringify(invalid)).not.toContain("outline");
-		const all = JSON.stringify([
-			own(s).map((node) => node.query),
-			blocks(group).flatMap(keys),
-		]);
+		const all = JSON.stringify([own(s).map((node) => node.query), blocks(group).flatMap(keys)]);
 		expect(all).not.toMatch(/:(user-)?invalid|:read-only/);
 	});
 
@@ -360,10 +334,8 @@ describe("Open Components rules", () => {
 				.filter((k) => physical.test(k)),
 		).toEqual([]);
 		expect(
-			find(
-				s,
-				'.checkbox-group.-size-md > [data-slot="select-all"] + [data-slot="options"]',
-			).declarations,
+			find(s, '.checkbox-group.-size-md > [data-slot="select-all"] + [data-slot="options"]')
+				.declarations,
 		).toHaveProperty("paddingInlineStart");
 	});
 });

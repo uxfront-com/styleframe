@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
-import type { ParsedUtility, UtilityMatch } from "./types";
+import { describe, expect, it } from "vitest";
+
 import { registerMatchedUtilities } from "./register";
+import type { ParsedUtility, UtilityMatch } from "./types";
 
 function createParsedUtility(
 	overrides: Partial<ParsedUtility> & { name: string; value: string },
@@ -124,10 +125,7 @@ describe("registerMatchedUtilities", () => {
 		expect(factory.values.some((v) => v.key === "sm")).toBe(true);
 		expect(
 			factory.values.some(
-				(v) =>
-					v.key === "sm" &&
-					v.modifiers.length === 1 &&
-					v.modifiers[0] === "hover",
+				(v) => v.key === "sm" && v.modifiers.length === 1 && v.modifiers[0] === "hover",
 			),
 		).toBe(true);
 	});
@@ -333,15 +331,7 @@ describe("registerMatchedUtilities", () => {
 
 		expect(count).toBe(1);
 		expect(factory.values.some((v) => v.key === "sm")).toBe(true);
-		expect(
-			factory.values.some(
-				(v) => v.key === "sm" && v.modifiers.includes("hover"),
-			),
-		).toBe(true);
-		expect(
-			factory.values.some(
-				(v) => v.key === "sm" && v.modifiers.includes("focus"),
-			),
-		).toBe(true);
+		expect(factory.values.some((v) => v.key === "sm" && v.modifiers.includes("hover"))).toBe(true);
+		expect(factory.values.some((v) => v.key === "sm" && v.modifiers.includes("focus"))).toBe(true);
 	});
 });

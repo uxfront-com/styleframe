@@ -37,9 +37,7 @@ test.describe("CSS Custom Properties and Refs", () => {
 
 	test("CSS custom property exists on :root", async ({ page }) => {
 		const value = await page.evaluate(() =>
-			window
-				.getComputedStyle(document.documentElement)
-				.getPropertyValue("--custom--size"),
+			window.getComputedStyle(document.documentElement).getPropertyValue("--custom--size"),
 		);
 
 		expect(value.trim()).toBe("48px");

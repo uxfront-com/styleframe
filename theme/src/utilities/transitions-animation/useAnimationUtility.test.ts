@@ -1,6 +1,7 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useAnimationUtility,
 	useAnimationNameUtility,
@@ -131,8 +132,7 @@ describe("useAnimationTimingFunctionUtility", () => {
 		});
 
 		const utilities = s.root.children.filter(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "animation-timing-function",
+			(u): u is Utility => isUtility(u) && u.name === "animation-timing-function",
 		);
 		expect(utilities).toHaveLength(1);
 	});
@@ -156,9 +156,7 @@ describe("useAnimationTimingFunctionUtility", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain(
-			String.raw`._animation-timing-function\:ease-in-out {`,
-		);
+		expect(css).toContain(String.raw`._animation-timing-function\:ease-in-out {`);
 		expect(css).toContain("animation-timing-function: ease-in-out;");
 	});
 
@@ -176,8 +174,7 @@ describe("useAnimationIterationCountUtility", () => {
 		useAnimationIterationCountUtility(s, { infinite: "infinite" });
 
 		const utilities = s.root.children.filter(
-			(u): u is Utility =>
-				isUtility(u) && u.name === "animation-iteration-count",
+			(u): u is Utility => isUtility(u) && u.name === "animation-iteration-count",
 		);
 		expect(utilities).toHaveLength(1);
 	});

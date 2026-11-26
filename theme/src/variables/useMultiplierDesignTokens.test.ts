@@ -1,6 +1,7 @@
 import type { CSS, Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useMultiplierDesignTokens } from "./useMultiplierDesignTokens";
 import { useScaleDesignTokens } from "./useScaleDesignTokens";
 import { useScalePowersDesignTokens } from "./useScalePowersDesignTokens";
@@ -39,15 +40,11 @@ describe("useMultiplierDesignTokens", () => {
 	it("should create multiple multiplied variables", () => {
 		const s = styleframe();
 		const baseVar = s.variable("spacing", "1rem");
-		const { spacing, spacingSm, spacingLg } = useMultiplierDesignTokens(
-			s,
-			baseVar,
-			{
-				default: 1,
-				sm: 0.5,
-				lg: 2,
-			},
-		);
+		const { spacing, spacingSm, spacingLg } = useMultiplierDesignTokens(s, baseVar, {
+			default: 1,
+			sm: 0.5,
+			lg: 2,
+		});
 
 		expect(spacing.type).toBe("variable");
 		expect(spacing.name).toBe("spacing");
@@ -211,13 +208,16 @@ describe("useMultiplierDesignTokens", () => {
 			"2": 1.777,
 		};
 
-		const { fontSizeXs, fontSizeSm, fontSizeLg, fontSizeXl } =
-			useMultiplierDesignTokens(s, fontSize, {
+		const { fontSizeXs, fontSizeSm, fontSizeLg, fontSizeXl } = useMultiplierDesignTokens(
+			s,
+			fontSize,
+			{
 				xs: scalePowers["-2"],
 				sm: scalePowers["-1"],
 				lg: scalePowers["1"],
 				xl: scalePowers["2"],
-			});
+			},
+		);
 
 		expect((fontSizeXs.value as CSS)?.type).toBe("css");
 		expect((fontSizeSm.value as CSS)?.type).toBe("css");
@@ -229,21 +229,15 @@ describe("useMultiplierDesignTokens", () => {
 		const s = styleframe();
 		const spacing = s.variable("spacing", "1rem");
 
-		const {
-			spacing2xs,
-			spacingXs,
-			spacingSm,
-			spacingMd,
-			spacingLg,
-			spacingXl,
-		} = useMultiplierDesignTokens(s, spacing, {
-			"2xs": 0.25,
-			xs: 0.5,
-			sm: 0.75,
-			md: 1,
-			lg: 1.5,
-			xl: 2,
-		});
+		const { spacing2xs, spacingXs, spacingSm, spacingMd, spacingLg, spacingXl } =
+			useMultiplierDesignTokens(s, spacing, {
+				"2xs": 0.25,
+				xs: 0.5,
+				sm: 0.75,
+				md: 1,
+				lg: 1.5,
+				xl: 2,
+			});
 
 		expect(spacing2xs.name).toBe("spacing.2xs");
 		expect(spacingXs.name).toBe("spacing.xs");
@@ -602,13 +596,9 @@ describe("useMultiplierDesignTokens", () => {
 
 			const css = consumeCSS(s.root, s.options);
 			expect(css).toContain(`--size: 1rem;`);
-			expect(css).toContain(
-				`--size---1: calc(var(--size) * ${Math.pow(golden, -1)});`,
-			);
+			expect(css).toContain(`--size---1: calc(var(--size) * ${Math.pow(golden, -1)});`);
 			expect(css).toContain(`--size--1: calc(var(--size) * ${golden});`);
-			expect(css).toContain(
-				`--size--2: calc(var(--size) * ${Math.pow(golden, 2)});`,
-			);
+			expect(css).toContain(`--size--2: calc(var(--size) * ${Math.pow(golden, 2)});`);
 		});
 
 		it("should transpile with complex variable names", () => {

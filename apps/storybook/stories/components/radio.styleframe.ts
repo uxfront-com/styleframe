@@ -1,8 +1,4 @@
-import {
-	useRadioRecipe,
-	useRadioFieldRecipe,
-	useRadioGroupRecipe,
-} from "@styleframe/theme";
+import { useRadioRecipe, useRadioFieldRecipe, useRadioGroupRecipe } from "@styleframe/theme";
 import { styleframe } from "virtual:styleframe";
 
 const s = styleframe();

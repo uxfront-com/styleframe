@@ -70,16 +70,10 @@ export interface DTCGTokenValueMap {
  * Type-narrowed token value for a given `$type`. An alias is always allowed
  * in place of a concrete value.
  */
-export type DTCGTokenValueOf<T extends DTCGTokenType> =
-	| DTCGTokenValueMap[T]
-	| DTCGAlias;
+export type DTCGTokenValueOf<T extends DTCGTokenType> = DTCGTokenValueMap[T] | DTCGAlias;
 
 /**
  * Loose union of every possible value at the JSON level. Useful when the
  * `$type` of a token has not yet been determined.
  */
-export type DTCGTokenValue =
-	| DTCGTokenValueMap[DTCGTokenType]
-	| DTCGAlias
-	| number
-	| string;
+export type DTCGTokenValue = DTCGTokenValueMap[DTCGTokenType] | DTCGAlias | number | string;

@@ -1,17 +1,11 @@
 /// <reference types="@figma/plugin-typings" />
 
 import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
+
 import { fromDTCG, fromDTCGResolver } from "../converters/dtcg/from-dtcg";
 import { toDTCG } from "../converters/dtcg/to-dtcg";
-import {
-	figmaToStyleframeName,
-	styleframeToFigmaName,
-} from "../converters/name-mapping";
-import type {
-	FigmaExportFormat,
-	FigmaExportVariable,
-	FigmaRGBA,
-} from "../types";
+import { figmaToStyleframeName, styleframeToFigmaName } from "../converters/name-mapping";
+import type { FigmaExportFormat, FigmaExportVariable, FigmaRGBA } from "../types";
 import { isDTCGFormat } from "./shared";
 
 /**
@@ -40,11 +34,7 @@ interface CloseMessage {
 	type: "close";
 }
 
-type PluginMessage =
-	| ImportMessage
-	| ExportMessage
-	| GetCollectionsMessage
-	| CloseMessage;
+type PluginMessage = ImportMessage | ExportMessage | GetCollectionsMessage | CloseMessage;
 
 /**
  * Show the plugin UI
@@ -156,9 +146,7 @@ async function handleImport(
 			if (ref === baseRef) {
 				return rawData;
 			}
-			throw new Error(
-				`Resolver references "${ref}" but only "${baseRef}" was uploaded`,
-			);
+			throw new Error(`Resolver references "${ref}" but only "${baseRef}" was uploaded`);
 		};
 		data = await fromDTCGResolver(resolver, { fileLoader });
 	} else if (isDTCGFormat(rawData)) {
@@ -170,8 +158,7 @@ async function handleImport(
 	const { collection: collectionName, modes, variables } = data;
 
 	// Create or get the collection
-	const existingCollections =
-		await figma.variables.getLocalVariableCollectionsAsync();
+	const existingCollections = await figma.variables.getLocalVariableCollectionsAsync();
 	let collection = existingCollections.find((c) => c.name === collectionName);
 
 	if (!collection) {
@@ -242,11 +229,7 @@ async function handleImport(
 			if (existing) {
 				existing.remove();
 			}
-			figmaVar = figma.variables.createVariable(
-				v.name,
-				collection,
-				desiredType,
-			);
+			figmaVar = figma.variables.createVariable(v.name, collection, desiredType);
 		}
 
 		// Set values for each mode. `from-dtcg` downgrades the variable type
@@ -269,9 +252,7 @@ async function handleImport(
 						id: aliasTarget.id,
 					});
 				} else {
-					console.warn(
-						`Alias target "${value.id}" not found for "${v.name}" mode "${modeName}"`,
-					);
+					console.warn(`Alias target "${value.id}" not found for "${v.name}" mode "${modeName}"`);
 				}
 			} else {
 				const figmaValue = convertToFigmaValue(value, v.type);
@@ -308,11 +289,7 @@ async function handleImport(
 		if (existing) {
 			figmaVar = existing;
 		} else {
-			figmaVar = figma.variables.createVariable(
-				v.name,
-				collection,
-				targetVar.resolvedType,
-			);
+			figmaVar = figma.variables.createVariable(v.name, collection, targetVar.resolvedType);
 		}
 
 		for (const [modeName, value] of Object.entries(v.values)) {
@@ -329,9 +306,7 @@ async function handleImport(
 						id: modeTargetVar.id,
 					});
 				} else {
-					console.warn(
-						`Alias target "${value.id}" not found for "${v.name}" mode "${modeName}"`,
-					);
+					console.warn(`Alias target "${value.id}" not found for "${v.name}" mode "${modeName}"`);
 				}
 			} else {
 				const figmaValue = convertToFigmaValue(value, v.type);
@@ -362,10 +337,7 @@ async function handleImport(
 /**
  * Export variables to JSON format
  */
-async function handleExport(
-	collectionId?: string,
-	modeId?: string,
-): Promise<void> {
+async function handleExport(collectionId?: string, modeId?: string): Promise<void> {
 	const collections = await figma.variables.getLocalVariableCollectionsAsync();
 	let collection: VariableCollection | undefined;
 
@@ -482,10 +454,7 @@ function isVariableAlias(value: unknown): value is VariableAlias {
 /**
  * Convert a value to Figma format
  */
-function convertToFigmaValue(
-	value: unknown,
-	type: string,
-): VariableValue | null {
+function convertToFigmaValue(value: unknown, type: string): VariableValue | null {
 	if (value === null || value === undefined) {
 		return null;
 	}

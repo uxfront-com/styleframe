@@ -1,6 +1,6 @@
 import { reactive, readonly } from "vue";
+
 import type { ScanResult } from "@/pipeline/scanAndRegisterUtilities";
-import configSample from "@/samples/styleframe.config.sample.ts?raw";
 import appSample from "@/samples/App.sample.tsx?raw";
 import appStyleframeSample from "@/samples/App.styleframe.sample.ts?raw";
 import avatarSample from "@/samples/Avatar.sample.tsx?raw";
@@ -19,6 +19,7 @@ import inputSample from "@/samples/Input.sample.tsx?raw";
 import inputStyleframeSample from "@/samples/Input.styleframe.sample.ts?raw";
 import spinnerSample from "@/samples/Spinner.sample.tsx?raw";
 import spinnerStyleframeSample from "@/samples/Spinner.styleframe.sample.ts?raw";
+import configSample from "@/samples/styleframe.config.sample.ts?raw";
 
 /** The file that exports the Styleframe instance as its default export. */
 export const CONFIG_PATH = "styleframe.config.ts";
@@ -223,9 +224,7 @@ export function deleteFolder(path: string): boolean {
 			delete state.files[filePath];
 		}
 	}
-	state.folders = state.folders.filter(
-		(folder) => folder !== clean && !folder.startsWith(prefix),
-	);
+	state.folders = state.folders.filter((folder) => folder !== clean && !folder.startsWith(prefix));
 	const wasActiveUnder = state.activePath.startsWith(prefix);
 	state.openPaths = state.openPaths.filter((p) => !p.startsWith(prefix));
 	if (wasActiveUnder) {
@@ -262,7 +261,6 @@ export function closeFile(path: string): void {
 	}
 	state.openPaths = state.openPaths.filter((p) => p !== path);
 	if (state.activePath === path) {
-		state.activePath =
-			state.openPaths[index] ?? state.openPaths[index - 1] ?? "";
+		state.activePath = state.openPaths[index] ?? state.openPaths[index - 1] ?? "";
 	}
 }

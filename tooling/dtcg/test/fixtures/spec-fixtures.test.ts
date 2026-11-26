@@ -7,7 +7,9 @@
 
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+
 import { describe, expect, it } from "vitest";
+
 import { applyInheritance } from "../../src/inheritance/apply";
 import { parse } from "../../src/parse/document";
 import { parseResolver } from "../../src/resolver/parse";
@@ -16,12 +18,8 @@ import { validateResolver } from "../../src/validate/resolver";
 
 const FIXTURE_DIR = __dirname;
 
-const tokenFixtures = readdirSync(FIXTURE_DIR).filter((f) =>
-	f.endsWith(".tokens.json"),
-);
-const resolverFixtures = readdirSync(FIXTURE_DIR).filter((f) =>
-	f.endsWith(".resolver.json"),
-);
+const tokenFixtures = readdirSync(FIXTURE_DIR).filter((f) => f.endsWith(".tokens.json"));
+const resolverFixtures = readdirSync(FIXTURE_DIR).filter((f) => f.endsWith(".resolver.json"));
 
 describe("spec token fixtures", () => {
 	for (const fixture of tokenFixtures) {

@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useBreadcrumbRecipe } from "./index";
 
 function createInstance() {

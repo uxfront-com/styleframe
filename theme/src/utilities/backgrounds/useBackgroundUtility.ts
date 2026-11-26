@@ -13,9 +13,6 @@ import { createUseUtility } from "../../utils";
  * });
  * ```
  */
-export const useBackgroundUtility = createUseUtility(
-	"background",
-	({ value }) => ({
-		background: value,
-	}),
-);
+export const useBackgroundUtility = createUseUtility("background", ({ value }) => ({
+	background: value,
+}));

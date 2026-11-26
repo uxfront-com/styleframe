@@ -1,5 +1,6 @@
-import { addons } from "storybook/manager-api";
 import { UPDATE_DARK_MODE_EVENT_NAME } from "@vueless/storybook-dark-mode";
+import { addons } from "storybook/manager-api";
+
 import { light, dark } from "./theme";
 
 const STORAGE_KEY = "sb-addon-themes-3";
@@ -28,9 +29,7 @@ window.addEventListener("message", (event: MessageEvent) => {
 		channel.emit(UPDATE_DARK_MODE_EVENT_NAME, mode);
 
 		// Trigger the theme change window message for the preview iframe
-		const iframe = document.getElementById(
-			"storybook-preview-iframe",
-		) as HTMLIFrameElement | null;
+		const iframe = document.getElementById("storybook-preview-iframe") as HTMLIFrameElement | null;
 
 		iframe?.contentWindow?.postMessage(
 			{
@@ -68,10 +67,7 @@ if (window !== window.parent) {
 				totalHeight = chromeHeight + event.data.height + PADDING;
 			}
 
-			window.parent.postMessage(
-				{ type: "styleframe:height", height: totalHeight },
-				"*",
-			);
+			window.parent.postMessage({ type: "styleframe:height", height: totalHeight }, "*");
 		}
 	});
 }

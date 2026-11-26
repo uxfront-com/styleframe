@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
+
 import { useDesignTokensPreset, useModifiersPreset } from "../../presets";
 import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { colorValues, darkModeColorValues } from "../../values";
@@ -30,9 +31,7 @@ describe("checkbox contrast", () => {
 		const name = token.replace(/^@/, "");
 		const key = name.replace(/^color\./, "");
 		if (theme === "dark" && typeof darkValues[key] === "string") {
-			return darkValues[key].startsWith("@")
-				? resolve(darkValues[key], theme)
-				: darkValues[key];
+			return darkValues[key].startsWith("@") ? resolve(darkValues[key], theme) : darkValues[key];
 		}
 		const variable = s.root.variables.find((v) => v.name === name);
 		if (!variable) {
@@ -114,27 +113,21 @@ describe("checkbox contrast", () => {
 		"checkbox/more-contrast: the $name border is stronger than its default against its fill",
 		({ theme, fill, border, contrastMore }) => {
 			const surface = resolve(fill, theme);
-			expect(
-				wcagContrast(resolve(contrastMore, theme), surface),
-			).toBeGreaterThan(wcagContrast(resolve(border, theme), surface));
-			expect(
-				wcagContrast(resolve(contrastMore, theme), surface),
-			).toBeGreaterThanOrEqual(4.5);
+			expect(wcagContrast(resolve(contrastMore, theme), surface)).toBeGreaterThan(
+				wcagContrast(resolve(border, theme), surface),
+			);
+			expect(wcagContrast(resolve(contrastMore, theme), surface)).toBeGreaterThanOrEqual(4.5);
 		},
 	);
 
 	it.each(surfaces)(
 		"checkbox/invalid-state: the $name invalid border has 3:1 against its fill and the page",
 		({ theme, fill, pages: neighbours }) => {
-			const error = resolve(
-				token(base, "&:aria-invalid", "borderColor"),
-				theme,
-			);
+			const error = resolve(token(base, "&:aria-invalid", "borderColor"), theme);
 			for (const neighbour of [resolve(fill, theme), ...neighbours]) {
-				expect(
-					wcagContrast(error, neighbour),
-					`error against ${neighbour}`,
-				).toBeGreaterThanOrEqual(3);
+				expect(wcagContrast(error, neighbour), `error against ${neighbour}`).toBeGreaterThanOrEqual(
+					3,
+				);
 			}
 		},
 	);
@@ -148,9 +141,7 @@ describe("checkbox contrast", () => {
 					expect(wcagContrast(fill, page)).toBeGreaterThanOrEqual(3);
 				}
 				// The mark is drawn in white.
-				expect(token(base, state, "backgroundImage")).toContain(
-					"stroke='white'",
-				);
+				expect(token(base, state, "backgroundImage")).toContain("stroke='white'");
 				expect(wcagContrast("#ffffff", fill)).toBeGreaterThanOrEqual(3);
 			}
 		},
@@ -160,10 +151,7 @@ describe("checkbox contrast", () => {
 		"checkbox/contrast: the label has 4.5:1 and the focus ring 3:1 against the %s page",
 		(theme) => {
 			const label = resolve(token(wrapper.base, "color"), theme);
-			const ring = resolve(
-				token(base, "&:focus-visible", "outlineColor"),
-				theme,
-			);
+			const ring = resolve(token(base, "&:focus-visible", "outlineColor"), theme);
 			for (const page of pages[theme]) {
 				expect(wcagContrast(label, page)).toBeGreaterThanOrEqual(4.5);
 				expect(wcagContrast(ring, page)).toBeGreaterThanOrEqual(3);

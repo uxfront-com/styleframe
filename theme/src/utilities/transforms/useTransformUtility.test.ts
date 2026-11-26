@@ -1,6 +1,13 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import {
+	backfaceVisibilityValues,
+	perspectiveOriginValues,
+	transformOriginValues,
+	transformStyleValues,
+} from "../../values";
 import {
 	useBackfaceVisibilityUtility,
 	usePerspectiveUtility,
@@ -20,12 +27,6 @@ import {
 	useTranslateYUtility,
 	useTranslateZUtility,
 } from "./useTransformUtility";
-import {
-	backfaceVisibilityValues,
-	perspectiveOriginValues,
-	transformOriginValues,
-	transformStyleValues,
-} from "../../values";
 
 describe("useBackfaceVisibilityUtility", () => {
 	it("should create utility instances with provided values", () => {
@@ -62,9 +63,7 @@ describe("useBackfaceVisibilityUtility", () => {
 		const utilities = s.root.children.filter(
 			(u): u is Utility => isUtility(u) && u.name === "backface-visibility",
 		);
-		expect(utilities).toHaveLength(
-			Object.keys(backfaceVisibilityValues).length,
-		);
+		expect(utilities).toHaveLength(Object.keys(backfaceVisibilityValues).length);
 	});
 
 	it("should handle empty values object", () => {

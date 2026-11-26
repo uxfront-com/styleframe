@@ -17,14 +17,10 @@ const sides = ["left", "right", "top", "bottom"] as const;
 				<DrawerOverlay>
 					<Drawer :side="side" size="sm">
 						<DrawerHeader>
-							<DrawerTitle>
-								{{ side.charAt(0).toUpperCase() + side.slice(1) }} Drawer
-							</DrawerTitle>
+							<DrawerTitle> {{ side.charAt(0).toUpperCase() + side.slice(1) }} Drawer </DrawerTitle>
 						</DrawerHeader>
 						<DrawerBody>
-							<DrawerDescription>
-								Anchored to the {{ side }} edge.
-							</DrawerDescription>
+							<DrawerDescription> Anchored to the {{ side }} edge. </DrawerDescription>
 						</DrawerBody>
 					</Drawer>
 				</DrawerOverlay>

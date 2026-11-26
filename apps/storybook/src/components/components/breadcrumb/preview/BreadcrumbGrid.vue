@@ -15,9 +15,7 @@ const colors = ["light", "dark", "neutral"] as const;
 				<Breadcrumb>
 					<BreadcrumbItem :color="color" href="#">Home</BreadcrumbItem>
 					<BreadcrumbItem :color="color" href="#">Library</BreadcrumbItem>
-					<BreadcrumbItem :color="color" href="#" disabled>
-						Archive
-					</BreadcrumbItem>
+					<BreadcrumbItem :color="color" href="#" disabled> Archive </BreadcrumbItem>
 					<BreadcrumbItem :color="color" active>Current</BreadcrumbItem>
 				</Breadcrumb>
 			</div>

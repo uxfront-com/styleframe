@@ -6,11 +6,7 @@ const variants = ["solid", "outline", "soft", "subtle"] as const;
 
 <template>
 	<div class="calendar-stories-grid">
-		<div
-			v-for="variant in variants"
-			:key="variant"
-			class="calendar-stories-section"
-		>
+		<div v-for="variant in variants" :key="variant" class="calendar-stories-section">
 			<div class="calendar-stories-label">{{ variant }}</div>
 			<Calendar
 				:variant="variant"

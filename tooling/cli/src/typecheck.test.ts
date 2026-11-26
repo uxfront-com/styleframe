@@ -1,21 +1,10 @@
-import {
-	chmod,
-	mkdir,
-	mkdtemp,
-	readdir,
-	realpath,
-	rm,
-	writeFile,
-} from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readdir, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import {
-	createTypecheckConfig,
-	parseTscOutput,
-	resolveTsc,
-	typecheck,
-} from "./typecheck";
+
+import { createTypecheckConfig, parseTscOutput, resolveTsc, typecheck } from "./typecheck";
 
 describe("typecheck", () => {
 	const tsc = resolveTsc(import.meta.filename)!;
@@ -27,9 +16,7 @@ describe("typecheck", () => {
 		// No tsconfig.json above the system's temporary directory, so the
 		// strict defaults apply: the untyped parameter is TS7006
 		// The real path, since `tsc` prints paths relative to the real cwd
-		project = await realpath(
-			await mkdtemp(path.join(tmpdir(), "styleframe-cli-typecheck-")),
-		);
+		project = await realpath(await mkdtemp(path.join(tmpdir(), "styleframe-cli-typecheck-")));
 		nodeModules = path.join(project, "node_modules");
 		entry = path.join(project, "styleframe.config.ts");
 		await mkdir(nodeModules);
@@ -44,9 +31,7 @@ describe("typecheck", () => {
 	it("uses strict defaults and removes the cache it created", async () => {
 		const diagnostics = await typecheck(entry, tsc, project);
 
-		expect(diagnostics.map(({ message }) => message.slice(0, 7))).toEqual([
-			"TS7006:",
-		]);
+		expect(diagnostics.map(({ message }) => message.slice(0, 7))).toEqual(["TS7006:"]);
 		expect(await readdir(nodeModules)).toEqual([]);
 	});
 
@@ -55,18 +40,14 @@ describe("typecheck", () => {
 
 		const diagnostics = await typecheck(entry, tsc, project);
 
-		expect(diagnostics.map(({ path }) => path)).toEqual([
-			"styleframe.config.ts:1",
-		]);
+		expect(diagnostics.map(({ path }) => path)).toEqual(["styleframe.config.ts:1"]);
 		expect(await readdir(nodeModules)).toEqual([]);
 	});
 });
 
 describe("createTypecheckConfig", () => {
 	it("extends the project's tsconfig and roots the program at the file", () => {
-		expect(
-			createTypecheckConfig("/app/styleframe.config.ts", "/app/tsconfig.json"),
-		).toEqual({
+		expect(createTypecheckConfig("/app/styleframe.config.ts", "/app/tsconfig.json")).toEqual({
 			extends: "/app/tsconfig.json",
 			compilerOptions: { incremental: false, rootDir: "/" },
 			files: ["/app/styleframe.config.ts"],
@@ -76,11 +57,8 @@ describe("createTypecheckConfig", () => {
 
 	it("keeps declaration on in place of composite", () => {
 		expect(
-			createTypecheckConfig(
-				"/app/styleframe.config.ts",
-				"/app/tsconfig.json",
-				true,
-			).compilerOptions,
+			createTypecheckConfig("/app/styleframe.config.ts", "/app/tsconfig.json", true)
+				.compilerOptions,
 		).toEqual({
 			incremental: false,
 			composite: false,
@@ -90,9 +68,7 @@ describe("createTypecheckConfig", () => {
 	});
 
 	it("uses strict defaults when the project has no tsconfig", () => {
-		expect(
-			createTypecheckConfig("/app/styleframe.config.ts", undefined),
-		).toEqual({
+		expect(createTypecheckConfig("/app/styleframe.config.ts", undefined)).toEqual({
 			compilerOptions: {
 				strict: true,
 				target: "es2022",

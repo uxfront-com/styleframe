@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useAccordionRecipe } from "./index";
 
@@ -52,11 +53,7 @@ describe("useAccordionRecipe", () => {
 			const s = createInstance();
 			const recipe = useAccordionRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have solid and ghost style variants", () => {
@@ -105,9 +102,7 @@ describe("useAccordionRecipe", () => {
 			const recipe = useAccordionRecipe(s);
 
 			expect(recipe.compoundVariants).toHaveLength(3);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.variant === "solid"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.variant === "solid")).toBe(true);
 		});
 
 		it("should have correct neutral solid surface with adaptive dark mode", () => {
@@ -154,9 +149,7 @@ describe("useAccordionRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["neutral"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(1);
 		});
 

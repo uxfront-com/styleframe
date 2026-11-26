@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useFontFamilyDesignTokens } from "./useFontFamilyDesignTokens";
 
 describe("useFontFamilyDesignTokens", () => {
@@ -19,9 +20,7 @@ describe("useFontFamilyDesignTokens", () => {
 		});
 
 		const css = consumeCSS(fontFamily, s.options);
-		expect(css).toBe(
-			`--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;`,
-		);
+		expect(css).toBe(`--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;`);
 	});
 
 	it("should create font family variable with modifier for non-default keys", () => {
@@ -39,20 +38,17 @@ describe("useFontFamilyDesignTokens", () => {
 		});
 
 		const css = consumeCSS(fontFamilyMono, s.options);
-		expect(css).toBe(
-			`--font-family--mono: 'SFMono-Regular', Menlo, Monaco, Consolas;`,
-		);
+		expect(css).toBe(`--font-family--mono: 'SFMono-Regular', Menlo, Monaco, Consolas;`);
 	});
 
 	it("should create multiple font family variables", () => {
 		const s = styleframe();
-		const { fontFamily, fontFamilyPrint, fontFamilyMono } =
-			useFontFamilyDesignTokens(s, {
-				default:
-					"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
-				print: "'Georgia', 'Times New Roman', 'Times', serif",
-				mono: "'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-			});
+		const { fontFamily, fontFamilyPrint, fontFamilyMono } = useFontFamilyDesignTokens(s, {
+			default:
+				"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
+			print: "'Georgia', 'Times New Roman', 'Times', serif",
+			mono: "'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+		});
 
 		expect(fontFamily).toEqual({
 			type: "variable",
@@ -225,8 +221,7 @@ describe("useFontFamilyDesignTokens", () => {
 				"serif-display": "'Playfair Display', Georgia, serif",
 			});
 
-			const typed: Variable<"font-family.serif-display"> =
-				fontFamilySerifDisplay;
+			const typed: Variable<"font-family.serif-display"> = fontFamilySerifDisplay;
 			expect(typed.name).toBe("font-family.serif-display");
 		});
 

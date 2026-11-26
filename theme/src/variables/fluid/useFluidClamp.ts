@@ -1,9 +1,6 @@
-import type {
-	DeclarationsCallbackContext,
-	TokenValue,
-	Variable,
-} from "@styleframe/core";
+import type { DeclarationsCallbackContext, TokenValue, Variable } from "@styleframe/core";
 import { isVariable } from "@styleframe/core";
+
 import { normalizeRange } from "../../utils/normalizeRange";
 import type { RangeInput } from "../../utils/normalizeRange";
 

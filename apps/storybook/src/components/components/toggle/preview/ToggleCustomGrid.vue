@@ -14,12 +14,7 @@ const weights = [
 
 <template>
 	<FieldGroup>
-		<Toggle
-			v-for="w in weights"
-			:key="w.key"
-			variant="outline"
-			:pressed="w.key === 'normal'"
-		>
+		<Toggle v-for="w in weights" :key="w.key" variant="outline" :pressed="w.key === 'normal'">
 			<span class="toggle-weight">
 				<span :class="['toggle-weight-glyph', `-${w.key}`]">Aa</span>
 				<span class="toggle-weight-label">{{ w.label }}</span>

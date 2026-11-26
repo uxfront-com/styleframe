@@ -1,5 +1,6 @@
 import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
 import { describe, expect, it } from "vitest";
+
 import { flattenToFigmaDTCG } from "./flatten-to-figma-dtcg";
 
 describe("flattenToFigmaDTCG (single-mode)", () => {
@@ -22,8 +23,7 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 		expect(defaultDoc.$extensions).toEqual({
 			"com.figma.modeName": "Default",
 		});
-		const token = (defaultDoc.color as Record<string, unknown>)
-			.primary as Record<string, unknown>;
+		const token = (defaultDoc.color as Record<string, unknown>).primary as Record<string, unknown>;
 		expect(token.$type).toBe("color");
 		expect(token.$value).toMatchObject({
 			colorSpace: "srgb",
@@ -41,8 +41,7 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.spacing as Record<string, unknown>)
-			.md as Record<string, unknown>;
+		const token = (modes.Default!.spacing as Record<string, unknown>).md as Record<string, unknown>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(16);
 	});
@@ -55,8 +54,7 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.spacing as Record<string, unknown>)
-			.lg as Record<string, unknown>;
+		const token = (modes.Default!.spacing as Record<string, unknown>).lg as Record<string, unknown>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(24);
 	});
@@ -69,8 +67,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes, diagnostics } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.fluid as Record<string, unknown>)
-			.width as Record<string, unknown>;
+		const token = (modes.Default!.fluid as Record<string, unknown>).width as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("100vw");
 		expect(diagnostics.length).toBeGreaterThan(0);
@@ -84,8 +84,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.duration as Record<string, unknown>)
-			.fast as Record<string, unknown>;
+		const token = (modes.Default!.duration as Record<string, unknown>).fast as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(200);
 	});
@@ -98,8 +100,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.duration as Record<string, unknown>)
-			.slow as Record<string, unknown>;
+		const token = (modes.Default!.duration as Record<string, unknown>).slow as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(500);
 	});
@@ -112,8 +116,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.easing as Record<string, unknown>)
-			.ease as Record<string, unknown>;
+		const token = (modes.Default!.easing as Record<string, unknown>).ease as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("[0.25,0.1,0.25,1]");
 	});
@@ -126,8 +132,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!["font-family"] as Record<string, unknown>)
-			.body as Record<string, unknown>;
+		const token = (modes.Default!["font-family"] as Record<string, unknown>).body as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("Inter");
 	});
@@ -140,8 +148,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!["font-family"] as Record<string, unknown>)
-			.body as Record<string, unknown>;
+		const token = (modes.Default!["font-family"] as Record<string, unknown>).body as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("Inter, sans-serif");
 	});
@@ -154,8 +164,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!["font-weight"] as Record<string, unknown>)
-			.bold as Record<string, unknown>;
+		const token = (modes.Default!["font-weight"] as Record<string, unknown>).bold as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(700);
 	});
@@ -168,8 +180,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!["font-weight"] as Record<string, unknown>)
-			.normal as Record<string, unknown>;
+		const token = (modes.Default!["font-weight"] as Record<string, unknown>).normal as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("normal");
 	});
@@ -182,8 +196,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!["border-style"] as Record<string, unknown>)
-			.solid as Record<string, unknown>;
+		const token = (modes.Default!["border-style"] as Record<string, unknown>).solid as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("solid");
 	});
@@ -196,8 +212,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.scale as Record<string, unknown>)
-			.ratio as Record<string, unknown>;
+		const token = (modes.Default!.scale as Record<string, unknown>).ratio as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("number");
 		expect(token.$value).toBe(1.25);
 	});
@@ -217,8 +235,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.color as Record<string, unknown>)
-			.accent as Record<string, unknown>;
+		const token = (modes.Default!.color as Record<string, unknown>).accent as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("color");
 		expect(token.$value).toBe("{color.primary}");
 	});
@@ -235,9 +255,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.body as Record<string, unknown>)[
-			"font-family"
-		] as Record<string, unknown>;
+		const token = (modes.Default!.body as Record<string, unknown>)["font-family"] as Record<
+			string,
+			unknown
+		>;
 		expect(token.$value).toBe("{font-family}");
 	});
 
@@ -248,8 +269,10 @@ describe("flattenToFigmaDTCG (single-mode)", () => {
 			},
 		};
 		const { modes } = await flattenToFigmaDTCG(doc);
-		const token = (modes.Default!.misc as Record<string, unknown>)
-			.cursor as Record<string, unknown>;
+		const token = (modes.Default!.misc as Record<string, unknown>).cursor as Record<
+			string,
+			unknown
+		>;
 		expect(token.$type).toBe("string");
 		expect(token.$value).toBe("pointer");
 	});
@@ -345,20 +368,19 @@ describe("flattenToFigmaDTCG (multi-mode with resolver)", () => {
 		};
 		const { modes } = await flattenToFigmaDTCG(baseTokens, resolver);
 		expect(Object.keys(modes)).toEqual(["Default", "Dark"]);
-		const lightBg = (modes.Default!.color as Record<string, unknown>)
-			.background as Record<string, unknown>;
+		const lightBg = (modes.Default!.color as Record<string, unknown>).background as Record<
+			string,
+			unknown
+		>;
 		expect(lightBg.$type).toBe("color");
-		expect(
-			(
-				(lightBg.$value as Record<string, unknown>).components as Array<number>
-			)[0],
-		).toBe(1);
-		const darkBg = (modes.Dark!.color as Record<string, unknown>)
-			.background as Record<string, unknown>;
-		expect(
-			(
-				(darkBg.$value as Record<string, unknown>).components as Array<number>
-			)[0],
-		).toBeCloseTo(0.1, 1);
+		expect(((lightBg.$value as Record<string, unknown>).components as Array<number>)[0]).toBe(1);
+		const darkBg = (modes.Dark!.color as Record<string, unknown>).background as Record<
+			string,
+			unknown
+		>;
+		expect(((darkBg.$value as Record<string, unknown>).components as Array<number>)[0]).toBeCloseTo(
+			0.1,
+			1,
+		);
 	});
 });

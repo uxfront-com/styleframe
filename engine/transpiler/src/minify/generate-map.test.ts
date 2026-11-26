@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import type { Root } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { generateShorteningMap } from "./generate-map";
 
 function mockUtility(
@@ -45,11 +46,7 @@ function createMockRoot(
 describe("generateShorteningMap", () => {
 	it("abbreviates property names by first letter of each kebab segment", () => {
 		const root = createMockRoot({
-			utilities: [
-				mockUtility("margin-top"),
-				mockUtility("border-width"),
-				mockUtility("font-size"),
-			],
+			utilities: [mockUtility("margin-top"), mockUtility("border-width"), mockUtility("font-size")],
 		});
 
 		const map = generateShorteningMap(root);
@@ -233,12 +230,8 @@ describe("generateShorteningMap", () => {
 				utilities: names.map((name) => mockUtility(name)),
 			});
 
-		const map1 = generateShorteningMap(
-			makeRoot(["margin-top", "margin-bottom", "margin-left"]),
-		);
-		const map2 = generateShorteningMap(
-			makeRoot(["margin-left", "margin-top", "margin-bottom"]),
-		);
+		const map1 = generateShorteningMap(makeRoot(["margin-top", "margin-bottom", "margin-left"]));
+		const map2 = generateShorteningMap(makeRoot(["margin-left", "margin-top", "margin-bottom"]));
 
 		expect(map1.p).toEqual(map2.p);
 	});
@@ -296,10 +289,7 @@ describe("generateShorteningMap", () => {
 
 		it("algorithmic entries avoid short names taken by defaults", () => {
 			const root = createMockRoot({
-				utilities: [
-					mockUtility("border-color"),
-					mockUtility("backdrop-contrast"),
-				],
+				utilities: [mockUtility("border-color"), mockUtility("backdrop-contrast")],
 			});
 
 			const map = generateShorteningMap(root);

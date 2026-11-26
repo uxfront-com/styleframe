@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useFluidViewportDesignTokens } from "./useFluidViewportDesignTokens";
 
 describe("useFluidViewportDesignTokens", () => {
@@ -407,10 +408,7 @@ describe("useFluidViewportDesignTokens", () => {
 				maxWidth: 1280,
 			} as const;
 
-			const { fluidMinWidth, fluidMaxWidth } = useFluidViewportDesignTokens(
-				s,
-				options,
-			);
+			const { fluidMinWidth, fluidMaxWidth } = useFluidViewportDesignTokens(s, options);
 
 			expect(fluidMinWidth.name).toBe("fluid.min-width");
 			expect(fluidMaxWidth.name).toBe("fluid.max-width");

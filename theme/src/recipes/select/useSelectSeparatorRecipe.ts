@@ -7,5 +7,4 @@ import { createMenuSeparatorRecipe } from "../dropdown/createMenuRecipe";
  *
  * Built on the shared menu-surface builder (see `../dropdown/createMenuRecipe.ts`).
  */
-export const useSelectSeparatorRecipe =
-	createMenuSeparatorRecipe("select-separator");
+export const useSelectSeparatorRecipe = createMenuSeparatorRecipe("select-separator");

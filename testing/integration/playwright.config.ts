@@ -1,8 +1,8 @@
 import path from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
 
-const projectDir =
-	process.env.PROJECT_DIR || path.join(import.meta.dirname, ".app");
+const projectDir = process.env.PROJECT_DIR || path.join(import.meta.dirname, ".app");
 
 /**
  * See https://playwright.dev/docs/test-configuration.

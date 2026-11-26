@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import type { Selector } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { usePopoverHeaderRecipe } from "./index";
 
@@ -149,9 +150,9 @@ describe("usePopoverHeaderRecipe", () => {
 			".popover-header:first-child",
 			".popover-arrow:first-child + .popover-header",
 		]) {
-			expect(
-				queries.find((child) => child.query === query)?.declarations,
-			).toEqual({ borderTopColor: "transparent" });
+			expect(queries.find((child) => child.query === query)?.declarations).toEqual({
+				borderTopColor: "transparent",
+			});
 		}
 	});
 });

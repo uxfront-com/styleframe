@@ -5,6 +5,7 @@ import {
 	createRoot,
 	createVariableFunction,
 } from "@styleframe/core";
+
 import { consume } from "./consume";
 import { createDeclarationsConsumer } from "./declarations";
 
@@ -33,11 +34,7 @@ describe("createDeclarationsConsumer", () => {
 
 		const result = consumeDeclarations(declarations, options);
 
-		expect(result).toEqual([
-			"color: #ff0000;",
-			"font-size: 16px;",
-			"margin: 10px;",
-		]);
+		expect(result).toEqual(["color: #ff0000;", "font-size: 16px;", "margin: 10px;"]);
 	});
 
 	it("should handle empty declarations block", () => {
@@ -59,10 +56,7 @@ describe("createDeclarationsConsumer", () => {
 
 		const result = consumeDeclarations(declarations, options);
 
-		expect(result).toEqual([
-			"color: var(--color-primary);",
-			"font-size: var(--font-size);",
-		]);
+		expect(result).toEqual(["color: var(--color-primary);", "font-size: var(--font-size);"]);
 	});
 
 	it("should handle declarations with string references", () => {
@@ -73,10 +67,7 @@ describe("createDeclarationsConsumer", () => {
 
 		const result = consumeDeclarations(declarations, options);
 
-		expect(result).toEqual([
-			"color: var(--color-primary);",
-			"font-size: var(--font-size);",
-		]);
+		expect(result).toEqual(["color: var(--color-primary);", "font-size: var(--font-size);"]);
 	});
 
 	it("should handle declarations with references that have fallbacks", () => {
@@ -202,9 +193,6 @@ describe("createDeclarationsConsumer", () => {
 
 		const result = consumeDeclarations(declarations, options);
 
-		expect(result).toEqual([
-			"--customProperty: value;",
-			"--another-custom: 42;",
-		]);
+		expect(result).toEqual(["--customProperty: value;", "--another-custom: 42;"]);
 	});
 });

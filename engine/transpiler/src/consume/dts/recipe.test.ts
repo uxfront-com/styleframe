@@ -1,9 +1,6 @@
 import type { Root, StyleframeOptions } from "@styleframe/core";
-import {
-	createRecipeFunction,
-	createRoot,
-	createUtilityFunction,
-} from "@styleframe/core";
+import { createRecipeFunction, createRoot, createUtilityFunction } from "@styleframe/core";
+
 import { createRecipeConsumer } from "./recipe";
 
 describe("createRecipeConsumer (dts)", () => {
@@ -38,12 +35,8 @@ describe("createRecipeConsumer (dts)", () => {
 
 		const result = consumeRecipe(instance, options);
 
-		expect(result).toContain(
-			'export type ButtonProps = { disabled?: "true" | "false" | boolean }',
-		);
-		expect(result).toContain(
-			"export const button: (props?: ButtonProps) => string;",
-		);
+		expect(result).toContain('export type ButtonProps = { disabled?: "true" | "false" | boolean }');
+		expect(result).toContain("export const button: (props?: ButtonProps) => string;");
 	});
 
 	it("should not include boolean when variant has only true key", () => {
@@ -83,9 +76,7 @@ describe("createRecipeConsumer (dts)", () => {
 
 		const result = consumeRecipe(instance, options);
 
-		expect(result).toContain(
-			'export type ButtonProps = { size?: "sm" | "md" | "lg" }',
-		);
+		expect(result).toContain('export type ButtonProps = { size?: "sm" | "md" | "lg" }');
 		expect(result).toContain("(props?: ButtonProps) => string;");
 		expect(result).not.toContain("boolean");
 	});
@@ -166,9 +157,7 @@ describe("createRecipeConsumer (dts)", () => {
 		const result = consumeRecipe(instance, options);
 
 		expect(result).toContain("export type PgTabProps =");
-		expect(result).toContain(
-			"export const pgTab: (props?: PgTabProps) => string;",
-		);
+		expect(result).toContain("export const pgTab: (props?: PgTabProps) => string;");
 	});
 
 	it("should generate empty props type for recipes without variants", () => {
@@ -180,9 +169,7 @@ describe("createRecipeConsumer (dts)", () => {
 
 		const result = consumeRecipe(instance, options);
 
-		expect(result).toContain(
-			"export type DividerProps = Record<string, never>;",
-		);
+		expect(result).toContain("export type DividerProps = Record<string, never>;");
 		expect(result).toContain("(props?: DividerProps) => string;");
 	});
 });

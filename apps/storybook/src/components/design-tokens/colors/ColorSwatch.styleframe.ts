@@ -1,9 +1,5 @@
+import { useBodyElement, useDesignTokensPreset, useUtilitiesPreset } from "@styleframe/theme";
 import { styleframe } from "virtual:styleframe";
-import {
-	useBodyElement,
-	useDesignTokensPreset,
-	useUtilitiesPreset,
-} from "@styleframe/theme";
 
 const s = styleframe();
 const { ref, selector, recipe } = s;

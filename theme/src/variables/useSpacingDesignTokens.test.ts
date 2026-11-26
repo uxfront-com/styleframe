@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useSpacingDesignTokens } from "./useSpacingDesignTokens";
 
 describe("useSpacingDesignTokens", () => {
@@ -42,15 +43,12 @@ describe("useSpacingDesignTokens", () => {
 
 	it("should create multiple spacing variables", () => {
 		const s = styleframe();
-		const { spacing, spacingSm, spacingMd, spacingLg } = useSpacingDesignTokens(
-			s,
-			{
-				default: "@spacing.md",
-				sm: "0.5rem",
-				md: "1rem",
-				lg: "2rem",
-			},
-		);
+		const { spacing, spacingSm, spacingMd, spacingLg } = useSpacingDesignTokens(s, {
+			default: "@spacing.md",
+			sm: "0.5rem",
+			md: "1rem",
+			lg: "2rem",
+		});
 
 		expect(spacingSm).toEqual({
 			type: "variable",

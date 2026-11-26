@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useCalloutRecipe } from "./useCalloutRecipe";
 
@@ -84,12 +85,7 @@ describe("useCalloutRecipe", () => {
 			const s = createInstance();
 			const recipe = useCalloutRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -315,8 +311,7 @@ describe("useCalloutRecipe", () => {
 
 			const hiddenSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".callout[hidden]",
+					child.type === "selector" && (child as { query: string }).query === ".callout[hidden]",
 			);
 
 			expect(hiddenSelector).toBeDefined();
@@ -351,9 +346,7 @@ describe("useCalloutRecipe", () => {
 				filter: { color: ["primary"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "primary"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "primary")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(4);
 		});
 

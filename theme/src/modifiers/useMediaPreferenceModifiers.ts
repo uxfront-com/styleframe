@@ -35,34 +35,25 @@ export function useMotionSafeModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useMotionReduceModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"motion-reduce",
-		({ declarations, variables, children }) => ({
-			"@media (prefers-reduced-motion: reduce)": {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("motion-reduce", ({ declarations, variables, children }) => ({
+		"@media (prefers-reduced-motion: reduce)": {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 export function useContrastMoreModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"contrast-more",
-		({ declarations, variables, children }) => ({
-			"@media (prefers-contrast: more)": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("contrast-more", ({ declarations, variables, children }) => ({
+		"@media (prefers-contrast: more)": { declarations, variables, children },
+	}));
 }
 
 export function useContrastLessModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"contrast-less",
-		({ declarations, variables, children }) => ({
-			"@media (prefers-contrast: less)": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("contrast-less", ({ declarations, variables, children }) => ({
+		"@media (prefers-contrast: less)": { declarations, variables, children },
+	}));
 }
 
 export function usePortraitModifier(s: Styleframe): ModifierFactory {
@@ -84,30 +75,21 @@ export function usePrintModifier(s: Styleframe): ModifierFactory {
 }
 
 export function useForcedColorsModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"forced-colors",
-		({ declarations, variables, children }) => ({
-			"@media (forced-colors: active)": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("forced-colors", ({ declarations, variables, children }) => ({
+		"@media (forced-colors: active)": { declarations, variables, children },
+	}));
 }
 
 export function useHoverCapableModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"hover-capable",
-		({ declarations, variables, children }) => ({
-			"@media (hover: hover)": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("hover-capable", ({ declarations, variables, children }) => ({
+		"@media (hover: hover)": { declarations, variables, children },
+	}));
 }
 
 export function useAnyPointerCoarseModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"any-pointer-coarse",
-		({ declarations, variables, children }) => ({
-			"@media (any-pointer: coarse)": { declarations, variables, children },
-		}),
-	);
+	return s.modifier("any-pointer-coarse", ({ declarations, variables, children }) => ({
+		"@media (any-pointer: coarse)": { declarations, variables, children },
+	}));
 }
 
 /**
@@ -122,9 +104,7 @@ export function useAnyPointerCoarseModifier(s: Styleframe): ModifierFactory {
  * createBg({ primary: ref(colorPrimary) }, [dark]);
  * ```
  */
-export function useMediaPreferenceModifiers(
-	s: Styleframe,
-): MediaPreferenceModifiers {
+export function useMediaPreferenceModifiers(s: Styleframe): MediaPreferenceModifiers {
 	return {
 		dark: useDarkModifier(s),
 		motionSafe: useMotionSafeModifier(s),

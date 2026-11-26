@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -34,10 +35,7 @@ export function useSelectionDesignTokens(
 	const result: Partial<SelectionStateResult> = {};
 
 	if (config.background !== undefined) {
-		result.selectionBackground = ctx.variable(
-			"selection.background",
-			config.background,
-		);
+		result.selectionBackground = ctx.variable("selection.background", config.background);
 	}
 	if (config.color !== undefined) {
 		result.selectionColor = ctx.variable("selection.color", config.color);
@@ -64,15 +62,9 @@ export function useSelectionState(
 	s: Styleframe,
 	options: WithThemes<SelectionStateConfig> = {},
 ): SelectionStateResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultSelectionOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultSelectionOptions, options);
 
-	const result = useSelectionSelectors(
-		s,
-		config as Required<SelectionStateConfig>,
-	);
+	const result = useSelectionSelectors(s, config as Required<SelectionStateConfig>);
 
 	registerElementThemes(s, themes, useSelectionDesignTokens);
 

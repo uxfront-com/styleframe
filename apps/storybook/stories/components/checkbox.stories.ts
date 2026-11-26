@@ -39,8 +39,7 @@ const meta = {
 		},
 		readonly: {
 			control: "boolean",
-			description:
-				"Whether the checkbox is read-only (sets aria-readonly and cancels toggling)",
+			description: "Whether the checkbox is read-only (sets aria-readonly and cancels toggling)",
 		},
 		invalid: {
 			control: "boolean",

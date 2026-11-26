@@ -28,11 +28,7 @@ export interface ScanResult {
 	diagnostics: Array<ScanDiagnostic>;
 }
 
-function valueKeyTuple(
-	factoryName: string,
-	key: string,
-	modifiers: Array<string>,
-): string {
+function valueKeyTuple(factoryName: string, key: string, modifiers: Array<string>): string {
 	const sorted = [...modifiers].sort().join(",");
 	return `${factoryName}::${key}::${sorted}`;
 }
@@ -88,22 +84,14 @@ export function scanAndRegisterUtilities(
 		if (match.factory === null || match.exists) {
 			continue;
 		}
-		const tuple = valueKeyTuple(
-			match.parsed.name,
-			match.parsed.value,
-			match.parsed.modifiers,
-		);
+		const tuple = valueKeyTuple(match.parsed.name, match.parsed.value, match.parsed.modifiers);
 		if (seen.has(tuple)) {
 			continue;
 		}
 		if (after.has(tuple) && !before.has(tuple)) {
 			seen.add(tuple);
 			registered.push(
-				generateUtilityClassName(
-					match.parsed.name,
-					match.parsed.value,
-					match.parsed.modifiers,
-				),
+				generateUtilityClassName(match.parsed.name, match.parsed.value, match.parsed.modifiers),
 			);
 		}
 	}

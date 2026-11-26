@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
+
 import { resolveAliases } from "../../src/alias/resolve";
-import {
-	CircularReferenceError,
-	UnknownReferenceError,
-} from "../../src/parse/errors";
+import { CircularReferenceError, UnknownReferenceError } from "../../src/parse/errors";
 import type { DTCGDocument } from "../../src/types/token";
 
 describe("resolveAliases", () => {
@@ -18,9 +16,7 @@ describe("resolveAliases", () => {
 			},
 		};
 		const out = resolveAliases(doc);
-		expect(
-			(out.color as unknown as Record<string, any>)["accent"].$value,
-		).toEqual({
+		expect((out.color as unknown as Record<string, any>)["accent"].$value).toEqual({
 			colorSpace: "srgb",
 			components: [1, 0, 0],
 		});
@@ -94,8 +90,7 @@ describe("resolveAliases", () => {
 			},
 		};
 		const out = resolveAliases(doc);
-		const danger = (out.color as unknown as Record<string, any>)["semantic"]
-			.danger;
+		const danger = (out.color as unknown as Record<string, any>)["semantic"].danger;
 		expect(danger.$value).toEqual({
 			colorSpace: "srgb",
 			components: [1, 0, 0],
@@ -125,8 +120,7 @@ describe("resolveAliases", () => {
 			},
 		};
 		const out = resolveAliases(doc);
-		const border = (out.border as unknown as Record<string, any>)["default"]
-			.$value;
+		const border = (out.border as unknown as Record<string, any>)["default"].$value;
 		expect(border.color).toEqual({ colorSpace: "srgb", components: [0, 0, 0] });
 		expect(border.width).toEqual({ value: 1, unit: "px" });
 		expect(border.style).toBe("solid");
@@ -137,18 +131,14 @@ describe("resolveAliases", () => {
 			a: { $type: "number", $value: "{missing.token}" },
 		};
 		const out = resolveAliases(doc);
-		expect((out as unknown as Record<string, any>)["a"].$value).toBe(
-			"{missing.token}",
-		);
+		expect((out as unknown as Record<string, any>)["a"].$value).toBe("{missing.token}");
 	});
 
 	it("throws UnknownReferenceError in strict mode", () => {
 		const doc: DTCGDocument = {
 			a: { $type: "number", $value: "{missing.token}" },
 		};
-		expect(() => resolveAliases(doc, { strict: true })).toThrow(
-			UnknownReferenceError,
-		);
+		expect(() => resolveAliases(doc, { strict: true })).toThrow(UnknownReferenceError);
 	});
 
 	it("ignores metadata keys when walking", () => {

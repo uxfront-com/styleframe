@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
@@ -49,8 +50,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	) as
 		| {
 				declarations: Record<string, unknown>;
@@ -100,22 +100,14 @@ describe("useModalRecipe", () => {
 			const s = createInstance();
 			const recipe = useModalRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useModalRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -142,10 +134,7 @@ describe("useModalRecipe", () => {
 			const s = createInstance();
 			const recipe = useModalRecipe(s);
 
-			expect(Object.keys(recipe.variants!.fullscreen)).toEqual([
-				"true",
-				"false",
-			]);
+			expect(Object.keys(recipe.variants!.fullscreen)).toEqual(["true", "false"]);
 		});
 
 		it("should have correct fullscreen variant styles", () => {
@@ -307,9 +296,7 @@ describe("useModalRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});
 
@@ -376,9 +363,7 @@ describe("useModalRecipe", () => {
 			const s = createInstance();
 			useModalRecipe(s);
 
-			expect(
-				findSelector(s, ":root:has(.modal-overlay)")?.declarations,
-			).toEqual({
+			expect(findSelector(s, ":root:has(.modal-overlay)")?.declarations).toEqual({
 				overflow: "hidden",
 				scrollbarGutter: "stable",
 			});
@@ -406,9 +391,7 @@ describe("useModalRecipe", () => {
 				borderStyle: "@border-style.solid",
 				"&:forced-colors": { borderColor: "CanvasText" },
 			});
-			expect(recipe.variants!.fullscreen.true).not.toHaveProperty(
-				"borderWidth",
-			);
+			expect(recipe.variants!.fullscreen.true).not.toHaveProperty("borderWidth");
 		});
 
 		it("dialog/more-contrast draws the panel's border at full strength", () => {

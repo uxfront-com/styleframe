@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSelectChipRecipe } from "./useSelectChipRecipe";
 
@@ -58,23 +59,14 @@ describe("useSelectChipRecipe", () => {
 			const s = createInstance();
 			const recipe = useSelectChipRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have the badge-style variant axis (solid, outline, soft, subtle)", () => {
 			const s = createInstance();
 			const recipe = useSelectChipRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "soft", "subtle"]);
 		});
 
 		it("should have size variants", () => {
@@ -133,8 +125,7 @@ describe("useSelectChipRecipe", () => {
 
 			const removeSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".select-chip-remove",
+					child.type === "selector" && (child as { query: string }).query === ".select-chip-remove",
 			);
 
 			expect(removeSelector).toBeDefined();
@@ -149,9 +140,7 @@ describe("useSelectChipRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.variant)).toEqual(["soft"]);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.variant === "soft"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.variant === "soft")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});
 	});

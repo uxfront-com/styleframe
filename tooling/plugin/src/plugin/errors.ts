@@ -41,10 +41,7 @@ export class GlobalInstanceNotInitializedError extends StyleframePluginError {
  */
 export class CircularDependencyError extends StyleframePluginError {
 	constructor(filePath: string, chain: Array<string>) {
-		super(
-			`Circular dependency detected:\n` +
-				`  ${chain.join(" -> ")} -> ${filePath}`,
-		);
+		super(`Circular dependency detected:\n` + `  ${chain.join(" -> ")} -> ${filePath}`);
 		this.name = "CircularDependencyError";
 	}
 }

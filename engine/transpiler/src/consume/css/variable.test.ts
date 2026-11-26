@@ -1,11 +1,8 @@
 import type { Root, StyleframeOptions } from "@styleframe/core";
-import {
-	createRefFunction,
-	createRoot,
-	createVariableFunction,
-} from "@styleframe/core";
-import { createVariableConsumer } from "./variable";
+import { createRefFunction, createRoot, createVariableFunction } from "@styleframe/core";
+
 import { consume } from "./consume";
+import { createVariableConsumer } from "./variable";
 
 describe("createVariableConsumer", () => {
 	let root: Root;
@@ -130,11 +127,7 @@ describe("createVariableConsumer", () => {
 	});
 
 	it("should handle variable with array value", () => {
-		const arrayVar = variable("font-stack", [
-			"Helvetica",
-			"Arial",
-			"sans-serif",
-		]);
+		const arrayVar = variable("font-stack", ["Helvetica", "Arial", "sans-serif"]);
 		const result = consumeVariable(arrayVar, options);
 
 		expect(result).toBe("--font-stack: Helvetica,Arial,sans-serif;");

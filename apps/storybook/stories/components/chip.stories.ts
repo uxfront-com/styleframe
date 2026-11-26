@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import Chip from "../../src/components/components/chip/Chip.vue";
 import ChipIndicator from "../../src/components/components/chip/ChipIndicator.vue";
 import ChipGrid from "../../src/components/components/chip/preview/ChipGrid.vue";
-import ChipSizeGrid from "../../src/components/components/chip/preview/ChipSizeGrid.vue";
 import ChipPositionGrid from "../../src/components/components/chip/preview/ChipPositionGrid.vue";
+import ChipSizeGrid from "../../src/components/components/chip/preview/ChipSizeGrid.vue";
 
 const colors = [
 	"primary",
@@ -19,12 +19,7 @@ const colors = [
 ] as const;
 const variants = ["solid", "soft"] as const;
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
-const positions = [
-	"top-right",
-	"top-left",
-	"bottom-right",
-	"bottom-left",
-] as const;
+const positions = ["top-right", "top-left", "bottom-right", "bottom-left"] as const;
 
 const meta = {
 	title: "Theme/Recipes/Feedback/Chip",
@@ -125,8 +120,7 @@ export const Primary: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "primary" },
 };
@@ -137,8 +131,7 @@ export const Secondary: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "secondary" },
 };
@@ -149,8 +142,7 @@ export const Success: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "success" },
 };
@@ -161,8 +153,7 @@ export const Info: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "info" },
 };
@@ -173,8 +164,7 @@ export const Warning: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "warning" },
 };
@@ -185,8 +175,7 @@ export const Error: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "error" },
 };
@@ -197,8 +186,7 @@ export const Light: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "light" },
 };
@@ -209,8 +197,7 @@ export const Dark: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "dark" },
 };
@@ -221,8 +208,7 @@ export const Neutral: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :color="args.color" /></Chip>',
 	}),
 	args: { color: "neutral" },
 };
@@ -234,8 +220,7 @@ export const Solid: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :variant="args.variant" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :variant="args.variant" /></Chip>',
 	}),
 	args: { variant: "solid" },
 };
@@ -246,8 +231,7 @@ export const Soft: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :variant="args.variant" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :variant="args.variant" /></Chip>',
 	}),
 	args: { variant: "soft" },
 };
@@ -259,8 +243,7 @@ export const ExtraSmall: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
 	}),
 	args: { size: "xs" },
 };
@@ -271,8 +254,7 @@ export const Small: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
 	}),
 	args: { size: "sm" },
 };
@@ -283,8 +265,7 @@ export const Medium: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
 	}),
 	args: { size: "md" },
 };
@@ -295,8 +276,7 @@ export const Large: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
 	}),
 	args: { size: "lg" },
 };
@@ -307,8 +287,7 @@ export const ExtraLarge: Story = {
 		setup() {
 			return { args };
 		},
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :size="args.size" /></Chip>',
 	}),
 	args: { size: "xl" },
 };
@@ -317,15 +296,13 @@ export const ExtraLarge: Story = {
 export const Inset: Story = {
 	render: () => ({
 		components: { Chip, ChipIndicator },
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator :inset="true" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator :inset="true" /></Chip>',
 	}),
 };
 
 export const WithText: Story = {
 	render: () => ({
 		components: { Chip, ChipIndicator },
-		template:
-			'<Chip><div class="chip-target" /><ChipIndicator text="5" size="sm" /></Chip>',
+		template: '<Chip><div class="chip-target" /><ChipIndicator text="5" size="sm" /></Chip>',
 	}),
 };

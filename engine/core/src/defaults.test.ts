@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import { defaultUtilitySelectorFn, transformUtilityKey } from "./defaults";
 import type { Reference } from "./types";
 import { hashValue } from "./utils/hash";
@@ -110,9 +111,7 @@ describe("transformUtilityKey", () => {
 		});
 
 		it("should handle complex key transformations", () => {
-			const transform = transformUtilityKey((key) =>
-				key.replaceAll("-", "_").toLowerCase(),
-			);
+			const transform = transformUtilityKey((key) => key.replaceAll("-", "_").toLowerCase());
 			const result = transform("@Some-Variable-Name");
 
 			expect(result).toEqual({

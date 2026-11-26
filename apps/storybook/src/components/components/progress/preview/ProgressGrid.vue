@@ -20,10 +20,7 @@ const colors = [
 		<div v-for="color in colors" :key="color">
 			<div class="progress-label">{{ color }}</div>
 			<div class="progress-row">
-				<Progress
-					:color="color === 'light' || color === 'dark' ? color : undefined"
-					:value="65"
-				>
+				<Progress :color="color === 'light' || color === 'dark' ? color : undefined" :value="65">
 					<ProgressBar :color="color" :value="65" />
 				</Progress>
 			</div>

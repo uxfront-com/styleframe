@@ -1,6 +1,6 @@
-import type { Extractor, ParsedUtility, ScannerUtilitiesConfig } from "./types";
 import { extractClasses } from "./extractor";
 import { parseUtilityClass } from "./parser";
+import type { Extractor, ParsedUtility, ScannerUtilitiesConfig } from "./types";
 
 /**
  * Quick utility to scan content and get parsed utilities.
@@ -16,12 +16,7 @@ export function quickScan(
 	utilities?: ScannerUtilitiesConfig,
 ): Array<ParsedUtility> {
 	const parseFn = utilities?.parse ?? parseUtilityClass;
-	const classNames = extractClasses(
-		content,
-		filePath,
-		undefined,
-		utilities?.pattern,
-	);
+	const classNames = extractClasses(content, filePath, undefined, utilities?.pattern);
 	return classNames.map(parseFn).filter((p): p is ParsedUtility => p !== null);
 }
 
@@ -36,14 +31,7 @@ export function createContentScanner(
 ): (content: string, filePath?: string) => Array<ParsedUtility> {
 	const parseFn = utilities?.parse ?? parseUtilityClass;
 	return (content: string, filePath = "inline"): Array<ParsedUtility> => {
-		const classNames = extractClasses(
-			content,
-			filePath,
-			customExtractors,
-			utilities?.pattern,
-		);
-		return classNames
-			.map(parseFn)
-			.filter((p): p is ParsedUtility => p !== null);
+		const classNames = extractClasses(content, filePath, customExtractors, utilities?.pattern);
+		return classNames.map(parseFn).filter((p): p is ParsedUtility => p !== null);
 	};
 }

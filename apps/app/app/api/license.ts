@@ -16,16 +16,15 @@ export async function activateLicense(
 	data: ActivateLicenseRequest,
 ): Promise<ActivateLicenseResponse> {
 	try {
-		const { data: response, error } =
-			await supabase.functions.invoke<ActivateLicenseResponse>(
-				"activate-license",
-				{
-					body: {
-						label: data.label,
-						key: data.key,
-					},
+		const { data: response, error } = await supabase.functions.invoke<ActivateLicenseResponse>(
+			"activate-license",
+			{
+				body: {
+					label: data.label,
+					key: data.key,
 				},
-			);
+			},
+		);
 
 		if (error) {
 			return {
@@ -38,8 +37,7 @@ export async function activateLicense(
 	} catch (error) {
 		return {
 			success: false,
-			error:
-				error instanceof Error ? error.message : "An unexpected error occurred",
+			error: error instanceof Error ? error.message : "An unexpected error occurred",
 		};
 	}
 }

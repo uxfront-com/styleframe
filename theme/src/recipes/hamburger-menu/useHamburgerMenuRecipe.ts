@@ -192,8 +192,7 @@ export const useHamburgerMenuRecipe = createUseRecipe(
 			borderRadius: "inherit",
 			transitionProperty: "top, transform",
 			transitionDuration: "0.1s, 0.22s",
-			transitionTimingFunction:
-				"ease-in, cubic-bezier(0.55, 0.055, 0.675, 0.19)",
+			transitionTimingFunction: "ease-in, cubic-bezier(0.55, 0.055, 0.675, 0.19)",
 			transitionDelay: "0.25s, 0s",
 		});
 
@@ -206,8 +205,7 @@ export const useHamburgerMenuRecipe = createUseRecipe(
 			borderRadius: "inherit",
 			transitionProperty: "top, transform",
 			transitionDuration: "0.1s, 0.22s",
-			transitionTimingFunction:
-				"ease-in, cubic-bezier(0.55, 0.055, 0.675, 0.19)",
+			transitionTimingFunction: "ease-in, cubic-bezier(0.55, 0.055, 0.675, 0.19)",
 			transitionDelay: "0.25s, 0s",
 		});
 
@@ -283,44 +281,29 @@ export const useHamburgerMenuRecipe = createUseRecipe(
 
 		// arrow-left — bars stay at original offsets; translate 20% left and tilt
 		// inward so their inner ends meet at the left of the inner element.
-		selector(
-			".hamburger-menu.-arrow-left.-active .hamburger-menu-inner::before",
-			{
-				transform: "translate3d(-20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
-			},
-		);
-		selector(
-			".hamburger-menu.-arrow-left.-active .hamburger-menu-inner::after",
-			{
-				transform: "translate3d(-20%, 0, 0) rotate(45deg) scale(0.7, 1)",
-			},
-		);
+		selector(".hamburger-menu.-arrow-left.-active .hamburger-menu-inner::before", {
+			transform: "translate3d(-20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
+		});
+		selector(".hamburger-menu.-arrow-left.-active .hamburger-menu-inner::after", {
+			transform: "translate3d(-20%, 0, 0) rotate(45deg) scale(0.7, 1)",
+		});
 
 		// arrow-right — mirror of arrow-left.
-		selector(
-			".hamburger-menu.-arrow-right.-active .hamburger-menu-inner::before",
-			{
-				transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
-			},
-		);
-		selector(
-			".hamburger-menu.-arrow-right.-active .hamburger-menu-inner::after",
-			{
-				transform: "translate3d(20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
-			},
-		);
+		selector(".hamburger-menu.-arrow-right.-active .hamburger-menu-inner::before", {
+			transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
+		});
+		selector(".hamburger-menu.-arrow-right.-active .hamburger-menu-inner::after", {
+			transform: "translate3d(20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
+		});
 
 		// arrow-up — inner rotates -90° (CCW), bars use arrow-right pattern;
 		// in global coordinates this yields an arrow pointing up.
 		selector(".hamburger-menu.-arrow-up.-active .hamburger-menu-inner", {
 			transform: "rotate(-90deg)",
 		});
-		selector(
-			".hamburger-menu.-arrow-up.-active .hamburger-menu-inner::before",
-			{
-				transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
-			},
-		);
+		selector(".hamburger-menu.-arrow-up.-active .hamburger-menu-inner::before", {
+			transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
+		});
 		selector(".hamburger-menu.-arrow-up.-active .hamburger-menu-inner::after", {
 			transform: "translate3d(20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
 		});
@@ -330,18 +313,12 @@ export const useHamburgerMenuRecipe = createUseRecipe(
 		selector(".hamburger-menu.-arrow-down.-active .hamburger-menu-inner", {
 			transform: "rotate(90deg)",
 		});
-		selector(
-			".hamburger-menu.-arrow-down.-active .hamburger-menu-inner::before",
-			{
-				transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
-			},
-		);
-		selector(
-			".hamburger-menu.-arrow-down.-active .hamburger-menu-inner::after",
-			{
-				transform: "translate3d(20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
-			},
-		);
+		selector(".hamburger-menu.-arrow-down.-active .hamburger-menu-inner::before", {
+			transform: "translate3d(20%, 0, 0) rotate(45deg) scale(0.7, 1)",
+		});
+		selector(".hamburger-menu.-arrow-down.-active .hamburger-menu-inner::after", {
+			transform: "translate3d(20%, 0, 0) rotate(-45deg) scale(0.7, 1)",
+		});
 
 		// minus — ::before and ::after converge to the middle; all three bars
 		// overlap visually as a single horizontal bar.

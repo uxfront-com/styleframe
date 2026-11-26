@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { flattenNavigation } from "../app/utils/flattenNavigation";
 
 describe("flattenNavigation", () => {

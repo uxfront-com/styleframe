@@ -1,13 +1,11 @@
 import { styleframe } from "@styleframe/core";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
 	useHoverCapableModifier,
 } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusWithinModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+import { useFocusWithinModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import {
 	createFieldAddonRecipe,
 	createFieldRecipe,
@@ -78,8 +76,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	);
 }
 
@@ -186,11 +183,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 	}
 
 	// A ghost has no fill in either theme, `light` and `dark` included.
-	function ghost(
-		[fg, darkFg]: Array<string>,
-		plain: typeof light,
-		inDark: typeof light,
-	) {
+	function ghost([fg, darkFg]: Array<string>, plain: typeof light, inDark: typeof light) {
 		return {
 			background: "transparent",
 			borderColor: "transparent",
@@ -223,83 +216,47 @@ describe("fieldSurfaceCompoundVariants", () => {
 			"light",
 			"soft",
 			bordered(
-				[
-					"@color.gray-100",
-					"@color.text",
-					"@color.gray-100",
-					"@color.text-inverted",
-				],
+				["@color.gray-100", "@color.text", "@color.gray-100", "@color.text-inverted"],
 				light,
 				light,
 			),
 		],
-		[
-			"light",
-			"ghost",
-			ghost(["@color.text", "@color.text-inverted"], light, light),
-		],
+		["light", "ghost", ghost(["@color.text", "@color.text-inverted"], light, light)],
 		[
 			"dark",
 			"default",
-			bordered(
-				["@color.gray-900", "@color.white", "@color.gray-900", "@color.white"],
-				dark,
-				dark,
-			),
+			bordered(["@color.gray-900", "@color.white", "@color.gray-900", "@color.white"], dark, dark),
 		],
 		[
 			"dark",
 			"soft",
 			bordered(
-				[
-					"@color.gray-800",
-					"@color.gray-300",
-					"@color.gray-800",
-					"@color.gray-300",
-				],
+				["@color.gray-800", "@color.gray-300", "@color.gray-800", "@color.gray-300"],
 				dark,
 				dark,
 			),
 		],
-		[
-			"dark",
-			"ghost",
-			ghost(["@color.gray-300", "@color.gray-300"], dark, dark),
-		],
+		["dark", "ghost", ghost(["@color.gray-300", "@color.gray-300"], dark, dark)],
 		[
 			"neutral",
 			"default",
-			bordered(
-				["@color.white", "@color.text", "@color.gray-900", "@color.white"],
-				light,
-				dark,
-			),
+			bordered(["@color.white", "@color.text", "@color.gray-900", "@color.white"], light, dark),
 		],
 		[
 			"neutral",
 			"soft",
 			bordered(
-				[
-					"@color.gray-100",
-					"@color.text",
-					"@color.gray-800",
-					"@color.gray-300",
-				],
+				["@color.gray-100", "@color.text", "@color.gray-800", "@color.gray-300"],
 				light,
 				dark,
 			),
 		],
 		["neutral", "ghost", ghost(["@color.text", "@color.white"], light, dark)],
-	])(
-		"paints the %s %s surface with the 3:1 border tokens",
-		(color, variant, css) => {
-			const cv = compounds.find(
-				(v) => v.match.color === color && v.match.variant === variant,
-			);
+	])("paints the %s %s surface with the 3:1 border tokens", (color, variant, css) => {
+		const cv = compounds.find((v) => v.match.color === color && v.match.variant === variant);
 
-			expect(cv).toEqual({ match: { color, variant }, css });
-		},
-	);
+		expect(cv).toEqual({ match: { color, variant }, css });
+	});
 
 	it("paints a ghost invalid bottom border with the error color", () => {
 		const invalid = compounds.findIndex((v) => v.match.invalid === "true");
@@ -340,10 +297,7 @@ describe("createFieldAddonRecipe", () => {
 
 	it("uses the leading padding edge for a suffix", () => {
 		const s = createInstance();
-		const recipe = createFieldAddonRecipe(
-			"demo-suffix",
-			"paddingInlineStart",
-		)(s);
+		const recipe = createFieldAddonRecipe("demo-suffix", "paddingInlineStart")(s);
 
 		expect(recipe.variants!.size.md).toEqual({
 			fontSize: "@font-size.sm",
@@ -356,9 +310,7 @@ describe("createFieldAddonRecipe", () => {
 describe("useFieldSelector", () => {
 	function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 		return s.root.children.find(
-			(child) =>
-				child.type === "selector" &&
-				(child as { query: string }).query === query,
+			(child) => child.type === "selector" && (child as { query: string }).query === query,
 		) as
 			| {
 					type: "selector";

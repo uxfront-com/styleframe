@@ -7,10 +7,7 @@ import { splitPath } from "./path";
  * `undefined` if the path does not resolve to a token (or resolves to a
  * group / metadata field).
  */
-export function lookupToken(
-	doc: DTCGDocument,
-	path: string,
-): DTCGAnyToken | undefined {
+export function lookupToken(doc: DTCGDocument, path: string): DTCGAnyToken | undefined {
 	const segments = splitPath(path);
 	if (segments.length === 0) {
 		return undefined;
@@ -18,11 +15,7 @@ export function lookupToken(
 
 	let cursor: unknown = doc;
 	for (const segment of segments) {
-		if (
-			cursor === null ||
-			typeof cursor !== "object" ||
-			Array.isArray(cursor)
-		) {
+		if (cursor === null || typeof cursor !== "object" || Array.isArray(cursor)) {
 			return undefined;
 		}
 		cursor = (cursor as Record<string, unknown>)[segment];

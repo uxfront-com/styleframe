@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useInputPrefixRecipe } from "./useInputPrefixRecipe";
 
 function createInstance() {

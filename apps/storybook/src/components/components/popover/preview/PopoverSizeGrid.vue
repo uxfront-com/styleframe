@@ -34,13 +34,9 @@ const sizeTitles: Record<string, string> = {
 						>
 					</PopoverHeader>
 					<PopoverBody :size="size">
-						<PopoverDescription
-							>This is a {{ size }} {{ color }} popover.</PopoverDescription
-						>
+						<PopoverDescription>This is a {{ size }} {{ color }} popover.</PopoverDescription>
 					</PopoverBody>
-					<PopoverFooter :color="color" :size="size">
-						Footer content
-					</PopoverFooter>
+					<PopoverFooter :color="color" :size="size"> Footer content </PopoverFooter>
 				</Popover>
 			</div>
 		</div>

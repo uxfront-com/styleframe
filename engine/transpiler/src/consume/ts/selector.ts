@@ -1,4 +1,5 @@
 import type { Selector, StyleframeOptions } from "@styleframe/core";
+
 import type { ConsumeFunction } from "../../types";
 
 /**
@@ -7,10 +8,7 @@ import type { ConsumeFunction } from "../../types";
  * Exports the selector query string.
  */
 export function createSelectorConsumer(_consume: ConsumeFunction) {
-	return function consumeSelector(
-		instance: Selector,
-		_options: StyleframeOptions,
-	): string {
+	return function consumeSelector(instance: Selector, _options: StyleframeOptions): string {
 		// Only export selectors that have an explicit export name
 		if (!instance._exportName) {
 			return "";

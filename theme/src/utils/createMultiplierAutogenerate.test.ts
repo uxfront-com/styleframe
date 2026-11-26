@@ -1,8 +1,6 @@
 import { styleframe } from "@styleframe/core";
-import {
-	createMultiplierAutogenerate,
-	isNumericValue,
-} from "./createMultiplierAutogenerate";
+
+import { createMultiplierAutogenerate, isNumericValue } from "./createMultiplierAutogenerate";
 
 describe("isNumericValue", () => {
 	describe("should return true for", () => {
@@ -296,13 +294,7 @@ describe("createMultiplierAutogenerate", () => {
 		const result = autogenerate("@2");
 		expect(result["2"]).toEqual({
 			type: "css",
-			value: [
-				"calc(",
-				{ type: "reference", name: "spacing", fallback: "1rem" },
-				" * ",
-				"2",
-				")",
-			],
+			value: ["calc(", { type: "reference", name: "spacing", fallback: "1rem" }, " * ", "2", ")"],
 		});
 	});
 

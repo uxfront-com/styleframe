@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import { oklch, rgb, wcagContrast } from "culori";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useDesignTokensPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
@@ -62,11 +63,7 @@ describe("spinner contrast", () => {
 			throw new Error(`Unknown token ${token}`);
 		}
 		const value = variable.value as unknown;
-		if (
-			typeof value === "object" &&
-			value !== null &&
-			(value as Slot).type === "reference"
-		) {
+		if (typeof value === "object" && value !== null && (value as Slot).type === "reference") {
 			return resolve(`@${(value as Slot).name}`, theme);
 		}
 		return String(value);
@@ -151,9 +148,7 @@ describe("spinner contrast", () => {
 		"spinner/contrast gives the label of $name at least 4.5:1 against what it sits on",
 		({ color, surfaces }) => {
 			for (const surface of surfaces) {
-				expect(wcagContrast(color, surface), surface).toBeGreaterThanOrEqual(
-					4.5,
-				);
+				expect(wcagContrast(color, surface), surface).toBeGreaterThanOrEqual(4.5);
 			}
 		},
 	);

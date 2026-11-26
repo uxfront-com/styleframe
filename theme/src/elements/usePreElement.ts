@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -38,10 +39,7 @@ export function usePreDesignTokens(
 		result.preFontSize = ctx.variable("pre.font-size", config.fontSize);
 	}
 	if (config.marginBottom !== undefined) {
-		result.preMarginBottom = ctx.variable(
-			"pre.margin-bottom",
-			config.marginBottom,
-		);
+		result.preMarginBottom = ctx.variable("pre.margin-bottom", config.marginBottom);
 	}
 
 	return result;

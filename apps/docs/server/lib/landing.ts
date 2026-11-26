@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+
 import type { H3Event } from "h3";
 
 // The fields read below, as in server/lib/docs.ts.
@@ -27,12 +28,7 @@ export async function readLandingPage(event: H3Event, path: string) {
 		return;
 	}
 
-	const file = join(
-		process.cwd(),
-		"content",
-		"landing",
-		`${page.stem}.${page.extension}`,
-	);
+	const file = join(process.cwd(), "content", "landing", `${page.stem}.${page.extension}`);
 	if (!existsSync(file)) {
 		return;
 	}

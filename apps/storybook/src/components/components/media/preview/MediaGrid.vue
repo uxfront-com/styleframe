@@ -24,10 +24,7 @@ const aligns = ["start", "center", "end"] as const;
 						<div class="media-avatar _width:[40px] _height:[40px]">MA</div>
 					</MediaFigure>
 					<MediaBody>
-						<MediaTitle
-							>{{ align.charAt(0).toUpperCase() + align.slice(1) }}
-							aligned</MediaTitle
-						>
+						<MediaTitle>{{ align.charAt(0).toUpperCase() + align.slice(1) }} aligned</MediaTitle>
 						<p class="_margin:0">
 							A short body paragraph that follows the title in the media body.
 						</p>

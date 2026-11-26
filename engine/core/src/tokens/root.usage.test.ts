@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import type { ModifierFactory, Root } from "../types";
 import { createAtRuleFunction, createMediaFunction } from "./atRule";
 import { createCssFunction } from "./css";
@@ -10,10 +11,8 @@ import { createThemeFunction } from "./theme";
 import { createUtilityFunction } from "./utility";
 import { createVariableFunction } from "./variable";
 
-const trackedVariables = (root: Root) =>
-	Array.from(root._usage.variables).sort();
-const trackedUtilities = (root: Root) =>
-	Array.from(root._usage.utilities).sort();
+const trackedVariables = (root: Root) => Array.from(root._usage.variables).sort();
+const trackedUtilities = (root: Root) => Array.from(root._usage.utilities).sort();
 
 describe("root._usage.variables collection", () => {
 	let root: Root;
@@ -67,11 +66,7 @@ describe("root._usage.variables collection", () => {
 			variable("color.secondary", "#999");
 			ref("border", "1px solid @color.primary @color.secondary");
 
-			expect(trackedVariables(root)).toEqual([
-				"border",
-				"color.primary",
-				"color.secondary",
-			]);
+			expect(trackedVariables(root)).toEqual(["border", "color.primary", "color.secondary"]);
 		});
 	});
 
@@ -294,10 +289,7 @@ describe("root._usage.variables collection", () => {
 				},
 			});
 
-			expect(trackedVariables(root)).toEqual([
-				"color.primary",
-				"color.secondary",
-			]);
+			expect(trackedVariables(root)).toEqual(["color.primary", "color.secondary"]);
 		});
 
 		it("tracks @-strings inside variant modifier blocks", () => {
@@ -322,10 +314,7 @@ describe("root._usage.variables collection", () => {
 				},
 			});
 
-			expect(trackedVariables(root)).toEqual([
-				"color.primary",
-				"color.primary-shade-50",
-			]);
+			expect(trackedVariables(root)).toEqual(["color.primary", "color.primary-shade-50"]);
 		});
 
 		it("tracks @-strings inside compoundVariants.css", () => {
@@ -408,9 +397,9 @@ describe("root._usage.utilities collection", () => {
 			});
 
 			expect(trackedUtilities(root)).toEqual([]);
-			expect(
-				Array.from(root._usage.recipeUtilities.get("button") ?? []),
-			).toEqual(["_padding:[1rem]"]);
+			expect(Array.from(root._usage.recipeUtilities.get("button") ?? [])).toEqual([
+				"_padding:[1rem]",
+			]);
 		});
 
 		it("tracks utility class names from recipe variant declarations", () => {
@@ -427,9 +416,10 @@ describe("root._usage.utilities collection", () => {
 				},
 			});
 
-			expect(
-				Array.from(root._usage.recipeUtilities.get("button") ?? []).sort(),
-			).toEqual(["_background:color.primary", "_background:color.secondary"]);
+			expect(Array.from(root._usage.recipeUtilities.get("button") ?? []).sort()).toEqual([
+				"_background:color.primary",
+				"_background:color.secondary",
+			]);
 		});
 
 		it("tracks only the modifier variant, not the side-effect base", () => {
@@ -453,9 +443,9 @@ describe("root._usage.utilities collection", () => {
 				},
 			});
 
-			expect(
-				Array.from(root._usage.recipeUtilities.get("button") ?? []),
-			).toEqual(["_hover:background:color.primary"]);
+			expect(Array.from(root._usage.recipeUtilities.get("button") ?? [])).toEqual([
+				"_hover:background:color.primary",
+			]);
 		});
 
 		it("tracks base and modifier entries independently", () => {
@@ -481,9 +471,7 @@ describe("root._usage.utilities collection", () => {
 				},
 			});
 
-			expect(
-				Array.from(root._usage.recipeUtilities.get("button") ?? []).sort(),
-			).toEqual([
+			expect(Array.from(root._usage.recipeUtilities.get("button") ?? []).sort()).toEqual([
 				"_background:color.primary",
 				"_hover:background:color.primary-shade-50",
 			]);
@@ -505,9 +493,9 @@ describe("root._usage.utilities collection", () => {
 				],
 			});
 
-			expect(
-				Array.from(root._usage.recipeUtilities.get("button") ?? []),
-			).toEqual(["_background:color.primary-shade-50"]);
+			expect(Array.from(root._usage.recipeUtilities.get("button") ?? [])).toEqual([
+				"_background:color.primary-shade-50",
+			]);
 		});
 
 		it("tracks multiple recipes independently", () => {
@@ -544,10 +532,7 @@ describe("root._usage.utilities collection", () => {
 
 			registerRecipeUtilities(root);
 
-			expect(trackedUtilities(root)).toEqual([
-				"_background:[blue]",
-				"_padding:[1rem]",
-			]);
+			expect(trackedUtilities(root)).toEqual(["_background:[blue]", "_padding:[1rem]"]);
 		});
 
 		it("promotes only named recipes when called with a set", () => {

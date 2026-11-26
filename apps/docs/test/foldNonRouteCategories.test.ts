@@ -1,5 +1,6 @@
 import type { ContentNavigationItem } from "@nuxt/content";
 import { describe, expect, it } from "vitest";
+
 import { foldNonRouteCategories } from "../app/utils/foldNonRouteCategories";
 
 const page = (stem: string, path: string): ContentNavigationItem => ({
@@ -17,10 +18,7 @@ describe("foldNonRouteCategories", () => {
 					path: "/docs/theme/components",
 					stem: "docs/3.theme/05.components/00.index",
 					children: [
-						page(
-							"docs/3.theme/05.components/00.index",
-							"/docs/theme/components",
-						),
+						page("docs/3.theme/05.components/00.index", "/docs/theme/components"),
 						page(
 							"docs/3.theme/05.components/03.navigation/00.breadcrumb",
 							"/docs/theme/components/breadcrumb",
@@ -81,9 +79,7 @@ describe("foldNonRouteCategories", () => {
 			{
 				title: "API Reference",
 				path: "/docs/api",
-				children: [
-					page("docs/2.api/02.api/02.variables", "/docs/api/variables"),
-				],
+				children: [page("docs/2.api/02.api/02.variables", "/docs/api/variables")],
 			},
 		];
 		expect(foldNonRouteCategories(tree, {})).toEqual(tree);

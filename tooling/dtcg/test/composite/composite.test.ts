@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-	border,
-	gradient,
-	shadow,
-	strokeStyle,
-	transition,
-	typography,
-} from "../../src/composite";
+
+import { border, gradient, shadow, strokeStyle, transition, typography } from "../../src/composite";
 
 describe("composite.border", () => {
 	it("accepts the canonical object form", () => {

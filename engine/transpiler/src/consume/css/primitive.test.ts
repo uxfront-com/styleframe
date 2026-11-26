@@ -1,6 +1,7 @@
 import type { StyleframeOptions } from "@styleframe/core";
-import { createPrimitiveConsumer } from "./primitive";
+
 import { consume } from "./consume";
+import { createPrimitiveConsumer } from "./primitive";
 
 describe("createPrimitiveConsumer", () => {
 	const consumePrimitive = createPrimitiveConsumer(consume);

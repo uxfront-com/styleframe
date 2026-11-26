@@ -1,16 +1,11 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useChatMessageActionsRecipe } from "./index";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"flexDirection",
-		"justifyContent",
-		"gap",
-		"marginTop",
-	]) {
+	for (const name of ["display", "flexDirection", "justifyContent", "gap", "marginTop"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	useDarkModifier(s);
@@ -43,11 +38,7 @@ describe("useChatMessageActionsRecipe", () => {
 			const s = createInstance();
 			const recipe = useChatMessageActionsRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {

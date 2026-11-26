@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-	extractUtilityClasses,
-	generateUtilityClassName,
-	parseUtilityClass,
-} from "./parser";
+
+import { extractUtilityClasses, generateUtilityClassName, parseUtilityClass } from "./parser";
 
 describe("parseUtilityClass", () => {
 	describe("basic parsing", () => {
@@ -191,8 +188,7 @@ describe("extractUtilityClasses", () => {
 	});
 
 	it("should deduplicate classes", () => {
-		const content =
-			'<div class="_margin:sm _margin:sm _margin:sm">content</div>';
+		const content = '<div class="_margin:sm _margin:sm _margin:sm">content</div>';
 		const result = extractUtilityClasses(content);
 
 		expect(result).toHaveLength(1);
@@ -207,8 +203,7 @@ describe("extractUtilityClasses", () => {
 	});
 
 	it("should extract from mixed content", () => {
-		const content =
-			'<div class="btn _margin:sm primary _padding:lg">content</div>';
+		const content = '<div class="btn _margin:sm primary _padding:lg">content</div>';
 		const result = extractUtilityClasses(content);
 
 		expect(result).toContain("_margin:sm");
@@ -256,10 +251,7 @@ describe("generateUtilityClassName", () => {
 	});
 
 	it("should generate utility class name with multiple modifiers", () => {
-		const result = generateUtilityClassName("background", "primary", [
-			"dark",
-			"hover",
-		]);
+		const result = generateUtilityClassName("background", "primary", ["dark", "hover"]);
 
 		expect(result).toBe("_dark:hover:background:primary");
 	});

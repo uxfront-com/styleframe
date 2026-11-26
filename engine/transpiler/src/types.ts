@@ -1,8 +1,4 @@
-import type {
-	Diagnostic,
-	ShorteningMap,
-	StyleframeOptions,
-} from "@styleframe/core";
+import type { Diagnostic, ShorteningMap, StyleframeOptions } from "@styleframe/core";
 
 export type OutputFile = {
 	name: string;

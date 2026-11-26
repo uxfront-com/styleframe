@@ -4,41 +4,41 @@
 	"description": "TypeScript configuration for styleframe projects.",
 	"keywords": [
 		"styleframe",
-		"typescript",
-		"tsconfig"
-	],
-	"author": "Alex Grozav <alex@styleframe.dev>",
-	"type": "module",
-	"main": "tsconfig.json",
-	"exports": {
-		".": "./tsconfig.json"
-	},
-	"files": [
-		"tsconfig.json",
-		"LICENSE"
+		"tsconfig",
+		"typescript"
 	],
 	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues",
+		"email": "support@styleframe.dev"
+	},
+	"license": "MIT",
+	"author": "Alex Grozav <alex@styleframe.dev>",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/uxfront-com/styleframe.git",
 		"directory": "config/typescript"
 	},
-	"bugs": {
-		"email": "support@styleframe.dev",
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	"files": [
+		"tsconfig.json",
+		"LICENSE"
+	],
+	"type": "module",
+	"main": "tsconfig.json",
+	"exports": {
+		".": "./tsconfig.json"
 	},
 	"dependencies": {
 		"@uxfront/typescript-config": "catalog:"
 	},
-	"peerDependencies": {
-		"typescript": "catalog:"
-	},
 	"devDependencies": {
 		"typescript": "catalog:"
 	},
-	"packageManager": "pnpm@10.7.1+sha512.2d92c86b7928dc8284f53494fb4201f983da65f0fb4f0d40baafa5cf628fa31dae3e5968f12466f17df7e97310e30f343a648baea1b9b350685dafafffdf5808",
+	"peerDependencies": {
+		"typescript": "catalog:"
+	},
 	"engines": {
 		"node": ">=7.6.0"
 	},
-	"license": "MIT"
+	"packageManager": "pnpm@10.7.1+sha512.2d92c86b7928dc8284f53494fb4201f983da65f0fb4f0d40baafa5cf628fa31dae3e5968f12466f17df7e97310e30f343a648baea1b9b350685dafafffdf5808"
 }

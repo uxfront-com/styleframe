@@ -1,18 +1,18 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+
 import { runCommand } from "citty";
 import consola from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import inspectCommand from "./inspect";
 
 const fixtureDir = path.join(import.meta.dirname, "__fixtures__", "inspect");
 const fixture = path.join(fixtureDir, "styleframe.config.ts");
 
 const SNAPSHOT = {
-	variables: [
-		{ name: "color.brand", property: "--color--brand", value: "#6366f1" },
-	],
+	variables: [{ name: "color.brand", property: "--color--brand", value: "#6366f1" }],
 	themes: [
 		{
 			name: "dark",
@@ -117,9 +117,7 @@ describe("inspect", () => {
 
 	it("prints one section as a readable list", async () => {
 		expect(await run(fixture, "recipes")).toBeUndefined();
-		expect(stdout).toBe(
-			"recipes (1)\n  button\n    size: sm, md (default: md)\n",
-		);
+		expect(stdout).toBe("recipes (1)\n  button\n    size: sm, md (default: md)\n");
 	});
 
 	it("reads a lone section name as the section, with the default entry", async () => {

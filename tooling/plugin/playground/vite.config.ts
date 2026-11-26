@@ -1,7 +1,9 @@
 import path from "node:path";
-import { defineConfig } from "vite";
+
 import vue from "@vitejs/plugin-vue";
+import { defineConfig } from "vite";
 import Inspect from "vite-plugin-inspect";
+
 import Styleframe from "../src/vite";
 
 export default defineConfig({
@@ -19,10 +21,7 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
-			"@styleframe/theme": path.resolve(
-				__dirname,
-				"../../../theme/src/index.ts",
-			),
+			"@styleframe/theme": path.resolve(__dirname, "../../../theme/src/index.ts"),
 			"@storybook-components": path.resolve(
 				__dirname,
 				"../../../apps/storybook/src/components/components",

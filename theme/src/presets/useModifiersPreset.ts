@@ -81,23 +81,14 @@ export type ModifierInstances = Partial<
  * @param config - Configuration for which modifier categories to register
  * @returns A flat object containing all registered modifier instances
  */
-export function useModifiersPreset(
-	s: Styleframe,
-	config: ModifiersConfig = {},
-): ModifierInstances {
+export function useModifiersPreset(s: Styleframe, config: ModifiersConfig = {}): ModifierInstances {
 	return {
 		...(config.pseudoStates !== false ? usePseudoStateModifiers(s) : undefined),
 		...(config.formStates !== false ? useFormStateModifiers(s) : undefined),
 		...(config.structural !== false ? useStructuralModifiers(s) : undefined),
-		...(config.pseudoElements !== false
-			? usePseudoElementModifiers(s)
-			: undefined),
-		...(config.mediaPreferences !== false
-			? useMediaPreferenceModifiers(s)
-			: undefined),
-		...(config.containerQueries !== false
-			? useContainerQueryModifiers(s)
-			: undefined),
+		...(config.pseudoElements !== false ? usePseudoElementModifiers(s) : undefined),
+		...(config.mediaPreferences !== false ? useMediaPreferenceModifiers(s) : undefined),
+		...(config.containerQueries !== false ? useContainerQueryModifiers(s) : undefined),
 		...(config.responsive !== false ? useResponsiveModifiers(s) : undefined),
 		...(config.ariaStates !== false ? useAriaStateModifiers(s) : undefined),
 		...(config.directional !== false ? useDirectionalModifiers(s) : undefined),

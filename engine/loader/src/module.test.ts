@@ -1,15 +1,12 @@
-import { styleframe } from "@styleframe/core";
-import type { Jiti } from "jiti";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { styleframe } from "@styleframe/core";
+import type { Jiti } from "jiti";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
-import {
-	createLoader,
-	loadExtensionModule,
-	loadModule,
-	trackExports,
-} from "./module";
+
+import { createLoader, loadExtensionModule, loadModule, trackExports } from "./module";
 
 const packageDir = fileURLToPath(new URL(".", import.meta.url));
 
@@ -107,9 +104,9 @@ describe("loadModule", () => {
 			import: async () => ({ value: 1 }),
 		} as unknown as Jiti;
 
-		await expect(
-			loadModule(path.join(fixtureDir, "no-default.ts"), { jiti }),
-		).rejects.toThrow(/Missing default export/);
+		await expect(loadModule(path.join(fixtureDir, "no-default.ts"), { jiti })).rejects.toThrow(
+			/Missing default export/,
+		);
 	});
 
 	test("throws when the default export is not a Styleframe instance", async () => {
@@ -118,9 +115,7 @@ describe("loadModule", () => {
 			`export default { not: "styleframe" };`,
 		);
 
-		await expect(loadModule(filePath)).rejects.toThrow(
-			/Invalid default export/,
-		);
+		await expect(loadModule(filePath)).rejects.toThrow(/Invalid default export/);
 	});
 
 	test("skips validation when validateInstance is false", async () => {

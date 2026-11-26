@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { useFontSizeDesignTokens } from "./useFontSizeDesignTokens";
 
 describe("useFontSizeDesignTokens", () => {
@@ -42,13 +43,12 @@ describe("useFontSizeDesignTokens", () => {
 
 	it("should create multiple font size variables", () => {
 		const s = styleframe();
-		const { fontSize, fontSizeSm, fontSizeMd, fontSizeLg } =
-			useFontSizeDesignTokens(s, {
-				default: "1rem",
-				sm: "0.875rem",
-				md: "1rem",
-				lg: "1.25rem",
-			});
+		const { fontSize, fontSizeSm, fontSizeMd, fontSizeLg } = useFontSizeDesignTokens(s, {
+			default: "1rem",
+			sm: "0.875rem",
+			md: "1rem",
+			lg: "1.25rem",
+		});
 
 		expect(fontSize).toEqual({
 			type: "variable",
@@ -291,9 +291,7 @@ describe("useFontSizeDesignTokens", () => {
 			});
 
 			expect(fontSizeMd.name).toBe("font-size.md");
-			expect(fontSizeMd.value).toEqual(
-				expect.objectContaining({ type: "css" }),
-			);
+			expect(fontSizeMd.value).toEqual(expect.objectContaining({ type: "css" }));
 
 			const css = consumeCSS(fontSizeMd, s.options);
 			expect(css).toEqual(
@@ -324,26 +322,19 @@ describe("useFontSizeDesignTokens", () => {
 				md: { min: 16, max: 18 },
 			});
 
-			expect(consumeCSS(objectMd, objectS.options)).toBe(
-				consumeCSS(tupleMd, tupleS.options),
-			);
+			expect(consumeCSS(objectMd, objectS.options)).toBe(consumeCSS(tupleMd, tupleS.options));
 		});
 
 		it("should mix fluid ranges and fixed values in the same call", () => {
 			const s = styleframe();
-			const { fontSize, fontSizeMd, fontSizeSmall } = useFontSizeDesignTokens(
-				s,
-				{
-					default: "@font-size.md",
-					md: [16, 18],
-					small: "0.8rem",
-				},
-			);
+			const { fontSize, fontSizeMd, fontSizeSmall } = useFontSizeDesignTokens(s, {
+				default: "@font-size.md",
+				md: [16, 18],
+				small: "0.8rem",
+			});
 
 			// Fluid: range → calc()
-			expect(fontSizeMd.value).toEqual(
-				expect.objectContaining({ type: "css" }),
-			);
+			expect(fontSizeMd.value).toEqual(expect.objectContaining({ type: "css" }));
 			// Fixed: pass-through string
 			expect(fontSizeSmall.value).toBe("0.8rem");
 			// Reference: @-prefixed string short-circuits to a Reference token
@@ -379,9 +370,7 @@ describe("useFontSizeDesignTokens", () => {
 				lg: [s.ref(minMultiplier), s.ref(maxMultiplier)],
 			});
 
-			expect(fontSizeLg.value).toEqual(
-				expect.objectContaining({ type: "css" }),
-			);
+			expect(fontSizeLg.value).toEqual(expect.objectContaining({ type: "css" }));
 		});
 
 		it("should accept CSS expressions inside tuples", () => {
@@ -456,12 +445,8 @@ describe("useFontSizeDesignTokens", () => {
 				md: [16, 18],
 			});
 
-			expect(s.root.variables.some((v) => v.name === "font-size.min")).toBe(
-				false,
-			);
-			expect(s.root.variables.some((v) => v.name === "font-size.max")).toBe(
-				false,
-			);
+			expect(s.root.variables.some((v) => v.name === "font-size.min")).toBe(false);
+			expect(s.root.variables.some((v) => v.name === "font-size.max")).toBe(false);
 		});
 	});
 

@@ -24,28 +24,22 @@ export const useDivideYUtility = createUseUtility("divide-y", ({ value }) => ({
 /**
  * Create divide-x-reverse utility classes.
  */
-export const useDivideXReverseUtility = createUseUtility(
-	"divide-x-reverse",
-	({ value }) => ({
-		"& > * + *": {
-			borderRightWidth: value,
-			borderLeftWidth: 0,
-		},
-	}),
-);
+export const useDivideXReverseUtility = createUseUtility("divide-x-reverse", ({ value }) => ({
+	"& > * + *": {
+		borderRightWidth: value,
+		borderLeftWidth: 0,
+	},
+}));
 
 /**
  * Create divide-y-reverse utility classes.
  */
-export const useDivideYReverseUtility = createUseUtility(
-	"divide-y-reverse",
-	({ value }) => ({
-		"& > * + *": {
-			borderBottomWidth: value,
-			borderTopWidth: 0,
-		},
-	}),
-);
+export const useDivideYReverseUtility = createUseUtility("divide-y-reverse", ({ value }) => ({
+	"& > * + *": {
+		borderBottomWidth: value,
+		borderTopWidth: 0,
+	},
+}));
 
 /**
  * Create divide-color utility classes.

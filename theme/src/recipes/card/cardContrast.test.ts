@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useCardRecipe } from "./useCardRecipe";
 
@@ -34,9 +31,7 @@ describe("card contrast", () => {
 			return token;
 		}
 		const name = token.slice(1);
-		const themed = name.startsWith("color.")
-			? theme[name.slice("color.".length)]
-			: undefined;
+		const themed = name.startsWith("color.") ? theme[name.slice("color.".length)] : undefined;
 		if (themed !== undefined) {
 			return resolve(themed, theme);
 		}
@@ -63,31 +58,22 @@ describe("card contrast", () => {
 		expect(cases).toHaveLength(18);
 	});
 
-	it.each(cases)(
-		"card/contrast gives $name text of at least 4.5:1",
-		({ declarations, values }) => {
-			const text = resolve(declarations.color, values);
-			const background = resolve(declarations.background, values);
-			expect(
-				wcagContrast(text, background),
-				`${declarations.color} on ${declarations.background}`,
-			).toBeGreaterThanOrEqual(4.5);
-		},
-	);
+	it.each(cases)("card/contrast gives $name text of at least 4.5:1", ({ declarations, values }) => {
+		const text = resolve(declarations.color, values);
+		const background = resolve(declarations.background, values);
+		expect(
+			wcagContrast(text, background),
+			`${declarations.color} on ${declarations.background}`,
+		).toBeGreaterThanOrEqual(4.5);
+	});
 
 	it.each([
 		{ theme: "light", values: colorValues },
 		{ theme: "dark", values: darkModeColorValues },
-	])(
-		"card/contrast gives the focus ring at least 3:1 against the $theme page",
-		({ values }) => {
-			const ring = resolve("@color.focus", values);
-			for (const page of [values.background, values.surface]) {
-				expect(
-					wcagContrast(ring, page),
-					`${ring} on ${page}`,
-				).toBeGreaterThanOrEqual(3);
-			}
-		},
-	);
+	])("card/contrast gives the focus ring at least 3:1 against the $theme page", ({ values }) => {
+		const ring = resolve("@color.focus", values);
+		for (const page of [values.background, values.surface]) {
+			expect(wcagContrast(ring, page), `${ring} on ${page}`).toBeGreaterThanOrEqual(3);
+		}
+	});
 });

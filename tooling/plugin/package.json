@@ -1,20 +1,47 @@
 {
 	"name": "@styleframe/plugin",
-	"type": "module",
 	"version": "3.5.0",
 	"description": "Unplugin for Styleframe. Use it with Vite, Webpack, Astro, Nuxt, Rollup, Rspack, and more.",
 	"keywords": [
-		"styleframe",
-		"unplugin",
 		"astro",
 		"nuxt",
-		"vite",
-		"webpack",
 		"rollup",
 		"rspack",
-		"transform"
+		"styleframe",
+		"transform",
+		"unplugin",
+		"vite",
+		"webpack"
 	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
 	"license": "MIT",
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "tooling/plugin"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
+	],
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"typesVersions": {
+		"*": {
+			"*": [
+				"./dist/*",
+				"./*"
+			]
+		}
+	},
 	"exports": {
 		".": "./dist/index.js",
 		"./astro": "./dist/astro.js",
@@ -29,23 +56,6 @@
 		"./webpack": "./dist/webpack.js",
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"typesVersions": {
-		"*": {
-			"*": [
-				"./dist/*",
-				"./*"
-			]
-		}
-	},
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown -w",
@@ -55,6 +65,34 @@
 		"playground:start": "cd playground && pnpm run start",
 		"playground:dev": "cd playground && pnpm run dev",
 		"test": "vitest run"
+	},
+	"dependencies": {
+		"@styleframe/license": "catalog:",
+		"@styleframe/loader": "workspace:^",
+		"@styleframe/scanner": "workspace:^",
+		"@styleframe/transpiler": "workspace:^",
+		"consola": "catalog:",
+		"importree": "catalog:",
+		"jiti": "catalog:",
+		"tinyglobby": "catalog:",
+		"unplugin": "^3.0.0"
+	},
+	"devDependencies": {
+		"@farmfe/core": "^1.7.11",
+		"@nuxt/kit": "catalog:nuxt",
+		"@nuxt/schema": "catalog:nuxt",
+		"@styleframe/config-typescript": "workspace:^",
+		"@styleframe/core": "workspace:^",
+		"@types/node": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
+		"nodemon": "^3.1.14",
+		"rollup": "^4.62.0",
+		"tsdown": "catalog:",
+		"tsx": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vitest": "catalog:",
+		"webpack": "^5.107.2"
 	},
 	"peerDependencies": {
 		"@farmfe/core": ">=1",
@@ -87,43 +125,5 @@
 		"webpack": {
 			"optional": true
 		}
-	},
-	"dependencies": {
-		"@styleframe/license": "catalog:",
-		"@styleframe/loader": "workspace:^",
-		"@styleframe/scanner": "workspace:^",
-		"@styleframe/transpiler": "workspace:^",
-		"consola": "catalog:",
-		"importree": "catalog:",
-		"jiti": "catalog:",
-		"tinyglobby": "catalog:",
-		"unplugin": "^3.0.0"
-	},
-	"devDependencies": {
-		"@farmfe/core": "^1.7.11",
-		"@nuxt/kit": "catalog:nuxt",
-		"@nuxt/schema": "catalog:nuxt",
-		"@styleframe/config-typescript": "workspace:^",
-		"@styleframe/core": "workspace:^",
-		"@types/node": "catalog:",
-		"@vitest/coverage-v8": "catalog:",
-		"nodemon": "^3.1.14",
-		"rollup": "^4.62.0",
-		"tsdown": "catalog:",
-		"tsx": "catalog:",
-		"typescript": "catalog:",
-		"vite": "catalog:",
-		"vitest": "catalog:",
-		"webpack": "^5.107.2"
-	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "tooling/plugin"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	}
 }

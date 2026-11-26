@@ -39,11 +39,7 @@ const emit = defineEmits<{
 			@click="emit('update:modelValue', tab.id)"
 			@keydown.enter="emit('update:modelValue', tab.id)"
 		>
-			<span
-				v-if="dirty?.[tab.id]"
-				:class="pgFileTabDot()"
-				aria-label="Edited"
-			/>
+			<span v-if="dirty?.[tab.id]" :class="pgFileTabDot()" aria-label="Edited" />
 			<span>{{ tab.label }}</span>
 			<button
 				type="button"

@@ -10,12 +10,9 @@ import { createUseUtility } from "../../utils";
  * `anchor()` expressions, `@position-try`, `position-visibility` — stay on the
  * raw `atRule` hatch.
  */
-export const useAnchorNameUtility = createUseUtility(
-	"anchor-name",
-	({ value }) => ({
-		anchorName: value,
-	}),
-);
+export const useAnchorNameUtility = createUseUtility("anchor-name", ({ value }) => ({
+	anchorName: value,
+}));
 
 /**
  * Create position-anchor utility classes.
@@ -25,12 +22,9 @@ export const useAnchorNameUtility = createUseUtility(
  * name. Anchor names are project-defined, so this utility ships without
  * defaults.
  */
-export const usePositionAnchorUtility = createUseUtility(
-	"position-anchor",
-	({ value }) => ({
-		positionAnchor: value,
-	}),
-);
+export const usePositionAnchorUtility = createUseUtility("position-anchor", ({ value }) => ({
+	positionAnchor: value,
+}));
 
 /**
  * Create position-area utility classes.
@@ -40,12 +34,9 @@ export const usePositionAnchorUtility = createUseUtility(
  * grid. Area values are project-defined, so this utility ships without
  * defaults.
  */
-export const usePositionAreaUtility = createUseUtility(
-	"position-area",
-	({ value }) => ({
-		positionArea: value,
-	}),
-);
+export const usePositionAreaUtility = createUseUtility("position-area", ({ value }) => ({
+	positionArea: value,
+}));
 
 /**
  * Create position-try-fallbacks utility classes.

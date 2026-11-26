@@ -1,4 +1,5 @@
 import type { DeclarationsBlock, StyleframeOptions } from "@styleframe/core";
+
 import { genDeclaration } from "../../generator";
 import type { ConsumeFunction } from "../../types";
 

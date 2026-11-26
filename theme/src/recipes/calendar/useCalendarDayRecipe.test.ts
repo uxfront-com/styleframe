@@ -1,9 +1,7 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useHoverModifier,
-	useFocusVisibleModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+import { useHoverModifier, useFocusVisibleModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useCalendarDayRecipe } from "./index";
 
 function createInstance() {
@@ -66,15 +64,9 @@ describe("useCalendarDayRecipe", () => {
 		const recipe = useCalendarDayRecipe(s);
 
 		expect(recipe.base?.aspectRatio).toBe("1 / 1");
-		expect(recipe.base?.minWidth).toBe(
-			"var(--calendar-cell-size, calc(var(--spacing) * 2.25))",
-		);
-		expect(recipe.base?.minHeight).toBe(
-			"var(--calendar-cell-size, calc(var(--spacing) * 2.25))",
-		);
-		expect(recipe.base?.fontSize).toBe(
-			"var(--calendar-cell-font-size, 0.875rem)",
-		);
+		expect(recipe.base?.minWidth).toBe("var(--calendar-cell-size, calc(var(--spacing) * 2.25))");
+		expect(recipe.base?.minHeight).toBe("var(--calendar-cell-size, calc(var(--spacing) * 2.25))");
+		expect(recipe.base?.fontSize).toBe("var(--calendar-cell-font-size, 0.875rem)");
 	});
 
 	it("should remove the native button border", () => {
@@ -89,11 +81,7 @@ describe("useCalendarDayRecipe", () => {
 			const s = createInstance();
 			const recipe = useCalendarDayRecipe(s);
 
-			expect(Object.keys(recipe.variants!.type)).toEqual([
-				"day",
-				"month",
-				"year",
-			]);
+			expect(Object.keys(recipe.variants!.type)).toEqual(["day", "month", "year"]);
 			expect(recipe.variants!.type.day).toEqual({});
 			expect(recipe.variants!.type.month).toMatchObject({
 				aspectRatio: "auto",
@@ -109,12 +97,7 @@ describe("useCalendarDayRecipe", () => {
 			const s = createInstance();
 			const recipe = useCalendarDayRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "soft", "subtle"]);
 		});
 
 		it("should expose the boolean state axes", () => {
@@ -132,12 +115,7 @@ describe("useCalendarDayRecipe", () => {
 			const s = createInstance();
 			const recipe = useCalendarDayRecipe(s);
 
-			expect(Object.keys(recipe.variants!.range)).toEqual([
-				"none",
-				"start",
-				"middle",
-				"end",
-			]);
+			expect(Object.keys(recipe.variants!.range)).toEqual(["none", "start", "middle", "end"]);
 		});
 
 		it("should fill the selected day per variant", () => {
@@ -237,9 +215,7 @@ describe("useCalendarDayRecipe", () => {
 
 			const selectedToday = recipe.compoundVariants!.find(
 				(v) =>
-					v.match.variant === "solid" &&
-					v.match.selected === "true" &&
-					v.match.today === "true",
+					v.match.variant === "solid" && v.match.selected === "true" && v.match.today === "true",
 			);
 			expect(selectedToday?.css).toEqual({ color: "@color.white" });
 		});

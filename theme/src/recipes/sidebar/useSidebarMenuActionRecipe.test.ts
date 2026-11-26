@@ -1,10 +1,8 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusVisibleModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { useFocusVisibleModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useSidebarMenuActionRecipe } from "./index";
 
 function createInstance() {

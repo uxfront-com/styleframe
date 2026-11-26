@@ -1,10 +1,4 @@
-import {
-	DISCORD_URL,
-	GITHUB_URL,
-	NPM_URL,
-	SITE_NAME,
-	X_URL,
-} from "~/data/site";
+import { DISCORD_URL, GITHUB_URL, NPM_URL, SITE_NAME, X_URL } from "~/data/site";
 
 export interface SiteHeadOptions {
 	/** The whole title: no title template is applied. */
@@ -35,12 +29,7 @@ export function jsonLdScript(node: JsonLdNode) {
  * title and description and this structured data, which the layer can't set
  * yet.
  */
-export function useSiteHead({
-	title,
-	description,
-	path = "/",
-	image,
-}: SiteHeadOptions) {
+export function useSiteHead({ title, description, path = "/", image }: SiteHeadOptions) {
 	const { siteUrl } = useRuntimeConfig().public;
 	const url = `${siteUrl}${path}`;
 	const imageUrl = `${siteUrl}${image.path}`;

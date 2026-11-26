@@ -1,5 +1,6 @@
 import { copyFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
+
 import { defineConfig } from "tsdown";
 
 const distDir = resolve(new URL(".", import.meta.url).pathname, "dist");

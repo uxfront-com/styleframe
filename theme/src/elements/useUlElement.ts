@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -29,10 +30,7 @@ export function useUlDesignTokens(
 	const result: Partial<UlElementResult> = {};
 
 	if (config.marginBottom !== undefined) {
-		result.ulMarginBottom = ctx.variable(
-			"ul.margin-bottom",
-			config.marginBottom,
-		);
+		result.ulMarginBottom = ctx.variable("ul.margin-bottom", config.marginBottom);
 	}
 	if (config.paddingLeft !== undefined) {
 		result.ulPaddingLeft = ctx.variable("ul.padding-left", config.paddingLeft);

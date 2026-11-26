@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -85,10 +86,7 @@ export function useBodyElement(
 	s: Styleframe,
 	options: WithThemes<BodyElementConfig> = {},
 ): BodyElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultBodyOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultBodyOptions, options);
 
 	const result = useBodySelectors(s, config as Required<BodyElementConfig>);
 

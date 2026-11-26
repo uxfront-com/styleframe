@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { usePaginationEllipsisRecipe } from "./index";
 
@@ -91,20 +92,14 @@ describe("usePaginationEllipsisRecipe", () => {
 		const s = createInstance();
 		const recipe = usePaginationEllipsisRecipe(s);
 
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 	});
 
 	it("should have correct color compound variants", () => {
 		const s = createInstance();
 		const recipe = usePaginationEllipsisRecipe(s);
 
-		const light = recipe.compoundVariants!.find(
-			(v) => v.match.color === "light",
-		);
+		const light = recipe.compoundVariants!.find((v) => v.match.color === "light");
 		expect(light).toEqual({
 			match: { color: "light" },
 			css: { color: "@color.gray-600", "&:dark": { color: "@color.gray-600" } },
@@ -116,9 +111,7 @@ describe("usePaginationEllipsisRecipe", () => {
 			css: { color: "@color.gray-400", "&:dark": { color: "@color.gray-400" } },
 		});
 
-		const neutral = recipe.compoundVariants!.find(
-			(v) => v.match.color === "neutral",
-		);
+		const neutral = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 		expect(neutral).toEqual({
 			match: { color: "neutral" },
 			css: { color: "@color.gray-600", "&:dark": { color: "@color.gray-400" } },

@@ -9,12 +9,7 @@ const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 		<div>
 			<div class="skeleton-label">Default (rectangular)</div>
 			<div class="skeleton-row">
-				<Skeleton
-					v-for="size in sizes"
-					:key="size"
-					:size="size"
-					style="width: 200px"
-				/>
+				<Skeleton v-for="size in sizes" :key="size" :size="size" style="width: 200px" />
 			</div>
 		</div>
 		<div>

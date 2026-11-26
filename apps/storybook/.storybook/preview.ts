@@ -1,15 +1,13 @@
+import { DocsContainer } from "@storybook/addon-docs/blocks";
 import type { Preview } from "@storybook/vue3-vite";
-import React from "react";
 
 import "virtual:styleframe.css";
 import "./docs.css";
-import { light, dark } from "./theme";
+import { DARK_MODE_EVENT_NAME, useDarkMode } from "@vueless/storybook-dark-mode";
+import React from "react";
 import { addons } from "storybook/preview-api";
-import {
-	DARK_MODE_EVENT_NAME,
-	useDarkMode,
-} from "@vueless/storybook-dark-mode";
-import { DocsContainer } from "@storybook/addon-docs/blocks";
+
+import { light, dark } from "./theme";
 
 const channel = addons.getChannel();
 
@@ -90,10 +88,7 @@ if (window !== window.parent) {
 		const height = root.offsetHeight;
 		if (height !== lastHeight) {
 			lastHeight = height;
-			window.parent.postMessage(
-				{ type: "styleframe:preview-height", height },
-				"*",
-			);
+			window.parent.postMessage({ type: "styleframe:preview-height", height }, "*");
 		}
 	};
 

@@ -1,3 +1,4 @@
+import type { Styleframe } from "./styleframe";
 import type {
 	AtRule,
 	Container,
@@ -15,7 +16,6 @@ import type {
 	Utility,
 	Variable,
 } from "./types";
-import type { Styleframe } from "./styleframe";
 
 export function isObject(value: unknown): value is object {
 	return typeof value === "object" && value !== null;
@@ -29,15 +29,11 @@ export function isToken<T>(value: unknown, type: TokenType): value is T {
 	return isObject(value) && "type" in value && value.type === type;
 }
 
-export function isVariable<Name extends string = string>(
-	value: unknown,
-): value is Variable<Name> {
+export function isVariable<Name extends string = string>(value: unknown): value is Variable<Name> {
 	return isToken(value, "variable");
 }
 
-export function isRef<Name extends string = string>(
-	value: unknown,
-): value is Reference<Name> {
+export function isRef<Name extends string = string>(value: unknown): value is Reference<Name> {
 	return isToken(value, "reference");
 }
 
@@ -49,9 +45,7 @@ export function isAtRule(value: unknown): value is AtRule {
 	return isToken(value, "at-rule");
 }
 
-export function isUtility<Name extends string = string>(
-	value: unknown,
-): value is Utility<Name> {
+export function isUtility<Name extends string = string>(value: unknown): value is Utility<Name> {
 	return isToken(value, "utility");
 }
 
@@ -75,9 +69,7 @@ export function isRecipe(value: unknown): value is Recipe {
 	return isToken(value, "recipe");
 }
 
-export function isPrimitiveTokenValue(
-	value: unknown,
-): value is PrimitiveTokenValue {
+export function isPrimitiveTokenValue(value: unknown): value is PrimitiveTokenValue {
 	return (
 		typeof value === "string" ||
 		typeof value === "number" ||
@@ -106,12 +98,7 @@ export function isContainer(value: unknown): value is Container {
 }
 
 export function isContainerInput(value: unknown): value is ContainerInput {
-	return (
-		isObject(value) &&
-		"children" in value &&
-		"declarations" in value &&
-		"variables" in value
-	);
+	return isObject(value) && "children" in value && "declarations" in value && "variables" in value;
 }
 
 export function isKeyReferenceValue(value: unknown): value is `@${string}` {

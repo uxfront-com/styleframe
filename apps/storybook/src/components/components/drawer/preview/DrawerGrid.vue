@@ -20,26 +20,16 @@ function titleCase(value: string) {
 		<div v-for="variant in variants" :key="variant">
 			<div class="drawer-label">{{ variant }}</div>
 			<div class="drawer-grid">
-				<div
-					v-for="color in colors"
-					:key="`${variant}-${color}`"
-					class="drawer-stage"
-				>
+				<div v-for="color in colors" :key="`${variant}-${color}`" class="drawer-stage">
 					<DrawerOverlay>
 						<Drawer :color="color" :variant="variant" size="sm">
 							<DrawerHeader :color="color" :variant="variant">
-								<DrawerTitle
-									>{{ titleCase(variant) }} {{ titleCase(color) }}</DrawerTitle
-								>
+								<DrawerTitle>{{ titleCase(variant) }} {{ titleCase(color) }}</DrawerTitle>
 							</DrawerHeader>
 							<DrawerBody :color="color" :variant="variant">
-								<DrawerDescription>
-									This is a {{ variant }} {{ color }} drawer.
-								</DrawerDescription>
+								<DrawerDescription> This is a {{ variant }} {{ color }} drawer. </DrawerDescription>
 							</DrawerBody>
-							<DrawerFooter :color="color" :variant="variant">
-								Footer content
-							</DrawerFooter>
+							<DrawerFooter :color="color" :variant="variant"> Footer content </DrawerFooter>
 						</Drawer>
 					</DrawerOverlay>
 				</div>

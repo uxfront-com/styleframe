@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSelectSeparatorRecipe } from "./useSelectSeparatorRecipe";
 
@@ -44,11 +45,7 @@ describe("useSelectSeparatorRecipe", () => {
 		const recipe = useSelectSeparatorRecipe(s);
 
 		expect(Object.keys(recipe.variants!)).toEqual(["color"]);
-		expect(Object.keys(recipe.variants!.color)).toEqual([
-			"light",
-			"dark",
-			"neutral",
-		]);
+		expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 	});
 
 	it("should default to neutral", () => {

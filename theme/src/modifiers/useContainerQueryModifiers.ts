@@ -1,4 +1,5 @@
 import type { ModifierFactory, Styleframe } from "@styleframe/core";
+
 import { breakpointValues } from "../values";
 
 export interface ContainerQueryModifiers {
@@ -10,68 +11,53 @@ export interface ContainerQueryModifiers {
 }
 
 export function useContainerSmModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"container-sm",
-		({ declarations, variables, children }) => ({
-			[`@container (min-width: ${breakpointValues.sm}px)`]: {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("container-sm", ({ declarations, variables, children }) => ({
+		[`@container (min-width: ${breakpointValues.sm}px)`]: {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 export function useContainerMdModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"container-md",
-		({ declarations, variables, children }) => ({
-			[`@container (min-width: ${breakpointValues.md}px)`]: {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("container-md", ({ declarations, variables, children }) => ({
+		[`@container (min-width: ${breakpointValues.md}px)`]: {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 export function useContainerLgModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"container-lg",
-		({ declarations, variables, children }) => ({
-			[`@container (min-width: ${breakpointValues.lg}px)`]: {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("container-lg", ({ declarations, variables, children }) => ({
+		[`@container (min-width: ${breakpointValues.lg}px)`]: {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 export function useContainerXlModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"container-xl",
-		({ declarations, variables, children }) => ({
-			[`@container (min-width: ${breakpointValues.xl}px)`]: {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("container-xl", ({ declarations, variables, children }) => ({
+		[`@container (min-width: ${breakpointValues.xl}px)`]: {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 export function useContainer2xlModifier(s: Styleframe): ModifierFactory {
-	return s.modifier(
-		"container-2xl",
-		({ declarations, variables, children }) => ({
-			[`@container (min-width: ${breakpointValues["2xl"]}px)`]: {
-				declarations,
-				variables,
-				children,
-			},
-		}),
-	);
+	return s.modifier("container-2xl", ({ declarations, variables, children }) => ({
+		[`@container (min-width: ${breakpointValues["2xl"]}px)`]: {
+			declarations,
+			variables,
+			children,
+		},
+	}));
 }
 
 /**
@@ -90,9 +76,7 @@ export function useContainer2xlModifier(s: Styleframe): ModifierFactory {
  * createDisplay({ flex: "flex" }, [containerMd]);
  * ```
  */
-export function useContainerQueryModifiers(
-	s: Styleframe,
-): ContainerQueryModifiers {
+export function useContainerQueryModifiers(s: Styleframe): ContainerQueryModifiers {
 	return {
 		containerSm: useContainerSmModifier(s),
 		containerMd: useContainerMdModifier(s),

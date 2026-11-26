@@ -24,9 +24,7 @@ const variants = ["line", "pill", "soft"] as const;
 							<TabsTrigger value="overview">Overview</TabsTrigger>
 							<TabsTrigger value="activity">Activity</TabsTrigger>
 						</TabsList>
-						<TabsContent value="overview">
-							{{ color }} / {{ variant }}
-						</TabsContent>
+						<TabsContent value="overview"> {{ color }} / {{ variant }} </TabsContent>
 						<TabsContent value="activity">Activity panel</TabsContent>
 					</Tabs>
 				</div>

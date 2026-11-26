@@ -8,18 +8,12 @@ import type {
 	Selector,
 } from "../types";
 import { generateRandomId } from "../utils";
-import {
-	createDeclarationsCallbackContext,
-	parseDeclarationsBlock,
-} from "./declarations";
+import { createDeclarationsCallbackContext, parseDeclarationsBlock } from "./declarations";
 
 export function createSelectorFunction(parent: Container, root: Root) {
 	return function selector(
 		query: string,
-		declarationsOrCallback:
-			| DeclarationsBlock
-			| ContainerInput
-			| DeclarationsCallback,
+		declarationsOrCallback: DeclarationsBlock | ContainerInput | DeclarationsCallback,
 	): Selector {
 		const instance: Selector = {
 			type: "selector",
@@ -44,12 +38,7 @@ export function createSelectorFunction(parent: Container, root: Root) {
 			instance.declarations = declarationsOrCallback;
 		}
 
-		parseDeclarationsBlock(
-			instance.declarations,
-			callbackContext,
-			instance,
-			root,
-		);
+		parseDeclarationsBlock(instance.declarations, callbackContext, instance, root);
 
 		parent.children.push(instance);
 

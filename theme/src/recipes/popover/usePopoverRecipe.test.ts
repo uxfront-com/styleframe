@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import type { AtRule, Selector } from "@styleframe/core";
+
 import {
 	useContrastMoreModifier,
 	useDarkModifier,
@@ -58,25 +59,16 @@ function createInstance() {
 	return s;
 }
 
-function findSelector(
-	s: ReturnType<typeof createInstance>,
-	query: string,
-): Selector | undefined {
+function findSelector(s: ReturnType<typeof createInstance>, query: string): Selector | undefined {
 	return s.root.children.find(
-		(child): child is Selector =>
-			child.type === "selector" && child.query === query,
+		(child): child is Selector => child.type === "selector" && child.query === query,
 	);
 }
 
-function findPositionTry(
-	s: ReturnType<typeof createInstance>,
-	name: string,
-): AtRule | undefined {
+function findPositionTry(s: ReturnType<typeof createInstance>, name: string): AtRule | undefined {
 	return s.root.children.find(
 		(child): child is AtRule =>
-			child.type === "at-rule" &&
-			child.identifier === "position-try" &&
-			child.rule === name,
+			child.type === "at-rule" && child.identifier === "position-try" && child.rule === name,
 	);
 }
 
@@ -128,22 +120,14 @@ describe("usePopoverRecipe", () => {
 			const s = createInstance();
 			const recipe = usePopoverRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = usePopoverRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -306,12 +290,8 @@ describe("usePopoverRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			const colorCompounds = recipe.compoundVariants!.filter(
-				(cv) => cv.match.color,
-			);
-			expect(colorCompounds.every((cv) => cv.match.color === "neutral")).toBe(
-				true,
-			);
+			const colorCompounds = recipe.compoundVariants!.filter((cv) => cv.match.color);
+			expect(colorCompounds.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(colorCompounds).toHaveLength(3);
 		});
 
@@ -325,9 +305,7 @@ describe("usePopoverRecipe", () => {
 			expect(
 				recipe
 					.compoundVariants!.filter((cv) => cv.match.variant)
-					.every(
-						(cv) => cv.match.variant === "solid" || cv.match.variant === "soft",
-					),
+					.every((cv) => cv.match.variant === "solid" || cv.match.variant === "soft"),
 			).toBe(true);
 		});
 
@@ -378,12 +356,13 @@ describe("usePopoverRecipe", () => {
 				margin: { type: "reference", name: "popover.offset" },
 				overflow: "visible",
 			});
-			expect(
-				findSelector(s, ".popover[popover]:not(:popover-open)")?.declarations,
-			).toEqual({ display: "none" });
-			expect(
-				s.root.variables.find((v) => v.name === "popover.offset")?.value,
-			).toEqual({ type: "reference", name: "spacing.xs" });
+			expect(findSelector(s, ".popover[popover]:not(:popover-open)")?.declarations).toEqual({
+				display: "none",
+			});
+			expect(s.root.variables.find((v) => v.name === "popover.offset")?.value).toEqual({
+				type: "reference",
+				name: "spacing.xs",
+			});
 		});
 
 		it("popover/top-layer leaves an element without the popover attribute in place", () => {
@@ -398,19 +377,10 @@ describe("usePopoverRecipe", () => {
 			const s = createInstance();
 			const recipe = usePopoverRecipe(s);
 
-			expect(Object.keys(recipe.variants!.placement)).toEqual([
-				"top",
-				"bottom",
-				"start",
-				"end",
-			]);
+			expect(Object.keys(recipe.variants!.placement)).toEqual(["top", "bottom", "start", "end"]);
 			expect(recipe.defaultVariants!.placement).toBe("top");
 			for (const placement of ["top", "bottom", "start", "end"] as const) {
-				expect(
-					recipe.compoundVariants!.find(
-						(cv) => cv.match.placement === placement,
-					),
-				).toEqual({
+				expect(recipe.compoundVariants!.find((cv) => cv.match.placement === placement)).toEqual({
 					match: { placement },
 					className: `-placement-${placement}`,
 				});
@@ -418,28 +388,21 @@ describe("usePopoverRecipe", () => {
 
 			expect(findSelector(s, ".popover[popover]")?.declarations).toMatchObject({
 				positionArea: "top",
-				positionTryFallbacks:
-					"flip-block, flip-inline, --popover-fit, flip-block --popover-fit",
+				positionTryFallbacks: "flip-block, flip-inline, --popover-fit, flip-block --popover-fit",
 			});
-			expect(
-				findSelector(s, ".popover[popover].-placement-top")?.declarations,
-			).toEqual({ positionArea: "top" });
-			expect(
-				findSelector(s, ".popover[popover].-placement-bottom")?.declarations,
-			).toEqual({ positionArea: "bottom" });
-			expect(
-				findSelector(s, ".popover[popover].-placement-start")?.declarations,
-			).toEqual({
+			expect(findSelector(s, ".popover[popover].-placement-top")?.declarations).toEqual({
+				positionArea: "top",
+			});
+			expect(findSelector(s, ".popover[popover].-placement-bottom")?.declarations).toEqual({
+				positionArea: "bottom",
+			});
+			expect(findSelector(s, ".popover[popover].-placement-start")?.declarations).toEqual({
 				positionArea: "self-inline-start",
-				positionTryFallbacks:
-					"flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
+				positionTryFallbacks: "flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
 			});
-			expect(
-				findSelector(s, ".popover[popover].-placement-end")?.declarations,
-			).toEqual({
+			expect(findSelector(s, ".popover[popover].-placement-end")?.declarations).toEqual({
 				positionArea: "self-inline-end",
-				positionTryFallbacks:
-					"flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
+				positionTryFallbacks: "flip-inline, bottom, top, --popover-fit-below, --popover-fit-above",
 			});
 		});
 
@@ -447,15 +410,12 @@ describe("usePopoverRecipe", () => {
 			const s = createInstance();
 			usePopoverRecipe(s);
 
-			expect(
-				Object.keys(findPositionTry(s, "--popover-fit")!.declarations),
-			).toEqual(["maxHeight", "minHeight"]);
-			expect(
-				findPositionTry(s, "--popover-fit-below")?.declarations.positionArea,
-			).toBe("bottom");
-			expect(
-				findPositionTry(s, "--popover-fit-above")?.declarations.positionArea,
-			).toBe("top");
+			expect(Object.keys(findPositionTry(s, "--popover-fit")!.declarations)).toEqual([
+				"maxHeight",
+				"minHeight",
+			]);
+			expect(findPositionTry(s, "--popover-fit-below")?.declarations.positionArea).toBe("bottom");
+			expect(findPositionTry(s, "--popover-fit-above")?.declarations.positionArea).toBe("top");
 		});
 
 		it("popover/fits-screen is never wider or taller than the screen less 16px on each side", () => {
@@ -479,15 +439,11 @@ describe("usePopoverRecipe", () => {
 			usePopoverRecipe(s);
 
 			const opening = findSelector(s, ".popover[popover]:popover-open");
-			const media = opening?.children.find(
-				(child): child is AtRule => child.type === "at-rule",
-			);
+			const media = opening?.children.find((child): child is AtRule => child.type === "at-rule");
 			expect(media?.identifier).toBe("media");
 			expect(media?.rule).toBe("(prefers-reduced-motion: no-preference)");
 			expect(Object.keys(media!.declarations)).toEqual(["transition"]);
-			const starting = media!.children.find(
-				(child): child is AtRule => child.type === "at-rule",
-			);
+			const starting = media!.children.find((child): child is AtRule => child.type === "at-rule");
 			expect(starting?.identifier).toBe("starting-style");
 			expect(starting?.declarations).toEqual({ opacity: "0", scale: "0.96" });
 			expect(opening?.declarations).toEqual({});
@@ -521,14 +477,12 @@ describe("usePopoverRecipe", () => {
 			const s = createInstance();
 			usePopoverRecipe(s);
 
-			expect(
-				findSelector(s, ".popover[popover].-placement-start")?.declarations
-					.positionArea,
-			).toBe("self-inline-start");
-			expect(
-				findSelector(s, ".popover[popover].-placement-end")?.declarations
-					.positionArea,
-			).toBe("self-inline-end");
+			expect(findSelector(s, ".popover[popover].-placement-start")?.declarations.positionArea).toBe(
+				"self-inline-start",
+			);
+			expect(findSelector(s, ".popover[popover].-placement-end")?.declarations.positionArea).toBe(
+				"self-inline-end",
+			);
 		});
 	});
 });

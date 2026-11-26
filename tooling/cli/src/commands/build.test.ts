@@ -1,9 +1,11 @@
 import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+
 import { runCommand } from "citty";
 import consola from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import buildCommand from "./build";
 
 const fixture = (name: string) =>
@@ -65,9 +67,6 @@ describe("build", () => {
 		await writeFile(file, "");
 
 		expect(await run(fixture("clean"), path.join(file, "out"))).toBe(1);
-		expect(consola.error).toHaveBeenCalledWith(
-			"Failed to build Styleframe:",
-			expect.any(Error),
-		);
+		expect(consola.error).toHaveBeenCalledWith("Failed to build Styleframe:", expect.any(Error));
 	});
 });

@@ -1,4 +1,5 @@
 import type { ModifierFactory, Styleframe } from "@styleframe/core";
+
 import { breakpointValues } from "../values";
 
 export interface ResponsiveModifiers {

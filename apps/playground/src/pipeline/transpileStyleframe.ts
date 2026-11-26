@@ -6,9 +6,7 @@ export interface StyleframeOutput {
 	ts: string;
 }
 
-export async function transpileStyleframe(
-	instance: Styleframe,
-): Promise<StyleframeOutput> {
+export async function transpileStyleframe(instance: Styleframe): Promise<StyleframeOutput> {
 	const output = await transpile(instance, {
 		treeshake: false,
 		scanner: false,

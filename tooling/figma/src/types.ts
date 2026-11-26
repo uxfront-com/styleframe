@@ -24,12 +24,7 @@ export type FigmaVariableType = "COLOR" | "FLOAT" | "STRING" | "BOOLEAN";
 /**
  * Figma variable value by type
  */
-export type FigmaVariableValue =
-	| FigmaRGBA
-	| number
-	| string
-	| boolean
-	| FigmaVariableAlias;
+export type FigmaVariableValue = FigmaRGBA | number | string | boolean | FigmaVariableAlias;
 
 /**
  * A single variable in the intermediate format

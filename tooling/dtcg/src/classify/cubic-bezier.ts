@@ -13,9 +13,7 @@ export function parseCubicBezier(input: string): DTCGCubicBezier | undefined {
 	if (!match) {
 		return undefined;
 	}
-	const nums = [match[1], match[2], match[3], match[4]].map((s) =>
-		Number.parseFloat(s as string),
-	);
+	const nums = [match[1], match[2], match[3], match[4]].map((s) => Number.parseFloat(s as string));
 	if (nums.some((n) => !Number.isFinite(n))) {
 		return undefined;
 	}

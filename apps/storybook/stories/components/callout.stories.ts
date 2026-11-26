@@ -4,8 +4,8 @@ import { ref } from "vue";
 import Button from "../../src/components/components/button/Button.vue";
 import Callout from "../../src/components/components/callout/Callout.vue";
 import CalloutGrid from "../../src/components/components/callout/preview/CalloutGrid.vue";
-import CalloutSizeGrid from "../../src/components/components/callout/preview/CalloutSizeGrid.vue";
 import CalloutOrientationGrid from "../../src/components/components/callout/preview/CalloutOrientationGrid.vue";
+import CalloutSizeGrid from "../../src/components/components/callout/preview/CalloutSizeGrid.vue";
 
 const colors = [
 	"neutral",

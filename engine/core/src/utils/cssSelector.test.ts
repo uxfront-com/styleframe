@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { classNameToCssSelector } from "./cssSelector";
 
 describe("classNameToCssSelector", () => {
@@ -11,15 +12,11 @@ describe("classNameToCssSelector", () => {
 	});
 
 	it("should escape brackets", () => {
-		expect(classNameToCssSelector("_margin:[16px]")).toBe(
-			String.raw`._margin\:\[16px\]`,
-		);
+		expect(classNameToCssSelector("_margin:[16px]")).toBe(String.raw`._margin\:\[16px\]`);
 	});
 
 	it("should escape hash character", () => {
-		expect(classNameToCssSelector("_color:[#1E3A8A]")).toBe(
-			String.raw`._color\:\[\#1E3A8A\]`,
-		);
+		expect(classNameToCssSelector("_color:[#1E3A8A]")).toBe(String.raw`._color\:\[\#1E3A8A\]`);
 	});
 
 	it("should escape parentheses", () => {
@@ -29,15 +26,11 @@ describe("classNameToCssSelector", () => {
 	});
 
 	it("should escape percentage", () => {
-		expect(classNameToCssSelector("_width:[50%]")).toBe(
-			String.raw`._width\:\[50\%\]`,
-		);
+		expect(classNameToCssSelector("_width:[50%]")).toBe(String.raw`._width\:\[50\%\]`);
 	});
 
 	it("should escape dots", () => {
-		expect(classNameToCssSelector("_opacity:[0.5]")).toBe(
-			String.raw`._opacity\:\[0\.5\]`,
-		);
+		expect(classNameToCssSelector("_opacity:[0.5]")).toBe(String.raw`._opacity\:\[0\.5\]`);
 	});
 
 	it("should escape commas", () => {
@@ -57,8 +50,6 @@ describe("classNameToCssSelector", () => {
 	});
 
 	it("should escape forward slashes", () => {
-		expect(classNameToCssSelector("_width:1/2")).toBe(
-			String.raw`._width\:1\/2`,
-		);
+		expect(classNameToCssSelector("_width:1/2")).toBe(String.raw`._width\:1\/2`);
 	});
 });

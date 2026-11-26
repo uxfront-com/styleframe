@@ -7,6 +7,4 @@ import { createSidebarMenuButtonRecipe } from "./createSidebarRecipe";
  * label should be wrapped in `<span class="sidebar-menu-button-label">` so the collapsed
  * icon-rail can hide it.
  */
-export const useSidebarMenuButtonRecipe = createSidebarMenuButtonRecipe(
-	"sidebar-menu-button",
-);
+export const useSidebarMenuButtonRecipe = createSidebarMenuButtonRecipe("sidebar-menu-button");

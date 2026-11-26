@@ -1,6 +1,8 @@
-import type { Jiti } from "jiti";
 import path from "node:path";
+
+import type { Jiti } from "jiti";
 import { describe, expect, test } from "vitest";
+
 import { clearAllJitiCache, clearJitiCache, createSharedJiti } from "./jiti";
 
 /**

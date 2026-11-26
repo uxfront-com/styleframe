@@ -1,7 +1,9 @@
-import { defineNuxtModule, createResolver } from "@nuxt/kit";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
+
+import { defineNuxtModule, createResolver } from "@nuxt/kit";
 import { defu } from "defu";
+
 import { docsStem } from "../app/constants/sections";
 import type { NonRouteCategoryMeta } from "../app/types/non-route-categories";
 
@@ -14,8 +16,7 @@ function readNavigationConfig(text: string): Record<string, string | boolean> {
 			continue;
 		}
 		const value = match[2]!.trim().replaceAll(/^["']|["']$/g, "");
-		cfg[match[1]!] =
-			value === "true" ? true : value === "false" ? false : value;
+		cfg[match[1]!] = value === "true" ? true : value === "false" ? false : value;
 	}
 	return cfg;
 }
@@ -47,9 +48,7 @@ export default defineNuxtModule({
 				if (entry.isDirectory()) {
 					walk(join(abs, entry.name));
 				} else if (entry.name === ".navigation.yml") {
-					const cfg = readNavigationConfig(
-						readFileSync(join(abs, entry.name), "utf8"),
-					);
+					const cfg = readNavigationConfig(readFileSync(join(abs, entry.name), "utf8"));
 					if (cfg.route === false) {
 						const dir = relative(contentRoot, abs).replaceAll("\\", "/");
 						const last = dir.split("/").pop() ?? "";

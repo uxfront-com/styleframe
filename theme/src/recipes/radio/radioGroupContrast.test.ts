@@ -1,10 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { wcagContrast } from "culori";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
 import { useRadioFieldRecipe } from "./useRadioFieldRecipe";
 import { useRadioGroupRecipe } from "./useRadioGroupRecipe";
@@ -55,20 +52,15 @@ describe("radio recipes contrast", () => {
 		return String(variable.value);
 	}
 
-	const pages = (theme: Theme) => [
-		themes[theme].background!,
-		themes[theme].surface!,
-	];
+	const pages = (theme: Theme) => [themes[theme].background!, themes[theme].surface!];
 
 	// A setup selector's color, as the `@color.<name>` token it references.
 	function selectorColor(query: string, nested?: string) {
-		const node = s.root.children.find(
-			(child) => (child as Node).query === query,
-		) as Node | undefined;
+		const node = s.root.children.find((child) => (child as Node).query === query) as
+			| Node
+			| undefined;
 		expect(node, query).toBeDefined();
-		const block = nested
-			? node!.children.find((child) => child.query === nested)!
-			: node!;
+		const block = nested ? node!.children.find((child) => child.query === nested)! : node!;
 		const value = block.declarations.color as { name: string };
 		return `@${value.name}`;
 	}
@@ -131,9 +123,7 @@ describe("radio recipes contrast", () => {
 			}
 			// The SVG dot is drawn in white.
 			expect(checked.backgroundImage).toContain("fill='white'");
-			expect(
-				wcagContrast(resolve("@color.white", theme), fill),
-			).toBeGreaterThanOrEqual(3);
+			expect(wcagContrast(resolve("@color.white", theme), fill)).toBeGreaterThanOrEqual(3);
 		},
 	);
 
@@ -142,10 +132,7 @@ describe("radio recipes contrast", () => {
 		({ theme, fill }) => {
 			const error = resolve("@color.error", theme);
 			for (const neighbour of [...pages(theme), fill]) {
-				expect(
-					wcagContrast(error, neighbour),
-					neighbour,
-				).toBeGreaterThanOrEqual(3);
+				expect(wcagContrast(error, neighbour), neighbour).toBeGreaterThanOrEqual(3);
 			}
 		},
 	);
@@ -153,9 +140,7 @@ describe("radio recipes contrast", () => {
 	it.each(["light", "dark"] as const)(
 		"radio-group/contrast gives the focus ring 3:1 against the %s page",
 		(theme) => {
-			expect((field.base!["&:focus-visible"] as Block).outlineColor).toBe(
-				"@color.focus",
-			);
+			expect((field.base!["&:focus-visible"] as Block).outlineColor).toBe("@color.focus");
 			const focus = resolve("@color.focus", theme);
 			for (const page of pages(theme)) {
 				expect(wcagContrast(focus, page), page).toBeGreaterThanOrEqual(3);
@@ -191,10 +176,7 @@ describe("radio recipes contrast", () => {
 					? selectorColor(query)
 					: selectorColor(query, ':is(.dark-theme, [data-theme="dark"]) &');
 			for (const page of pages(theme)) {
-				expect(
-					wcagContrast(resolve(error, theme), page),
-					page,
-				).toBeGreaterThanOrEqual(4.5);
+				expect(wcagContrast(resolve(error, theme), page), page).toBeGreaterThanOrEqual(4.5);
 			}
 		},
 	);

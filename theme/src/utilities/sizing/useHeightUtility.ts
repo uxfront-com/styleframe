@@ -21,29 +21,20 @@ import { createUseSpacingUtility } from "../../utils";
  * // ._height:4 { height: calc(var(--spacing) * 4); }
  * ```
  */
-export const useHeightUtility = createUseSpacingUtility(
-	"height",
-	({ value }) => ({
-		height: value,
-	}),
-);
+export const useHeightUtility = createUseSpacingUtility("height", ({ value }) => ({
+	height: value,
+}));
 
 /**
  * Create min-height utility classes with multiplier support.
  */
-export const useMinHeightUtility = createUseSpacingUtility(
-	"min-height",
-	({ value }) => ({
-		minHeight: value,
-	}),
-);
+export const useMinHeightUtility = createUseSpacingUtility("min-height", ({ value }) => ({
+	minHeight: value,
+}));
 
 /**
  * Create max-height utility classes with multiplier support.
  */
-export const useMaxHeightUtility = createUseSpacingUtility(
-	"max-height",
-	({ value }) => ({
-		maxHeight: value,
-	}),
-);
+export const useMaxHeightUtility = createUseSpacingUtility("max-height", ({ value }) => ({
+	maxHeight: value,
+}));

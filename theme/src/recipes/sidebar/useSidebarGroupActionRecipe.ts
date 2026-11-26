@@ -5,6 +5,4 @@ import { createSidebarActionRecipe } from "./createSidebarRecipe";
  * `.sidebar-group-label` header (e.g. an "add project" affordance). Shares the surface of
  * `sidebar-menu-action`. Hidden when the sidebar is collapsed.
  */
-export const useSidebarGroupActionRecipe = createSidebarActionRecipe(
-	"sidebar-group-action",
-);
+export const useSidebarGroupActionRecipe = createSidebarActionRecipe("sidebar-group-action");

@@ -1,13 +1,6 @@
 import { createUseRecipe } from "../../utils/createUseRecipe";
 
-export const colors = [
-	"primary",
-	"secondary",
-	"success",
-	"info",
-	"warning",
-	"error",
-] as const;
+export const colors = ["primary", "secondary", "success", "info", "warning", "error"] as const;
 
 export const variants = ["solid", "outline", "soft", "subtle"] as const;
 

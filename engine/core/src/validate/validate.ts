@@ -21,11 +21,7 @@ const MAX_SUGGESTION_DISTANCE = 2;
 
 type ScopeToken = Root | Theme | Selector | AtRule | Utility;
 
-type ReportFn = (
-	reference: string,
-	path: Array<string>,
-	scope: Container,
-) => void;
+type ReportFn = (reference: string, path: Array<string>, scope: Container) => void;
 
 type UtilityProblems = {
 	utility: string;
@@ -40,9 +36,7 @@ type UtilityProblems = {
  */
 export function validate(instance: Styleframe): Array<Diagnostic> {
 	const { root } = instance;
-	const severity: DiagnosticSeverity = instance.options.strict
-		? "error"
-		: "warning";
+	const severity: DiagnosticSeverity = instance.options.strict ? "error" : "warning";
 	const diagnostics: Array<Diagnostic> = [];
 
 	const reportUnresolved: ReportFn = (reference, path, scope) => {
@@ -58,10 +52,7 @@ export function validate(instance: Styleframe): Array<Diagnostic> {
 			return;
 		}
 
-		const suggestion = findSuggestion(
-			reference,
-			collectVisibleNames(scope, root),
-		);
+		const suggestion = findSuggestion(reference, collectVisibleNames(scope, root));
 		diagnostics.push({
 			code: "unresolved-reference",
 			severity,
@@ -91,17 +82,9 @@ export function validate(instance: Styleframe): Array<Diagnostic> {
 			}
 
 			for (const [key, value] of Object.entries(block)) {
-				if (
-					typeof value === "object" &&
-					value !== null &&
-					!isTokenValue(value)
-				) {
+				if (typeof value === "object" && value !== null && !isTokenValue(value)) {
 					for (const [utilityKey, utilityValue] of Object.entries(value)) {
-						visitDeclaration(utilityKey, utilityValue, [
-							...path,
-							key,
-							utilityKey,
-						]);
+						visitDeclaration(utilityKey, utilityValue, [...path, key, utilityKey]);
 					}
 				} else {
 					visitDeclaration(key, value, [...path, key]);
@@ -109,11 +92,7 @@ export function validate(instance: Styleframe): Array<Diagnostic> {
 			}
 		};
 
-		const visitDeclaration = (
-			utilityKey: string,
-			value: TokenValue,
-			path: Array<string>,
-		) => {
+		const visitDeclaration = (utilityKey: string, value: TokenValue, path: Array<string>) => {
 			const factory = findUtilityFactory(root, utilityKey);
 			if (!factory) {
 				return;
@@ -193,10 +172,7 @@ export function validate(instance: Styleframe): Array<Diagnostic> {
 			code: "duplicate-variable",
 			severity,
 			message: `Variable "${record.name}" is defined twice: "${formatValue(first)}", then "${formatValue(last)}". The last value wins.`,
-			path: [
-				...describeScope(record.scopeId, root),
-				`variable "${record.name}"`,
-			].join(SEPARATOR),
+			path: [...describeScope(record.scopeId, root), `variable "${record.name}"`].join(SEPARATOR),
 		});
 	}
 
@@ -334,9 +310,7 @@ function collectVisibleNames(scope: Container, root: Root): Array<string> {
 		for (const variable of current.variables) {
 			names.add(variable.name);
 		}
-		current = current.parentId
-			? root._registry.get(current.parentId)
-			: undefined;
+		current = current.parentId ? root._registry.get(current.parentId) : undefined;
 	}
 
 	for (const variable of root.variables) {
@@ -346,10 +320,7 @@ function collectVisibleNames(scope: Container, root: Root): Array<string> {
 	return [...names];
 }
 
-function findUtilityFactory(
-	root: Root,
-	name: string,
-): UtilityFactory | undefined {
+function findUtilityFactory(root: Root, name: string): UtilityFactory | undefined {
 	const kebabName = name.replaceAll(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 	return (
 		root.utilities.find((utility) => utility.name === name) ??
@@ -396,10 +367,7 @@ function formatValue(value: TokenValue): string {
 	return String(value);
 }
 
-function findSuggestion(
-	name: string,
-	candidates: Array<string>,
-): string | undefined {
+function findSuggestion(name: string, candidates: Array<string>): string | undefined {
 	let best: string | undefined;
 	let bestDistance = MAX_SUGGESTION_DISTANCE + 1;
 

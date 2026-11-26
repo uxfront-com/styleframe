@@ -273,8 +273,7 @@ export const styleframePage = page({
 	nav: "_display:flex _align-items:center _justify-content:between _padding-inline:xl _padding-block:md _background:white _border-bottom-width:thin _border-bottom-color:neutral-200 _border-bottom-style:solid",
 	navBrand: "_font-size:lg _font-weight:bold _color:text",
 	navLinks: "_display:flex _gap:md _list-style:none",
-	navLink:
-		"_color:text-weak _text-decoration:none _font-size:sm _font-weight:medium",
+	navLink: "_color:text-weak _text-decoration:none _font-size:sm _font-weight:medium",
 	navRight: "_display:flex _align-items:center _gap:sm",
 	btnPrimary:
 		"_display:inline-flex _align-items:center _justify-content:center _background:primary _color:white _font-size:sm _font-weight:medium _padding-inline:lg _padding-block:sm _border-radius:md _border-style:none _cursor:pointer",
@@ -285,18 +284,15 @@ export const styleframePage = page({
 	heroContent:
 		"_max-width:2xl _text-align:center _display:flex _flex-direction:column _align-items:center _gap:lg",
 	heroTitle: "_font-size:lg _font-weight:bold _color:white _line-height:normal",
-	heroSubtitle:
-		"_font-size:md _color:primary-100 _line-height:normal _max-width:2xl",
+	heroSubtitle: "_font-size:md _color:primary-100 _line-height:normal _max-width:2xl",
 	heroActions: "_display:flex _gap:md _justify-content:center",
 	// Features
 	featuresSection:
 		"_padding-block:2xl _padding-inline:xl _display:flex _flex-direction:column _align-items:center",
-	featuresTitle:
-		"_font-size:lg _font-weight:bold _color:text _text-align:center _margin-bottom:sm",
+	featuresTitle: "_font-size:lg _font-weight:bold _color:text _text-align:center _margin-bottom:sm",
 	featuresSubtitle:
 		"_font-size:md _color:text-weak _text-align:center _margin-bottom:xl _max-width:2xl",
-	featuresGrid:
-		"_display:grid _grid-template-columns:3 _gap:lg _max-width:2xl _width:full",
+	featuresGrid: "_display:grid _grid-template-columns:3 _gap:lg _max-width:2xl _width:full",
 	featureCard:
 		"_background:white _border-radius:lg _padding:lg _border-width:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:sm",
 	featureIcon: "_width:xl _height:xl _border-radius:md _background:primary-100",
@@ -307,8 +303,7 @@ export const styleframePage = page({
 		"_padding-block:2xl _padding-inline:xl _background:neutral-50 _display:flex _flex-direction:column _align-items:center",
 	testimonialsTitle:
 		"_font-size:lg _font-weight:bold _color:text _text-align:center _margin-bottom:xl",
-	testimonialsGrid:
-		"_display:grid _grid-template-columns:3 _gap:lg _max-width:2xl _width:full",
+	testimonialsGrid: "_display:grid _grid-template-columns:3 _gap:lg _max-width:2xl _width:full",
 	testimonialCard:
 		"_background:white _border-radius:lg _padding:lg _border-width:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:md",
 	testimonialQuote: "_font-size:sm _color:text _line-height:normal",
@@ -317,10 +312,8 @@ export const styleframePage = page({
 	// Pricing
 	pricingSection:
 		"_padding-block:2xl _padding-inline:xl _display:flex _flex-direction:column _align-items:center",
-	pricingTitle:
-		"_font-size:lg _font-weight:bold _color:text _text-align:center _margin-bottom:sm",
-	pricingSubtitle:
-		"_font-size:md _color:text-weak _text-align:center _margin-bottom:xl",
+	pricingTitle: "_font-size:lg _font-weight:bold _color:text _text-align:center _margin-bottom:sm",
+	pricingSubtitle: "_font-size:md _color:text-weak _text-align:center _margin-bottom:xl",
 	pricingGrid:
 		"_display:grid _grid-template-columns:3 _gap:lg _max-width:2xl _width:full _align-items:start",
 	pricingCard:
@@ -330,8 +323,7 @@ export const styleframePage = page({
 	pricingName: "_font-size:md _font-weight:semibold _color:text",
 	pricingPrice: "_font-size:lg _font-weight:bold _color:text",
 	pricingPeriod: "_font-size:sm _color:text-weak",
-	pricingFeatures:
-		"_list-style:none _display:flex _flex-direction:column _gap:sm _width:full",
+	pricingFeatures: "_list-style:none _display:flex _flex-direction:column _gap:sm _width:full",
 	pricingFeatureItem:
 		"_font-size:sm _color:text _padding-block:xs _border-bottom-width:thin _border-bottom-color:neutral-100 _border-bottom-style:solid",
 	pricingCta:
@@ -342,20 +334,16 @@ export const styleframePage = page({
 	ctaBanner:
 		"_background:primary-800 _padding-block:2xl _padding-inline:xl _display:flex _flex-direction:column _align-items:center _gap:lg _text-align:center",
 	ctaBannerTitle: "_font-size:lg _font-weight:bold _color:white",
-	ctaBannerDesc:
-		"_font-size:md _color:primary-100 _max-width:2xl _line-height:normal",
+	ctaBannerDesc: "_font-size:md _color:primary-100 _max-width:2xl _line-height:normal",
 	// Footer
 	footer:
 		"_background:neutral-900 _padding-block:xl _padding-inline:xl _display:flex _flex-direction:column _gap:xl",
 	footerTop: "_display:grid _grid-template-columns:4 _gap:xl",
 	footerBrand: "_font-size:lg _font-weight:bold _color:white",
-	footerDesc:
-		"_font-size:sm _color:neutral-200 _line-height:normal _margin-top:sm",
+	footerDesc: "_font-size:sm _color:neutral-200 _line-height:normal _margin-top:sm",
 	footerColumn: "_display:flex _flex-direction:column",
-	footerColumnTitle:
-		"_font-size:sm _font-weight:semibold _color:white _margin-bottom:md",
-	footerColumnList:
-		"_list-style:none _display:flex _flex-direction:column _gap:sm",
+	footerColumnTitle: "_font-size:sm _font-weight:semibold _color:white _margin-bottom:md",
+	footerColumnList: "_list-style:none _display:flex _flex-direction:column _gap:sm",
 	footerColumnLink: "_font-size:sm _color:neutral-200 _text-decoration:none",
 	footerBottom:
 		"_display:flex _justify-content:between _align-items:center _padding-top:lg _border-top-style:solid _border-top-width:thin _border-top-color:neutral-700",
@@ -388,11 +376,9 @@ export const styleframeShorthandPage = page({
 	heroSubtitle: "_text:md _color:primary-100 _leading:normal _max-w:2xl",
 	heroActions: "_display:flex _gap:md _justify:center",
 	// Features
-	featuresSection:
-		"_py:2xl _px:xl _display:flex _flex-direction:column _items:center",
+	featuresSection: "_py:2xl _px:xl _display:flex _flex-direction:column _items:center",
 	featuresTitle: "_text:lg _font:bold _color:text _text-align:center _mb:sm",
-	featuresSubtitle:
-		"_text:md _color:text-weak _text-align:center _mb:xl _max-w:2xl",
+	featuresSubtitle: "_text:md _color:text-weak _text-align:center _mb:xl _max-w:2xl",
 	featuresGrid: "_display:grid _grid-cols:3 _gap:lg _max-w:2xl _w:full",
 	featureCard:
 		"_bg:white _rounded:lg _p:lg _border:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:sm",
@@ -402,8 +388,7 @@ export const styleframeShorthandPage = page({
 	// Testimonials
 	testimonialsSection:
 		"_py:2xl _px:xl _bg:neutral-50 _display:flex _flex-direction:column _items:center",
-	testimonialsTitle:
-		"_text:lg _font:bold _color:text _text-align:center _mb:xl",
+	testimonialsTitle: "_text:lg _font:bold _color:text _text-align:center _mb:xl",
 	testimonialsGrid: "_display:grid _grid-cols:3 _gap:lg _max-w:2xl _w:full",
 	testimonialCard:
 		"_bg:white _rounded:lg _p:lg _border:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _gap:md",
@@ -411,12 +396,10 @@ export const styleframeShorthandPage = page({
 	testimonialAuthor: "_text:sm _font:semibold _color:text",
 	testimonialRole: "_text:xs _color:text-weak",
 	// Pricing
-	pricingSection:
-		"_py:2xl _px:xl _display:flex _flex-direction:column _items:center",
+	pricingSection: "_py:2xl _px:xl _display:flex _flex-direction:column _items:center",
 	pricingTitle: "_text:lg _font:bold _color:text _text-align:center _mb:sm",
 	pricingSubtitle: "_text:md _color:text-weak _text-align:center _mb:xl",
-	pricingGrid:
-		"_display:grid _grid-cols:3 _gap:lg _max-w:2xl _w:full _items:start",
+	pricingGrid: "_display:grid _grid-cols:3 _gap:lg _max-w:2xl _w:full _items:start",
 	pricingCard:
 		"_bg:white _rounded:lg _p:xl _border:thin _border-style:solid _border-color:neutral-200 _display:flex _flex-direction:column _items:center _gap:md",
 	pricingCardFeatured:
@@ -424,8 +407,7 @@ export const styleframeShorthandPage = page({
 	pricingName: "_text:md _font:semibold _color:text",
 	pricingPrice: "_text:lg _font:bold _color:text",
 	pricingPeriod: "_text:sm _color:text-weak",
-	pricingFeatures:
-		"_list:none _display:flex _flex-direction:column _gap:sm _w:full",
+	pricingFeatures: "_list:none _display:flex _flex-direction:column _gap:sm _w:full",
 	pricingFeatureItem:
 		"_text:sm _color:text _py:xs _border-bottom-width:thin _border-bottom-color:neutral-100 _border-bottom-style:solid",
 	pricingCta:
@@ -438,8 +420,7 @@ export const styleframeShorthandPage = page({
 	ctaBannerTitle: "_text:lg _font:bold _color:white",
 	ctaBannerDesc: "_text:md _color:primary-100 _max-w:2xl _leading:normal",
 	// Footer
-	footer:
-		"_bg:neutral-900 _py:xl _px:xl _display:flex _flex-direction:column _gap:xl",
+	footer: "_bg:neutral-900 _py:xl _px:xl _display:flex _flex-direction:column _gap:xl",
 	footerTop: "_display:grid _grid-cols:4 _gap:xl",
 	footerBrand: "_text:lg _font:bold _color:white",
 	footerDesc: "_text:sm _color:neutral-200 _leading:normal _mt:sm",
@@ -481,8 +462,7 @@ export const tailwindPage = page({
 	featuresTitle: "text-lg font-bold text-text text-center mb-sm",
 	featuresSubtitle: "text-md text-text-weak text-center mb-xl max-w-2xl",
 	featuresGrid: "grid grid-cols-3 gap-lg max-w-2xl w-full",
-	featureCard:
-		"bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-sm",
+	featureCard: "bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-sm",
 	featureIcon: "w-xl h-xl rounded-md bg-primary-100",
 	featureCardTitle: "text-md font-semibold text-text",
 	featureCardDesc: "text-sm text-text-weak leading-normal",
@@ -490,8 +470,7 @@ export const tailwindPage = page({
 	testimonialsSection: "py-2xl px-xl bg-neutral-50 flex flex-col items-center",
 	testimonialsTitle: "text-lg font-bold text-text text-center mb-xl",
 	testimonialsGrid: "grid grid-cols-3 gap-lg max-w-2xl w-full",
-	testimonialCard:
-		"bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-md",
+	testimonialCard: "bg-white rounded-lg p-lg border border-neutral-200 flex flex-col gap-md",
 	testimonialQuote: "text-sm text-text leading-normal",
 	testimonialAuthor: "text-sm font-semibold text-text",
 	testimonialRole: "text-xs text-text-weak",
@@ -514,8 +493,7 @@ export const tailwindPage = page({
 	pricingCtaFeatured:
 		"inline-flex items-center justify-center bg-primary text-white text-sm font-medium px-lg py-sm rounded-md border-0 cursor-pointer w-full",
 	// CTA banner
-	ctaBanner:
-		"bg-primary-800 py-2xl px-xl flex flex-col items-center gap-lg text-center",
+	ctaBanner: "bg-primary-800 py-2xl px-xl flex flex-col items-center gap-lg text-center",
 	ctaBannerTitle: "text-lg font-bold text-white",
 	ctaBannerDesc: "text-md text-primary-100 max-w-2xl leading-normal",
 	// Footer
@@ -527,8 +505,7 @@ export const tailwindPage = page({
 	footerColumnTitle: "text-sm font-semibold text-white mb-md",
 	footerColumnList: "list-none flex flex-col gap-sm",
 	footerColumnLink: "text-sm text-neutral-200 no-underline",
-	footerBottom:
-		"flex justify-between items-center pt-lg border-t border-neutral-700",
+	footerBottom: "flex justify-between items-center pt-lg border-t border-neutral-700",
 	footerCopyright: "text-sm text-neutral-200",
 	footerBottomLinks: "flex gap-md",
 	footerBottomLink: "text-sm text-neutral-200 no-underline",

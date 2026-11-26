@@ -1,4 +1,5 @@
 import type { Styleframe } from "@styleframe/core";
+
 import { useUtilitiesPreset } from "./useUtilitiesPreset";
 import type { UtilitiesPresetConfig } from "./useUtilitiesPreset";
 
@@ -195,10 +196,7 @@ export const shorthandNames: Record<string, string> = {
  * // Now generates: ._m:sm, ._p:md, ._w:full, ._rounded:lg, etc.
  * ```
  */
-export function useShorthandUtilitiesPreset(
-	s: Styleframe,
-	config: UtilitiesPresetConfig = {},
-) {
+export function useShorthandUtilitiesPreset(s: Styleframe, config: UtilitiesPresetConfig = {}) {
 	return useUtilitiesPreset(s, {
 		...config,
 		names: { ...shorthandNames, ...config.names },

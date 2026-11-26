@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
@@ -117,12 +118,7 @@ describe("useContextMenuSubTriggerRecipe", () => {
 			const s = createInstance();
 			const recipe = useContextMenuSubTriggerRecipe(s);
 
-			expect(Object.keys(recipe.variants!)).toEqual([
-				"color",
-				"variant",
-				"size",
-				"open",
-			]);
+			expect(Object.keys(recipe.variants!)).toEqual(["color", "variant", "size", "open"]);
 			expect(Object.keys(recipe.variants!.open)).toEqual(["true", "false"]);
 		});
 	});
@@ -153,9 +149,7 @@ describe("useContextMenuSubTriggerRecipe", () => {
 
 			const cv = recipe.compoundVariants!.find(
 				(v) =>
-					v.match.color === "neutral" &&
-					v.match.variant === "solid" &&
-					v.match.open === "true",
+					v.match.color === "neutral" && v.match.variant === "solid" && v.match.open === "true",
 			);
 
 			expect(cv?.css).toEqual({
@@ -174,9 +168,7 @@ describe("useContextMenuSubTriggerRecipe", () => {
 
 			// 3 neutral surface + 3 neutral open
 			expect(recipe.compoundVariants).toHaveLength(6);
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 		});
 	});
 });

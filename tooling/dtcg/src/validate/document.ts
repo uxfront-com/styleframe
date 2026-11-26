@@ -13,6 +13,9 @@
  *      compatible type.
  */
 
+import { lookupToken } from "../alias/lookup";
+import { parseAlias } from "../alias/parse";
+import { isValidNamespace } from "../extensions/namespace";
 import { isAlias } from "../guards/alias";
 import { isToken } from "../guards/token";
 import {
@@ -31,11 +34,8 @@ import {
 	isTypographyValue,
 } from "../guards/values";
 import { applyInheritance } from "../inheritance/apply";
-import { walk } from "../parse/walk";
 import { ValidationError } from "../parse/errors";
-import { isValidNamespace } from "../extensions/namespace";
-import { lookupToken } from "../alias/lookup";
-import { parseAlias } from "../alias/parse";
+import { walk } from "../parse/walk";
 import type { DTCGAnyToken, DTCGDocument } from "../types/token";
 import type { DTCGTokenType } from "../types/values";
 
@@ -79,19 +79,8 @@ function validateExtensions(
 	if (extensions === undefined) {
 		return;
 	}
-	if (
-		typeof extensions !== "object" ||
-		extensions === null ||
-		Array.isArray(extensions)
-	) {
-		errors.push(
-			new ValidationError(
-				"$extensions must be an object",
-				path,
-				"object",
-				extensions,
-			),
-		);
+	if (typeof extensions !== "object" || extensions === null || Array.isArray(extensions)) {
+		errors.push(new ValidationError("$extensions must be an object", path, "object", extensions));
 		return;
 	}
 	for (const key of Object.keys(extensions)) {
@@ -113,36 +102,22 @@ function validateMetadataTypes(
 	path: string,
 	errors: Array<ValidationError>,
 ): void {
-	if (
-		node.$description !== undefined &&
-		typeof node.$description !== "string"
-	) {
+	if (node.$description !== undefined && typeof node.$description !== "string") {
 		errors.push(
-			new ValidationError(
-				"$description must be a string",
-				path,
-				"string",
-				node.$description,
-			),
+			new ValidationError("$description must be a string", path, "string", node.$description),
 		);
 	}
 	if (node.$deprecated !== undefined) {
 		const v = node.$deprecated;
 		if (typeof v !== "boolean" && typeof v !== "string") {
 			errors.push(
-				new ValidationError(
-					"$deprecated must be a boolean or string",
-					path,
-					"boolean | string",
-					v,
-				),
+				new ValidationError("$deprecated must be a boolean or string", path, "boolean | string", v),
 			);
 		}
 	}
 	if (
 		node.$type !== undefined &&
-		(typeof node.$type !== "string" ||
-			!KNOWN_TYPES.has(node.$type as DTCGTokenType))
+		(typeof node.$type !== "string" || !KNOWN_TYPES.has(node.$type as DTCGTokenType))
 	) {
 		errors.push(
 			new ValidationError(
@@ -266,12 +241,7 @@ function validateTree(
 export function validate(doc: DTCGDocument): Array<ValidationError> {
 	const errors: Array<ValidationError> = [];
 	const inherited = applyInheritance(doc);
-	validateTree(
-		inherited as unknown as Record<string, unknown>,
-		"",
-		inherited,
-		errors,
-	);
+	validateTree(inherited as unknown as Record<string, unknown>, "", inherited, errors);
 	// Walk again on the inherited copy to catch reference-integrity errors per token.
 	for (const _entry of walk(inherited)) {
 		// validation already covers per-token in validateTree; walk is here in case

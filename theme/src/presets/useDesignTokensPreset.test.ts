@@ -1,9 +1,7 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	defaultColorsMetaConfig,
-	useDesignTokensPreset,
-} from "./useDesignTokensPreset";
+
+import { defaultColorsMetaConfig, useDesignTokensPreset } from "./useDesignTokensPreset";
 
 describe("useDesignTokensPreset", () => {
 	describe("basic functionality", () => {
@@ -314,9 +312,7 @@ describe("useDesignTokensPreset", () => {
 				spacing: { sm: "0.5rem", lg: "2rem" },
 			});
 
-			const spacingKeys = Object.keys(result).filter((k) =>
-				k.startsWith("spacing"),
-			);
+			const spacingKeys = Object.keys(result).filter((k) => k.startsWith("spacing"));
 			// Only the keys present in the custom record exist
 			expect(spacingKeys.sort()).toEqual(["spacingLg", "spacingSm"]);
 		});
@@ -358,9 +354,7 @@ describe("useDesignTokensPreset", () => {
 				themes: { dark: { colors: false, borderColor: false } },
 			});
 
-			const colorKeys = Object.keys(result).filter((name) =>
-				/colorPrimary\d+/.test(name),
-			);
+			const colorKeys = Object.keys(result).filter((name) => /colorPrimary\d+/.test(name));
 			expect(colorKeys.length).toBeGreaterThan(0);
 		});
 
@@ -372,9 +366,7 @@ describe("useDesignTokensPreset", () => {
 				themes: { dark: { colors: false, borderColor: false } },
 			});
 
-			const shadeKeys = Object.keys(result).filter((name) =>
-				/colorPrimaryShade/.test(name),
-			);
+			const shadeKeys = Object.keys(result).filter((name) => /colorPrimaryShade/.test(name));
 			expect(shadeKeys.length).toBeGreaterThan(0);
 		});
 
@@ -386,9 +378,7 @@ describe("useDesignTokensPreset", () => {
 				themes: { dark: { colors: false, borderColor: false } },
 			});
 
-			const tintKeys = Object.keys(result).filter((name) =>
-				/colorPrimaryTint/.test(name),
-			);
+			const tintKeys = Object.keys(result).filter((name) => /colorPrimaryTint/.test(name));
 			expect(tintKeys.length).toBeGreaterThan(0);
 		});
 
@@ -405,9 +395,7 @@ describe("useDesignTokensPreset", () => {
 				},
 			});
 
-			const lightnessKeys = Object.keys(result).filter((name) =>
-				/colorPrimary\d+/.test(name),
-			);
+			const lightnessKeys = Object.keys(result).filter((name) => /colorPrimary\d+/.test(name));
 			expect(lightnessKeys.length).toBe(0);
 		});
 
@@ -424,9 +412,7 @@ describe("useDesignTokensPreset", () => {
 				},
 			});
 
-			const shadeKeys = Object.keys(result).filter((name) =>
-				/colorPrimaryShade/.test(name),
-			);
+			const shadeKeys = Object.keys(result).filter((name) => /colorPrimaryShade/.test(name));
 			expect(shadeKeys.length).toBe(0);
 		});
 
@@ -443,9 +429,7 @@ describe("useDesignTokensPreset", () => {
 				},
 			});
 
-			const tintKeys = Object.keys(result).filter((name) =>
-				/colorPrimaryTint/.test(name),
-			);
+			const tintKeys = Object.keys(result).filter((name) => /colorPrimaryTint/.test(name));
 			expect(tintKeys.length).toBe(0);
 		});
 
@@ -530,9 +514,7 @@ describe("useDesignTokensPreset", () => {
 				},
 			});
 
-			const primaryLevelKeys = Object.keys(result).filter((name) =>
-				/colorPrimary\d+/.test(name),
-			);
+			const primaryLevelKeys = Object.keys(result).filter((name) => /colorPrimary\d+/.test(name));
 			const secondaryLevelKeys = Object.keys(result).filter((name) =>
 				/colorSecondary\d+/.test(name),
 			);
@@ -558,9 +540,7 @@ describe("useDesignTokensPreset", () => {
 				},
 			});
 
-			const primaryLevelKeys = Object.keys(result).filter((name) =>
-				/colorPrimary\d+/.test(name),
-			);
+			const primaryLevelKeys = Object.keys(result).filter((name) => /colorPrimary\d+/.test(name));
 			const secondaryLevelKeys = Object.keys(result).filter((name) =>
 				/colorSecondary\d+/.test(name),
 			);
@@ -785,9 +765,7 @@ describe("useDesignTokensPreset", () => {
 			});
 
 			// No spacing keys should exist since config was empty and merge is off
-			const spacingKeys = Object.keys(result).filter((k) =>
-				k.startsWith("spacing"),
-			);
+			const spacingKeys = Object.keys(result).filter((k) => k.startsWith("spacing"));
 			expect(spacingKeys).toEqual([]);
 		});
 
@@ -1468,9 +1446,7 @@ describe("useDesignTokensPreset", () => {
 			});
 
 			const css = consumeCSS(s.root, s.options);
-			const [rootCss, darkCss] = css.split(
-				'.dark-theme, [data-theme="dark"] {',
-			);
+			const [rootCss, darkCss] = css.split('.dark-theme, [data-theme="dark"] {');
 			expect(rootCss).toContain("--color--focus: var(--color--primary);");
 			expect(darkCss).toContain("--color--focus: var(--color--primary);");
 		});
@@ -1479,9 +1455,7 @@ describe("useDesignTokensPreset", () => {
 			const s = styleframe();
 			const result = useDesignTokensPreset(s);
 
-			expect(
-				Object.keys(result).filter((k) => k.startsWith("colorFocus")),
-			).toEqual(["colorFocus"]);
+			expect(Object.keys(result).filter((k) => k.startsWith("colorFocus"))).toEqual(["colorFocus"]);
 			expectTypeOf(result).not.toHaveProperty("colorFocus100");
 			expectTypeOf(result).not.toHaveProperty("colorFocusShade50");
 			expectTypeOf(result).not.toHaveProperty("colorFocusTint50");
@@ -1629,9 +1603,7 @@ describe("useDesignTokensPreset", () => {
 			});
 
 			// Root-level colors should win (brand, not primary)
-			const colorKeys = Object.keys(result).filter((k) =>
-				k.startsWith("color"),
-			);
+			const colorKeys = Object.keys(result).filter((k) => k.startsWith("color"));
 			expect(colorKeys).toContain("colorBrand");
 			expect(colorKeys).not.toContain("colorPrimary");
 		});
@@ -1746,12 +1718,8 @@ describe("useDesignTokensPreset", () => {
 
 			// CSS should contain the reference variables
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain(
-				"--color--primary--hover: var(--color--primary-shade-50)",
-			);
-			expect(css).toContain(
-				"--color--primary--focus: var(--color--primary-shade-100)",
-			);
+			expect(css).toContain("--color--primary--hover: var(--color--primary-shade-50)");
+			expect(css).toContain("--color--primary--focus: var(--color--primary-shade-100)");
 		});
 
 		it("should support dark theme overrides for reference color values", () => {
@@ -1783,21 +1751,13 @@ describe("useDesignTokensPreset", () => {
 			const css = consumeCSS(s.root, s.options);
 
 			// Root should have shade references
-			expect(css).toContain(
-				"--color--primary--hover: var(--color--primary-shade-50)",
-			);
-			expect(css).toContain(
-				"--color--primary--focus: var(--color--primary-shade-100)",
-			);
+			expect(css).toContain("--color--primary--hover: var(--color--primary-shade-50)");
+			expect(css).toContain("--color--primary--focus: var(--color--primary-shade-100)");
 
 			// Dark theme should have tint references
 			expect(css).toContain('[data-theme="dark"]');
-			expect(css).toContain(
-				"--color--primary--hover: var(--color--primary-tint-50)",
-			);
-			expect(css).toContain(
-				"--color--primary--focus: var(--color--primary-tint-100)",
-			);
+			expect(css).toContain("--color--primary--hover: var(--color--primary-tint-50)");
+			expect(css).toContain("--color--primary--focus: var(--color--primary-tint-100)");
 		});
 
 		it("should support reference colors alongside multiple base colors", () => {
@@ -1871,9 +1831,9 @@ describe("useDesignTokensPreset", () => {
 
 		it("should throw when fluidViewport is false but fluidFontSize is enabled (default)", () => {
 			const s = styleframe();
-			expect(() =>
-				useDesignTokensPreset(s, { fluidViewport: false }),
-			).toThrowError(/font-size.*fluid mode requires.*fluidViewport/);
+			expect(() => useDesignTokensPreset(s, { fluidViewport: false })).toThrowError(
+				/font-size.*fluid mode requires.*fluidViewport/,
+			);
 		});
 
 		it("should opt out cleanly when both fluidFontSize and fluidViewport are false", () => {
@@ -1946,12 +1906,8 @@ describe("useDesignTokensPreset", () => {
 			});
 
 			// User's static fontSize values take precedence over fluid defaults
-			expect(consumeCSS(result.fontSizeMd, s.options)).toEqual(
-				"--font-size--md: 1rem;",
-			);
-			expect(consumeCSS(result.fontSizeSm, s.options)).toEqual(
-				"--font-size--sm: 0.875rem;",
-			);
+			expect(consumeCSS(result.fontSizeMd, s.options)).toEqual("--font-size--md: 1rem;");
+			expect(consumeCSS(result.fontSizeSm, s.options)).toEqual("--font-size--sm: 0.875rem;");
 		});
 
 		it("should let user override the fluid font-size base via fontSize.min/max", () => {

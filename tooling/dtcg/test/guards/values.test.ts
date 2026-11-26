@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
 	isBorderValue,
 	isColorSpace,
@@ -48,9 +49,7 @@ describe("isColorSpace", () => {
 
 describe("isColorValue", () => {
 	it("accepts a minimal sRGB color", () => {
-		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0] })).toBe(
-			true,
-		);
+		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0] })).toBe(true);
 	});
 
 	it("accepts a color with alpha and hex", () => {
@@ -65,33 +64,21 @@ describe("isColorValue", () => {
 	});
 
 	it("accepts the `none` keyword in components", () => {
-		expect(
-			isColorValue({ colorSpace: "hsl", components: ["none", 0, 100] }),
-		).toBe(true);
+		expect(isColorValue({ colorSpace: "hsl", components: ["none", 0, 100] })).toBe(true);
 	});
 
 	it("rejects out-of-range alpha", () => {
-		expect(
-			isColorValue({ colorSpace: "srgb", components: [1, 0, 0], alpha: 1.5 }),
-		).toBe(false);
-		expect(
-			isColorValue({ colorSpace: "srgb", components: [1, 0, 0], alpha: -0.1 }),
-		).toBe(false);
+		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0], alpha: 1.5 })).toBe(false);
+		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0], alpha: -0.1 })).toBe(false);
 	});
 
 	it("rejects components arrays of wrong length", () => {
-		expect(isColorValue({ colorSpace: "srgb", components: [1, 0] })).toBe(
-			false,
-		);
-		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0, 1] })).toBe(
-			false,
-		);
+		expect(isColorValue({ colorSpace: "srgb", components: [1, 0] })).toBe(false);
+		expect(isColorValue({ colorSpace: "srgb", components: [1, 0, 0, 1] })).toBe(false);
 	});
 
 	it("rejects unknown colorSpace", () => {
-		expect(isColorValue({ colorSpace: "rgba", components: [1, 0, 0] })).toBe(
-			false,
-		);
+		expect(isColorValue({ colorSpace: "rgba", components: [1, 0, 0] })).toBe(false);
 	});
 });
 
@@ -111,9 +98,7 @@ describe("isDimensionValue", () => {
 
 	it("rejects non-finite values", () => {
 		expect(isDimensionValue({ value: Number.NaN, unit: "px" })).toBe(false);
-		expect(
-			isDimensionValue({ value: Number.POSITIVE_INFINITY, unit: "px" }),
-		).toBe(false);
+		expect(isDimensionValue({ value: Number.POSITIVE_INFINITY, unit: "px" })).toBe(false);
 	});
 });
 
@@ -344,8 +329,6 @@ describe("isTypographyValue", () => {
 	});
 
 	it("rejects when fontFamily missing", () => {
-		expect(isTypographyValue({ fontSize: { value: 16, unit: "px" } })).toBe(
-			false,
-		);
+		expect(isTypographyValue({ fontSize: { value: 16, unit: "px" } })).toBe(false);
 	});
 });

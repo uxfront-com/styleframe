@@ -2,16 +2,32 @@
 	"name": "@styleframe/runtime",
 	"version": "3.2.3",
 	"keywords": [
-		"styleframe",
-		"recipes",
-		"variants",
 		"css",
-		"runtime"
+		"recipes",
+		"runtime",
+		"styleframe",
+		"variants"
+	],
+	"homepage": "https://styleframe.dev",
+	"bugs": {
+		"url": "https://github.com/styleframe-dev/styleframe/issues"
+	},
+	"author": "Alex Grozav <alex@styleframe.dev>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uxfront-com/styleframe.git",
+		"directory": "engine/runtime"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"CHANGELOG.md",
+		"README.md"
 	],
 	"type": "module",
-	"types": "./dist/index.d.ts",
-	"module": "./dist/runtime.js",
 	"main": "./dist/runtime.umd.cjs",
+	"module": "./dist/runtime.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -24,12 +40,6 @@
 			}
 		}
 	},
-	"files": [
-		"dist",
-		"LICENSE",
-		"CHANGELOG.md",
-		"README.md"
-	],
 	"scripts": {
 		"dev": "vite build --watch",
 		"build": "pnpm typecheck && vite build",
@@ -43,21 +53,11 @@
 		"@styleframe/core": "workspace:^3.8.0",
 		"@vitest/coverage-v8": "catalog:",
 		"typescript": "catalog:",
-		"vite": "catalog:",
 		"unplugin-dts": "catalog:",
+		"vite": "catalog:",
 		"vitest": "catalog:"
 	},
 	"peerDependencies": {
 		"@styleframe/core": "workspace:^3.6.1"
-	},
-	"homepage": "https://styleframe.dev",
-	"bugs": {
-		"url": "https://github.com/styleframe-dev/styleframe/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/uxfront-com/styleframe.git",
-		"directory": "engine/runtime"
-	},
-	"author": "Alex Grozav <alex@styleframe.dev>"
+	}
 }

@@ -30,12 +30,7 @@ function onLogoClick(event: MouseEvent) {
 			aria-label="Go to styleframe.dev"
 			@click="onLogoClick"
 		>
-			<img
-				:class="pgBrandLogotype()"
-				:src="logotypeSrc"
-				alt="Styleframe"
-				draggable="false"
-			/>
+			<img :class="pgBrandLogotype()" :src="logotypeSrc" alt="Styleframe" draggable="false" />
 		</a>
 		<span :class="pgBrandBadge()">Playground</span>
 	</div>

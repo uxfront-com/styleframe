@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Tooltip from "@/components/components/tooltip/Tooltip.vue";
 import TooltipGrid from "@/components/components/tooltip/preview/TooltipGrid.vue";
 import TooltipSizeGrid from "@/components/components/tooltip/preview/TooltipSizeGrid.vue";
 import TooltipTopLayer from "@/components/components/tooltip/preview/TooltipTopLayer.vue";
+import Tooltip from "@/components/components/tooltip/Tooltip.vue";
 
 const colors = ["light", "dark", "neutral"] as const;
 const variants = ["solid", "soft", "subtle"] as const;

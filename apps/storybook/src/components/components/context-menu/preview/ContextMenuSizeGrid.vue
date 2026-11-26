@@ -21,10 +21,7 @@ const sizeTitles: Record<string, string> = {
 			<div class="context-menu-demo-label">{{ sizeTitles[size] }}</div>
 			<div class="context-menu-row">
 				<ContextMenu :size="size">
-					<ContextMenuLabel
-						:size="size"
-						>{{ sizeTitles[size] }}</ContextMenuLabel
-					>
+					<ContextMenuLabel :size="size">{{ sizeTitles[size] }}</ContextMenuLabel>
 					<ContextMenuItem :size="size">
 						Back
 						<ContextMenuShortcut :size="size">⌘[</ContextMenuShortcut>

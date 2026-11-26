@@ -10,9 +10,7 @@ export interface DocsSectionTab {
 }
 
 /** The first page in a navigation tree, depth first. */
-function firstPagePath(
-	items: Array<ContentNavigationItem> | undefined,
-): string | undefined {
+function firstPagePath(items: Array<ContentNavigationItem> | undefined): string | undefined {
 	for (const item of items ?? []) {
 		if (item.page !== false && item.path) {
 			return item.path;
@@ -39,11 +37,9 @@ function firstPagePath(
 export function useDocsSections() {
 	const route = useRoute();
 	const appConfig = useAppConfig();
-	const navigation =
-		inject<Ref<Array<ContentNavigationItem> | null | undefined>>("navigation");
+	const navigation = inject<Ref<Array<ContentNavigationItem> | null | undefined>>("navigation");
 
-	const isIn = (path: string) =>
-		route.path === path || route.path.startsWith(`${path}/`);
+	const isIn = (path: string) => route.path === path || route.path.startsWith(`${path}/`);
 
 	const sections = computed<Array<DocsSectionTab>>(() => {
 		const tree = navigation?.value ?? [];
@@ -82,22 +78,14 @@ export function useDocsSections() {
 		});
 	});
 
-	const tabs = computed(() =>
-		sections.value.map(({ navigation: _, ...tab }) => tab),
-	);
+	const tabs = computed(() => sections.value.map(({ navigation: _, ...tab }) => tab));
 
-	const currentSection = computed(() =>
-		sections.value.find((section) => section.active),
-	);
+	const currentSection = computed(() => sections.value.find((section) => section.active));
 
 	const sidebarOf = (navigation: Array<ContentNavigationItem>) =>
-		flattenNavigation(
-			foldNonRouteCategories(navigation, appConfig.nonRouteCategories ?? {}),
-		);
+		flattenNavigation(foldNonRouteCategories(navigation, appConfig.nonRouteCategories ?? {}));
 
-	const sidebarNavigation = computed(() =>
-		sidebarOf(currentSection.value?.navigation ?? []),
-	);
+	const sidebarNavigation = computed(() => sidebarOf(currentSection.value?.navigation ?? []));
 
 	// Every section with the sidebar it shows, for the header's menu.
 	const sidebars = computed(() =>

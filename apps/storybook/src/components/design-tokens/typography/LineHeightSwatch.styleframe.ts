@@ -1,18 +1,13 @@
-import { styleframe } from "virtual:styleframe";
 import { useDesignTokensPreset, useUtilitiesPreset } from "@styleframe/theme";
+import { styleframe } from "virtual:styleframe";
 
 const s = styleframe();
 const { ref, selector, recipe } = s;
 
 useUtilitiesPreset(s);
 
-const {
-	lineHeightTight,
-	lineHeightSnug,
-	lineHeightNormal,
-	lineHeightRelaxed,
-	lineHeightLoose,
-} = useDesignTokensPreset(s);
+const { lineHeightTight, lineHeightSnug, lineHeightNormal, lineHeightRelaxed, lineHeightLoose } =
+	useDesignTokensPreset(s);
 
 selector(".line-height-swatch__preview", {
 	color: "@color.text-weakest",

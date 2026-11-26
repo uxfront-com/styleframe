@@ -15,8 +15,7 @@
  * - `[a-zA-Z][a-zA-Z0-9-]*` - First segment (modifier or name)
  * - `(?::[a-zA-Z0-9._-]+|\:\[[^\]]+\])*` - Additional segments with `:` separator
  */
-export const UTILITY_CLASS_PATTERN =
-	/_[a-zA-Z][a-zA-Z0-9-]*(?::[a-zA-Z0-9._-]+|:\[[^\]]+\])*/g;
+export const UTILITY_CLASS_PATTERN = /_[a-zA-Z][a-zA-Z0-9-]*(?::[a-zA-Z0-9._-]+|:\[[^\]]+\])*/g;
 
 /**
  * Pattern to extract the value from an arbitrary value bracket notation.

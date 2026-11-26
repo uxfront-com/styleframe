@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
 import Button from "../../src/components/components/button/Button.vue";
-import Toast from "../../src/components/components/toast/Toast.vue";
 import ToastGrid from "../../src/components/components/toast/preview/ToastGrid.vue";
-import ToastSizeGrid from "../../src/components/components/toast/preview/ToastSizeGrid.vue";
 import ToastOrientationGrid from "../../src/components/components/toast/preview/ToastOrientationGrid.vue";
+import ToastSizeGrid from "../../src/components/components/toast/preview/ToastSizeGrid.vue";
+import Toast from "../../src/components/components/toast/Toast.vue";
 
 const colors = [
 	"neutral",
@@ -69,8 +69,7 @@ const meta = {
 		},
 		progress: {
 			control: "boolean",
-			description:
-				"Whether to show the duration progress line pinned to the bottom edge",
+			description: "Whether to show the duration progress line pinned to the bottom edge",
 		},
 	},
 } satisfies Meta<typeof Toast>;
@@ -136,8 +135,7 @@ export const WithProgress: Story = {
 		icon: "✓",
 		progress: true,
 		title: "Changes saved",
-		description:
-			"Your edits are live. The bar tracks the auto-dismiss countdown.",
+		description: "Your edits are live. The bar tracks the auto-dismiss countdown.",
 	},
 	render: (args) => ({
 		components: { Toast },

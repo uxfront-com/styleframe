@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 /**
@@ -44,9 +45,7 @@ const CHROME_LINKS = [
 ];
 
 // The site header's own links, beside the footer's copies.
-const HEADER_LINKS = CHROME_LINKS.slice(0, 4).filter(
-	(link) => link !== LOGIN_LINK,
-);
+const HEADER_LINKS = CHROME_LINKS.slice(0, 4).filter((link) => link !== LOGIN_LINK);
 
 // The links each product page must keep from main.
 const PAGE_LINKS = {
@@ -61,9 +60,7 @@ const PAGE_LINKS = {
 		'href="mailto:support@styleframe.dev"',
 	],
 	scanner: ['href="/docs/getting-started/tooling/scanner"'],
-	figma: [
-		'href="https://www.figma.com/community/plugin/1597716416772135340/styleframe"',
-	],
+	figma: ['href="https://www.figma.com/community/plugin/1597716416772135340/styleframe"'],
 };
 
 const CREDIT = /Copyright © \d{4} styleframe/;
@@ -85,63 +82,46 @@ function chrome(html: string): string {
 }
 
 describe("product and legal pages", () => {
-	it.each(Object.entries(PAGES))(
-		"%s keeps main's title and has one <main>",
-		(route, title) => {
-			const html = readPage(route);
-			expect(html).toContain(`<title>${title}</title>`);
-			expect(html.match(/<main\b/g)).toHaveLength(1);
-		},
-	);
+	it.each(Object.entries(PAGES))("%s keeps main's title and has one <main>", (route, title) => {
+		const html = readPage(route);
+		expect(html).toContain(`<title>${title}</title>`);
+		expect(html.match(/<main\b/g)).toHaveLength(1);
+	});
 
-	it.each(Object.keys(PAGES))(
-		"%s links everything the docs chrome does",
-		(route) => {
-			const html = readPage(route);
-			const markup = chrome(html);
-			for (const link of CHROME_LINKS) {
-				expect(markup).toContain(link);
-			}
-			expect(markup).toMatch(CREDIT);
-			const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
-			for (const link of HEADER_LINKS) {
-				expect(header).toContain(link);
-			}
-		},
-	);
+	it.each(Object.keys(PAGES))("%s links everything the docs chrome does", (route) => {
+		const html = readPage(route);
+		const markup = chrome(html);
+		for (const link of CHROME_LINKS) {
+			expect(markup).toContain(link);
+		}
+		expect(markup).toMatch(CREDIT);
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		for (const link of HEADER_LINKS) {
+			expect(header).toContain(link);
+		}
+	});
 
-	it.each(Object.keys(PAGES))(
-		"%s links Log in from its footer, not its header",
-		(route) => {
-			const html = readPage(route);
-			const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
-			const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
-			expect(header).not.toBe("");
-			expect(header).not.toContain(LOGIN_LINK);
-			expect(footer).toContain(LOGIN_LINK);
-		},
-	);
+	it.each(Object.keys(PAGES))("%s links Log in from its footer, not its header", (route) => {
+		const html = readPage(route);
+		const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+		const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
+		expect(header).not.toBe("");
+		expect(header).not.toContain(LOGIN_LINK);
+		expect(footer).toContain(LOGIN_LINK);
+	});
 
 	it.each(Object.keys(PAGES))(
 		"%s shows the docs' logotype in its header, with the byline after it",
 		(route) => {
-			const header =
-				readPage(route).match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
-			const home =
-				header.match(
-					/<a\b[^>]*aria-label="styleframe, home"[\s\S]*?<\/a>/,
-				)?.[0] ?? "";
+			const header = readPage(route).match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+			const home = header.match(/<a\b[^>]*aria-label="styleframe, home"[\s\S]*?<\/a>/)?.[0] ?? "";
 			expect(home).not.toBe("");
-			expect(home).toMatch(
-				/<img\b(?=[^>]*\bsrc="\/logotype-dark\.svg")(?=[^>]*\balt="")[^>]*>/,
-			);
+			expect(home).toMatch(/<img\b(?=[^>]*\bsrc="\/logotype-dark\.svg")(?=[^>]*\balt="")[^>]*>/);
 			// No mark: neither the old one, nor the UxFrontMark UxHeader defaults to.
 			expect(home).not.toContain('src="/logo.svg"');
 			expect(home).not.toContain("<svg");
 			expect(home).not.toContain("ux-header__mark");
-			expect(header.indexOf('href="https://uxfront.com"')).toBeGreaterThan(
-				header.indexOf(home),
-			);
+			expect(header.indexOf('href="https://uxfront.com"')).toBeGreaterThan(header.indexOf(home));
 		},
 	);
 

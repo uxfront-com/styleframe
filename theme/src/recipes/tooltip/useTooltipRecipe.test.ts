@@ -1,5 +1,6 @@
 import { styleframe } from "@styleframe/core";
 import type { AtRule, Selector } from "@styleframe/core";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
@@ -65,13 +66,9 @@ function createInstance() {
 	return s;
 }
 
-function findSelector(
-	s: ReturnType<typeof createInstance>,
-	query: string,
-): Selector | undefined {
+function findSelector(s: ReturnType<typeof createInstance>, query: string): Selector | undefined {
 	return s.root.children.find(
-		(child): child is Selector =>
-			child.type === "selector" && child.query === query,
+		(child): child is Selector => child.type === "selector" && child.query === query,
 	);
 }
 
@@ -96,10 +93,7 @@ function toText(value: unknown): string {
 
 function declarationsOf(selector: { declarations: object } | undefined) {
 	return Object.fromEntries(
-		Object.entries(selector?.declarations ?? {}).map(([key, value]) => [
-			key,
-			toText(value),
-		]),
+		Object.entries(selector?.declarations ?? {}).map(([key, value]) => [key, toText(value)]),
 	);
 }
 
@@ -147,22 +141,14 @@ describe("useTooltipRecipe", () => {
 			const s = createInstance();
 			const recipe = useTooltipRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useTooltipRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -340,12 +326,8 @@ describe("useTooltipRecipe", () => {
 				filter: { color: ["dark"] },
 			});
 
-			const colorCompounds = recipe.compoundVariants!.filter(
-				(cv) => cv.match.color,
-			);
-			expect(colorCompounds.every((cv) => cv.match.color === "dark")).toBe(
-				true,
-			);
+			const colorCompounds = recipe.compoundVariants!.filter((cv) => cv.match.color);
+			expect(colorCompounds.every((cv) => cv.match.color === "dark")).toBe(true);
 			expect(colorCompounds).toHaveLength(3);
 		});
 
@@ -359,9 +341,7 @@ describe("useTooltipRecipe", () => {
 			expect(
 				recipe
 					.compoundVariants!.filter((cv) => cv.match.variant)
-					.every(
-						(cv) => cv.match.variant === "solid" || cv.match.variant === "soft",
-					),
+					.every((cv) => cv.match.variant === "solid" || cv.match.variant === "soft"),
 			).toBe(true);
 		});
 
@@ -411,22 +391,14 @@ describe("useTooltipArrowRecipe", () => {
 			const s = createInstance();
 			const recipe = useTooltipArrowRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useTooltipArrowRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 	});
 
@@ -546,9 +518,7 @@ describe("useTooltipArrowRecipe", () => {
 			});
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["dark"]);
-			expect(
-				recipe.compoundVariants!.filter((cv) => cv.match.color),
-			).toHaveLength(3);
+			expect(recipe.compoundVariants!.filter((cv) => cv.match.color)).toHaveLength(3);
 		});
 
 		it("should adjust default variants when filtered out", () => {
@@ -585,9 +555,9 @@ describe("tooltip Open Components rules", () => {
 			width: "max-content",
 			overflow: "visible",
 		});
-		expect(
-			findSelector(s, ".tooltip[popover]:not(:popover-open)")?.declarations,
-		).toEqual({ display: "none" });
+		expect(findSelector(s, ".tooltip[popover]:not(:popover-open)")?.declarations).toEqual({
+			display: "none",
+		});
 		expect(s.root.variables.map((v) => v.name)).toContain("tooltip.offset");
 		expect(recipe.base!.zIndex).toBe("@z-index.tooltip");
 	});
@@ -604,17 +574,10 @@ describe("tooltip Open Components rules", () => {
 		const s = createInstance();
 		const recipe = useTooltipRecipe(s);
 
-		expect(Object.keys(recipe.variants!.placement)).toEqual([
-			"top",
-			"bottom",
-			"start",
-			"end",
-		]);
+		expect(Object.keys(recipe.variants!.placement)).toEqual(["top", "bottom", "start", "end"]);
 		expect(recipe.defaultVariants!.placement).toBe("top");
 		for (const placement of ["top", "bottom", "start", "end"] as const) {
-			expect(
-				recipe.compoundVariants!.find((cv) => cv.match.placement === placement),
-			).toEqual({
+			expect(recipe.compoundVariants!.find((cv) => cv.match.placement === placement)).toEqual({
 				match: { placement },
 				className: `-placement-${placement}`,
 			});
@@ -624,18 +587,18 @@ describe("tooltip Open Components rules", () => {
 			positionArea: "top",
 			positionTryFallbacks: "flip-block, flip-inline",
 		});
-		expect(
-			findSelector(s, ".tooltip[popover].-placement-top")?.declarations,
-		).toEqual({ positionArea: "top" });
-		expect(
-			findSelector(s, ".tooltip[popover].-placement-bottom")?.declarations,
-		).toEqual({ positionArea: "bottom" });
-		expect(
-			findSelector(s, ".tooltip[popover].-placement-start")?.declarations,
-		).toEqual({ positionArea: "self-inline-start" });
-		expect(
-			findSelector(s, ".tooltip[popover].-placement-end")?.declarations,
-		).toEqual({ positionArea: "self-inline-end" });
+		expect(findSelector(s, ".tooltip[popover].-placement-top")?.declarations).toEqual({
+			positionArea: "top",
+		});
+		expect(findSelector(s, ".tooltip[popover].-placement-bottom")?.declarations).toEqual({
+			positionArea: "bottom",
+		});
+		expect(findSelector(s, ".tooltip[popover].-placement-start")?.declarations).toEqual({
+			positionArea: "self-inline-start",
+		});
+		expect(findSelector(s, ".tooltip[popover].-placement-end")?.declarations).toEqual({
+			positionArea: "self-inline-end",
+		});
 	});
 
 	it("tooltip/reduced-motion fades in without growing under prefers-reduced-motion: reduce", () => {
@@ -648,22 +611,19 @@ describe("tooltip Open Components rules", () => {
 		);
 
 		const growing = opening?.children.find(
-			(child): child is AtRule =>
-				child.type === "at-rule" && child.identifier === "starting-style",
+			(child): child is AtRule => child.type === "at-rule" && child.identifier === "starting-style",
 		);
 		expect(growing?.declarations).toEqual({ opacity: "0", scale: "0.96" });
 
 		const media = opening?.children.find(
-			(child): child is AtRule =>
-				child.type === "at-rule" && child.identifier === "media",
+			(child): child is AtRule => child.type === "at-rule" && child.identifier === "media",
 		);
 		expect(media?.rule).toBe("(prefers-reduced-motion: reduce)");
 		expect(declarationsOf(media)).toEqual({
 			transition: "opacity @duration.fast @easing.ease-out",
 		});
 		const startingStyle = media?.children.find(
-			(child): child is AtRule =>
-				child.type === "at-rule" && child.identifier === "starting-style",
+			(child): child is AtRule => child.type === "at-rule" && child.identifier === "starting-style",
 		);
 		expect(startingStyle?.declarations).toEqual({ scale: "1" });
 	});
@@ -789,9 +749,7 @@ describe("tooltip-arrow Open Components rules", () => {
 			},
 		});
 		for (const placement of ["top", "bottom", "start", "end"] as const) {
-			expect(
-				recipe.compoundVariants!.find((cv) => cv.match.placement === placement),
-			).toEqual({
+			expect(recipe.compoundVariants!.find((cv) => cv.match.placement === placement)).toEqual({
 				match: { placement },
 				className: `-placement-${placement}`,
 			});
@@ -804,24 +762,16 @@ describe("tooltip-arrow Open Components rules", () => {
 
 		const centred = "calc(50% - @tooltip.arrow.size - 1px)";
 		expect(
-			declarationsOf(
-				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-top"),
-			),
+			declarationsOf(findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-top")),
 		).toEqual({ top: "100%", insetInlineStart: centred });
 		expect(
-			declarationsOf(
-				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-bottom"),
-			),
+			declarationsOf(findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-bottom")),
 		).toEqual({ bottom: "100%", insetInlineStart: centred });
 		expect(
-			declarationsOf(
-				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-start"),
-			),
+			declarationsOf(findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-start")),
 		).toEqual({ top: centred, insetInlineStart: "100%" });
 		expect(
-			declarationsOf(
-				findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-end"),
-			),
+			declarationsOf(findSelector(s, ".tooltip[popover] > .tooltip-arrow.-placement-end")),
 		).toEqual({ top: centred, insetInlineEnd: "100%" });
 	});
 

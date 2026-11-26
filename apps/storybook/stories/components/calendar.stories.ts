@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Calendar from "../../src/components/components/calendar/Calendar.vue";
-import CalendarStatesGrid from "../../src/components/components/calendar/preview/CalendarStatesGrid.vue";
 import CalendarSizeGrid from "../../src/components/components/calendar/preview/CalendarSizeGrid.vue";
+import CalendarStatesGrid from "../../src/components/components/calendar/preview/CalendarStatesGrid.vue";
 import CalendarVariantsGrid from "../../src/components/components/calendar/preview/CalendarVariantsGrid.vue";
 
 const sizes = ["sm", "md", "lg"] as const;
@@ -29,8 +29,7 @@ const meta = {
 		variant: {
 			control: "select",
 			options: variants,
-			description:
-				"Active-selection style for selected days and range endpoints",
+			description: "Active-selection style for selected days and range endpoints",
 		},
 		numberOfMonths: {
 			control: "number",
@@ -148,13 +147,7 @@ export const DateTime: Story = {
 export const BookedDates: Story = {
 	args: {
 		selected: "2026-06-18",
-		booked: [
-			"2026-06-04",
-			"2026-06-05",
-			"2026-06-12",
-			"2026-06-19",
-			"2026-06-26",
-		],
+		booked: ["2026-06-04", "2026-06-05", "2026-06-12", "2026-06-19", "2026-06-26"],
 		disabledDays: ["2026-06-01", "2026-06-02"],
 	},
 };

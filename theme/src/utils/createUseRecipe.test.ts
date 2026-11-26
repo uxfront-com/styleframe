@@ -1,5 +1,6 @@
 import type { Styleframe } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
+
 import { createUseRecipe } from "./createUseRecipe";
 
 function registerUtilities(s: Styleframe) {
@@ -185,11 +186,7 @@ describe("createUseRecipe filter", () => {
 				md: { fontSize: "14px" },
 				lg: { fontSize: "16px" },
 			});
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"soft",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "soft"]);
 		});
 
 		it("should filter multiple variant axes", () => {
@@ -204,11 +201,7 @@ describe("createUseRecipe filter", () => {
 
 			expect(Object.keys(recipe.variants!.color)).toEqual(["primary", "error"]);
 			expect(Object.keys(recipe.variants!.size)).toEqual(["sm", "md"]);
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"outline",
-				"soft",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "outline", "soft"]);
 		});
 
 		it("should remove all values when filter is an empty array", () => {

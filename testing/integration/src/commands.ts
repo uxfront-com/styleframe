@@ -1,7 +1,8 @@
-import shell from "shelljs";
-import path from "node:path";
-import fs from "node:fs";
 import assert from "node:assert";
+import fs from "node:fs";
+import path from "node:path";
+
+import shell from "shelljs";
 
 import { DEFAULT_VITE_CONFIG } from "./constants";
 
@@ -14,10 +15,7 @@ export function buildPackages(cwd: string) {
 	}
 }
 
-function mapTarballsToPackages(
-	cwd: string,
-	files: Array<string>,
-): Record<string, string> {
+function mapTarballsToPackages(cwd: string, files: Array<string>): Record<string, string> {
 	const scopePrefix = "@styleframe/";
 	const map: Record<string, string> = {};
 
@@ -29,9 +27,7 @@ function mapTarballsToPackages(
 
 		// Convert scoped packages
 		const scopedName =
-			name === "styleframe"
-				? name
-				: `${scopePrefix}${name.replace(/^styleframe-/, "")}`;
+			name === "styleframe" ? name : `${scopePrefix}${name.replace(/^styleframe-/, "")}`;
 
 		map[scopedName] = path.join(cwd, file);
 	});
@@ -41,10 +37,7 @@ function mapTarballsToPackages(
 
 export function createPackageTarballs(
 	cwd: string,
-	{
-		filter = [],
-		outputDir = "dist",
-	}: { filter?: Array<string>; outputDir?: string } = {},
+	{ filter = [], outputDir = "dist" }: { filter?: Array<string>; outputDir?: string } = {},
 ) {
 	shell.exec(
 		`pnpm pack --recursive --pack-destination ${outputDir} ${filter.map((f) => `--filter '${f}'`).join(" ")}`,
@@ -54,10 +47,7 @@ export function createPackageTarballs(
 	);
 
 	const tarballCwd = `${cwd}/${outputDir}`;
-	const tarballs = shell
-		.exec(`ls *.tgz`, { cwd: tarballCwd })
-		.stdout.split("\n")
-		.filter(Boolean);
+	const tarballs = shell.exec(`ls *.tgz`, { cwd: tarballCwd }).stdout.split("\n").filter(Boolean);
 
 	return mapTarballsToPackages(tarballCwd, tarballs);
 }
@@ -108,12 +98,9 @@ export function installStyleframeUsingCLI(
 	console.log(JSON.stringify(packageJSON, null, 2));
 
 	// Now install styleframe and vue-router with overrides already in place
-	shell.exec(
-		`npm install -D ${packageToTarballMap["styleframe"]} && npm install vue-router`,
-		{
-			cwd,
-		},
-	);
+	shell.exec(`npm install -D ${packageToTarballMap["styleframe"]} && npm install vue-router`, {
+		cwd,
+	});
 
 	fs.writeFileSync(`${cwd}/vite.config.ts`, DEFAULT_VITE_CONFIG);
 
@@ -137,15 +124,9 @@ export default defineConfig({
 export function addStyleframeConfig(cwd: string, projectDir: string) {
 	const fixturesDir = path.join(cwd, "src/fixtures");
 
-	fs.copyFileSync(
-		`${fixturesDir}/styleframe.config.ts`,
-		`${projectDir}/styleframe.config.ts`,
-	);
+	fs.copyFileSync(`${fixturesDir}/styleframe.config.ts`, `${projectDir}/styleframe.config.ts`);
 
-	fs.copyFileSync(
-		`${fixturesDir}/vite.config.ts`,
-		`${projectDir}/vite.config.ts`,
-	);
+	fs.copyFileSync(`${fixturesDir}/vite.config.ts`, `${projectDir}/vite.config.ts`);
 
 	shell.cp("-R", `${fixturesDir}/src/*`, `${projectDir}/src/`);
 }

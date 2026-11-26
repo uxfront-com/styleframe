@@ -17,14 +17,7 @@ const colors = [
 	"dark",
 	"neutral",
 ] as const;
-const variants = [
-	"solid",
-	"outline",
-	"soft",
-	"subtle",
-	"ghost",
-	"link",
-] as const;
+const variants = ["solid", "outline", "soft", "subtle", "ghost", "link"] as const;
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 
 const meta = {
@@ -64,13 +57,11 @@ const meta = {
 		},
 		expanded: {
 			control: "boolean",
-			description:
-				"Whether the popup the button opens is expanded (aria-expanded)",
+			description: "Whether the popup the button opens is expanded (aria-expanded)",
 		},
 		loading: {
 			control: "boolean",
-			description:
-				"Whether the button is loading (data-loading, with aria-disabled)",
+			description: "Whether the button is loading (data-loading, with aria-disabled)",
 		},
 		iconOnly: {
 			control: "boolean",
@@ -165,9 +156,7 @@ export const Light: Story = {
 		color: "light",
 		label: "Light",
 	},
-	decorators: [
-		() => ({ template: '<span class="button-surface-dark"><story /></span>' }),
-	],
+	decorators: [() => ({ template: '<span class="button-surface-dark"><story /></span>' })],
 };
 
 export const Dark: Story = {

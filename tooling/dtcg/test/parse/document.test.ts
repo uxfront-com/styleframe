@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { parse } from "../../src/parse/document";
 import { ParseError } from "../../src/parse/errors";
 import { walk } from "../../src/parse/walk";

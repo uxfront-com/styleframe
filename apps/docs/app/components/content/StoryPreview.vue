@@ -78,11 +78,7 @@ watch(() => colorMode.value, sendThemeToIframe);
 </script>
 
 <template>
-	<div
-		ref="container"
-		class="story-preview"
-		:style="{ height: `${iframeHeight}px` }"
-	>
+	<div ref="container" class="story-preview" :style="{ height: `${iframeHeight}px` }">
 		<iframe
 			v-if="visible"
 			ref="iframe"

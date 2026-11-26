@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { genDeclarationsBlock } from "./genDeclarationsBlock";
 
 describe("genDeclarationsBlock", () => {
@@ -13,14 +14,8 @@ describe("genDeclarationsBlock", () => {
 	});
 
 	it("should generate a block with multiple declarations", () => {
-		const result = genDeclarationsBlock([
-			"color: red;",
-			"background: blue;",
-			"margin: 10px;",
-		]);
-		expect(result).toBe(
-			"{\n\tcolor: red;\n\tbackground: blue;\n\tmargin: 10px;\n}",
-		);
+		const result = genDeclarationsBlock(["color: red;", "background: blue;", "margin: 10px;"]);
+		expect(result).toBe("{\n\tcolor: red;\n\tbackground: blue;\n\tmargin: 10px;\n}");
 	});
 
 	it("should handle declarations with complex values", () => {
@@ -45,13 +40,8 @@ describe("genDeclarationsBlock", () => {
 	});
 
 	it("should handle declarations with !important", () => {
-		const result = genDeclarationsBlock([
-			"color: red !important;",
-			"display: none !important;",
-		]);
-		expect(result).toBe(
-			"{\n\tcolor: red !important;\n\tdisplay: none !important;\n}",
-		);
+		const result = genDeclarationsBlock(["color: red !important;", "display: none !important;"]);
+		expect(result).toBe("{\n\tcolor: red !important;\n\tdisplay: none !important;\n}");
 	});
 
 	it("should handle vendor-prefixed properties", () => {
@@ -70,9 +60,7 @@ describe("genDeclarationsBlock", () => {
 			"width: calc(100% - 20px);",
 			"height: calc(100vh - 80px);",
 		]);
-		expect(result).toBe(
-			"{\n\twidth: calc(100% - 20px);\n\theight: calc(100vh - 80px);\n}",
-		);
+		expect(result).toBe("{\n\twidth: calc(100% - 20px);\n\theight: calc(100vh - 80px);\n}");
 	});
 
 	it("should handle declarations with url() values", () => {
@@ -131,21 +119,13 @@ describe("genDeclarationsBlock", () => {
 	});
 
 	it("should handle transform functions", () => {
-		const result = genDeclarationsBlock([
-			"transform: translateX(50%) rotate(45deg) scale(1.5);",
-		]);
-		expect(result).toBe(
-			"{\n\ttransform: translateX(50%) rotate(45deg) scale(1.5);\n}",
-		);
+		const result = genDeclarationsBlock(["transform: translateX(50%) rotate(45deg) scale(1.5);"]);
+		expect(result).toBe("{\n\ttransform: translateX(50%) rotate(45deg) scale(1.5);\n}");
 	});
 
 	it("should handle filter functions", () => {
-		const result = genDeclarationsBlock([
-			"filter: blur(5px) brightness(1.5) contrast(2);",
-		]);
-		expect(result).toBe(
-			"{\n\tfilter: blur(5px) brightness(1.5) contrast(2);\n}",
-		);
+		const result = genDeclarationsBlock(["filter: blur(5px) brightness(1.5) contrast(2);"]);
+		expect(result).toBe("{\n\tfilter: blur(5px) brightness(1.5) contrast(2);\n}");
 	});
 
 	it("should handle declarations with empty values", () => {
@@ -165,9 +145,7 @@ describe("genDeclarationsBlock", () => {
 		const result = genDeclarationsBlock([
 			"background-image: url('data:image/png;base64,iVBORw0KGgo...');",
 		]);
-		expect(result).toBe(
-			"{\n\tbackground-image: url('data:image/png;base64,iVBORw0KGgo...');\n}",
-		);
+		expect(result).toBe("{\n\tbackground-image: url('data:image/png;base64,iVBORw0KGgo...');\n}");
 	});
 
 	it("should handle CSS math functions", () => {
@@ -214,13 +192,8 @@ describe("genDeclarationsBlock", () => {
 	});
 
 	it("should handle CSS attr() function", () => {
-		const result = genDeclarationsBlock([
-			"content: attr(data-label);",
-			"content: attr(href);",
-		]);
-		expect(result).toBe(
-			"{\n\tcontent: attr(data-label);\n\tcontent: attr(href);\n}",
-		);
+		const result = genDeclarationsBlock(["content: attr(data-label);", "content: attr(href);"]);
+		expect(result).toBe("{\n\tcontent: attr(data-label);\n\tcontent: attr(href);\n}");
 	});
 
 	it("should handle single declaration without array wrapper", () => {
@@ -234,9 +207,7 @@ describe("genDeclarationsBlock", () => {
 			"background:    blue    ;",
 			"margin:10px 20px;",
 		]);
-		expect(result).toBe(
-			"{\n\tcolor:red;\n\tbackground:    blue    ;\n\tmargin:10px 20px;\n}",
-		);
+		expect(result).toBe("{\n\tcolor:red;\n\tbackground:    blue    ;\n\tmargin:10px 20px;\n}");
 	});
 
 	it("should handle declarations with newlines in values", () => {
@@ -244,9 +215,7 @@ describe("genDeclarationsBlock", () => {
 			"white-space: pre-wrap;",
 			String.raw`content: 'Line 1\A Line 2';`,
 		]);
-		expect(result).toBe(
-			"{\n\twhite-space: pre-wrap;\n\tcontent: 'Line 1\\A Line 2';\n}",
-		);
+		expect(result).toBe("{\n\twhite-space: pre-wrap;\n\tcontent: 'Line 1\\A Line 2';\n}");
 	});
 
 	it("should handle very long declaration values", () => {
@@ -266,9 +235,7 @@ describe("genDeclarationsBlock", () => {
 			"container-type: inline-size;",
 			"container-name: sidebar;",
 		]);
-		expect(result).toBe(
-			"{\n\tcontainer-type: inline-size;\n\tcontainer-name: sidebar;\n}",
-		);
+		expect(result).toBe("{\n\tcontainer-type: inline-size;\n\tcontainer-name: sidebar;\n}");
 	});
 
 	it("should handle CSS cascade layers", () => {

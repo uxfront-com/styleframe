@@ -232,10 +232,7 @@ describe("createVariableFunction", () => {
 
 			expect(result.value).toEqual({
 				type: "css",
-				value: [
-					"1px solid ",
-					{ type: "reference", name: "color.primary", fallback: undefined },
-				],
+				value: ["1px solid ", { type: "reference", name: "color.primary", fallback: undefined }],
 			});
 		});
 

@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
 import type { ModifierFactory, Root, UtilityFactory } from "@styleframe/core";
-import type { ParsedUtility } from "./types";
+import { describe, expect, it } from "vitest";
+
 import {
 	createUtilityFilter,
 	filterUtilities,
@@ -9,6 +9,7 @@ import {
 	getUsedClassNames,
 	matchUtilities,
 } from "./matcher";
+import type { ParsedUtility } from "./types";
 
 function createMockRoot(
 	utilities: Array<UtilityFactory> = [],
@@ -68,9 +69,7 @@ describe("matchUtilities", () => {
 			},
 		];
 
-		const marginFactory = createMockUtilityFactory("margin", [
-			{ key: "sm", modifiers: [] },
-		]);
+		const marginFactory = createMockUtilityFactory("margin", [{ key: "sm", modifiers: [] }]);
 
 		const root = createMockRoot([marginFactory]);
 		const matches = matchUtilities(parsed, root);
@@ -110,9 +109,7 @@ describe("matchUtilities", () => {
 			},
 		];
 
-		const marginFactory = createMockUtilityFactory("margin", [
-			{ key: "sm", modifiers: ["hover"] },
-		]);
+		const marginFactory = createMockUtilityFactory("margin", [{ key: "sm", modifiers: ["hover"] }]);
 
 		const hoverModifier = createMockModifier(["hover"]);
 		const root = createMockRoot([marginFactory], [hoverModifier]);
@@ -135,9 +132,7 @@ describe("matchUtilities", () => {
 			},
 		];
 
-		const marginFactory = createMockUtilityFactory("margin", [
-			{ key: "md", modifiers: ["sm"] },
-		]);
+		const marginFactory = createMockUtilityFactory("margin", [{ key: "md", modifiers: ["sm"] }]);
 
 		// Breakpoint modifier with multiple keys
 		const breakpointModifier = createMockModifier(["sm", "md", "lg"]);
@@ -247,11 +242,7 @@ describe("classNameFromUtilityOptions", () => {
 			value: string;
 			modifiers: Array<string>;
 		}) => {
-			const parts = [
-				...modifiers,
-				name,
-				...(value === "default" ? [] : [value]),
-			];
+			const parts = [...modifiers, name, ...(value === "default" ? [] : [value])];
 			return `sf-${parts.join("-")}`;
 		};
 
@@ -272,11 +263,7 @@ describe("classNameFromUtilityOptions", () => {
 			value: string;
 			modifiers: Array<string>;
 		}) => {
-			const parts = [
-				...modifiers,
-				name,
-				...(value === "default" ? [] : [value]),
-			];
+			const parts = [...modifiers, name, ...(value === "default" ? [] : [value])];
 			return `sf-${parts.join("-")}`;
 		};
 
@@ -290,14 +277,8 @@ describe("classNameFromUtilityOptions", () => {
 
 describe("generateUtilitySelector", () => {
 	it("should derive selector from custom selector function", () => {
-		const customFn = ({
-			name,
-			value,
-		}: {
-			name: string;
-			value: string;
-			modifiers: Array<string>;
-		}) => `sf-${name}-${value}`;
+		const customFn = ({ name, value }: { name: string; value: string; modifiers: Array<string> }) =>
+			`sf-${name}-${value}`;
 
 		const selector = generateUtilitySelector(
 			{ name: "margin", value: "sm", modifiers: [] },
@@ -366,11 +347,7 @@ describe("createUtilityFilter", () => {
 			value: string;
 			modifiers: Array<string>;
 		}) => {
-			const parts = [
-				...modifiers,
-				name,
-				...(value === "default" ? [] : [value]),
-			];
+			const parts = [...modifiers, name, ...(value === "default" ? [] : [value])];
 			return `sf-${parts.join("-")}`;
 		};
 

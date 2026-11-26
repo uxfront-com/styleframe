@@ -4,6 +4,7 @@ import type {
 	TokenValue,
 	Variable,
 } from "@styleframe/core";
+
 import type { WithThemes } from "../types";
 import { mergeElementOptions, registerElementThemes } from "../utils";
 
@@ -56,10 +57,7 @@ export function useCodeElement(
 	s: Styleframe,
 	options: WithThemes<CodeElementConfig> = {},
 ): CodeElementResult {
-	const { themes, ...config } = mergeElementOptions(
-		defaultCodeOptions,
-		options,
-	);
+	const { themes, ...config } = mergeElementOptions(defaultCodeOptions, options);
 
 	const result = useCodeSelectors(s, config as Required<CodeElementConfig>);
 

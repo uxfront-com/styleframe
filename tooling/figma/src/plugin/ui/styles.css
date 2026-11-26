@@ -25,8 +25,7 @@
 	--color-error-bg: rgba(242, 72, 34, 0.08);
 
 	/* Typography */
-	--font-family:
-		"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
 
 	/* Spacing */

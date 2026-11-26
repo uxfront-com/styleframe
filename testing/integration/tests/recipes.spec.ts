@@ -5,9 +5,7 @@ test.describe("Recipe Variant System", () => {
 		await page.goto("/#/recipes");
 	});
 
-	test("default badge has base styles and primary solid variant", async ({
-		page,
-	}) => {
+	test("default badge has base styles and primary solid variant", async ({ page }) => {
 		const element = page.locator("#test-badge-default");
 
 		const styles = await element.evaluate((el) => {
@@ -25,9 +23,7 @@ test.describe("Recipe Variant System", () => {
 		expect(styles.backgroundColor).toContain("oklch(");
 	});
 
-	test("error outline badge has border color and transparent background", async ({
-		page,
-	}) => {
+	test("error outline badge has border color and transparent background", async ({ page }) => {
 		const element = page.locator("#test-badge-error-outline");
 
 		const styles = await element.evaluate((el) => {
@@ -43,9 +39,7 @@ test.describe("Recipe Variant System", () => {
 		expect(styles.color).toContain("oklch(");
 	});
 
-	test("success soft badge has tinted background and success text", async ({
-		page,
-	}) => {
+	test("success soft badge has tinted background and success text", async ({ page }) => {
 		const element = page.locator("#test-badge-success-soft");
 
 		const styles = await element.evaluate((el) => {
@@ -61,9 +55,7 @@ test.describe("Recipe Variant System", () => {
 		expect(styles.color).toContain("oklch(");
 	});
 
-	test("badge class attribute contains expected utility classes", async ({
-		page,
-	}) => {
+	test("badge class attribute contains expected utility classes", async ({ page }) => {
 		const element = page.locator("#test-badge-default");
 		const classAttr = await element.getAttribute("class");
 

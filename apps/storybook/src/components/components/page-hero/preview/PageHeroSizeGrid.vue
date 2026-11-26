@@ -20,9 +20,7 @@ const sizeTitles: Record<string, string> = {
 			<div class="page-hero-row">
 				<PageHero color="neutral" :size="size" alignment="center">
 					<PageHeroHeadline :size="size" alignment="center">
-						<PageHeroTitle :size="size"
-							>{{ sizeTitles[size] }} hero</PageHeroTitle
-						>
+						<PageHeroTitle :size="size">{{ sizeTitles[size] }} hero</PageHeroTitle>
 						<PageHeroDescription :size="size">
 							Padding and typography scale with the size axis.
 						</PageHeroDescription>

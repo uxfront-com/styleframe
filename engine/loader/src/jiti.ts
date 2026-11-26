@@ -1,6 +1,7 @@
+import path from "node:path";
+
 import { createJiti } from "jiti";
 import type { Jiti, JitiOptions } from "jiti";
-import path from "node:path";
 
 export type { Jiti, JitiOptions };
 

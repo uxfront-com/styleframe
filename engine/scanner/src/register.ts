@@ -1,5 +1,6 @@
 import type { ModifierFactory, Root, UtilityFactory } from "@styleframe/core";
 import { defaultUtilitySelectorFn } from "@styleframe/core";
+
 import { createDynamicUtilities } from "./dynamic";
 import type { ParsedUtility, UtilityMatch } from "./types";
 
@@ -25,10 +26,7 @@ interface RegistrationEntry {
  * @param matches Scanner match results produced from this same root
  * @returns Number of newly registered values
  */
-export function registerMatchedUtilities(
-	_root: Root,
-	matches: Array<UtilityMatch>,
-): number {
+export function registerMatchedUtilities(_root: Root, matches: Array<UtilityMatch>): number {
 	createDynamicUtilities(_root, matches);
 
 	for (const match of matches) {
@@ -60,9 +58,7 @@ export function registerMatchedUtilities(
 		// A single modifier is added directly; multiple modifiers from the same class
 		// are wrapped as a nested array so they are applied together as a combined variant.
 		const modifierEntry: ModifierFactory | Array<ModifierFactory> | undefined =
-			match.modifierFactories.length > 1
-				? match.modifierFactories
-				: match.modifierFactories[0];
+			match.modifierFactories.length > 1 ? match.modifierFactories : match.modifierFactories[0];
 
 		if (!existing) {
 			groups.set(key, {

@@ -1,12 +1,9 @@
 import { styleframe } from "@styleframe/core";
 import { oklch, rgb, wcagContrast } from "culori";
-import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
+import { FIELD_MUTED_TEXT } from "../input/createFieldRecipe";
 import { useTextareaPrefixRecipe } from "./useTextareaPrefixRecipe";
 import { useTextareaRecipe } from "./useTextareaRecipe";
 import { useTextareaSuffixRecipe } from "./useTextareaSuffixRecipe";
@@ -50,10 +47,7 @@ describe("useTextareaRecipe contrast", () => {
 		return String(variable.value);
 	}
 
-	const pages = (theme: Theme) => [
-		themes[theme].background!,
-		themes[theme].surface!,
-	];
+	const pages = (theme: Theme) => [themes[theme].background!, themes[theme].surface!];
 
 	// `light` and `dark` keep one look in both themes, so each sits on the page
 	// it is documented for in either theme: a light page for `light` and a dark
@@ -65,14 +59,11 @@ describe("useTextareaRecipe contrast", () => {
 	// `dark` hold 3:1 against the pages of both themes. `neutral` sits on the
 	// pages of its theme.
 	const borderPages = (color: string, theme: Theme) =>
-		color === "light" || color === "dark"
-			? [...pages("light"), ...pages("dark")]
-			: pages(theme);
+		color === "light" || color === "dark" ? [...pages("light"), ...pages("dark")] : pages(theme);
 
 	// The muted text is the text color at this share, composited in sRGB over
 	// the fill, as `color-mix(in srgb, currentColor n%, transparent)` paints it.
-	const mutedShare =
-		Number(/currentColor (\d+)%/.exec(FIELD_MUTED_TEXT)?.[1]) / 100;
+	const mutedShare = Number(/currentColor (\d+)%/.exec(FIELD_MUTED_TEXT)?.[1]) / 100;
 	function srgb(color: string) {
 		const { l, c, h } = oklch(color);
 		return rgb({ mode: "oklch", l, c, h: h || 0 })!;
@@ -88,9 +79,7 @@ describe("useTextareaRecipe contrast", () => {
 		return `#${channel("r")}${channel("g")}${channel("b")}`;
 	}
 
-	const invalid = recipe.compoundVariants!.find(
-		(cv) => cv.match.invalid === "true",
-	)!.css as Slot;
+	const invalid = recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!.css as Slot;
 
 	const cases = recipe
 		.compoundVariants!.filter((cv) => cv.match.color && cv.match.variant)
@@ -100,9 +89,7 @@ describe("useTextareaRecipe contrast", () => {
 			return (["light", "dark"] as const).map((theme) => {
 				const slot = theme === "light" ? css : inDark;
 				const hover = (
-					theme === "light"
-						? css["&:hover-capable:hover"]
-						: css["&:dark:hover-capable:hover"]
+					theme === "light" ? css["&:hover-capable:hover"] : css["&:dark:hover-capable:hover"]
 				) as Slot;
 				const color = cv.match.color as string;
 				const fills =
@@ -112,8 +99,7 @@ describe("useTextareaRecipe contrast", () => {
 				const borders = [slot, hover]
 					.flatMap((block) => [block.borderColor, block.borderBottomColor])
 					.filter(
-						(value): value is string =>
-							typeof value === "string" && value.startsWith("@color."),
+						(value): value is string => typeof value === "string" && value.startsWith("@color."),
 					)
 					.map((token) => resolve(token, theme));
 				return {
@@ -131,26 +117,21 @@ describe("useTextareaRecipe contrast", () => {
 		expect(cases).toHaveLength(18);
 	});
 
-	it.each(cases)(
-		"textarea/contrast gives the text 4.5:1 on $name",
-		({ text, fills }) => {
-			for (const fill of fills) {
-				expect(wcagContrast(text, fill), fill).toBeGreaterThanOrEqual(4.5);
-			}
-		},
-	);
+	it.each(cases)("textarea/contrast gives the text 4.5:1 on $name", ({ text, fills }) => {
+		for (const fill of fills) {
+			expect(wcagContrast(text, fill), fill).toBeGreaterThanOrEqual(4.5);
+		}
+	});
 
 	it("textarea/contrast paints the placeholder, and a count in the prefix or suffix, in the muted text color", () => {
 		expect(useTextareaPrefixRecipe(s).base!.color).toBe(FIELD_MUTED_TEXT);
 		expect(useTextareaSuffixRecipe(s).base!.color).toBe(FIELD_MUTED_TEXT);
 		const field = s.root.children.find(
 			(child) =>
-				child.type === "selector" &&
-				(child as { query: string }).query === ".textarea-field",
+				child.type === "selector" && (child as { query: string }).query === ".textarea-field",
 		) as { children: Array<{ query: string; declarations: Slot }> };
 		expect(
-			field.children.find((child) => child.query === "&::placeholder")
-				?.declarations.color,
+			field.children.find((child) => child.query === "&::placeholder")?.declarations.color,
 		).toBe(FIELD_MUTED_TEXT);
 	});
 
@@ -158,10 +139,7 @@ describe("useTextareaRecipe contrast", () => {
 		"textarea/contrast gives the placeholder and the count 4.5:1 on $name",
 		({ text, fills }) => {
 			for (const fill of fills) {
-				expect(
-					wcagContrast(muted(text, fill), fill),
-					fill,
-				).toBeGreaterThanOrEqual(4.5);
+				expect(wcagContrast(muted(text, fill), fill), fill).toBeGreaterThanOrEqual(4.5);
 			}
 		},
 	);
@@ -169,9 +147,7 @@ describe("useTextareaRecipe contrast", () => {
 	it.each(["light", "dark"] as const)(
 		"textarea/contrast gives the focus ring 3:1 against the %s page",
 		(theme) => {
-			expect((recipe.base!["&:focus-within"] as Slot).outlineColor).toBe(
-				"@color.focus",
-			);
+			expect((recipe.base!["&:focus-within"] as Slot).outlineColor).toBe("@color.focus");
 			const focus = resolve("@color.focus", theme);
 			for (const page of pages(theme)) {
 				expect(wcagContrast(focus, page), page).toBeGreaterThanOrEqual(3);
@@ -199,10 +175,7 @@ describe("useTextareaRecipe contrast", () => {
 		({ theme, color, fills }) => {
 			const error = resolve(invalid.borderColor as string, theme);
 			for (const neighbour of [...borderPages(color, theme), ...fills]) {
-				expect(
-					wcagContrast(error, neighbour),
-					neighbour,
-				).toBeGreaterThanOrEqual(3);
+				expect(wcagContrast(error, neighbour), neighbour).toBeGreaterThanOrEqual(3);
 			}
 		},
 	);

@@ -1,7 +1,8 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+
+import { hashContent, createCache } from "./cache";
 import { createScanner } from "./node";
 import { quickScan, createContentScanner } from "./scanner";
-import { hashContent, createCache } from "./cache";
 import { createChangeHandler } from "./watcher";
 
 // Mock dependencies
@@ -17,8 +18,9 @@ vi.mock("importree", () => ({
 	parseImports: vi.fn(),
 }));
 
-import fg from "fast-glob";
 import { readFile } from "node:fs/promises";
+
+import fg from "fast-glob";
 import { parseImports } from "importree";
 
 const mockFg = fg as unknown as ReturnType<typeof vi.fn>;
@@ -32,14 +34,9 @@ describe("createScanner", () => {
 
 	describe("scan", () => {
 		it("should scan multiple files and aggregate results", async () => {
-			mockFg.mockResolvedValue([
-				"/project/src/App.tsx",
-				"/project/src/Button.tsx",
-			]);
+			mockFg.mockResolvedValue(["/project/src/App.tsx", "/project/src/Button.tsx"]);
 			mockReadFile
-				.mockResolvedValueOnce(
-					'<div className="_margin:sm _padding:md">App</div>',
-				)
+				.mockResolvedValueOnce('<div className="_margin:sm _padding:md">App</div>')
 				.mockResolvedValueOnce(
 					'<button className="_background:primary _hover:background:secondary">Click</button>',
 				);
@@ -75,17 +72,12 @@ describe("createScanner", () => {
 		});
 
 		it("should continue scanning when a file fails", async () => {
-			mockFg.mockResolvedValue([
-				"/project/src/Valid.tsx",
-				"/project/src/Invalid.tsx",
-			]);
+			mockFg.mockResolvedValue(["/project/src/Valid.tsx", "/project/src/Invalid.tsx"]);
 			mockReadFile
 				.mockResolvedValueOnce('<div className="_margin:sm">Valid</div>')
 				.mockRejectedValueOnce(new Error("File not found"));
 
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
+			const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -108,9 +100,7 @@ describe("createScanner", () => {
 	describe("scanFile", () => {
 		it("should scan a single file and return result", async () => {
 			mockFg.mockResolvedValue(["/project/src/App.tsx"]);
-			mockReadFile.mockResolvedValue(
-				'<div className="_margin:sm _padding:md">App</div>',
-			);
+			mockReadFile.mockResolvedValue('<div className="_margin:sm _padding:md">App</div>');
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -153,9 +143,7 @@ describe("createScanner", () => {
 				cwd: "/project",
 			});
 
-			const result = scanner.scanContent(
-				'<div class="_margin:sm">Content</div>',
-			);
+			const result = scanner.scanContent('<div class="_margin:sm">Content</div>');
 
 			expect(result.length).toBe(1);
 			expect(result[0]!.name).toBe("margin");
@@ -164,17 +152,10 @@ describe("createScanner", () => {
 
 	describe("scanImports", () => {
 		it("should aggregate import specifiers across all content files", async () => {
-			mockFg.mockResolvedValue([
-				"/project/src/App.tsx",
-				"/project/src/Page.tsx",
-			]);
+			mockFg.mockResolvedValue(["/project/src/App.tsx", "/project/src/Page.tsx"]);
 			mockParseImports
-				.mockReturnValueOnce([
-					{ path: "virtual:styleframe", specifiers: ["button"] },
-				])
-				.mockReturnValueOnce([
-					{ path: "virtual:styleframe", specifiers: ["badge", "card"] },
-				]);
+				.mockReturnValueOnce([{ path: "virtual:styleframe", specifiers: ["button"] }])
+				.mockReturnValueOnce([{ path: "virtual:styleframe", specifiers: ["badge", "card"] }]);
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -190,9 +171,7 @@ describe("createScanner", () => {
 
 		it("should detect namespace imports across files", async () => {
 			mockFg.mockResolvedValue(["/project/src/App.tsx"]);
-			mockParseImports.mockReturnValueOnce([
-				{ path: "virtual:styleframe", isNamespace: true },
-			]);
+			mockParseImports.mockReturnValueOnce([{ path: "virtual:styleframe", isNamespace: true }]);
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -206,9 +185,7 @@ describe("createScanner", () => {
 
 		it("should return empty result when no files match the module", async () => {
 			mockFg.mockResolvedValue(["/project/src/App.tsx"]);
-			mockParseImports.mockReturnValueOnce([
-				{ path: "other-module", specifiers: ["foo"] },
-			]);
+			mockParseImports.mockReturnValueOnce([{ path: "other-module", specifiers: ["foo"] }]);
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -232,10 +209,7 @@ describe("createScanner", () => {
 				cwd: "/project",
 			});
 
-			const result = scanner.scanFileImports(
-				"/project/src/App.tsx",
-				"virtual:styleframe",
-			);
+			const result = scanner.scanFileImports("/project/src/App.tsx", "virtual:styleframe");
 
 			expect(result.specifiers).toEqual(new Set(["button", "badge"]));
 		});
@@ -250,10 +224,7 @@ describe("createScanner", () => {
 				cwd: "/project",
 			});
 
-			const result = scanner.scanFileImports(
-				"/project/src/broken.tsx",
-				"virtual:styleframe",
-			);
+			const result = scanner.scanFileImports("/project/src/broken.tsx", "virtual:styleframe");
 
 			expect(result.specifiers.size).toBe(0);
 			expect(result.hasNamespace).toBe(false);
@@ -281,24 +252,17 @@ describe("createScanner", () => {
 
 			// Invalidate and change content
 			scanner.invalidate("/project/src/App.tsx");
-			mockReadFile.mockResolvedValue(
-				'<div className="_padding:lg">App Updated</div>',
-			);
+			mockReadFile.mockResolvedValue('<div className="_padding:lg">App Updated</div>');
 
 			const result = await scanner.scanFile("/project/src/App.tsx");
 			expect(result.classes.has("_padding:lg")).toBe(true);
 		});
 
 		it("should invalidate all cache when no path provided", async () => {
-			mockFg.mockResolvedValue([
-				"/project/src/App.tsx",
-				"/project/src/Button.tsx",
-			]);
+			mockFg.mockResolvedValue(["/project/src/App.tsx", "/project/src/Button.tsx"]);
 			mockReadFile
 				.mockResolvedValueOnce('<div className="_margin:sm">App</div>')
-				.mockResolvedValueOnce(
-					'<button className="_padding:md">Button</button>',
-				);
+				.mockResolvedValueOnce('<button className="_padding:md">Button</button>');
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -314,9 +278,7 @@ describe("createScanner", () => {
 			// Update content
 			mockReadFile
 				.mockResolvedValueOnce('<div className="_margin:lg">App Updated</div>')
-				.mockResolvedValueOnce(
-					'<button className="_padding:xl">Button Updated</button>',
-				);
+				.mockResolvedValueOnce('<button className="_padding:xl">Button Updated</button>');
 
 			const result = await scanner.scan();
 			expect(result.allClasses.has("_margin:lg")).toBe(true);
@@ -482,9 +444,7 @@ describe("cache", () => {
 
 		it("should invalidate cache when content changes", async () => {
 			mockFg.mockResolvedValue(["/project/src/App.tsx"]);
-			mockReadFile.mockResolvedValueOnce(
-				'<div className="_margin:sm">App</div>',
-			);
+			mockReadFile.mockResolvedValueOnce('<div className="_margin:sm">App</div>');
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -496,9 +456,7 @@ describe("cache", () => {
 			expect(result1.classes.has("_margin:sm")).toBe(true);
 
 			// Content changes
-			mockReadFile.mockResolvedValueOnce(
-				'<div className="_padding:lg">App Updated</div>',
-			);
+			mockReadFile.mockResolvedValueOnce('<div className="_padding:lg">App Updated</div>');
 
 			// Second scan - should detect content change via hash and re-parse
 			const result2 = await scanner.scanFile("/project/src/App.tsx");
@@ -591,10 +549,7 @@ describe("watch", () => {
 			flush();
 
 			expect(callback).toHaveBeenCalledTimes(1);
-			expect(callback).toHaveBeenCalledWith([
-				"/project/src/App.tsx",
-				"/project/src/Button.tsx",
-			]);
+			expect(callback).toHaveBeenCalledWith(["/project/src/App.tsx", "/project/src/Button.tsx"]);
 		});
 
 		it("should not call callback on flush if no pending changes", () => {
@@ -612,9 +567,7 @@ describe("watch", () => {
 			mockFg.mockResolvedValue(["/project/src/App.tsx"]);
 			mockReadFile
 				.mockResolvedValueOnce('<div className="_margin:sm">App</div>')
-				.mockResolvedValueOnce(
-					'<div className="_padding:lg">App Updated</div>',
-				);
+				.mockResolvedValueOnce('<div className="_padding:lg">App Updated</div>');
 
 			const scanner = createScanner({
 				content: ["./src/**/*.tsx"],
@@ -642,9 +595,7 @@ describe("watch", () => {
 
 describe("quickScan", () => {
 	it("should scan content and return parsed utilities", () => {
-		const result = quickScan(
-			'<div class="_margin:sm _hover:padding:lg">Content</div>',
-		);
+		const result = quickScan('<div class="_margin:sm _hover:padding:lg">Content</div>');
 
 		expect(result.length).toBe(2);
 		expect(result[0]!.name).toBe("margin");
@@ -655,17 +606,11 @@ describe("quickScan", () => {
 
 	it("should use file path hint for extractor selection", () => {
 		// TSX uses className
-		const tsxResult = quickScan(
-			'<div className="_margin:sm">Content</div>',
-			"component.tsx",
-		);
+		const tsxResult = quickScan('<div className="_margin:sm">Content</div>', "component.tsx");
 		expect(tsxResult.length).toBe(1);
 
 		// HTML uses class
-		const htmlResult = quickScan(
-			'<div class="_margin:sm">Content</div>',
-			"page.html",
-		);
+		const htmlResult = quickScan('<div class="_margin:sm">Content</div>', "page.html");
 		expect(htmlResult.length).toBe(1);
 	});
 
@@ -741,9 +686,7 @@ describe("createContentScanner", () => {
 		};
 
 		const scan = createContentScanner([customExtractor]);
-		const result = scan(
-			'<div data-class="_margin:sm _padding:md">Content</div>',
-		);
+		const result = scan('<div data-class="_margin:sm _padding:md">Content</div>');
 
 		expect(result.length).toBe(2);
 		expect(result[0]!.name).toBe("margin");
@@ -754,10 +697,7 @@ describe("createContentScanner", () => {
 		const scan = createContentScanner();
 
 		// TSX file should use className extractor
-		const tsxResult = scan(
-			'<div className="_margin:sm">Content</div>',
-			"file.tsx",
-		);
+		const tsxResult = scan('<div className="_margin:sm">Content</div>', "file.tsx");
 		expect(tsxResult.length).toBe(1);
 
 		// Default/HTML should use class extractor
@@ -795,9 +735,7 @@ describe("createContentScanner", () => {
 			},
 		});
 
-		const result = scan(
-			'<div class="sf-margin-sm sf-padding-md">Content</div>',
-		);
+		const result = scan('<div class="sf-margin-sm sf-padding-md">Content</div>');
 		expect(result.length).toBe(2);
 		expect(result[0]!.name).toBe("margin");
 		expect(result[0]!.value).toBe("sm");
@@ -862,9 +800,7 @@ describe("createScanner with custom utilities", () => {
 
 	it("should scan files with custom utility syntax", async () => {
 		mockFg.mockResolvedValue(["/project/src/page.html"]);
-		mockReadFile.mockResolvedValue(
-			'<div class="sf-margin-sm sf-hover-padding-lg">Content</div>',
-		);
+		mockReadFile.mockResolvedValue('<div class="sf-margin-sm sf-hover-padding-lg">Content</div>');
 
 		const scanner = createScanner({
 			content: ["./src/**/*.html"],

@@ -1,6 +1,7 @@
 import type { Variable } from "@styleframe/core";
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import { createUseVariable } from "./createUseVariable";
 
 describe("createUseVariable", () => {
@@ -253,9 +254,7 @@ describe("createUseVariable", () => {
 		});
 
 		it("should work with complex property names", () => {
-			const useBorderTopLeftRadius = createUseVariable(
-				"border-top-left-radius",
-			);
+			const useBorderTopLeftRadius = createUseVariable("border-top-left-radius");
 			const s = styleframe();
 			const { borderTopLeftRadius } = useBorderTopLeftRadius(s, {
 				default: "4px",
@@ -416,17 +415,15 @@ describe("createUseVariable", () => {
 				transform: (value) => (value === "full" ? "9999px" : value),
 			});
 			const s = styleframe();
-			const {
-				borderRadius,
-				borderRadiusSmall,
-				borderRadiusMedium,
-				borderRadiusFull,
-			} = useRounded(s, {
-				default: "0",
-				small: "4px",
-				medium: "8px",
-				full: "full",
-			});
+			const { borderRadius, borderRadiusSmall, borderRadiusMedium, borderRadiusFull } = useRounded(
+				s,
+				{
+					default: "0",
+					small: "4px",
+					medium: "8px",
+					full: "full",
+				},
+			);
 
 			expect(borderRadius.value).toBe("0");
 			expect(borderRadiusSmall.value).toBe("4px");
@@ -496,13 +493,10 @@ describe("createUseVariable", () => {
 				mergeDefaults: true,
 			});
 			const s = styleframe();
-			const { color, colorPrimary, colorSecondary, colorTertiary } = useColor(
-				s,
-				{
-					primary: "#ef4444",
-					tertiary: "#f59e0b",
-				},
-			);
+			const { color, colorPrimary, colorSecondary, colorTertiary } = useColor(s, {
+				primary: "#ef4444",
+				tertiary: "#f59e0b",
+			});
 
 			expect(color.value).toBe("#000000"); // from defaults
 			expect(colorPrimary.value).toBe("#ef4444"); // overridden
@@ -665,9 +659,7 @@ describe("createUseVariable", () => {
 			expect(defaultVar?.value).toBe("#3b82f6");
 
 			// Verify references point to correct variables
-			const primaryVar = s.root.variables.find(
-				(v) => v.name === "color.primary",
-			);
+			const primaryVar = s.root.variables.find((v) => v.name === "color.primary");
 			expect(primaryVar?.value).toEqual({
 				type: "reference",
 				name: "color",
@@ -688,9 +680,7 @@ describe("createUseVariable", () => {
 			expect(s.root.variables).toHaveLength(4);
 
 			// Non-reference variables should be created before references
-			const primaryVar = s.root.variables.find(
-				(v) => v.name === "color.primary",
-			);
+			const primaryVar = s.root.variables.find((v) => v.name === "color.primary");
 			expect(primaryVar?.value).toBe("#3b82f6");
 
 			const accentVar = s.root.variables.find((v) => v.name === "color.accent");
@@ -781,9 +771,7 @@ describe("createUseVariable", () => {
 			expect(size.value).toEqual(expect.objectContaining({ type: "css" }));
 
 			const css = consumeCSS(size, s.options);
-			expect(css).toEqual(
-				"--size: calc((16 / 16 * 1rem) + (18 - 16) * var(--fluid--breakpoint));",
-			);
+			expect(css).toEqual("--size: calc((16 / 16 * 1rem) + (18 - 16) * var(--fluid--breakpoint));");
 		});
 
 		it("should pass object-form ranges through useFluidClamp", () => {
@@ -824,16 +812,10 @@ describe("createUseVariable", () => {
 			const useSize = createUseVariable("size", { fluid: true });
 			const s = styleframe();
 			const customBp = s.variable("custom-bp", "75vw");
-			const { size } = useSize(
-				s,
-				{ default: [16, 18] },
-				{ breakpoint: customBp },
-			);
+			const { size } = useSize(s, { default: [16, 18] }, { breakpoint: customBp });
 
 			const css = consumeCSS(size, s.options);
-			expect(css).toEqual(
-				"--size: calc((16 / 16 * 1rem) + (18 - 16) * var(--custom-bp));",
-			);
+			expect(css).toEqual("--size: calc((16 / 16 * 1rem) + (18 - 16) * var(--custom-bp));");
 		});
 
 		it("should still short-circuit @-prefixed reference strings", () => {
@@ -916,8 +898,7 @@ describe("createUseVariable", () => {
 			const useFontFamily = createUseVariable("font-family");
 			const s = styleframe();
 			const { fontFamily, fontFamilyMono, fontFamilySerif } = useFontFamily(s, {
-				default:
-					"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+				default: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 				mono: "'SFMono-Regular', Menlo, Monaco, Consolas, monospace",
 				serif: "'Georgia', 'Times New Roman', Times, serif",
 			});
@@ -930,15 +911,14 @@ describe("createUseVariable", () => {
 		it("should work for spacing scale", () => {
 			const useSpacing = createUseVariable("spacing");
 			const s = styleframe();
-			const { spacing, spacingXs, spacingSm, spacingMd, spacingLg, spacingXl } =
-				useSpacing(s, {
-					default: "16px",
-					xs: "4px",
-					sm: "8px",
-					md: "16px",
-					lg: "24px",
-					xl: "32px",
-				});
+			const { spacing, spacingXs, spacingSm, spacingMd, spacingLg, spacingXl } = useSpacing(s, {
+				default: "16px",
+				xs: "4px",
+				sm: "8px",
+				md: "16px",
+				lg: "24px",
+				xl: "32px",
+			});
 
 			expect(spacing.value).toBe("16px");
 			expect(spacingXs.value).toBe("4px");
@@ -974,14 +954,7 @@ describe("createUseVariable", () => {
 				},
 			});
 			const s = styleframe();
-			const {
-				colorBlue,
-				colorRed,
-				colorPrimary,
-				colorError,
-				colorLink,
-				colorAlert,
-			} = useColor(s);
+			const { colorBlue, colorRed, colorPrimary, colorError, colorLink, colorAlert } = useColor(s);
 
 			expect(colorBlue.value).toBe("#3b82f6");
 			expect(colorRed.value).toBe("#ef4444");
@@ -1016,10 +989,9 @@ describe("createUseVariable", () => {
 				mergeDefaults: true,
 			});
 			const s = styleframe();
-			const { spacing, spacingXs, spacingSm, spacingMd, spacingCustom } =
-				useSpacing(s, {
-					custom: "20px",
-				});
+			const { spacing, spacingXs, spacingSm, spacingMd, spacingCustom } = useSpacing(s, {
+				custom: "20px",
+			});
 
 			// All defaults should be present
 			expect(spacingXs.value).toBe("4px");
@@ -1053,8 +1025,7 @@ describe("createUseVariable", () => {
 				},
 			});
 			const s = styleframe();
-			const { duration, durationFast, durationNormal, durationSlow } =
-				useDuration(s);
+			const { duration, durationFast, durationNormal, durationSlow } = useDuration(s);
 
 			expect(durationFast.value).toBe("150ms");
 			expect(durationNormal.value).toBe("300ms");

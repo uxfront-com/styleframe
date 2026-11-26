@@ -37,10 +37,7 @@ export function deviceAt(progress: number): DeviceShape {
 	const t = smoothstep(0.2, 0.8, k - i);
 	const from = KEYS[i]!;
 	const to = KEYS[i + 1]!;
-	const half: Vec2 = [
-		lerp(from.half[0], to.half[0], t),
-		lerp(from.half[1], to.half[1], t),
-	];
+	const half: Vec2 = [lerp(from.half[0], to.half[0], t), lerp(from.half[1], to.half[1], t)];
 	const fluid = (half[0] - PHONE.half[0]) / (DESKTOP.half[0] - PHONE.half[0]);
 	return {
 		half,
@@ -51,8 +48,7 @@ export function deviceAt(progress: number): DeviceShape {
 }
 
 /** The device progress a frame shows: the scroll's, or the still one without motion. */
-export const deviceProgress = (local: number, motion: boolean) =>
-	motion ? local : STILL;
+export const deviceProgress = (local: number, motion: boolean) => (motion ? local : STILL);
 
 const VIEW: StageView = {
 	eye: [0, 0, 7],

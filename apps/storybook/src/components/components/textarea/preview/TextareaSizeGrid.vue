@@ -15,12 +15,7 @@ const sizeTitles: Record<string, string> = {
 			<label :for="`textarea-${size}`" class="textarea-story-label">
 				{{ sizeTitles[size] }}
 			</label>
-			<Textarea
-				:id="`textarea-${size}`"
-				:size="size"
-				:rows="3"
-				placeholder="A short note"
-			/>
+			<Textarea :id="`textarea-${size}`" :size="size" :rows="3" placeholder="A short note" />
 		</div>
 	</div>
 </template>

@@ -22,29 +22,20 @@ import { createUseSpacingUtility } from "../../utils";
  * // ._width:4 { width: calc(var(--spacing) * 4); }
  * ```
  */
-export const useWidthUtility = createUseSpacingUtility(
-	"width",
-	({ value }) => ({
-		width: value,
-	}),
-);
+export const useWidthUtility = createUseSpacingUtility("width", ({ value }) => ({
+	width: value,
+}));
 
 /**
  * Create min-width utility classes with multiplier support.
  */
-export const useMinWidthUtility = createUseSpacingUtility(
-	"min-width",
-	({ value }) => ({
-		minWidth: value,
-	}),
-);
+export const useMinWidthUtility = createUseSpacingUtility("min-width", ({ value }) => ({
+	minWidth: value,
+}));
 
 /**
  * Create max-width utility classes with multiplier support.
  */
-export const useMaxWidthUtility = createUseSpacingUtility(
-	"max-width",
-	({ value }) => ({
-		maxWidth: value,
-	}),
-);
+export const useMaxWidthUtility = createUseSpacingUtility("max-width", ({ value }) => ({
+	maxWidth: value,
+}));

@@ -1,5 +1,5 @@
-import styleframe from "styleframe/plugin/vite";
 import vue from "@vitejs/plugin-vue";
+import styleframe from "styleframe/plugin/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({

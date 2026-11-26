@@ -132,10 +132,7 @@ export default defineConfig({
 			},
 		},
 		{
-			files: [
-				"theme/src/utils/createUseRecipe.ts",
-				"theme/src/presets/useDesignTokensPreset.ts",
-			],
+			files: ["theme/src/utils/createUseRecipe.ts", "theme/src/presets/useDesignTokensPreset.ts"],
 			rules: {
 				// `{}` is the type of "no keys" here: a recipe with no filter, and a preset group that's
 				// turned off.
@@ -151,10 +148,7 @@ export default defineConfig({
 			},
 		},
 		{
-			files: [
-				"theme/src/presets/useDesignTokensPreset.ts",
-				"engine/core/src/utils/merge.ts",
-			],
+			files: ["theme/src/presets/useDesignTokensPreset.ts", "engine/core/src/utils/merge.ts"],
 			rules: {
 				// The design token preset merges each colour's levels into one result, a few times per
 				// config. The merge in `merge.ts` combines a few instances, once.
@@ -162,10 +156,7 @@ export default defineConfig({
 			},
 		},
 		{
-			files: [
-				"theme/src/values/scale.ts",
-				"theme/src/variables/useScaleDesignTokens.test.ts",
-			],
+			files: ["theme/src/values/scale.ts", "theme/src/variables/useScaleDesignTokens.test.ts"],
 			rules: {
 				// The augmented fourth's ratio is 1.414 as the type scales write it, not `Math.SQRT2`.
 				"oxc/approx-constant": "off",
@@ -179,10 +170,7 @@ export default defineConfig({
 			},
 		},
 		{
-			files: [
-				"engine/core/src/inspect/inspect.test.ts",
-				"tooling/dtcg/test/**/*.test.ts",
-			],
+			files: ["engine/core/src/inspect/inspect.test.ts", "tooling/dtcg/test/**/*.test.ts"],
 			rules: {
 				// These tests copy a JSON document as JSON, or check that a value survives a JSON round
 				// trip, which `structuredClone` would carry through whatever it is.
@@ -213,10 +201,7 @@ export default defineConfig({
 			},
 		},
 		{
-			files: [
-				"apps/app/app/types/database.types.ts",
-				"apps/app/app/types/index.ts",
-			],
+			files: ["apps/app/app/types/database.types.ts", "apps/app/app/types/index.ts"],
 			rules: {
 				// Supabase's generated database types, which are empty until `supabase gen types` writes
 				// them.

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import type { DTCGResolverDocument } from "../../src/types/resolver";
 import { validateResolver } from "../../src/validate/resolver";
 
@@ -36,9 +37,7 @@ describe("validateResolver", () => {
 			resolutionOrder: [{ $ref: "#/sets/base" }],
 		};
 		const errs = validateResolver(doc);
-		expect(errs.some((e) => e.message.includes("must not be empty"))).toBe(
-			true,
-		);
+		expect(errs.some((e) => e.message.includes("must not be empty"))).toBe(true);
 	});
 
 	it("flags an unknown default context", () => {
@@ -53,9 +52,7 @@ describe("validateResolver", () => {
 			resolutionOrder: [{ $ref: "#/modifiers/theme" }],
 		};
 		const errs = validateResolver(doc);
-		expect(errs.some((e) => e.message.includes("not a defined context"))).toBe(
-			true,
-		);
+		expect(errs.some((e) => e.message.includes("not a defined context"))).toBe(true);
 	});
 
 	it("flags missing or empty resolutionOrder", () => {

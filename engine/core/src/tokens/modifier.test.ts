@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import type { ModifierFactory, Root } from "../types";
 import { applyModifiers, createModifierFunction } from "./modifier";
 import { createRoot } from "./root";

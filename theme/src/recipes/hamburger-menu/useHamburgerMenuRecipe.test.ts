@@ -1,10 +1,8 @@
 import { styleframe } from "@styleframe/core";
-import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useHoverModifier,
-	useFocusVisibleModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
+import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
+import { useHoverModifier, useFocusVisibleModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useHamburgerMenuRecipe } from "./useHamburgerMenuRecipe";
 
 function createInstance() {
@@ -98,11 +96,7 @@ describe("useHamburgerMenuRecipe", () => {
 			const s = createInstance();
 			const recipe = useHamburgerMenuRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all size variants", () => {
@@ -185,9 +179,7 @@ describe("useHamburgerMenuRecipe", () => {
 			const s = createInstance();
 			const recipe = useHamburgerMenuRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "light",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "light");
 			expect(cv?.css).toEqual({
 				color: "@color.gray-900",
 				"&:dark": {
@@ -213,9 +205,7 @@ describe("useHamburgerMenuRecipe", () => {
 			const s = createInstance();
 			const recipe = useHamburgerMenuRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.color === "neutral",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.color === "neutral");
 			expect(cv?.css).toEqual({
 				color: "@color.gray-900",
 				"&:dark": {
@@ -252,9 +242,7 @@ describe("useHamburgerMenuRecipe", () => {
 			];
 
 			for (const animation of animations) {
-				const cv = recipe.compoundVariants!.find(
-					(v) => v.match.animation === animation,
-				);
+				const cv = recipe.compoundVariants!.find((v) => v.match.animation === animation);
 				expect(cv?.className).toBe(`-${animation}`);
 			}
 		});
@@ -263,9 +251,7 @@ describe("useHamburgerMenuRecipe", () => {
 			const s = createInstance();
 			const recipe = useHamburgerMenuRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.active === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.active === "true");
 			expect(cv?.className).toBe("-active");
 		});
 	});
@@ -297,10 +283,7 @@ describe("useHamburgerMenuRecipe", () => {
 				filter: { animation: ["close", "plus"] },
 			});
 
-			expect(Object.keys(recipe.variants!.animation)).toEqual([
-				"close",
-				"plus",
-			]);
+			expect(Object.keys(recipe.variants!.animation)).toEqual(["close", "plus"]);
 		});
 
 		it("should prune compound variants when filtering", () => {

@@ -1,8 +1,10 @@
 import path from "node:path";
+
 import { validate } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
+
 import { resolveTsc, typecheck } from "../typecheck";
 import { formatDiagnostic, pluralize, resolveConfigFile } from "../utils";
 import type { CheckDiagnostic } from "../utils";
@@ -10,8 +12,7 @@ import type { CheckDiagnostic } from "../utils";
 export default defineCommand({
 	meta: {
 		name: "check",
-		description:
-			"Check a Styleframe configuration for problems without writing any files",
+		description: "Check a Styleframe configuration for problems without writing any files",
 	},
 	args: {
 		entry: {
@@ -27,8 +28,7 @@ export default defineCommand({
 		},
 		typecheck: {
 			type: "boolean",
-			description:
-				"Also type-check the entry file with the project's TypeScript",
+			description: "Also type-check the entry file with the project's TypeScript",
 			default: false,
 		},
 	},

@@ -26,13 +26,12 @@ import type {
 	DTCGTokenType,
 	DTCGTokenValue,
 } from "@styleframe/dtcg";
+
 import { evaluateValue } from "./evaluate";
 import type { EvaluateContext, EvaluatedValue } from "./evaluate";
 
-const TOKENS_SCHEMA_URL =
-	"https://design-tokens.org/schemas/2025.10/tokens.json";
-const RESOLVER_SCHEMA_URL =
-	"https://www.designtokens.org/schemas/2025.10/resolver.json";
+const TOKENS_SCHEMA_URL = "https://design-tokens.org/schemas/2025.10/tokens.json";
+const RESOLVER_SCHEMA_URL = "https://www.designtokens.org/schemas/2025.10/resolver.json";
 
 export interface BuildDTCGOptions {
 	collectionName?: string;
@@ -92,10 +91,7 @@ function buildVariableMap(root: Root): Map<string, Variable> {
 	return map;
 }
 
-function processVariable(
-	variable: Variable,
-	context: EvaluateContext,
-): ProcessedVariable {
+function processVariable(variable: Variable, context: EvaluateContext): ProcessedVariable {
 	const evaluation = evaluateValue(variable.value, context);
 	const classification = classifyValueForVariable(variable.name, evaluation);
 	return { name: variable.name, evaluation, classification };
@@ -127,11 +123,7 @@ function classifyValueForVariable(
  * (`$value` present) or a group, and by upgrading to `$root` whenever a
  * token coexists with siblings at the same path.
  */
-function setNestedToken(
-	doc: DTCGDocument,
-	dotPath: string,
-	token: DTCGAnyToken,
-): void {
+function setNestedToken(doc: DTCGDocument, dotPath: string, token: DTCGAnyToken): void {
 	const segments = dotPath.split(".");
 	let cursor = doc as unknown as Record<string, unknown>;
 	for (let i = 0; i < segments.length - 1; i++) {
@@ -164,11 +156,7 @@ function hasRootToken(doc: DTCGDocument, dotPath: string): boolean {
 	const segments = dotPath.split(".");
 	let cursor: unknown = doc;
 	for (const segment of segments) {
-		if (
-			typeof cursor !== "object" ||
-			cursor === null ||
-			Array.isArray(cursor)
-		) {
+		if (typeof cursor !== "object" || cursor === null || Array.isArray(cursor)) {
 			return false;
 		}
 		cursor = (cursor as Record<string, unknown>)[segment];
@@ -248,10 +236,7 @@ function makeValueToken(
 	return token;
 }
 
-function makeExpressionToken(
-	expression: string,
-	description?: string,
-): DTCGAnyToken {
+function makeExpressionToken(expression: string, description?: string): DTCGAnyToken {
 	const token: DTCGAnyToken = {
 		$value: expression,
 		$extensions: {
@@ -284,10 +269,7 @@ function capitalizeContextName(name: string): string {
 	return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-export function buildDTCG(
-	root: Root,
-	options: BuildDTCGOptions = {},
-): BuildDTCGResult {
+export function buildDTCG(root: Root, options: BuildDTCGOptions = {}): BuildDTCGResult {
 	const includeSchema = options.includeSchema ?? true;
 	const schemaUrl = options.schemaUrl ?? TOKENS_SCHEMA_URL;
 	const modifierName = options.modifierName ?? "theme";
@@ -304,8 +286,7 @@ export function buildDTCG(
 	const fluidMaxResolved = fluidMaxVariable
 		? evaluateValue(fluidMaxVariable.value, { variables: variableMap }).resolved
 		: null;
-	const maxViewport =
-		typeof fluidMaxResolved === "number" ? fluidMaxResolved : 1440;
+	const maxViewport = typeof fluidMaxResolved === "number" ? fluidMaxResolved : 1440;
 
 	const context: EvaluateContext = { variables: variableMap, maxViewport };
 
@@ -334,10 +315,7 @@ export function buildDTCG(
 		}
 		const p = processed.get(name);
 		if (p?.evaluation.aliasTarget) {
-			return resolveTypeFromAliasChain(
-				p.evaluation.aliasTarget,
-				new Set([...seen, name]),
-			);
+			return resolveTypeFromAliasChain(p.evaluation.aliasTarget, new Set([...seen, name]));
 		}
 		return undefined;
 	};
@@ -363,41 +341,27 @@ export function buildDTCG(
 		const { evaluation, classification } = p;
 
 		if (evaluation.aliasTarget) {
-			const targetType = resolveTypeFromAliasChain(
-				evaluation.aliasTarget,
-				new Set(),
-			);
-			setNestedToken(
-				tokens,
-				variable.name,
-				makeAliasToken(evaluation.aliasTarget, targetType),
-			);
+			const targetType = resolveTypeFromAliasChain(evaluation.aliasTarget, new Set());
+			setNestedToken(tokens, variable.name, makeAliasToken(evaluation.aliasTarget, targetType));
 			emittedCount++;
 			continue;
 		}
 
 		if (classification) {
-			const fluidBound =
-				evaluation.normalisationSource === "fluid-max" ? "max" : undefined;
+			const fluidBound = evaluation.normalisationSource === "fluid-max" ? "max" : undefined;
 			// Fluid substitution always produces a px-equivalent number. The
 			// classifier returns `number` for bare numerics under paths it
 			// doesn't recognise (e.g. `font-size.md`); promote that to a
 			// `dimension` so Figma renders it as a real numeric variable
 			// instead of an untyped scalar.
 			const promoted: Classification =
-				fluidBound &&
-				classification.type === "number" &&
-				typeof classification.value === "number"
+				fluidBound && classification.type === "number" && typeof classification.value === "number"
 					? {
 							type: "dimension",
 							value: { value: classification.value, unit: "px" },
 						}
 					: classification;
-			setNestedToken(
-				tokens,
-				variable.name,
-				makeValueToken(promoted, undefined, fluidBound),
-			);
+			setNestedToken(tokens, variable.name, makeValueToken(promoted, undefined, fluidBound));
 			if (fluidBound) {
 				fluidNormalisedCount++;
 			}
@@ -406,11 +370,7 @@ export function buildDTCG(
 		}
 
 		if (evaluation.cssExpression) {
-			setNestedToken(
-				tokens,
-				variable.name,
-				makeExpressionToken(evaluation.cssExpression),
-			);
+			setNestedToken(tokens, variable.name, makeExpressionToken(evaluation.cssExpression));
 			diagnostics.push({
 				name: variable.name,
 				level: "warn",
@@ -424,10 +384,7 @@ export function buildDTCG(
 
 		// Resolved to a primitive but classifier couldn't tag it AND it isn't
 		// a CSS expression — emit untyped string fallback.
-		if (
-			evaluation.resolved !== null &&
-			typeof evaluation.resolved !== "boolean"
-		) {
+		if (evaluation.resolved !== null && typeof evaluation.resolved !== "boolean") {
 			setNestedToken(tokens, variable.name, {
 				$value: String(evaluation.resolved),
 				$extensions: { "dev.styleframe": { unknownType: true } },
@@ -449,9 +406,7 @@ export function buildDTCG(
 	}
 
 	// Themes → resolver contexts.
-	const themedThemes: Array<Theme> = root.themes.filter(
-		(t) => t.variables.length > 0,
-	);
+	const themedThemes: Array<Theme> = root.themes.filter((t) => t.variables.length > 0);
 	let resolver: DTCGResolverDocument | undefined;
 	if (themedThemes.length > 0) {
 		const contexts: Record<string, DTCGDocument> = {};
@@ -465,10 +420,7 @@ export function buildDTCG(
 				let themeType: DTCGTokenType | undefined;
 				if (themeProcessed.evaluation.aliasTarget) {
 					themeValue = formatAlias(themeProcessed.evaluation.aliasTarget);
-					themeType = resolveTypeFromAliasChain(
-						themeProcessed.evaluation.aliasTarget,
-						new Set(),
-					);
+					themeType = resolveTypeFromAliasChain(themeProcessed.evaluation.aliasTarget, new Set());
 				} else if (themeProcessed.classification) {
 					themeValue = themeProcessed.classification.value;
 					themeType = themeProcessed.classification.type;
@@ -485,10 +437,7 @@ export function buildDTCG(
 					defaultValue = defaultProcessed.classification.value;
 				}
 
-				if (
-					defaultValue !== undefined &&
-					valuesEqual(themeValue, defaultValue)
-				) {
+				if (defaultValue !== undefined && valuesEqual(themeValue, defaultValue)) {
 					continue;
 				}
 

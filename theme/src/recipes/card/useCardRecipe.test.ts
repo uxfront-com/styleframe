@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useCardRecipe } from "./index";
 
@@ -147,8 +148,7 @@ describe("useCardRecipe", () => {
 			const s = createInstance();
 			useCardRecipe(s);
 
-			const interactive =
-				":is(a[href], button, input, select, textarea, summary, [tabindex])";
+			const interactive = ":is(a[href], button, input, select, textarea, summary, [tabindex])";
 			// Zero specificity, so a recipe or utility class that positions the
 			// element itself, like the slider thumb's, still wins.
 			const actions = findSelector(
@@ -193,11 +193,7 @@ describe("useCardRecipe", () => {
 			const states = [
 				findSelector(s, `.card:has(${headerLink}:hover)`),
 				findSelector(s, `.card:has(${headerLink}:focus-visible)`),
-				findChild(
-					findSelector(s, `.card ${headerLink}`),
-					"at-rule",
-					"(hover: hover)",
-				)!,
+				findChild(findSelector(s, `.card ${headerLink}`), "at-rule", "(hover: hover)")!,
 			];
 			for (const state of states) {
 				for (const property of collect(state)) {
@@ -212,9 +208,7 @@ describe("useCardRecipe", () => {
 
 			const blocks = [
 				recipe.base!,
-				...Object.values(recipe.variants!).flatMap((axis) =>
-					Object.values(axis),
-				),
+				...Object.values(recipe.variants!).flatMap((axis) => Object.values(axis)),
 				...recipe.compoundVariants!.map((cv) => cv.css!),
 			];
 			for (const block of blocks) {
@@ -237,17 +231,13 @@ describe("useCardRecipe", () => {
 				"(hover: hover)",
 				"(hover: hover) and (prefers-contrast: more)",
 			]);
-			expect(
-				findChild(hover, "at-rule", "(hover: hover)")?.declarations,
-			).toEqual({
+			expect(findChild(hover, "at-rule", "(hover: hover)")?.declarations).toEqual({
 				borderColor: "color-mix(in srgb, currentColor 45%, transparent)",
 			});
 
 			const link = findSelector(s, `.card ${headerLink}`);
 			const underline = findChild(link, "at-rule", "(hover: hover)");
-			expect(
-				findChild(underline!, "selector", "&:hover")?.declarations,
-			).toEqual({
+			expect(findChild(underline!, "selector", "&:hover")?.declarations).toEqual({
 				textDecorationLine: "underline",
 				textUnderlineOffset: "0.2em",
 			});
@@ -258,14 +248,14 @@ describe("useCardRecipe", () => {
 			useCardRecipe(s);
 
 			const card = findSelector(s, ".card.card.card");
-			expect(
-				findChild(card, "at-rule", "(forced-colors: active)")?.declarations,
-			).toEqual({ borderColor: "CanvasText" });
+			expect(findChild(card, "at-rule", "(forced-colors: active)")?.declarations).toEqual({
+				borderColor: "CanvasText",
+			});
 
 			const focus = findSelector(s, `.card:has(${headerLink}:focus-visible)`);
-			expect(
-				findChild(focus, "at-rule", "(forced-colors: active)")?.declarations,
-			).toEqual({ outlineColor: "Highlight" });
+			expect(findChild(focus, "at-rule", "(forced-colors: active)")?.declarations).toEqual({
+				outlineColor: "Highlight",
+			});
 		});
 
 		it("card/more-contrast draws the border in the text colour at full strength, on hover too", () => {
@@ -273,17 +263,13 @@ describe("useCardRecipe", () => {
 			useCardRecipe(s);
 
 			const card = findSelector(s, ".card.card.card");
-			expect(
-				findChild(card, "at-rule", "(prefers-contrast: more)")?.declarations,
-			).toEqual({ borderColor: "currentColor" });
+			expect(findChild(card, "at-rule", "(prefers-contrast: more)")?.declarations).toEqual({
+				borderColor: "currentColor",
+			});
 
 			const hover = findSelector(s, `.card:has(${headerLink}:hover)`);
 			expect(
-				findChild(
-					hover,
-					"at-rule",
-					"(hover: hover) and (prefers-contrast: more)",
-				)?.declarations,
+				findChild(hover, "at-rule", "(hover: hover) and (prefers-contrast: more)")?.declarations,
 			).toEqual({ borderColor: "currentColor" });
 		});
 	});
@@ -293,22 +279,14 @@ describe("useCardRecipe", () => {
 			const s = createInstance();
 			const recipe = useCardRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useCardRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"solid",
-				"soft",
-				"subtle",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["solid", "soft", "subtle"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -470,9 +448,7 @@ describe("useCardRecipe", () => {
 				filter: { color: ["neutral"] },
 			});
 
-			expect(
-				recipe.compoundVariants!.every((cv) => cv.match.color === "neutral"),
-			).toBe(true);
+			expect(recipe.compoundVariants!.every((cv) => cv.match.color === "neutral")).toBe(true);
 			expect(recipe.compoundVariants).toHaveLength(3);
 		});
 

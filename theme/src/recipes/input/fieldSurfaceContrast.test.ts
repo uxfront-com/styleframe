@@ -1,11 +1,9 @@
 import { styleframe } from "@styleframe/core";
 import { formatHex8, oklch, rgb, wcagContrast } from "culori";
+
 import { useDesignTokensPreset } from "../../presets";
 import { colorValues, darkModeColorValues } from "../../values";
-import {
-	FIELD_MUTED_TEXT,
-	fieldSurfaceCompoundVariants,
-} from "./createFieldRecipe";
+import { FIELD_MUTED_TEXT, fieldSurfaceCompoundVariants } from "./createFieldRecipe";
 
 type Slot = Record<string, unknown>;
 
@@ -42,10 +40,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 		return String(variable.value);
 	}
 
-	const pages = (theme: Theme) => [
-		themes[theme].background!,
-		themes[theme].surface!,
-	];
+	const pages = (theme: Theme) => [themes[theme].background!, themes[theme].surface!];
 
 	// `light` and `dark` keep one look in both themes, so each sits on the page
 	// it is documented for in either theme: a light page for `light` and a dark
@@ -57,14 +52,11 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 	// `dark` hold 3:1 against the pages of both themes. `neutral` sits on the
 	// pages of its theme.
 	const borderPages = (color: string, theme: Theme) =>
-		color === "light" || color === "dark"
-			? [...pages("light"), ...pages("dark")]
-			: pages(theme);
+		color === "light" || color === "dark" ? [...pages("light"), ...pages("dark")] : pages(theme);
 
 	// The muted text is the text color at this share, composited in sRGB over
 	// the fill, as `color-mix(in srgb, currentColor n%, transparent)` paints it.
-	const mutedShare =
-		Number(/currentColor (\d+)%/.exec(FIELD_MUTED_TEXT)?.[1]) / 100;
+	const mutedShare = Number(/currentColor (\d+)%/.exec(FIELD_MUTED_TEXT)?.[1]) / 100;
 	function srgb(color: string) {
 		const { l, c, h } = oklch(color);
 		return rgb({ mode: "oklch", l, c, h: h || 0 })!;
@@ -81,8 +73,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 	}
 
 	const compounds = fieldSurfaceCompoundVariants();
-	const invalid = compounds.find((cv) => cv.match.invalid === "true")!
-		.css as Slot;
+	const invalid = compounds.find((cv) => cv.match.invalid === "true")!.css as Slot;
 
 	const cases = compounds
 		.filter((cv) => cv.match.color && cv.match.variant)
@@ -92,9 +83,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 			return (["light", "dark"] as const).map((theme) => {
 				const slot = theme === "light" ? css : inDark;
 				const hover = (
-					theme === "light"
-						? css["&:hover-capable:hover"]
-						: css["&:dark:hover-capable:hover"]
+					theme === "light" ? css["&:hover-capable:hover"] : css["&:dark:hover-capable:hover"]
 				) as Slot;
 				const color = cv.match.color as string;
 				const fills =
@@ -104,8 +93,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 				const borders = [slot, hover]
 					.flatMap((block) => [block.borderColor, block.borderBottomColor])
 					.filter(
-						(value): value is string =>
-							typeof value === "string" && value.startsWith("@color."),
+						(value): value is string => typeof value === "string" && value.startsWith("@color."),
 					)
 					.map((token) => resolve(token, theme));
 				return {
@@ -123,23 +111,17 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 		expect(cases).toHaveLength(18);
 	});
 
-	it.each(cases)(
-		"input/contrast gives the value 4.5:1 on $name",
-		({ text, fills }) => {
-			for (const fill of fills) {
-				expect(wcagContrast(text, fill), fill).toBeGreaterThanOrEqual(4.5);
-			}
-		},
-	);
+	it.each(cases)("input/contrast gives the value 4.5:1 on $name", ({ text, fills }) => {
+		for (const fill of fills) {
+			expect(wcagContrast(text, fill), fill).toBeGreaterThanOrEqual(4.5);
+		}
+	});
 
 	it.each(cases)(
 		"input/contrast gives the placeholder, prefix and suffix 4.5:1 on $name",
 		({ text, fills }) => {
 			for (const fill of fills) {
-				expect(
-					wcagContrast(muted(text, fill), fill),
-					fill,
-				).toBeGreaterThanOrEqual(4.5);
+				expect(wcagContrast(muted(text, fill), fill), fill).toBeGreaterThanOrEqual(4.5);
 			}
 		},
 	);
@@ -164,10 +146,7 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 		({ theme, color, fills }) => {
 			const error = resolve(invalid.borderColor as string, theme);
 			for (const neighbour of [...borderPages(color, theme), ...fills]) {
-				expect(
-					wcagContrast(error, neighbour),
-					neighbour,
-				).toBeGreaterThanOrEqual(3);
+				expect(wcagContrast(error, neighbour), neighbour).toBeGreaterThanOrEqual(3);
 			}
 		},
 	);
@@ -195,14 +174,12 @@ describe("fieldSurfaceCompoundVariants contrast", () => {
 			Object.entries(blocks).map(([state, layers]) => [
 				state,
 				Object.fromEntries(
-					Object.entries(Object.assign({}, ...layers) as Slot).map(
-						([property, value]) => [
-							property,
-							typeof value === "string" && value.startsWith("@color.")
-								? formatHex8(resolve(value, theme))
-								: value,
-						],
-					),
+					Object.entries(Object.assign({}, ...layers) as Slot).map(([property, value]) => [
+						property,
+						typeof value === "string" && value.startsWith("@color.")
+							? formatHex8(resolve(value, theme))
+							: value,
+					]),
 				),
 			]),
 		);

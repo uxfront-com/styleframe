@@ -1,19 +1,13 @@
 import { styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
 import {
 	useDarkModifier,
 	useForcedColorsModifier,
 	useHoverCapableModifier,
 } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusWithinModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
-import {
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "../../presets";
+import { useFocusWithinModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "../../presets";
 import { useInputPrefixRecipe } from "./useInputPrefixRecipe";
 import { useInputRecipe } from "./useInputRecipe";
 import { useInputSuffixRecipe } from "./useInputSuffixRecipe";
@@ -123,22 +117,14 @@ describe("useInputRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have all style variants", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"default",
-				"soft",
-				"ghost",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["default", "soft", "ghost"]);
 		});
 
 		it("should have size variants with correct styles", () => {
@@ -357,9 +343,7 @@ describe("useInputRecipe", () => {
 			const ghost = recipe.compoundVariants!.findIndex(
 				(v) => v.match.color === "neutral" && v.match.variant === "ghost",
 			);
-			const invalid = recipe.compoundVariants!.findIndex(
-				(v) => v.match.invalid === "true",
-			);
+			const invalid = recipe.compoundVariants!.findIndex((v) => v.match.invalid === "true");
 
 			// A later compound replaces an earlier one's key, so invalid must follow ghost.
 			expect(invalid).toBeGreaterThan(ghost);
@@ -375,9 +359,7 @@ describe("useInputRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.invalid === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.invalid === "true");
 
 			expect(cv).toEqual({
 				match: { invalid: "true" },
@@ -405,9 +387,7 @@ describe("useInputRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.readonly === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.readonly === "true");
 
 			expect(cv).toEqual({
 				match: { readonly: "true" },
@@ -422,9 +402,7 @@ describe("useInputRecipe", () => {
 			const s = createInstance();
 			const recipe = useInputRecipe(s);
 
-			const cv = recipe.compoundVariants!.find(
-				(v) => v.match.disabled === "true",
-			);
+			const cv = recipe.compoundVariants!.find((v) => v.match.disabled === "true");
 
 			expect(cv).toEqual({
 				match: { disabled: "true" },
@@ -452,11 +430,8 @@ describe("useInputRecipe", () => {
 
 			const inputFieldSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".input-field",
-			) as
-				| { type: "selector"; query: string; children: Array<unknown> }
-				| undefined;
+					child.type === "selector" && (child as { query: string }).query === ".input-field",
+			) as { type: "selector"; query: string; children: Array<unknown> } | undefined;
 
 			expect(inputFieldSelector).toBeDefined();
 			expect(inputFieldSelector?.query).toBe(".input-field");
@@ -468,8 +443,7 @@ describe("useInputRecipe", () => {
 
 			const inputFieldSelector = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					(child as { query: string }).query === ".input-field",
+					child.type === "selector" && (child as { query: string }).query === ".input-field",
 			) as
 				| {
 						children: Array<{
@@ -480,9 +454,7 @@ describe("useInputRecipe", () => {
 				| undefined;
 
 			expect(
-				inputFieldSelector?.children.find(
-					(child) => child.query === "&:disabled",
-				)?.declarations,
+				inputFieldSelector?.children.find((child) => child.query === "&:disabled")?.declarations,
 			).toEqual({ cursor: "not-allowed" });
 		});
 	});
@@ -530,10 +502,7 @@ describe("useInputRecipe", () => {
 				filter: { variant: ["default", "soft"] },
 			});
 
-			expect(Object.keys(recipe.variants!.variant)).toEqual([
-				"default",
-				"soft",
-			]);
+			expect(Object.keys(recipe.variants!.variant)).toEqual(["default", "soft"]);
 		});
 
 		it("should adjust default variants when filtered out", () => {
@@ -619,13 +588,9 @@ describe("Open Components rules", () => {
 			outlineOffset: "2px",
 		});
 		for (const cv of recipe.compoundVariants!) {
-			expect(keys(css(cv)).filter((key) => key.includes("outline"))).toEqual(
-				[],
-			);
+			expect(keys(css(cv)).filter((key) => key.includes("outline"))).toEqual([]);
 		}
-		for (const node of selectors(s).filter((n) =>
-			n.query!.startsWith(".input:has"),
-		)) {
+		for (const node of selectors(s).filter((n) => n.query!.startsWith(".input:has"))) {
 			expect(JSON.stringify(node)).not.toContain("outline");
 		}
 	});
@@ -638,9 +603,7 @@ describe("Open Components rules", () => {
 		expect(coarse(s)).toMatchObject({ backgroundClip: "padding-box" });
 		const output = consumeCSS(s.root, s.options);
 		expect(output).toContain("margin-block: calc(var(--spacing) * -0.625);");
-		expect(output).toContain(
-			"border-block: calc(var(--spacing) * 0.625) solid transparent;",
-		);
+		expect(output).toContain("border-block: calc(var(--spacing) * 0.625) solid transparent;");
 	});
 
 	it("input/no-zoom-on-focus sets the input's text to at least 16px on touch screens", () => {
@@ -661,33 +624,22 @@ describe("Open Components rules", () => {
 
 	it("input/stable-size changes no size in any state", () => {
 		const { s, recipe } = createPresetInstance();
-		const sizing =
-			/^(padding|margin|width|height|minHeight|fontSize|lineHeight|borderWidth)/;
+		const sizing = /^(padding|margin|width|height|minHeight|fontSize|lineHeight|borderWidth)/;
 
-		const states = recipe.compoundVariants!.filter(
-			(cv) => !cv.match.color && !cv.match.variant,
-		);
+		const states = recipe.compoundVariants!.filter((cv) => !cv.match.color && !cv.match.variant);
 		expect(states).toHaveLength(3);
 		for (const cv of states) {
 			expect(keys(css(cv)).filter((key) => sizing.test(key))).toEqual([]);
 		}
-		for (const node of selectors(s).filter((n) =>
-			n.query!.startsWith(".input:has"),
-		)) {
-			expect(keys(node.declarations).filter((key) => sizing.test(key))).toEqual(
-				[],
-			);
+		for (const node of selectors(s).filter((n) => n.query!.startsWith(".input:has"))) {
+			expect(keys(node.declarations).filter((key) => sizing.test(key))).toEqual([]);
 		}
 	});
 
 	it("input/state-selectors styles states from the native input's attributes, never :invalid or :read-only", () => {
 		const { s } = createPresetInstance();
 
-		for (const attribute of [
-			'[aria-invalid="true"]',
-			"[readonly]",
-			":disabled",
-		]) {
+		for (const attribute of ['[aria-invalid="true"]', "[readonly]", ":disabled"]) {
 			expect(find(s, state(attribute)), attribute).toHaveLength(1);
 		}
 		const all = JSON.stringify([
@@ -701,9 +653,10 @@ describe("Open Components rules", () => {
 		const { s, recipe } = createPresetInstance();
 		const shadow = "inset 0 0 0 1px @color.error";
 
-		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!),
-		).toMatchObject({ borderColor: "@color.error", boxShadow: shadow });
+		expect(css(recipe.compoundVariants!.find((cv) => cv.match.invalid === "true")!)).toMatchObject({
+			borderColor: "@color.error",
+			boxShadow: shadow,
+		});
 		const [invalid] = find(s, state('[aria-invalid="true"]'));
 		expect(invalid!.declarations).toMatchObject({
 			borderColor: expect.objectContaining({ name: "color.error" }),
@@ -724,9 +677,7 @@ describe("Open Components rules", () => {
 			expect(key).toMatch(/:hover-capable:hover$/);
 		}
 		const [invalid] = find(s, state('[aria-invalid="true"]'));
-		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe(
-			"&:hover",
-		);
+		expect(media([invalid!], "(hover: hover)")?.children[0]?.query).toBe("&:hover");
 	});
 
 	it("input/forced-colors keeps the focus, disabled and read-only states visible", () => {
@@ -741,18 +692,15 @@ describe("Open Components rules", () => {
 			outlineColor: "Highlight",
 		});
 		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)[
-				"&:forced-colors"
-			],
+			css(recipe.compoundVariants!.find((cv) => cv.match.disabled === "true")!)["&:forced-colors"],
 		).toEqual(visible);
-		expect(
-			media(find(s, state(":disabled")), "(forced-colors: active)")
-				?.declarations,
-		).toEqual(visible);
+		expect(media(find(s, state(":disabled")), "(forced-colors: active)")?.declarations).toEqual(
+			visible,
+		);
 		// A dashed border survives forced colors, so read-only needs no override.
-		expect(
-			css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!),
-		).toMatchObject({ borderStyle: "@border-style.dashed" });
+		expect(css(recipe.compoundVariants!.find((cv) => cv.match.readonly === "true")!)).toMatchObject(
+			{ borderStyle: "@border-style.dashed" },
+		);
 	});
 
 	it("input/more-contrast draws every border in the text color with prefers-contrast: more", () => {
@@ -762,9 +710,7 @@ describe("Open Components rules", () => {
 			recipe
 				.compoundVariants!.filter((cv) => cv.match.color)
 				.flatMap((cv) =>
-					JSON.stringify(cv.css).match(
-						/@color\.gray-4[0-9]+|@color\.gray-5[0-9]+/g,
-					),
+					JSON.stringify(cv.css).match(/@color\.gray-4[0-9]+|@color\.gray-5[0-9]+/g),
 				),
 		);
 		expect([...borders].sort()).toEqual(["@color.gray-450", "@color.gray-500"]);
@@ -794,10 +740,7 @@ describe("Open Components rules", () => {
 		for (const size of Object.values(suffix.variants!.size)) {
 			expect(Object.keys(size)).toContain("paddingInlineStart");
 		}
-		for (const block of [
-			recipe.base!,
-			...Object.values(recipe.variants!.size),
-		]) {
+		for (const block of [recipe.base!, ...Object.values(recipe.variants!.size)]) {
 			expect(block.paddingLeft).toBe(block.paddingRight);
 		}
 	});

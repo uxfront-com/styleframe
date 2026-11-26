@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { fromDTCG, fromDTCGResolver } from "./from-dtcg";
 import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
+import { describe, expect, it } from "vitest";
+
+import { fromDTCG, fromDTCGResolver } from "./from-dtcg";
 
 describe("fromDTCG (single-mode)", () => {
 	it("converts a single sRGB color token", () => {
@@ -49,16 +50,8 @@ describe("fromDTCG (single-mode)", () => {
 			},
 		};
 		const result = fromDTCG(doc);
-		expect(
-			result.variables.find((v) => v.name === "spacing/small")?.values[
-				"Default"
-			],
-		).toBe(4);
-		expect(
-			result.variables.find((v) => v.name === "spacing/medium")?.values[
-				"Default"
-			],
-		).toBe(16);
+		expect(result.variables.find((v) => v.name === "spacing/small")?.values["Default"]).toBe(4);
+		expect(result.variables.find((v) => v.name === "spacing/medium")?.values["Default"]).toBe(16);
 	});
 
 	it("converts aliases to VARIABLE_ALIAS shape", () => {
@@ -236,11 +229,7 @@ describe("fromDTCG (single-mode)", () => {
 		} as unknown as DTCGDocument;
 		const result = fromDTCG(doc);
 		const names = result.variables.map((v) => v.name).sort();
-		expect(names).toEqual([
-			"border-width",
-			"border-width/thick",
-			"border-width/thin",
-		]);
+		expect(names).toEqual(["border-width", "border-width/thick", "border-width/thin"]);
 	});
 
 	it("resolves aliases to $root targets without the $root suffix", () => {
@@ -263,9 +252,7 @@ describe("fromDTCG (single-mode)", () => {
 			},
 		} as unknown as DTCGDocument;
 		const result = fromDTCG(doc);
-		const margin = result.variables.find(
-			(v) => v.name === "address/margin-bottom",
-		);
+		const margin = result.variables.find((v) => v.name === "address/margin-bottom");
 		expect(margin?.aliasTo).toBe("spacing");
 		expect(margin?.values["Default"]).toEqual({
 			type: "VARIABLE_ALIAS",
@@ -300,9 +287,7 @@ describe("fromDTCG (single-mode)", () => {
 			},
 		} as unknown as DTCGDocument;
 		const result = fromDTCG(doc);
-		const disabled = result.variables.find(
-			(v) => v.name === "feature/disabled",
-		);
+		const disabled = result.variables.find((v) => v.name === "feature/disabled");
 		expect(disabled?.type).toBe("BOOLEAN");
 		expect(disabled?.values["Default"]).toBe(false);
 	});
@@ -455,9 +440,7 @@ describe("fromDTCGResolver (multi-mode)", () => {
 		};
 
 		const result = await fromDTCGResolver(resolver, { fileLoader: loader });
-		const border = result.variables.find(
-			(v) => v.name === "border-color/primary",
-		);
+		const border = result.variables.find((v) => v.name === "border-color/primary");
 		expect(border).toBeDefined();
 		expect(border?.aliasTo).toBeUndefined();
 		expect(border?.values["light"]).toEqual({

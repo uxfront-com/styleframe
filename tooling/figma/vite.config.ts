@@ -1,6 +1,7 @@
+import path from "node:path";
+
 import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
-import path from "node:path";
 
 const __dirname = import.meta.dirname;
 

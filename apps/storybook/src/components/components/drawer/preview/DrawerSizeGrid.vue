@@ -25,9 +25,7 @@ const sizeTitles: Record<string, string> = {
 							<DrawerTitle>{{ sizeTitles[size] }} Drawer</DrawerTitle>
 						</DrawerHeader>
 						<DrawerBody :size="size">
-							<DrawerDescription>
-								The {{ size }} size sets the panel thickness.
-							</DrawerDescription>
+							<DrawerDescription> The {{ size }} size sets the panel thickness. </DrawerDescription>
 						</DrawerBody>
 					</Drawer>
 				</DrawerOverlay>

@@ -16,10 +16,7 @@ export function* walk(doc: DTCGDocument): Generator<WalkEntry> {
 	yield* walkNode(doc as unknown as Record<string, unknown>, "");
 }
 
-function* walkNode(
-	node: Record<string, unknown>,
-	currentPath: string,
-): Generator<WalkEntry> {
+function* walkNode(node: Record<string, unknown>, currentPath: string): Generator<WalkEntry> {
 	if (isToken(node)) {
 		yield { path: currentPath, token: node };
 		return;
@@ -42,10 +39,7 @@ function* walkNode(
 			continue;
 		}
 		if (child !== null && typeof child === "object" && !Array.isArray(child)) {
-			yield* walkNode(
-				child as Record<string, unknown>,
-				appendPath(currentPath, key),
-			);
+			yield* walkNode(child as Record<string, unknown>, appendPath(currentPath, key));
 		}
 	}
 }

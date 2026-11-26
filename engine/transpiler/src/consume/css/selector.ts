@@ -1,4 +1,5 @@
 import type { Selector, StyleframeOptions } from "@styleframe/core";
+
 import type { ConsumeFunction } from "../../types";
 import { createContainerConsumer } from "./container";
 
@@ -8,10 +9,7 @@ import { createContainerConsumer } from "./container";
 export function createSelectorConsumer(consume: ConsumeFunction) {
 	const consumeContainer = createContainerConsumer(consume);
 
-	return function consumeSelector(
-		instance: Selector,
-		options: StyleframeOptions,
-	): string {
+	return function consumeSelector(instance: Selector, options: StyleframeOptions): string {
 		return consumeContainer(instance.query, instance, options);
 	};
 }

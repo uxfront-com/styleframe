@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { parse } from "../../src/color/parse";
 
 describe("color.parse", () => {

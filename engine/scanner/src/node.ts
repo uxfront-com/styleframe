@@ -1,6 +1,19 @@
 import { readFile } from "node:fs/promises";
-import fg from "fast-glob";
+
 import type { Root } from "@styleframe/core";
+import fg from "fast-glob";
+
+import { createCache, hashContent } from "./cache";
+import { DEFAULT_IGNORE_PATTERNS } from "./constants";
+import { extractClasses } from "./extractor";
+import type { ImportScanResult } from "./imports";
+import {
+	scanFileImports as scanFileImportsFn,
+	createEmptyImportScanResult,
+	mergeImportScanResults,
+} from "./imports";
+import { matchUtilities } from "./matcher";
+import { parseUtilityClass } from "./parser";
 import type {
 	FileScanResult,
 	ParsedUtility,
@@ -9,17 +22,6 @@ import type {
 	ScanResult,
 	UtilityMatch,
 } from "./types";
-import type { ImportScanResult } from "./imports";
-import {
-	scanFileImports as scanFileImportsFn,
-	createEmptyImportScanResult,
-	mergeImportScanResults,
-} from "./imports";
-import { createCache, hashContent } from "./cache";
-import { DEFAULT_IGNORE_PATTERNS } from "./constants";
-import { extractClasses } from "./extractor";
-import { matchUtilities } from "./matcher";
-import { parseUtilityClass } from "./parser";
 import { createChangeHandler } from "./watcher";
 
 /**
@@ -70,15 +72,8 @@ export function createScanner(config: ScannerConfig): Scanner {
 		}
 
 		// Extract and parse classes
-		const classNames = extractClasses(
-			content,
-			filePath,
-			customExtractors,
-			utilityPattern,
-		);
-		const parsed = classNames
-			.map(utilityParse)
-			.filter((p): p is ParsedUtility => p !== null);
+		const classNames = extractClasses(content, filePath, customExtractors, utilityPattern);
+		const parsed = classNames.map(utilityParse).filter((p): p is ParsedUtility => p !== null);
 
 		const result: FileScanResult = {
 			path: filePath,
@@ -96,19 +91,9 @@ export function createScanner(config: ScannerConfig): Scanner {
 	/**
 	 * Scan content string directly without file I/O.
 	 */
-	function scanContent(
-		content: string,
-		filePath = "inline",
-	): Array<ParsedUtility> {
-		const classNames = extractClasses(
-			content,
-			filePath,
-			customExtractors,
-			utilityPattern,
-		);
-		return classNames
-			.map(utilityParse)
-			.filter((p): p is ParsedUtility => p !== null);
+	function scanContent(content: string, filePath = "inline"): Array<ParsedUtility> {
+		const classNames = extractClasses(content, filePath, customExtractors, utilityPattern);
+		return classNames.map(utilityParse).filter((p): p is ParsedUtility => p !== null);
 	}
 
 	/**
@@ -127,10 +112,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 					return await scanFile(filePath);
 				} catch (error) {
 					// Log error but continue scanning other files
-					console.warn(
-						`[styleframe/scanner] Failed to scan ${filePath}:`,
-						error,
-					);
+					console.warn(`[styleframe/scanner] Failed to scan ${filePath}:`, error);
 					return null;
 				}
 			}),
@@ -157,10 +139,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 	/**
 	 * Match parsed utilities against a root instance.
 	 */
-	function match(
-		parsed: Array<ParsedUtility>,
-		root: Root,
-	): Array<UtilityMatch> {
+	function match(parsed: Array<ParsedUtility>, root: Root): Array<UtilityMatch> {
 		return matchUtilities(parsed, root);
 	}
 
@@ -212,10 +191,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 		return result;
 	}
 
-	function scanFileImportsMethod(
-		filePath: string,
-		moduleId: string,
-	): ImportScanResult {
+	function scanFileImportsMethod(filePath: string, moduleId: string): ImportScanResult {
 		return scanFileImportsFn(filePath, moduleId);
 	}
 

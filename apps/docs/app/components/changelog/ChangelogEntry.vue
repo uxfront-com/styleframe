@@ -37,22 +37,13 @@ const releaseUrl = useChangelogReleaseUrl();
 
 <template>
 	<div class="flex items-center gap-3">
-		<UBadge
-			:label="`v${entry.version}`"
-			color="primary"
-			variant="subtle"
-			size="lg"
-		/>
+		<UBadge :label="`v${entry.version}`" color="primary" variant="subtle" size="lg" />
 		<time :datetime="entry.date" class="text-sm text-muted">{{ date }}</time>
 	</div>
 
 	<slot name="title" />
 
-	<ContentRenderer
-		:value="entry"
-		:components="listed ? listedHeadings : undefined"
-		class="mt-4"
-	/>
+	<ContentRenderer :value="entry" :components="listed ? listedHeadings : undefined" class="mt-4" />
 
 	<NuxtLink
 		:to="releaseUrl(entry)"

@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useBeforeModifier } from "../../modifiers/usePseudoElementModifiers";
 import { useCheckboxRecipe } from "./useCheckboxRecipe";
@@ -27,12 +28,7 @@ function createInstance() {
 	}
 	// Tokens referenced inside composite values (calc, box-shadow) resolve
 	// when the recipe registers its utilities.
-	for (const name of [
-		"font-size.xs",
-		"font-size.sm",
-		"font-size.md",
-		"line-height.normal",
-	]) {
+	for (const name of ["font-size.xs", "font-size.sm", "font-size.md", "line-height.normal"]) {
 		s.variable(name, "0");
 	}
 	useDarkModifier(s);
@@ -187,9 +183,7 @@ describe("useCheckboxRecipe", () => {
 				);
 				expect(rule, name).toBeDefined();
 				for (const property of ["width", "height", "padding", "gap"]) {
-					expect(
-						(rule as { declarations: Block }).declarations,
-					).not.toHaveProperty(property);
+					expect((rule as { declarations: Block }).declarations).not.toHaveProperty(property);
 				}
 			}
 		});
@@ -201,8 +195,7 @@ describe("useCheckboxRecipe", () => {
 			const rule = s.root.children.find(
 				(child) =>
 					child.type === "selector" &&
-					child.query ===
-						'.checkbox:has(.checkbox-field[aria-readonly="true"])',
+					child.query === '.checkbox:has(.checkbox-field[aria-readonly="true"])',
 			) as { declarations: Block } | undefined;
 			expect(rule?.declarations).toMatchObject({ cursor: "default" });
 		});
@@ -213,17 +206,14 @@ describe("useCheckboxRecipe", () => {
 
 			const rule = s.root.children.find(
 				(child) =>
-					child.type === "selector" &&
-					child.query === ".checkbox:has(.checkbox-field:disabled)",
+					child.type === "selector" && child.query === ".checkbox:has(.checkbox-field:disabled)",
 			) as { declarations: Block; children: Array<Block> } | undefined;
 			expect(rule?.declarations).toMatchObject({
 				opacity: "0.5",
 				cursor: "not-allowed",
 			});
 			const media = rule?.children.find(
-				(child) =>
-					child.identifier === "media" &&
-					child.rule === "(forced-colors: active)",
+				(child) => child.identifier === "media" && child.rule === "(forced-colors: active)",
 			) as { declarations: Block } | undefined;
 			expect(media?.declarations).toEqual({ opacity: "1", color: "GrayText" });
 		});
@@ -233,12 +223,13 @@ describe("useCheckboxRecipe", () => {
 			useCheckboxRecipe(s);
 
 			const find = (query: string) =>
-				s.root.children.find(
-					(child) => child.type === "selector" && child.query === query,
-				) as { declarations: Block } | undefined;
-			expect(
-				find(".checkbox:has(.checkbox-field:disabled)")?.declarations,
-			).toMatchObject({ opacity: "0.5", cursor: "not-allowed" });
+				s.root.children.find((child) => child.type === "selector" && child.query === query) as
+					| { declarations: Block }
+					| undefined;
+			expect(find(".checkbox:has(.checkbox-field:disabled)")?.declarations).toMatchObject({
+				opacity: "0.5",
+				cursor: "not-allowed",
+			});
 			expect(find(".checkbox .checkbox-field:disabled")?.declarations).toEqual({
 				opacity: "1",
 			});
@@ -250,9 +241,7 @@ describe("useCheckboxRecipe", () => {
 
 			const keys = [
 				...Object.keys(recipe.base ?? {}),
-				...Object.values(recipe.variants!.size).flatMap((css) =>
-					Object.keys(css),
-				),
+				...Object.values(recipe.variants!.size).flatMap((css) => Object.keys(css)),
 			];
 			expect(keys.length).toBeGreaterThan(0);
 			for (const key of keys) {

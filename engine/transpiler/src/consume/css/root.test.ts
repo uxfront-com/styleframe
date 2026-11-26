@@ -8,6 +8,7 @@ import {
 	createUtilityFunction,
 	createVariableFunction,
 } from "@styleframe/core";
+
 import { consume } from "./consume";
 import { createRootConsumer } from "./root";
 
@@ -237,10 +238,7 @@ h1, h2, h3 {
 	});
 
 	it("should handle complex variable values", () => {
-		variable(
-			"elevation-1",
-			"0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
-		);
+		variable("elevation-1", "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)");
 		variable("transition-default", "all 0.3s cubic-bezier(.25,.8,.25,1)");
 		variable(
 			"font-stack",

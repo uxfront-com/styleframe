@@ -1,5 +1,6 @@
 import type { Root, TokenValue } from "@styleframe/core";
 import { createUtilityFunction } from "@styleframe/core";
+
 import { isKnownCssProperty } from "./properties";
 import type { UtilityMatch } from "./types";
 
@@ -28,10 +29,7 @@ function dynamicAutogenerate(value: TokenValue): Record<string, TokenValue> {
  *
  * @returns Number of newly created factories
  */
-export function createDynamicUtilities(
-	root: Root,
-	matches: Array<UtilityMatch>,
-): number {
+export function createDynamicUtilities(root: Root, matches: Array<UtilityMatch>): number {
 	const unmatched = matches.filter((m) => m.factory === null);
 	if (unmatched.length === 0) {
 		return 0;

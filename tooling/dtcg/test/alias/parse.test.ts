@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { formatAlias, parseAlias } from "../../src/alias/parse";
 import { appendPath, joinPath, splitPath } from "../../src/alias/path";
 

@@ -4,6 +4,7 @@ import type {
 	UtilitySelectorFn,
 	UtilitySelectorOptions,
 } from "@styleframe/core";
+
 import { defaultUtilitySelectorFn } from "../defaults";
 
 export function shortenUtilityOptions(
@@ -12,8 +13,7 @@ export function shortenUtilityOptions(
 ): UtilitySelectorOptions {
 	return {
 		name: map.p[opts.name] ?? opts.name,
-		value:
-			opts.value === "default" ? opts.value : (map.v[opts.value] ?? opts.value),
+		value: opts.value === "default" ? opts.value : (map.v[opts.value] ?? opts.value),
 		modifiers: opts.modifiers.map((m) => map.m[m] ?? m),
 	};
 }

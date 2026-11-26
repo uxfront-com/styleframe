@@ -1,11 +1,6 @@
-import {
-	BASE_PARTICLES,
-	glslArray,
-	glslFloat,
-	glslVec,
-	packShapes,
-} from "@uxfront/scene";
+import { BASE_PARTICLES, glslArray, glslFloat, glslVec, packShapes } from "@uxfront/scene";
 import type { FormationShader, Shape } from "@uxfront/scene";
+
 import { deviceAt, deviceProgress } from "./device";
 
 /** "Aa", the text on the screen, in units of its cap height, baseline at 0. */

@@ -1,6 +1,7 @@
 import { execSync } from "node:child_process";
-import { readGitConfig } from "pkg-types";
+
 import gitUrlParse from "git-url-parse";
+import { readGitConfig } from "pkg-types";
 
 export interface GitInfo {
 	// Repository name
@@ -38,9 +39,7 @@ export function getGitBranch() {
 	return "main";
 }
 
-export async function getLocalGitInfo(
-	rootDir: string,
-): Promise<GitInfo | undefined> {
+export async function getLocalGitInfo(rootDir: string): Promise<GitInfo | undefined> {
 	const remote = await getLocalGitRemote(rootDir);
 	if (!remote) {
 		return;

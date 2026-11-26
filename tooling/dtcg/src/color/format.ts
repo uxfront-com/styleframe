@@ -12,6 +12,7 @@
  */
 
 import { formatCss, formatHex, formatHex8 } from "culori";
+
 import type { DTCGColor } from "../types/color";
 import { dtcgToCulori } from "./culori-bridge";
 
@@ -22,14 +23,10 @@ export function format(color: DTCGColor): string {
 	// culori's formatters accept any of the color-mode interfaces; cast through
 	// `any` since our internal `CuloriColor` is structurally compatible but
 	// not assignable to the union of every spec mode without a discriminator.
-	const culori = dtcgToCulori(color) as unknown as Parameters<
-		typeof formatCss
-	>[0];
+	const culori = dtcgToCulori(color) as unknown as Parameters<typeof formatCss>[0];
 	if (color.colorSpace === "srgb") {
 		const hex =
-			color.alpha !== undefined && color.alpha < 1
-				? formatHex8(culori)
-				: formatHex(culori);
+			color.alpha !== undefined && color.alpha < 1 ? formatHex8(culori) : formatHex(culori);
 		if (hex) {
 			return hex;
 		}

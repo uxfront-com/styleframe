@@ -1,4 +1,5 @@
 import { styleframe } from "@styleframe/core";
+
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import {
 	createBackdropRecipe,
@@ -51,8 +52,7 @@ function createInstance() {
 
 function findSelector(s: ReturnType<typeof styleframe>, query: string) {
 	return s.root.children.find(
-		(child) =>
-			child.type === "selector" && (child as { query: string }).query === query,
+		(child) => child.type === "selector" && (child as { query: string }).query === query,
 	);
 }
 
@@ -174,12 +174,8 @@ describe("createOverlayRecipes", () => {
 			for (const cv of overlaySurfaceCompoundVariants.filter(
 				(cv) => cv.match.color === "neutral",
 			)) {
-				const dark = (cv.css as Record<string, Record<string, string>>)[
-					"&:dark"
-				];
-				expect(dark?.borderColor, `neutral ${cv.match.variant}`).toMatch(
-					/^@color\./,
-				);
+				const dark = (cv.css as Record<string, Record<string, string>>)["&:dark"];
+				expect(dark?.borderColor, `neutral ${cv.match.variant}`).toMatch(/^@color\./);
 			}
 		});
 

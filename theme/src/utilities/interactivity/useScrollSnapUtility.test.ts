@@ -1,16 +1,13 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
+
+import { scrollSnapAlignValues, scrollSnapStopValues, scrollSnapTypeValues } from "../../values";
 import {
 	useScrollSnapAlignUtility,
 	useScrollSnapStopUtility,
 	useScrollSnapTypeUtility,
 } from "./useScrollSnapUtility";
-import {
-	scrollSnapAlignValues,
-	scrollSnapStopValues,
-	scrollSnapTypeValues,
-} from "../../values";
 
 describe("useScrollSnapAlignUtility", () => {
 	it("should create utility instances with provided values", () => {
@@ -154,9 +151,7 @@ describe("useScrollSnapTypeUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain(String.raw`._scroll-snap-type\:x {`);
-		expect(css).toContain(
-			"scroll-snap-type: x var(--scroll-snap-type-strictness);",
-		);
+		expect(css).toContain("scroll-snap-type: x var(--scroll-snap-type-strictness);");
 	});
 
 	it("should compile to correct CSS output for strictness values", () => {

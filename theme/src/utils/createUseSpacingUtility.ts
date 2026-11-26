@@ -6,12 +6,11 @@ import type {
 	UtilityCreatorFn,
 	Variable,
 } from "@styleframe/core";
+
 import { createMultiplierAutogenerate } from "./createMultiplierAutogenerate";
 import type { UseUtilityOptions } from "./createUseUtility";
 
-export interface CreateUseSpacingUtilityOptions<
-	Defaults extends Record<string, TokenValue>,
-> {
+export interface CreateUseSpacingUtilityOptions<Defaults extends Record<string, TokenValue>> {
 	/** Default values for the utility */
 	defaults?: Defaults;
 	/** Whether to merge user values with defaults (true) or replace them (false) */
@@ -75,9 +74,7 @@ export function createUseSpacingUtility<
 		namespace,
 	} = options;
 
-	return function useSpacingUtility<
-		T extends Record<string, TokenValue> = Defaults,
-	>(
+	return function useSpacingUtility<T extends Record<string, TokenValue> = Defaults>(
 		s: Styleframe,
 		values?: T,
 		modifiers?: Array<ModifierFactory | Array<ModifierFactory>>,
@@ -101,9 +98,7 @@ export function createUseSpacingUtility<
 		});
 
 		// Resolve values with optional merge
-		const resolvedValues = mergeDefaults
-			? { ...defaults, ...values }
-			: (values ?? defaults);
+		const resolvedValues = mergeDefaults ? { ...defaults, ...values } : (values ?? defaults);
 
 		if (resolvedValues && Object.keys(resolvedValues).length > 0) {
 			createUtility(resolvedValues as Record<string, TokenValue>, modifiers);

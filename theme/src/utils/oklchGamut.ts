@@ -119,12 +119,7 @@ export function computeRelativeColor(
 /**
  * Format OKLCH components as a CSS oklch() string with consistent precision.
  */
-export function formatOklch(
-	l: number,
-	c: number,
-	h: number,
-	alpha: number,
-): string {
+export function formatOklch(l: number, c: number, h: number, alpha: number): string {
 	const lStr = round(l, 4);
 	const cStr = round(c, 4);
 	const hStr = round(h, 2);

@@ -1,11 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-	__resetThemeForTests,
-	resolveTheme,
-	THEME_STORAGE_KEY,
-	useTheme,
-} from "@/state/theme";
+
+import { __resetThemeForTests, resolveTheme, THEME_STORAGE_KEY, useTheme } from "@/state/theme";
 
 function stubMatchMedia(matches: boolean) {
 	const listeners = new Set<(event: MediaQueryListEvent) => void>();
@@ -83,9 +79,7 @@ describe("useTheme", () => {
 		setMode("dark");
 		expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("dark");
 		expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-		expect(document.getElementById("app")?.getAttribute("data-theme")).toBe(
-			"dark",
-		);
+		expect(document.getElementById("app")?.getAttribute("data-theme")).toBe("dark");
 		expect(resolved.value).toBe("dark");
 	});
 
@@ -116,8 +110,6 @@ describe("useTheme", () => {
 		const { resolved } = useTheme();
 		expect(resolved.value).toBe("light");
 		media.emit(true);
-		expect(document.getElementById("app")?.getAttribute("data-theme")).toBe(
-			"dark",
-		);
+		expect(document.getElementById("app")?.getAttribute("data-theme")).toBe("dark");
 	});
 });

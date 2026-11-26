@@ -22,6 +22,7 @@ import type {
 	DTCGResolverDocument,
 	DTCGTokenValue,
 } from "@styleframe/dtcg";
+
 import type { FigmaExportFormat, FigmaExportVariable } from "../../types";
 import { classifyFigmaVariable, figmaPathToDtcg } from "./figma-bridge";
 
@@ -46,14 +47,10 @@ export interface ToDTCGResult {
 	resolver?: DTCGResolverDocument;
 }
 
-const TOKENS_SCHEMA_URL =
-	"https://design-tokens.org/schemas/2025.10/tokens.json";
-const RESOLVER_SCHEMA_URL =
-	"https://www.designtokens.org/schemas/2025.10/resolver.json";
+const TOKENS_SCHEMA_URL = "https://design-tokens.org/schemas/2025.10/tokens.json";
+const RESOLVER_SCHEMA_URL = "https://www.designtokens.org/schemas/2025.10/resolver.json";
 
-function isFigmaAlias(
-	value: unknown,
-): value is { type: "VARIABLE_ALIAS"; id: string } {
+function isFigmaAlias(value: unknown): value is { type: "VARIABLE_ALIAS"; id: string } {
 	return (
 		typeof value === "object" &&
 		value !== null &&
@@ -84,11 +81,7 @@ function classifyFigmaValue(
 	return undefined;
 }
 
-function setNestedToken(
-	doc: DTCGDocument,
-	figmaName: string,
-	token: DTCGAnyToken,
-): void {
+function setNestedToken(doc: DTCGDocument, figmaName: string, token: DTCGAnyToken): void {
 	const segments = figmaName.split("/");
 	if (segments.length === 0) {
 		return;
@@ -98,11 +91,7 @@ function setNestedToken(
 	for (let i = 0; i < segments.length - 1; i++) {
 		const segment = segments[i] as string;
 		const existing = cursor[segment];
-		if (
-			existing === undefined ||
-			typeof existing !== "object" ||
-			existing === null
-		) {
+		if (existing === undefined || typeof existing !== "object" || existing === null) {
 			cursor[segment] = {} as DTCGGroup;
 		} else if ("$value" in (existing as object)) {
 			cursor[segment] = { $root: existing };
@@ -220,10 +209,7 @@ function valuesEqual(a: DTCGTokenValue, b: DTCGTokenValue): boolean {
 	return false;
 }
 
-export function toDTCG(
-	data: FigmaExportFormat,
-	options: ToDTCGOptions = {},
-): ToDTCGResult {
+export function toDTCG(data: FigmaExportFormat, options: ToDTCGOptions = {}): ToDTCGResult {
 	const includeSchema = options.includeSchema ?? true;
 	const schemaUrl = options.schemaUrl ?? TOKENS_SCHEMA_URL;
 	const modifierName = options.modifierName ?? "theme";
@@ -297,9 +283,7 @@ export function toDTCG(
 		version: "2025.10",
 		modifiers: {
 			[modifierName]: {
-				contexts: Object.fromEntries(
-					Object.entries(contexts).map(([mode, ctx]) => [mode, [ctx]]),
-				),
+				contexts: Object.fromEntries(Object.entries(contexts).map(([mode, ctx]) => [mode, [ctx]])),
 				default: defaultMode,
 			},
 		},

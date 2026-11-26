@@ -31,12 +31,7 @@ const classes = computed(() =>
 			<slot name="icon" />
 		</span>
 		<slot>{{ props.label }}</slot>
-		<button
-			type="button"
-			class="select-chip-remove"
-			aria-label="Remove"
-			@click="$emit('remove')"
-		>
+		<button type="button" class="select-chip-remove" aria-label="Remove" @click="$emit('remove')">
 			&times;
 		</button>
 	</span>

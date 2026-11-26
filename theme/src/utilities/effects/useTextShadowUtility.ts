@@ -15,19 +15,13 @@ import { createUseUtility } from "../../utils";
  * });
  * ```
  */
-export const useTextShadowUtility = createUseUtility(
-	"text-shadow",
-	({ value }) => ({
-		textShadow: value,
-	}),
-);
+export const useTextShadowUtility = createUseUtility("text-shadow", ({ value }) => ({
+	textShadow: value,
+}));
 
 /**
  * Create text-shadow-color utility classes.
  */
-export const useTextShadowColorUtility = createUseUtility(
-	"text-shadow-color",
-	({ value }) => ({
-		"--text-shadow-color": value,
-	}),
-);
+export const useTextShadowColorUtility = createUseUtility("text-shadow-color", ({ value }) => ({
+	"--text-shadow-color": value,
+}));

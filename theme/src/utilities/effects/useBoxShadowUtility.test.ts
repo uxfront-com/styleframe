@@ -1,10 +1,8 @@
 import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
-import {
-	useBoxShadowUtility,
-	useBoxShadowColorUtility,
-} from "./useBoxShadowUtility";
+
+import { useBoxShadowUtility, useBoxShadowColorUtility } from "./useBoxShadowUtility";
 
 describe("useBoxShadowUtility", () => {
 	it("should create utility instances with provided values", () => {

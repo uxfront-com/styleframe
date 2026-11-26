@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { scaleValues } from "@styleframe/theme";
+
 import ScaleSwatch from "../../src/components/design-tokens/scales/ScaleSwatch.vue";
 import StoryGrid from "../../src/components/primitives/StoryGrid.vue";
 

@@ -1,11 +1,9 @@
 import { styleframe } from "@styleframe/core";
+
 import { useAriaSelectedModifier } from "../../modifiers/useAriaStateModifiers";
 import { useDisabledModifier } from "../../modifiers/useFormStateModifiers";
 import { useDarkModifier } from "../../modifiers/useMediaPreferenceModifiers";
-import {
-	useFocusVisibleModifier,
-	useHoverModifier,
-} from "../../modifiers/usePseudoStateModifiers";
+import { useFocusVisibleModifier, useHoverModifier } from "../../modifiers/usePseudoStateModifiers";
 import { useTabsTriggerRecipe } from "./useTabsTriggerRecipe";
 
 function createInstance() {
@@ -99,11 +97,7 @@ describe("useTabsTriggerRecipe", () => {
 			const s = createInstance();
 			const recipe = useTabsTriggerRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should square the line variant and round the pill/soft variants", () => {
@@ -208,8 +202,7 @@ describe("useTabsTriggerRecipe", () => {
 			const recipe = useTabsTriggerRecipe(s);
 
 			const cv = recipe.compoundVariants!.find(
-				(v) =>
-					v.match.variant === "line" && v.match.orientation === "horizontal",
+				(v) => v.match.variant === "line" && v.match.orientation === "horizontal",
 			);
 
 			expect(cv).toEqual({

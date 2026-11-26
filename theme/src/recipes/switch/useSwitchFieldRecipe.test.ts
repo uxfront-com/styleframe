@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
 import { styleframe } from "@styleframe/core";
 import type { AtRule, Selector } from "@styleframe/core";
+import { describe, expect, it } from "vitest";
+
 import { useDesignTokensPreset } from "../../presets/useDesignTokensPreset";
-import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useModifiersPreset } from "../../presets/useModifiersPreset";
+import { useUtilitiesPreset } from "../../presets/useUtilitiesPreset";
 import { useSwitchFieldRecipe } from "./useSwitchFieldRecipe";
 
 type Block = Record<string, unknown>;
@@ -23,14 +24,11 @@ function mediaDeclarations(
 	media: string,
 ): Block | undefined {
 	const selector = s.root.children.find(
-		(child): child is Selector =>
-			child.type === "selector" && child.query === query,
+		(child): child is Selector => child.type === "selector" && child.query === query,
 	);
 	const atRule = selector?.children.find(
 		(child): child is AtRule =>
-			child.type === "at-rule" &&
-			child.identifier === "media" &&
-			child.rule === media,
+			child.type === "at-rule" && child.identifier === "media" && child.rule === media,
 	);
 	return atRule?.declarations as Block | undefined;
 }
@@ -85,8 +83,7 @@ describe("useSwitchFieldRecipe", () => {
 		const s = createInstance();
 		const recipe = useSwitchFieldRecipe(s);
 		const css = (color: string) =>
-			recipe.compoundVariants!.find((v) => v.match.color === color)
-				?.css as Block;
+			recipe.compoundVariants!.find((v) => v.match.color === color)?.css as Block;
 
 		expect(css("neutral")).toEqual({
 			backgroundColor: "@color.gray-450",
@@ -104,9 +101,7 @@ describe("useSwitchFieldRecipe", () => {
 			borderColor: "@color.gray-500",
 		});
 		expect(css("light").backgroundImage).toContain("@color.gray-600");
-		expect((css("light")["&:checked"] as Block).backgroundImage).toContain(
-			"@color.white",
-		);
+		expect((css("light")["&:checked"] as Block).backgroundImage).toContain("@color.white");
 	});
 
 	it("switch/more-than-colour moves the thumb and fills the track when checked", () => {
@@ -177,19 +172,9 @@ describe("useSwitchFieldRecipe", () => {
 		const s = createInstance();
 		const recipe = useSwitchFieldRecipe(s);
 
-		const sizing = [
-			"width",
-			"height",
-			"borderWidth",
-			"backgroundSize",
-			"padding",
-			"margin",
-		];
-		const stateBlocks = [
-			recipe.base!,
-			...recipe.compoundVariants!.map((v) => v.css ?? {}),
-		].flatMap((block) =>
-			Object.entries(block).filter(([, value]) => typeof value === "object"),
+		const sizing = ["width", "height", "borderWidth", "backgroundSize", "padding", "margin"];
+		const stateBlocks = [recipe.base!, ...recipe.compoundVariants!.map((v) => v.css ?? {})].flatMap(
+			(block) => Object.entries(block).filter(([, value]) => typeof value === "object"),
 		);
 		expect(stateBlocks.length).toBeGreaterThan(0);
 		for (const [key, value] of stateBlocks) {
@@ -206,9 +191,7 @@ describe("useSwitchFieldRecipe", () => {
 		for (const selector of forced) {
 			for (const atRule of selector.children as Array<AtRule>) {
 				for (const property of sizing) {
-					expect(atRule.declarations, selector.query).not.toHaveProperty(
-						property,
-					);
+					expect(atRule.declarations, selector.query).not.toHaveProperty(property);
 				}
 			}
 		}
@@ -221,16 +204,9 @@ describe("useSwitchFieldRecipe", () => {
 		const s = createInstance();
 		const recipe = useSwitchFieldRecipe(s);
 
-		const keys = Object.keys(recipe.base!).filter((key) =>
-			key.startsWith("&:"),
-		);
+		const keys = Object.keys(recipe.base!).filter((key) => key.startsWith("&:"));
 		expect(keys).toEqual(
-			expect.arrayContaining([
-				"&:checked",
-				"&:disabled",
-				"&:aria-invalid",
-				"&:aria-readonly",
-			]),
+			expect.arrayContaining(["&:checked", "&:disabled", "&:aria-invalid", "&:aria-readonly"]),
 		);
 		for (const key of keys) {
 			expect(key).not.toMatch(/:(invalid|read-only|readonly)(:|$)/);
@@ -271,9 +247,7 @@ describe("useSwitchFieldRecipe", () => {
 		];
 		expect(keys.length).toBeGreaterThan(0);
 		expect(
-			keys.filter(
-				(key) => key.includes("hover") && !key.includes("hover-capable:hover"),
-			),
+			keys.filter((key) => key.includes("hover") && !key.includes("hover-capable:hover")),
 		).toEqual([]);
 	});
 
@@ -340,8 +314,10 @@ describe("useSwitchFieldRecipe", () => {
 		const s = createInstance();
 		const recipe = useSwitchFieldRecipe(s);
 		const css = (color: string) =>
-			recipe.compoundVariants!.find((cv) => cv.match.color === color)
-				?.css as Record<string, unknown>;
+			recipe.compoundVariants!.find((cv) => cv.match.color === color)?.css as Record<
+				string,
+				unknown
+			>;
 
 		expect(css("neutral")["&:contrast-more"]).toEqual({
 			borderColor: "@color.text",
@@ -390,11 +366,7 @@ describe("useSwitchFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useSwitchFieldRecipe(s);
 
-			expect(Object.keys(recipe.variants!.color)).toEqual([
-				"light",
-				"dark",
-				"neutral",
-			]);
+			expect(Object.keys(recipe.variants!.color)).toEqual(["light", "dark", "neutral"]);
 		});
 
 		it("should have size variants", () => {

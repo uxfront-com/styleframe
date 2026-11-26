@@ -1,10 +1,6 @@
-import type {
-	AtRule,
-	Root,
-	StyleframeOptions,
-	Variable,
-} from "@styleframe/core";
+import type { AtRule, Root, StyleframeOptions, Variable } from "@styleframe/core";
 import { createPropertyFunction, createRoot } from "@styleframe/core";
+
 import { consume } from "./consume";
 
 describe("property() CSS output", () => {
@@ -20,9 +16,7 @@ describe("property() CSS output", () => {
 	function propertyRule(name: string): AtRule {
 		const rule = root.children.find(
 			(child): child is AtRule =>
-				child.type === "at-rule" &&
-				child.identifier === "property" &&
-				child.rule === name,
+				child.type === "at-rule" && child.identifier === "property" && child.rule === name,
 		);
 		if (!rule) {
 			throw new Error(`missing @property rule ${name}`);

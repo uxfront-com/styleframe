@@ -1,15 +1,10 @@
 import { styleframe } from "@styleframe/core";
+
 import { useMediaBodyRecipe } from "./useMediaBodyRecipe";
 
 function createInstance() {
 	const s = styleframe();
-	for (const name of [
-		"display",
-		"flexDirection",
-		"flexGrow",
-		"minWidth",
-		"gap",
-	]) {
+	for (const name of ["display", "flexDirection", "flexGrow", "minWidth", "gap"]) {
 		s.utility(name, ({ value }) => ({ [name]: value }));
 	}
 	return s;

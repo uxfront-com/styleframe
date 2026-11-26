@@ -49,19 +49,13 @@ const copyToClipboard = async () => {
 		<div class="space-y-6">
 			<div class="flex justify-between items-center">
 				<h1 class="text-2xl font-bold">Runtime Config Debug</h1>
-				<UButton
-					icon="i-lucide-copy"
-					variant="outline"
-					@click="copyToClipboard"
-				>
+				<UButton icon="i-lucide-copy" variant="outline" @click="copyToClipboard">
 					Copy Config
 				</UButton>
 			</div>
 
 			<div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 overflow-auto">
-				<pre
-					class="text-xs"
-				><code>{{ JSON.stringify(configData, null, 2) }}</code></pre>
+				<pre class="text-xs"><code>{{ JSON.stringify(configData, null, 2) }}</code></pre>
 			</div>
 
 			<div class="space-y-4">
@@ -98,10 +92,7 @@ const copyToClipboard = async () => {
 				<div class="border-t pt-4">
 					<h2 class="text-lg font-semibold mb-2">Environment Check</h2>
 					<ul class="space-y-1">
-						<li
-							v-if="!runtimeConfig.public.baseUrl"
-							class="text-red-600 dark:text-red-400"
-						>
+						<li v-if="!runtimeConfig.public.baseUrl" class="text-red-600 dark:text-red-400">
 							⚠️ baseUrl is empty - OAuth will likely fail in production
 						</li>
 						<li
@@ -112,18 +103,14 @@ const copyToClipboard = async () => {
 						>
 							⚠️ baseUrl points to localhost
 						</li>
-						<li v-else class="text-green-600 dark:text-green-400">
-							✓ baseUrl is configured
-						</li>
+						<li v-else class="text-green-600 dark:text-green-400">✓ baseUrl is configured</li>
 					</ul>
 				</div>
 
 				<div class="border-t pt-4">
 					<h2 class="text-lg font-semibold mb-2">Recommended Fix</h2>
 					<div class="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
-						<p class="mb-2">
-							Set this environment variable in your deployment platform:
-						</p>
+						<p class="mb-2">Set this environment variable in your deployment platform:</p>
 						<code class="block bg-white dark:bg-gray-800 p-3 rounded text-sm">
 							NUXT_PUBLIC_BASE_URL={{ configData.window.origin }}
 						</code>

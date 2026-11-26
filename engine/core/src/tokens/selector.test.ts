@@ -328,9 +328,7 @@ describe("createSelectorFunction", () => {
 				},
 			});
 
-			expect(result.declarations).not.toHaveProperty(
-				"@media (min-width: 768px)",
-			);
+			expect(result.declarations).not.toHaveProperty("@media (min-width: 768px)");
 			expect(result.declarations).toEqual({
 				width: "100%",
 			});
@@ -338,10 +336,7 @@ describe("createSelectorFunction", () => {
 
 			const mediaQuerySelector = result.children
 				.filter(isAtRule)
-				.find(
-					(child) =>
-						child.identifier === "media" && child.rule === "(min-width: 768px)",
-				);
+				.find((child) => child.identifier === "media" && child.rule === "(min-width: 768px)");
 			expect(mediaQuerySelector?.declarations).toEqual({
 				width: "50%",
 			});
@@ -359,10 +354,7 @@ describe("createSelectorFunction", () => {
 				children: [],
 			};
 
-			const nestedSelectorFn = createSelectorFunction(
-				parentSelectorInstance,
-				root,
-			);
+			const nestedSelectorFn = createSelectorFunction(parentSelectorInstance, root);
 			const result = nestedSelectorFn(".child", {
 				color: "blue",
 			});
@@ -467,8 +459,7 @@ describe("createSelectorFunction", () => {
 		});
 
 		it("should handle complex selector strings", () => {
-			const complexSelector =
-				"div.container > .item:nth-child(2n+1):not(.disabled)";
+			const complexSelector = "div.container > .item:nth-child(2n+1):not(.disabled)";
 			const result = selector(complexSelector, {
 				display: "block",
 			});

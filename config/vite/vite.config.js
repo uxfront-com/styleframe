@@ -1,7 +1,8 @@
 import { copyFile, readdir, unlink } from "node:fs/promises";
 import { resolve } from "node:path";
-import { defineConfig } from "vite";
+
 import dts from "unplugin-dts/vite";
+import { defineConfig } from "vite";
 import { configDefaults as vitestConfig } from "vitest/config";
 
 /**
@@ -51,17 +52,12 @@ function dualDeclarations() {
 				}));
 
 			await Promise.all(
-				files
-					.filter((file) => isConfigDeclaration(file.name))
-					.map((file) => unlink(file.path)),
+				files.filter((file) => isConfigDeclaration(file.name)).map((file) => unlink(file.path)),
 			);
 
 			await Promise.all(
 				files
-					.filter(
-						(file) =>
-							file.name.endsWith(".d.ts") && !isConfigDeclaration(file.name),
-					)
+					.filter((file) => file.name.endsWith(".d.ts") && !isConfigDeclaration(file.name))
 					.map((file) =>
 						Promise.all([
 							copyFile(file.path, file.path.replace(/\.d\.ts$/, ".d.mts")),

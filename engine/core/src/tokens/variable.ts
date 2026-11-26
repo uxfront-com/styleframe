@@ -23,9 +23,9 @@ export function createVariableFunction(parent: Container, root: Root) {
 		const resolvePropertyValue = createPropertyValueResolver(parent, root);
 		const resolvedValue = resolvePropertyValue(value);
 
-		const existingVariable = parent.variables.find(
-			(child) => child.name === name,
-		) as Variable<Name> | undefined;
+		const existingVariable = parent.variables.find((child) => child.name === name) as
+			| Variable<Name>
+			| undefined;
 
 		// If default is true and the variable exists, return existing
 		if (options.default && existingVariable) {
