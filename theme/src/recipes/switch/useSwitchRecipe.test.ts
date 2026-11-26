@@ -84,11 +84,11 @@ describe("useSwitchRecipe", () => {
 		) as
 			| {
 					declarations: Record<string, unknown>;
-					children: {
+					children: Array<{
 						type: string;
 						rule?: string;
 						declarations: Record<string, unknown>;
-					}[];
+					}>;
 			  }
 			| undefined;
 		expect(selector?.declarations).toMatchObject({ opacity: "0.5" });

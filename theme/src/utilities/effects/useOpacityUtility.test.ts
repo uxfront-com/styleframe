@@ -27,7 +27,7 @@ describe("useOpacityUtility", () => {
 		useOpacityUtility(s, { "75": "0.75" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._opacity\\:75 {");
+		expect(css).toContain(String.raw`._opacity\:75 {`);
 		expect(css).toContain("opacity: 0.75;");
 	});
 

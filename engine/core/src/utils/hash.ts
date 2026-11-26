@@ -8,7 +8,7 @@
 export function hashValue(value: string): string {
 	let hash = 5381;
 	for (let i = 0; i < value.length; i++) {
-		hash = ((hash << 5) + hash + value.charCodeAt(i)) & 0xffffffff;
+		hash = ((hash << 5) + hash + value.charCodeAt(i)) & 0xff_ff_ff_ff;
 	}
 	return (hash >>> 0).toString(16).padStart(7, "0").slice(0, 7);
 }

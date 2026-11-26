@@ -24,8 +24,8 @@ export type Selector = {
 	parentId?: string;
 	query: string;
 	declarations: DeclarationsBlock;
-	variables: Variable[];
-	children: ContainerChild[];
+	variables: Array<Variable>;
+	children: Array<ContainerChild>;
 	_exportName?: string;
 };
 
@@ -36,13 +36,13 @@ export type AtRule = {
 	identifier: string;
 	rule: string;
 	declarations: DeclarationsBlock;
-	variables: Variable[];
-	children: ContainerChild[];
+	variables: Array<Variable>;
+	children: Array<ContainerChild>;
 };
 
 export type CSS = {
 	type: "css";
-	value: TokenValue[];
+	value: Array<TokenValue>;
 };
 
 export type UtilityAutogenerateFn = (
@@ -53,9 +53,9 @@ export type UtilityFactory<Name extends string = string> = {
 	type: "utility";
 	name: Name;
 	factory: UtilityCallbackFn;
-	values: Array<{ key: string; value: TokenValue; modifiers: string[] }>;
+	values: Array<{ key: string; value: TokenValue; modifiers: Array<string> }>;
 	autogenerate: UtilityAutogenerateFn;
-	namespace?: string | string[];
+	namespace?: string | Array<string>;
 	create: UtilityCreatorFn;
 };
 
@@ -66,9 +66,9 @@ export type Utility<Name extends string = string> = {
 	name: Name;
 	value: string;
 	declarations: DeclarationsBlock;
-	variables: Variable[];
-	children: ContainerChild[];
-	modifiers: string[];
+	variables: Array<Variable>;
+	children: Array<ContainerChild>;
+	modifiers: Array<string>;
 };
 
 export type UtilityCallbackFn = DeclarationsCallback<
@@ -78,8 +78,8 @@ export type UtilityCallbackFn = DeclarationsCallback<
 >;
 
 export type UtilityCreatorFn = (
-	values: Record<string, TokenValue> | TokenValue[],
-	modifiers?: (ModifierFactory | ModifierFactory[])[],
+	values: Record<string, TokenValue> | Array<TokenValue>,
+	modifiers?: Array<ModifierFactory | Array<ModifierFactory>>,
 ) => void;
 
 export type ModifierCallbackFn = DeclarationsCallback<
@@ -89,7 +89,7 @@ export type ModifierCallbackFn = DeclarationsCallback<
 
 export type ModifierFactory = {
 	type: "modifier";
-	key: string[];
+	key: Array<string>;
 	factory: ModifierCallbackFn;
 };
 
@@ -182,8 +182,8 @@ export type TokenType =
 export type Container = {
 	id: string;
 	parentId?: string;
-	children: ContainerChild[];
-	variables: Variable[];
+	children: Array<ContainerChild>;
+	variables: Array<Variable>;
 	declarations: DeclarationsBlock;
 };
 
@@ -200,8 +200,8 @@ export type Theme = {
 	parentId?: string;
 	name: string;
 	declarations: DeclarationsBlock;
-	variables: Variable[];
-	children: ContainerChild[];
+	variables: Array<Variable>;
+	children: Array<ContainerChild>;
 };
 
 /**
@@ -227,12 +227,12 @@ export type Root = {
 	id: string;
 	parentId?: string;
 	declarations: DeclarationsBlock;
-	utilities: UtilityFactory[];
-	modifiers: ModifierFactory[];
-	recipes: Recipe[];
-	variables: Variable[];
-	children: ContainerChild[];
-	themes: Theme[];
+	utilities: Array<UtilityFactory>;
+	modifiers: Array<ModifierFactory>;
+	recipes: Array<Recipe>;
+	variables: Array<Variable>;
+	children: Array<ContainerChild>;
+	themes: Array<Theme>;
 	_registry: Map<string, Container | Root | Theme>;
 	_usage: {
 		variables: Set<string>;
@@ -240,5 +240,5 @@ export type Root = {
 		recipes: Set<string>;
 		recipeUtilities: Map<string, Set<string>>;
 	};
-	_records?: RootRecord[];
+	_records?: Array<RootRecord>;
 };

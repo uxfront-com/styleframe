@@ -23,8 +23,8 @@ const props = withDefaults(
 		selected?: string;
 		rangeStart?: string;
 		rangeEnd?: string;
-		booked?: string[];
-		disabledDays?: string[];
+		booked?: Array<string>;
+		disabledDays?: Array<string>;
 		prices?: Record<string, string>;
 		weekNumbers?: boolean;
 		dropdownCaption?: boolean;
@@ -88,16 +88,16 @@ function toIso(date: Date): string {
 }
 
 type Cell = { day: number; outside: boolean; iso: string };
-type Month = { month: number; year: number; label: string; weeks: Cell[][] };
+type Month = { month: number; year: number; label: string; weeks: Array<Array<Cell>> };
 
-const months = computed<Month[]>(() =>
+const months = computed<Array<Month>>(() =>
 	Array.from({ length: props.numberOfMonths }, (_, offset) => {
 		const first = new Date(props.year, props.month + offset, 1);
 		const month = first.getMonth();
 		const year = first.getFullYear();
 		const startDow = first.getDay();
 
-		const cells: Cell[] = Array.from({ length: 42 }, (_, i) => {
+		const cells: Array<Cell> = Array.from({ length: 42 }, (_, i) => {
 			const date = new Date(year, month, 1 - startDow + i);
 			return {
 				day: date.getDate(),
@@ -105,11 +105,11 @@ const months = computed<Month[]>(() =>
 				iso: toIso(date),
 			};
 		});
-		const weeks: Cell[][] = [];
+		const weeks: Array<Array<Cell>> = [];
 		for (let i = 0; i < cells.length; i += 7) {
 			const week = cells.slice(i, i + 7);
 			// Drop trailing filler weeks that contain no day of this month.
-			if (week.every((c) => c.outside)) continue;
+			if (week.every((c) => c.outside)) {continue;}
 			weeks.push(week);
 		}
 
@@ -141,22 +141,22 @@ function inYear(iso: string | undefined, year: number): boolean {
 }
 
 function captionFor(m: Month): string {
-	if (props.type === "month") return String(m.year);
+	if (props.type === "month") {return String(m.year);}
 	if (props.type === "year")
-		return `${yearStart.value} – ${yearStart.value + 11}`;
+		{return `${yearStart.value} – ${yearStart.value + 11}`;}
 	return m.label;
 }
 
 // ISO strings compare lexicographically in date order.
 function rangeOf(cell: Cell): "none" | "start" | "middle" | "end" {
-	if (cell.outside || !props.rangeStart || !props.rangeEnd) return "none";
-	if (cell.iso === props.rangeStart) return "start";
-	if (cell.iso === props.rangeEnd) return "end";
-	if (cell.iso > props.rangeStart && cell.iso < props.rangeEnd) return "middle";
+	if (cell.outside || !props.rangeStart || !props.rangeEnd) {return "none";}
+	if (cell.iso === props.rangeStart) {return "start";}
+	if (cell.iso === props.rangeEnd) {return "end";}
+	if (cell.iso > props.rangeStart && cell.iso < props.rangeEnd) {return "middle";}
 	return "none";
 }
 
-function weekNumber(row: Cell[]): number {
+function weekNumber(row: Array<Cell>): number {
 	const cell = row.find((c) => !c.outside) ?? row[0];
 	const [y, m, d] = cell.iso.split("-").map(Number);
 	const date = new Date(y, m - 1, d);

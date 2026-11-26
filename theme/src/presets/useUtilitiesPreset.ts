@@ -946,7 +946,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("forced-color-adjust"),
 	);
-	if (forcedColorAdjust) createForcedColorAdjustUtility(forcedColorAdjust);
+	if (forcedColorAdjust) {
+		createForcedColorAdjustUtility(forcedColorAdjust);
+	}
 
 	const createBackgroundAttachmentUtility = useBackgroundAttachmentUtility(
 		s,
@@ -954,8 +956,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-attachment"),
 	);
-	if (backgroundAttachment)
+	if (backgroundAttachment) {
 		createBackgroundAttachmentUtility(backgroundAttachment);
+	}
 
 	const createBackgroundClipUtility = useBackgroundClipUtility(
 		s,
@@ -963,7 +966,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-clip"),
 	);
-	if (backgroundClip) createBackgroundClipUtility(backgroundClip);
+	if (backgroundClip) {
+		createBackgroundClipUtility(backgroundClip);
+	}
 
 	const createBackgroundImageUtility = useBackgroundImageUtility(
 		s,
@@ -971,7 +976,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-image"),
 	);
-	if (backgroundImage) createBackgroundImageUtility(backgroundImage);
+	if (backgroundImage) {
+		createBackgroundImageUtility(backgroundImage);
+	}
 
 	const createBackgroundOriginUtility = useBackgroundOriginUtility(
 		s,
@@ -979,7 +986,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-origin"),
 	);
-	if (backgroundOrigin) createBackgroundOriginUtility(backgroundOrigin);
+	if (backgroundOrigin) {
+		createBackgroundOriginUtility(backgroundOrigin);
+	}
 
 	const createBackgroundPositionUtility = useBackgroundPositionUtility(
 		s,
@@ -987,7 +996,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-position"),
 	);
-	if (backgroundPosition) createBackgroundPositionUtility(backgroundPosition);
+	if (backgroundPosition) {
+		createBackgroundPositionUtility(backgroundPosition);
+	}
 
 	const createBackgroundRepeatUtility = useBackgroundRepeatUtility(
 		s,
@@ -995,7 +1006,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-repeat"),
 	);
-	if (backgroundRepeat) createBackgroundRepeatUtility(backgroundRepeat);
+	if (backgroundRepeat) {
+		createBackgroundRepeatUtility(backgroundRepeat);
+	}
 
 	const createBackgroundSizeUtility = useBackgroundSizeUtility(
 		s,
@@ -1003,7 +1016,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-size"),
 	);
-	if (backgroundSize) createBackgroundSizeUtility(backgroundSize);
+	if (backgroundSize) {
+		createBackgroundSizeUtility(backgroundSize);
+	}
 
 	const createBackgroundBlendModeUtility = useBackgroundBlendModeUtility(
 		s,
@@ -1011,8 +1026,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("background-blend-mode"),
 	);
-	if (backgroundBlendMode)
+	if (backgroundBlendMode) {
 		createBackgroundBlendModeUtility(backgroundBlendMode);
+	}
 
 	const createMixBlendModeUtility = useMixBlendModeUtility(
 		s,
@@ -1020,7 +1036,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("mix-blend-mode"),
 	);
-	if (mixBlendMode) createMixBlendModeUtility(mixBlendMode);
+	if (mixBlendMode) {
+		createMixBlendModeUtility(mixBlendMode);
+	}
 
 	const createDivideStyleUtility = useDivideStyleUtility(
 		s,
@@ -1028,7 +1046,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("divide-style"),
 	);
-	if (divideStyle) createDivideStyleUtility(divideStyle);
+	if (divideStyle) {
+		createDivideStyleUtility(divideStyle);
+	}
 
 	const createOutlineUtility = useOutlineUtility(s);
 
@@ -1038,7 +1058,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("outline-style"),
 	);
-	if (outlineStyle) createOutlineStyleUtility(outlineStyle);
+	if (outlineStyle) {
+		createOutlineStyleUtility(outlineStyle);
+	}
 
 	const createFlexUtility = useFlexUtility(
 		s,
@@ -1046,7 +1068,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("flex"),
 	);
-	if (flex) createFlexUtility(flex);
+	if (flex) {
+		createFlexUtility(flex);
+	}
 
 	const createFlexDirectionUtility = useFlexDirectionUtility(
 		s,
@@ -1054,7 +1078,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("flex-direction"),
 	);
-	if (flexDirection) createFlexDirectionUtility(flexDirection);
+	if (flexDirection) {
+		createFlexDirectionUtility(flexDirection);
+	}
 
 	const createFlexWrapUtility = useFlexWrapUtility(
 		s,
@@ -1062,7 +1088,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("flex-wrap"),
 	);
-	if (flexWrap) createFlexWrapUtility(flexWrap);
+	if (flexWrap) {
+		createFlexWrapUtility(flexWrap);
+	}
 
 	const createJustifyContentUtility = useJustifyContentUtility(
 		s,
@@ -1070,7 +1098,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("justify-content"),
 	);
-	if (justifyContent) createJustifyContentUtility(justifyContent);
+	if (justifyContent) {
+		createJustifyContentUtility(justifyContent);
+	}
 
 	const createJustifyItemsUtility = useJustifyItemsUtility(
 		s,
@@ -1078,7 +1108,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("justify-items"),
 	);
-	if (justifyItems) createJustifyItemsUtility(justifyItems);
+	if (justifyItems) {
+		createJustifyItemsUtility(justifyItems);
+	}
 
 	const createJustifySelfUtility = useJustifySelfUtility(
 		s,
@@ -1086,7 +1118,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("justify-self"),
 	);
-	if (justifySelf) createJustifySelfUtility(justifySelf);
+	if (justifySelf) {
+		createJustifySelfUtility(justifySelf);
+	}
 
 	const createAlignContentUtility = useAlignContentUtility(
 		s,
@@ -1094,7 +1128,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("align-content"),
 	);
-	if (alignContent) createAlignContentUtility(alignContent);
+	if (alignContent) {
+		createAlignContentUtility(alignContent);
+	}
 
 	const createAlignItemsUtility = useAlignItemsUtility(
 		s,
@@ -1102,7 +1138,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("align-items"),
 	);
-	if (alignItems) createAlignItemsUtility(alignItems);
+	if (alignItems) {
+		createAlignItemsUtility(alignItems);
+	}
 
 	const createAlignSelfUtility = useAlignSelfUtility(
 		s,
@@ -1110,7 +1148,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("align-self"),
 	);
-	if (alignSelf) createAlignSelfUtility(alignSelf);
+	if (alignSelf) {
+		createAlignSelfUtility(alignSelf);
+	}
 
 	const createPlaceContentUtility = usePlaceContentUtility(
 		s,
@@ -1118,7 +1158,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("place-content"),
 	);
-	if (placeContent) createPlaceContentUtility(placeContent);
+	if (placeContent) {
+		createPlaceContentUtility(placeContent);
+	}
 
 	const createPlaceItemsUtility = usePlaceItemsUtility(
 		s,
@@ -1126,7 +1168,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("place-items"),
 	);
-	if (placeItems) createPlaceItemsUtility(placeItems);
+	if (placeItems) {
+		createPlaceItemsUtility(placeItems);
+	}
 
 	const createPlaceSelfUtility = usePlaceSelfUtility(
 		s,
@@ -1134,7 +1178,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("place-self"),
 	);
-	if (placeSelf) createPlaceSelfUtility(placeSelf);
+	if (placeSelf) {
+		createPlaceSelfUtility(placeSelf);
+	}
 
 	const createGridAutoFlowUtility = useGridAutoFlowUtility(
 		s,
@@ -1142,7 +1188,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("grid-auto-flow"),
 	);
-	if (gridAutoFlow) createGridAutoFlowUtility(gridAutoFlow);
+	if (gridAutoFlow) {
+		createGridAutoFlowUtility(gridAutoFlow);
+	}
 
 	const createAppearanceUtility = useAppearanceUtility(
 		s,
@@ -1150,7 +1198,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("appearance"),
 	);
-	if (appearance) createAppearanceUtility(appearance);
+	if (appearance) {
+		createAppearanceUtility(appearance);
+	}
 
 	const createWebkitAppearanceUtility = useWebkitAppearanceUtility(
 		s,
@@ -1158,7 +1208,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("-webkit-appearance"),
 	);
-	if (webkitAppearance) createWebkitAppearanceUtility(webkitAppearance);
+	if (webkitAppearance) {
+		createWebkitAppearanceUtility(webkitAppearance);
+	}
 
 	const createColorSchemeUtility = useColorSchemeUtility(
 		s,
@@ -1166,7 +1218,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("color-scheme"),
 	);
-	if (colorScheme) createColorSchemeUtility(colorScheme);
+	if (colorScheme) {
+		createColorSchemeUtility(colorScheme);
+	}
 
 	const createCursorUtility = useCursorUtility(
 		s,
@@ -1174,7 +1228,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("cursor"),
 	);
-	if (cursor) createCursorUtility(cursor);
+	if (cursor) {
+		createCursorUtility(cursor);
+	}
 
 	const createPointerEventsUtility = usePointerEventsUtility(
 		s,
@@ -1182,7 +1238,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("pointer-events"),
 	);
-	if (pointerEvents) createPointerEventsUtility(pointerEvents);
+	if (pointerEvents) {
+		createPointerEventsUtility(pointerEvents);
+	}
 
 	const createResizeUtility = useResizeUtility(
 		s,
@@ -1190,7 +1248,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("resize"),
 	);
-	if (resize) createResizeUtility(resize);
+	if (resize) {
+		createResizeUtility(resize);
+	}
 
 	const createScrollBehaviorUtility = useScrollBehaviorUtility(
 		s,
@@ -1198,7 +1258,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("scroll-behavior"),
 	);
-	if (scrollBehavior) createScrollBehaviorUtility(scrollBehavior);
+	if (scrollBehavior) {
+		createScrollBehaviorUtility(scrollBehavior);
+	}
 
 	const createScrollSnapAlignUtility = useScrollSnapAlignUtility(
 		s,
@@ -1206,7 +1268,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("scroll-snap-align"),
 	);
-	if (scrollSnapAlign) createScrollSnapAlignUtility(scrollSnapAlign);
+	if (scrollSnapAlign) {
+		createScrollSnapAlignUtility(scrollSnapAlign);
+	}
 
 	const createScrollSnapStopUtility = useScrollSnapStopUtility(
 		s,
@@ -1214,7 +1278,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("scroll-snap-stop"),
 	);
-	if (scrollSnapStop) createScrollSnapStopUtility(scrollSnapStop);
+	if (scrollSnapStop) {
+		createScrollSnapStopUtility(scrollSnapStop);
+	}
 
 	const createScrollSnapTypeUtility = useScrollSnapTypeUtility(
 		s,
@@ -1222,7 +1288,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("scroll-snap-type"),
 	);
-	if (scrollSnapType) createScrollSnapTypeUtility(scrollSnapType);
+	if (scrollSnapType) {
+		createScrollSnapTypeUtility(scrollSnapType);
+	}
 
 	const createTouchActionUtility = useTouchActionUtility(
 		s,
@@ -1230,7 +1298,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("touch-action"),
 	);
-	if (touchAction) createTouchActionUtility(touchAction);
+	if (touchAction) {
+		createTouchActionUtility(touchAction);
+	}
 
 	const createUserSelectUtility = useUserSelectUtility(
 		s,
@@ -1238,7 +1308,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("user-select"),
 	);
-	if (userSelect) createUserSelectUtility(userSelect);
+	if (userSelect) {
+		createUserSelectUtility(userSelect);
+	}
 
 	const createWillChangeUtility = useWillChangeUtility(
 		s,
@@ -1246,7 +1318,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("will-change"),
 	);
-	if (willChange) createWillChangeUtility(willChange);
+	if (willChange) {
+		createWillChangeUtility(willChange);
+	}
 
 	const createAnchorNameUtility = useAnchorNameUtility(
 		s,
@@ -1254,7 +1328,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("anchor-name"),
 	);
-	if (anchorName) createAnchorNameUtility(anchorName);
+	if (anchorName) {
+		createAnchorNameUtility(anchorName);
+	}
 
 	const createAspectRatioUtility = useAspectRatioUtility(
 		s,
@@ -1262,7 +1338,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("aspect-ratio"),
 	);
-	if (aspectRatio) createAspectRatioUtility(aspectRatio);
+	if (aspectRatio) {
+		createAspectRatioUtility(aspectRatio);
+	}
 
 	const createBoxDecorationBreakUtility = useBoxDecorationBreakUtility(
 		s,
@@ -1270,7 +1348,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("box-decoration-break"),
 	);
-	if (boxDecorationBreak) createBoxDecorationBreakUtility(boxDecorationBreak);
+	if (boxDecorationBreak) {
+		createBoxDecorationBreakUtility(boxDecorationBreak);
+	}
 
 	const createBoxSizingUtility = useBoxSizingUtility(
 		s,
@@ -1278,7 +1358,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("box-sizing"),
 	);
-	if (boxSizing) createBoxSizingUtility(boxSizing);
+	if (boxSizing) {
+		createBoxSizingUtility(boxSizing);
+	}
 
 	const createBreakAfterUtility = useBreakAfterUtility(
 		s,
@@ -1286,7 +1368,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("break-after"),
 	);
-	if (breakAfter) createBreakAfterUtility(breakAfter);
+	if (breakAfter) {
+		createBreakAfterUtility(breakAfter);
+	}
 
 	const createBreakBeforeUtility = useBreakBeforeUtility(
 		s,
@@ -1294,7 +1378,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("break-before"),
 	);
-	if (breakBefore) createBreakBeforeUtility(breakBefore);
+	if (breakBefore) {
+		createBreakBeforeUtility(breakBefore);
+	}
 
 	const createBreakInsideUtility = useBreakInsideUtility(
 		s,
@@ -1302,7 +1388,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("break-inside"),
 	);
-	if (breakInside) createBreakInsideUtility(breakInside);
+	if (breakInside) {
+		createBreakInsideUtility(breakInside);
+	}
 
 	const createClearUtility = useClearUtility(
 		s,
@@ -1310,7 +1398,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("clear"),
 	);
-	if (clear) createClearUtility(clear);
+	if (clear) {
+		createClearUtility(clear);
+	}
 
 	const createContainerTypeUtility = useContainerTypeUtility(
 		s,
@@ -1318,7 +1408,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("container-type"),
 	);
-	if (containerType) createContainerTypeUtility(containerType);
+	if (containerType) {
+		createContainerTypeUtility(containerType);
+	}
 
 	const createContainerNameUtility = useContainerNameUtility(
 		s,
@@ -1326,7 +1418,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("container-name"),
 	);
-	if (containerName) createContainerNameUtility(containerName);
+	if (containerName) {
+		createContainerNameUtility(containerName);
+	}
 
 	const createDisplayUtility = useDisplayUtility(
 		s,
@@ -1334,7 +1428,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("display"),
 	);
-	if (display) createDisplayUtility(display);
+	if (display) {
+		createDisplayUtility(display);
+	}
 
 	const createFloatUtility = useFloatUtility(
 		s,
@@ -1342,7 +1438,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("float"),
 	);
-	if (float) createFloatUtility(float);
+	if (float) {
+		createFloatUtility(float);
+	}
 
 	const createIsolationUtility = useIsolationUtility(
 		s,
@@ -1350,7 +1448,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("isolation"),
 	);
-	if (isolation) createIsolationUtility(isolation);
+	if (isolation) {
+		createIsolationUtility(isolation);
+	}
 
 	const createObjectFitUtility = useObjectFitUtility(
 		s,
@@ -1358,7 +1458,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("object-fit"),
 	);
-	if (objectFit) createObjectFitUtility(objectFit);
+	if (objectFit) {
+		createObjectFitUtility(objectFit);
+	}
 
 	const createObjectPositionUtility = useObjectPositionUtility(
 		s,
@@ -1366,7 +1468,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("object-position"),
 	);
-	if (objectPosition) createObjectPositionUtility(objectPosition);
+	if (objectPosition) {
+		createObjectPositionUtility(objectPosition);
+	}
 
 	const createOverflowUtility = useOverflowUtility(
 		s,
@@ -1374,7 +1478,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("overflow"),
 	);
-	if (overflow) createOverflowUtility(overflow);
+	if (overflow) {
+		createOverflowUtility(overflow);
+	}
 
 	const createOverscrollUtility = useOverscrollUtility(
 		s,
@@ -1382,7 +1488,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("overscroll"),
 	);
-	if (overscroll) createOverscrollUtility(overscroll);
+	if (overscroll) {
+		createOverscrollUtility(overscroll);
+	}
 
 	const createPositionUtility = usePositionUtility(
 		s,
@@ -1390,7 +1498,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("position"),
 	);
-	if (position) createPositionUtility(position);
+	if (position) {
+		createPositionUtility(position);
+	}
 
 	const createPositionAnchorUtility = usePositionAnchorUtility(
 		s,
@@ -1398,7 +1508,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("position-anchor"),
 	);
-	if (positionAnchor) createPositionAnchorUtility(positionAnchor);
+	if (positionAnchor) {
+		createPositionAnchorUtility(positionAnchor);
+	}
 
 	const createPositionAreaUtility = usePositionAreaUtility(
 		s,
@@ -1406,7 +1518,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("position-area"),
 	);
-	if (positionArea) createPositionAreaUtility(positionArea);
+	if (positionArea) {
+		createPositionAreaUtility(positionArea);
+	}
 
 	const createPositionTryFallbacksUtility = usePositionTryFallbacksUtility(
 		s,
@@ -1414,8 +1528,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("position-try-fallbacks"),
 	);
-	if (positionTryFallbacks)
+	if (positionTryFallbacks) {
 		createPositionTryFallbacksUtility(positionTryFallbacks);
+	}
 
 	const createVisibilityUtility = useVisibilityUtility(
 		s,
@@ -1423,7 +1538,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("visibility"),
 	);
-	if (visibility) createVisibilityUtility(visibility);
+	if (visibility) {
+		createVisibilityUtility(visibility);
+	}
 
 	const createZIndexUtility = useZIndexUtility(
 		s,
@@ -1431,7 +1548,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("z-index"),
 	);
-	if (zIndex) createZIndexUtility(zIndex);
+	if (zIndex) {
+		createZIndexUtility(zIndex);
+	}
 
 	const createWidthUtility = useWidthUtility(
 		s,
@@ -1439,7 +1558,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("width"),
 	);
-	if (width) createWidthUtility(width);
+	if (width) {
+		createWidthUtility(width);
+	}
 
 	const createMinWidthUtility = useMinWidthUtility(
 		s,
@@ -1447,7 +1568,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("min-width"),
 	);
-	if (minWidth) createMinWidthUtility(minWidth);
+	if (minWidth) {
+		createMinWidthUtility(minWidth);
+	}
 
 	const createMaxWidthUtility = useMaxWidthUtility(
 		s,
@@ -1455,7 +1578,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("max-width"),
 	);
-	if (maxWidth) createMaxWidthUtility(maxWidth);
+	if (maxWidth) {
+		createMaxWidthUtility(maxWidth);
+	}
 
 	const createHeightUtility = useHeightUtility(
 		s,
@@ -1463,7 +1588,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("height"),
 	);
-	if (height) createHeightUtility(height);
+	if (height) {
+		createHeightUtility(height);
+	}
 
 	const createMinHeightUtility = useMinHeightUtility(
 		s,
@@ -1471,7 +1598,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("min-height"),
 	);
-	if (minHeight) createMinHeightUtility(minHeight);
+	if (minHeight) {
+		createMinHeightUtility(minHeight);
+	}
 
 	const createMaxHeightUtility = useMaxHeightUtility(
 		s,
@@ -1479,7 +1608,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("max-height"),
 	);
-	if (maxHeight) createMaxHeightUtility(maxHeight);
+	if (maxHeight) {
+		createMaxHeightUtility(maxHeight);
+	}
 
 	const createBorderUtility = useBorderUtility(s);
 	const createBorderTopUtility = useBorderTopUtility(s);
@@ -1493,7 +1624,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-style"),
 	);
-	if (borderStyle) createBorderStyleUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleUtility(borderStyle);
+	}
 
 	const createBorderStyleXUtility = useBorderStyleXUtility(
 		s,
@@ -1501,7 +1634,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-x-style"),
 	);
-	if (borderStyle) createBorderStyleXUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleXUtility(borderStyle);
+	}
 
 	const createBorderStyleYUtility = useBorderStyleYUtility(
 		s,
@@ -1509,7 +1644,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-y-style"),
 	);
-	if (borderStyle) createBorderStyleYUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleYUtility(borderStyle);
+	}
 
 	const createBorderStyleTopUtility = useBorderStyleTopUtility(
 		s,
@@ -1517,7 +1654,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-top-style"),
 	);
-	if (borderStyle) createBorderStyleTopUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleTopUtility(borderStyle);
+	}
 
 	const createBorderStyleRightUtility = useBorderStyleRightUtility(
 		s,
@@ -1525,7 +1664,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-right-style"),
 	);
-	if (borderStyle) createBorderStyleRightUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleRightUtility(borderStyle);
+	}
 
 	const createBorderStyleBottomUtility = useBorderStyleBottomUtility(
 		s,
@@ -1533,7 +1674,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-bottom-style"),
 	);
-	if (borderStyle) createBorderStyleBottomUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleBottomUtility(borderStyle);
+	}
 
 	const createBorderStyleLeftUtility = useBorderStyleLeftUtility(
 		s,
@@ -1541,7 +1684,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-left-style"),
 	);
-	if (borderStyle) createBorderStyleLeftUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleLeftUtility(borderStyle);
+	}
 
 	const createBorderStyleStartUtility = useBorderStyleStartUtility(
 		s,
@@ -1549,7 +1694,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-inline-start-style"),
 	);
-	if (borderStyle) createBorderStyleStartUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleStartUtility(borderStyle);
+	}
 
 	const createBorderStyleEndUtility = useBorderStyleEndUtility(
 		s,
@@ -1557,7 +1704,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-inline-end-style"),
 	);
-	if (borderStyle) createBorderStyleEndUtility(borderStyle);
+	if (borderStyle) {
+		createBorderStyleEndUtility(borderStyle);
+	}
 
 	const createBorderWidthUtility = useBorderWidthUtility(
 		s,
@@ -1565,7 +1714,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-width"),
 	);
-	if (borderWidth) createBorderWidthUtility(borderWidth);
+	if (borderWidth) {
+		createBorderWidthUtility(borderWidth);
+	}
 
 	const createBorderCollapseUtility = useBorderCollapseUtility(
 		s,
@@ -1573,7 +1724,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("border-collapse"),
 	);
-	if (borderCollapse) createBorderCollapseUtility(borderCollapse);
+	if (borderCollapse) {
+		createBorderCollapseUtility(borderCollapse);
+	}
 
 	const createCaptionSideUtility = useCaptionSideUtility(
 		s,
@@ -1581,7 +1734,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("caption-side"),
 	);
-	if (captionSide) createCaptionSideUtility(captionSide);
+	if (captionSide) {
+		createCaptionSideUtility(captionSide);
+	}
 
 	const createTableLayoutUtility = useTableLayoutUtility(
 		s,
@@ -1589,7 +1744,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("table-layout"),
 	);
-	if (tableLayout) createTableLayoutUtility(tableLayout);
+	if (tableLayout) {
+		createTableLayoutUtility(tableLayout);
+	}
 
 	const createBackfaceVisibilityUtility = useBackfaceVisibilityUtility(
 		s,
@@ -1597,7 +1754,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("backface-visibility"),
 	);
-	if (backfaceVisibility) createBackfaceVisibilityUtility(backfaceVisibility);
+	if (backfaceVisibility) {
+		createBackfaceVisibilityUtility(backfaceVisibility);
+	}
 
 	const createPerspectiveOriginUtility = usePerspectiveOriginUtility(
 		s,
@@ -1605,7 +1764,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("perspective-origin"),
 	);
-	if (perspectiveOrigin) createPerspectiveOriginUtility(perspectiveOrigin);
+	if (perspectiveOrigin) {
+		createPerspectiveOriginUtility(perspectiveOrigin);
+	}
 
 	const createTransformOriginUtility = useTransformOriginUtility(
 		s,
@@ -1613,7 +1774,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("transform-origin"),
 	);
-	if (transformOrigin) createTransformOriginUtility(transformOrigin);
+	if (transformOrigin) {
+		createTransformOriginUtility(transformOrigin);
+	}
 
 	const createTransformStyleUtility = useTransformStyleUtility(
 		s,
@@ -1621,7 +1784,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("transform-style"),
 	);
-	if (transformStyle) createTransformStyleUtility(transformStyle);
+	if (transformStyle) {
+		createTransformStyleUtility(transformStyle);
+	}
 
 	const createTransformUtility = useTransformUtility(
 		s,
@@ -1629,7 +1794,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("transform"),
 	);
-	if (transform) createTransformUtility(transform);
+	if (transform) {
+		createTransformUtility(transform);
+	}
 
 	const createAnimationUtility = useAnimationUtility(
 		s,
@@ -1637,7 +1804,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("animation"),
 	);
-	if (animation) createAnimationUtility(animation);
+	if (animation) {
+		createAnimationUtility(animation);
+	}
 
 	const createAnimationNameUtility = useAnimationNameUtility(
 		s,
@@ -1645,7 +1814,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("animation-name"),
 	);
-	if (animationName) createAnimationNameUtility(animationName);
+	if (animationName) {
+		createAnimationNameUtility(animationName);
+	}
 
 	const createAnimationDurationUtility = useAnimationDurationUtility(
 		s,
@@ -1653,7 +1824,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("animation-duration"),
 	);
-	if (animationDuration) createAnimationDurationUtility(animationDuration);
+	if (animationDuration) {
+		createAnimationDurationUtility(animationDuration);
+	}
 
 	const createAnimationTimingFunctionUtility =
 		useAnimationTimingFunctionUtility(
@@ -1662,8 +1835,9 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("animation-timing-function"),
 		);
-	if (animationTimingFunction)
+	if (animationTimingFunction) {
 		createAnimationTimingFunctionUtility(animationTimingFunction);
+	}
 
 	const createAnimationIterationCountUtility =
 		useAnimationIterationCountUtility(
@@ -1672,8 +1846,9 @@ export function useUtilitiesPreset(
 			undefined,
 			resolveUtilityOptions("animation-iteration-count"),
 		);
-	if (animationIterationCount)
+	if (animationIterationCount) {
 		createAnimationIterationCountUtility(animationIterationCount);
+	}
 
 	const createTransitionBehaviorUtility = useTransitionBehaviorUtility(
 		s,
@@ -1681,7 +1856,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("transition-behavior"),
 	);
-	if (transitionBehavior) createTransitionBehaviorUtility(transitionBehavior);
+	if (transitionBehavior) {
+		createTransitionBehaviorUtility(transitionBehavior);
+	}
 
 	const createTransitionPropertyUtility = useTransitionPropertyUtility(
 		s,
@@ -1689,7 +1866,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("transition-property"),
 	);
-	if (transitionProperty) createTransitionPropertyUtility(transitionProperty);
+	if (transitionProperty) {
+		createTransitionPropertyUtility(transitionProperty);
+	}
 
 	const createViewTransitionNameUtility = useViewTransitionNameUtility(
 		s,
@@ -1697,7 +1876,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("view-transition-name"),
 	);
-	if (viewTransitionName) createViewTransitionNameUtility(viewTransitionName);
+	if (viewTransitionName) {
+		createViewTransitionNameUtility(viewTransitionName);
+	}
 
 	const createFontSmoothingUtility = useFontSmoothingUtility(
 		s,
@@ -1705,7 +1886,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("font-smoothing"),
 	);
-	if (fontSmoothing) createFontSmoothingUtility(fontSmoothing);
+	if (fontSmoothing) {
+		createFontSmoothingUtility(fontSmoothing);
+	}
 
 	const createFontStretchUtility = useFontStretchUtility(
 		s,
@@ -1713,7 +1896,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("font-stretch"),
 	);
-	if (fontStretch) createFontStretchUtility(fontStretch);
+	if (fontStretch) {
+		createFontStretchUtility(fontStretch);
+	}
 
 	const createFontVariantNumericUtility = useFontVariantNumericUtility(
 		s,
@@ -1721,7 +1906,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("font-variant-numeric"),
 	);
-	if (fontVariantNumeric) createFontVariantNumericUtility(fontVariantNumeric);
+	if (fontVariantNumeric) {
+		createFontVariantNumericUtility(fontVariantNumeric);
+	}
 
 	const createHyphensUtility = useHyphensUtility(
 		s,
@@ -1729,7 +1916,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("hyphens"),
 	);
-	if (hyphens) createHyphensUtility(hyphens);
+	if (hyphens) {
+		createHyphensUtility(hyphens);
+	}
 
 	const createListStyleUtility = useListStyleUtility(s);
 
@@ -1739,7 +1928,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("list-style-position"),
 	);
-	if (listStylePosition) createListStylePositionUtility(listStylePosition);
+	if (listStylePosition) {
+		createListStylePositionUtility(listStylePosition);
+	}
 
 	const createListStyleTypeUtility = useListStyleTypeUtility(
 		s,
@@ -1747,7 +1938,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("list-style-type"),
 	);
-	if (listStyleType) createListStyleTypeUtility(listStyleType);
+	if (listStyleType) {
+		createListStyleTypeUtility(listStyleType);
+	}
 
 	const createOverflowWrapUtility = useOverflowWrapUtility(
 		s,
@@ -1755,7 +1948,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("overflow-wrap"),
 	);
-	if (overflowWrap) createOverflowWrapUtility(overflowWrap);
+	if (overflowWrap) {
+		createOverflowWrapUtility(overflowWrap);
+	}
 
 	const createTextAlignUtility = useTextAlignUtility(
 		s,
@@ -1763,10 +1958,14 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-align"),
 	);
-	if (textAlign) createTextAlignUtility(textAlign);
+	if (textAlign) {
+		createTextAlignUtility(textAlign);
+	}
 
 	const createTextDecorationUtility = useTextDecorationUtility(s);
-	if (textDecoration) createTextDecorationUtility(textDecoration);
+	if (textDecoration) {
+		createTextDecorationUtility(textDecoration);
+	}
 
 	const createTextDecorationLineUtility = useTextDecorationLineUtility(
 		s,
@@ -1774,7 +1973,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-decoration-line"),
 	);
-	if (textDecorationLine) createTextDecorationLineUtility(textDecorationLine);
+	if (textDecorationLine) {
+		createTextDecorationLineUtility(textDecorationLine);
+	}
 
 	const createTextDecorationStyleUtility = useTextDecorationStyleUtility(
 		s,
@@ -1782,8 +1983,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-decoration-style"),
 	);
-	if (textDecorationStyle)
+	if (textDecorationStyle) {
 		createTextDecorationStyleUtility(textDecorationStyle);
+	}
 
 	const createTextOverflowUtility = useTextOverflowUtility(
 		s,
@@ -1791,7 +1993,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-overflow"),
 	);
-	if (textOverflow) createTextOverflowUtility(textOverflow);
+	if (textOverflow) {
+		createTextOverflowUtility(textOverflow);
+	}
 
 	const createTextTransformUtility = useTextTransformUtility(
 		s,
@@ -1799,7 +2003,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-transform"),
 	);
-	if (textTransform) createTextTransformUtility(textTransform);
+	if (textTransform) {
+		createTextTransformUtility(textTransform);
+	}
 
 	const createTextWrapUtility = useTextWrapUtility(
 		s,
@@ -1807,7 +2013,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("text-wrap"),
 	);
-	if (textWrap) createTextWrapUtility(textWrap);
+	if (textWrap) {
+		createTextWrapUtility(textWrap);
+	}
 
 	const createVerticalAlignUtility = useVerticalAlignUtility(
 		s,
@@ -1815,10 +2023,14 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("vertical-align"),
 	);
-	if (verticalAlign) createVerticalAlignUtility(verticalAlign);
+	if (verticalAlign) {
+		createVerticalAlignUtility(verticalAlign);
+	}
 
 	const createWhiteSpaceUtility = useWhiteSpaceUtility(s);
-	if (whiteSpace) createWhiteSpaceUtility(whiteSpace);
+	if (whiteSpace) {
+		createWhiteSpaceUtility(whiteSpace);
+	}
 
 	const createWhitespaceUtility = useWhitespaceUtility(
 		s,
@@ -1826,7 +2038,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("whitespace"),
 	);
-	if (whitespace) createWhitespaceUtility(whitespace);
+	if (whitespace) {
+		createWhitespaceUtility(whitespace);
+	}
 
 	const createWordBreakUtility = useWordBreakUtility(
 		s,
@@ -1834,7 +2048,9 @@ export function useUtilitiesPreset(
 		undefined,
 		resolveUtilityOptions("word-break"),
 	);
-	if (wordBreak) createWordBreakUtility(wordBreak);
+	if (wordBreak) {
+		createWordBreakUtility(wordBreak);
+	}
 
 	return {
 		// Accessibility

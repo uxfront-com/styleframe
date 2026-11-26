@@ -34,7 +34,9 @@ describe("isColorSpace", () => {
 			"xyz-d50",
 			"xyz-d65",
 		];
-		for (const s of spaces) expect(isColorSpace(s)).toBe(true);
+		for (const s of spaces) {
+			expect(isColorSpace(s)).toBe(true);
+		}
 	});
 
 	it("rejects unknown spaces", () => {

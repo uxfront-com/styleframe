@@ -31,7 +31,7 @@ describe("useAlignContentUtility", () => {
 		useAlignContentUtility(s, { center: "center" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._align-content\\:center {");
+		expect(css).toContain(String.raw`._align-content\:center {`);
 		expect(css).toContain("align-content: center;");
 	});
 
@@ -67,7 +67,7 @@ describe("useAlignItemsUtility", () => {
 		useAlignItemsUtility(s, { stretch: "stretch" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._align-items\\:stretch {");
+		expect(css).toContain(String.raw`._align-items\:stretch {`);
 		expect(css).toContain("align-items: stretch;");
 	});
 
@@ -103,7 +103,7 @@ describe("useAlignSelfUtility", () => {
 		useAlignSelfUtility(s, { end: "flex-end" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._align-self\\:end {");
+		expect(css).toContain(String.raw`._align-self\:end {`);
 		expect(css).toContain("align-self: flex-end;");
 	});
 

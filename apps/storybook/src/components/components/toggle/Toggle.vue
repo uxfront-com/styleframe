@@ -32,7 +32,7 @@ const classes = computed(() =>
 );
 
 function handleClick() {
-	if (props.disabled) return;
+	if (props.disabled) {return;}
 	isPressed.value = !isPressed.value;
 }
 </script>

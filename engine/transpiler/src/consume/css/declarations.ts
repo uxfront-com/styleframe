@@ -9,7 +9,7 @@ export function createDeclarationsConsumer(consume: ConsumeFunction) {
 	return function consumeDeclarations(
 		instance: DeclarationsBlock,
 		options: StyleframeOptions,
-	): string[] {
+	): Array<string> {
 		return Object.entries(instance).map(([propertyName, propertyValue]) => {
 			return genDeclaration(propertyName, consume(propertyValue, options));
 		});

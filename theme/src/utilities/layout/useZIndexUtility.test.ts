@@ -27,7 +27,7 @@ describe("useZIndexUtility", () => {
 		useZIndexUtility(s, { "50": "50" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._z-index\\:50 {");
+		expect(css).toContain(String.raw`._z-index\:50 {`);
 		expect(css).toContain("z-index: 50;");
 	});
 

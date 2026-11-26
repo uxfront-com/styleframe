@@ -28,16 +28,18 @@ export function useParagraphDesignTokens(
 ): Partial<ParagraphElementResult> {
 	const result: Partial<ParagraphElementResult> = {};
 
-	if (config.marginTop !== undefined)
+	if (config.marginTop !== undefined) {
 		result.paragraphMarginTop = ctx.variable(
 			"paragraph.margin-top",
 			config.marginTop,
 		);
-	if (config.marginBottom !== undefined)
+	}
+	if (config.marginBottom !== undefined) {
 		result.paragraphMarginBottom = ctx.variable(
 			"paragraph.margin-bottom",
 			config.marginBottom,
 		);
+	}
 
 	return result;
 }

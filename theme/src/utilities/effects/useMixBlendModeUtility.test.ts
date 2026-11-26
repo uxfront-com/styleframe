@@ -27,7 +27,7 @@ describe("useMixBlendModeUtility", () => {
 		useMixBlendModeUtility(s, { screen: "screen" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._mix-blend-mode\\:screen {");
+		expect(css).toContain(String.raw`._mix-blend-mode\:screen {`);
 		expect(css).toContain("mix-blend-mode: screen;");
 	});
 

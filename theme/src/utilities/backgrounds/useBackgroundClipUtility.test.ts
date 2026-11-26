@@ -30,7 +30,7 @@ describe("useBackgroundClipUtility", () => {
 		useBackgroundClipUtility(s, { text: "text" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-clip\\:text {");
+		expect(css).toContain(String.raw`._background-clip\:text {`);
 		expect(css).toContain("background-clip: text;");
 	});
 

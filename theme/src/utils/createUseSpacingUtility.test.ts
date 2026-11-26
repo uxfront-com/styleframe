@@ -38,7 +38,7 @@ describe("createUseSpacingUtility", () => {
 		createMargin(["@1.5"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:1\\.5 {");
+		expect(css).toContain(String.raw`._margin\:1\.5 {`);
 		expect(css).toContain("margin: calc(var(--spacing, 1rem) * 1.5);");
 	});
 
@@ -53,7 +53,7 @@ describe("createUseSpacingUtility", () => {
 		createMargin(["@2"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:2 {");
+		expect(css).toContain(String.raw`._margin\:2 {`);
 		expect(css).toContain("margin: calc(var(--spacing, 1rem) * 2);");
 	});
 
@@ -68,7 +68,7 @@ describe("createUseSpacingUtility", () => {
 		createMargin(["@-1"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:-1 {");
+		expect(css).toContain(String.raw`._margin\:-1 {`);
 		expect(css).toContain("margin: calc(var(--spacing, 1rem) * -1);");
 	});
 
@@ -84,9 +84,9 @@ describe("createUseSpacingUtility", () => {
 		createMargin?.(["@1.5", "@2"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:sm {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
 		expect(css).toContain("margin: 0.5rem;");
-		expect(css).toContain("._margin\\:1\\.5 {");
+		expect(css).toContain(String.raw`._margin\:1\.5 {`);
 		expect(css).toContain("margin: calc(var(--spacing, 1rem) * 1.5);");
 	});
 
@@ -166,7 +166,7 @@ describe("createUseSpacingUtility", () => {
 		createMargin(["@spacing.sm"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:spacing\\.sm {");
+		expect(css).toContain(String.raw`._margin\:spacing\.sm {`);
 		expect(css).toContain("margin: var(--spacing--sm);");
 	});
 
@@ -180,7 +180,7 @@ describe("createUseSpacingUtility", () => {
 		createMargin(["auto"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:\\[auto\\] {");
+		expect(css).toContain(String.raw`._margin\:\[auto\] {`);
 		expect(css).toContain("margin: auto;");
 	});
 
@@ -195,8 +195,8 @@ describe("createUseSpacingUtility", () => {
 		useMargin(s);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:sm {");
-		expect(css).toContain("._margin\\:md {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
+		expect(css).toContain(String.raw`._margin\:md {`);
 	});
 
 	it("should support mergeDefaults option", () => {
@@ -210,8 +210,8 @@ describe("createUseSpacingUtility", () => {
 		useMargin(s, { lg: "1.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:sm {");
-		expect(css).toContain("._margin\\:lg {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
+		expect(css).toContain(String.raw`._margin\:lg {`);
 	});
 
 	it("should work with modifiers", () => {
@@ -230,11 +230,11 @@ describe("createUseSpacingUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		// Base utilities
-		expect(css).toContain("._margin\\:sm {");
-		expect(css).toContain("._margin\\:1\\.5 {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
+		expect(css).toContain(String.raw`._margin\:1\.5 {`);
 		// Hover variants
-		expect(css).toContain("._hover\\:margin\\:sm {");
-		expect(css).toContain("._hover\\:margin\\:1\\.5 {");
+		expect(css).toContain(String.raw`._hover\:margin\:sm {`);
+		expect(css).toContain(String.raw`._hover\:margin\:1\.5 {`);
 	});
 
 	it("should return the utility creator function", () => {
@@ -270,7 +270,7 @@ describe("createUseSpacingUtility", () => {
 			useMargin(s, { sm: "0.5rem" }, undefined, { name: "m" });
 
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain("._m\\:sm {");
+			expect(css).toContain(String.raw`._m\:sm {`);
 			expect(css).not.toContain("._margin");
 		});
 
@@ -285,7 +285,7 @@ describe("createUseSpacingUtility", () => {
 			createMargin(["@1.5"]);
 
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain("._m\\:1\\.5 {");
+			expect(css).toContain(String.raw`._m\:1\.5 {`);
 			expect(css).not.toContain("._margin");
 		});
 

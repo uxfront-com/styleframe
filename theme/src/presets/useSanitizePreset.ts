@@ -43,8 +43,16 @@ export function useSanitizePreset(
 	s: Styleframe,
 	config: SanitizeConfig = {},
 ): void {
-	if (config.base !== false) useSanitizeBaseSelectors(s);
-	if (config.forms !== false) useSanitizeFormsSelectors(s);
-	if (config.typography !== false) useSanitizeTypographySelectors(s);
-	if (config.reduceMotion !== false) useSanitizeReduceMotionSelectors(s);
+	if (config.base !== false) {
+		useSanitizeBaseSelectors(s);
+	}
+	if (config.forms !== false) {
+		useSanitizeFormsSelectors(s);
+	}
+	if (config.typography !== false) {
+		useSanitizeTypographySelectors(s);
+	}
+	if (config.reduceMotion !== false) {
+		useSanitizeReduceMotionSelectors(s);
+	}
 }

@@ -1,7 +1,5 @@
-import {
-	type RecipeConfig,
-	createUseRecipe,
-} from "../../utils/createUseRecipe";
+import { createUseRecipe } from "../../utils/createUseRecipe";
+import type { RecipeConfig } from "../../utils/createUseRecipe";
 import { overlaySurfaceCompoundVariants } from "../modal/createOverlayRecipes";
 
 /** Panel width per size for the horizontal (left/right) drawers. */

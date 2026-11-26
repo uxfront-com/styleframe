@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { Root, Selector } from "../types";
-import { createKeyframesFunction } from "./atRule";
 import { createRefFunction } from "./ref";
 import { createRoot } from "./root";
 import { createVariableFunction } from "./variable";
@@ -10,7 +9,6 @@ describe("createRefFunction", () => {
 	let selector: Selector;
 	let ref: ReturnType<typeof createRefFunction>;
 	let variable: ReturnType<typeof createVariableFunction>;
-	let keyframes: ReturnType<typeof createKeyframesFunction>;
 
 	beforeEach(() => {
 		root = createRoot();
@@ -26,7 +24,6 @@ describe("createRefFunction", () => {
 		root._registry.set(selector.id, selector);
 		ref = createRefFunction(selector, root);
 		variable = createVariableFunction(selector, root);
-		keyframes = createKeyframesFunction(selector, root);
 	});
 
 	describe("basic reference creation", () => {

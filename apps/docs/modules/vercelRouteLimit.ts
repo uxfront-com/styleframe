@@ -16,8 +16,8 @@ interface VercelRoute {
  * fields. Every other route keeps its place.
  */
 export function splitLongRoutes<Route extends VercelRoute>(
-	routes: Route[],
-): Route[] {
+	routes: Array<Route>,
+): Array<Route> {
 	return routes.flatMap((route) => {
 		if (!route.src || route.src.length <= VERCEL_ROUTE_SRC_LIMIT) {
 			return [route];
@@ -30,7 +30,7 @@ export function splitLongRoutes<Route extends VercelRoute>(
 			);
 		}
 
-		const groups: string[][] = [[]];
+		const groups: Array<Array<string>> = [[]];
 		for (const path of alternation.split("|")) {
 			const group = groups.at(-1)!;
 			if (`^(${[...group, path].join("|")})$`.length > VERCEL_ROUTE_SRC_LIMIT) {

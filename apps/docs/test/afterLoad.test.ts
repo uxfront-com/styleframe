@@ -9,7 +9,9 @@ describe("afterLoad", () => {
 		vi.stubGlobal("document", { readyState });
 		vi.stubGlobal("window", {
 			addEventListener: (type: string, listener: () => void) => {
-				if (type === "load") loadListeners.push(listener);
+				if (type === "load") {
+					loadListeners.push(listener);
+				}
 			},
 		});
 		vi.stubGlobal("requestIdleCallback", (callback: () => void) => {

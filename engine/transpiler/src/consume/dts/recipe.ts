@@ -13,9 +13,11 @@ function generateVariantPropsType(runtime: Recipe["_runtime"]): string {
 		return "Record<string, never>";
 	}
 
-	const entries: string[] = [];
+	const entries: Array<string> = [];
 	for (const [variantKey, variantOptions] of Object.entries(variants)) {
-		if (!variantOptions) continue;
+		if (!variantOptions) {
+			continue;
+		}
 		const optionKeys = Object.keys(variantOptions);
 		if (optionKeys.length > 0) {
 			const optionUnion = optionKeys.map((k) => `"${k}"`).join(" | ");

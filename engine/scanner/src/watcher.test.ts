@@ -314,25 +314,33 @@ describe("matchesPatterns", () => {
 
 	describe("Windows path normalization", () => {
 		it("should normalize backslashes to forward slashes in file paths", () => {
-			expect(matchesPatterns("src\\index.ts", ["src/index.ts"])).toBe(true);
-			expect(matchesPatterns("src\\components\\Button.ts", ["**/*.ts"])).toBe(
+			expect(matchesPatterns(String.raw`src\index.ts`, ["src/index.ts"])).toBe(
 				true,
 			);
+			expect(
+				matchesPatterns(String.raw`src\components\Button.ts`, ["**/*.ts"]),
+			).toBe(true);
 		});
 
 		it("should normalize backslashes in patterns", () => {
-			expect(matchesPatterns("src/index.ts", ["src\\index.ts"])).toBe(true);
+			expect(matchesPatterns("src/index.ts", [String.raw`src\index.ts`])).toBe(
+				true,
+			);
 			expect(
-				matchesPatterns("src/components/Button.ts", ["src\\**\\*.ts"]),
+				matchesPatterns("src/components/Button.ts", [String.raw`src\**\*.ts`]),
 			).toBe(true);
 		});
 
 		it("should handle mixed slashes", () => {
 			expect(
-				matchesPatterns("src\\components/Button.ts", ["src/components/*.ts"]),
+				matchesPatterns(String.raw`src\components/Button.ts`, [
+					"src/components/*.ts",
+				]),
 			).toBe(true);
 			expect(
-				matchesPatterns("src/components\\Button.ts", ["src\\components\\*.ts"]),
+				matchesPatterns(String.raw`src/components\Button.ts`, [
+					String.raw`src\components\*.ts`,
+				]),
 			).toBe(true);
 		});
 	});

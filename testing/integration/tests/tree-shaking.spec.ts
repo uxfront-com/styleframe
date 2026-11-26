@@ -9,7 +9,7 @@ function readBuildCSS(): string {
 	const distDir = path.join(projectDir, "dist", "assets");
 	const cssFiles = fs.readdirSync(distDir).filter((f) => f.endsWith(".css"));
 	return cssFiles
-		.map((f) => fs.readFileSync(path.join(distDir, f), "utf-8"))
+		.map((f) => fs.readFileSync(path.join(distDir, f), "utf8"))
 		.join("\n");
 }
 
@@ -17,13 +17,13 @@ function readBuildJS(): string {
 	const distDir = path.join(projectDir, "dist", "assets");
 	const jsFiles = fs.readdirSync(distDir).filter((f) => f.endsWith(".js"));
 	return jsFiles
-		.map((f) => fs.readFileSync(path.join(distDir, f), "utf-8"))
+		.map((f) => fs.readFileSync(path.join(distDir, f), "utf8"))
 		.join("\n");
 }
 
 function readBuildDTS(): string {
 	const dtsPath = path.join(projectDir, ".styleframe", "styleframe.d.ts");
-	return fs.readFileSync(dtsPath, "utf-8");
+	return fs.readFileSync(dtsPath, "utf8");
 }
 
 test.describe("Recipe tree-shaking", () => {
@@ -91,7 +91,7 @@ test.describe("Recipe tree-shaking", () => {
 		const padding = await page.evaluate(() => {
 			const el = document.createElement("div");
 			el.className = "alert _padding:[42px]";
-			document.body.appendChild(el);
+			document.body.append(el);
 			const computed = window.getComputedStyle(el);
 			const value = computed.padding;
 			document.body.removeChild(el);

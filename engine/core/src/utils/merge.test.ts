@@ -748,7 +748,9 @@ describe("merge", () => {
 			});
 
 			const [first, ...rest] = instances;
-			if (!first) throw new Error("First instance is undefined");
+			if (!first) {
+				throw new Error("First instance is undefined");
+			}
 			const result = merge(first, ...rest);
 
 			expect(result.root.variables).toHaveLength(5);
@@ -832,12 +834,12 @@ describe("merge", () => {
 	describe("utilities concatenation", () => {
 		it("should concatenate utilities from both instances", () => {
 			base.utility("text", (ctx) => {
-				ctx.selector("&.text\\:sm", { fontSize: "0.875rem" });
-				ctx.selector("&.text\\:md", { fontSize: "1rem" });
+				ctx.selector(String.raw`&.text\:sm`, { fontSize: "0.875rem" });
+				ctx.selector(String.raw`&.text\:md`, { fontSize: "1rem" });
 			});
 			extension.utility("text", (ctx) => {
-				ctx.selector("&.text\\:lg", { fontSize: "1.125rem" });
-				ctx.selector("&.text\\:xl", { fontSize: "1.25rem" });
+				ctx.selector(String.raw`&.text\:lg`, { fontSize: "1.125rem" });
+				ctx.selector(String.raw`&.text\:xl`, { fontSize: "1.25rem" });
 			});
 
 			const result = merge(base, extension);
@@ -849,10 +851,10 @@ describe("merge", () => {
 
 		it("should preserve all utilities even with same name", () => {
 			base.utility("spacing", (ctx) => {
-				ctx.selector("&.spacing\\:sm", { padding: "0.5rem" });
+				ctx.selector(String.raw`&.spacing\:sm`, { padding: "0.5rem" });
 			});
 			extension.utility("spacing", (ctx) => {
-				ctx.selector("&.spacing\\:lg", { padding: "2rem" });
+				ctx.selector(String.raw`&.spacing\:lg`, { padding: "2rem" });
 			});
 
 			const result = merge(base, extension);

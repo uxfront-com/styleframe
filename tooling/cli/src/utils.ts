@@ -66,7 +66,7 @@ export function parseJsonc(text: string): unknown {
 	}
 
 	// Remove trailing commas before } or ]
-	result = result.replace(/,(\s*[}\]])/g, "$1");
+	result = result.replaceAll(/,(\s*[}\]])/g, "$1");
 
 	return JSON.parse(result);
 }

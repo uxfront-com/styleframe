@@ -23,9 +23,11 @@ function isRef(value: unknown): value is DTCGRef {
 function validateExtensions(
 	extensions: unknown,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
-	if (extensions === undefined) return;
+	if (extensions === undefined) {
+		return;
+	}
 	if (!isPlainObject(extensions)) {
 		errors.push(new ValidationError("$extensions must be an object", path));
 		return;
@@ -47,7 +49,7 @@ function validateExtensions(
 function validateSources(
 	sources: unknown,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	if (!Array.isArray(sources)) {
 		errors.push(
@@ -77,7 +79,7 @@ function validateSources(
 function validateSet(
 	set: DTCGSet,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	validateSources(set.sources, `${path}.sources`, errors);
 	validateExtensions(set.$extensions, `${path}.$extensions`, errors);
@@ -94,7 +96,7 @@ function validateSet(
 function validateModifier(
 	modifier: DTCGModifier,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	if (!isPlainObject(modifier.contexts)) {
 		errors.push(
@@ -133,8 +135,10 @@ function validateModifier(
 	validateExtensions(modifier.$extensions, `${path}.$extensions`, errors);
 }
 
-export function validateResolver(doc: DTCGResolverDocument): ValidationError[] {
-	const errors: ValidationError[] = [];
+export function validateResolver(
+	doc: DTCGResolverDocument,
+): Array<ValidationError> {
+	const errors: Array<ValidationError> = [];
 
 	if (doc.version !== "2025.10") {
 		errors.push(
@@ -187,7 +191,9 @@ export function validateResolver(doc: DTCGResolverDocument): ValidationError[] {
 		);
 	} else {
 		doc.resolutionOrder.forEach((item, i) => {
-			if (isRef(item)) return;
+			if (isRef(item)) {
+				return;
+			}
 			if (!isPlainObject(item)) {
 				errors.push(
 					new ValidationError(

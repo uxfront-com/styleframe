@@ -6,7 +6,7 @@ export function transformSourceClassNames(
 ): { code: string; changed: boolean } {
 	let changed = false;
 
-	const transformed = code.replace(
+	const transformed = code.replaceAll(
 		new RegExp(UTILITY_CLASS_PATTERN.source, "g"),
 		(match) => {
 			const replacement = lookup[match];

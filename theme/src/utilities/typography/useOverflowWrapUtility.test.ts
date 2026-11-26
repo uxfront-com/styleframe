@@ -27,7 +27,7 @@ describe("useOverflowWrapUtility", () => {
 		useOverflowWrapUtility(s, { "break-word": "break-word" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overflow-wrap\\:break-word {");
+		expect(css).toContain(String.raw`._overflow-wrap\:break-word {`);
 		expect(css).toContain("overflow-wrap: break-word;");
 	});
 

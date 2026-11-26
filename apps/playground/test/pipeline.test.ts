@@ -88,7 +88,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(true);
-		if (!result.ok) return;
+		if (!result.ok) {
+			return;
+		}
 		expect(result.css).toBe(".cls{color:red}");
 		expect(result.runtimeTs).toBe("export const cls = () => 'cls';");
 		expect(result.srcdoc).toBe("<html></html>");
@@ -140,7 +142,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result).toMatchObject({ ok: false, stage: "config-transform" });
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.error.message).toBe("bad config");
 	});
 
@@ -153,7 +157,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("config-eval");
 	});
 
@@ -168,7 +174,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("styleframe");
 		expect(result.error.message).toBe("bad extension");
 	});
@@ -184,7 +192,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("scan");
 	});
 
@@ -197,7 +207,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("transpile");
 	});
 
@@ -210,7 +222,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("bundle");
 		expect(result.error.message).toBe("esbuild failed");
 	});
@@ -226,7 +240,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.stage).toBe("assemble");
 	});
 
@@ -239,7 +255,9 @@ describe("runPipeline", () => {
 		const result = await runPipeline(input);
 
 		expect(result.ok).toBe(false);
-		if (result.ok) return;
+		if (result.ok) {
+			return;
+		}
 		expect(result.error).toBeInstanceOf(Error);
 		expect(result.error.message).toBe("boom");
 	});

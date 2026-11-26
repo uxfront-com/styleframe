@@ -37,7 +37,7 @@ describe("useTextShadowUtility", () => {
 		useTextShadowUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-shadow\\:none {");
+		expect(css).toContain(String.raw`._text-shadow\:none {`);
 		expect(css).toContain("text-shadow: none;");
 	});
 
@@ -75,7 +75,7 @@ describe("useTextShadowColorUtility", () => {
 		useTextShadowColorUtility(s, { black: "#000" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-shadow-color\\:black {");
+		expect(css).toContain(String.raw`._text-shadow-color\:black {`);
 		expect(css).toContain("--text-shadow-color: #000;");
 	});
 

@@ -2,12 +2,8 @@
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { pgEditorSurface } from "virtual:styleframe";
 import type { EditorView } from "@codemirror/view";
-import {
-	createEditor,
-	type EditorLanguage,
-	setEditorTheme,
-	setEditorValue,
-} from "@/editor/codemirror";
+import { createEditor, setEditorTheme, setEditorValue } from '@/editor/codemirror';
+import type { EditorLanguage } from '@/editor/codemirror';
 import { useTheme } from "@/state/theme";
 
 const props = defineProps<{
@@ -20,7 +16,7 @@ let view: EditorView | null = null;
 const { resolved } = useTheme();
 
 onMounted(() => {
-	if (!host.value) return;
+	if (!host.value) {return;}
 	view = createEditor({
 		parent: host.value,
 		doc: props.value,
@@ -38,12 +34,12 @@ onBeforeUnmount(() => {
 watch(
 	() => props.value,
 	(next) => {
-		if (view) setEditorValue(view, next);
+		if (view) {setEditorValue(view, next);}
 	},
 );
 
 watch(resolved, (next) => {
-	if (view) setEditorTheme(view, next);
+	if (view) {setEditorTheme(view, next);}
 });
 </script>
 

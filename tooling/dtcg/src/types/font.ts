@@ -6,7 +6,7 @@
 /**
  * Font family is a single string or an ordered fallback array of strings.
  */
-export type DTCGFontFamily = string | string[];
+export type DTCGFontFamily = string | Array<string>;
 
 /**
  * Numeric weights live in the 1–1000 range per CSS — the spec defers to

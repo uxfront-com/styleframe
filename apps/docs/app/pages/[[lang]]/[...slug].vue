@@ -27,7 +27,7 @@ const route = useRoute();
 const { locale, isEnabled, t } = useDocusI18n();
 const { isOpen } = useAssistant();
 const appConfig = useAppConfig();
-const navigation = inject<Ref<ContentNavigationItem[]>>("navigation");
+const navigation = inject<Ref<Array<ContentNavigationItem>>>("navigation");
 const collectionName = computed(() =>
 	isEnabled.value ? `docs_${locale.value}` : "docs",
 );
@@ -71,7 +71,7 @@ const { data: trailPages } = await useAsyncData(
 	`${route.path}-breadcrumbs`,
 	async () => {
 		const paths = trail.map((item) => item.path);
-		if (!paths.length) return [];
+		if (!paths.length) {return [];}
 		const pages = await queryCollection(
 			collectionName.value as keyof PageCollections,
 		)

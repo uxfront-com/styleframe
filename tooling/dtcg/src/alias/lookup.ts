@@ -12,7 +12,9 @@ export function lookupToken(
 	path: string,
 ): DTCGAnyToken | undefined {
 	const segments = splitPath(path);
-	if (segments.length === 0) return undefined;
+	if (segments.length === 0) {
+		return undefined;
+	}
 
 	let cursor: unknown = doc;
 	for (const segment of segments) {

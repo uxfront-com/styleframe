@@ -1,6 +1,5 @@
 import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import {
 	matchUtilities,
 	quickScan,
@@ -14,7 +13,7 @@ import {
 import { renderDocument } from "../template";
 import type { Styleframe } from "styleframe";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const ROOT = resolve(import.meta.dirname, "../..");
 const RESULTS = join(ROOT, "results");
 
 export type BuildResult = {
@@ -36,7 +35,7 @@ async function buildVariant(
 	if (minify) {
 		const shortMap = generateShorteningMap(instance.root);
 		const lookup = buildClassNameLookup(instance.root, shortMap);
-		bodyHtml = bodyHtml.replace(
+		bodyHtml = bodyHtml.replaceAll(
 			/class="([^"]*)"/g,
 			(_, classes: string) =>
 				`class="${classes
@@ -58,8 +57,8 @@ async function buildVariant(
 	const html = renderDocument(bodyHtml, "./index.css");
 
 	mkdirSync(dir, { recursive: true });
-	writeFileSync(join(dir, "index.html"), html, "utf-8");
-	writeFileSync(join(dir, "index.css"), css, "utf-8");
+	writeFileSync(join(dir, "index.html"), html, "utf8");
+	writeFileSync(join(dir, "index.css"), css, "utf8");
 
 	return { dir, html, css };
 }

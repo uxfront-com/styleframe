@@ -14,7 +14,7 @@ export interface SiteIdentity {
 	name: string;
 	description: string;
 	/** The publisher's profiles: GitHub, X, Discord, npm. */
-	sameAs: string[];
+	sameAs: Array<string>;
 	codeRepository: string;
 }
 
@@ -140,7 +140,7 @@ export interface Breadcrumb {
  */
 export function breadcrumbList(
 	siteUrl: string,
-	pages: Breadcrumb[],
+	pages: Array<Breadcrumb>,
 ): JsonLdNode | undefined {
 	if (!pages.length) {
 		return undefined;

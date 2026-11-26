@@ -36,8 +36,8 @@ describe("useStructuralModifiers", () => {
 		createBorderWidth({ 0: "0" }, [first]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-width\\:0 {");
-		expect(css).toContain("._first\\:border-width\\:0 {");
+		expect(css).toContain(String.raw`._border-width\:0 {`);
+		expect(css).toContain(String.raw`._first\:border-width\:0 {`);
 	});
 
 	it("should generate correct CSS class names for odd modifier", () => {
@@ -50,8 +50,8 @@ describe("useStructuralModifiers", () => {
 		createBg({ gray: "#f0f0f0" }, [odd]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:gray {");
-		expect(css).toContain("._odd\\:background-color\\:gray {");
+		expect(css).toContain(String.raw`._background-color\:gray {`);
+		expect(css).toContain(String.raw`._odd\:background-color\:gray {`);
 	});
 
 	it("should generate correct CSS class names for even modifier", () => {
@@ -64,8 +64,8 @@ describe("useStructuralModifiers", () => {
 		createBg({ white: "#fff" }, [even]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:white {");
-		expect(css).toContain("._even\\:background-color\\:white {");
+		expect(css).toContain(String.raw`._background-color\:white {`);
+		expect(css).toContain(String.raw`._even\:background-color\:white {`);
 	});
 
 	it("should work with utility creation", () => {

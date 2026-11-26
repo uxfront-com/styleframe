@@ -3,12 +3,8 @@ import { readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { defineCommand } from "citty";
 import consola from "consola";
 import type { DTCGDocument } from "@styleframe/dtcg";
-import {
-	generateStyleframeCode,
-	fromDTCG,
-	type FigmaExportFormat,
-	type FigmaExportVariable,
-} from "@styleframe/figma";
+import { generateStyleframeCode, fromDTCG } from "@styleframe/figma";
+import type { FigmaExportFormat, FigmaExportVariable } from "@styleframe/figma";
 
 export default defineCommand({
 	meta: {
@@ -83,9 +79,9 @@ export default defineCommand({
 					`Found ${tokenFiles.length} mode file(s): ${tokenFiles.join(", ")}`,
 				);
 
-				const modeFormats: FigmaExportFormat[] = [];
+				const modeFormats: Array<FigmaExportFormat> = [];
 				for (const file of tokenFiles) {
-					const content = await readFile(path.join(inputPath, file), "utf-8");
+					const content = await readFile(path.join(inputPath, file), "utf8");
 					const rawDoc = JSON.parse(content) as DTCGDocument;
 					const modeName = extractModeName(rawDoc, file);
 					const modeData = fromDTCG(rawDoc, {
@@ -96,7 +92,7 @@ export default defineCommand({
 
 				data = mergeModeFormats(modeFormats);
 			} else {
-				const content = await readFile(inputPath, "utf-8");
+				const content = await readFile(inputPath, "utf8");
 				const rawDoc = JSON.parse(content) as DTCGDocument;
 				data = fromDTCG(rawDoc);
 			}
@@ -146,15 +142,21 @@ function extractModeName(doc: DTCGDocument, filename: string): string {
 	return filename.replace(/\.tokens\.json$/, "");
 }
 
-function mergeModeFormats(formats: FigmaExportFormat[]): FigmaExportFormat {
-	if (formats.length === 1) return formats[0]!;
+function mergeModeFormats(
+	formats: Array<FigmaExportFormat>,
+): FigmaExportFormat {
+	if (formats.length === 1) {
+		return formats[0]!;
+	}
 
-	const allModes: string[] = [];
+	const allModes: Array<string> = [];
 	const variableMap = new Map<string, FigmaExportVariable>();
 
 	for (const format of formats) {
 		for (const mode of format.modes) {
-			if (!allModes.includes(mode)) allModes.push(mode);
+			if (!allModes.includes(mode)) {
+				allModes.push(mode);
+			}
 		}
 		for (const v of format.variables) {
 			const existing = variableMap.get(v.name);

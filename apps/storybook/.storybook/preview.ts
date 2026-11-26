@@ -84,7 +84,9 @@ if (window !== window.parent) {
 
 	const sendHeight = () => {
 		const root = document.getElementById("storybook-root");
-		if (!root) return;
+		if (!root) {
+			return;
+		}
 		const height = root.offsetHeight;
 		if (height !== lastHeight) {
 			lastHeight = height;

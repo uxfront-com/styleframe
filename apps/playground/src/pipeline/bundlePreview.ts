@@ -34,18 +34,31 @@ function joinPath(baseDir: string, spec: string): string {
 	const fromRoot = spec.startsWith("/");
 	const stack = fromRoot || !baseDir ? [] : baseDir.split("/");
 	for (const part of spec.split("/")) {
-		if (part === "" || part === ".") continue;
-		if (part === "..") stack.pop();
-		else stack.push(part);
+		if (part === "" || part === ".") {
+			continue;
+		}
+		if (part === "..") {
+			stack.pop();
+		} else {
+			stack.push(part);
+		}
 	}
 	return stack.join("/");
 }
 
 function loaderFor(path: string): Loader {
-	if (path.endsWith(".tsx")) return "tsx";
-	if (path.endsWith(".ts")) return "ts";
-	if (path.endsWith(".jsx")) return "jsx";
-	if (path.endsWith(".css")) return "css";
+	if (path.endsWith(".tsx")) {
+		return "tsx";
+	}
+	if (path.endsWith(".ts")) {
+		return "ts";
+	}
+	if (path.endsWith(".jsx")) {
+		return "jsx";
+	}
+	if (path.endsWith(".css")) {
+		return "css";
+	}
 	return "js";
 }
 
@@ -68,7 +81,7 @@ const VENDOR_GLOBALS: Record<string, string> = {
  * A shim module that re-exports a vendored React entry off the global the
  * vendor IIFE publishes, so the single bundled React instance is shared.
  */
-function reactShim(globalKey: string, keys: string[]): string {
+function reactShim(globalKey: string, keys: Array<string>): string {
 	const ref = `globalThis.PGReactVendor.${globalKey}`;
 	return [
 		`const mod = ${ref};`,
@@ -80,9 +93,9 @@ function reactShim(globalKey: string, keys: string[]): string {
 function createVirtualFsPlugin(
 	input: BundlePreviewInput,
 	vendor: {
-		reactKeys: string[];
-		reactDomClientKeys: string[];
-		jsxRuntimeKeys: string[];
+		reactKeys: Array<string>;
+		reactDomClientKeys: Array<string>;
+		jsxRuntimeKeys: Array<string>;
 	},
 	runtimeSrc: string,
 ): Plugin {
@@ -90,10 +103,14 @@ function createVirtualFsPlugin(
 
 	function resolveFileKey(path: string): string | null {
 		for (const ext of SOURCE_EXTENSIONS) {
-			if (`${path}${ext}` in files) return `${path}${ext}`;
+			if (`${path}${ext}` in files) {
+				return `${path}${ext}`;
+			}
 		}
 		for (const ext of INDEX_EXTENSIONS) {
-			if (`${path}${ext}` in files) return `${path}${ext}`;
+			if (`${path}${ext}` in files) {
+				return `${path}${ext}`;
+			}
 		}
 		return null;
 	}

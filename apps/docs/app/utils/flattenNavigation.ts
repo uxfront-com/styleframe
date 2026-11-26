@@ -7,8 +7,8 @@ import type { ContentNavigationItem } from "@nuxt/content";
  * at the group's own path by that child.
  */
 export function flattenNavigation(
-	items: ContentNavigationItem[],
-): ContentNavigationItem[] {
+	items: Array<ContentNavigationItem>,
+): Array<ContentNavigationItem> {
 	return items.map((item) => {
 		if (item.children?.length === 1 && item.children[0]?.path === item.path) {
 			const { children: _, ...parent } = item;

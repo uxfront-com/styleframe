@@ -47,7 +47,7 @@ describe("check", () => {
 		await rm(cwd, { recursive: true, force: true });
 	});
 
-	async function run(...rawArgs: string[]) {
+	async function run(...rawArgs: Array<string>) {
 		await runCommand(checkCommand, { rawArgs });
 		return process.exitCode;
 	}

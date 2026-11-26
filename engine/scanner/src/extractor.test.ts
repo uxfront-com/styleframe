@@ -274,7 +274,7 @@ describe("extractFromStringLiterals", () => {
 	});
 
 	it("should handle escaped quotes", () => {
-		const content = 'const a = "_margin:sm \\"test\\"";';
+		const content = String.raw`const a = "_margin:sm \"test\"";`;
 		const result = extractFromStringLiterals(content);
 
 		expect(result).toContain("_margin:sm");

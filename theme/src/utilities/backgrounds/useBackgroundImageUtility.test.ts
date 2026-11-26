@@ -39,7 +39,7 @@ describe("useBackgroundImageUtility", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-image\\:gradient-to-r {");
+		expect(css).toContain(String.raw`._background-image\:gradient-to-r {`);
 		expect(css).toContain(
 			"background-image: linear-gradient(to right, var(--background-image-gradient-stops));",
 		);
@@ -84,7 +84,7 @@ describe("useGradientFromUtility", () => {
 		useGradientFromUtility(s, { blue: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gradient-from\\:blue {");
+		expect(css).toContain(String.raw`._gradient-from\:blue {`);
 	});
 
 	it("should handle empty values object", () => {
@@ -124,7 +124,7 @@ describe("useGradientViaUtility", () => {
 		useGradientViaUtility(s, { yellow: "yellow" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gradient-via\\:yellow {");
+		expect(css).toContain(String.raw`._gradient-via\:yellow {`);
 	});
 
 	it("should handle empty values object", () => {
@@ -162,7 +162,7 @@ describe("useGradientToUtility", () => {
 		useGradientToUtility(s, { orange: "orange" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gradient-to\\:orange {");
+		expect(css).toContain(String.raw`._gradient-to\:orange {`);
 	});
 
 	it("should handle empty values object", () => {

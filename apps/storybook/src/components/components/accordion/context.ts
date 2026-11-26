@@ -5,7 +5,7 @@ export type AccordionVariant = "solid" | "ghost";
 export type AccordionSize = "sm" | "md" | "lg";
 
 export interface AccordionContext {
-	openValues: Ref<string[]>;
+	openValues: Ref<Array<string>>;
 	toggle: (value: string) => void;
 	color: ComputedRef<AccordionColor | undefined>;
 	variant: ComputedRef<AccordionVariant | undefined>;

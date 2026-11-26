@@ -27,7 +27,7 @@ describe("useViewTransitionNameUtility", () => {
 		useViewTransitionNameUtility(s, { hero: "hero" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._view-transition-name\\:hero {");
+		expect(css).toContain(String.raw`._view-transition-name\:hero {`);
 		expect(css).toContain("view-transition-name: hero;");
 	});
 

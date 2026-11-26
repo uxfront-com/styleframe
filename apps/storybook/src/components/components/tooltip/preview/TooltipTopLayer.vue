@@ -14,7 +14,7 @@ const props = withDefaults(
 	defineProps<{
 		color?: "light" | "dark" | "neutral";
 		variant?: "solid" | "soft" | "subtle";
-		placements?: Placement[];
+		placements?: Array<Placement>;
 		open?: boolean;
 	}>(),
 	{
@@ -45,7 +45,7 @@ const show = (event: FocusEvent) => tooltipOf(event)?.showPopover();
 const hide = (event: FocusEvent) => tooltipOf(event)?.hidePopover();
 
 onMounted(() => {
-	if (!props.open) return;
+	if (!props.open) {return;}
 	for (const el of stage.value?.querySelectorAll<HTMLElement>("[popover]") ??
 		[]) {
 		el.showPopover();

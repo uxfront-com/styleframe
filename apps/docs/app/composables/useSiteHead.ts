@@ -20,7 +20,7 @@ export interface SiteHeadOptions {
 export function jsonLdScript(node: JsonLdNode) {
 	return {
 		type: "application/ld+json" as const,
-		innerHTML: JSON.stringify(node).replace(/</g, "\\u003c"),
+		innerHTML: JSON.stringify(node).replaceAll("<", String.raw`\u003c`),
 	};
 }
 

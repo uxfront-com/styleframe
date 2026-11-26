@@ -30,7 +30,7 @@ describe("useFontFamilyUtility", () => {
 		useFontFamilyUtility(s, { sans: "Arial, sans-serif" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-family\\:sans {");
+		expect(css).toContain(String.raw`._font-family\:sans {`);
 		expect(css).toContain("font-family: Arial, sans-serif;");
 	});
 

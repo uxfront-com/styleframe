@@ -44,14 +44,18 @@ function lookupInternalRef(
 	doc: DTCGResolverDocument,
 	pointer: string,
 ): unknown {
-	if (!pointer.startsWith("#/")) return undefined;
+	if (!pointer.startsWith("#/")) {
+		return undefined;
+	}
 	const segments = pointer
 		.slice(2)
 		.split("/")
-		.map((s) => s.replace(/~1/g, "/").replace(/~0/g, "~"));
+		.map((s) => s.replaceAll("~1", "/").replaceAll("~0", "~"));
 	let cursor: unknown = doc;
 	for (const seg of segments) {
-		if (!isPlainObject(cursor)) return undefined;
+		if (!isPlainObject(cursor)) {
+			return undefined;
+		}
 		cursor = (cursor as Record<string, unknown>)[seg];
 	}
 	return cursor;
@@ -160,10 +164,14 @@ function validateInputs(
 	const declaredModifiers = new Set<string>();
 	for (const item of doc.resolutionOrder) {
 		const { kind, name } = resolveResolutionItem(item, doc);
-		if (kind === "modifier" && name) declaredModifiers.add(name);
+		if (kind === "modifier" && name) {
+			declaredModifiers.add(name);
+		}
 	}
 	if (doc.modifiers) {
-		for (const name of Object.keys(doc.modifiers)) declaredModifiers.add(name);
+		for (const name of Object.keys(doc.modifiers)) {
+			declaredModifiers.add(name);
+		}
 	}
 
 	for (const key of Object.keys(inputs)) {

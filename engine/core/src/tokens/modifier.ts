@@ -62,7 +62,7 @@ export function applyModifiers<InstanceType extends Container>(
 
 export function createModifierFunction(_parent: Container, root: Root) {
 	return function modifier<Key extends string>(
-		key: Key | Key[],
+		key: Key | Array<Key>,
 		factory: ModifierFactory["factory"],
 	): ModifierFactory {
 		const modifierInstance: ModifierFactory = {

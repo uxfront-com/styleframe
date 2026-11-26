@@ -75,7 +75,9 @@ export function findExportCollision(
 
 	// Check other files
 	for (const [filePath, fileInfo] of state.files) {
-		if (filePath === excludeFile) continue;
+		if (filePath === excludeFile) {
+			continue;
+		}
 		if (fileInfo.exports.has(exportName)) {
 			return filePath;
 		}

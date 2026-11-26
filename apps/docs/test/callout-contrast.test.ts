@@ -25,7 +25,7 @@ const PALETTE = {
 
 type Rgb = [number, number, number];
 
-function oklchToRgb([l, c, h]: readonly number[]): Rgb {
+function oklchToRgb([l, c, h]: ReadonlyArray<number>): Rgb {
 	const a = c * Math.cos((h! * Math.PI) / 180);
 	const b = c * Math.sin((h! * Math.PI) / 180);
 	const lms = [

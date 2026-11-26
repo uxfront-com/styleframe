@@ -19,7 +19,9 @@ export function convert(
 	target: DTCGColorSpace,
 	options: ConvertOptions = {},
 ): DTCGColor {
-	if (color.colorSpace === target) return color;
+	if (color.colorSpace === target) {
+		return color;
+	}
 	const meta = COLOR_SPACES[target];
 	const convertFn = converter(meta.mode);
 	let converted = convertFn(

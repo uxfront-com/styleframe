@@ -32,7 +32,7 @@ describe("useForcedColorAdjustUtility", () => {
 		useForcedColorAdjustUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._forced-color-adjust\\:none {");
+		expect(css).toContain(String.raw`._forced-color-adjust\:none {`);
 		expect(css).toContain("forced-color-adjust: none;");
 	});
 

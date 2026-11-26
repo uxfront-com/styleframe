@@ -10,14 +10,14 @@
 type CloneFunction<T = any> = (obj: T) => T;
 type ConstructorHandler<T = any> = (obj: T, fn: CloneFunction) => T;
 type ConstructorHandlerTuple<T = any> = [
-	new (...args: any[]) => T,
+	new (...args: Array<any>) => T,
 	ConstructorHandler<T>,
 ];
 
 interface RfdcOptions {
 	circular?: boolean;
 	proto?: boolean;
-	constructorHandlers?: ConstructorHandlerTuple[];
+	constructorHandlers?: Array<ConstructorHandlerTuple>;
 }
 
 function copyBuffer(cur: ArrayBufferView): ArrayBufferView {
@@ -46,7 +46,7 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 	}
 
 	const constructorHandlers = new Map<
-		new (...args: any[]) => any,
+		new (...args: Array<any>) => any,
 		ConstructorHandler
 	>();
 	constructorHandlers.set(Date, (o: Date) => new Date(o));
@@ -70,9 +70,9 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 
 	return (opts.proto ? cloneProto : clone) as CloneFunction<T>;
 
-	function cloneArray(a: any[], fn: CloneFunction): any[] {
+	function cloneArray(a: Array<any>, fn: CloneFunction): Array<any> {
 		const keys = Object.keys(a);
-		const a2: any[] = Array.from({ length: keys.length });
+		const a2: Array<any> = Array.from({ length: keys.length });
 
 		for (let i = 0; i < keys.length; i++) {
 			const k = keys[i] as any;
@@ -95,8 +95,12 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 	}
 
 	function clone(o: any): any {
-		if (typeof o !== "object" || o === null) return o;
-		if (Array.isArray(o)) return cloneArray(o, clone);
+		if (typeof o !== "object" || o === null) {
+			return o;
+		}
+		if (Array.isArray(o)) {
+			return cloneArray(o, clone);
+		}
 
 		if (
 			o.constructor !== Object &&
@@ -108,7 +112,9 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 		const o2: Record<string, any> = {};
 
 		for (const k in o) {
-			if (Object.hasOwnProperty.call(o, k) === false) continue;
+			if (Object.hasOwn(o, k) === false) {
+				continue;
+			}
 
 			const cur = o[k];
 
@@ -129,8 +135,12 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 	}
 
 	function cloneProto(o: any): any {
-		if (typeof o !== "object" || o === null) return o;
-		if (Array.isArray(o)) return cloneArray(o, cloneProto);
+		if (typeof o !== "object" || o === null) {
+			return o;
+		}
+		if (Array.isArray(o)) {
+			return cloneArray(o, cloneProto);
+		}
 
 		if (
 			o.constructor !== Object &&
@@ -162,11 +172,11 @@ export function rfdc<T = any>(opts?: RfdcOptions): CloneFunction<T> {
 }
 
 function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
-	const refs: any[] = [];
-	const refsNew: any[] = [];
+	const refs: Array<any> = [];
+	const refsNew: Array<any> = [];
 
 	const constructorHandlers = new Map<
-		new (...args: any[]) => any,
+		new (...args: Array<any>) => any,
 		ConstructorHandler
 	>();
 	constructorHandlers.set(Date, (o: Date) => new Date(o));
@@ -190,9 +200,9 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 
 	return (opts.proto ? cloneProto : clone) as CloneFunction<T>;
 
-	function cloneArray(a: any[], fn: CloneFunction): any[] {
+	function cloneArray(a: Array<any>, fn: CloneFunction): Array<any> {
 		const keys = Object.keys(a);
-		const a2: any[] = Array.from({ length: keys.length });
+		const a2: Array<any> = Array.from({ length: keys.length });
 
 		for (let i = 0; i < keys.length; i++) {
 			const k = keys[i] as any;
@@ -220,8 +230,12 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 	}
 
 	function clone(o: any): any {
-		if (typeof o !== "object" || o === null) return o;
-		if (Array.isArray(o)) return cloneArray(o, clone);
+		if (typeof o !== "object" || o === null) {
+			return o;
+		}
+		if (Array.isArray(o)) {
+			return cloneArray(o, clone);
+		}
 
 		if (
 			o.constructor !== Object &&
@@ -235,7 +249,9 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 		refsNew.push(o2);
 
 		for (const k in o) {
-			if (Object.hasOwnProperty.call(o, k) === false) continue;
+			if (Object.hasOwn(o, k) === false) {
+				continue;
+			}
 
 			const cur = o[k];
 
@@ -264,8 +280,12 @@ function rfdcCircular<T = any>(opts: RfdcOptions): CloneFunction<T> {
 	}
 
 	function cloneProto(o: any): any {
-		if (typeof o !== "object" || o === null) return o;
-		if (Array.isArray(o)) return cloneArray(o, cloneProto);
+		if (typeof o !== "object" || o === null) {
+			return o;
+		}
+		if (Array.isArray(o)) {
+			return cloneArray(o, cloneProto);
+		}
 
 		if (
 			o.constructor !== Object &&

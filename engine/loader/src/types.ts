@@ -1,4 +1,5 @@
 import type { Styleframe } from "@styleframe/core";
+import type { Jiti } from "jiti";
 
 /**
  * Export information for a recipe or selector
@@ -19,7 +20,7 @@ export interface LoadModuleOptions {
 	/** Whether to validate that default export is a Styleframe instance (default: true) */
 	validateInstance?: boolean;
 	/** Optional shared jiti instance to reuse across multiple loads */
-	jiti?: import("jiti").Jiti;
+	jiti?: Jiti;
 }
 
 /**

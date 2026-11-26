@@ -21,10 +21,10 @@ import type {
 function toClassName(
 	utilityName: string,
 	value: string | boolean,
-	modifiers: string[] = [],
+	modifiers: Array<string> = [],
 	shortMap?: ShorteningMap,
 ): string {
-	const kebabName = utilityName.replace(
+	const kebabName = utilityName.replaceAll(
 		/[A-Z]/g,
 		(letter) => `-${letter.toLowerCase()}`,
 	);
@@ -87,7 +87,7 @@ function processDeclarationsBlock(
 	declarations: RuntimeVariantDeclarationsBlock,
 	declarationsMap: Map<
 		string,
-		{ value: PrimitiveTokenValue; modifiers: string[] }
+		{ value: PrimitiveTokenValue; modifiers: Array<string> }
 	>,
 ): void {
 	for (const [key, value] of Object.entries(declarations)) {
@@ -163,7 +163,7 @@ export function createRecipe<R extends RecipeRuntime>(
 		// Key: utility name (possibly with modifier prefix), Value: { value, modifiers }
 		const declarationsMap = new Map<
 			string,
-			{ value: string | boolean; modifiers: string[] }
+			{ value: string | boolean; modifiers: Array<string> }
 		>();
 
 		// 1. Apply base declarations
@@ -195,7 +195,7 @@ export function createRecipe<R extends RecipeRuntime>(
 		}
 
 		// 3. Apply compound variants if conditions match
-		const compoundClassNames: string[] = [];
+		const compoundClassNames: Array<string> = [];
 		if (runtime.compoundVariants) {
 			for (const compoundVariant of runtime.compoundVariants) {
 				// Check if all variant conditions match
@@ -230,7 +230,7 @@ export function createRecipe<R extends RecipeRuntime>(
 		}
 
 		// 4. Build the final class name string
-		const classNames: string[] = [name];
+		const classNames: Array<string> = [name];
 
 		// Convert declarations map to class names
 		// Extract the utility name from the map key (remove modifier prefix if present)

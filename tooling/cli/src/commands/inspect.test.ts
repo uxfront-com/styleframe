@@ -72,7 +72,7 @@ describe("inspect", () => {
 		await rm(cwd, { recursive: true, force: true });
 	});
 
-	async function run(...rawArgs: string[]) {
+	async function run(...rawArgs: Array<string>) {
 		await runCommand(inspectCommand, { rawArgs });
 		return process.exitCode;
 	}

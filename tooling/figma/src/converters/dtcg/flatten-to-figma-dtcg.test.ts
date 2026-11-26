@@ -349,12 +349,16 @@ describe("flattenToFigmaDTCG (multi-mode with resolver)", () => {
 			.background as Record<string, unknown>;
 		expect(lightBg.$type).toBe("color");
 		expect(
-			((lightBg.$value as Record<string, unknown>).components as number[])[0],
+			(
+				(lightBg.$value as Record<string, unknown>).components as Array<number>
+			)[0],
 		).toBe(1);
 		const darkBg = (modes.Dark!.color as Record<string, unknown>)
 			.background as Record<string, unknown>;
 		expect(
-			((darkBg.$value as Record<string, unknown>).components as number[])[0],
+			(
+				(darkBg.$value as Record<string, unknown>).components as Array<number>
+			)[0],
 		).toBeCloseTo(0.1, 1);
 	});
 });

@@ -14,7 +14,7 @@ const props = withDefaults(
 	defineProps<{
 		color?: "light" | "dark" | "neutral";
 		variant?: "solid" | "soft" | "subtle";
-		placements?: Placement[];
+		placements?: Array<Placement>;
 		open?: boolean;
 		/** Keeps ids and anchor names apart when several stories share a page. */
 		name?: "top-layer" | "placements" | "focus";
@@ -40,7 +40,7 @@ const stage = useTemplateRef<HTMLElement>("stage");
 const mode = props.placements.length > 1 ? "manual" : "auto";
 
 onMounted(() => {
-	if (!props.open) return;
+	if (!props.open) {return;}
 	for (const el of stage.value?.querySelectorAll<HTMLElement>("[popover]") ??
 		[]) {
 		el.showPopover();

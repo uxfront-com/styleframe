@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CallbackFn = (...args: any[]) => any;
+export type CallbackFn = (...args: Array<any>) => any;
 
 type Payloads<ListenerMap> = {
 	[E in keyof ListenerMap]: unknown;
@@ -7,7 +6,6 @@ type Payloads<ListenerMap> = {
 
 type Listener<Payload> = (payload: Payload) => void;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface EventBus<
 	ListenerMap extends Payloads<ListenerMap> = Record<string, any>,
 > {
@@ -43,10 +41,9 @@ export interface EventBus<
  * }>();
  */
 export function createEventBus<
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	ListenerMap extends Payloads<ListenerMap> = Record<string, any>,
 >(): EventBus<ListenerMap> {
-	const handlers = new Map<string, CallbackFn[]>();
+	const handlers = new Map<string, Array<CallbackFn>>();
 
 	return {
 		on(eventName, fn) {

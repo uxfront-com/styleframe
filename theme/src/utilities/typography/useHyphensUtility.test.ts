@@ -27,7 +27,7 @@ describe("useHyphensUtility", () => {
 		useHyphensUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._hyphens\\:auto {");
+		expect(css).toContain(String.raw`._hyphens\:auto {`);
 		expect(css).toContain("hyphens: auto;");
 	});
 

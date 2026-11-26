@@ -93,7 +93,7 @@ describe("createSelectorConsumer", () => {
 		const instance: Selector = {
 			type: "selector",
 			id: "test-id",
-			query: ".icon\\:home",
+			query: String.raw`.icon\:home`,
 			declarations: {},
 			variables: [],
 			children: [],

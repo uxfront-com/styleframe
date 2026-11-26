@@ -38,7 +38,7 @@ export type ApplyFilter<
 	F,
 > = {
 	[K in keyof V]: K extends keyof F
-		? F[K] extends (infer U)[]
+		? F[K] extends Array<infer U>
 			? Pick<V[K], Extract<U, keyof V[K]>>
 			: V[K]
 		: V[K];
@@ -46,7 +46,7 @@ export type ApplyFilter<
 
 function applyFilter(
 	config: RecipeConfig,
-	filter: Record<string, string[] | undefined>,
+	filter: Record<string, Array<string> | undefined>,
 ): RecipeConfig {
 	const result = { ...config };
 
@@ -54,11 +54,15 @@ function applyFilter(
 		const filteredVariants = { ...result.variants };
 		for (const axis of Object.keys(filter)) {
 			const allowedValues = filter[axis];
-			if (!allowedValues || !(axis in filteredVariants)) continue;
+			if (!allowedValues || !(axis in filteredVariants)) {
+				continue;
+			}
 
 			const allowedSet = new Set(allowedValues);
 			const original = filteredVariants[axis];
-			if (!original) continue;
+			if (!original) {
+				continue;
+			}
 
 			const filtered: Record<string, VariantDeclarationsBlock> = {};
 			for (const [key, value] of Object.entries(original)) {
@@ -90,7 +94,9 @@ function applyFilter(
 		const adjustedDefaults = { ...result.defaultVariants };
 		for (const axis of Object.keys(filter)) {
 			const allowedValues = filter[axis];
-			if (!allowedValues || !(axis in adjustedDefaults)) continue;
+			if (!allowedValues || !(axis in adjustedDefaults)) {
+				continue;
+			}
 
 			const allowedSet = new Set(allowedValues);
 			const currentDefault = (adjustedDefaults as Record<string, string>)[axis];

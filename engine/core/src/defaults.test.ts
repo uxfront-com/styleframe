@@ -111,7 +111,7 @@ describe("transformUtilityKey", () => {
 
 		it("should handle complex key transformations", () => {
 			const transform = transformUtilityKey((key) =>
-				key.replace(/-/g, "_").toLowerCase(),
+				key.replaceAll("-", "_").toLowerCase(),
 			);
 			const result = transform("@Some-Variable-Name");
 

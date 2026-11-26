@@ -166,7 +166,7 @@ describe("useCheckboxRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxRecipe(s);
 
-			for (const css of Object.values(recipe.variants!.size) as Block[]) {
+			for (const css of Object.values(recipe.variants!.size) as Array<Block>) {
 				const before = css["&:before"] as Block;
 				expect(before).toHaveProperty("insetInlineStart");
 				expect(before).not.toHaveProperty("left");

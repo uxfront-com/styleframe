@@ -37,7 +37,7 @@ describe("useBorderColorUtility", () => {
 		useBorderColorUtility(s, { transparent: "transparent" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-color\\:transparent {");
+		expect(css).toContain(String.raw`._border-color\:transparent {`);
 		expect(css).toContain("border-color: transparent;");
 	});
 
@@ -66,7 +66,7 @@ describe("useBorderColorXUtility", () => {
 		useBorderColorXUtility(s, { blue: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-x-color\\:blue {");
+		expect(css).toContain(String.raw`._border-x-color\:blue {`);
 		expect(css).toContain("border-left-color: blue;");
 		expect(css).toContain("border-right-color: blue;");
 	});
@@ -89,7 +89,7 @@ describe("useBorderColorYUtility", () => {
 		useBorderColorYUtility(s, { gray: "gray" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-y-color\\:gray {");
+		expect(css).toContain(String.raw`._border-y-color\:gray {`);
 		expect(css).toContain("border-top-color: gray;");
 		expect(css).toContain("border-bottom-color: gray;");
 	});
@@ -109,7 +109,7 @@ describe("useBorderColorTopUtility", () => {
 		useBorderColorTopUtility(s, { blue: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-top-color\\:blue {");
+		expect(css).toContain(String.raw`._border-top-color\:blue {`);
 		expect(css).toContain("border-top-color: blue;");
 	});
 });
@@ -158,7 +158,7 @@ describe("useBorderColorStartUtility", () => {
 		useBorderColorStartUtility(s, { blue: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-start-color\\:blue {");
+		expect(css).toContain(String.raw`._border-inline-start-color\:blue {`);
 		expect(css).toContain("border-inline-start-color: blue;");
 	});
 });
@@ -177,7 +177,7 @@ describe("useBorderColorEndUtility", () => {
 		useBorderColorEndUtility(s, { blue: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-end-color\\:blue {");
+		expect(css).toContain(String.raw`._border-inline-end-color\:blue {`);
 		expect(css).toContain("border-inline-end-color: blue;");
 	});
 });

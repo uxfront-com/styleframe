@@ -28,13 +28,15 @@ export function useDdDesignTokens(
 ): Partial<DdElementResult> {
 	const result: Partial<DdElementResult> = {};
 
-	if (config.marginBottom !== undefined)
+	if (config.marginBottom !== undefined) {
 		result.ddMarginBottom = ctx.variable(
 			"dd.margin-bottom",
 			config.marginBottom,
 		);
-	if (config.marginLeft !== undefined)
+	}
+	if (config.marginLeft !== undefined) {
 		result.ddMarginLeft = ctx.variable("dd.margin-left", config.marginLeft);
+	}
 
 	return result;
 }

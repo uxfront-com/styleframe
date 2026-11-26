@@ -132,7 +132,7 @@ describe("Open Components rules", () => {
 		query?: string;
 		rule?: string;
 		declarations: Record<string, unknown>;
-		children: Node[];
+		children: Array<Node>;
 	};
 	type Block = Record<string, unknown>;
 
@@ -146,7 +146,7 @@ describe("Open Components rules", () => {
 
 	// The group's own setup selectors.
 	const own = (s: ReturnType<typeof styleframe>) =>
-		(s.root.children as unknown as Node[]).filter(
+		(s.root.children as unknown as Array<Node>).filter(
 			(child) =>
 				child.type === "selector" && child.query!.startsWith(".checkbox-group"),
 		);
@@ -162,13 +162,13 @@ describe("Open Components rules", () => {
 		return [
 			group.base as Block,
 			...Object.values(group.variants ?? {}).flatMap(
-				(axis) => Object.values(axis) as Block[],
+				(axis) => Object.values(axis) as Array<Block>,
 			),
 		];
 	}
 
 	// Every key of a declarations block, nested blocks included.
-	function keys(block: Block): string[] {
+	function keys(block: Block): Array<string> {
 		return Object.entries(block).flatMap(([key, value]) =>
 			value && typeof value === "object" && !("type" in value)
 				? [key, ...keys(value as Block)]

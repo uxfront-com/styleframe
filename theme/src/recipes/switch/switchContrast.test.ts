@@ -166,7 +166,7 @@ describe("useSwitchFieldRecipe contrast", () => {
 	// one color compares equal whichever way its theme spells it.
 	function applied(value: unknown, theme: Theme): unknown {
 		if (typeof value === "string") {
-			return value.replace(/@color\.[\w-]+/g, (token) =>
+			return value.replaceAll(/@color\.[\w-]+/g, (token) =>
 				formatHex8(resolve(token, theme)),
 			);
 		}

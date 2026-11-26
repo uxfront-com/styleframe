@@ -58,7 +58,9 @@ const lhci = (args) => {
 		["dlx", `@lhci/cli@${lhciVersion}`, ...args],
 		{ stdio: "inherit" },
 	);
-	if (result.error) fail(result.error.message);
+	if (result.error) {
+		fail(result.error.message);
+	}
 	return result.status ?? 1;
 };
 
@@ -75,8 +77,9 @@ const calibrationStatus = lhci([
 	`--numberOfRuns=${CALIBRATION_RUNS}`,
 	"--settings.onlyCategories=performance",
 ]);
-if (calibrationStatus !== 0)
+if (calibrationStatus !== 0) {
 	fail(`lhci collect exited with ${calibrationStatus}.`);
+}
 
 const reports = readdirSync(RESULTS_DIR)
 	.filter((file) => /^lhr-.*\.json$/.test(file))

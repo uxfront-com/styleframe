@@ -99,10 +99,14 @@ describe("product and legal pages", () => {
 		(route) => {
 			const html = readPage(route);
 			const markup = chrome(html);
-			for (const link of CHROME_LINKS) expect(markup).toContain(link);
+			for (const link of CHROME_LINKS) {
+				expect(markup).toContain(link);
+			}
 			expect(markup).toMatch(CREDIT);
 			const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
-			for (const link of HEADER_LINKS) expect(header).toContain(link);
+			for (const link of HEADER_LINKS) {
+				expect(header).toContain(link);
+			}
 		},
 	);
 
@@ -145,7 +149,9 @@ describe("product and legal pages", () => {
 		"%s keeps main's checkout, plugin and docs links",
 		(route, links) => {
 			const html = readPage(route);
-			for (const link of links) expect(html).toContain(link);
+			for (const link of links) {
+				expect(html).toContain(link);
+			}
 		},
 	);
 
@@ -159,7 +165,9 @@ describe("product and legal pages", () => {
 	it("the docs footer links the legal pages, with main's credit", () => {
 		const html = readPage("docs/api/variables");
 		const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? "";
-		for (const link of LEGAL_LINKS) expect(footer).toContain(link);
+		for (const link of LEGAL_LINKS) {
+			expect(footer).toContain(link);
+		}
 		expect(footer).toMatch(CREDIT);
 	});
 

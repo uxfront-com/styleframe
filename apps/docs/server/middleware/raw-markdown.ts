@@ -17,12 +17,16 @@ import { rawPage } from "../lib/raw";
  */
 export default defineEventHandler(async (event) => {
 	const match = event.path.match(/^\/raw(\/.+?)(?:\/index)?\.md$/);
-	if (!match?.[1]) return;
+	if (!match?.[1]) {
+		return;
+	}
 
 	const path = match[1] === "/index" ? "/" : match[1];
 	const found =
 		(await readDocsPage(event, path)) ?? (await readLandingPage(event, path));
-	if (!found) return;
+	if (!found) {
+		return;
+	}
 
 	setHeader(event, "Content-Type", "text/markdown; charset=utf-8");
 	return rawPage(found.page, found.source);

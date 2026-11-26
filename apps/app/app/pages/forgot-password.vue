@@ -18,7 +18,7 @@ useSeoMeta({
 const resetEmailSent = ref(false);
 const userEmail = ref("");
 
-const fields: AuthFormField[] = [
+const fields: Array<AuthFormField> = [
 	{
 		name: "email",
 		type: "text" as const,

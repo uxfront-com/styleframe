@@ -22,7 +22,9 @@ function abbreviateSegments(name: string, level = 0): string {
 }
 
 function abbreviateValue(value: string, level = 0): string {
-	if (value.length <= 2) return value;
+	if (value.length <= 2) {
+		return value;
+	}
 
 	if (value.startsWith("[")) {
 		const inner = value.slice(1, -1);
@@ -43,7 +45,7 @@ function abbreviateValue(value: string, level = 0): string {
 }
 
 function buildMap(
-	names: string[],
+	names: Array<string>,
 	abbreviateFn: (name: string, level: number) => string,
 	defaults?: Record<string, string>,
 ): Record<string, string> {
@@ -62,17 +64,23 @@ function buildMap(
 	}
 
 	for (const name of sorted) {
-		if (result[name]) continue;
+		if (result[name]) {
+			continue;
+		}
 
 		let level = 0;
 		let candidate = abbreviateFn(name, level);
 
-		if (candidate === name) continue;
+		if (candidate === name) {
+			continue;
+		}
 
 		while (assigned.has(candidate)) {
 			level++;
 			const next = abbreviateFn(name, level);
-			if (next === candidate || next.length >= name.length) break;
+			if (next === candidate || next.length >= name.length) {
+				break;
+			}
 			candidate = next;
 		}
 

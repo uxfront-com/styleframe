@@ -39,7 +39,7 @@ import {
 
 const props = defineProps<{
 	files: Record<string, string>;
-	folders: string[];
+	folders: Array<string>;
 	active: string;
 	dirty?: Record<string, boolean>;
 }>();
@@ -56,7 +56,7 @@ interface Row {
 
 interface TreeNode {
 	dirs: Map<string, TreeNode>;
-	files: string[];
+	files: Array<string>;
 }
 
 interface MenuItem {
@@ -79,23 +79,23 @@ function isCollapsed(path: string): boolean {
 
 function toggleFolder(path: string): void {
 	const next = new Set(collapsed.value);
-	if (next.has(path)) next.delete(path);
-	else next.add(path);
+	if (next.has(path)) {next.delete(path);}
+	else {next.add(path);}
 	collapsed.value = next;
 }
 
 /** Pick a file-type icon, IDE-style. */
 function rowIcon(row: Row): Component {
-	if (row.kind === "dir") return isCollapsed(row.path) ? Folder : FolderOpen;
-	if (row.path === CONFIG_PATH) return FileCog;
-	if (row.path.endsWith(".styleframe.ts")) return Palette;
-	if (/\.(tsx|jsx|ts|js|css)$/.test(row.path)) return FileCode;
+	if (row.kind === "dir") {return isCollapsed(row.path) ? Folder : FolderOpen;}
+	if (row.path === CONFIG_PATH) {return FileCog;}
+	if (row.path.endsWith(".styleframe.ts")) {return Palette;}
+	if (/\.(tsx|jsx|ts|js|css)$/.test(row.path)) {return FileCode;}
 	return File;
 }
 
-const rows = computed<Row[]>(() => {
+const rows = computed<Array<Row>>(() => {
 	const root: TreeNode = { dirs: new Map(), files: [] };
-	const ensureDir = (parts: string[]): TreeNode => {
+	const ensureDir = (parts: Array<string>): TreeNode => {
 		let node = root;
 		for (const part of parts) {
 			let child = node.dirs.get(part);
@@ -115,7 +115,7 @@ const rows = computed<Row[]>(() => {
 		ensureDir(folder.split("/"));
 	}
 
-	const out: Row[] = [];
+	const out: Array<Row> = [];
 	const walk = (node: TreeNode, depth: number, prefix: string) => {
 		for (const dir of [...node.dirs.keys()].sort((a, b) =>
 			a.localeCompare(b),
@@ -153,13 +153,13 @@ function hasMenu(row: Row): boolean {
 	return row.kind === "dir" || row.deletable;
 }
 
-function menuItems(row: Row): MenuItem[] {
+function menuItems(row: Row): Array<MenuItem> {
 	if (row.kind === "file") {
 		return [
 			{ label: "Delete", tone: "danger", run: () => deleteFile(row.path) },
 		];
 	}
-	const items: MenuItem[] = [];
+	const items: Array<MenuItem> = [];
 	if (row.deletable) {
 		items.push({
 			label: "Delete",
@@ -171,8 +171,7 @@ function menuItems(row: Row): MenuItem[] {
 		label: "Create new file",
 		tone: "default",
 		run: () => startCreate("file", row.path),
-	});
-	items.push({
+	}, {
 		label: "Create new folder",
 		tone: "default",
 		run: () => startCreate("folder", row.path),
@@ -185,7 +184,7 @@ function menuItems(row: Row): MenuItem[] {
 const MENU_WIDTH = 168;
 const menu = ref<{
 	path: string;
-	items: MenuItem[];
+	items: Array<MenuItem>;
 	x: number;
 	y: number;
 } | null>(null);
@@ -212,11 +211,11 @@ function runItem(item: MenuItem) {
 }
 
 function onDocPointerDown(event: MouseEvent) {
-	if (menuEl.value && !menuEl.value.contains(event.target as Node)) closeMenu();
+	if (menuEl.value && !menuEl.value.contains(event.target as Node)) {closeMenu();}
 }
 
 function onDocKeyDown(event: KeyboardEvent) {
-	if (event.key === "Escape") closeMenu();
+	if (event.key === "Escape") {closeMenu();}
 }
 
 watch(menu, (value) => {
@@ -243,7 +242,7 @@ const inputEl = ref<HTMLInputElement | null>(null);
 
 async function startCreate(kind: "file" | "folder", parent = "") {
 	// Expand the target folder so the new entry is visible once created.
-	if (parent && collapsed.value.has(parent)) toggleFolder(parent);
+	if (parent && collapsed.value.has(parent)) {toggleFolder(parent);}
 	creating.value = kind;
 	draft.value = parent ? `${parent}/` : "";
 	await nextTick();
@@ -255,14 +254,14 @@ async function startCreate(kind: "file" | "folder", parent = "") {
 }
 
 function commitCreate() {
-	if (!creating.value) return;
+	if (!creating.value) {return;}
 	const kind = creating.value;
 	creating.value = null;
 	const value = draft.value.trim();
 	draft.value = "";
-	if (!value) return;
-	if (kind === "folder") createFolder(value);
-	else createFile(value);
+	if (!value) {return;}
+	if (kind === "folder") {createFolder(value);}
+	else {createFile(value);}
 }
 
 function cancelCreate() {

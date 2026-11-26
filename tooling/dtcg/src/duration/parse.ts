@@ -8,8 +8,12 @@ const DURATION_PATTERN = /^(-?\d*\.?\d+)(ms|s)$/;
  */
 export function parse(input: string): DTCGDuration | undefined {
 	const match = input.trim().match(DURATION_PATTERN);
-	if (!match) return undefined;
+	if (!match) {
+		return undefined;
+	}
 	const value = Number.parseFloat(match[1] as string);
-	if (!Number.isFinite(value)) return undefined;
+	if (!Number.isFinite(value)) {
+		return undefined;
+	}
 	return { value, unit: match[2] as DTCGDuration["unit"] };
 }

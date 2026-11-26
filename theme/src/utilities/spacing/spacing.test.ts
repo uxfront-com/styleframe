@@ -129,10 +129,10 @@ describe("spacing utilities in recipes", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		// Named values
-		expect(css).toContain("._padding\\:sm {");
+		expect(css).toContain(String.raw`._padding\:sm {`);
 		expect(css).toContain("padding: var(--spacing--sm);");
 		// Multiplier values
-		expect(css).toContain("._padding\\:1\\.5 {");
+		expect(css).toContain(String.raw`._padding\:1\.5 {`);
 		expect(css).toContain("padding: calc(var(--spacing, 1rem) * 1.5);");
 	});
 

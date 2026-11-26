@@ -12,7 +12,7 @@ export function genSafeVariableName(name: string) {
 
 	// Replace invalid characters with hyphens
 	// Keep letters, digits, hyphens, underscores, and non-ASCII chars (>= 0x80)
-	const sanitized = normalized.replace(/[^a-zA-Z0-9_\-\u0080-\uFFFF]/g, "-");
+	const sanitized = normalized.replaceAll(/[^a-zA-Z0-9_\-\u0080-\uFFFF]/g, "-");
 
 	// Ensure we have a valid name (not empty after sanitization)
 	const validName = sanitized || "unknown-variable";

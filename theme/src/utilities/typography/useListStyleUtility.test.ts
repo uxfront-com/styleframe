@@ -22,7 +22,7 @@ describe("useListStyleUtility", () => {
 		useListStyleUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._list-style\\:none {");
+		expect(css).toContain(String.raw`._list-style\:none {`);
 		expect(css).toContain("list-style: none;");
 	});
 });
@@ -51,7 +51,7 @@ describe("useListStyleTypeUtility", () => {
 		useListStyleTypeUtility(s, { decimal: "decimal", disc: "disc" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._list-style-type\\:decimal {");
+		expect(css).toContain(String.raw`._list-style-type\:decimal {`);
 		expect(css).toContain("list-style-type: decimal;");
 	});
 
@@ -77,7 +77,7 @@ describe("useListStylePositionUtility", () => {
 		useListStylePositionUtility(s, { inside: "inside", outside: "outside" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._list-style-position\\:inside {");
+		expect(css).toContain(String.raw`._list-style-position\:inside {`);
 		expect(css).toContain("list-style-position: inside;");
 	});
 });
@@ -96,7 +96,7 @@ describe("useListStyleImageUtility", () => {
 		useListStyleImageUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._list-style-image\\:none {");
+		expect(css).toContain(String.raw`._list-style-image\:none {`);
 		expect(css).toContain("list-style-image: none;");
 	});
 });

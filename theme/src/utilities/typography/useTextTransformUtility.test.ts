@@ -30,7 +30,7 @@ describe("useTextTransformUtility", () => {
 		useTextTransformUtility(s, { uppercase: "uppercase", none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-transform\\:uppercase {");
+		expect(css).toContain(String.raw`._text-transform\:uppercase {`);
 		expect(css).toContain("text-transform: uppercase;");
 	});
 

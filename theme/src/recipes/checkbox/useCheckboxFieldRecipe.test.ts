@@ -272,7 +272,7 @@ describe("useCheckboxFieldRecipe", () => {
 	describe("Open Components rules", () => {
 		type Block = Record<string, unknown>;
 
-		function allKeys(block: Block, prefix = ""): string[] {
+		function allKeys(block: Block, prefix = ""): Array<string> {
 			return Object.entries(block).flatMap(([key, value]) =>
 				typeof value === "object" && value !== null
 					? [prefix + key, ...allKeys(value as Block, prefix + key)]
@@ -319,7 +319,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 
-			for (const size of Object.values(recipe.variants!.size) as Block[]) {
+			for (const size of Object.values(recipe.variants!.size) as Array<Block>) {
 				expect(size.width).toMatch(/rem$/);
 				expect(size.height).toBe(size.width);
 				expect(size.marginBlock).toContain("@line-height.normal");
@@ -494,7 +494,7 @@ describe("useCheckboxFieldRecipe", () => {
 			const s = createInstance();
 			const recipe = useCheckboxFieldRecipe(s);
 
-			for (const size of Object.values(recipe.variants!.size) as Block[]) {
+			for (const size of Object.values(recipe.variants!.size) as Array<Block>) {
 				for (const property of [
 					"marginLeft",
 					"marginRight",

@@ -37,15 +37,15 @@ import {
 	scanAndRegister,
 	scanFileAndRegister,
 	isContentFile,
-	type PluginScannerState,
 } from "./scanner";
+import type { PluginScannerState } from "./scanner";
 import {
-	type DependencyGraph,
 	createDependencyGraph,
 	buildDependencyGraph,
 	getFilesToInvalidate,
 	isTrackedDependency,
 } from "./dependency-graph";
+import type { DependencyGraph } from "./dependency-graph";
 import { transformSourceClassNames } from "./transform";
 import { registerRecipeUtilities } from "@styleframe/core";
 
@@ -117,8 +117,12 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 
 	// Schedule type generation with debounce
 	const scheduleTypeGeneration = () => {
-		if (options.dts?.enabled === false) return;
-		if (typeGenTimeout) clearTimeout(typeGenTimeout);
+		if (options.dts?.enabled === false) {
+			return;
+		}
+		if (typeGenTimeout) {
+			clearTimeout(typeGenTimeout);
+		}
 		typeGenTimeout = setTimeout(async () => {
 			try {
 				await generateTypeDeclarations(state, cwd, options.dts, options.silent);
@@ -138,8 +142,8 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 	// Reload all styleframe files with selective cache invalidation,
 	// re-scan content, rebuild the dependency graph, and re-register recipe utilities.
 	const reloadAndRescan = async (
-		files: string[],
-		filesToInvalidate?: string[],
+		files: Array<string>,
+		filesToInvalidate?: Array<string>,
 	) => {
 		state.reportedDiagnostics.clear();
 		await reloadAll(
@@ -173,7 +177,9 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 	}) => {
 		for (const id of CSS_AND_CONSUMER_MODULE_IDS) {
 			const mod = server.moduleGraph.getModuleById(id);
-			if (mod) server.moduleGraph.invalidateModule(mod);
+			if (mod) {
+				server.moduleGraph.invalidateModule(mod);
+			}
 		}
 		scheduleTypeGeneration();
 		server.ws.send({ type: "full-reload" });
@@ -184,9 +190,9 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 	// Returns the modules to invalidate, or null if reload failed.
 	const handleReload = async (
 		resolveModule: (id: string) => Promise<unknown>,
-		moduleIds: string[],
+		moduleIds: Array<string>,
 		errorMessage: string,
-		filesToInvalidate?: string[],
+		filesToInvalidate?: Array<string>,
 	) => {
 		try {
 			await reloadAndRescan([...state.files.keys()], filesToInvalidate);
@@ -620,19 +626,21 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (
 							const cssModule = await resolveModule(
 								RESOLVED_VIRTUAL_CSS_MODULE_ID,
 							);
-							if (cssModule)
+							if (cssModule) {
 								modulesToInvalidate.push(
 									cssModule as (typeof ctx.modules)[number],
 								);
+							}
 
 							if (recipeImportsChanged) {
 								const consumerModule = await resolveModule(
 									RESOLVED_VIRTUAL_CONSUMER_ID,
 								);
-								if (consumerModule)
+								if (consumerModule) {
 									modulesToInvalidate.push(
 										consumerModule as (typeof ctx.modules)[number],
 									);
+								}
 								scheduleTypeGeneration();
 							}
 

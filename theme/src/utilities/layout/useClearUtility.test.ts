@@ -27,7 +27,7 @@ describe("useClearUtility", () => {
 		useClearUtility(s, { left: "left" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._clear\\:left {");
+		expect(css).toContain(String.raw`._clear\:left {`);
 		expect(css).toContain("clear: left;");
 	});
 

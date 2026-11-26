@@ -3,11 +3,11 @@ declare module "virtual:pg-react-vendor" {
 		/** IIFE that publishes React on `globalThis.PGReactVendor`. */
 		iife: string;
 		/** Named exports of `react`. */
-		reactKeys: string[];
+		reactKeys: Array<string>;
 		/** Named exports of `react-dom/client`. */
-		reactDomClientKeys: string[];
+		reactDomClientKeys: Array<string>;
 		/** Named exports of `react/jsx-runtime`. */
-		jsxRuntimeKeys: string[];
+		jsxRuntimeKeys: Array<string>;
 	}
 	const vendor: ReactVendor;
 	export default vendor;

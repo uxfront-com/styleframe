@@ -6,17 +6,21 @@ export interface DocsSectionTab {
 	icon: string;
 	to: string;
 	active: boolean;
-	navigation: ContentNavigationItem[];
+	navigation: Array<ContentNavigationItem>;
 }
 
 /** The first page in a navigation tree, depth first. */
 function firstPagePath(
-	items: ContentNavigationItem[] | undefined,
+	items: Array<ContentNavigationItem> | undefined,
 ): string | undefined {
 	for (const item of items ?? []) {
-		if (item.page !== false && item.path) return item.path;
+		if (item.page !== false && item.path) {
+			return item.path;
+		}
 		const nested = firstPagePath(item.children);
-		if (nested) return nested;
+		if (nested) {
+			return nested;
+		}
 	}
 	return undefined;
 }
@@ -36,14 +40,14 @@ export function useDocsSections() {
 	const route = useRoute();
 	const appConfig = useAppConfig();
 	const navigation =
-		inject<Ref<ContentNavigationItem[] | null | undefined>>("navigation");
+		inject<Ref<Array<ContentNavigationItem> | null | undefined>>("navigation");
 
 	const isIn = (path: string) =>
 		route.path === path || route.path.startsWith(`${path}/`);
 
-	const sections = computed<DocsSectionTab[]>(() => {
+	const sections = computed<Array<DocsSectionTab>>(() => {
 		const tree = navigation?.value ?? [];
-		return DOCS_SECTIONS.flatMap((section): DocsSectionTab[] => {
+		return DOCS_SECTIONS.flatMap((section): Array<DocsSectionTab> => {
 			const base = `/docs/${section.slug}`;
 			const node = tree.find((item) => item.path === base);
 			const children = node?.children ?? [];
@@ -51,7 +55,7 @@ export function useDocsSections() {
 			if (section.key === "theme") {
 				const segment = themeSegmentFromPath(route.path) ?? "";
 				return THEME_SUBSECTIONS.map((sub) => {
-					const folders: readonly string[] = sub.folders;
+					const folders: ReadonlyArray<string> = sub.folders;
 					const groups = children.filter((group) =>
 						folders.includes(themeSegmentFromPath(group.path) ?? ""),
 					);
@@ -86,7 +90,7 @@ export function useDocsSections() {
 		sections.value.find((section) => section.active),
 	);
 
-	const sidebarOf = (navigation: ContentNavigationItem[]) =>
+	const sidebarOf = (navigation: Array<ContentNavigationItem>) =>
 		flattenNavigation(
 			foldNonRouteCategories(navigation, appConfig.nonRouteCategories ?? {}),
 		);

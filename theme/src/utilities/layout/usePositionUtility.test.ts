@@ -27,7 +27,7 @@ describe("usePositionUtility", () => {
 		usePositionUtility(s, { sticky: "sticky" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._position\\:sticky {");
+		expect(css).toContain(String.raw`._position\:sticky {`);
 		expect(css).toContain("position: sticky;");
 	});
 

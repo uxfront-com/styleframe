@@ -27,9 +27,9 @@ describe("useTextWrapUtility", () => {
 		useTextWrapUtility(s, { pretty: "pretty", balance: "balance" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-wrap\\:pretty {");
+		expect(css).toContain(String.raw`._text-wrap\:pretty {`);
 		expect(css).toContain("text-wrap: pretty;");
-		expect(css).toContain("._text-wrap\\:balance {");
+		expect(css).toContain(String.raw`._text-wrap\:balance {`);
 		expect(css).toContain("text-wrap: balance;");
 	});
 

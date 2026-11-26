@@ -16,8 +16,11 @@ export async function transpileStyleframe(
 	let css = "";
 	let ts = "";
 	for (const file of output.files) {
-		if (file.name.endsWith(".css")) css = file.content;
-		else if (file.name.endsWith(".ts")) ts = file.content;
+		if (file.name.endsWith(".css")) {
+			css = file.content;
+		} else if (file.name.endsWith(".ts")) {
+			ts = file.content;
+		}
 	}
 	return { css, ts };
 }

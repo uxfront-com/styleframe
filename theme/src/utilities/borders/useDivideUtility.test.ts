@@ -26,7 +26,7 @@ describe("useDivideXUtility", () => {
 		useDivideXUtility(s, { "2": "2px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-x\\:2 {");
+		expect(css).toContain(String.raw`._divide-x\:2 {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-left-width: 2px;");
 	});
@@ -45,7 +45,7 @@ describe("useDivideYUtility", () => {
 		useDivideYUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-y\\:4 {");
+		expect(css).toContain(String.raw`._divide-y\:4 {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-top-width: 4px;");
 	});
@@ -57,7 +57,7 @@ describe("useDivideXReverseUtility", () => {
 		useDivideXReverseUtility(s, { "2": "2px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-x-reverse\\:2 {");
+		expect(css).toContain(String.raw`._divide-x-reverse\:2 {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-right-width: 2px;");
 		expect(css).toContain("border-left-width: 0;");
@@ -70,7 +70,7 @@ describe("useDivideYReverseUtility", () => {
 		useDivideYReverseUtility(s, { "2": "2px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-y-reverse\\:2 {");
+		expect(css).toContain(String.raw`._divide-y-reverse\:2 {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-bottom-width: 2px;");
 		expect(css).toContain("border-top-width: 0;");
@@ -83,7 +83,7 @@ describe("useDivideColorUtility", () => {
 		useDivideColorUtility(s, { gray: "gray" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-color\\:gray {");
+		expect(css).toContain(String.raw`._divide-color\:gray {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-color: gray;");
 	});
@@ -95,7 +95,7 @@ describe("useDivideStyleUtility", () => {
 		useDivideStyleUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._divide-style\\:dashed {");
+		expect(css).toContain(String.raw`._divide-style\:dashed {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("border-style: dashed;");
 	});

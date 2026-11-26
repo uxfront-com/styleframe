@@ -1,7 +1,7 @@
 import consola from "consola";
 import { defineCommand } from "citty";
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { fileExists, parseJsonc } from "../utils";
 import { initializeViteFrameworkFile } from "./init/vite";
 import { initializeNuxtFrameworkFile } from "./init/nuxt";
@@ -19,7 +19,7 @@ export default s;
 const VIRTUAL_STYLEFRAME_MODULE = "virtual:styleframe";
 const STYLEFRAME_TYPES_PATH = "./.styleframe/styleframe.d.ts";
 
-const styleframePaths: Record<string, string[]> = {
+const styleframePaths: Record<string, Array<string>> = {
 	[VIRTUAL_STYLEFRAME_MODULE]: [STYLEFRAME_TYPES_PATH],
 };
 
@@ -130,7 +130,7 @@ export async function initializeTsConfig(
 			await readFile(tsconfigPath, "utf8"),
 		) as Record<string, unknown>;
 
-		const added: string[] = [];
+		const added: Array<string> = [];
 
 		// Type-checkers that cannot resolve a bare-specifier ambient module
 		// (e.g. vue-tsc inside .vue SFCs) need an explicit paths entry mapping
@@ -143,7 +143,7 @@ export async function initializeTsConfig(
 		}
 
 		// Add styleframe includes if not present
-		const includes = (existingConfig.include ??= []) as string[];
+		const includes = (existingConfig.include ??= []) as Array<string>;
 		for (const pattern of styleframeIncludes) {
 			if (!includes.includes(pattern)) {
 				includes.push(pattern);
@@ -169,13 +169,17 @@ export async function addPackageJsonDependencies(cwd: string) {
 	if (await fileExists(packageJsonPath)) {
 		const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
 
-		if (!packageJson.devDependencies) packageJson.devDependencies = {};
+		if (!packageJson.devDependencies) {
+			packageJson.devDependencies = {};
+		}
 		Object.assign(
 			packageJson.devDependencies,
 			__INIT_VERSIONS__.devDependencies,
 		);
 
-		if (!packageJson.dependencies) packageJson.dependencies = {};
+		if (!packageJson.dependencies) {
+			packageJson.dependencies = {};
+		}
 		Object.assign(packageJson.dependencies, __INIT_VERSIONS__.dependencies);
 
 		await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));

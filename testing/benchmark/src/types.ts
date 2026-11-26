@@ -28,7 +28,7 @@ export type SizeMeasurement = {
 };
 
 export type TimingMeasurement = {
-	iterations: number[];
+	iterations: Array<number>;
 	median: number;
 };
 
@@ -41,7 +41,7 @@ export type BenchmarkEntry = {
 
 export type PageResult = {
 	page: string;
-	entries: BenchmarkEntry[];
+	entries: Array<BenchmarkEntry>;
 };
 
 export type BenchmarkReport = {
@@ -52,7 +52,7 @@ export type BenchmarkReport = {
 		node: string;
 	};
 	visualParityPassed: boolean;
-	entries: BenchmarkEntry[];
+	entries: Array<BenchmarkEntry>;
 	inProcessTiming: Record<string, TimingMeasurement>;
 	cliColdTiming: Record<string, TimingMeasurement>;
 };

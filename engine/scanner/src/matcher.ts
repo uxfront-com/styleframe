@@ -16,7 +16,7 @@ import type { ParsedUtility, UtilityMatch } from "./types";
  * Generate a normalized cache key for utility value lookup.
  * Sorts modifiers alphabetically to ensure consistent keys regardless of order.
  */
-function generateValueKey(value: string, modifiers: string[]): string {
+function generateValueKey(value: string, modifiers: Array<string>): string {
 	if (modifiers.length === 0) {
 		return value;
 	}
@@ -32,9 +32,9 @@ function generateValueKey(value: string, modifiers: string[]): string {
  * @returns Array of match results
  */
 export function matchUtilities(
-	parsed: ParsedUtility[],
+	parsed: Array<ParsedUtility>,
 	root: Root,
-): UtilityMatch[] {
+): Array<UtilityMatch> {
 	// Build lookup maps for efficient matching
 	const utilityMap = new Map<string, UtilityFactory>();
 	const modifierMap = new Map<string, ModifierFactory>();
@@ -57,11 +57,11 @@ export function matchUtilities(
 		}
 	}
 
-	const matches: UtilityMatch[] = [];
+	const matches: Array<UtilityMatch> = [];
 
 	for (const parsedClass of parsed) {
 		const factory = utilityMap.get(parsedClass.name) ?? null;
-		const matchedModifiers: ModifierFactory[] = [];
+		const matchedModifiers: Array<ModifierFactory> = [];
 
 		// Find matching modifier factories
 		for (const modKey of parsedClass.modifiers) {
@@ -169,7 +169,7 @@ export function filterUtilities(
 /**
  * Get all unique utility class names from matches.
  */
-export function getUsedClassNames(matches: UtilityMatch[]): Set<string> {
+export function getUsedClassNames(matches: Array<UtilityMatch>): Set<string> {
 	const classNames = new Set<string>();
 
 	for (const match of matches) {
@@ -182,20 +182,26 @@ export function getUsedClassNames(matches: UtilityMatch[]): Set<string> {
 /**
  * Get matches that have a corresponding utility factory.
  */
-export function getValidMatches(matches: UtilityMatch[]): UtilityMatch[] {
+export function getValidMatches(
+	matches: Array<UtilityMatch>,
+): Array<UtilityMatch> {
 	return matches.filter((m) => m.factory !== null);
 }
 
 /**
  * Get matches that exist in the registered values.
  */
-export function getExistingMatches(matches: UtilityMatch[]): UtilityMatch[] {
+export function getExistingMatches(
+	matches: Array<UtilityMatch>,
+): Array<UtilityMatch> {
 	return matches.filter((m) => m.exists);
 }
 
 /**
  * Get matches for arbitrary values.
  */
-export function getArbitraryMatches(matches: UtilityMatch[]): UtilityMatch[] {
+export function getArbitraryMatches(
+	matches: Array<UtilityMatch>,
+): Array<UtilityMatch> {
 	return matches.filter((m) => m.parsed.isArbitrary);
 }

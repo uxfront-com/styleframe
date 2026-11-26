@@ -5,8 +5,6 @@ import NavItem from "../../src/components/components/nav/NavItem.vue";
 import NavGrid from "../../src/components/components/nav/preview/NavGrid.vue";
 import NavSizeGrid from "../../src/components/components/nav/preview/NavSizeGrid.vue";
 
-const colors = ["light", "dark", "neutral"] as const;
-const variants = ["ghost", "link"] as const;
 const sizes = ["sm", "md", "lg"] as const;
 const orientations = ["horizontal", "vertical"] as const;
 

@@ -101,7 +101,7 @@ export function useSanitizeBaseSelectors(s: Styleframe): void {
 	 * Prevent VoiceOver from ignoring list semantics in Safari (opinionated).
 	 */
 	selector(":where(nav li)::before", {
-		content: '"\\200B"',
+		content: String.raw`"\200B"`,
 		float: "left",
 	});
 

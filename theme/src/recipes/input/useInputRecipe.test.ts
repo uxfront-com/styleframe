@@ -454,7 +454,9 @@ describe("useInputRecipe", () => {
 				(child) =>
 					child.type === "selector" &&
 					(child as { query: string }).query === ".input-field",
-			) as { type: "selector"; query: string; children: unknown[] } | undefined;
+			) as
+				| { type: "selector"; query: string; children: Array<unknown> }
+				| undefined;
 
 			expect(inputFieldSelector).toBeDefined();
 			expect(inputFieldSelector?.query).toBe(".input-field");
@@ -470,10 +472,10 @@ describe("useInputRecipe", () => {
 					(child as { query: string }).query === ".input-field",
 			) as
 				| {
-						children: {
+						children: Array<{
 							query: string;
 							declarations: Record<string, unknown>;
-						}[];
+						}>;
 				  }
 				| undefined;
 
@@ -558,7 +560,7 @@ describe("Open Components rules", () => {
 		query?: string;
 		rule?: string;
 		declarations: Record<string, unknown>;
-		children: Node[];
+		children: Array<Node>;
 	};
 
 	function createPresetInstance(options?: Parameters<typeof styleframe>[0]) {
@@ -571,13 +573,13 @@ describe("Open Components rules", () => {
 	}
 
 	const selectors = (s: ReturnType<typeof styleframe>) =>
-		s.root.children.filter((child) => child.type === "selector") as Node[];
+		s.root.children.filter((child) => child.type === "selector") as Array<Node>;
 
 	function find(s: ReturnType<typeof styleframe>, query: string) {
 		return selectors(s).filter((child) => child.query === query);
 	}
 
-	function media(nodes: Node[], rule: string) {
+	function media(nodes: Array<Node>, rule: string) {
 		return nodes
 			.flatMap((node) => node.children)
 			.find((child) => child.type === "at-rule" && child.rule === rule);
@@ -599,7 +601,7 @@ describe("Open Components rules", () => {
 	const css = (cv: { css?: unknown }) => cv.css as Record<string, unknown>;
 
 	// Every key of a declarations block, nested blocks included.
-	function keys(block: Record<string, unknown>): string[] {
+	function keys(block: Record<string, unknown>): Array<string> {
 		return Object.entries(block).flatMap(([key, value]) =>
 			value && typeof value === "object" && !("type" in value)
 				? [key, ...keys(value as Record<string, unknown>)]
@@ -771,7 +773,7 @@ describe("Open Components rules", () => {
 
 	it("input/more-contrast overrides the border colors under the instance's own variable names", () => {
 		const { s } = createPresetInstance({
-			variables: { name: ({ name }) => `sf-${name.replace(/\./g, "-")}` },
+			variables: { name: ({ name }) => `sf-${name.replaceAll(".", "-")}` },
 		});
 
 		const output = consumeCSS(s.root, s.options);

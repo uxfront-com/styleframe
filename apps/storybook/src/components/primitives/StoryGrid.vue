@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
 	defineProps<{
-		items?: string[];
+		items?: Array<string>;
 		layout?: "grid" | "list";
 	}>(),
 	{

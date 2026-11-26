@@ -15,14 +15,12 @@
  * should migrate to the resolver flow.
  */
 
-import {
-	applyInheritance,
-	type DTCGAnyToken,
-	type DTCGDocument,
-	type DTCGFileLoader,
-	type DTCGResolverDocument,
-	resolveResolver,
-	walk,
+import { applyInheritance, resolveResolver, walk } from "@styleframe/dtcg";
+import type {
+	DTCGAnyToken,
+	DTCGDocument,
+	DTCGFileLoader,
+	DTCGResolverDocument,
 } from "@styleframe/dtcg";
 import type {
 	FigmaExportFormat,
@@ -92,9 +90,12 @@ function tokenToFigmaVariable(
 			type: "BOOLEAN",
 			values,
 		};
-		if (token.$description !== undefined)
+		if (token.$description !== undefined) {
 			variable.description = token.$description;
-		if (aliasTo !== undefined) variable.aliasTo = aliasTo;
+		}
+		if (aliasTo !== undefined) {
+			variable.aliasTo = aliasTo;
+		}
 		return variable;
 	}
 
@@ -122,9 +123,12 @@ function tokenToFigmaVariable(
 		type: resolvedType,
 		values,
 	};
-	if (token.$description !== undefined)
+	if (token.$description !== undefined) {
 		variable.description = token.$description;
-	if (aliasTo !== undefined) variable.aliasTo = aliasTo;
+	}
+	if (aliasTo !== undefined) {
+		variable.aliasTo = aliasTo;
+	}
 	return variable;
 }
 
@@ -134,7 +138,7 @@ function buildSingleModeFormat(
 	collectionName: string,
 ): FigmaExportFormat {
 	const inherited = applyInheritance(doc);
-	const variables: FigmaExportVariable[] = [];
+	const variables: Array<FigmaExportVariable> = [];
 	for (const { path, token } of walk(inherited)) {
 		const variable = tokenToFigmaVariable(path, token, modeName);
 		if (Object.keys(variable.values).length > 0) {
@@ -209,8 +213,9 @@ export async function fromDTCGResolver(
 						values: {},
 					},
 				};
-				if (token.$description !== undefined)
+				if (token.$description !== undefined) {
 					acc.variable.description = token.$description;
+				}
 				accumulators.set(figmaName, acc);
 			}
 
@@ -220,7 +225,9 @@ export async function fromDTCGResolver(
 					id: conversion.id,
 				};
 				acc.variable.values[modeName] = aliasValue;
-				if (modeName === defaultContext) acc.variable.aliasTo = conversion.id;
+				if (modeName === defaultContext) {
+					acc.variable.aliasTo = conversion.id;
+				}
 			} else if (isBoolean) {
 				const raw =
 					conversion.kind === "value" ? conversion.value : conversion.value;

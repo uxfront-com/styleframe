@@ -37,7 +37,7 @@ describe("useBorderRadiusUtility", () => {
 		useBorderRadiusUtility(s, { full: "9999px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-radius\\:full {");
+		expect(css).toContain(String.raw`._border-radius\:full {`);
 		expect(css).toContain("border-radius: 9999px;");
 	});
 
@@ -74,7 +74,7 @@ describe("useBorderRadiusTopUtility", () => {
 		useBorderRadiusTopUtility(s, { lg: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-radius-top\\:lg {");
+		expect(css).toContain(String.raw`._border-radius-top\:lg {`);
 		expect(css).toContain("border-top-left-radius: 0.5rem;");
 		expect(css).toContain("border-top-right-radius: 0.5rem;");
 	});
@@ -133,7 +133,7 @@ describe("useBorderRadiusTopLeftUtility", () => {
 		useBorderRadiusTopLeftUtility(s, { lg: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-top-left-radius\\:lg {");
+		expect(css).toContain(String.raw`._border-top-left-radius\:lg {`);
 		expect(css).toContain("border-top-left-radius: 0.5rem;");
 	});
 });

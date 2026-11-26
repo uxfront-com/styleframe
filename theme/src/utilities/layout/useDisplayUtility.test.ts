@@ -27,7 +27,7 @@ describe("useDisplayUtility", () => {
 		useDisplayUtility(s, { grid: "grid" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:grid {");
+		expect(css).toContain(String.raw`._display\:grid {`);
 		expect(css).toContain("display: grid;");
 	});
 

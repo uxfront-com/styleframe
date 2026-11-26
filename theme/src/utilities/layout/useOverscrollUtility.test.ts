@@ -31,7 +31,7 @@ describe("useOverscrollUtility", () => {
 		useOverscrollUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overscroll\\:none {");
+		expect(css).toContain(String.raw`._overscroll\:none {`);
 		expect(css).toContain("overscroll-behavior: none;");
 	});
 
@@ -57,7 +57,7 @@ describe("useOverscrollXUtility", () => {
 		useOverscrollXUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overscroll-x\\:auto {");
+		expect(css).toContain(String.raw`._overscroll-x\:auto {`);
 		expect(css).toContain("overscroll-behavior-x: auto;");
 	});
 });
@@ -76,7 +76,7 @@ describe("useOverscrollYUtility", () => {
 		useOverscrollYUtility(s, { contain: "contain" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overscroll-y\\:contain {");
+		expect(css).toContain(String.raw`._overscroll-y\:contain {`);
 		expect(css).toContain("overscroll-behavior-y: contain;");
 	});
 });

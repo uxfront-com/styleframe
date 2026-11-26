@@ -3,12 +3,14 @@
  * Format Module — group and token names cannot contain `.`.
  */
 
-export function splitPath(path: string): string[] {
-	if (path.length === 0) return [];
+export function splitPath(path: string): Array<string> {
+	if (path.length === 0) {
+		return [];
+	}
 	return path.split(".");
 }
 
-export function joinPath(segments: readonly string[]): string {
+export function joinPath(segments: ReadonlyArray<string>): string {
 	return segments.join(".");
 }
 

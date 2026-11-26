@@ -14,13 +14,13 @@
  * with a console warning.
  */
 
-import {
-	formatAlias,
-	type DTCGAnyToken,
-	type DTCGDocument,
-	type DTCGGroup,
-	type DTCGResolverDocument,
-	type DTCGTokenValue,
+import { formatAlias } from "@styleframe/dtcg";
+import type {
+	DTCGAnyToken,
+	DTCGDocument,
+	DTCGGroup,
+	DTCGResolverDocument,
+	DTCGTokenValue,
 } from "@styleframe/dtcg";
 import type { FigmaExportFormat, FigmaExportVariable } from "../../types";
 import { classifyFigmaVariable, figmaPathToDtcg } from "./figma-bridge";
@@ -90,7 +90,9 @@ function setNestedToken(
 	token: DTCGAnyToken,
 ): void {
 	const segments = figmaName.split("/");
-	if (segments.length === 0) return;
+	if (segments.length === 0) {
+		return;
+	}
 
 	let cursor = doc as unknown as Record<string, unknown>;
 	for (let i = 0; i < segments.length - 1; i++) {
@@ -108,7 +110,7 @@ function setNestedToken(
 		cursor = cursor[segment] as Record<string, unknown>;
 	}
 
-	const leafKey = segments[segments.length - 1] as string;
+	const leafKey = segments.at(-1) as string;
 	const existing = cursor[leafKey];
 	if (
 		existing !== undefined &&
@@ -143,7 +145,7 @@ function setNestedOverride(
 		}
 		cursor = cursor[segment] as Record<string, unknown>;
 	}
-	cursor[segments[segments.length - 1] as string] = { $value: value };
+	cursor[segments.at(-1) as string] = { $value: value };
 }
 
 function variableToToken(
@@ -188,7 +190,9 @@ function variableToToken(
 
 	const defaultValue = variable.values[defaultMode];
 	const classified = classifyFigmaValue(variable, defaultValue);
-	if (!classified) return undefined;
+	if (!classified) {
+		return undefined;
+	}
 
 	const token: DTCGAnyToken = { $value: classified.value };
 	if (classified.type !== undefined) {
@@ -204,9 +208,15 @@ function variableToToken(
 }
 
 function valuesEqual(a: DTCGTokenValue, b: DTCGTokenValue): boolean {
-	if (a === b) return true;
-	if (typeof a !== typeof b) return false;
-	if (typeof a === "object") return JSON.stringify(a) === JSON.stringify(b);
+	if (a === b) {
+		return true;
+	}
+	if (typeof a !== typeof b) {
+		return false;
+	}
+	if (typeof a === "object") {
+		return JSON.stringify(a) === JSON.stringify(b);
+	}
 	return false;
 }
 
@@ -221,7 +231,9 @@ export function toDTCG(
 	const overrideModes = data.modes.slice(1);
 
 	const tokens: DTCGDocument = {};
-	if (includeSchema) tokens.$schema = schemaUrl;
+	if (includeSchema) {
+		tokens.$schema = schemaUrl;
+	}
 	tokens.$extensions = {
 		"dev.styleframe": { collection: data.collection },
 	};
@@ -229,7 +241,9 @@ export function toDTCG(
 	// One context per non-default mode. Each context holds an inline source
 	// document containing only the override values.
 	const contexts: Record<string, DTCGDocument> = {};
-	for (const mode of overrideModes) contexts[mode] = {};
+	for (const mode of overrideModes) {
+		contexts[mode] = {};
+	}
 
 	for (const variable of data.variables) {
 		const token = variableToToken(variable, defaultMode);
@@ -238,23 +252,33 @@ export function toDTCG(
 		}
 		setNestedToken(tokens, variable.name, token);
 
-		if (variable.aliasTo !== undefined) continue;
+		if (variable.aliasTo !== undefined) {
+			continue;
+		}
 
 		const defaultDtcgValue = token.$value as DTCGTokenValue;
 		for (const mode of overrideModes) {
 			const modeValue = variable.values[mode];
-			if (modeValue === undefined) continue;
+			if (modeValue === undefined) {
+				continue;
+			}
 
 			let overrideValue: DTCGTokenValue | undefined;
 			if (variable.type === "BOOLEAN") {
 				overrideValue = String(modeValue);
 			} else {
 				const classified = classifyFigmaValue(variable, modeValue);
-				if (classified) overrideValue = classified.value;
+				if (classified) {
+					overrideValue = classified.value;
+				}
 			}
 
-			if (overrideValue === undefined) continue;
-			if (valuesEqual(overrideValue, defaultDtcgValue)) continue;
+			if (overrideValue === undefined) {
+				continue;
+			}
+			if (valuesEqual(overrideValue, defaultDtcgValue)) {
+				continue;
+			}
 			const dtcgPath = figmaPathToDtcg(variable.name);
 			setNestedOverride(
 				contexts[mode] as unknown as Record<string, unknown>,

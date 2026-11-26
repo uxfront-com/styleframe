@@ -105,9 +105,7 @@ describe("createAtRuleFunction", () => {
 
 			expect(selectorInstance.children).toHaveLength(initialChildrenLength + 1);
 
-			const lastChild = selectorInstance.children[
-				selectorInstance.children.length - 1
-			] as AtRule;
+			const lastChild = selectorInstance.children.at(-1) as AtRule;
 			expect(lastChild.type).toBe("at-rule");
 			expect(lastChild.identifier).toBe("charset");
 		});
@@ -530,9 +528,7 @@ describe("createMediaFunction", () => {
 
 			expect(selector.children).toHaveLength(initialChildrenLength + 1);
 
-			const lastChild = selector.children[
-				selector.children.length - 1
-			] as AtRule;
+			const lastChild = selector.children.at(-1) as AtRule;
 			expect(lastChild.type).toBe("at-rule");
 		});
 	});

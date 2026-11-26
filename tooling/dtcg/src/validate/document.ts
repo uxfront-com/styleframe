@@ -74,9 +74,11 @@ const VALUE_GUARDS: Record<DTCGTokenType, (v: unknown) => boolean> = {
 function validateExtensions(
 	extensions: unknown,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
-	if (extensions === undefined) return;
+	if (extensions === undefined) {
+		return;
+	}
 	if (
 		typeof extensions !== "object" ||
 		extensions === null ||
@@ -109,7 +111,7 @@ function validateExtensions(
 function validateMetadataTypes(
 	node: Record<string, unknown>,
 	path: string,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	if (
 		node.$description !== undefined &&
@@ -158,7 +160,7 @@ function validateTokenValue(
 	token: DTCGAnyToken,
 	path: string,
 	doc: DTCGDocument,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	if (isAlias(token.$value)) {
 		const target = parseAlias(token.$value);
@@ -217,7 +219,7 @@ function validateTree(
 	node: Record<string, unknown>,
 	currentPath: string,
 	doc: DTCGDocument,
-	errors: ValidationError[],
+	errors: Array<ValidationError>,
 ): void {
 	validateMetadataTypes(node, currentPath, errors);
 	if (isToken(node)) {
@@ -237,7 +239,9 @@ function validateTree(
 		validateTokenValue(rootToken as DTCGAnyToken, currentPath, doc, errors);
 	}
 	for (const [key, child] of Object.entries(node)) {
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (key.includes("{") || key.includes("}") || key.includes(".")) {
 			errors.push(
 				new ValidationError(
@@ -259,8 +263,8 @@ function validateTree(
 	}
 }
 
-export function validate(doc: DTCGDocument): ValidationError[] {
-	const errors: ValidationError[] = [];
+export function validate(doc: DTCGDocument): Array<ValidationError> {
+	const errors: Array<ValidationError> = [];
 	const inherited = applyInheritance(doc);
 	validateTree(
 		inherited as unknown as Record<string, unknown>,

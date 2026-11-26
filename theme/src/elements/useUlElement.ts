@@ -28,13 +28,15 @@ export function useUlDesignTokens(
 ): Partial<UlElementResult> {
 	const result: Partial<UlElementResult> = {};
 
-	if (config.marginBottom !== undefined)
+	if (config.marginBottom !== undefined) {
 		result.ulMarginBottom = ctx.variable(
 			"ul.margin-bottom",
 			config.marginBottom,
 		);
-	if (config.paddingLeft !== undefined)
+	}
+	if (config.paddingLeft !== undefined) {
 		result.ulPaddingLeft = ctx.variable("ul.padding-left", config.paddingLeft);
+	}
 
 	return result;
 }

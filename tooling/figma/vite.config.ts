@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 
 // Figma plugin requires two separate builds:
 // 1. code.js - The sandbox code (IIFE, no DOM access)

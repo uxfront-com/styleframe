@@ -35,7 +35,7 @@ describe("useTextDecorationLineUtility", () => {
 		useTextDecorationLineUtility(s, { overline: "overline" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-decoration-line\\:overline {");
+		expect(css).toContain(String.raw`._text-decoration-line\:overline {`);
 		expect(css).toContain("text-decoration-line: overline;");
 	});
 
@@ -61,7 +61,7 @@ describe("useTextDecorationStyleUtility", () => {
 		useTextDecorationStyleUtility(s, { dashed: "dashed", wavy: "wavy" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-decoration-style\\:dashed {");
+		expect(css).toContain(String.raw`._text-decoration-style\:dashed {`);
 		expect(css).toContain("text-decoration-style: dashed;");
 	});
 });
@@ -80,7 +80,7 @@ describe("useTextDecorationColorUtility", () => {
 		useTextDecorationColorUtility(s, { current: "currentColor" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-decoration-color\\:current {");
+		expect(css).toContain(String.raw`._text-decoration-color\:current {`);
 		expect(css).toContain("text-decoration-color: currentColor;");
 	});
 });
@@ -102,7 +102,7 @@ describe("useTextDecorationThicknessUtility", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-decoration-thickness\\:auto {");
+		expect(css).toContain(String.raw`._text-decoration-thickness\:auto {`);
 		expect(css).toContain("text-decoration-thickness: auto;");
 	});
 });

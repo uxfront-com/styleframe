@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { computed, provide, ref } from "vue";
 import { accordion } from "virtual:styleframe";
-import {
-	accordionKey,
-	type AccordionColor,
-	type AccordionSize,
-	type AccordionVariant,
-} from "./context";
+import { accordionKey } from './context';
+import type { AccordionColor, AccordionSize, AccordionVariant } from './context';
 
 const props = withDefaults(
 	defineProps<{
@@ -14,17 +10,17 @@ const props = withDefaults(
 		variant?: AccordionVariant;
 		size?: AccordionSize;
 		type?: "single" | "multiple";
-		defaultValue?: string | string[];
+		defaultValue?: string | Array<string>;
 	}>(),
 	{ type: "single" },
 );
 
-function toArray(value: string | string[] | undefined): string[] {
-	if (value == null) return [];
+function toArray(value: string | Array<string> | undefined): Array<string> {
+	if (value == null) {return [];}
 	return Array.isArray(value) ? [...value] : [value];
 }
 
-const openValues = ref<string[]>(toArray(props.defaultValue));
+const openValues = ref<Array<string>>(toArray(props.defaultValue));
 
 function toggle(value: string) {
 	const isOpen = openValues.value.includes(value);

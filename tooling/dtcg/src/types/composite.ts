@@ -26,7 +26,7 @@ export type DTCGStrokeStyleKeyword =
 	| "inset";
 
 export interface DTCGStrokeStyleObject {
-	dashArray: (DTCGDimension | DTCGAlias)[];
+	dashArray: Array<DTCGDimension | DTCGAlias>;
 	lineCap: "round" | "butt" | "square";
 }
 
@@ -64,7 +64,7 @@ export interface DTCGShadowLayer {
 	inset?: boolean;
 }
 
-export type DTCGShadow = DTCGShadowLayer | DTCGShadowLayer[];
+export type DTCGShadow = DTCGShadowLayer | Array<DTCGShadowLayer>;
 
 /**
  * Gradient stop. Position is in [0, 1]; when omitted, stops are auto-spaced
@@ -75,7 +75,7 @@ export interface DTCGGradientStop {
 	position?: number | DTCGAlias;
 }
 
-export type DTCGGradient = DTCGGradientStop[];
+export type DTCGGradient = Array<DTCGGradientStop>;
 
 /**
  * Typography composite. fontFamily and fontSize are required; everything

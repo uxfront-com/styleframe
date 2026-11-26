@@ -25,8 +25,9 @@ export function useSampDesignTokens(
 ): Partial<SampElementResult> {
 	const result: Partial<SampElementResult> = {};
 
-	if (config.fontFamily !== undefined)
+	if (config.fontFamily !== undefined) {
 		result.sampFontFamily = ctx.variable("samp.font-family", config.fontFamily);
+	}
 
 	return result;
 }

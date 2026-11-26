@@ -35,7 +35,7 @@ describe("useSpaceXUtility", () => {
 		useSpaceXUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-x\\:md {");
+		expect(css).toContain(String.raw`._space-x\:md {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-left: 16px;");
 	});
@@ -45,10 +45,10 @@ describe("useSpaceXUtility", () => {
 		useSpaceXUtility(s, { sm: "0.5rem", md: "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-x\\:sm {");
+		expect(css).toContain(String.raw`._space-x\:sm {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-left: 0.5rem;");
-		expect(css).toContain("._space-x\\:md {");
+		expect(css).toContain(String.raw`._space-x\:md {`);
 		expect(css).toContain("margin-left: 1rem;");
 	});
 
@@ -58,7 +58,7 @@ describe("useSpaceXUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._space-x {");
-		expect(css).not.toContain("._space-x\\:default");
+		expect(css).not.toContain(String.raw`._space-x\:default`);
 	});
 
 	it("should handle empty values object", () => {
@@ -88,7 +88,7 @@ describe("useSpaceXUtility", () => {
 		useSpaceXUtility(s, { sm: s.ref(spacingSm) });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-x\\:sm {");
+		expect(css).toContain(String.raw`._space-x\:sm {`);
 		expect(css).toContain("var(--spacing--sm)");
 	});
 
@@ -116,7 +116,7 @@ describe("useSpaceYUtility", () => {
 		useSpaceYUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-y\\:md {");
+		expect(css).toContain(String.raw`._space-y\:md {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-top: 16px;");
 	});
@@ -126,7 +126,7 @@ describe("useSpaceYUtility", () => {
 		useSpaceYUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-y\\:lg {");
+		expect(css).toContain(String.raw`._space-y\:lg {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-top: 24px;");
 	});
@@ -156,7 +156,7 @@ describe("useSpaceXReverseUtility", () => {
 		useSpaceXReverseUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-x-reverse\\:md {");
+		expect(css).toContain(String.raw`._space-x-reverse\:md {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-right: 16px;");
 		expect(css).toContain("margin-left: 0;");
@@ -167,7 +167,7 @@ describe("useSpaceXReverseUtility", () => {
 		useSpaceXReverseUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-x-reverse\\:lg {");
+		expect(css).toContain(String.raw`._space-x-reverse\:lg {`);
 		expect(css).toContain("margin-right: 24px;");
 		expect(css).toContain("margin-left: 0;");
 	});
@@ -189,7 +189,7 @@ describe("useSpaceYReverseUtility", () => {
 		useSpaceYReverseUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-y-reverse\\:md {");
+		expect(css).toContain(String.raw`._space-y-reverse\:md {`);
 		expect(css).toContain("& > * + *");
 		expect(css).toContain("margin-bottom: 16px;");
 		expect(css).toContain("margin-top: 0;");
@@ -200,7 +200,7 @@ describe("useSpaceYReverseUtility", () => {
 		useSpaceYReverseUtility(s, { xl: "32px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._space-y-reverse\\:xl {");
+		expect(css).toContain(String.raw`._space-y-reverse\:xl {`);
 		expect(css).toContain("margin-bottom: 32px;");
 		expect(css).toContain("margin-top: 0;");
 	});

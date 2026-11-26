@@ -27,9 +27,9 @@ describe("useFontWeightUtility", () => {
 		useFontWeightUtility(s, { light: "300", medium: "500", bold: "700" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-weight\\:light {");
+		expect(css).toContain(String.raw`._font-weight\:light {`);
 		expect(css).toContain("font-weight: 300;");
-		expect(css).toContain("._font-weight\\:bold {");
+		expect(css).toContain(String.raw`._font-weight\:bold {`);
 		expect(css).toContain("font-weight: 700;");
 	});
 

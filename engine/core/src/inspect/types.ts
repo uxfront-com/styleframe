@@ -17,29 +17,29 @@ export type InspectTheme = {
 export type InspectUtility = {
 	name: string;
 	/** The value keys the utility was created with */
-	values: string[];
+	values: Array<string>;
 	/** Every class name the utility emits, modifier variants included */
-	classNames: string[];
+	classNames: Array<string>;
 	/** The modifier keys applied to the utility */
-	modifiers: string[];
+	modifiers: Array<string>;
 };
 
 export type InspectModifier = {
-	key: string[];
+	key: Array<string>;
 };
 
 export type InspectRecipe = {
 	name: string;
 	/** Each variant axis and its option names */
-	variants: Record<string, string[]>;
+	variants: Record<string, Array<string>>;
 	defaultVariants: Record<string, string>;
 };
 
 /** A JSON-serialisable snapshot of what a Styleframe instance defines */
 export type InspectSnapshot = {
-	variables: InspectVariable[];
-	themes: InspectTheme[];
-	utilities: InspectUtility[];
-	modifiers: InspectModifier[];
-	recipes: InspectRecipe[];
+	variables: Array<InspectVariable>;
+	themes: Array<InspectTheme>;
+	utilities: Array<InspectUtility>;
+	modifiers: Array<InspectModifier>;
+	recipes: Array<InspectRecipe>;
 };

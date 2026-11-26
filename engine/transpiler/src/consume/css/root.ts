@@ -22,7 +22,7 @@ export function createRootConsumer(consume: ConsumeFunction) {
 		const usage = instance._usage.variables;
 		const keep = (variable: Variable) => !treeshake || usage.has(variable.name);
 
-		const filterVariables = <T extends { variables: Variable[] }>(
+		const filterVariables = <T extends { variables: Array<Variable> }>(
 			container: T,
 		): T =>
 			treeshake
@@ -32,8 +32,12 @@ export function createRootConsumer(consume: ConsumeFunction) {
 		const treeshakeUtilities = treeshake && scanner;
 		const usedUtilities = instance._usage.utilities;
 		const keepChild = (child: ContainerChild): boolean => {
-			if (child.type !== "utility") return true;
-			if (!treeshakeUtilities) return true;
+			if (child.type !== "utility") {
+				return true;
+			}
+			if (!treeshakeUtilities) {
+				return true;
+			}
 			return usedUtilities.has(
 				defaultUtilitySelectorFn({
 					name: child.name,

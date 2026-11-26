@@ -27,7 +27,7 @@ describe("useBackgroundColorUtility", () => {
 		useBackgroundColorUtility(s, { transparent: "transparent" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:transparent {");
+		expect(css).toContain(String.raw`._background-color\:transparent {`);
 		expect(css).toContain("background-color: transparent;");
 	});
 

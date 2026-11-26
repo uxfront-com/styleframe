@@ -9,9 +9,9 @@ export interface Options {
 	/** Transpiler options */
 	transpiler?: TranspileOptions;
 	/** Glob patterns for *.styleframe.ts files (default: ['**\/*.styleframe.ts']) */
-	include?: string[];
+	include?: Array<string>;
 	/** Glob patterns to exclude (default: node_modules, dist, etc.) */
-	exclude?: string[];
+	exclude?: Array<string>;
 	/** File loading order strategy (default: 'alphabetical') */
 	loadOrder?: "alphabetical" | "depth-first";
 	/** Type declaration generation options */
@@ -29,9 +29,9 @@ export interface Options {
 	/** Scanner options for auto-detecting utility classes in content files */
 	scanner?: {
 		/** Glob patterns for content files to scan for utility class names */
-		content: string[];
+		content: Array<string>;
 		/** Custom extractor functions for file types not supported by default */
-		extractors?: Extractor[];
+		extractors?: Array<Extractor>;
 		/** Custom utility class syntax configuration */
 		utilities?: ScannerUtilitiesConfig;
 	};
@@ -40,7 +40,7 @@ export interface Options {
 		/** Enable recipe-level tree-shaking (default: true for build, false for dev) */
 		treeshake?: boolean;
 		/** Recipe names to always include, even if not detected as imported */
-		include?: string[];
+		include?: Array<string>;
 	};
 	/** Shorten utility class names in production builds (default: true when building) */
 	minify?:

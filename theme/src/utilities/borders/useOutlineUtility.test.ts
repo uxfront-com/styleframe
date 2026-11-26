@@ -32,7 +32,7 @@ describe("useOutlineWidthUtility", () => {
 		useOutlineWidthUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._outline-width\\:4 {");
+		expect(css).toContain(String.raw`._outline-width\:4 {`);
 		expect(css).toContain("outline-width: 4px;");
 	});
 
@@ -58,7 +58,7 @@ describe("useOutlineColorUtility", () => {
 		useOutlineColorUtility(s, { red: "red" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._outline-color\\:red {");
+		expect(css).toContain(String.raw`._outline-color\:red {`);
 		expect(css).toContain("outline-color: red;");
 	});
 });
@@ -77,7 +77,7 @@ describe("useOutlineStyleUtility", () => {
 		useOutlineStyleUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._outline-style\\:dashed {");
+		expect(css).toContain(String.raw`._outline-style\:dashed {`);
 		expect(css).toContain("outline-style: dashed;");
 	});
 
@@ -109,7 +109,7 @@ describe("useOutlineOffsetUtility", () => {
 		useOutlineOffsetUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._outline-offset\\:4 {");
+		expect(css).toContain(String.raw`._outline-offset\:4 {`);
 		expect(css).toContain("outline-offset: 4px;");
 	});
 });

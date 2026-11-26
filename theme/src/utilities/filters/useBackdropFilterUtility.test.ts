@@ -41,7 +41,7 @@ describe("useBackdropBlurUtility", () => {
 		useBackdropBlurUtility(s, { sm: "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-blur\\:sm {");
+		expect(css).toContain(String.raw`._backdrop-blur\:sm {`);
 		expect(css).toContain("--backdrop-filter-blur: blur(4px);");
 	});
 
@@ -81,7 +81,7 @@ describe("useBackdropBrightnessUtility", () => {
 		useBackdropBrightnessUtility(s, { "50": "0.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-brightness\\:50 {");
+		expect(css).toContain(String.raw`._backdrop-brightness\:50 {`);
 		expect(css).toContain("--backdrop-filter-brightness: brightness(0.5);");
 	});
 
@@ -121,7 +121,7 @@ describe("useBackdropContrastUtility", () => {
 		useBackdropContrastUtility(s, { "100": "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-contrast\\:100 {");
+		expect(css).toContain(String.raw`._backdrop-contrast\:100 {`);
 		expect(css).toContain("--backdrop-filter-contrast: contrast(1);");
 	});
 
@@ -161,7 +161,7 @@ describe("useBackdropGrayscaleUtility", () => {
 		useBackdropGrayscaleUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-grayscale\\:full {");
+		expect(css).toContain(String.raw`._backdrop-grayscale\:full {`);
 		expect(css).toContain("--backdrop-filter-grayscale: grayscale(1);");
 	});
 
@@ -201,7 +201,7 @@ describe("useBackdropHueRotateUtility", () => {
 		useBackdropHueRotateUtility(s, { "90": "90deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-hue-rotate\\:90 {");
+		expect(css).toContain(String.raw`._backdrop-hue-rotate\:90 {`);
 		expect(css).toContain("--backdrop-filter-hue-rotate: hue-rotate(90deg);");
 	});
 
@@ -241,7 +241,7 @@ describe("useBackdropInvertUtility", () => {
 		useBackdropInvertUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-invert\\:full {");
+		expect(css).toContain(String.raw`._backdrop-invert\:full {`);
 		expect(css).toContain("--backdrop-filter-invert: invert(1);");
 	});
 
@@ -281,7 +281,7 @@ describe("useBackdropOpacityUtility", () => {
 		useBackdropOpacityUtility(s, { "75": "0.75" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-opacity\\:75 {");
+		expect(css).toContain(String.raw`._backdrop-opacity\:75 {`);
 		expect(css).toContain("--backdrop-filter-opacity: opacity(0.75);");
 	});
 
@@ -321,7 +321,7 @@ describe("useBackdropSaturateUtility", () => {
 		useBackdropSaturateUtility(s, { "150": "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-saturate\\:150 {");
+		expect(css).toContain(String.raw`._backdrop-saturate\:150 {`);
 		expect(css).toContain("--backdrop-filter-saturate: saturate(1.5);");
 	});
 
@@ -361,7 +361,7 @@ describe("useBackdropSepiaUtility", () => {
 		useBackdropSepiaUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backdrop-sepia\\:full {");
+		expect(css).toContain(String.raw`._backdrop-sepia\:full {`);
 		expect(css).toContain("--backdrop-filter-sepia: sepia(1);");
 	});
 

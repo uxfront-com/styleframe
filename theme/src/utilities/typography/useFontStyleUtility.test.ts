@@ -27,7 +27,7 @@ describe("useFontStyleUtility", () => {
 		useFontStyleUtility(s, { italic: "italic" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-style\\:italic {");
+		expect(css).toContain(String.raw`._font-style\:italic {`);
 		expect(css).toContain("font-style: italic;");
 	});
 

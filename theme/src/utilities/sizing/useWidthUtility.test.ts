@@ -42,9 +42,9 @@ describe("useWidthUtility", () => {
 		useWidthUtility(s, { full: "100%", screen: "100vw" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._width\\:full {");
+		expect(css).toContain(String.raw`._width\:full {`);
 		expect(css).toContain("width: 100%;");
-		expect(css).toContain("._width\\:screen {");
+		expect(css).toContain(String.raw`._width\:screen {`);
 		expect(css).toContain("width: 100vw;");
 	});
 
@@ -54,7 +54,7 @@ describe("useWidthUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._width {");
-		expect(css).not.toContain("._width\\:default");
+		expect(css).not.toContain(String.raw`._width\:default`);
 	});
 
 	it("should handle 'auto' value", () => {
@@ -70,9 +70,9 @@ describe("useWidthUtility", () => {
 		useWidthUtility(s, { "1/2": "50%", "1/3": "33.333333%" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._width\\:1\\/2 {");
+		expect(css).toContain(String.raw`._width\:1\/2 {`);
 		expect(css).toContain("width: 50%;");
-		expect(css).toContain("._width\\:1\\/3 {");
+		expect(css).toContain(String.raw`._width\:1\/3 {`);
 		expect(css).toContain("width: 33.333333%;");
 	});
 
@@ -122,9 +122,9 @@ describe("useWidthUtility", () => {
 		createWidth(["@1", "@2"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._width\\:1 {");
+		expect(css).toContain(String.raw`._width\:1 {`);
 		expect(css).toContain("width: calc(var(--spacing, 1rem) * 1);");
-		expect(css).toContain("._width\\:2 {");
+		expect(css).toContain(String.raw`._width\:2 {`);
 		expect(css).toContain("width: calc(var(--spacing, 1rem) * 2);");
 	});
 });
@@ -153,9 +153,9 @@ describe("useMinWidthUtility", () => {
 		useMinWidthUtility(s, { full: "100%", "0": "0" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._min-width\\:full {");
+		expect(css).toContain(String.raw`._min-width\:full {`);
 		expect(css).toContain("min-width: 100%;");
-		expect(css).toContain("._min-width\\:0 {");
+		expect(css).toContain(String.raw`._min-width\:0 {`);
 		expect(css).toContain("min-width: 0;");
 	});
 
@@ -191,9 +191,9 @@ describe("useMaxWidthUtility", () => {
 		useMaxWidthUtility(s, { full: "100%", none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._max-width\\:full {");
+		expect(css).toContain(String.raw`._max-width\:full {`);
 		expect(css).toContain("max-width: 100%;");
-		expect(css).toContain("._max-width\\:none {");
+		expect(css).toContain(String.raw`._max-width\:none {`);
 		expect(css).toContain("max-width: none;");
 	});
 

@@ -38,20 +38,20 @@ const emit = defineEmits<{
 }>();
 
 const viewportIcon = computed(() => {
-	if (props.viewport === "mobile") return "smartphone";
-	if (props.viewport === "tablet") return "tablet";
+	if (props.viewport === "mobile") {return "smartphone";}
+	if (props.viewport === "tablet") {return "tablet";}
 	return "monitor";
 });
 
 const viewportLabel = computed(() => {
-	if (props.viewport === "mobile") return "Viewport: Mobile";
-	if (props.viewport === "tablet") return "Viewport: Tablet";
+	if (props.viewport === "mobile") {return "Viewport: Mobile";}
+	if (props.viewport === "tablet") {return "Viewport: Tablet";}
 	return "Viewport: Desktop";
 });
 
 const nextViewport = computed<ViewportSize>(() => {
-	if (props.viewport === "mobile") return "tablet";
-	if (props.viewport === "tablet") return "desktop";
+	if (props.viewport === "mobile") {return "tablet";}
+	if (props.viewport === "tablet") {return "desktop";}
 	return "mobile";
 });
 
@@ -60,9 +60,9 @@ function onToggleViewport() {
 }
 
 function openInNewTab() {
-	if (!props.srcdoc) return;
+	if (!props.srcdoc) {return;}
 	const opened = window.open("", "_blank");
-	if (!opened) return;
+	if (!opened) {return;}
 	opened.document.open();
 	opened.document.write(props.srcdoc);
 	opened.document.close();

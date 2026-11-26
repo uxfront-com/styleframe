@@ -46,7 +46,7 @@ describe("createPrimitiveConsumer", () => {
 	});
 
 	it("should handle special values like NaN and Infinity", () => {
-		expect(consumePrimitive(NaN, options)).toBe("NaN");
+		expect(consumePrimitive(Number.NaN, options)).toBe("NaN");
 		expect(consumePrimitive(Infinity, options)).toBe("Infinity");
 	});
 });

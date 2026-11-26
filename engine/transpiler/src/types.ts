@@ -10,9 +10,9 @@ export type OutputFile = {
 };
 
 export type Output = {
-	files: OutputFile[];
+	files: Array<OutputFile>;
 	/** Problems `validate()` found in the instance */
-	diagnostics?: Diagnostic[];
+	diagnostics?: Array<Diagnostic>;
 };
 
 export type TranspileContext = {

@@ -12,7 +12,7 @@ export function addLicenseWatermark(instance: Styleframe) {
 		children: [],
 		declarations: {
 			content: `"Styleframe Pro: Development Mode – License required for production use"`,
-			zIndex: 99999,
+			zIndex: 99_999,
 			position: "fixed",
 			display: "block !important",
 			opacity: "1 !important",

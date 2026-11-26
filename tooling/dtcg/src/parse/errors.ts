@@ -27,7 +27,7 @@ export class ValidationError extends Error {
 }
 
 export class CircularReferenceError extends Error {
-	constructor(public readonly cycle: string[]) {
+	constructor(public readonly cycle: Array<string>) {
 		super(`Circular alias reference: ${cycle.join(" → ")}`);
 		this.name = "CircularReferenceError";
 	}

@@ -19,13 +19,21 @@ function isObject(value: unknown): value is Record<string, unknown> {
 }
 
 export function parse(value: unknown): DTCGBorder | undefined {
-	if (!isObject(value)) return undefined;
+	if (!isObject(value)) {
+		return undefined;
+	}
 	const color = value.color;
 	const width = value.width;
 	const style = value.style;
-	if (!isAlias(color) && !isColorValue(color)) return undefined;
-	if (!isAlias(width) && !isDimensionValue(width)) return undefined;
-	if (!isAlias(style) && !isStrokeStyleValue(style)) return undefined;
+	if (!isAlias(color) && !isColorValue(color)) {
+		return undefined;
+	}
+	if (!isAlias(width) && !isDimensionValue(width)) {
+		return undefined;
+	}
+	if (!isAlias(style) && !isStrokeStyleValue(style)) {
+		return undefined;
+	}
 	return value as unknown as DTCGBorder;
 }
 

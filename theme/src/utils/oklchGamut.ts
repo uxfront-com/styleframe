@@ -24,7 +24,9 @@ export function parseOklch(value: string): OklchComponents | undefined {
  */
 function isInSrgbGamut(l: number, c: number, h: number): boolean {
 	const converted = rgb({ mode: "oklch", l, c, h });
-	if (!converted) return false;
+	if (!converted) {
+		return false;
+	}
 	const { r, g, b } = converted;
 	const epsilon = 1e-4;
 	return (

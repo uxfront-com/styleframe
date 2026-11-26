@@ -116,7 +116,7 @@ export async function typecheck(
 	file: string,
 	tsc: string,
 	cwd = process.cwd(),
-): Promise<CheckDiagnostic[]> {
+): Promise<Array<CheckDiagnostic>> {
 	const tsconfig = findUp(path.dirname(file), "tsconfig.json");
 
 	// TypeScript resolves `types` and `@types` from the config's directory,
@@ -126,7 +126,7 @@ export async function typecheck(
 	const { directory, createdCache } =
 		await createTemporaryDirectory(nodeModules);
 
-	const runTsc = (...args: string[]) => {
+	const runTsc = (...args: Array<string>) => {
 		const result = spawnSync(process.execPath, [tsc, ...args], {
 			cwd,
 			encoding: "utf8",
@@ -185,8 +185,8 @@ export function parseTscOutput(
 	output: string,
 	status: number,
 	file: string,
-): CheckDiagnostic[] {
-	const diagnostics: CheckDiagnostic[] = [];
+): Array<CheckDiagnostic> {
+	const diagnostics: Array<CheckDiagnostic> = [];
 
 	for (const line of output.split(/\r?\n/)) {
 		const located = LOCATED_ERROR.exec(line);
@@ -204,7 +204,7 @@ export function parseTscOutput(
 			diagnostics.push(typescriptDiagnostic(file, global[1]!, global[2]!));
 		} else if (/^\s/.test(line) && diagnostics.length > 0) {
 			// An indented line continues the previous message
-			diagnostics[diagnostics.length - 1]!.message += `\n${line.trim()}`;
+			diagnostics.at(-1)!.message += `\n${line.trim()}`;
 		}
 	}
 

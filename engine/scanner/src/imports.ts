@@ -1,4 +1,5 @@
-import { parseImports, type ImportEdge } from "importree";
+import { parseImports } from "importree";
+import type { ImportEdge } from "importree";
 
 export interface ImportScanResult {
 	specifiers: Set<string>;
@@ -21,8 +22,12 @@ export function mergeImportScanResults(
 	for (const specifier of source.specifiers) {
 		target.specifiers.add(specifier);
 	}
-	if (source.hasNamespace) target.hasNamespace = true;
-	if (source.hasDynamic) target.hasDynamic = true;
+	if (source.hasNamespace) {
+		target.hasNamespace = true;
+	}
+	if (source.hasDynamic) {
+		target.hasDynamic = true;
+	}
 }
 
 export function scanFileImports(
@@ -30,7 +35,7 @@ export function scanFileImports(
 	moduleId: string,
 ): ImportScanResult {
 	const result = createEmptyImportScanResult();
-	let edges: ImportEdge[];
+	let edges: Array<ImportEdge>;
 
 	try {
 		edges = parseImports(filePath);
@@ -39,10 +44,16 @@ export function scanFileImports(
 	}
 
 	for (const edge of edges) {
-		if (edge.path !== moduleId) continue;
+		if (edge.path !== moduleId) {
+			continue;
+		}
 
-		if (edge.isNamespace) result.hasNamespace = true;
-		if (edge.isDynamic) result.hasDynamic = true;
+		if (edge.isNamespace) {
+			result.hasNamespace = true;
+		}
+		if (edge.isDynamic) {
+			result.hasDynamic = true;
+		}
 		if (edge.specifiers) {
 			for (const specifier of edge.specifiers) {
 				result.specifiers.add(specifier);

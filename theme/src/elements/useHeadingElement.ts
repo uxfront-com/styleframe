@@ -51,55 +51,65 @@ export function useHeadingDesignTokens(
 ): Partial<HeadingElementResult> {
 	const result: Partial<HeadingElementResult> = {};
 
-	if (config.color !== undefined)
+	if (config.color !== undefined) {
 		result.headingColor = ctx.variable("heading.color", config.color);
-	if (config.fontFamily !== undefined)
+	}
+	if (config.fontFamily !== undefined) {
 		result.headingFontFamily = ctx.variable(
 			"heading.font-family",
 			config.fontFamily,
 		);
-	if (config.fontWeight !== undefined)
+	}
+	if (config.fontWeight !== undefined) {
 		result.headingFontWeight = ctx.variable(
 			"heading.font-weight",
 			config.fontWeight,
 		);
-	if (config.lineHeight !== undefined)
+	}
+	if (config.lineHeight !== undefined) {
 		result.headingLineHeight = ctx.variable(
 			"heading.line-height",
 			config.lineHeight,
 		);
+	}
 
 	if (config.sizes) {
-		if (config.sizes.h1 !== undefined)
+		if (config.sizes.h1 !== undefined) {
 			result.headingH1FontSize = ctx.variable(
 				"heading.h1.font-size",
 				config.sizes.h1,
 			) as Variable<"heading.h1.font-size">;
-		if (config.sizes.h2 !== undefined)
+		}
+		if (config.sizes.h2 !== undefined) {
 			result.headingH2FontSize = ctx.variable(
 				"heading.h2.font-size",
 				config.sizes.h2,
 			) as Variable<"heading.h2.font-size">;
-		if (config.sizes.h3 !== undefined)
+		}
+		if (config.sizes.h3 !== undefined) {
 			result.headingH3FontSize = ctx.variable(
 				"heading.h3.font-size",
 				config.sizes.h3,
 			) as Variable<"heading.h3.font-size">;
-		if (config.sizes.h4 !== undefined)
+		}
+		if (config.sizes.h4 !== undefined) {
 			result.headingH4FontSize = ctx.variable(
 				"heading.h4.font-size",
 				config.sizes.h4,
 			) as Variable<"heading.h4.font-size">;
-		if (config.sizes.h5 !== undefined)
+		}
+		if (config.sizes.h5 !== undefined) {
 			result.headingH5FontSize = ctx.variable(
 				"heading.h5.font-size",
 				config.sizes.h5,
 			) as Variable<"heading.h5.font-size">;
-		if (config.sizes.h6 !== undefined)
+		}
+		if (config.sizes.h6 !== undefined) {
 			result.headingH6FontSize = ctx.variable(
 				"heading.h6.font-size",
 				config.sizes.h6,
 			) as Variable<"heading.h6.font-size">;
+		}
 	}
 
 	return result;

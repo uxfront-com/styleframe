@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { loadConfiguration } from "../src/config";
 import { build } from "../src/build";
 

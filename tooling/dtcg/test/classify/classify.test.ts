@@ -5,7 +5,7 @@ describe("classifyValue — value detection", () => {
 	it("classifies hex colors", () => {
 		const out = classifyValue("#ff0000");
 		expect(out?.type).toBe("color");
-		expect((out?.value as { colorSpace: string }).colorSpace).toBe("srgb");
+		expect((out!.value as { colorSpace: string }).colorSpace).toBe("srgb");
 	});
 
 	it("classifies rgb / hsl / oklch / named colors", () => {

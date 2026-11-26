@@ -30,7 +30,9 @@ export function inklineExampleUrl({
 	theme,
 }: InklineExampleUrlOptions): string {
 	const params = new URLSearchParams({ example, target });
-	if (controls) params.set("controls", "true");
+	if (controls) {
+		params.set("controls", "true");
+	}
 	params.set("theme", theme);
 	params.set("resize", "true");
 
@@ -53,8 +55,12 @@ export function inklineExampleHeight(
 	event: Pick<MessageEvent, "data" | "origin" | "source">,
 	frameWindow: Window | null | undefined,
 ): number | null {
-	if (!frameWindow || event.source !== frameWindow) return null;
-	if (event.origin !== INKLINE_PREVIEW_ORIGIN) return null;
+	if (!frameWindow || event.source !== frameWindow) {
+		return null;
+	}
+	if (event.origin !== INKLINE_PREVIEW_ORIGIN) {
+		return null;
+	}
 
 	const data = event.data as
 		| { type?: unknown; kind?: unknown; height?: unknown }

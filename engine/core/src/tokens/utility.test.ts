@@ -2217,7 +2217,7 @@ describe("createModifiedUtilityFunction", () => {
 			modifiers: [],
 		};
 
-		const executionOrder: string[] = [];
+		const executionOrder: Array<string> = [];
 
 		const firstModifier: ModifierFactory = {
 			type: "modifier",

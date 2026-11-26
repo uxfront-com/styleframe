@@ -1,10 +1,9 @@
-import { buildSrcdoc, type BuildSrcdocResult } from "./buildSrcdoc";
+import { buildSrcdoc } from "./buildSrcdoc";
+import type { BuildSrcdocResult } from "./buildSrcdoc";
 import { bundlePreview } from "./bundlePreview";
 import { evalStyleframeFile, evalUserConfig } from "./evalUserConfig";
-import {
-	scanAndRegisterUtilities,
-	type ScanResult,
-} from "./scanAndRegisterUtilities";
+import { scanAndRegisterUtilities } from "./scanAndRegisterUtilities";
+import type { ScanResult } from "./scanAndRegisterUtilities";
 import { transformTs } from "./transformTs";
 import { transpileStyleframe } from "./transpileStyleframe";
 
@@ -44,7 +43,9 @@ export interface PipelineFailure {
 export type PipelineResult = PipelineSuccess | PipelineFailure;
 
 function toError(value: unknown): Error {
-	if (value instanceof Error) return value;
+	if (value instanceof Error) {
+		return value;
+	}
 	return new Error(String(value));
 }
 
@@ -130,13 +131,15 @@ export async function runPipeline(
 	};
 }
 
-export function debounce<Args extends unknown[]>(
+export function debounce<Args extends Array<unknown>>(
 	fn: (...args: Args) => void,
 	waitMs: number,
 ): (...args: Args) => void {
 	let handle: ReturnType<typeof setTimeout> | null = null;
 	return (...args: Args) => {
-		if (handle !== null) clearTimeout(handle);
+		if (handle !== null) {
+			clearTimeout(handle);
+		}
 		handle = setTimeout(() => {
 			handle = null;
 			fn(...args);

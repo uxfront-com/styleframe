@@ -147,7 +147,7 @@ describe("useTextareaRecipe contrast", () => {
 			(child) =>
 				child.type === "selector" &&
 				(child as { query: string }).query === ".textarea-field",
-		) as { children: { query: string; declarations: Slot }[] };
+		) as { children: Array<{ query: string; declarations: Slot }> };
 		expect(
 			field.children.find((child) => child.query === "&::placeholder")
 				?.declarations.color,

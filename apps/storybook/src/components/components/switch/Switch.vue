@@ -29,7 +29,7 @@ const fieldClasses = computed(() =>
 // A checkbox has no `readonly` of its own, so a read-only switch cancels the
 // click that would flip it.
 function onClick(event: MouseEvent) {
-	if (props.readonly) event.preventDefault();
+	if (props.readonly) {event.preventDefault();}
 }
 </script>
 

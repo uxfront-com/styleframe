@@ -31,7 +31,7 @@ describe("splitLongRoutes", () => {
 	it("keeps every path, in order", () => {
 		const routes = splitLongRoutes([vary]);
 		const split = routes.flatMap((route) =>
-			route.src.replace(/^\^\(|\)\$$/g, "").split("|"),
+			route.src.replaceAll(/^\^\(|\)\$$/g, "").split("|"),
 		);
 
 		expect(split).toEqual(paths);

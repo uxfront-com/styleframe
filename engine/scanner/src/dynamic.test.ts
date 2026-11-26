@@ -34,7 +34,7 @@ describe("createDynamicUtilities", () => {
 			isArbitrary: true,
 			arbitraryValue: "red",
 		});
-		const matches: UtilityMatch[] = [createUnmatchedMatch(parsed)];
+		const matches: Array<UtilityMatch> = [createUnmatchedMatch(parsed)];
 
 		const count = createDynamicUtilities(s.root, matches);
 
@@ -47,7 +47,7 @@ describe("createDynamicUtilities", () => {
 	it("skips non-CSS-property names", () => {
 		const s = styleframe();
 		const parsed = createParsedUtility({ name: "unknown-thing", value: "sm" });
-		const matches: UtilityMatch[] = [createUnmatchedMatch(parsed)];
+		const matches: Array<UtilityMatch> = [createUnmatchedMatch(parsed)];
 
 		const count = createDynamicUtilities(s.root, matches);
 
@@ -57,7 +57,7 @@ describe("createDynamicUtilities", () => {
 
 	it("creates one factory for multiple matches with the same property", () => {
 		const s = styleframe();
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			createUnmatchedMatch(
 				createParsedUtility({
 					name: "display",
@@ -86,7 +86,7 @@ describe("createDynamicUtilities", () => {
 		utility("margin", ({ value }) => ({ margin: value }));
 
 		const parsed = createParsedUtility({ name: "margin", value: "sm" });
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed,
 				factory: s.root.utilities.find((u) => u.name === "margin")!,
@@ -107,7 +107,7 @@ describe("createDynamicUtilities", () => {
 		utility("display", ({ value }) => ({ display: value }));
 
 		const factory = s.root.utilities.find((u) => u.name === "display")!;
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "display", value: "flex" }),
 				factory,
@@ -131,7 +131,7 @@ describe("createDynamicUtilities", () => {
 describe("dynamic utilities end-to-end", () => {
 	it("registers arbitrary value for a dynamic CSS property", () => {
 		const s = styleframe();
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "background",
 				value: "[red]",
@@ -151,7 +151,7 @@ describe("dynamic utilities end-to-end", () => {
 
 	it("registers non-arbitrary literal CSS values", () => {
 		const s = styleframe();
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "display",
 				value: "flex",
@@ -170,11 +170,11 @@ describe("dynamic utilities end-to-end", () => {
 	it("preserves modifiers through dynamic creation", () => {
 		const s = styleframe();
 		const { modifier } = s;
-		const hover = modifier("hover", ({ declarations }) => ({
+		modifier("hover", ({ declarations }) => ({
 			"&:hover": declarations,
 		}));
 
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "opacity",
 				value: "[0.5]",
@@ -203,7 +203,7 @@ describe("dynamic utilities end-to-end", () => {
 
 	it("tracks dynamic utilities in _usage.utilities", () => {
 		const s = styleframe();
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "cursor",
 				value: "pointer",
@@ -218,7 +218,7 @@ describe("dynamic utilities end-to-end", () => {
 
 	it("does not create factories for non-CSS-property names", () => {
 		const s = styleframe();
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "not-a-property",
 				value: "something",
@@ -235,7 +235,7 @@ describe("dynamic utilities end-to-end", () => {
 
 	it("handles underscore-to-space conversion in arbitrary values", () => {
 		const s = styleframe();
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			createParsedUtility({
 				name: "padding",
 				value: "[10px_20px]",

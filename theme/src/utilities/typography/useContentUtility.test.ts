@@ -27,7 +27,7 @@ describe("useContentUtility", () => {
 		useContentUtility(s, { empty: "''" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._content\\:empty {");
+		expect(css).toContain(String.raw`._content\:empty {`);
 		expect(css).toContain("content: '';");
 	});
 

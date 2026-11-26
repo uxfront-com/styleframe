@@ -37,7 +37,7 @@ describe("useBoxShadowUtility", () => {
 		useBoxShadowUtility(s, { lg: "0 10px 15px -3px rgb(0 0 0 / 0.1)" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._box-shadow\\:lg {");
+		expect(css).toContain(String.raw`._box-shadow\:lg {`);
 		expect(css).toContain("--box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);");
 		expect(css).toContain(
 			"box-shadow: var(--box-shadow-ring-offset, 0 0 #0000), var(--box-shadow-ring, 0 0 #0000), var(--box-shadow);",
@@ -76,7 +76,7 @@ describe("useBoxShadowColorUtility", () => {
 		useBoxShadowColorUtility(s, { black: "#000" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._box-shadow-color\\:black {");
+		expect(css).toContain(String.raw`._box-shadow-color\:black {`);
 		expect(css).toContain("--box-shadow-color: #000;");
 	});
 

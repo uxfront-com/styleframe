@@ -30,7 +30,9 @@ export function format(color: DTCGColor): string {
 			color.alpha !== undefined && color.alpha < 1
 				? formatHex8(culori)
 				: formatHex(culori);
-		if (hex) return hex;
+		if (hex) {
+			return hex;
+		}
 	}
 	const css = formatCss(culori);
 	if (!css) {

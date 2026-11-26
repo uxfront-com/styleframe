@@ -1,9 +1,5 @@
-import type {
-	DTCGAnyToken,
-	DTCGDocument,
-	DTCGResolverDocument,
-} from "@styleframe/dtcg";
-import { describe, expect, it, vi } from "vitest";
+import type { DTCGAnyToken, DTCGDocument } from "@styleframe/dtcg";
+import { describe, expect, it } from "vitest";
 import type { FigmaExportFormat } from "../../types";
 import { toDTCG } from "./to-dtcg";
 
@@ -295,7 +291,7 @@ describe("toDTCG round-trip", () => {
 		]);
 		// The default value lives in tokens
 		const lightBg = (tokens.color as DTCGDocument).bg as {
-			$value: { components: number[] };
+			$value: { components: Array<number> };
 		};
 		expect(lightBg.$value.components).toEqual([1, 1, 1]);
 	});

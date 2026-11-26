@@ -45,7 +45,7 @@ describe("useLineClampUtility", () => {
 		useLineClampUtility(s, { "3": "3" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._line-clamp\\:3 {");
+		expect(css).toContain(String.raw`._line-clamp\:3 {`);
 		expect(css).toContain("overflow: hidden;");
 		expect(css).toContain("display: -webkit-box;");
 		expect(css).toContain("webkit-line-clamp: 3;");

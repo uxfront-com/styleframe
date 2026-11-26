@@ -27,7 +27,7 @@ describe("useTextIndentUtility", () => {
 		useTextIndentUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-indent\\:4 {");
+		expect(css).toContain(String.raw`._text-indent\:4 {`);
 		expect(css).toContain("text-indent: 1rem;");
 	});
 

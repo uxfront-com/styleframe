@@ -30,10 +30,10 @@ export type OutputId = "preview" | "css" | "js";
 interface PlaygroundState {
 	files: Record<string, string>;
 	/** Explicit folders that may not yet contain any files. */
-	folders: string[];
+	folders: Array<string>;
 	lastBuiltFiles: Record<string, string>;
 	/** Paths of the files with an open editor tab, in tab order. */
-	openPaths: string[];
+	openPaths: Array<string>;
 	activePath: string;
 	activeOutput: OutputId;
 	output: {
@@ -96,8 +96,8 @@ export function normalizePath(path: string): string {
 	return path
 		.trim()
 		.replace(/^\.?\//, "")
-		.replace(/\/{2,}/g, "/")
-		.replace(/^\/+|\/+$/g, "");
+		.replaceAll(/\/{2,}/g, "/")
+		.replaceAll(/^\/+|\/+$/g, "");
 }
 
 /** All directory prefixes implied by the current file paths. */
@@ -119,7 +119,7 @@ function pascalCase(path: string): string {
 			.pop()
 			?.replace(/\.\w+$/, "") ?? "Component";
 	const name = base
-		.replace(/[^A-Za-z0-9]+/g, " ")
+		.replaceAll(/[^A-Za-z0-9]+/g, " ")
 		.trim()
 		.split(/\s+/)
 		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -128,7 +128,9 @@ function pascalCase(path: string): string {
 }
 
 function defaultContentFor(path: string): string {
-	if (path.endsWith(".css")) return "";
+	if (path.endsWith(".css")) {
+		return "";
+	}
 	if (path.endsWith(".styleframe.ts")) {
 		return `import { styleframe } from "virtual:styleframe";\n\nconst s = styleframe();\n\nexport default s;\n`;
 	}
@@ -146,7 +148,9 @@ function defaultContentFor(path: string): string {
  */
 export function createFile(path: string): boolean {
 	const clean = normalizePath(path);
-	if (!clean || clean in state.files) return false;
+	if (!clean || clean in state.files) {
+		return false;
+	}
 	state.files[clean] = defaultContentFor(clean);
 	openFile(clean);
 	return true;
@@ -165,22 +169,32 @@ export function createFolder(path: string): boolean {
 /** Rename a file, preserving its content and (when active) the selection. */
 export function renameFile(from: string, to: string): boolean {
 	const clean = normalizePath(to);
-	if (!clean || from === CONFIG_PATH || from === ENTRY_PATH) return false;
-	if (!(from in state.files) || clean in state.files) return false;
+	if (!clean || from === CONFIG_PATH || from === ENTRY_PATH) {
+		return false;
+	}
+	if (!(from in state.files) || clean in state.files) {
+		return false;
+	}
 	const next: Record<string, string> = {};
 	for (const [key, value] of Object.entries(state.files)) {
 		next[key === from ? clean : key] = value;
 	}
 	state.files = next;
 	state.openPaths = state.openPaths.map((p) => (p === from ? clean : p));
-	if (state.activePath === from) state.activePath = clean;
+	if (state.activePath === from) {
+		state.activePath = clean;
+	}
 	return true;
 }
 
 /** Delete a file. The config and entry files are protected. */
 export function deleteFile(path: string): boolean {
-	if (path === CONFIG_PATH || path === ENTRY_PATH) return false;
-	if (!(path in state.files)) return false;
+	if (path === CONFIG_PATH || path === ENTRY_PATH) {
+		return false;
+	}
+	if (!(path in state.files)) {
+		return false;
+	}
 	delete state.files[path];
 	closeFile(path);
 	return true;
@@ -192,7 +206,9 @@ export function deleteFile(path: string): boolean {
  */
 export function deleteFolder(path: string): boolean {
 	const clean = normalizePath(path);
-	if (!clean) return false;
+	if (!clean) {
+		return false;
+	}
 	const prefix = `${clean}/`;
 	if (
 		CONFIG_PATH === clean ||
@@ -203,24 +219,32 @@ export function deleteFolder(path: string): boolean {
 		return false;
 	}
 	for (const filePath of Object.keys(state.files)) {
-		if (filePath.startsWith(prefix)) delete state.files[filePath];
+		if (filePath.startsWith(prefix)) {
+			delete state.files[filePath];
+		}
 	}
 	state.folders = state.folders.filter(
 		(folder) => folder !== clean && !folder.startsWith(prefix),
 	);
 	const wasActiveUnder = state.activePath.startsWith(prefix);
 	state.openPaths = state.openPaths.filter((p) => !p.startsWith(prefix));
-	if (wasActiveUnder) state.activePath = state.openPaths[0] ?? "";
+	if (wasActiveUnder) {
+		state.activePath = state.openPaths[0] ?? "";
+	}
 	return true;
 }
 
 export function setActivePath(path: string): void {
-	if (path in state.files) state.activePath = path;
+	if (path in state.files) {
+		state.activePath = path;
+	}
 }
 
 /** Open a file in a new tab (or focus its existing tab) and activate it. */
 export function openFile(path: string): void {
-	if (!(path in state.files)) return;
+	if (!(path in state.files)) {
+		return;
+	}
 	if (!state.openPaths.includes(path)) {
 		state.openPaths = [...state.openPaths, path];
 	}
@@ -233,7 +257,9 @@ export function openFile(path: string): void {
  */
 export function closeFile(path: string): void {
 	const index = state.openPaths.indexOf(path);
-	if (index === -1) return;
+	if (index === -1) {
+		return;
+	}
 	state.openPaths = state.openPaths.filter((p) => p !== path);
 	if (state.activePath === path) {
 		state.activePath =

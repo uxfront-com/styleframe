@@ -27,7 +27,7 @@ describe("useWhitespaceUtility", () => {
 		useWhitespaceUtility(s, { nowrap: "nowrap", "pre-wrap": "pre-wrap" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._whitespace\\:nowrap {");
+		expect(css).toContain(String.raw`._whitespace\:nowrap {`);
 		expect(css).toContain("white-space: nowrap;");
 	});
 

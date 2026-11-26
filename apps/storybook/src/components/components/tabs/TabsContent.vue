@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { tabsContent } from "virtual:styleframe";
-import { type TabsSize, useTabsContext } from "./context";
+import { useTabsContext } from './context';
+import type { TabsSize } from './context';
 
 const props = defineProps<{
 	value: string;

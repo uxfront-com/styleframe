@@ -18,7 +18,9 @@ import { transformUtilityKey } from "@styleframe/core";
  * isNumericValue("1rem") // false
  */
 export function isNumericValue(value: unknown): value is string | number {
-	if (typeof value === "number") return true;
+	if (typeof value === "number") {
+		return true;
+	}
 	if (typeof value === "string") {
 		// Match integers, decimals, and negative numbers: 1, 1.5, -1, -0.5, .5
 		return /^-?\d*\.?\d+$/.test(value.trim());
@@ -36,7 +38,7 @@ export interface CreateMultiplierAutogenerateOptions {
 	/** Optional key replacer function for non-multiplier values */
 	replacer?: (key: string) => string;
 	/** Optional namespace for token references (e.g., "spacing" makes "@sm" resolve to ref("spacing.sm")) */
-	namespace?: string | string[];
+	namespace?: string | Array<string>;
 }
 
 /**

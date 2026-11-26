@@ -16,7 +16,7 @@ export function buildPackages(cwd: string) {
 
 function mapTarballsToPackages(
 	cwd: string,
-	files: string[],
+	files: Array<string>,
 ): Record<string, string> {
 	const scopePrefix = "@styleframe/";
 	const map: Record<string, string> = {};
@@ -44,7 +44,7 @@ export function createPackageTarballs(
 	{
 		filter = [],
 		outputDir = "dist",
-	}: { filter?: string[]; outputDir?: string } = {},
+	}: { filter?: Array<string>; outputDir?: string } = {},
 ) {
 	shell.exec(
 		`pnpm pack --recursive --pack-destination ${outputDir} ${filter.map((f) => `--filter '${f}'`).join(" ")}`,
@@ -167,7 +167,7 @@ export function runPlaywright(cwd: string, projectDir: string) {
 	});
 }
 
-export function cleanup(dirs: string[]) {
+export function cleanup(dirs: Array<string>) {
 	dirs.forEach((dir) => {
 		shell.exec(`rm -rf ${dir}`);
 	});

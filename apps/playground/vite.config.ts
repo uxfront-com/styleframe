@@ -1,19 +1,17 @@
 import { createRequire } from "node:module";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 import vue from "@vitejs/plugin-vue";
 import styleframe from "@styleframe/plugin/vite";
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig } from "vite";
+import type { Plugin } from "vite";
 
 const dirname =
-	typeof __dirname !== "undefined"
-		? __dirname
-		: path.dirname(fileURLToPath(import.meta.url));
+	typeof __dirname !== "undefined" ? __dirname : import.meta.dirname;
 
 const require = createRequire(import.meta.url);
 
-function moduleKeys(specifier: string): string[] {
+function moduleKeys(specifier: string): Array<string> {
 	const mod = require(specifier) as Record<string, unknown>;
 	return Object.keys(mod).filter(
 		(key) => key !== "default" && /^[A-Za-z_$][\w$]*$/.test(key),
@@ -70,12 +68,16 @@ function vendorModules(): Plugin {
 		name: "pg-vendor-modules",
 		enforce: "pre",
 		resolveId(id) {
-			if (id === REACT_ID || id === RUNTIME_ID) return id;
+			if (id === REACT_ID || id === RUNTIME_ID) {
+				return id;
+			}
 			return null;
 		},
 		async load(id) {
 			if (id === REACT_ID) {
-				if (!reactVendor) reactVendor = buildReactVendor();
+				if (!reactVendor) {
+					reactVendor = buildReactVendor();
+				}
 				const payload = {
 					iife: await reactVendor,
 					reactKeys: moduleKeys("react"),

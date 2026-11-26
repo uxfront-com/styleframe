@@ -36,8 +36,8 @@ describe("usePseudoElementModifiers", () => {
 		createBg({ red: "red" }, [before]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:red {");
-		expect(css).toContain("._before\\:background-color\\:red {");
+		expect(css).toContain(String.raw`._background-color\:red {`);
+		expect(css).toContain(String.raw`._before\:background-color\:red {`);
 	});
 
 	it("should generate correct CSS class names for after modifier", () => {
@@ -50,8 +50,8 @@ describe("usePseudoElementModifiers", () => {
 		createBg({ blue: "blue" }, [after]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:blue {");
-		expect(css).toContain("._after\\:background-color\\:blue {");
+		expect(css).toContain(String.raw`._background-color\:blue {`);
+		expect(css).toContain(String.raw`._after\:background-color\:blue {`);
 	});
 
 	it("should generate correct CSS class names for placeholder modifier", () => {
@@ -64,8 +64,8 @@ describe("usePseudoElementModifiers", () => {
 		createColor({ muted: "#999" }, [placeholder]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._color\\:muted {");
-		expect(css).toContain("._placeholder\\:color\\:muted {");
+		expect(css).toContain(String.raw`._color\:muted {`);
+		expect(css).toContain(String.raw`._placeholder\:color\:muted {`);
 	});
 
 	it("should generate correct CSS class names for selection modifier", () => {
@@ -78,8 +78,10 @@ describe("usePseudoElementModifiers", () => {
 		createBg({ highlight: "yellow" }, [selection]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:highlight {");
-		expect(css).toContain("._selection\\:background-color\\:highlight {");
+		expect(css).toContain(String.raw`._background-color\:highlight {`);
+		expect(css).toContain(
+			String.raw`._selection\:background-color\:highlight {`,
+		);
 	});
 
 	it("should generate correct CSS class names for file modifier", () => {
@@ -92,8 +94,8 @@ describe("usePseudoElementModifiers", () => {
 		createBg({ primary: "#006cff" }, [file]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:primary {");
-		expect(css).toContain("._file\\:background-color\\:primary {");
+		expect(css).toContain(String.raw`._background-color\:primary {`);
+		expect(css).toContain(String.raw`._file\:background-color\:primary {`);
 	});
 
 	it("should work with utility creation", () => {

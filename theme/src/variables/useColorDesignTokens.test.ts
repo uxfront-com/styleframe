@@ -10,7 +10,9 @@ import { useColorTintDesignTokens } from "./useColorTintDesignTokens";
 // Helper function to convert color to expected OKLCH format
 function toOklch(color: string): string {
 	const result = oklch(color);
-	if (!result) return color;
+	if (!result) {
+		return color;
+	}
 	const { l, c, h, alpha = 1 } = result;
 	return `oklch(${l} ${c} ${h ?? 0} / ${alpha})`;
 }

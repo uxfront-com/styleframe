@@ -48,7 +48,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 	/**
 	 * Get all file paths matching the content patterns.
 	 */
-	async function getFilePaths(): Promise<string[]> {
+	async function getFilePaths(): Promise<Array<string>> {
 		return fg(config.content, {
 			cwd,
 			absolute: true,
@@ -60,7 +60,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 	 * Scan a single file for utility classes.
 	 */
 	async function scanFile(filePath: string): Promise<FileScanResult> {
-		const content = await readFile(filePath, "utf-8");
+		const content = await readFile(filePath, "utf8");
 		const contentHash = hashContent(content);
 
 		// Check cache with single lookup
@@ -96,7 +96,10 @@ export function createScanner(config: ScannerConfig): Scanner {
 	/**
 	 * Scan content string directly without file I/O.
 	 */
-	function scanContent(content: string, filePath = "inline"): ParsedUtility[] {
+	function scanContent(
+		content: string,
+		filePath = "inline",
+	): Array<ParsedUtility> {
 		const classNames = extractClasses(
 			content,
 			filePath,
@@ -115,7 +118,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 		const filePaths = await getFilePaths();
 		const files = new Map<string, FileScanResult>();
 		const allClasses = new Set<string>();
-		const allParsed: ParsedUtility[] = [];
+		const allParsed: Array<ParsedUtility> = [];
 
 		// Scan files in parallel
 		const results = await Promise.all(
@@ -154,7 +157,10 @@ export function createScanner(config: ScannerConfig): Scanner {
 	/**
 	 * Match parsed utilities against a root instance.
 	 */
-	function match(parsed: ParsedUtility[], root: Root): UtilityMatch[] {
+	function match(
+		parsed: Array<ParsedUtility>,
+		root: Root,
+	): Array<UtilityMatch> {
 		return matchUtilities(parsed, root);
 	}
 
@@ -165,7 +171,7 @@ export function createScanner(config: ScannerConfig): Scanner {
 	 * with an external file watcher (e.g., Vite's HMR or chokidar).
 	 */
 	function watch(callback: (result: ScanResult) => void): () => void {
-		const { onChange, flush } = createChangeHandler(async (changedFiles) => {
+		const { flush } = createChangeHandler(async (changedFiles) => {
 			// Invalidate changed files in cache
 			for (const filePath of changedFiles) {
 				cache.invalidate(filePath);

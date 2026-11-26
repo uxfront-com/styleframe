@@ -54,17 +54,27 @@ export function isColorSpace(value: unknown): value is DTCGColorSpace {
 }
 
 export function isColorValue(value: unknown): value is DTCGColor {
-	if (!isPlainObject(value)) return false;
-	if (!isColorSpace(value.colorSpace)) return false;
+	if (!isPlainObject(value)) {
+		return false;
+	}
+	if (!isColorSpace(value.colorSpace)) {
+		return false;
+	}
 	const components = value.components;
-	if (!Array.isArray(components) || components.length !== 3) return false;
-	if (!components.every(isComponent)) return false;
+	if (!Array.isArray(components) || components.length !== 3) {
+		return false;
+	}
+	if (!components.every(isComponent)) {
+		return false;
+	}
 	if (value.alpha !== undefined) {
 		if (typeof value.alpha !== "number" || value.alpha < 0 || value.alpha > 1) {
 			return false;
 		}
 	}
-	if (value.hex !== undefined && typeof value.hex !== "string") return false;
+	if (value.hex !== undefined && typeof value.hex !== "string") {
+		return false;
+	}
 	return true;
 }
 
@@ -96,7 +106,9 @@ export function isCubicBezierValue(value: unknown): value is DTCGCubicBezier {
 }
 
 export function isFontFamilyValue(value: unknown): value is DTCGFontFamily {
-	if (typeof value === "string") return true;
+	if (typeof value === "string") {
+		return true;
+	}
 	return Array.isArray(value) && value.every((v) => typeof v === "string");
 }
 
@@ -122,7 +134,9 @@ const FONT_WEIGHT_KEYWORDS: ReadonlySet<string> = new Set([
 ]);
 
 export function isFontWeightValue(value: unknown): value is DTCGFontWeight {
-	if (typeof value === "number") return Number.isFinite(value);
+	if (typeof value === "number") {
+		return Number.isFinite(value);
+	}
 	return typeof value === "string" && FONT_WEIGHT_KEYWORDS.has(value);
 }
 
@@ -144,10 +158,15 @@ const STROKE_STYLE_KEYWORDS: ReadonlySet<string> = new Set([
 export function isStrokeStyleObject(
 	value: unknown,
 ): value is DTCGStrokeStyleObject {
-	if (!isPlainObject(value)) return false;
-	if (!Array.isArray(value.dashArray)) return false;
-	if (!value.dashArray.every((d) => isAlias(d) || isDimensionValue(d)))
+	if (!isPlainObject(value)) {
 		return false;
+	}
+	if (!Array.isArray(value.dashArray)) {
+		return false;
+	}
+	if (!value.dashArray.every((d) => isAlias(d) || isDimensionValue(d))) {
+		return false;
+	}
 	return (
 		value.lineCap === "round" ||
 		value.lineCap === "butt" ||
@@ -156,8 +175,9 @@ export function isStrokeStyleObject(
 }
 
 export function isStrokeStyleValue(value: unknown): value is DTCGStrokeStyle {
-	if (typeof value === "string" && STROKE_STYLE_KEYWORDS.has(value))
+	if (typeof value === "string" && STROKE_STYLE_KEYWORDS.has(value)) {
 		return true;
+	}
 	return isStrokeStyleObject(value);
 }
 
@@ -199,24 +219,43 @@ export function isBorderValue(value: unknown): value is DTCGBorder {
 }
 
 export function isTransitionValue(value: unknown): value is DTCGTransition {
-	if (!isPlainObject(value)) return false;
-	if (!isDurationOrAlias(value.duration)) return false;
-	if (!isCubicBezierOrAlias(value.timingFunction)) return false;
-	if (value.delay !== undefined && !isDurationOrAlias(value.delay))
+	if (!isPlainObject(value)) {
 		return false;
+	}
+	if (!isDurationOrAlias(value.duration)) {
+		return false;
+	}
+	if (!isCubicBezierOrAlias(value.timingFunction)) {
+		return false;
+	}
+	if (value.delay !== undefined && !isDurationOrAlias(value.delay)) {
+		return false;
+	}
 	return true;
 }
 
 export function isShadowLayer(value: unknown): value is DTCGShadowLayer {
-	if (!isPlainObject(value)) return false;
-	if (!isColorOrAlias(value.color)) return false;
-	if (!isDimensionOrAlias(value.offsetX)) return false;
-	if (!isDimensionOrAlias(value.offsetY)) return false;
-	if (value.blur !== undefined && !isDimensionOrAlias(value.blur)) return false;
-	if (value.spread !== undefined && !isDimensionOrAlias(value.spread))
+	if (!isPlainObject(value)) {
 		return false;
-	if (value.inset !== undefined && typeof value.inset !== "boolean")
+	}
+	if (!isColorOrAlias(value.color)) {
 		return false;
+	}
+	if (!isDimensionOrAlias(value.offsetX)) {
+		return false;
+	}
+	if (!isDimensionOrAlias(value.offsetY)) {
+		return false;
+	}
+	if (value.blur !== undefined && !isDimensionOrAlias(value.blur)) {
+		return false;
+	}
+	if (value.spread !== undefined && !isDimensionOrAlias(value.spread)) {
+		return false;
+	}
+	if (value.inset !== undefined && typeof value.inset !== "boolean") {
+		return false;
+	}
 	return true;
 }
 
@@ -228,11 +267,16 @@ export function isShadowValue(value: unknown): value is DTCGShadow {
 }
 
 export function isGradientStop(value: unknown): value is DTCGGradientStop {
-	if (!isPlainObject(value)) return false;
-	if (!isColorOrAlias(value.color)) return false;
+	if (!isPlainObject(value)) {
+		return false;
+	}
+	if (!isColorOrAlias(value.color)) {
+		return false;
+	}
 	if (value.position !== undefined) {
-		if (!isAlias(value.position) && typeof value.position !== "number")
+		if (!isAlias(value.position) && typeof value.position !== "number") {
 			return false;
+		}
 	}
 	return true;
 }
@@ -244,9 +288,15 @@ export function isGradientValue(value: unknown): value is DTCGGradient {
 }
 
 export function isTypographyValue(value: unknown): value is DTCGTypography {
-	if (!isPlainObject(value)) return false;
-	if (!isFontFamilyOrAlias(value.fontFamily)) return false;
-	if (!isDimensionOrAlias(value.fontSize)) return false;
+	if (!isPlainObject(value)) {
+		return false;
+	}
+	if (!isFontFamilyOrAlias(value.fontFamily)) {
+		return false;
+	}
+	if (!isDimensionOrAlias(value.fontSize)) {
+		return false;
+	}
 	if (
 		value.fontWeight !== undefined &&
 		!isFontWeightOrAlias(value.fontWeight)

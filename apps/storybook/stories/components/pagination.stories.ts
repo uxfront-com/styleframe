@@ -6,15 +6,6 @@ import PaginationEllipsis from "../../src/components/components/pagination/Pagin
 import PaginationGrid from "../../src/components/components/pagination/preview/PaginationGrid.vue";
 import PaginationSizeGrid from "../../src/components/components/pagination/preview/PaginationSizeGrid.vue";
 
-const colors = ["light", "dark", "neutral"] as const;
-const variants = [
-	"solid",
-	"outline",
-	"soft",
-	"subtle",
-	"ghost",
-	"link",
-] as const;
 const sizes = ["sm", "md", "lg"] as const;
 const orientations = ["horizontal", "vertical"] as const;
 

@@ -35,7 +35,7 @@ describe("useRingWidthUtility", () => {
 		useRingWidthUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._ring\\:4 {");
+		expect(css).toContain(String.raw`._ring\:4 {`);
 		expect(css).toContain("box-shadow:");
 	});
 
@@ -81,7 +81,7 @@ describe("useRingColorUtility", () => {
 		useRingColorUtility(s, { red: "#ef4444" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._ring-color\\:red {");
+		expect(css).toContain(String.raw`._ring-color\:red {`);
 	});
 });
 
@@ -101,7 +101,7 @@ describe("useRingOffsetWidthUtility", () => {
 		useRingOffsetWidthUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._ring-offset\\:4 {");
+		expect(css).toContain(String.raw`._ring-offset\:4 {`);
 	});
 });
 
@@ -121,6 +121,6 @@ describe("useRingOffsetColorUtility", () => {
 		useRingOffsetColorUtility(s, { black: "#000" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._ring-offset-color\\:black {");
+		expect(css).toContain(String.raw`._ring-offset-color\:black {`);
 	});
 });

@@ -31,7 +31,7 @@ describe("useOverflowUtility", () => {
 		useOverflowUtility(s, { hidden: "hidden" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overflow\\:hidden {");
+		expect(css).toContain(String.raw`._overflow\:hidden {`);
 		expect(css).toContain("overflow: hidden;");
 	});
 
@@ -57,7 +57,7 @@ describe("useOverflowXUtility", () => {
 		useOverflowXUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overflow-x\\:auto {");
+		expect(css).toContain(String.raw`._overflow-x\:auto {`);
 		expect(css).toContain("overflow-x: auto;");
 	});
 });
@@ -76,7 +76,7 @@ describe("useOverflowYUtility", () => {
 		useOverflowYUtility(s, { visible: "visible" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._overflow-y\\:visible {");
+		expect(css).toContain(String.raw`._overflow-y\:visible {`);
 		expect(css).toContain("overflow-y: visible;");
 	});
 });

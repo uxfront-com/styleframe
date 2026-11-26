@@ -119,7 +119,9 @@ function countTokens(doc: Record<string, unknown>): number {
 			}
 			continue;
 		}
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (typeof value === "object" && value !== null && !Array.isArray(value)) {
 			if ("$value" in value) {
 				count++;

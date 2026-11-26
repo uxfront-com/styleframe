@@ -52,7 +52,7 @@ const tiers = [
 
 type TierId = (typeof tiers)[number]["id"];
 
-const features: { title: string; tiers: Record<TierId, string | boolean> }[] = [
+const features: Array<{ title: string; tiers: Record<TierId, string | boolean> }> = [
 	{
 		title: "Number of developers",
 		tiers: { solo: "1", startup: "5", organization: "Unlimited" },

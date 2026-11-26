@@ -15,23 +15,19 @@
  */
 
 import type { Root, Theme, Variable } from "@styleframe/core";
-import {
-	type Classification,
-	type DTCGAnyToken,
-	type DTCGDocument,
-	type DTCGGroup,
-	type DTCGResolverDocument,
-	type DTCGSource,
-	type DTCGTokenType,
-	type DTCGTokenValue,
-	classifyValue,
-	formatAlias,
+import { classifyValue, formatAlias } from "@styleframe/dtcg";
+import type {
+	Classification,
+	DTCGAnyToken,
+	DTCGDocument,
+	DTCGGroup,
+	DTCGResolverDocument,
+	DTCGSource,
+	DTCGTokenType,
+	DTCGTokenValue,
 } from "@styleframe/dtcg";
-import {
-	type EvaluateContext,
-	type EvaluatedValue,
-	evaluateValue,
-} from "./evaluate";
+import { evaluateValue } from "./evaluate";
+import type { EvaluateContext, EvaluatedValue } from "./evaluate";
 
 const TOKENS_SCHEMA_URL =
 	"https://design-tokens.org/schemas/2025.10/tokens.json";
@@ -61,7 +57,7 @@ export interface BuildDiagnostic {
 export interface BuildDTCGResult {
 	tokens: DTCGDocument;
 	resolver?: DTCGResolverDocument;
-	diagnostics: BuildDiagnostic[];
+	diagnostics: Array<BuildDiagnostic>;
 	emittedCount: number;
 	/**
 	 * Number of tokens whose final value was derived via fluid-unit
@@ -81,12 +77,16 @@ interface ProcessedVariable {
 
 function buildVariableMap(root: Root): Map<string, Variable> {
 	const map = new Map<string, Variable>();
-	for (const v of root.variables) map.set(v.name, v);
+	for (const v of root.variables) {
+		map.set(v.name, v);
+	}
 	for (const theme of root.themes) {
 		for (const v of theme.variables) {
 			// Default-mode value wins when multiple variables share a name across
 			// themes — themes only override per-mode, not the canonical type.
-			if (!map.has(v.name)) map.set(v.name, v);
+			if (!map.has(v.name)) {
+				map.set(v.name, v);
+			}
 		}
 	}
 	return map;
@@ -105,7 +105,9 @@ function classifyValueForVariable(
 	name: string,
 	evaluation: EvaluatedValue,
 ): Classification | undefined {
-	if (evaluation.resolved === null) return undefined;
+	if (evaluation.resolved === null) {
+		return undefined;
+	}
 	return classifyValue(evaluation.resolved, { path: name });
 }
 
@@ -143,7 +145,7 @@ function setNestedToken(
 		}
 		cursor = cursor[segment] as Record<string, unknown>;
 	}
-	const leaf = segments[segments.length - 1] as string;
+	const leaf = segments.at(-1) as string;
 	const existing = cursor[leaf];
 	if (
 		typeof existing === "object" &&
@@ -162,8 +164,13 @@ function hasRootToken(doc: DTCGDocument, dotPath: string): boolean {
 	const segments = dotPath.split(".");
 	let cursor: unknown = doc;
 	for (const segment of segments) {
-		if (typeof cursor !== "object" || cursor === null || Array.isArray(cursor))
+		if (
+			typeof cursor !== "object" ||
+			cursor === null ||
+			Array.isArray(cursor)
+		) {
 			return false;
+		}
 		cursor = (cursor as Record<string, unknown>)[segment];
 	}
 	return (
@@ -200,8 +207,10 @@ function setNestedOverride(
 	// token-level replacement, so an override that omits `$type` would strip
 	// the typing inherited from the base, breaking COLOR/FLOAT detection in
 	// downstream consumers (e.g. the Figma plugin).
-	if (type !== undefined) token.$type = type;
-	cursor[segments[segments.length - 1] as string] = token;
+	if (type !== undefined) {
+		token.$type = type;
+	}
+	cursor[segments.at(-1) as string] = token;
 }
 
 function makeAliasToken(
@@ -210,8 +219,12 @@ function makeAliasToken(
 	description?: string,
 ): DTCGAnyToken {
 	const token: DTCGAnyToken = { $value: formatAlias(target) };
-	if (type !== undefined) token.$type = type;
-	if (description) token.$description = description;
+	if (type !== undefined) {
+		token.$type = type;
+	}
+	if (description) {
+		token.$description = description;
+	}
 	return token;
 }
 
@@ -224,7 +237,9 @@ function makeValueToken(
 		$value: classification.value,
 		$type: classification.type,
 	};
-	if (description) token.$description = description;
+	if (description) {
+		token.$description = description;
+	}
 	if (fluidBound) {
 		token.$extensions = {
 			"dev.styleframe": { fluidBound },
@@ -243,19 +258,29 @@ function makeExpressionToken(
 			"dev.styleframe": { expression },
 		},
 	};
-	if (description) token.$description = description;
+	if (description) {
+		token.$description = description;
+	}
 	return token;
 }
 
 function valuesEqual(a: DTCGTokenValue, b: DTCGTokenValue): boolean {
-	if (a === b) return true;
-	if (typeof a !== typeof b) return false;
-	if (typeof a === "object") return JSON.stringify(a) === JSON.stringify(b);
+	if (a === b) {
+		return true;
+	}
+	if (typeof a !== typeof b) {
+		return false;
+	}
+	if (typeof a === "object") {
+		return JSON.stringify(a) === JSON.stringify(b);
+	}
 	return false;
 }
 
 function capitalizeContextName(name: string): string {
-	if (name.length === 0) return name;
+	if (name.length === 0) {
+		return name;
+	}
 	return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
@@ -290,7 +315,9 @@ export function buildDTCG(
 	for (const variable of root.variables) {
 		const p = processVariable(variable, context);
 		processed.set(variable.name, p);
-		if (p.classification) typeMap.set(variable.name, p.classification.type);
+		if (p.classification) {
+			typeMap.set(variable.name, p.classification.type);
+		}
 	}
 	// Resolve alias-of-alias by traversing typeMap if a processed entry
 	// pointed at another variable.
@@ -298,9 +325,13 @@ export function buildDTCG(
 		name: string,
 		seen: Set<string>,
 	): DTCGTokenType | undefined => {
-		if (seen.has(name)) return undefined;
+		if (seen.has(name)) {
+			return undefined;
+		}
 		const direct = typeMap.get(name);
-		if (direct) return direct;
+		if (direct) {
+			return direct;
+		}
 		const p = processed.get(name);
 		if (p?.evaluation.aliasTarget) {
 			return resolveTypeFromAliasChain(
@@ -313,18 +344,22 @@ export function buildDTCG(
 
 	// Pass 2: emit tokens.
 	const tokens: DTCGDocument = {};
-	if (includeSchema) tokens.$schema = schemaUrl;
+	if (includeSchema) {
+		tokens.$schema = schemaUrl;
+	}
 	tokens.$extensions = {
 		"dev.styleframe": { collection: collectionName },
 	};
 
-	const diagnostics: BuildDiagnostic[] = [];
+	const diagnostics: Array<BuildDiagnostic> = [];
 	let emittedCount = 0;
 	let fluidNormalisedCount = 0;
 
 	for (const variable of root.variables) {
 		const p = processed.get(variable.name);
-		if (!p) continue;
+		if (!p) {
+			continue;
+		}
 		const { evaluation, classification } = p;
 
 		if (evaluation.aliasTarget) {
@@ -363,7 +398,9 @@ export function buildDTCG(
 				variable.name,
 				makeValueToken(promoted, undefined, fluidBound),
 			);
-			if (fluidBound) fluidNormalisedCount++;
+			if (fluidBound) {
+				fluidNormalisedCount++;
+			}
 			emittedCount++;
 			continue;
 		}
@@ -412,7 +449,7 @@ export function buildDTCG(
 	}
 
 	// Themes → resolver contexts.
-	const themedThemes: Theme[] = root.themes.filter(
+	const themedThemes: Array<Theme> = root.themes.filter(
 		(t) => t.variables.length > 0,
 	);
 	let resolver: DTCGResolverDocument | undefined;
@@ -437,7 +474,9 @@ export function buildDTCG(
 					themeType = themeProcessed.classification.type;
 				}
 
-				if (themeValue === undefined) continue;
+				if (themeValue === undefined) {
+					continue;
+				}
 
 				let defaultValue: DTCGTokenValue | undefined;
 				if (defaultProcessed?.evaluation.aliasTarget) {
@@ -468,15 +507,16 @@ export function buildDTCG(
 
 		// Drop any contexts that ended up empty (no overrides differ from default).
 		for (const key of Object.keys(contexts)) {
-			if (Object.keys(contexts[key] as object).length === 0)
+			if (Object.keys(contexts[key] as object).length === 0) {
 				delete contexts[key];
+			}
 		}
 
 		const themeContextNames = Object.keys(contexts);
 		if (themeContextNames.length > 0) {
 			// `Default` context is empty: the base `set` already supplies all
 			// default-mode values, so no overrides are needed for that mode.
-			const allContexts: Record<string, DTCGSource[]> = {
+			const allContexts: Record<string, Array<DTCGSource>> = {
 				[defaultModeName]: [],
 			};
 			for (const name of themeContextNames) {

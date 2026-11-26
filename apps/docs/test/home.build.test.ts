@@ -82,7 +82,7 @@ describe("homepage", () => {
 	const html = existsSync(join(OUTPUT, "index.html")) ? read("index.html") : "";
 	const head = html.match(/<head\b[\s\S]*?<\/head>/)?.[0] ?? "";
 	// The page's own content: <main> without the finale's footer.
-	const content = (html.match(/<main\b[\s\S]*<\/main>/)?.[0] ?? "").replace(
+	const content = (html.match(/<main\b[\s\S]*<\/main>/)?.[0] ?? "").replaceAll(
 		/<footer\b[\s\S]*?<\/footer>/g,
 		"",
 	);
@@ -142,7 +142,9 @@ describe("homepage", () => {
 			.map(([markup]) => markup)
 			.join("\n");
 		for (const link of CHROME_LINKS.slice(0, 4)) {
-			if (link !== LOGIN_URL) expect(header).toContain(`href="${link}"`);
+			if (link !== LOGIN_URL) {
+				expect(header).toContain(`href="${link}"`);
+			}
 		}
 		for (const link of CHROME_LINKS) {
 			expect(chrome).toContain(`href="${link}"`);

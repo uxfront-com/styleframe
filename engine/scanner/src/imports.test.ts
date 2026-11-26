@@ -11,7 +11,7 @@ vi.mock("importree", () => ({
 			string,
 			Array<{
 				path: string;
-				specifiers?: string[];
+				specifiers?: Array<string>;
 				isNamespace?: boolean;
 				isDynamic?: boolean;
 				isSideEffect?: boolean;

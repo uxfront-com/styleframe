@@ -32,7 +32,7 @@ describe("useFlexUtility", () => {
 		useFlexUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex\\:none {");
+		expect(css).toContain(String.raw`._flex\:none {`);
 		expect(css).toContain("flex: none;");
 	});
 
@@ -67,9 +67,9 @@ describe("useFlexUtility", () => {
 		useFlexUtility(s, { column: "column", wrap: "wrap" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex\\:column {");
+		expect(css).toContain(String.raw`._flex\:column {`);
 		expect(css).toContain("flex-direction: column;");
-		expect(css).toContain("._flex\\:wrap {");
+		expect(css).toContain(String.raw`._flex\:wrap {`);
 		expect(css).toContain("flex-wrap: wrap;");
 	});
 
@@ -95,7 +95,7 @@ describe("useFlexGrowUtility", () => {
 		useFlexGrowUtility(s, { "0": "0" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex-grow\\:0 {");
+		expect(css).toContain(String.raw`._flex-grow\:0 {`);
 		expect(css).toContain("flex-grow: 0;");
 	});
 });
@@ -114,7 +114,7 @@ describe("useFlexShrinkUtility", () => {
 		useFlexShrinkUtility(s, { "0": "0" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex-shrink\\:0 {");
+		expect(css).toContain(String.raw`._flex-shrink\:0 {`);
 		expect(css).toContain("flex-shrink: 0;");
 	});
 });
@@ -133,7 +133,7 @@ describe("useFlexBasisUtility", () => {
 		useFlexBasisUtility(s, { "1/2": "50%" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex-basis\\:1\\/2 {");
+		expect(css).toContain(String.raw`._flex-basis\:1\/2 {`);
 		expect(css).toContain("flex-basis: 50%;");
 	});
 

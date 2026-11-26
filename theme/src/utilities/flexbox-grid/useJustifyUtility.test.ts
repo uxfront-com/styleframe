@@ -31,7 +31,7 @@ describe("useJustifyContentUtility", () => {
 		useJustifyContentUtility(s, { center: "center" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._justify-content\\:center {");
+		expect(css).toContain(String.raw`._justify-content\:center {`);
 		expect(css).toContain("justify-content: center;");
 	});
 
@@ -67,7 +67,7 @@ describe("useJustifyItemsUtility", () => {
 		useJustifyItemsUtility(s, { end: "end" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._justify-items\\:end {");
+		expect(css).toContain(String.raw`._justify-items\:end {`);
 		expect(css).toContain("justify-items: end;");
 	});
 
@@ -103,7 +103,7 @@ describe("useJustifySelfUtility", () => {
 		useJustifySelfUtility(s, { stretch: "stretch" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._justify-self\\:stretch {");
+		expect(css).toContain(String.raw`._justify-self\:stretch {`);
 		expect(css).toContain("justify-self: stretch;");
 	});
 

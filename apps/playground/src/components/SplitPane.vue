@@ -24,11 +24,11 @@ const container = ref<HTMLElement | null>(null);
 // Convert a desired right-pane pixel width into the ratio used by the split,
 // accounting for the divider. Clamps to [min, max] when the window is too small.
 onMounted(() => {
-	if (props.initialRightWidth == null) return;
+	if (props.initialRightWidth == null) {return;}
 	const el = container.value;
-	if (!el) return;
+	if (!el) {return;}
 	const width = el.getBoundingClientRect().width - DIVIDER_WIDTH;
-	if (width <= 0) return;
+	if (width <= 0) {return;}
 	const leftRatio = 100 - (props.initialRightWidth / width) * 100;
 	ratio.value = Math.min(props.max, Math.max(props.min, leftRatio));
 });
@@ -39,11 +39,11 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onPointerMove(event: PointerEvent) {
-	if (!(event.buttons & 1)) return;
+	if (!(event.buttons & 1)) {return;}
 	const el = container.value;
-	if (!el) return;
+	if (!el) {return;}
 	const rect = el.getBoundingClientRect();
-	if (rect.width === 0) return;
+	if (rect.width === 0) {return;}
 	const next = ((event.clientX - rect.left) / rect.width) * 100;
 	ratio.value = Math.min(props.max, Math.max(props.min, next));
 }

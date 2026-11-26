@@ -18,7 +18,7 @@ const { resolved } = useTheme();
  */
 function applyTheme() {
 	const root = iframe.value?.contentDocument?.documentElement;
-	if (root) root.setAttribute("data-theme", resolved.value);
+	if (root) {root.setAttribute("data-theme", resolved.value);}
 }
 
 watch(resolved, applyTheme);
@@ -27,7 +27,7 @@ function onMessage(event: MessageEvent) {
 	const data = event.data as
 		| { type?: string; detail?: { message?: string; stack?: string } }
 		| undefined;
-	if (!data || data.type !== "pg:error") return;
+	if (!data || data.type !== "pg:error") {return;}
 	const detail = data.detail ?? {};
 	const parts = [detail.message, detail.stack].filter(Boolean);
 	emit("runtime-error", parts.join("\n") || "Unknown runtime error");
@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
 watch(
 	() => props.srcdoc,
 	(next) => {
-		if (iframe.value) iframe.value.srcdoc = next;
+		if (iframe.value) {iframe.value.srcdoc = next;}
 	},
 	{ immediate: false },
 );

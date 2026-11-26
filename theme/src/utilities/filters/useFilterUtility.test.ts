@@ -80,7 +80,7 @@ describe("useBlurUtility", () => {
 		useBlurUtility(s, { sm: "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._blur\\:sm {");
+		expect(css).toContain(String.raw`._blur\:sm {`);
 		expect(css).toContain("--filter-blur: blur(4px);");
 	});
 
@@ -120,7 +120,7 @@ describe("useBrightnessUtility", () => {
 		useBrightnessUtility(s, { "50": "0.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._brightness\\:50 {");
+		expect(css).toContain(String.raw`._brightness\:50 {`);
 		expect(css).toContain("--filter-brightness: brightness(0.5);");
 	});
 
@@ -160,7 +160,7 @@ describe("useContrastUtility", () => {
 		useContrastUtility(s, { "100": "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._contrast\\:100 {");
+		expect(css).toContain(String.raw`._contrast\:100 {`);
 		expect(css).toContain("--filter-contrast: contrast(1);");
 	});
 
@@ -203,7 +203,7 @@ describe("useDropShadowUtility", () => {
 		useDropShadowUtility(s, { sm: "0 1px 1px rgb(0 0 0 / 0.05)" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._drop-shadow\\:sm {");
+		expect(css).toContain(String.raw`._drop-shadow\:sm {`);
 		expect(css).toContain(
 			"--filter-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));",
 		);
@@ -245,7 +245,7 @@ describe("useGrayscaleUtility", () => {
 		useGrayscaleUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._grayscale\\:full {");
+		expect(css).toContain(String.raw`._grayscale\:full {`);
 		expect(css).toContain("--filter-grayscale: grayscale(1);");
 	});
 
@@ -285,7 +285,7 @@ describe("useHueRotateUtility", () => {
 		useHueRotateUtility(s, { "90": "90deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._hue-rotate\\:90 {");
+		expect(css).toContain(String.raw`._hue-rotate\:90 {`);
 		expect(css).toContain("--filter-hue-rotate: hue-rotate(90deg);");
 	});
 
@@ -325,7 +325,7 @@ describe("useInvertUtility", () => {
 		useInvertUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._invert\\:full {");
+		expect(css).toContain(String.raw`._invert\:full {`);
 		expect(css).toContain("--filter-invert: invert(1);");
 	});
 
@@ -365,7 +365,7 @@ describe("useSaturateUtility", () => {
 		useSaturateUtility(s, { "150": "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._saturate\\:150 {");
+		expect(css).toContain(String.raw`._saturate\:150 {`);
 		expect(css).toContain("--filter-saturate: saturate(1.5);");
 	});
 
@@ -405,7 +405,7 @@ describe("useSepiaUtility", () => {
 		useSepiaUtility(s, { full: "1" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._sepia\\:full {");
+		expect(css).toContain(String.raw`._sepia\:full {`);
 		expect(css).toContain("--filter-sepia: sepia(1);");
 	});
 

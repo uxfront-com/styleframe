@@ -27,7 +27,7 @@ describe("useObjectFitUtility", () => {
 		useObjectFitUtility(s, { contain: "contain" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._object-fit\\:contain {");
+		expect(css).toContain(String.raw`._object-fit\:contain {`);
 		expect(css).toContain("object-fit: contain;");
 	});
 

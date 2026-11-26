@@ -1,8 +1,8 @@
-import { fileURLToPath } from "node:url";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
+import type { Page } from "@playwright/test";
 import { expect, test } from "@playwright/test";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolve(import.meta.dirname, "..");
 const RESULTS = join(ROOT, "results");
 
 /**
@@ -12,13 +12,12 @@ const RESULTS = join(ROOT, "results");
  * in `src/tailwind/theme-mapper.ts` and exact class equivalents per slot.
  */
 
-async function checkRender(
-	page: import("@playwright/test").Page,
-	relPath: string,
-): Promise<void> {
-	const errors: string[] = [];
+async function checkRender(page: Page, relPath: string): Promise<void> {
+	const errors: Array<string> = [];
 	page.on("console", (msg) => {
-		if (msg.type() === "error") errors.push(msg.text());
+		if (msg.type() === "error") {
+			errors.push(msg.text());
+		}
 	});
 	page.on("pageerror", (err) => errors.push(err.message));
 

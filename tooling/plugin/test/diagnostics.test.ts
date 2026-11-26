@@ -1,6 +1,5 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import type { Diagnostic } from "@styleframe/core";
 import { consola } from "consola";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -12,7 +11,7 @@ import { reportDiagnostics } from "../src/plugin/diagnostics";
 import { unpluginFactory } from "../src/plugin/index";
 import { createPluginState } from "../src/plugin/state";
 
-const testDir = dirname(fileURLToPath(import.meta.url));
+const testDir = import.meta.dirname;
 
 function createConfig({ strict = false } = {}) {
 	return `import { styleframe } from "@styleframe/core";

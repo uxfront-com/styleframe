@@ -1,9 +1,9 @@
-import {
-	isKeyReferenceValue,
-	type DeclarationsCallbackContext,
-	type Styleframe,
-	type TokenValue,
-	type Variable,
+import { isKeyReferenceValue } from "@styleframe/core";
+import type {
+	DeclarationsCallbackContext,
+	Styleframe,
+	TokenValue,
+	Variable,
 } from "@styleframe/core";
 import { defu } from "defu";
 import type { CamelCase } from "scule";
@@ -198,10 +198,9 @@ const domains = [
 			const fluidDefaults: Record<string, FontSizeValue> = {
 				...fluidFontSizeBaseValues,
 			};
-			for (const [key, power] of Object.entries(fluidScalePowerByKey) as [
-				string,
-				number | null,
-			][]) {
+			for (const [key, power] of Object.entries(fluidScalePowerByKey) as Array<
+				[string, number | null]
+			>) {
 				fluidDefaults[key] =
 					power === null
 						? "@font-size.md"
@@ -287,9 +286,9 @@ const domains = [
 
 			const meta = defu(config.meta?.colors ?? {}, defaultColorsMetaConfig);
 
-			for (const colorVariable of Object.values(
-				baseColors,
-			) as Variable<string>[]) {
+			for (const colorVariable of Object.values(baseColors) as Array<
+				Variable<string>
+			>) {
 				const colorKey = colorVariable.name.slice("color.".length);
 				const colorOverride = meta.overrides?.[colorKey];
 
@@ -403,7 +402,9 @@ const domains = [
 		configurable: false,
 		composable: (s, _values, _options, { result, config }) => {
 			const scaleVar = result["scale"];
-			if (!scaleVar) return undefined;
+			if (!scaleVar) {
+				return undefined;
+			}
 			return useScalePowersDesignTokens(
 				s,
 				scaleVar as Variable,
@@ -432,7 +433,9 @@ function isDomainEnabled(
 	domain: Domain,
 	config: DesignTokensPresetConfig<boolean>,
 ): boolean {
-	if (domain.enabled) return domain.enabled(config);
+	if (domain.enabled) {
+		return domain.enabled(config);
+	}
 	const configKey = camelCase(domain.key);
 	return (config as Record<string, unknown>)[configKey] !== false;
 }
@@ -447,13 +450,17 @@ function assertDomainDependencies(
 	domain: Domain,
 	config: DesignTokensPresetConfig<boolean>,
 ): void {
-	if (!domain.requires) return;
+	if (!domain.requires) {
+		return;
+	}
 
 	const missing = domain.requires.filter(
 		(key) => (config as Record<string, unknown>)[key] === false,
 	);
 
-	if (missing.length === 0) return;
+	if (missing.length === 0) {
+		return;
+	}
 
 	const list = missing.map((key) => `\`${String(key)}\``).join(", ");
 	throw new Error(
@@ -667,7 +674,7 @@ export interface DesignTokensPresetConfig<TMerge extends boolean = true> {
 	lineHeight?: Record<string, TokenValue> | false;
 	letterSpacing?: Record<string, TokenValue> | false;
 	scale?: Record<string, TokenValue> | false;
-	scalePowers?: readonly number[];
+	scalePowers?: ReadonlyArray<number>;
 	breakpoint?: Record<string, number> | false;
 	easing?: Record<string, TokenValue> | false;
 	duration?: Record<string, TokenValue> | false;
@@ -897,7 +904,9 @@ function collectThemeNames(
 
 	if (configThemes) {
 		for (const name of Object.keys(configThemes)) {
-			if (name !== "default") names.add(name);
+			if (name !== "default") {
+				names.add(name);
+			}
 		}
 	}
 
@@ -1033,12 +1042,16 @@ export function useDesignTokensPreset(
 				config.themes?.[themeName] ?? ({} as ThemeTokenOverrides);
 
 			for (const entry of domains) {
-				if (entry.configurable === false) continue;
+				if (entry.configurable === false) {
+					continue;
+				}
 
 				const configKey = camelCase(entry.key);
 
 				// Skip domains disabled at root level
-				if (disabledDomains.has(configKey)) continue;
+				if (disabledDomains.has(configKey)) {
+					continue;
+				}
 
 				const themeValues =
 					userOverrides[configKey as keyof ThemeTokenOverrides] ??

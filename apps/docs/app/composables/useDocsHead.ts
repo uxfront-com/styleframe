@@ -12,7 +12,7 @@ export interface DocsHeadOptions {
 	/** YYYY-MM-DD. */
 	dateModified?: MaybeRefOrGetter<string | undefined>;
 	/** The trail to the page, only pages: see breadcrumbList. */
-	breadcrumbs?: MaybeRefOrGetter<Breadcrumb[] | undefined>;
+	breadcrumbs?: MaybeRefOrGetter<Array<Breadcrumb> | undefined>;
 }
 
 /**

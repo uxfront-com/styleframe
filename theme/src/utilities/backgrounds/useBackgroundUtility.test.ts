@@ -32,7 +32,7 @@ describe("useBackgroundUtility", () => {
 		useBackgroundUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background\\:none {");
+		expect(css).toContain(String.raw`._background\:none {`);
 		expect(css).toContain("background: none;");
 	});
 

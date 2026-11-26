@@ -41,7 +41,9 @@ function collectPairs() {
 		const variable =
 			(isDark && dark?.variables.find((v) => v.name === name)) ||
 			s.root.variables.find((v) => v.name === name);
-		if (!variable) throw new Error(`Unresolved token ${String(value)}`);
+		if (!variable) {
+			throw new Error(`Unresolved token ${String(value)}`);
+		}
 		return String(variable.value);
 	};
 
@@ -49,13 +51,15 @@ function collectPairs() {
 		(cv) => cv.match.readonly === "true",
 	)!.css as Slot;
 
-	const pairs: { label: string; border: string; against: string }[] = [];
+	const pairs: Array<{ label: string; border: string; against: string }> = [];
 
 	for (const cv of recipe.compoundVariants!) {
-		if (!cv.match.color || !cv.match.variant) continue;
+		if (!cv.match.color || !cv.match.variant) {
+			continue;
+		}
 		const css = cv.css as Slot;
 
-		const slots: [string, Slot, Slot, boolean][] = [
+		const slots: Array<[string, Slot, Slot, boolean]> = [
 			["rest", css, css, false],
 			["hover", (css["&:hover"] ?? {}) as Slot, css, false],
 			["dark rest", css["&:dark"] as Slot, css["&:dark"] as Slot, true],
@@ -73,7 +77,9 @@ function collectPairs() {
 					? slot.borderColor
 					: slot.borderBottomColor;
 			const label = `${cv.match.color} ${cv.match.variant} ${state}`;
-			if (!borderToken) throw new Error(`${label} has no border token`);
+			if (!borderToken) {
+				throw new Error(`${label} has no border token`);
+			}
 
 			const border = resolve(borderToken, isDark);
 			const fills = [

@@ -1,15 +1,16 @@
-import {
-	isKeyReferenceValue,
-	type DeclarationsCallbackContext,
-	type Reference,
-	type TokenValue,
-	type Variable,
+import { isKeyReferenceValue } from "@styleframe/core";
+import type {
+	DeclarationsCallbackContext,
+	Reference,
+	TokenValue,
+	Variable,
 } from "@styleframe/core";
 import type { CamelCase } from "scule";
 import { camelCase } from "scule";
 import type { ExportKeys } from "../types";
 import { useFluidClamp } from "../variables/fluid/useFluidClamp";
-import { type RangeInput, isRangeInput } from "./normalizeRange";
+import { isRangeInput } from "./normalizeRange";
+import type { RangeInput } from "./normalizeRange";
 
 /**
  * Creates a generic composable function for a CSS property.
@@ -122,8 +123,12 @@ export function createUseVariable<
 		const pairs = Object.entries(resolvedTokens);
 
 		pairs.sort(([_aKey, aValue], [_bKey, bValue]) => {
-			if (isKeyReferenceValue(aValue)) return 1;
-			if (isKeyReferenceValue(bValue)) return -1;
+			if (isKeyReferenceValue(aValue)) {
+				return 1;
+			}
+			if (isKeyReferenceValue(bValue)) {
+				return -1;
+			}
 			return 0;
 		});
 

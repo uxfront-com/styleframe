@@ -137,7 +137,9 @@ describe("genSelector", () => {
 	});
 
 	it("should handle selectors with special characters", () => {
-		const result = genSelector(".btn-primary\\:hover", ["opacity: 0.8;"]);
+		const result = genSelector(String.raw`.btn-primary\:hover`, [
+			"opacity: 0.8;",
+		]);
 		expect(result).toBe(".btn-primary\\:hover {\n\topacity: 0.8;\n}");
 	});
 

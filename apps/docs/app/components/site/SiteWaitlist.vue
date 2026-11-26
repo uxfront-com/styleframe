@@ -11,7 +11,7 @@ const { group, label } = defineProps<{
 
 const ENDPOINT =
 	"https://app.loops.so/api/newsletter-form/cmcc289ja7g5x0j0iqdjc14v3";
-const RATE_LIMIT = 60000;
+const RATE_LIMIT = 60_000;
 
 const previousTimestamp = useLocalStorage("subscribe-form-timestamp", 0);
 const email = ref("");

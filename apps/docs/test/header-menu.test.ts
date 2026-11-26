@@ -137,7 +137,7 @@ describe("useDocsSections().sidebars", () => {
 
 	// A navigation tree with every section, and Components' pages in their
 	// category folders, as Nuxt Content builds it from the URLs.
-	const navigation: ContentNavigationItem[] = [
+	const navigation: Array<ContentNavigationItem> = [
 		{
 			title: "Getting Started",
 			path: "/docs/getting-started",

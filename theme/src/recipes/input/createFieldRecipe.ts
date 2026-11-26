@@ -1,8 +1,6 @@
 import type { Styleframe, VariantDeclarationsBlock } from "@styleframe/core";
-import {
-	type RecipeConfig,
-	createUseRecipe,
-} from "../../utils/createUseRecipe";
+import { createUseRecipe } from "../../utils/createUseRecipe";
+import type { RecipeConfig } from "../../utils/createUseRecipe";
 
 /**
  * The muted text of a field (its placeholder, prefix and suffix): the field's

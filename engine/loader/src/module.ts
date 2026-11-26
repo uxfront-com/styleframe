@@ -33,7 +33,9 @@ export function trackExports(
 	const exports = new Map<string, ExportInfo>();
 
 	for (const [name, value] of Object.entries(module)) {
-		if (name === "default") continue;
+		if (name === "default") {
+			continue;
+		}
 
 		let type: "recipe" | "selector" | null = null;
 

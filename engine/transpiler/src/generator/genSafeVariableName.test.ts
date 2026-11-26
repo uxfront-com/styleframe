@@ -68,7 +68,7 @@ describe("genSafeVariableName", () => {
 	});
 
 	it("should sanitize names with backslashes", () => {
-		const result = genSafeVariableName("size\\small");
+		const result = genSafeVariableName(String.raw`size\small`);
 		expect(result).toBe("--size-small");
 	});
 
@@ -274,7 +274,7 @@ describe("genSafeVariableName", () => {
 	});
 
 	it("should sanitize names with escape sequences", () => {
-		const result = genSafeVariableName("test\\nline");
+		const result = genSafeVariableName(String.raw`test\nline`);
 		expect(result).toBe("--test-nline");
 	});
 

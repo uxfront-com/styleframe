@@ -31,7 +31,7 @@ describe("useBreakAfterUtility", () => {
 		useBreakAfterUtility(s, { avoid: "avoid" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._break-after\\:avoid {");
+		expect(css).toContain(String.raw`._break-after\:avoid {`);
 		expect(css).toContain("break-after: avoid;");
 	});
 
@@ -57,7 +57,7 @@ describe("useBreakBeforeUtility", () => {
 		useBreakBeforeUtility(s, { page: "page" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._break-before\\:page {");
+		expect(css).toContain(String.raw`._break-before\:page {`);
 		expect(css).toContain("break-before: page;");
 	});
 });
@@ -76,7 +76,7 @@ describe("useBreakInsideUtility", () => {
 		useBreakInsideUtility(s, { "avoid-page": "avoid-page" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._break-inside\\:avoid-page {");
+		expect(css).toContain(String.raw`._break-inside\:avoid-page {`);
 		expect(css).toContain("break-inside: avoid-page;");
 	});
 });

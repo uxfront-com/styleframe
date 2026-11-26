@@ -23,7 +23,9 @@ export async function readLandingPage(event: H3Event, path: string) {
 	const page = (await queryCollection(event, "landing" as never)
 		.path(path)
 		.first()) as LandingPage | null;
-	if (!page) return;
+	if (!page) {
+		return;
+	}
 
 	const file = join(
 		process.cwd(),
@@ -31,7 +33,9 @@ export async function readLandingPage(event: H3Event, path: string) {
 		"landing",
 		`${page.stem}.${page.extension}`,
 	);
-	if (!existsSync(file)) return;
+	if (!existsSync(file)) {
+		return;
+	}
 
 	return { page, source: await readFile(file, "utf8") };
 }

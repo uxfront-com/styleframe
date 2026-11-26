@@ -50,11 +50,11 @@ describe("usePaddingUtility", () => {
 		usePaddingUtility(s, { sm: "0.5rem", md: "1rem", lg: "1.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding\\:sm {");
+		expect(css).toContain(String.raw`._padding\:sm {`);
 		expect(css).toContain("padding: 0.5rem;");
-		expect(css).toContain("._padding\\:md {");
+		expect(css).toContain(String.raw`._padding\:md {`);
 		expect(css).toContain("padding: 1rem;");
-		expect(css).toContain("._padding\\:lg {");
+		expect(css).toContain(String.raw`._padding\:lg {`);
 		expect(css).toContain("padding: 1.5rem;");
 	});
 
@@ -64,7 +64,7 @@ describe("usePaddingUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._padding {");
-		expect(css).not.toContain("._padding\\:default");
+		expect(css).not.toContain(String.raw`._padding\:default`);
 	});
 
 	it("should handle empty values object", () => {
@@ -125,7 +125,7 @@ describe("usePaddingInlineUtility", () => {
 		usePaddingInlineUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-inline\\:md {");
+		expect(css).toContain(String.raw`._padding-inline\:md {`);
 		expect(css).toContain("padding-left: 16px;");
 		expect(css).toContain("padding-right: 16px;");
 	});
@@ -148,7 +148,7 @@ describe("usePaddingBlockUtility", () => {
 		usePaddingBlockUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-block\\:lg {");
+		expect(css).toContain(String.raw`._padding-block\:lg {`);
 		expect(css).toContain("padding-top: 24px;");
 		expect(css).toContain("padding-bottom: 24px;");
 	});
@@ -168,7 +168,7 @@ describe("usePaddingTopUtility", () => {
 		usePaddingTopUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-top\\:md {");
+		expect(css).toContain(String.raw`._padding-top\:md {`);
 		expect(css).toContain("padding-top: 16px;");
 	});
 });
@@ -187,7 +187,7 @@ describe("usePaddingRightUtility", () => {
 		usePaddingRightUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-right\\:lg {");
+		expect(css).toContain(String.raw`._padding-right\:lg {`);
 		expect(css).toContain("padding-right: 24px;");
 	});
 });
@@ -206,7 +206,7 @@ describe("usePaddingBottomUtility", () => {
 		usePaddingBottomUtility(s, { xl: "32px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-bottom\\:xl {");
+		expect(css).toContain(String.raw`._padding-bottom\:xl {`);
 		expect(css).toContain("padding-bottom: 32px;");
 	});
 });
@@ -225,7 +225,7 @@ describe("usePaddingLeftUtility", () => {
 		usePaddingLeftUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-left\\:md {");
+		expect(css).toContain(String.raw`._padding-left\:md {`);
 		expect(css).toContain("padding-left: 16px;");
 	});
 });
@@ -244,7 +244,7 @@ describe("usePaddingInlineStartUtility", () => {
 		usePaddingInlineStartUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-inline-start\\:md {");
+		expect(css).toContain(String.raw`._padding-inline-start\:md {`);
 		expect(css).toContain("padding-inline-start: 16px;");
 	});
 });
@@ -263,7 +263,7 @@ describe("usePaddingInlineEndUtility", () => {
 		usePaddingInlineEndUtility(s, { xl: "32px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-inline-end\\:xl {");
+		expect(css).toContain(String.raw`._padding-inline-end\:xl {`);
 		expect(css).toContain("padding-inline-end: 32px;");
 	});
 });
@@ -285,7 +285,7 @@ describe("usePaddingXUtility", () => {
 		usePaddingXUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-x\\:md {");
+		expect(css).toContain(String.raw`._padding-x\:md {`);
 		expect(css).toContain("padding-left: 16px;");
 		expect(css).toContain("padding-right: 16px;");
 	});
@@ -308,7 +308,7 @@ describe("usePaddingYUtility", () => {
 		usePaddingYUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-y\\:lg {");
+		expect(css).toContain(String.raw`._padding-y\:lg {`);
 		expect(css).toContain("padding-top: 24px;");
 		expect(css).toContain("padding-bottom: 24px;");
 	});
@@ -332,7 +332,7 @@ describe("recipe with @multiplier values", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-right\\:0\\.375");
+		expect(css).toContain(String.raw`._padding-right\:0\.375`);
 		expect(css).toContain("calc(var(--spacing, 1rem) * 0.375)");
 		expect(css).not.toContain("[0.375]");
 	});
@@ -354,7 +354,7 @@ describe("recipe with @multiplier values", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding-top\\:0\\.125");
+		expect(css).toContain(String.raw`._padding-top\:0\.125`);
 		expect(css).toContain("calc(var(--spacing, 1rem) * 0.125)");
 		expect(css).not.toContain("[0.125]");
 	});

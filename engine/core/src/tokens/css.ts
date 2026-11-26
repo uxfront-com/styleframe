@@ -13,7 +13,7 @@ import { parseAtReferences } from "./resolve";
 export function createCssFunction(_parent: Container, root: Root) {
 	const ref = createRefFunction(_parent, root);
 
-	const parseAndTrack = (str: string): TokenValue[] => {
+	const parseAndTrack = (str: string): Array<TokenValue> => {
 		const parts = parseAtReferences(str);
 		for (const part of parts) {
 			if (isRef(part)) {
@@ -25,9 +25,9 @@ export function createCssFunction(_parent: Container, root: Root) {
 
 	return function css(
 		strings: TemplateStringsArray,
-		...interpolations: (TokenValue | Variable | AtRule)[]
+		...interpolations: Array<TokenValue | Variable | AtRule>
 	): CSS {
-		const value = strings.reduce<TokenValue[]>((acc, str, i) => {
+		const value = strings.reduce<Array<TokenValue>>((acc, str, i) => {
 			acc.push(...parseAndTrack(str));
 
 			if (i < interpolations.length) {

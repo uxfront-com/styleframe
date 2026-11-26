@@ -1,11 +1,10 @@
 import { chromium } from "playwright";
 import { mkdirSync, readFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import { createServer } from "node:http";
 import { extname } from "node:path";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolve(import.meta.dirname, "..");
 const RESULTS = join(ROOT, "results");
 const SCREENSHOTS = join(RESULTS, "screenshots");
 
@@ -54,7 +53,7 @@ async function main() {
 		viewport: { width: 1280, height: 800 },
 	});
 
-	const failures: string[] = [];
+	const failures: Array<string> = [];
 
 	for (const page of PAGES) {
 		console.log(`\n=== ${page} ===`);
@@ -86,7 +85,6 @@ async function main() {
 		try {
 			const twBuf = readFileSync(twPath);
 			const sfBuf = readFileSync(sfPath);
-			const sizeDiff = Math.abs(twBuf.length - sfBuf.length);
 			const sizeRatio =
 				Math.min(twBuf.length, sfBuf.length) /
 				Math.max(twBuf.length, sfBuf.length);
@@ -98,7 +96,7 @@ async function main() {
 					`${page}: image sizes differ significantly (${(sizeRatio * 100).toFixed(1)}%)`,
 				);
 			}
-		} catch (err) {
+		} catch {
 			failures.push(`${page}: could not compare screenshots`);
 		}
 	}
@@ -113,12 +111,14 @@ async function main() {
 		);
 	} else {
 		console.log("Issues:");
-		for (const f of failures) console.log(`  - ${f}`);
+		for (const f of failures) {
+			console.log(`  - ${f}`);
+		}
 	}
 	console.log(`\nScreenshots saved to: ${SCREENSHOTS}`);
 }
 
-main().catch((err) => {
-	console.error(err);
+main().catch((error) => {
+	console.error(error);
 	process.exit(1);
 });

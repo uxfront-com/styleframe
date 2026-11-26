@@ -53,7 +53,7 @@ const NITRO_HEADERS = [
 
 interface Rule {
 	set: Record<string, string>;
-	unset: string[];
+	unset: Array<string>;
 }
 
 /** Parses `_headers` into rules keyed by URL, as Cloudflare's parser does. */
@@ -62,7 +62,9 @@ function parseHeaders(headers: string): Record<string, Rule> {
 	let rule: Rule | undefined;
 	for (const raw of headers.split("\n")) {
 		const line = raw.trim();
-		if (!line || line.startsWith("#")) continue;
+		if (!line || line.startsWith("#")) {
+			continue;
+		}
 		if (/^(\S+:\/\/|\/)/.test(line)) {
 			rule = rules[line] ?? { set: {}, unset: [] };
 			rules[line] = rule;
@@ -86,10 +88,10 @@ function parseHeaders(headers: string): Record<string, Rule> {
 function ruleRegExp(rule: string): RegExp {
 	const escaped = rule
 		.split("*")
-		.map((part) => part.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&"))
+		.map((part) => part.replaceAll(/[-/\\^$+?.()|[\]{}]/g, String.raw`\$&`))
 		.join(".*")
-		.replace(/(?<=^https:\\\/\\\/[^/]*?):[A-Za-z]\w*/g, "[^/.]+")
-		.replace(/:[A-Za-z]\w*/g, "[^/]+");
+		.replaceAll(/(?<=^https:\\\/\\\/[^/]*?):[A-Za-z]\w*/g, "[^/.]+")
+		.replaceAll(/:[A-Za-z]\w*/g, "[^/]+");
 	return new RegExp(`^${escaped}$`);
 }
 
@@ -99,7 +101,7 @@ function ruleRegExp(rule: string): RegExp {
  */
 function robotsTag(
 	rules: Record<string, Rule>,
-	order: string[],
+	order: Array<string>,
 	url: string,
 ): string | null {
 	const { hostname, pathname } = new URL(url);
@@ -109,9 +111,13 @@ function robotsTag(
 		const test = key.startsWith("https://")
 			? `https://${hostname}${pathname}`
 			: pathname;
-		if (!ruleRegExp(key).test(test)) continue;
+		if (!ruleRegExp(key).test(test)) {
+			continue;
+		}
 		const { set, unset } = rules[key] as Rule;
-		if (unset.includes("x-robots-tag")) value = null;
+		if (unset.includes("x-robots-tag")) {
+			value = null;
+		}
 		const added = set["x-robots-tag"];
 		if (added) {
 			value = wasSet && value ? `${value}, ${added}` : added;

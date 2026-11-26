@@ -14,9 +14,7 @@ const moduleShims: Record<string, ModuleShape> = {
 };
 
 function rewriteImports(source: string): string {
-	const output: string[] = [];
-	let captured: unknown;
-	void captured;
+	const output: Array<string> = [];
 
 	const namedImportRe = /import\s*\{([^}]+)\}\s*from\s*["']([^"']+)["'];?/g;
 	const defaultNamedImportRe =
@@ -26,8 +24,8 @@ function rewriteImports(source: string): string {
 		/import\s*\*\s*as\s+(\w+)\s+from\s*["']([^"']+)["'];?/g;
 	const sideEffectImportRe = /import\s*["']([^"']+)["'];?/g;
 
-	let rewritten = source
-		.replace(defaultNamedImportRe, (_match, defaultName, names, spec) => {
+	const rewritten = source
+		.replaceAll(defaultNamedImportRe, (_match, defaultName, names, spec) => {
 			const bindings = (names as string)
 				.split(",")
 				.map((b) => b.trim())
@@ -39,7 +37,7 @@ function rewriteImports(source: string): string {
 				.join(", ");
 			return `const ${defaultName} = __pgModules[${JSON.stringify(spec)}].default; const { ${bindings} } = __pgModules[${JSON.stringify(spec)}];`;
 		})
-		.replace(namedImportRe, (_match, names, spec) => {
+		.replaceAll(namedImportRe, (_match, names, spec) => {
 			const bindings = (names as string)
 				.split(",")
 				.map((b) => b.trim())
@@ -51,15 +49,15 @@ function rewriteImports(source: string): string {
 				.join(", ");
 			return `const { ${bindings} } = __pgModules[${JSON.stringify(spec)}];`;
 		})
-		.replace(namespaceImportRe, (_match, name, spec) => {
+		.replaceAll(namespaceImportRe, (_match, name, spec) => {
 			return `const ${name} = __pgModules[${JSON.stringify(spec)}];`;
 		})
-		.replace(defaultImportRe, (_match, name, spec) => {
+		.replaceAll(defaultImportRe, (_match, name, spec) => {
 			return `const ${name} = __pgModules[${JSON.stringify(spec)}].default;`;
 		})
-		.replace(sideEffectImportRe, () => "")
-		.replace(/export\s+default\s+/g, "__pgOutput.default = ")
-		.replace(/export\s*\{([^}]+)\};?/g, (_m, names) => {
+		.replaceAll(sideEffectImportRe, () => "")
+		.replaceAll(/export\s+default\s+/g, "__pgOutput.default = ")
+		.replaceAll(/export\s*\{([^}]+)\};?/g, (_m, names) => {
 			const entries = (names as string)
 				.split(",")
 				.map((b) => b.trim())
@@ -71,7 +69,7 @@ function rewriteImports(source: string): string {
 				.join("\n");
 			return entries;
 		})
-		.replace(/export\s+const\s+(\w+)\s*=/g, "const $1 = __pgOutput.$1 =");
+		.replaceAll(/export\s+const\s+(\w+)\s*=/g, "const $1 = __pgOutput.$1 =");
 
 	output.push(rewritten);
 	return output.join("\n");

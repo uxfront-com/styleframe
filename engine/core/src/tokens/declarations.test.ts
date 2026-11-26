@@ -675,7 +675,7 @@ describe("createDeclarationsCallbackContext", () => {
 
 	describe("container type handling", () => {
 		it("should work with all Container union types", () => {
-			const containers: Container[] = [root, selector, media];
+			const containers: Array<Container> = [root, selector, media];
 
 			containers.forEach((container) => {
 				const context = createDeclarationsCallbackContext(container, root);
@@ -701,9 +701,7 @@ describe("createDeclarationsCallbackContext", () => {
 
 				expect(parent.variables).toHaveLength(initialVariablesCount + 1);
 
-				const lastVar = parent.variables[
-					parent.variables.length - 1
-				] as Variable;
+				const lastVar = parent.variables.at(-1) as Variable;
 				expect(lastVar.type).toBe("variable");
 			});
 		});

@@ -22,7 +22,7 @@ watchEffect(() => {
 	}
 });
 
-const fields: AuthFormField[] = [
+const fields: Array<AuthFormField> = [
 	{
 		name: "email",
 		type: "text" as const,
@@ -69,7 +69,7 @@ const signIn = async (email: string, password: string) => {
 		email,
 		password,
 	});
-	if (error) displayError(error);
+	if (error) {displayError(error);}
 };
 
 async function onSubmit(payload: {

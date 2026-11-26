@@ -36,9 +36,11 @@ export function createSharedJiti(options: JitiOptions = {}): Jiti {
  * @param jiti - The jiti instance to clear cache from
  * @param filePaths - Absolute paths of files to invalidate
  */
-export function clearJitiCache(jiti: Jiti, ...filePaths: string[]): void {
+export function clearJitiCache(jiti: Jiti, ...filePaths: Array<string>): void {
 	const cache = jiti.cache;
-	if (!cache) return;
+	if (!cache) {
+		return;
+	}
 
 	for (const filePath of filePaths) {
 		const normalizedPath = path.resolve(filePath);
@@ -65,7 +67,9 @@ export function clearJitiCache(jiti: Jiti, ...filePaths: string[]): void {
  */
 export function clearAllJitiCache(jiti: Jiti): void {
 	const cache = jiti.cache;
-	if (!cache) return;
+	if (!cache) {
+		return;
+	}
 
 	if (cache instanceof Map) {
 		cache.clear();

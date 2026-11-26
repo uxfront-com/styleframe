@@ -109,7 +109,7 @@ describe("useCardBodyRecipe Open Components rules", () => {
 		const s = createInstance();
 		const recipe = useCardBodyRecipe(s);
 
-		const blocks: Record<string, unknown>[] = [
+		const blocks: Array<Record<string, unknown>> = [
 			recipe.base!,
 			...Object.values(recipe.variants!.size),
 		];

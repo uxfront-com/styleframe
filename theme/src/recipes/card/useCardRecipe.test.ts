@@ -50,7 +50,7 @@ type Rule = {
 	identifier?: string;
 	rule?: string;
 	declarations: Record<string, unknown>;
-	children: Rule[];
+	children: Array<Rule>;
 };
 
 const heading = ":is(h1, h2, h3, h4, h5, h6)";
@@ -185,7 +185,7 @@ describe("useCardRecipe", () => {
 				"textDecorationLine",
 				"textUnderlineOffset",
 			];
-			const collect = (rule: Rule): string[] => [
+			const collect = (rule: Rule): Array<string> => [
 				...Object.keys(rule.declarations),
 				...rule.children.flatMap(collect),
 			];

@@ -16,7 +16,8 @@ import OutputPane from "@/components/OutputPane.vue";
 import SplitPane from "@/components/SplitPane.vue";
 import StatusBar from "@/components/StatusBar.vue";
 import type { EditorSelectionState } from "@/editor/codemirror";
-import { runPipeline, type PipelineResult } from "@/pipeline/pipeline";
+import { runPipeline } from '@/pipeline/pipeline';
+import type { PipelineResult } from '@/pipeline/pipeline';
 import {
 	closeFile,
 	CONFIG_PATH,
@@ -30,23 +31,23 @@ const state = usePlaygroundState();
 const { mode, toggle } = useTheme();
 
 const themeIcon = computed(() => {
-	if (mode.value === "light") return "sun";
-	if (mode.value === "dark") return "moon";
+	if (mode.value === "light") {return "sun";}
+	if (mode.value === "dark") {return "moon";}
 	return "contrast";
 });
 
 const themeLabel = computed(() => {
-	if (mode.value === "light") return "Theme: Light";
-	if (mode.value === "dark") return "Theme: Dark";
+	if (mode.value === "light") {return "Theme: Light";}
+	if (mode.value === "dark") {return "Theme: Dark";}
 	return "Theme: Auto";
 });
 
 const languageLabel = computed(() => {
 	const path = state.activePath;
-	if (!path) return "—";
-	if (path.endsWith(".css")) return "CSS";
-	if (path.endsWith(".tsx") || path.endsWith(".jsx")) return "TSX";
-	if (path.endsWith(".ts")) return "TypeScript";
+	if (!path) {return "—";}
+	if (path.endsWith(".css")) {return "CSS";}
+	if (path.endsWith(".tsx") || path.endsWith(".jsx")) {return "TSX";}
+	if (path.endsWith(".ts")) {return "TypeScript";}
 	return "Plain Text";
 });
 
@@ -62,24 +63,24 @@ const dirty = computed<Record<string, boolean>>(() => {
 });
 
 const canRun = computed(() => {
-	if (state.error) return true;
+	if (state.error) {return true;}
 	const current = state.files;
 	const built = state.lastBuiltFiles;
 	const currentKeys = Object.keys(current);
-	if (currentKeys.length !== Object.keys(built).length) return true;
+	if (currentKeys.length !== Object.keys(built).length) {return true;}
 	return currentKeys.some((key) => current[key] !== built[key]);
 });
 
 const scanSummary = computed(() => {
 	const scan = state.scan;
-	if (!scan) return "";
+	if (!scan) {return "";}
 	const matched = scan.diagnostics.filter((d) => d.factoryFound).length;
 	const unmatched = scan.diagnostics.length - matched;
 	const registered = scan.registered.length;
-	const parts: string[] = [];
+	const parts: Array<string> = [];
 	parts.push(`scan: ${scan.diagnostics.length}`);
-	if (registered > 0) parts.push(`+${registered}`);
-	if (unmatched > 0) parts.push(`${unmatched} unmatched`);
+	if (registered > 0) {parts.push(`+${registered}`);}
+	if (unmatched > 0) {parts.push(`${unmatched} unmatched`);}
 	return parts.join(" · ");
 });
 
@@ -100,7 +101,7 @@ async function rebuild() {
 		state.error = `[${result.stage}] ${result.error.message}`;
 		return;
 	}
-	if (revokePrevious) revokePrevious();
+	if (revokePrevious) {revokePrevious();}
 	revokePrevious = result.revoke;
 	state.output.css = result.css;
 	state.output.runtimeTs = result.runtimeTs;
@@ -111,9 +112,11 @@ async function rebuild() {
 }
 
 async function run() {
-	if (running.value) return;
+	if (running.value) {return;}
 	running.value = true;
-	const minDelay = new Promise<void>((resolve) => setTimeout(resolve, 400));
+	const minDelay = new Promise<void>((resolve) => {
+		setTimeout(resolve, 400);
+	});
 	try {
 		await Promise.all([rebuild(), minDelay]);
 	} finally {

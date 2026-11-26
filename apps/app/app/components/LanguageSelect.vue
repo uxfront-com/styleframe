@@ -37,7 +37,7 @@ function getEmojiFlag(locale: string): string {
 	return countryCode
 		.toUpperCase()
 		.split("")
-		.map((char) => String.fromCodePoint(0x1f1a5 + char.charCodeAt(0)))
+		.map((char) => String.fromCodePoint(0x1_f1_a5 + char.charCodeAt(0)))
 		.join("");
 }
 </script>

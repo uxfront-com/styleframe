@@ -41,10 +41,10 @@ describe("useSizeUtility", () => {
 		useSizeUtility(s, { full: "100%", "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._size\\:full {");
+		expect(css).toContain(String.raw`._size\:full {`);
 		expect(css).toContain("width: 100%;");
 		expect(css).toContain("height: 100%;");
-		expect(css).toContain("._size\\:4 {");
+		expect(css).toContain(String.raw`._size\:4 {`);
 		expect(css).toContain("width: 1rem;");
 		expect(css).toContain("height: 1rem;");
 	});
@@ -55,7 +55,7 @@ describe("useSizeUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._size {");
-		expect(css).not.toContain("._size\\:default");
+		expect(css).not.toContain(String.raw`._size\:default`);
 	});
 
 	it("should handle 'auto' value", () => {

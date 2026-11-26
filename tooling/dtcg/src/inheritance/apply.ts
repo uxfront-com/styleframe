@@ -24,7 +24,9 @@ interface InheritedContext {
 }
 
 function deepClone<T>(value: T): T {
-	if (value === null || typeof value !== "object") return value;
+	if (value === null || typeof value !== "object") {
+		return value;
+	}
 	if (Array.isArray(value)) {
 		return value.map((v) => deepClone(v)) as unknown as T;
 	}
@@ -58,7 +60,9 @@ function applyToTree(
 	}
 
 	for (const [key, child] of Object.entries(node)) {
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (child !== null && typeof child === "object" && !Array.isArray(child)) {
 			applyToTree(child as Record<string, unknown>, nextCtx);
 		}

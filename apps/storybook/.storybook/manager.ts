@@ -60,7 +60,9 @@ if (window !== window.parent) {
 				const previewIframe = document.getElementById(
 					"storybook-preview-iframe",
 				) as HTMLIFrameElement | null;
-				if (!previewIframe) return;
+				if (!previewIframe) {
+					return;
+				}
 
 				const chromeHeight = window.innerHeight - previewIframe.offsetHeight;
 				totalHeight = chromeHeight + event.data.height + PADDING;

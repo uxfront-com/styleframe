@@ -46,7 +46,7 @@ describe("useScrollMarginUtility", () => {
 		useScrollMarginUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin\:sm {`);
 		expect(css).toContain("scroll-margin: 0.5rem;");
 	});
 
@@ -75,7 +75,7 @@ describe("useScrollMarginXUtility", () => {
 		useScrollMarginXUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-x\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-x\:sm {`);
 		expect(css).toContain("scroll-margin-left: 0.5rem;");
 		expect(css).toContain("scroll-margin-right: 0.5rem;");
 	});
@@ -98,7 +98,7 @@ describe("useScrollMarginYUtility", () => {
 		useScrollMarginYUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-y\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-y\:sm {`);
 		expect(css).toContain("scroll-margin-top: 0.5rem;");
 		expect(css).toContain("scroll-margin-bottom: 0.5rem;");
 	});
@@ -118,7 +118,7 @@ describe("useScrollMarginTopUtility", () => {
 		useScrollMarginTopUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-top\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-top\:sm {`);
 		expect(css).toContain("scroll-margin-top: 0.5rem;");
 	});
 });
@@ -137,7 +137,7 @@ describe("useScrollMarginRightUtility", () => {
 		useScrollMarginRightUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-right\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-right\:sm {`);
 		expect(css).toContain("scroll-margin-right: 0.5rem;");
 	});
 });
@@ -156,7 +156,7 @@ describe("useScrollMarginBottomUtility", () => {
 		useScrollMarginBottomUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-bottom\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-bottom\:sm {`);
 		expect(css).toContain("scroll-margin-bottom: 0.5rem;");
 	});
 });
@@ -175,7 +175,7 @@ describe("useScrollMarginLeftUtility", () => {
 		useScrollMarginLeftUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-left\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-left\:sm {`);
 		expect(css).toContain("scroll-margin-left: 0.5rem;");
 	});
 });
@@ -194,7 +194,7 @@ describe("useScrollMarginStartUtility", () => {
 		useScrollMarginStartUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-inline-start\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-inline-start\:sm {`);
 		expect(css).toContain("scroll-margin-inline-start: 0.5rem;");
 	});
 });
@@ -213,7 +213,7 @@ describe("useScrollMarginEndUtility", () => {
 		useScrollMarginEndUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-margin-inline-end\\:sm {");
+		expect(css).toContain(String.raw`._scroll-margin-inline-end\:sm {`);
 		expect(css).toContain("scroll-margin-inline-end: 0.5rem;");
 	});
 });
@@ -242,7 +242,7 @@ describe("useScrollPaddingUtility", () => {
 		useScrollPaddingUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding\:sm {`);
 		expect(css).toContain("scroll-padding: 0.5rem;");
 	});
 
@@ -271,7 +271,7 @@ describe("useScrollPaddingXUtility", () => {
 		useScrollPaddingXUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-x\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-x\:sm {`);
 		expect(css).toContain("scroll-padding-left: 0.5rem;");
 		expect(css).toContain("scroll-padding-right: 0.5rem;");
 	});
@@ -294,7 +294,7 @@ describe("useScrollPaddingYUtility", () => {
 		useScrollPaddingYUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-y\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-y\:sm {`);
 		expect(css).toContain("scroll-padding-top: 0.5rem;");
 		expect(css).toContain("scroll-padding-bottom: 0.5rem;");
 	});
@@ -314,7 +314,7 @@ describe("useScrollPaddingTopUtility", () => {
 		useScrollPaddingTopUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-top\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-top\:sm {`);
 		expect(css).toContain("scroll-padding-top: 0.5rem;");
 	});
 });
@@ -333,7 +333,7 @@ describe("useScrollPaddingRightUtility", () => {
 		useScrollPaddingRightUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-right\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-right\:sm {`);
 		expect(css).toContain("scroll-padding-right: 0.5rem;");
 	});
 });
@@ -352,7 +352,7 @@ describe("useScrollPaddingBottomUtility", () => {
 		useScrollPaddingBottomUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-bottom\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-bottom\:sm {`);
 		expect(css).toContain("scroll-padding-bottom: 0.5rem;");
 	});
 });
@@ -371,7 +371,7 @@ describe("useScrollPaddingLeftUtility", () => {
 		useScrollPaddingLeftUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-left\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-left\:sm {`);
 		expect(css).toContain("scroll-padding-left: 0.5rem;");
 	});
 });
@@ -392,7 +392,7 @@ describe("useScrollPaddingStartUtility", () => {
 		useScrollPaddingStartUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-inline-start\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-inline-start\:sm {`);
 		expect(css).toContain("scroll-padding-inline-start: 0.5rem;");
 	});
 });
@@ -411,7 +411,7 @@ describe("useScrollPaddingEndUtility", () => {
 		useScrollPaddingEndUtility(s, { sm: "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-padding-inline-end\\:sm {");
+		expect(css).toContain(String.raw`._scroll-padding-inline-end\:sm {`);
 		expect(css).toContain("scroll-padding-inline-end: 0.5rem;");
 	});
 });

@@ -15,7 +15,7 @@ export function inferSiteURL() {
 
 export async function getPackageJsonMetadata(dir: string) {
 	try {
-		const packageJson = await readFile(resolve(dir, "package.json"), "utf-8");
+		const packageJson = await readFile(resolve(dir, "package.json"), "utf8");
 		const parsed = JSON.parse(packageJson);
 		return {
 			name: parsed.name,

@@ -7,8 +7,8 @@ import {
 	generateStyleframeCode,
 	fromDTCG,
 	fromDTCGResolver,
-	type FigmaExportFormat,
 } from "@styleframe/figma";
+import type { FigmaExportFormat } from "@styleframe/figma";
 
 export default defineCommand({
 	meta: {
@@ -106,7 +106,7 @@ export default defineCommand({
 
 async function readFromDirectory(dirPath: string): Promise<FigmaExportFormat> {
 	const tokensPath = path.join(dirPath, "tokens.json");
-	const content = await readFile(tokensPath, "utf-8");
+	const content = await readFile(tokensPath, "utf8");
 	const tokensDoc = JSON.parse(content) as DTCGDocument;
 
 	const resolverPath = path.join(dirPath, "tokens.resolver.json");
@@ -118,7 +118,9 @@ async function readFromDirectory(dirPath: string): Promise<FigmaExportFormat> {
 		);
 		return fromDTCGResolver(resolverDoc, {
 			fileLoader: async (ref) => {
-				if (ref === "tokens.json") return tokensDoc;
+				if (ref === "tokens.json") {
+					return tokensDoc;
+				}
 				throw new Error(
 					`Resolver references "${ref}" but only "tokens.json" was found`,
 				);
@@ -130,7 +132,7 @@ async function readFromDirectory(dirPath: string): Promise<FigmaExportFormat> {
 }
 
 async function readFromFile(filePath: string): Promise<FigmaExportFormat> {
-	const content = await readFile(filePath, "utf-8");
+	const content = await readFile(filePath, "utf8");
 	const tokensDoc = JSON.parse(content) as DTCGDocument;
 
 	const resolverPath = filePath.replace(/\.json$/, ".resolver.json");
@@ -142,7 +144,9 @@ async function readFromFile(filePath: string): Promise<FigmaExportFormat> {
 		);
 		return fromDTCGResolver(resolverDoc, {
 			fileLoader: async (ref) => {
-				if (ref === path.basename(filePath)) return tokensDoc;
+				if (ref === path.basename(filePath)) {
+					return tokensDoc;
+				}
 				throw new Error(
 					`Resolver references "${ref}" but only "${path.basename(filePath)}" was provided`,
 				);
@@ -155,7 +159,7 @@ async function readFromFile(filePath: string): Promise<FigmaExportFormat> {
 
 async function tryReadJson<T>(filePath: string): Promise<T | undefined> {
 	try {
-		const content = await readFile(filePath, "utf-8");
+		const content = await readFile(filePath, "utf8");
 		return JSON.parse(content) as T;
 	} catch {
 		return undefined;

@@ -56,9 +56,9 @@ export interface FigmaExportFormat {
 	/** Collection name */
 	collection: string;
 	/** Mode names (first is default) */
-	modes: string[];
+	modes: Array<string>;
 	/** Variables in the collection */
-	variables: FigmaExportVariable[];
+	variables: Array<FigmaExportVariable>;
 }
 
 /**
@@ -114,7 +114,7 @@ export interface ParsedTheme {
 	/** Theme name (e.g., "dark") */
 	name: string;
 	/** Variables with overridden values in this theme */
-	variables: ParsedVariable[];
+	variables: Array<ParsedVariable>;
 }
 
 /**
@@ -124,9 +124,9 @@ export interface CodegenResult {
 	/** Generated TypeScript code */
 	code: string;
 	/** Parsed variables */
-	variables: ParsedVariable[];
+	variables: Array<ParsedVariable>;
 	/** Parsed themes */
-	themes: ParsedTheme[];
+	themes: Array<ParsedTheme>;
 	/** Required imports */
-	imports: string[];
+	imports: Array<string>;
 }

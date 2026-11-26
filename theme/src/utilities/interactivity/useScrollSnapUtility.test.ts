@@ -36,7 +36,7 @@ describe("useScrollSnapAlignUtility", () => {
 		useScrollSnapAlignUtility(s, { start: "start" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-snap-align\\:start {");
+		expect(css).toContain(String.raw`._scroll-snap-align\:start {`);
 		expect(css).toContain("scroll-snap-align: start;");
 	});
 
@@ -82,7 +82,7 @@ describe("useScrollSnapStopUtility", () => {
 		useScrollSnapStopUtility(s, { always: "always" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-snap-stop\\:always {");
+		expect(css).toContain(String.raw`._scroll-snap-stop\:always {`);
 		expect(css).toContain("scroll-snap-stop: always;");
 	});
 
@@ -153,7 +153,7 @@ describe("useScrollSnapTypeUtility", () => {
 		useScrollSnapTypeUtility(s, { x: "x var(--scroll-snap-type-strictness)" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-snap-type\\:x {");
+		expect(css).toContain(String.raw`._scroll-snap-type\:x {`);
 		expect(css).toContain(
 			"scroll-snap-type: x var(--scroll-snap-type-strictness);",
 		);
@@ -164,7 +164,7 @@ describe("useScrollSnapTypeUtility", () => {
 		useScrollSnapTypeUtility(s, { mandatory: "mandatory" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-snap-type\\:mandatory {");
+		expect(css).toContain(String.raw`._scroll-snap-type\:mandatory {`);
 		expect(css).toContain("--scroll-snap-type-strictness: mandatory;");
 	});
 

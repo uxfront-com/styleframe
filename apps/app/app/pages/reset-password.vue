@@ -14,7 +14,7 @@ useSeoMeta({
 	description: "Set a new password for your styleframe account",
 });
 
-const fields: AuthFormField[] = [
+const fields: Array<AuthFormField> = [
 	{
 		name: "password",
 		label: "New Password",
@@ -47,7 +47,7 @@ const updateUserPassword = async (payload: {
 	}
 
 	const { error } = await supabase.auth.updateUser({
-		password: password,
+		password,
 	});
 
 	if (error) {

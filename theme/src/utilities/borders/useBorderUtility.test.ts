@@ -33,7 +33,7 @@ describe("useBorderUtility", () => {
 		useBorderUtility(s, { thin: "1px solid black" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border\\:thin {");
+		expect(css).toContain(String.raw`._border\:thin {`);
 		expect(css).toContain("border: 1px solid black;");
 	});
 
@@ -59,7 +59,7 @@ describe("useBorderTopUtility", () => {
 		useBorderTopUtility(s, { thin: "1px solid black" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-top\\:thin {");
+		expect(css).toContain(String.raw`._border-top\:thin {`);
 		expect(css).toContain("border-top: 1px solid black;");
 	});
 });
@@ -78,7 +78,7 @@ describe("useBorderRightUtility", () => {
 		useBorderRightUtility(s, { thin: "1px solid black" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-right\\:thin {");
+		expect(css).toContain(String.raw`._border-right\:thin {`);
 		expect(css).toContain("border-right: 1px solid black;");
 	});
 });
@@ -97,7 +97,7 @@ describe("useBorderBottomUtility", () => {
 		useBorderBottomUtility(s, { thin: "1px solid black" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-bottom\\:thin {");
+		expect(css).toContain(String.raw`._border-bottom\:thin {`);
 		expect(css).toContain("border-bottom: 1px solid black;");
 	});
 });
@@ -116,7 +116,7 @@ describe("useBorderLeftUtility", () => {
 		useBorderLeftUtility(s, { thin: "1px solid black" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-left\\:thin {");
+		expect(css).toContain(String.raw`._border-left\:thin {`);
 		expect(css).toContain("border-left: 1px solid black;");
 	});
 });
