@@ -42,9 +42,9 @@ describe("useHeightUtility", () => {
 		useHeightUtility(s, { full: "100%", screen: "100vh" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._height\\:full {");
+		expect(css).toContain(String.raw`._height\:full {`);
 		expect(css).toContain("height: 100%;");
-		expect(css).toContain("._height\\:screen {");
+		expect(css).toContain(String.raw`._height\:screen {`);
 		expect(css).toContain("height: 100vh;");
 	});
 
@@ -54,7 +54,7 @@ describe("useHeightUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._height {");
-		expect(css).not.toContain("._height\\:default");
+		expect(css).not.toContain(String.raw`._height\:default`);
 	});
 
 	it("should handle 'auto' value", () => {
@@ -111,9 +111,9 @@ describe("useHeightUtility", () => {
 		createHeight(["@1", "@2"]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._height\\:1 {");
+		expect(css).toContain(String.raw`._height\:1 {`);
 		expect(css).toContain("height: calc(var(--spacing, 1rem) * 1);");
-		expect(css).toContain("._height\\:2 {");
+		expect(css).toContain(String.raw`._height\:2 {`);
 		expect(css).toContain("height: calc(var(--spacing, 1rem) * 2);");
 	});
 });
@@ -142,9 +142,9 @@ describe("useMinHeightUtility", () => {
 		useMinHeightUtility(s, { full: "100%", "0": "0" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._min-height\\:full {");
+		expect(css).toContain(String.raw`._min-height\:full {`);
 		expect(css).toContain("min-height: 100%;");
-		expect(css).toContain("._min-height\\:0 {");
+		expect(css).toContain(String.raw`._min-height\:0 {`);
 		expect(css).toContain("min-height: 0;");
 	});
 
@@ -180,9 +180,9 @@ describe("useMaxHeightUtility", () => {
 		useMaxHeightUtility(s, { full: "100%", none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._max-height\\:full {");
+		expect(css).toContain(String.raw`._max-height\:full {`);
 		expect(css).toContain("max-height: 100%;");
-		expect(css).toContain("._max-height\\:none {");
+		expect(css).toContain(String.raw`._max-height\:none {`);
 		expect(css).toContain("max-height: none;");
 	});
 

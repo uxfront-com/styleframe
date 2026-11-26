@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { styleframe } from "@styleframe/core";
 import type { PluginGlobalState } from "../src/plugin/state";
 import {
@@ -6,8 +6,8 @@ import {
 	isContentFile,
 	scanAndRegister,
 	scanFileAndRegister,
-	type PluginScannerState,
 } from "../src/plugin/scanner";
+import type { PluginScannerState } from "../src/plugin/scanner";
 import type {
 	UtilityMatch,
 	ParsedUtility,
@@ -185,11 +185,11 @@ describe("scanner integration", () => {
 			const state = createMockState(s);
 			const factory = s.root.utilities.find((u) => u.name === "padding")!;
 
-			const parsed: ParsedUtility[] = [
+			const parsed: Array<ParsedUtility> = [
 				createParsedUtility({ name: "padding", value: "sm" }),
 			];
 
-			const matches: UtilityMatch[] = [
+			const matches: Array<UtilityMatch> = [
 				{
 					parsed: parsed[0],
 					factory,
@@ -223,7 +223,7 @@ describe("scanner integration", () => {
 			const state = createMockState(s);
 			const factory = s.root.utilities.find((u) => u.name === "padding")!;
 
-			const parsed: ParsedUtility[] = [
+			const parsed: Array<ParsedUtility> = [
 				createParsedUtility({ name: "padding", value: "sm" }),
 			];
 
@@ -232,7 +232,7 @@ describe("scanner integration", () => {
 				value: "lg",
 			});
 
-			const matches: UtilityMatch[] = [
+			const matches: Array<UtilityMatch> = [
 				{
 					parsed: parsed[0],
 					factory,
@@ -365,7 +365,7 @@ describe("scanner integration", () => {
 			const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
 			const filePath = "/src/app.tsx";
-			const parsed: ParsedUtility[] = [
+			const parsed: Array<ParsedUtility> = [
 				createParsedUtility({ name: "margin", value: "lg" }),
 			];
 
@@ -376,7 +376,7 @@ describe("scanner integration", () => {
 				lastScanned: Date.now(),
 			};
 
-			const matches: UtilityMatch[] = [
+			const matches: Array<UtilityMatch> = [
 				{
 					parsed: parsed[0],
 					factory,
@@ -407,7 +407,7 @@ describe("scanner integration", () => {
 			const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
 			const filePath = "/src/app.tsx";
-			const parsed: ParsedUtility[] = [
+			const parsed: Array<ParsedUtility> = [
 				createParsedUtility({ name: "margin", value: "sm" }),
 			];
 
@@ -419,7 +419,7 @@ describe("scanner integration", () => {
 			};
 
 			// Match exists already
-			const matches: UtilityMatch[] = [
+			const matches: Array<UtilityMatch> = [
 				{
 					parsed: parsed[0],
 					factory,

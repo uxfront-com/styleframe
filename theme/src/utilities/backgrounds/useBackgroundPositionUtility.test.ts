@@ -27,7 +27,7 @@ describe("useBackgroundPositionUtility", () => {
 		useBackgroundPositionUtility(s, { "left-top": "left top" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-position\\:left-top {");
+		expect(css).toContain(String.raw`._background-position\:left-top {`);
 		expect(css).toContain("background-position: left top;");
 	});
 

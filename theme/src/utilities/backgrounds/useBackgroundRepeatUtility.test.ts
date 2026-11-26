@@ -30,7 +30,7 @@ describe("useBackgroundRepeatUtility", () => {
 		useBackgroundRepeatUtility(s, { "no-repeat": "no-repeat" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-repeat\\:no-repeat {");
+		expect(css).toContain(String.raw`._background-repeat\:no-repeat {`);
 		expect(css).toContain("background-repeat: no-repeat;");
 	});
 

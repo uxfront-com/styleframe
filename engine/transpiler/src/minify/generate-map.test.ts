@@ -4,7 +4,7 @@ import { generateShorteningMap } from "./generate-map";
 
 function mockUtility(
 	name: string,
-	values: Array<{ key: string; value: string; modifiers: string[] }> = [],
+	values: Array<{ key: string; value: string; modifiers: Array<string> }> = [],
 ) {
 	return {
 		type: "utility" as const,
@@ -18,7 +18,7 @@ function mockUtility(
 
 function createMockRoot(
 	overrides: {
-		utilities?: ReturnType<typeof mockUtility>[];
+		utilities?: Array<ReturnType<typeof mockUtility>>;
 		modifiers?: Root["modifiers"];
 	} = {},
 ): Root {
@@ -228,7 +228,7 @@ describe("generateShorteningMap", () => {
 	});
 
 	it("produces deterministic output regardless of input order", () => {
-		const makeRoot = (names: string[]) =>
+		const makeRoot = (names: Array<string>) =>
 			createMockRoot({
 				utilities: names.map((name) => mockUtility(name)),
 			});

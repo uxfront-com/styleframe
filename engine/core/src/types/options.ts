@@ -3,7 +3,7 @@ export type VariableNameFn = (options: { name: string }) => string;
 export interface UtilitySelectorOptions {
 	name: string;
 	value: string;
-	modifiers: string[];
+	modifiers: Array<string>;
 }
 
 export type UtilitySelectorFn = (options: UtilitySelectorOptions) => string;

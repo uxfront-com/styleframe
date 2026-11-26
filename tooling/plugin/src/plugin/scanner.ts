@@ -1,8 +1,8 @@
-import {
-	type Extractor,
-	registerMatchedUtilities,
-	type Scanner,
-	type ScannerUtilitiesConfig,
+import { registerMatchedUtilities } from "@styleframe/scanner";
+import type {
+	Extractor,
+	Scanner,
+	ScannerUtilitiesConfig,
 } from "@styleframe/scanner";
 import { createScanner } from "@styleframe/scanner/node";
 import { consola } from "consola";
@@ -28,9 +28,9 @@ export interface PluginScannerState {
  * @returns Plugin scanner state
  */
 export function createPluginScanner(
-	contentPatterns: string[],
+	contentPatterns: Array<string>,
 	cwd: string,
-	extractors?: Extractor[],
+	extractors?: Array<Extractor>,
 	utilities?: ScannerUtilitiesConfig,
 ): PluginScannerState {
 	const scanner = createScanner({

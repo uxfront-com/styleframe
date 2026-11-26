@@ -71,11 +71,11 @@ describe("resolveAliases", () => {
 		try {
 			resolveAliases(doc);
 			expect.fail("expected CircularReferenceError");
-		} catch (err) {
-			expect(err).toBeInstanceOf(CircularReferenceError);
-			expect((err as CircularReferenceError).cycle).toContain("a");
-			expect((err as CircularReferenceError).cycle).toContain("b");
-			expect((err as CircularReferenceError).cycle).toContain("c");
+		} catch (error) {
+			expect(error).toBeInstanceOf(CircularReferenceError);
+			expect((error as CircularReferenceError).cycle).toContain("a");
+			expect((error as CircularReferenceError).cycle).toContain("b");
+			expect((error as CircularReferenceError).cycle).toContain("c");
 		}
 	});
 

@@ -30,7 +30,7 @@ function dynamicAutogenerate(value: TokenValue): Record<string, TokenValue> {
  */
 export function createDynamicUtilities(
 	root: Root,
-	matches: UtilityMatch[],
+	matches: Array<UtilityMatch>,
 ): number {
 	const unmatched = matches.filter((m) => m.factory === null);
 	if (unmatched.length === 0) {

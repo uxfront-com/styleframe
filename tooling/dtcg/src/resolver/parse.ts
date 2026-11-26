@@ -15,9 +15,9 @@ export function parseResolver(input: string | unknown): DTCGResolverDocument {
 	if (typeof input === "string") {
 		try {
 			parsed = JSON.parse(input);
-		} catch (err) {
+		} catch (error) {
 			throw new ParseError(
-				`Invalid JSON: ${err instanceof Error ? err.message : String(err)}`,
+				`Invalid JSON: ${error instanceof Error ? error.message : String(error)}`,
 			);
 		}
 	} else {

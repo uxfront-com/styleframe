@@ -171,7 +171,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 	const dark = { rest: "@color.gray-500", hover: "@color.gray-450" };
 
 	function bordered(
-		[bg, fg, darkBg, darkFg]: string[],
+		[bg, fg, darkBg, darkFg]: Array<string>,
 		plain: typeof light,
 		inDark: typeof light,
 	) {
@@ -187,7 +187,7 @@ describe("fieldSurfaceCompoundVariants", () => {
 
 	// A ghost has no fill in either theme, `light` and `dark` included.
 	function ghost(
-		[fg, darkFg]: string[],
+		[fg, darkFg]: Array<string>,
 		plain: typeof light,
 		inDark: typeof light,
 	) {
@@ -402,7 +402,10 @@ describe("useFieldSelector", () => {
 
 			const disabled = (
 				findSelector(s, query) as unknown as {
-					children: { query: string; declarations: Record<string, unknown> }[];
+					children: Array<{
+						query: string;
+						declarations: Record<string, unknown>;
+					}>;
 				}
 			).children.find((child) => child.query === "&:disabled");
 

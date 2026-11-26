@@ -45,14 +45,14 @@ describe("checkbox contrast", () => {
 		return String(value);
 	}
 
-	const pages: Record<Theme, string[]> = {
+	const pages: Record<Theme, Array<string>> = {
 		light: [colorValues.background, colorValues.surface],
 		dark: [darkModeColorValues.background, darkModeColorValues.surface],
 	};
 	const allPages = [...pages.light, ...pages.dark];
 
 	// Reads the token at a path in a recipe block, like `["&:dark", "borderColor"]`.
-	function token(block: unknown, ...path: string[]): string {
+	function token(block: unknown, ...path: Array<string>): string {
 		const value = path.reduce<unknown>(
 			(current, key) => (current as Slot | undefined)?.[key],
 			block,

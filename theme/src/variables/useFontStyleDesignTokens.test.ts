@@ -486,7 +486,7 @@ article blockquote {
 
 		it("should work with custom font style values", () => {
 			const s = styleframe();
-			const { fontStyle, fontStyleSlanted } = useFontStyleDesignTokens(s, {
+			const { fontStyleSlanted } = useFontStyleDesignTokens(s, {
 				default: "@font-style.normal",
 				normal: "normal",
 				italic: "italic",

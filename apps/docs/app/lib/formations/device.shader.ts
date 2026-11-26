@@ -15,7 +15,7 @@ const GLYPHS = packShapes([
 	{ kind: "seg", a: [0.14, 0.38], b: [0.58, 0.38], bright: 1 },
 	{ kind: "circle", c: [1.1, 0.3], r: 0.3, bright: 1 },
 	{ kind: "seg", a: [1.4, 0], b: [1.4, 0.62], bright: 1 },
-] satisfies Shape[]);
+] satisfies Array<Shape>);
 
 /**
  * The paragraph under it, as one bar per word, its length in ems. It wraps to

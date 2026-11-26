@@ -33,7 +33,7 @@ describe("useTransitionUtility", () => {
 		useTransitionUtility(s, { all: "all 200ms ease-in-out" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._transition\\:all {");
+		expect(css).toContain(String.raw`._transition\:all {`);
 		expect(css).toContain("transition: all 200ms ease-in-out;");
 	});
 

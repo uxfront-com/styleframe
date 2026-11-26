@@ -51,7 +51,7 @@ const classes = computed(() =>
 );
 
 function toggle() {
-	if (props.disabled) return;
+	if (props.disabled) {return;}
 	internalActive.value = !internalActive.value;
 	emit("update:active", internalActive.value);
 }

@@ -4,7 +4,7 @@
  * app's directory. Its `<lastmod>` is the last commit that changed any of them.
  * `/pro` and `/pricing` are in it, though the header and footer don't link them.
  */
-export const SITE_PAGES: { path: string; sources: string[] }[] = [
+export const SITE_PAGES: Array<{ path: string; sources: Array<string> }> = [
 	{ path: "/", sources: ["app/pages/index.vue", "content/landing/index.md"] },
 	...["scanner", "figma", "pro", "pricing"].map((page) => ({
 		path: `/${page}`,
@@ -17,6 +17,8 @@ export const SITE_PAGES: { path: string; sources: string[] }[] = [
 ];
 
 /** The latest of the dates, as YYYY-MM-DD, or undefined when there's none. */
-export function latestDate(dates: (string | undefined)[]): string | undefined {
+export function latestDate(
+	dates: Array<string | undefined>,
+): string | undefined {
 	return dates.filter(Boolean).sort().at(-1);
 }

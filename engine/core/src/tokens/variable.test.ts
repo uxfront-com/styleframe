@@ -1,4 +1,4 @@
-import type { Reference, Root, Selector, Variable } from "../types";
+import type { Reference, Root, Variable } from "../types";
 import { createRoot } from "./root";
 import { createSelectorFunction } from "./selector";
 import { createVariableFunction } from "./variable";
@@ -95,9 +95,9 @@ describe("createVariableFunction", () => {
 		});
 
 		it("should find correct existing variable among multiple", () => {
-			const color = variable("color", "red");
+			variable("color", "red");
 			const spacing = variable("spacing", "10px");
-			const fontSize = variable("font-size", "16px");
+			variable("font-size", "16px");
 
 			// Try to override the middle variable
 			const updatedSpacing = variable("spacing", "20px", { default: false });

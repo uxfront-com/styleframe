@@ -60,16 +60,18 @@ describe("useButtonRecipe contrast", () => {
 		return String(value);
 	}
 
-	const pages: Record<Theme, string[]> = {
+	const pages: Record<Theme, Array<string>> = {
 		light: [colorValues.background, colorValues.surface],
 		dark: [darkModeColorValues.background, darkModeColorValues.surface],
 	};
 
-	function surfaces(color: string, theme: Theme): string[] {
+	function surfaces(color: string, theme: Theme): Array<string> {
 		if (color === "light") {
 			return [...pages.dark, resolve("@color.gray-900", theme)];
 		}
-		if (color === "dark") return pages.light;
+		if (color === "dark") {
+			return pages.light;
+		}
 		return pages[theme];
 	}
 
@@ -86,8 +88,12 @@ describe("useButtonRecipe contrast", () => {
 		return (["light", "dark"] as const).flatMap((theme) =>
 			states.map((state) => {
 				const declarations: Slot = { ...plain };
-				if (theme === "dark") Object.assign(declarations, css["&:dark"]);
-				if (state.key) Object.assign(declarations, css[state.key]);
+				if (theme === "dark") {
+					Object.assign(declarations, css["&:dark"]);
+				}
+				if (state.key) {
+					Object.assign(declarations, css[state.key]);
+				}
 				if (theme === "dark" && state.key) {
 					Object.assign(declarations, css[state.key.replace("&:", "&:dark:")]);
 				}
@@ -131,7 +137,9 @@ describe("useButtonRecipe contrast", () => {
 			const declarations: Slot = Object.fromEntries(
 				Object.entries(css).filter(([, value]) => typeof value !== "object"),
 			);
-			if (theme === "dark") Object.assign(declarations, css["&:dark"]);
+			if (theme === "dark") {
+				Object.assign(declarations, css["&:dark"]);
+			}
 			const border = declarations.borderColor;
 			if (typeof border !== "string" || !border.startsWith("@color.")) {
 				return [];
@@ -169,7 +177,9 @@ describe("useButtonRecipe contrast", () => {
 			const css = cv.css as Slot;
 			const dark = (css["&:dark"] ?? {}) as Slot;
 			for (const state of states) {
-				if (!state.key) continue;
+				if (!state.key) {
+					continue;
+				}
 				const block = (css[state.key] ?? {}) as Slot;
 				const darkBlock = (css[state.key.replace("&:", "&:dark:")] ??
 					{}) as Slot;

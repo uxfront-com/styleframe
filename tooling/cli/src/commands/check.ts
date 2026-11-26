@@ -4,12 +4,8 @@ import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
 import { resolveTsc, typecheck } from "../typecheck";
-import {
-	type CheckDiagnostic,
-	formatDiagnostic,
-	pluralize,
-	resolveConfigFile,
-} from "../utils";
+import { formatDiagnostic, pluralize, resolveConfigFile } from "../utils";
+import type { CheckDiagnostic } from "../utils";
 
 export default defineCommand({
 	meta: {
@@ -60,7 +56,7 @@ export default defineCommand({
 		}
 
 		const instance = await loadConfiguration({ entry: args.entry });
-		const diagnostics: CheckDiagnostic[] = validate(instance);
+		const diagnostics: Array<CheckDiagnostic> = validate(instance);
 
 		if (tsc) {
 			diagnostics.push(...(await typecheck(file, tsc)));

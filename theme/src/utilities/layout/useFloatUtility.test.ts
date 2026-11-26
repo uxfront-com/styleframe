@@ -27,7 +27,7 @@ describe("useFloatUtility", () => {
 		useFloatUtility(s, { right: "right" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._float\\:right {");
+		expect(css).toContain(String.raw`._float\:right {`);
 		expect(css).toContain("float: right;");
 	});
 

@@ -8,14 +8,6 @@
  */
 
 import {
-	type DTCGAnyToken,
-	type DTCGColor,
-	type DTCGDimension,
-	type DTCGDocument,
-	type DTCGDuration,
-	type DTCGResolverDocument,
-	type DTCGTokenType,
-	type WalkEntry,
 	applyInheritance,
 	color as dtcgColor,
 	dimension as dtcgDimension,
@@ -25,6 +17,15 @@ import {
 	resolveResolver,
 	splitPath,
 	walk,
+} from "@styleframe/dtcg";
+import type {
+	DTCGAnyToken,
+	DTCGColor,
+	DTCGDimension,
+	DTCGDocument,
+	DTCGDuration,
+	DTCGResolverDocument,
+	DTCGTokenType,
 } from "@styleframe/dtcg";
 
 export type FigmaDTCGType = "number" | "color" | "string";
@@ -40,7 +41,7 @@ export interface FlattenDiagnostic {
 
 export interface FlattenToFigmaDTCGResult {
 	modes: Record<string, DTCGDocument>;
-	diagnostics: FlattenDiagnostic[];
+	diagnostics: Array<FlattenDiagnostic>;
 }
 
 export async function flattenToFigmaDTCG(
@@ -49,7 +50,7 @@ export async function flattenToFigmaDTCG(
 	options?: FlattenToFigmaDTCGOptions,
 ): Promise<FlattenToFigmaDTCGResult> {
 	const defaultModeName = options?.defaultModeName ?? "Default";
-	const diagnostics: FlattenDiagnostic[] = [];
+	const diagnostics: Array<FlattenDiagnostic> = [];
 
 	if (!resolver) {
 		const flattened = flattenSingleDocument(doc, diagnostics);
@@ -111,7 +112,9 @@ export async function flattenToFigmaDTCG(
 }
 
 function findThemeModifier(resolver: DTCGResolverDocument) {
-	if (!resolver.modifiers) return undefined;
+	if (!resolver.modifiers) {
+		return undefined;
+	}
 	for (const [name, modifier] of Object.entries(resolver.modifiers)) {
 		if (Object.keys(modifier.contexts).length > 0) {
 			return { name, modifier };
@@ -126,7 +129,7 @@ function capitalise(s: string): string {
 
 function flattenSingleDocument(
 	doc: DTCGDocument,
-	diagnostics: FlattenDiagnostic[],
+	diagnostics: Array<FlattenDiagnostic>,
 ): DTCGDocument {
 	const inherited = applyInheritance(doc);
 	const groupTypeMap = collectGroupTypes(inherited);
@@ -135,7 +138,9 @@ function flattenSingleDocument(
 	const flattenedTypeMap = new Map<string, FigmaDTCGType>();
 
 	for (const { path, token } of entries) {
-		if (isAlias(token.$value)) continue;
+		if (isAlias(token.$value)) {
+			continue;
+		}
 		const richType =
 			(token.$type as DTCGTokenType | undefined) ?? groupTypeMap.get(path);
 		const { type: figmaType, value: figmaValue } = flattenValue(
@@ -149,12 +154,16 @@ function flattenSingleDocument(
 			$type: figmaType as DTCGAnyToken["$type"],
 			$value: figmaValue as DTCGAnyToken["$value"],
 		};
-		if (token.$extensions) flat.$extensions = token.$extensions;
+		if (token.$extensions) {
+			flat.$extensions = token.$extensions;
+		}
 		setNestedToken(output, path, flat);
 	}
 
 	for (const { path, token } of entries) {
-		if (!isAlias(token.$value)) continue;
+		if (!isAlias(token.$value)) {
+			continue;
+		}
 		const aliasPath = parseAlias(token.$value);
 		const leafPath = resolveAliasToLeaf(inherited, aliasPath);
 		const figmaType =
@@ -164,7 +173,9 @@ function flattenSingleDocument(
 			$type: figmaType as DTCGAnyToken["$type"],
 			$value: `{${leafPath}}` as DTCGAnyToken["$value"],
 		};
-		if (token.$extensions) flat.$extensions = token.$extensions;
+		if (token.$extensions) {
+			flat.$extensions = token.$extensions;
+		}
 		setNestedToken(output, path, flat);
 	}
 
@@ -188,13 +199,17 @@ function collectGroupTypesRecursive(
 	inheritedType: DTCGTokenType | undefined,
 	map: Map<string, DTCGTokenType>,
 ): void {
-	if ("$value" in node) return;
+	if ("$value" in node) {
+		return;
+	}
 	const ownType = (node.$type as DTCGTokenType | undefined) ?? inheritedType;
 	if ("$root" in node && currentPath && ownType) {
 		map.set(currentPath, ownType);
 	}
 	for (const [key, child] of Object.entries(node)) {
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (child !== null && typeof child === "object" && !Array.isArray(child)) {
 			const childPath = currentPath ? `${currentPath}.${key}` : key;
 			collectGroupTypesRecursive(
@@ -212,7 +227,9 @@ function resolveAliasType(
 	aliasPath: string,
 ): DTCGTokenType | undefined {
 	const target = lookupToken(doc, aliasPath);
-	if (!target) return undefined;
+	if (!target) {
+		return undefined;
+	}
 	if (isAlias(target.$value)) {
 		return resolveAliasType(doc, parseAlias(target.$value));
 	}
@@ -231,16 +248,22 @@ function resolveAliasToLeaf(
 	aliasPath: string,
 	seen = new Set<string>(),
 ): string {
-	if (seen.has(aliasPath)) return aliasPath;
+	if (seen.has(aliasPath)) {
+		return aliasPath;
+	}
 	seen.add(aliasPath);
 
 	const token = lookupToken(doc, aliasPath);
-	if (token) return aliasPath;
+	if (token) {
+		return aliasPath;
+	}
 
 	const segments = splitPath(aliasPath);
 	let cursor: unknown = doc;
 	for (const seg of segments) {
-		if (typeof cursor !== "object" || cursor === null) return aliasPath;
+		if (typeof cursor !== "object" || cursor === null) {
+			return aliasPath;
+		}
 		cursor = (cursor as Record<string, unknown>)[seg];
 	}
 
@@ -287,7 +310,7 @@ function flattenValue(
 	value: unknown,
 	richType: DTCGTokenType | undefined,
 	path: string,
-	diagnostics: FlattenDiagnostic[],
+	diagnostics: Array<FlattenDiagnostic>,
 ): FlattenedToken {
 	switch (richType) {
 		case "color":
@@ -297,8 +320,9 @@ function flattenValue(
 		case "duration":
 			return flattenDuration(value);
 		case "number":
-			if (isDimensionObject(value))
+			if (isDimensionObject(value)) {
 				return flattenDimension(value, path, diagnostics);
+			}
 			return { type: "number", value };
 		case "fontWeight":
 			return flattenFontWeight(value);
@@ -327,8 +351,12 @@ function flattenValue(
 				value: typeof value === "string" ? value : JSON.stringify(value),
 			};
 		default:
-			if (typeof value === "number") return { type: "number", value };
-			if (typeof value === "string") return { type: "string", value };
+			if (typeof value === "number") {
+				return { type: "number", value };
+			}
+			if (typeof value === "string") {
+				return { type: "string", value };
+			}
 			diagnostics.push({ path, reason: "Untyped token emitted as string" });
 			return {
 				type: "string",
@@ -362,13 +390,17 @@ function flattenColor(value: unknown): FlattenedToken {
 function flattenDimension(
 	value: unknown,
 	path: string,
-	diagnostics: FlattenDiagnostic[],
+	diagnostics: Array<FlattenDiagnostic>,
 ): FlattenedToken {
-	if (typeof value === "number") return { type: "number", value };
+	if (typeof value === "number") {
+		return { type: "number", value };
+	}
 	if (isDimensionObject(value)) {
 		const dim = value as DTCGDimension;
 		const px = dimensionToFloat(dim);
-		if (px !== undefined) return { type: "number", value: px };
+		if (px !== undefined) {
+			return { type: "number", value: px };
+		}
 		diagnostics.push({
 			path,
 			reason: `Unsupported unit "${dim.unit}" — emitted as string`,
@@ -379,7 +411,9 @@ function flattenDimension(
 }
 
 function flattenDuration(value: unknown): FlattenedToken {
-	if (typeof value === "number") return { type: "number", value };
+	if (typeof value === "number") {
+		return { type: "number", value };
+	}
 	if (isDurationObject(value)) {
 		const dur = value as DTCGDuration;
 		return {
@@ -391,7 +425,9 @@ function flattenDuration(value: unknown): FlattenedToken {
 }
 
 function flattenFontWeight(value: unknown): FlattenedToken {
-	if (typeof value === "number") return { type: "number", value };
+	if (typeof value === "number") {
+		return { type: "number", value };
+	}
 	return { type: "string", value: String(value) };
 }
 
@@ -441,7 +477,9 @@ function setNestedToken(
 	token: DTCGAnyToken,
 ): void {
 	const segments = splitPath(dotPath);
-	if (segments.length === 0) return;
+	if (segments.length === 0) {
+		return;
+	}
 
 	let cursor = doc as Record<string, unknown>;
 	for (let i = 0; i < segments.length - 1; i++) {
@@ -460,7 +498,7 @@ function setNestedToken(
 		cursor = cursor[key] as Record<string, unknown>;
 	}
 
-	const leafKey = segments[segments.length - 1]!;
+	const leafKey = segments.at(-1)!;
 	const existing = cursor[leafKey];
 	if (
 		existing !== undefined &&

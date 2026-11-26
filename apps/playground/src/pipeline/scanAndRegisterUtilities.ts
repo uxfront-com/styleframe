@@ -3,10 +3,10 @@ import {
 	extractClasses,
 	generateUtilityClassName,
 	matchUtilities,
-	type ParsedUtility,
 	parseUtilityClass,
 	registerMatchedUtilities,
 } from "@styleframe/scanner";
+import type { ParsedUtility } from "@styleframe/scanner";
 
 export interface ScanSource {
 	content: string;
@@ -17,27 +17,27 @@ export interface ScanDiagnostic {
 	raw: string;
 	name: string;
 	value: string;
-	modifiers: string[];
+	modifiers: Array<string>;
 	factoryFound: boolean;
 	alreadyExisted: boolean;
 }
 
 export interface ScanResult {
 	count: number;
-	registered: string[];
-	diagnostics: ScanDiagnostic[];
+	registered: Array<string>;
+	diagnostics: Array<ScanDiagnostic>;
 }
 
 function valueKeyTuple(
 	factoryName: string,
 	key: string,
-	modifiers: string[],
+	modifiers: Array<string>,
 ): string {
 	const sorted = [...modifiers].sort().join(",");
 	return `${factoryName}::${key}::${sorted}`;
 }
 
-function snapshotValues(utilities: UtilityFactory[]): Set<string> {
+function snapshotValues(utilities: Array<UtilityFactory>): Set<string> {
 	const set = new Set<string>();
 	for (const factory of utilities) {
 		for (const v of factory.values) {
@@ -49,9 +49,9 @@ function snapshotValues(utilities: UtilityFactory[]): Set<string> {
 
 export function scanAndRegisterUtilities(
 	instance: Styleframe,
-	sources: ScanSource[],
+	sources: Array<ScanSource>,
 ): ScanResult {
-	const parsed: ParsedUtility[] = [];
+	const parsed: Array<ParsedUtility> = [];
 
 	for (const { content, filePath } of sources) {
 		const classNames = extractClasses(content, filePath);
@@ -69,7 +69,7 @@ export function scanAndRegisterUtilities(
 
 	const matches = matchUtilities(parsed, instance.root);
 
-	const diagnostics: ScanDiagnostic[] = matches.map((m) => ({
+	const diagnostics: Array<ScanDiagnostic> = matches.map((m) => ({
 		raw: m.parsed.raw,
 		name: m.parsed.name,
 		value: m.parsed.value,
@@ -82,16 +82,20 @@ export function scanAndRegisterUtilities(
 	const count = registerMatchedUtilities(instance.root, matches);
 	const after = snapshotValues(instance.root.utilities);
 
-	const registered: string[] = [];
+	const registered: Array<string> = [];
 	const seen = new Set<string>();
 	for (const match of matches) {
-		if (match.factory === null || match.exists) continue;
+		if (match.factory === null || match.exists) {
+			continue;
+		}
 		const tuple = valueKeyTuple(
 			match.parsed.name,
 			match.parsed.value,
 			match.parsed.modifiers,
 		);
-		if (seen.has(tuple)) continue;
+		if (seen.has(tuple)) {
+			continue;
+		}
 		if (after.has(tuple) && !before.has(tuple)) {
 			seen.add(tuple);
 			registered.push(

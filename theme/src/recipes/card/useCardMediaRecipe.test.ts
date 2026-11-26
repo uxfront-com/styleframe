@@ -123,7 +123,7 @@ describe("useCardMediaRecipe", () => {
 			const s = createInstance();
 			const recipe = useCardMediaRecipe(s);
 
-			const blocks: Record<string, unknown>[] = [
+			const blocks: Array<Record<string, unknown>> = [
 				recipe.base!,
 				...Object.values(recipe.variants!.size),
 			];

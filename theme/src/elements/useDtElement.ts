@@ -25,8 +25,9 @@ export function useDtDesignTokens(
 ): Partial<DtElementResult> {
 	const result: Partial<DtElementResult> = {};
 
-	if (config.fontWeight !== undefined)
+	if (config.fontWeight !== undefined) {
 		result.dtFontWeight = ctx.variable("dt.font-weight", config.fontWeight);
+	}
 
 	return result;
 }

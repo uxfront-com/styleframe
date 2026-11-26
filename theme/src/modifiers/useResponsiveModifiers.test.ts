@@ -32,8 +32,8 @@ describe("useResponsiveModifiers", () => {
 		createDisplay({ flex: "flex" }, [md]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:flex {");
-		expect(css).toContain("._md\\:display\\:flex {");
+		expect(css).toContain(String.raw`._display\:flex {`);
+		expect(css).toContain(String.raw`._md\:display\:flex {`);
 	});
 
 	it("should transpile to a real @media (min-width) block sized to the breakpoint", () => {

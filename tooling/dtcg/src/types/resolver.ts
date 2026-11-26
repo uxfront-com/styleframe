@@ -28,7 +28,7 @@ export type DTCGSource = DTCGRef | DTCGDocument | DTCGGroup;
  */
 export interface DTCGSet {
 	description?: string;
-	sources: DTCGSource[];
+	sources: Array<DTCGSource>;
 	$extensions?: DTCGExtensions;
 }
 
@@ -38,7 +38,7 @@ export interface DTCGSet {
  */
 export interface DTCGModifier {
 	description?: string;
-	contexts: Record<string, DTCGSource[]>;
+	contexts: Record<string, Array<DTCGSource>>;
 	default?: string;
 	$extensions?: DTCGExtensions;
 }
@@ -63,7 +63,7 @@ export interface DTCGResolverDocument {
 	description?: string;
 	sets?: Record<string, DTCGSet>;
 	modifiers?: Record<string, DTCGModifier>;
-	resolutionOrder: DTCGResolutionItem[];
+	resolutionOrder: Array<DTCGResolutionItem>;
 	$extensions?: DTCGExtensions;
 }
 

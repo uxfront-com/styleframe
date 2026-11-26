@@ -34,14 +34,18 @@ function collectPairs() {
 		const variable =
 			(isDark && dark?.variables.find((v) => v.name === name)) ||
 			s.root.variables.find((v) => v.name === name);
-		if (!variable) throw new Error(`Unresolved token ${String(value)}`);
+		if (!variable) {
+			throw new Error(`Unresolved token ${String(value)}`);
+		}
 		return String(variable.value);
 	};
 
-	const pairs: { label: string; text: string; background: string }[] = [];
+	const pairs: Array<{ label: string; text: string; background: string }> = [];
 
 	for (const cv of recipe.compoundVariants!) {
-		if (!cv.match.color || !cv.match.variant) continue;
+		if (!cv.match.color || !cv.match.variant) {
+			continue;
+		}
 		const css = cv.css as Slot;
 
 		for (const [theme, slot, isDark] of [

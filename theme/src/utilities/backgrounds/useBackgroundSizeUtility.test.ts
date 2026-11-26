@@ -27,7 +27,7 @@ describe("useBackgroundSizeUtility", () => {
 		useBackgroundSizeUtility(s, { cover: "cover" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-size\\:cover {");
+		expect(css).toContain(String.raw`._background-size\:cover {`);
 		expect(css).toContain("background-size: cover;");
 	});
 

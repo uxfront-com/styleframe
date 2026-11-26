@@ -1,6 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import {
 	buildStyleframe,
 	buildStyleframeMinified,
@@ -16,13 +15,13 @@ import type {
 import { measure } from "./utils/size";
 import { formatReport } from "./utils/report";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolve(import.meta.dirname, "..");
 const RESULTS = join(ROOT, "results");
 
 function readPackageVersion(packageName: string): string {
 	try {
 		const base = resolve(ROOT, "node_modules", ...packageName.split("/"));
-		const pkg = JSON.parse(readFileSync(join(base, "package.json"), "utf-8"));
+		const pkg = JSON.parse(readFileSync(join(base, "package.json"), "utf8"));
 		return pkg.version;
 	} catch {
 		return "unknown";
@@ -80,7 +79,7 @@ async function main(): Promise<void> {
 		import("./pages/settings"),
 	]);
 
-	const specs: PageSpec[] = [
+	const specs: Array<PageSpec> = [
 		pageModules[0].dashboard,
 		pageModules[1].marketing,
 		pageModules[2].blog,
@@ -89,7 +88,7 @@ async function main(): Promise<void> {
 	];
 
 	console.log("Building all pages...");
-	const pages: PageResult[] = [];
+	const pages: Array<PageResult> = [];
 	for (const spec of specs) {
 		pages.push(await buildPage(spec));
 	}
@@ -109,11 +108,11 @@ async function main(): Promise<void> {
 
 	const reportPath = join(RESULTS, "report.md");
 	const reportText = formatReport(report, pages);
-	writeFileSync(reportPath, reportText, "utf-8");
+	writeFileSync(reportPath, reportText, "utf8");
 	console.log(`\n${reportText}`);
 }
 
-main().catch((err) => {
-	console.error(err);
+main().catch((error) => {
+	console.error(error);
 	process.exit(1);
 });

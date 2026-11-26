@@ -19,7 +19,7 @@ const classes = computed(() =>
 );
 
 function onClick() {
-	if (ctx && item) ctx.toggle(item.value);
+	if (ctx && item) {ctx.toggle(item.value);}
 }
 </script>
 

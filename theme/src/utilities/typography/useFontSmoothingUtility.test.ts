@@ -19,7 +19,7 @@ describe("useFontSmoothingUtility", () => {
 		useFontSmoothingUtility(s, { antialiased: "antialiased" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-smoothing\\:antialiased {");
+		expect(css).toContain(String.raw`._font-smoothing\:antialiased {`);
 	});
 
 	it("should handle empty values object", () => {

@@ -23,7 +23,7 @@ describe("useUtilitiesPreset", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._position-try-fallbacks\\:flip {");
+		expect(css).toContain(String.raw`._position-try-fallbacks\:flip {`);
 		expect(css).toContain("position-try-fallbacks: flip-block, flip-inline;");
 	});
 });

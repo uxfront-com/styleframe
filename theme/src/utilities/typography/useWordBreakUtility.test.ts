@@ -27,7 +27,7 @@ describe("useWordBreakUtility", () => {
 		useWordBreakUtility(s, { "break-all": "break-all" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._word-break\\:break-all {");
+		expect(css).toContain(String.raw`._word-break\:break-all {`);
 		expect(css).toContain("word-break: break-all;");
 	});
 

@@ -61,8 +61,8 @@ function extractBracedContent(str: string): string | null {
  * Find all className={...} expressions in content and extract their inner content,
  * properly handling nested braces.
  */
-function extractClassNameExpressions(content: string): string[] {
-	const results: string[] = [];
+function extractClassNameExpressions(content: string): Array<string> {
+	const results: Array<string> = [];
 	CLASSNAME_EXPR_PATTERN.lastIndex = 0;
 	let match: RegExpExecArray | null;
 
@@ -83,8 +83,8 @@ function extractClassNameExpressions(content: string): string[] {
  * Find all class={...} expressions in content (for Svelte) and extract their inner content,
  * properly handling nested braces.
  */
-function extractClassExpressions(content: string): string[] {
-	const results: string[] = [];
+function extractClassExpressions(content: string): Array<string> {
+	const results: Array<string> = [];
 	CLASS_EXPR_PATTERN.lastIndex = 0;
 	let match: RegExpExecArray | null;
 
@@ -105,8 +105,8 @@ function extractClassExpressions(content: string): string[] {
  * Extract utility classes from HTML-like content.
  * Handles class="..." attributes.
  */
-function extractFromHTML(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromHTML(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
 	// Match class="..." attributes (handles both single and double quotes)
 	CLASS_ATTR_PATTERN.lastIndex = 0;
@@ -125,8 +125,8 @@ function extractFromHTML(content: string, pattern?: RegExp): string[] {
  * Extract utility classes from JSX/TSX content.
  * Handles className="..." and className={...} patterns.
  */
-function extractFromJSX(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromJSX(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
 	// Match className="..." (string literals)
 	CLASSNAME_STRING_PATTERN.lastIndex = 0;
@@ -152,18 +152,19 @@ function extractFromJSX(content: string, pattern?: RegExp): string[] {
  * Extract utility classes from Vue SFC content.
  * Handles class="...", :class="...", and :class="{...}" patterns.
  */
-function extractFromVue(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromVue(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
 	// Extract from template section.
 	// Use greedy matching so nested slot templates (<template #slot>...</template>)
 	// don't cut the outer match short — match from the first <template> to the LAST </template>.
 	const templateMatch = content.match(/<template[^>]*>([\s\S]*)<\/template>/i);
 	if (templateMatch?.[1]) {
-		classes.push(...extractFromHTML(templateMatch[1], pattern));
-
-		// Also extract from string literals in template (catches :class bindings with object syntax)
-		classes.push(...extractFromStringLiterals(templateMatch[1], pattern));
+		classes.push(
+			...extractFromHTML(templateMatch[1], pattern),
+			// Also extract from string literals in template (catches :class bindings with object syntax)
+			...extractFromStringLiterals(templateMatch[1], pattern),
+		);
 	}
 
 	// Extract from script section
@@ -179,8 +180,8 @@ function extractFromVue(content: string, pattern?: RegExp): string[] {
  * Extract utility classes from Svelte content.
  * Handles class="...", class:directive={condition}, and class={...} patterns.
  */
-function extractFromSvelte(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromSvelte(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
 	// Extract from class attributes
 	classes.push(...extractFromHTML(content, pattern));
@@ -214,12 +215,14 @@ function extractFromSvelte(content: string, pattern?: RegExp): string[] {
  * Extract utility classes from Astro content.
  * Handles both HTML-like and JSX-like patterns.
  */
-function extractFromAstro(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromAstro(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
 	// Astro uses both class and className
-	classes.push(...extractFromHTML(content, pattern));
-	classes.push(...extractFromJSX(content, pattern));
+	classes.push(
+		...extractFromHTML(content, pattern),
+		...extractFromJSX(content, pattern),
+	);
 
 	// Extract from frontmatter and script
 	const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
@@ -241,8 +244,8 @@ function extractFromAstro(content: string, pattern?: RegExp): string[] {
 function extractFromStringLiterals(
 	content: string,
 	pattern?: RegExp,
-): string[] {
-	const classes: string[] = [];
+): Array<string> {
+	const classes: Array<string> = [];
 	let match: RegExpExecArray | null;
 
 	// Match single-quoted strings
@@ -278,11 +281,13 @@ function extractFromStringLiterals(
  * Extract utility classes from MDX content.
  * Handles both Markdown and JSX patterns.
  */
-function extractFromMDX(content: string, pattern?: RegExp): string[] {
-	const classes: string[] = [];
+function extractFromMDX(content: string, pattern?: RegExp): Array<string> {
+	const classes: Array<string> = [];
 
-	classes.push(...extractFromHTML(content, pattern));
-	classes.push(...extractFromJSX(content, pattern));
+	classes.push(
+		...extractFromHTML(content, pattern),
+		...extractFromJSX(content, pattern),
+	);
 
 	return [...new Set(classes)];
 }
@@ -292,7 +297,7 @@ function extractFromMDX(content: string, pattern?: RegExp): string[] {
  */
 const defaultExtractors: Record<
 	string,
-	(content: string, pattern?: RegExp) => string[]
+	(content: string, pattern?: RegExp) => Array<string>
 > = {
 	html: extractFromHTML,
 	htm: extractFromHTML,
@@ -319,7 +324,7 @@ function getExtension(filePath: string): string {
 		return "blade.php";
 	}
 	const parts = filePath.split(".");
-	return parts[parts.length - 1]?.toLowerCase() ?? "";
+	return parts.at(-1)?.toLowerCase() ?? "";
 }
 
 /**
@@ -334,10 +339,10 @@ function getExtension(filePath: string): string {
 export function extractClasses(
 	content: string,
 	filePath: string,
-	customExtractors?: Extractor[],
+	customExtractors?: Array<Extractor>,
 	utilityPattern?: RegExp,
-): string[] {
-	const classes: string[] = [];
+): Array<string> {
+	const classes: Array<string> = [];
 	const extension = getExtension(filePath);
 
 	// Run custom extractors first

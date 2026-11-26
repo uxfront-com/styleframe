@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ShorteningMap } from "@styleframe/core";
 import { shortenUtilityOptions, buildClassNameLookup } from "./shorten";
-import { defaultUtilitySelectorFn } from "../defaults";
 import type { Root, Utility } from "@styleframe/core";
 
 const map: ShorteningMap = {
@@ -114,7 +113,7 @@ describe("shortenUtilityOptions", () => {
 });
 
 describe("buildClassNameLookup", () => {
-	function createMockRoot(utilities: Partial<Utility>[]): Root {
+	function createMockRoot(utilities: Array<Partial<Utility>>): Root {
 		return {
 			type: "root",
 			id: "rt-test",
@@ -201,7 +200,7 @@ describe("buildClassNameLookup", () => {
 		const customFn = (opts: {
 			name: string;
 			value: string;
-			modifiers: string[];
+			modifiers: Array<string>;
 		}) => `u-${opts.name}-${opts.value}`;
 
 		const lookup = buildClassNameLookup(root, map, customFn);

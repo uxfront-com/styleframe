@@ -18,7 +18,7 @@ const CONTENT = fileURLToPath(new URL("../content", import.meta.url));
 const EDIT_PREFIX =
 	"https://github.com/uxfront-com/styleframe/edit/main/apps/docs/content/";
 
-function editLinks(): [string, string][] {
+function editLinks(): Array<[string, string]> {
 	const docs = join(OUTPUT, "docs");
 	if (!existsSync(docs)) {
 		return [];
@@ -27,7 +27,7 @@ function editLinks(): [string, string][] {
 	return readdirSync(docs, { withFileTypes: true, recursive: true })
 		.filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
 		.map((entry) => join(entry.parentPath, entry.name))
-		.flatMap((file): [string, string][] => {
+		.flatMap((file): Array<[string, string]> => {
 			const href = readFileSync(file, "utf8").match(
 				/href="([^"]*\/edit\/[^"]*)"/,
 			)?.[1];

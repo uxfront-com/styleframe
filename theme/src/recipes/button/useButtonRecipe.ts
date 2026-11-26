@@ -57,7 +57,7 @@ const iconSize = {
 } as const;
 
 type Size = keyof typeof blockPadding;
-const sizes = Object.keys(blockPadding) as Size[];
+const sizes = Object.keys(blockPadding) as Array<Size>;
 
 type Compound = {
 	match: Record<string, string>;
@@ -72,11 +72,13 @@ type Slot = Record<string, unknown>;
  * the button is disabled, so it shows no hover, active or pressed look. Those
  * come last, so their rules follow every state rule in the stylesheet.
  */
-function withStateColors<T extends Compound>(compounds: T[]): T[] {
-	const resets: Compound[] = [];
+function withStateColors<T extends Compound>(compounds: Array<T>): Array<T> {
+	const resets: Array<Compound> = [];
 	const finished = compounds.map((compound) => {
 		const { match, css } = compound;
-		if (!match.color || !match.variant) return compound;
+		if (!match.color || !match.variant) {
+			return compound;
+		}
 
 		const dark = (css["&:dark"] ?? {}) as Slot;
 		const rest = {
@@ -116,7 +118,7 @@ function withStateColors<T extends Compound>(compounds: T[]): T[] {
 		}
 		return { ...compound, css: next };
 	});
-	return [...finished, ...(resets as T[])];
+	return [...finished, ...(resets as Array<T>)];
 }
 
 /**

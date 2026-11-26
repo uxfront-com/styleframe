@@ -35,7 +35,7 @@ describe("useAnimationUtility", () => {
 		useAnimationUtility(s, { spin: "spin 1s linear infinite" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._animation\\:spin {");
+		expect(css).toContain(String.raw`._animation\:spin {`);
 		expect(css).toContain("animation: spin 1s linear infinite;");
 	});
 
@@ -73,7 +73,7 @@ describe("useAnimationNameUtility", () => {
 		useAnimationNameUtility(s, { "fade-in": "fade-in" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._animation-name\\:fade-in {");
+		expect(css).toContain(String.raw`._animation-name\:fade-in {`);
 		expect(css).toContain("animation-name: fade-in;");
 	});
 
@@ -111,7 +111,7 @@ describe("useAnimationDurationUtility", () => {
 		useAnimationDurationUtility(s, { "200ms": "200ms" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._animation-duration\\:200ms {");
+		expect(css).toContain(String.raw`._animation-duration\:200ms {`);
 		expect(css).toContain("animation-duration: 200ms;");
 	});
 
@@ -156,7 +156,9 @@ describe("useAnimationTimingFunctionUtility", () => {
 		});
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._animation-timing-function\\:ease-in-out {");
+		expect(css).toContain(
+			String.raw`._animation-timing-function\:ease-in-out {`,
+		);
 		expect(css).toContain("animation-timing-function: ease-in-out;");
 	});
 
@@ -195,7 +197,7 @@ describe("useAnimationIterationCountUtility", () => {
 		useAnimationIterationCountUtility(s, { infinite: "infinite" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._animation-iteration-count\\:infinite {");
+		expect(css).toContain(String.raw`._animation-iteration-count\:infinite {`);
 		expect(css).toContain("animation-iteration-count: infinite;");
 	});
 

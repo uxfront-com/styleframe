@@ -37,7 +37,7 @@ describe("useBorderStyleUtility", () => {
 		useBorderStyleUtility(s, { dotted: "dotted" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-style\\:dotted {");
+		expect(css).toContain(String.raw`._border-style\:dotted {`);
 		expect(css).toContain("border-style: dotted;");
 	});
 
@@ -80,7 +80,7 @@ describe("useBorderStyleXUtility", () => {
 		useBorderStyleXUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-x-style\\:dashed {");
+		expect(css).toContain(String.raw`._border-x-style\:dashed {`);
 		expect(css).toContain("border-left-style: dashed;");
 		expect(css).toContain("border-right-style: dashed;");
 	});
@@ -103,7 +103,7 @@ describe("useBorderStyleYUtility", () => {
 		useBorderStyleYUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-y-style\\:dashed {");
+		expect(css).toContain(String.raw`._border-y-style\:dashed {`);
 		expect(css).toContain("border-top-style: dashed;");
 		expect(css).toContain("border-bottom-style: dashed;");
 	});
@@ -123,7 +123,7 @@ describe("useBorderStyleTopUtility", () => {
 		useBorderStyleTopUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-top-style\\:dashed {");
+		expect(css).toContain(String.raw`._border-top-style\:dashed {`);
 		expect(css).toContain("border-top-style: dashed;");
 	});
 });
@@ -172,7 +172,7 @@ describe("useBorderStyleStartUtility", () => {
 		useBorderStyleStartUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-start-style\\:dashed {");
+		expect(css).toContain(String.raw`._border-inline-start-style\:dashed {`);
 		expect(css).toContain("border-inline-start-style: dashed;");
 	});
 });
@@ -191,7 +191,7 @@ describe("useBorderStyleEndUtility", () => {
 		useBorderStyleEndUtility(s, { dashed: "dashed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-end-style\\:dashed {");
+		expect(css).toContain(String.raw`._border-inline-end-style\:dashed {`);
 		expect(css).toContain("border-inline-end-style: dashed;");
 	});
 });

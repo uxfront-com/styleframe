@@ -31,15 +31,18 @@ export function usePreDesignTokens(
 ): Partial<PreElementResult> {
 	const result: Partial<PreElementResult> = {};
 
-	if (config.fontFamily !== undefined)
+	if (config.fontFamily !== undefined) {
 		result.preFontFamily = ctx.variable("pre.font-family", config.fontFamily);
-	if (config.fontSize !== undefined)
+	}
+	if (config.fontSize !== undefined) {
 		result.preFontSize = ctx.variable("pre.font-size", config.fontSize);
-	if (config.marginBottom !== undefined)
+	}
+	if (config.marginBottom !== undefined) {
 		result.preMarginBottom = ctx.variable(
 			"pre.margin-bottom",
 			config.marginBottom,
 		);
+	}
 
 	return result;
 }

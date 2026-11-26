@@ -37,9 +37,9 @@ describe("useFontSizeUtility", () => {
 		useFontSizeUtility(s, { xs: "0.75rem", sm: "0.875rem", base: "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-size\\:xs {");
+		expect(css).toContain(String.raw`._font-size\:xs {`);
 		expect(css).toContain("font-size: 0.75rem;");
-		expect(css).toContain("._font-size\\:sm {");
+		expect(css).toContain(String.raw`._font-size\:sm {`);
 		expect(css).toContain("font-size: 0.875rem;");
 	});
 

@@ -1,4 +1,5 @@
-import { type AtRule, type Selector, styleframe } from "@styleframe/core";
+import { styleframe } from "@styleframe/core";
+import type { AtRule, Selector } from "@styleframe/core";
 import { expectKeyframesRegistered } from "../../__tests__/expectKeyframesRegistered";
 import { useMotionReduceModifier } from "../../modifiers/useMediaPreferenceModifiers";
 import { useSpinnerCircleRecipe } from "./useSpinnerCircleRecipe";

@@ -40,7 +40,7 @@ export type DocsSectionSlug = DocsSection["slug"];
 
 export const DOCS_SECTION_SLUGS = DOCS_SECTIONS.map(
 	(section) => section.slug,
-) as readonly DocsSectionSlug[];
+) as ReadonlyArray<DocsSectionSlug>;
 
 export function findDocsSectionBySlug(slug: string): DocsSection | undefined {
 	return DOCS_SECTIONS.find((section) => section.slug === slug);
@@ -48,7 +48,7 @@ export function findDocsSectionBySlug(slug: string): DocsSection | undefined {
 
 /** Every folder in `content/docs/`, in section order. */
 export const DOCS_FOLDERS = DOCS_SECTIONS.flatMap(
-	(section): readonly string[] =>
+	(section): ReadonlyArray<string> =>
 		typeof section.folder === "string" ? [section.folder] : section.folder,
 );
 
@@ -59,10 +59,12 @@ export const DOCS_FOLDERS = DOCS_SECTIONS.flatMap(
  */
 export function docsFolderPrefix(folder: string): string | undefined {
 	for (const section of DOCS_SECTIONS) {
-		const folders: readonly string[] =
+		const folders: ReadonlyArray<string> =
 			typeof section.folder === "string" ? [section.folder] : section.folder;
 		const index = folders.indexOf(folder);
-		if (index === -1) continue;
+		if (index === -1) {
+			continue;
+		}
 		const base = `/docs/${section.slug}`;
 		const rootFolder = "rootFolder" in section ? section.rootFolder : -1;
 		return folders.length === 1 || index === rootFolder
@@ -85,10 +87,12 @@ export function docsStem(file: string): string {
 	const index = DOCS_SECTIONS.findIndex((section) =>
 		(typeof section.folder === "string"
 			? [section.folder]
-			: (section.folder as readonly string[])
+			: (section.folder as ReadonlyArray<string>)
 		).includes(folder ?? ""),
 	);
-	if (root !== "docs" || index === -1) return file;
+	if (root !== "docs" || index === -1) {
+		return file;
+	}
 	return [
 		root,
 		`${index + 1}.${DOCS_SECTIONS[index]!.slug}`,
@@ -147,7 +151,7 @@ export function findThemeSubsection(path: string): ThemeSubsection {
 	const segment = themeSegmentFromPath(path);
 	return (
 		THEME_SUBSECTIONS.find((sub) =>
-			(sub.folders as readonly string[]).includes(segment ?? ""),
+			(sub.folders as ReadonlyArray<string>).includes(segment ?? ""),
 		) ?? THEME_SUBSECTIONS[0]
 	);
 }

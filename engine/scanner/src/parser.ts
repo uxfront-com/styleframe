@@ -38,7 +38,7 @@ export function parseUtilityClass(className: string): ParsedUtility | null {
 
 	let name: string;
 	let value: string;
-	let modifiers: string[] = [];
+	let modifiers: Array<string> = [];
 
 	if (segments.length === 1) {
 		// Single segment: just the name, value is "default"
@@ -48,8 +48,8 @@ export function parseUtilityClass(className: string): ParsedUtility | null {
 	} else {
 		// Multiple segments: [...modifiers, name, value]
 		// e.g., "_hover:margin:sm" → modifiers: ["hover"], name: "margin", value: "sm"
-		value = segments[segments.length - 1]!;
-		name = segments[segments.length - 2]!;
+		value = segments.at(-1)!;
+		name = segments.at(-2)!;
 		modifiers = segments.slice(0, -2);
 	}
 
@@ -79,8 +79,8 @@ export function parseUtilityClass(className: string): ParsedUtility | null {
  * Handles cases like "margin:[16px:20px]" where colons appear inside brackets.
  * Returns empty array if brackets are unbalanced.
  */
-function splitByColons(str: string): string[] {
-	const segments: string[] = [];
+function splitByColons(str: string): Array<string> {
+	const segments: Array<string> = [];
 	let current = "";
 	let bracketDepth = 0;
 
@@ -123,7 +123,7 @@ function splitByColons(str: string): string[] {
 export function extractUtilityClasses(
 	content: string,
 	pattern?: RegExp,
-): string[] {
+): Array<string> {
 	// String.match() with global regex handles state correctly
 	const matches = content.match(pattern ?? UTILITY_CLASS_PATTERN);
 	return matches ? [...new Set(matches)] : [];
@@ -141,7 +141,7 @@ export function extractUtilityClasses(
 export function generateUtilityClassName(
 	name: string,
 	value: string,
-	modifiers: string[] = [],
+	modifiers: Array<string> = [],
 ): string {
 	const parts = [...modifiers, name];
 

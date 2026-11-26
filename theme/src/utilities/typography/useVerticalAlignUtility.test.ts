@@ -31,7 +31,7 @@ describe("useVerticalAlignUtility", () => {
 		useVerticalAlignUtility(s, { middle: "middle", "text-top": "text-top" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._vertical-align\\:middle {");
+		expect(css).toContain(String.raw`._vertical-align\:middle {`);
 		expect(css).toContain("vertical-align: middle;");
 	});
 

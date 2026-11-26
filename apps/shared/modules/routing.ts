@@ -9,7 +9,9 @@ export default defineNuxtModule({
 
 		// Ensure useDocusI18n is available in the app
 		nuxt.hook("imports:extend", (imports) => {
-			if (imports.some((i) => i.name === "useDocusI18n")) return;
+			if (imports.some((i) => i.name === "useDocusI18n")) {
+				return;
+			}
 
 			imports.push({
 				name: "useDocusI18n",

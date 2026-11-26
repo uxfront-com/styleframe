@@ -1,8 +1,6 @@
 import type { Styleframe, VariantDeclarationsBlock } from "@styleframe/core";
-import {
-	type RecipeConfig,
-	createUseRecipe,
-} from "../../utils/createUseRecipe";
+import { createUseRecipe } from "../../utils/createUseRecipe";
+import type { RecipeConfig } from "../../utils/createUseRecipe";
 
 /**
  * Shared menu-surface recipe builders for the Dropdown, Select, and Context Menu

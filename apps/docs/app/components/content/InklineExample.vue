@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from "@vueuse/core";
-import {
-	INKLINE_PREVIEW_ORIGIN,
-	inklineExampleHeight,
-	inklineExampleThemeMessage,
-	inklineExampleUrl,
-	type InklineExampleTheme,
-} from "~/utils/inklineExample";
+import { INKLINE_PREVIEW_ORIGIN, inklineExampleHeight, inklineExampleThemeMessage, inklineExampleUrl } from '~/utils/inklineExample';
+import type { InklineExampleTheme } from '~/utils/inklineExample';
 
 interface Props {
 	/** The full Inkline example id, like `src/components/button/examples/ButtonDefault`. */
@@ -72,7 +67,7 @@ function sendTheme() {
 
 function onMessage(event: MessageEvent) {
 	const height = inklineExampleHeight(event, iframeRef.value?.contentWindow);
-	if (height !== null) messageHeight.value = height;
+	if (height !== null) {messageHeight.value = height;}
 }
 
 onMounted(() => {

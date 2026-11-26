@@ -28,20 +28,24 @@ export type RefFunction = (variable: string, fallback?: string) => Reference;
 // instead of parsing `@2x.png` as a variable reference (SF-33).
 const AT_VARIABLE_REGEX = /(?<!\w)@([\w.-]+)/g;
 
-export function parseAtReferences(str: string): TokenValue[] {
-	const parts: TokenValue[] = [];
+export function parseAtReferences(str: string): Array<TokenValue> {
+	const parts: Array<TokenValue> = [];
 	let lastIndex = 0;
 	let match: RegExpExecArray | null;
 
 	AT_VARIABLE_REGEX.lastIndex = 0;
 	while ((match = AT_VARIABLE_REGEX.exec(str)) !== null) {
 		const before = str.slice(lastIndex, match.index);
-		if (before !== "") parts.push(before);
+		if (before !== "") {
+			parts.push(before);
+		}
 		parts.push({ type: "reference", name: match[1] as string } as Reference);
 		lastIndex = AT_VARIABLE_REGEX.lastIndex;
 	}
 	const after = str.slice(lastIndex);
-	if (after !== "") parts.push(after);
+	if (after !== "") {
+		parts.push(after);
+	}
 
 	return parts;
 }
@@ -105,7 +109,7 @@ export function createPropertyValueResolver(parent: Container, root: Root) {
 			const name = value.slice(1);
 			validateReference(name, parent, root);
 			root._usage.variables.add(name);
-			return { type: "reference", name: name } as Reference;
+			return { type: "reference", name } as Reference;
 		}
 
 		// Embedded: "1px solid @color.primary" → CSS object

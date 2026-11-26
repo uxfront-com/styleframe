@@ -233,7 +233,7 @@ describe("usePopoverArrowRecipe", () => {
 
 		// The triangle's three drawn sides, and where its `:after` fill sits.
 		const triangle = (
-			sides: readonly string[],
+			sides: ReadonlyArray<string>,
 			colored: string,
 			after: Record<string, string>,
 		) => {
@@ -273,7 +273,7 @@ describe("usePopoverArrowRecipe", () => {
 			}),
 		};
 
-		it.each(Object.keys(drawn) as (keyof typeof drawn)[])(
+		it.each(Object.keys(drawn) as Array<keyof typeof drawn>)(
 			"popover/points-at-trigger turns the arrow back at the anchor for %s",
 			(placement) => {
 				const s = createInstance();

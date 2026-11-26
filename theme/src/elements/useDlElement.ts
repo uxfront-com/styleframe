@@ -25,11 +25,12 @@ export function useDlDesignTokens(
 ): Partial<DlElementResult> {
 	const result: Partial<DlElementResult> = {};
 
-	if (config.marginBottom !== undefined)
+	if (config.marginBottom !== undefined) {
 		result.dlMarginBottom = ctx.variable(
 			"dl.margin-bottom",
 			config.marginBottom,
 		);
+	}
 
 	return result;
 }

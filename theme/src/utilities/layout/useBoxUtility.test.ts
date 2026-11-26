@@ -30,7 +30,7 @@ describe("useBoxDecorationBreakUtility", () => {
 		useBoxDecorationBreakUtility(s, { slice: "slice" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._box-decoration-break\\:slice {");
+		expect(css).toContain(String.raw`._box-decoration-break\:slice {`);
 		expect(css).toContain("box-decoration-break: slice;");
 	});
 
@@ -66,7 +66,7 @@ describe("useBoxSizingUtility", () => {
 		useBoxSizingUtility(s, { content: "content-box" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._box-sizing\\:content {");
+		expect(css).toContain(String.raw`._box-sizing\:content {`);
 		expect(css).toContain("box-sizing: content-box;");
 	});
 

@@ -39,7 +39,7 @@ describe("useTextOverflowUtility", () => {
 		useTextOverflowUtility(s, { ellipsis: "ellipsis" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-overflow\\:ellipsis {");
+		expect(css).toContain(String.raw`._text-overflow\:ellipsis {`);
 		expect(css).toContain("text-overflow: ellipsis;");
 	});
 

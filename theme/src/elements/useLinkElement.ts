@@ -34,20 +34,24 @@ export function useLinkDesignTokens(
 ): Partial<LinkElementResult> {
 	const result: Partial<LinkElementResult> = {};
 
-	if (config.color !== undefined)
+	if (config.color !== undefined) {
 		result.linkColor = ctx.variable("link.color", config.color);
-	if (config.textDecoration !== undefined)
+	}
+	if (config.textDecoration !== undefined) {
 		result.linkTextDecoration = ctx.variable(
 			"link.text-decoration",
 			config.textDecoration,
 		);
-	if (config.hoverColor !== undefined)
+	}
+	if (config.hoverColor !== undefined) {
 		result.linkHoverColor = ctx.variable("link.hover.color", config.hoverColor);
-	if (config.hoverTextDecoration !== undefined)
+	}
+	if (config.hoverTextDecoration !== undefined) {
 		result.linkHoverTextDecoration = ctx.variable(
 			"link.hover.text-decoration",
 			config.hoverTextDecoration,
 		);
+	}
 
 	return result;
 }

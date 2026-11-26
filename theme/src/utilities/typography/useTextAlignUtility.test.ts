@@ -27,9 +27,9 @@ describe("useTextAlignUtility", () => {
 		useTextAlignUtility(s, { left: "left", center: "center" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-align\\:left {");
+		expect(css).toContain(String.raw`._text-align\:left {`);
 		expect(css).toContain("text-align: left;");
-		expect(css).toContain("._text-align\\:center {");
+		expect(css).toContain(String.raw`._text-align\:center {`);
 		expect(css).toContain("text-align: center;");
 	});
 

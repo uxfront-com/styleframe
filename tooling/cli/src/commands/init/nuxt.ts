@@ -1,5 +1,5 @@
 import consola from "consola";
-import path from "path";
+import path from "node:path";
 import {
 	loadFile as loadMagicastFile,
 	writeFile as writeMagicastFile,

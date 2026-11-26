@@ -25,7 +25,9 @@ const read = (page: string) => {
 // the id on its stage, inside the section.
 const section = (html: string, id: string) => {
 	const at = html.indexOf(` id="${id}"`);
-	if (at < 0) return "";
+	if (at < 0) {
+		return "";
+	}
 	const start = html.lastIndexOf("<section", at);
 	const end = html.indexOf("</section>", at);
 	return start < 0 || end < 0
@@ -34,18 +36,18 @@ const section = (html: string, id: string) => {
 };
 
 // The chapters with a code sample, by page and section id.
-const CODE: Record<string, string[]> = {
+const CODE: Record<string, Array<string>> = {
 	index: ["config", "compose", "themes", "output", "scanner"],
 	scanner: ["templates", "output"],
 	figma: ["cli"],
 };
 
 // The chapters with an image or a video, and which of them is a video.
-const MEDIA: Record<string, string[]> = {
+const MEDIA: Record<string, Array<string>> = {
 	index: ["figma", "ai"],
 	figma: ["plugin", "import", "export"],
 };
-const VIDEOS = ["ai", "plugin"];
+const VIDEOS = new Set(["ai", "plugin"]);
 
 describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 	const html = read(page);
@@ -89,7 +91,7 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 	it("places the copy at the gutter and the aside on three quarters of the frame", () => {
 		const side = (
 			html.match(/@media not \(\(aspect-ratio[^{]*\{([\s\S]*?\})\}/)?.[1] ?? ""
-		).replace(/\[data-v-[\w-]+\]/g, "");
+		).replaceAll(/\[data-v-[\w-]+\]/g, "");
 		expect(side).toContain(
 			".ux-split__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}",
 		);
@@ -148,7 +150,7 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 		expect(markup).toMatch(/^<section\b[^>]*\bclass="ux-split\b/);
 		const aside =
 			markup.match(/<div class="ux-split__aside"[^>]*>[\s\S]*$/)?.[0] ?? "";
-		if (!VIDEOS.includes(id)) {
+		if (!VIDEOS.has(id)) {
 			expect(aside).toMatch(/<img\b/);
 			return;
 		}
@@ -161,7 +163,7 @@ describe.each(Object.entries(MEDIA))("/%s", (page, ids) => {
 	// the code: the prerendered page shows it.
 	it.each(ids)("marks the medium of #%s, shown at once", (id) => {
 		const markup = section(html, id);
-		const tag = VIDEOS.includes(id) ? "video" : "img";
+		const tag = VIDEOS.has(id) ? "video" : "img";
 		expect(markup).toMatch(new RegExp(`<${tag}\\b[^>]*\\bdata-outline\\b`));
 		expect(markup).not.toMatch(/^<section\b[^>]*\bdata-fade\b/);
 	});

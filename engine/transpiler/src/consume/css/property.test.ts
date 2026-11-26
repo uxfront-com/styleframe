@@ -24,7 +24,9 @@ describe("property() CSS output", () => {
 				child.identifier === "property" &&
 				child.rule === name,
 		);
-		if (!rule) throw new Error(`missing @property rule ${name}`);
+		if (!rule) {
+			throw new Error(`missing @property rule ${name}`);
+		}
 		return rule;
 	}
 

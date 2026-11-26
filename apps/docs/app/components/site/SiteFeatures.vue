@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UxTrait } from "@uxfront/ui";
 
-defineProps<{ items: UxTrait[] }>();
+defineProps<{ items: Array<UxTrait> }>();
 </script>
 
 <template>

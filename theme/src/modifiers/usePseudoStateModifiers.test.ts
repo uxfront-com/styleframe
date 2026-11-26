@@ -55,8 +55,8 @@ describe("usePseudoStateModifiers", () => {
 		createBg({ primary: "#006cff" }, [hover]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:primary {");
-		expect(css).toContain("._hover\\:background-color\\:primary {");
+		expect(css).toContain(String.raw`._background-color\:primary {`);
+		expect(css).toContain(String.raw`._hover\:background-color\:primary {`);
 	});
 
 	it("should generate correct CSS class names for focus-visible modifier", () => {
@@ -69,8 +69,8 @@ describe("usePseudoStateModifiers", () => {
 		createOutline({ blue: "blue" }, [focusVisible]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._outline-color\\:blue {");
-		expect(css).toContain("._focus-visible\\:outline-color\\:blue {");
+		expect(css).toContain(String.raw`._outline-color\:blue {`);
+		expect(css).toContain(String.raw`._focus-visible\:outline-color\:blue {`);
 	});
 
 	it("should combine multiple modifiers", () => {

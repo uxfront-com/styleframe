@@ -37,7 +37,7 @@ describe("useBorderWidthUtility", () => {
 		useBorderWidthUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-width\\:4 {");
+		expect(css).toContain(String.raw`._border-width\:4 {`);
 		expect(css).toContain("border-width: 4px;");
 	});
 
@@ -75,7 +75,7 @@ describe("useBorderWidthXUtility", () => {
 		useBorderWidthXUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-x-width\\:4 {");
+		expect(css).toContain(String.raw`._border-x-width\:4 {`);
 		expect(css).toContain("border-left-width: 4px;");
 		expect(css).toContain("border-right-width: 4px;");
 	});
@@ -98,7 +98,7 @@ describe("useBorderWidthYUtility", () => {
 		useBorderWidthYUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-y-width\\:4 {");
+		expect(css).toContain(String.raw`._border-y-width\:4 {`);
 		expect(css).toContain("border-top-width: 4px;");
 		expect(css).toContain("border-bottom-width: 4px;");
 	});
@@ -118,7 +118,7 @@ describe("useBorderWidthTopUtility", () => {
 		useBorderWidthTopUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-top-width\\:4 {");
+		expect(css).toContain(String.raw`._border-top-width\:4 {`);
 		expect(css).toContain("border-top-width: 4px;");
 	});
 });
@@ -167,7 +167,7 @@ describe("useBorderWidthStartUtility", () => {
 		useBorderWidthStartUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-start-width\\:4 {");
+		expect(css).toContain(String.raw`._border-inline-start-width\:4 {`);
 		expect(css).toContain("border-inline-start-width: 4px;");
 	});
 });
@@ -186,7 +186,7 @@ describe("useBorderWidthEndUtility", () => {
 		useBorderWidthEndUtility(s, { "4": "4px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-inline-end-width\\:4 {");
+		expect(css).toContain(String.raw`._border-inline-end-width\:4 {`);
 		expect(css).toContain("border-inline-end-width: 4px;");
 	});
 });

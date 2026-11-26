@@ -1,4 +1,5 @@
-import { type InspectSnapshot, inspect } from "@styleframe/core";
+import { inspect } from "@styleframe/core";
+import type { InspectSnapshot } from "@styleframe/core";
 import { loadConfiguration } from "@styleframe/loader";
 import { defineCommand } from "citty";
 import consola from "consola";
@@ -19,7 +20,7 @@ function isSection(value: unknown): value is Section {
 }
 
 const formatters: {
-	[S in Section]: (item: InspectSnapshot[S][number]) => string[];
+	[S in Section]: (item: InspectSnapshot[S][number]) => Array<string>;
 } = {
 	variables: ({ name, property, value }) => [`${name}  ${property}: ${value}`],
 	themes: ({ name, selector, overrides }) => [
@@ -46,7 +47,7 @@ function formatSection<S extends Section>(
 	section: S,
 	items: InspectSnapshot[S],
 ): string {
-	const lines = (items as InspectSnapshot[S][number][]).flatMap((item) =>
+	const lines = (items as Array<InspectSnapshot[S][number]>).flatMap((item) =>
 		formatters[section](item).map((line) => `  ${line}`),
 	);
 

@@ -42,7 +42,7 @@ describe("useInsetUtility", () => {
 		useInsetUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._inset\\:4 {");
+		expect(css).toContain(String.raw`._inset\:4 {`);
 		expect(css).toContain("top: 1rem;");
 		expect(css).toContain("right: 1rem;");
 		expect(css).toContain("bottom: 1rem;");
@@ -74,7 +74,7 @@ describe("useInsetXUtility", () => {
 		useInsetXUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._inset-x\\:4 {");
+		expect(css).toContain(String.raw`._inset-x\:4 {`);
 		expect(css).toContain("left: 1rem;");
 		expect(css).toContain("right: 1rem;");
 	});
@@ -97,7 +97,7 @@ describe("useInsetYUtility", () => {
 		useInsetYUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._inset-y\\:4 {");
+		expect(css).toContain(String.raw`._inset-y\:4 {`);
 		expect(css).toContain("top: 1rem;");
 		expect(css).toContain("bottom: 1rem;");
 	});
@@ -117,7 +117,7 @@ describe("useInsetStartUtility", () => {
 		useInsetStartUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._inset-inline-start\\:4 {");
+		expect(css).toContain(String.raw`._inset-inline-start\:4 {`);
 		expect(css).toContain("inset-inline-start: 1rem;");
 	});
 });
@@ -136,7 +136,7 @@ describe("useInsetEndUtility", () => {
 		useInsetEndUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._inset-inline-end\\:4 {");
+		expect(css).toContain(String.raw`._inset-inline-end\:4 {`);
 		expect(css).toContain("inset-inline-end: 1rem;");
 	});
 });
@@ -155,7 +155,7 @@ describe("useTopUtility", () => {
 		useTopUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._top\\:4 {");
+		expect(css).toContain(String.raw`._top\:4 {`);
 		expect(css).toContain("top: 1rem;");
 	});
 });
@@ -174,7 +174,7 @@ describe("useRightUtility", () => {
 		useRightUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._right\\:auto {");
+		expect(css).toContain(String.raw`._right\:auto {`);
 		expect(css).toContain("right: auto;");
 	});
 });
@@ -193,7 +193,7 @@ describe("useBottomUtility", () => {
 		useBottomUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._bottom\\:4 {");
+		expect(css).toContain(String.raw`._bottom\:4 {`);
 		expect(css).toContain("bottom: 1rem;");
 	});
 });
@@ -212,7 +212,7 @@ describe("useLeftUtility", () => {
 		useLeftUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._left\\:auto {");
+		expect(css).toContain(String.raw`._left\:auto {`);
 		expect(css).toContain("left: auto;");
 	});
 });

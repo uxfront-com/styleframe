@@ -39,7 +39,7 @@ describe("useBorderCollapseUtility", () => {
 		useBorderCollapseUtility(s, { collapse: "collapse" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-collapse\\:collapse {");
+		expect(css).toContain(String.raw`._border-collapse\:collapse {`);
 		expect(css).toContain("border-collapse: collapse;");
 	});
 
@@ -85,7 +85,7 @@ describe("useBorderSpacingUtility", () => {
 		useBorderSpacingUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-spacing\\:2 {");
+		expect(css).toContain(String.raw`._border-spacing\:2 {`);
 		expect(css).toContain("border-spacing: 0.5rem;");
 	});
 
@@ -123,7 +123,7 @@ describe("useBorderSpacingXUtility", () => {
 		useBorderSpacingXUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-spacing-x\\:2 {");
+		expect(css).toContain(String.raw`._border-spacing-x\:2 {`);
 		expect(css).toContain("border-spacing: 0.5rem var(--border-spacing-y, 0);");
 	});
 
@@ -161,7 +161,7 @@ describe("useBorderSpacingYUtility", () => {
 		useBorderSpacingYUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-spacing-y\\:2 {");
+		expect(css).toContain(String.raw`._border-spacing-y\:2 {`);
 		expect(css).toContain("border-spacing: var(--border-spacing-x, 0) 0.5rem;");
 	});
 
@@ -197,7 +197,7 @@ describe("useTableLayoutUtility", () => {
 		useTableLayoutUtility(s, { fixed: "fixed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._table-layout\\:fixed {");
+		expect(css).toContain(String.raw`._table-layout\:fixed {`);
 		expect(css).toContain("table-layout: fixed;");
 	});
 
@@ -243,7 +243,7 @@ describe("useCaptionSideUtility", () => {
 		useCaptionSideUtility(s, { top: "top" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._caption-side\\:top {");
+		expect(css).toContain(String.raw`._caption-side\:top {`);
 		expect(css).toContain("caption-side: top;");
 	});
 

@@ -5,7 +5,7 @@
 import type { ContentTocLink } from "#ui/components/content/ContentToc.vue";
 
 defineProps<{
-	links?: ContentTocLink[];
+	links?: Array<ContentTocLink>;
 }>();
 
 const { currentSection, sidebarNavigation } = useDocsSections();

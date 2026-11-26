@@ -608,7 +608,9 @@ describe("createUtilityConsumer", () => {
 			utilities: {
 				selector: ({ name, value, modifiers }) => {
 					const parts = [...modifiers, name];
-					if (value) parts.push(value);
+					if (value) {
+						parts.push(value);
+					}
 					return parts.join("-");
 				},
 			},
@@ -732,7 +734,7 @@ describe("createUtilityConsumer", () => {
 		const result = consumeUtility(instance, {});
 
 		// Expected CSS: ._background\:primary { background: var(--color--primary); }
-		expect(result).toContain("._background\\:primary");
+		expect(result).toContain(String.raw`._background\:primary`);
 		expect(result).toContain("background: var(--color--primary)");
 	});
 
@@ -761,7 +763,7 @@ describe("createUtilityConsumer", () => {
 
 		// Expected CSS: ._background\:color\.primary { background: var(--color--primary); }
 		// Note: The dot needs to be escaped in the CSS selector
-		expect(result).toContain("._background\\:color\\.primary");
+		expect(result).toContain(String.raw`._background\:color\.primary`);
 		expect(result).toContain("background: var(--color--primary)");
 	});
 });

@@ -17,7 +17,7 @@ import { describe, expect, it } from "vitest";
 
 const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
 
-function rawLinks(): string[] {
+function rawLinks(): Array<string> {
 	const file = join(OUTPUT, "llms.txt");
 	if (!existsSync(file)) {
 		return [];

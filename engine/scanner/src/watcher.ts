@@ -12,7 +12,7 @@ const compiledPatternCache = new Map<string, RegExp | null>();
  * Returns null if the pattern is not a glob or is invalid.
  */
 function getCompiledPattern(pattern: string): RegExp | null {
-	const normalized = pattern.replace(/\\/g, "/");
+	const normalized = pattern.replaceAll("\\", "/");
 
 	if (compiledPatternCache.has(normalized)) {
 		return compiledPatternCache.get(normalized)!;
@@ -55,7 +55,7 @@ export interface WatcherOptions {
 /**
  * Simple debounce utility
  */
-export function debounce<T extends (...args: unknown[]) => void>(
+export function debounce<T extends (...args: Array<unknown>) => void>(
 	fn: T,
 	delay: number,
 ): (...args: Parameters<T>) => void {
@@ -84,7 +84,7 @@ export function debounce<T extends (...args: unknown[]) => void>(
  * @returns A debounced change handler
  */
 export function createChangeHandler(
-	callback: (changedFiles: string[]) => void,
+	callback: (changedFiles: Array<string>) => void,
 	options: WatcherOptions = {},
 ): {
 	onChange: (filePath: string) => void;
@@ -123,7 +123,7 @@ export function createChangeHandler(
  * Escapes: . + ^ $ { } ( ) | [ ] \
  */
 function escapeRegexChars(str: string): string {
-	return str.replace(/[.+^${}()|[\]\\]/g, "\\$&");
+	return str.replaceAll(/[.+^${}()|[\]\\]/g, String.raw`\$&`);
 }
 
 /**
@@ -133,14 +133,14 @@ function escapeRegexChars(str: string): string {
 function globToRegex(pattern: string): string {
 	// Replace glob wildcards with placeholders, escape regex chars, then restore as regex equivalents
 	return pattern
-		.replace(/\*\*/g, "<<<GLOBSTAR>>>")
-		.replace(/\*/g, "<<<STAR>>>")
-		.replace(/\?/g, "<<<QUESTION>>>")
+		.replaceAll("**", "<<<GLOBSTAR>>>")
+		.replaceAll("*", "<<<STAR>>>")
+		.replaceAll("?", "<<<QUESTION>>>")
 		.split("<<<GLOBSTAR>>>")
 		.map(escapeRegexChars)
 		.join(".*")
-		.replace(/<<<STAR>>>/g, "[^/]*")
-		.replace(/<<<QUESTION>>>/g, ".");
+		.replaceAll("<<<STAR>>>", "[^/]*")
+		.replaceAll("<<<QUESTION>>>", ".");
 }
 
 /**
@@ -149,8 +149,11 @@ function globToRegex(pattern: string): string {
  * This is a simple check that looks for common pattern matches.
  * For full glob support, use a library like micromatch.
  */
-export function matchesPatterns(filePath: string, patterns: string[]): boolean {
-	const normalizedPath = filePath.replace(/\\/g, "/");
+export function matchesPatterns(
+	filePath: string,
+	patterns: Array<string>,
+): boolean {
+	const normalizedPath = filePath.replaceAll("\\", "/");
 
 	for (const pattern of patterns) {
 		const compiledRegex = getCompiledPattern(pattern);
@@ -162,7 +165,7 @@ export function matchesPatterns(filePath: string, patterns: string[]): boolean {
 			}
 		} else {
 			// Exact match for non-glob patterns
-			const normalizedPattern = pattern.replace(/\\/g, "/");
+			const normalizedPattern = pattern.replaceAll("\\", "/");
 			if (normalizedPath === normalizedPattern) {
 				return true;
 			}

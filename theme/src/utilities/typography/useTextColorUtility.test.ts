@@ -27,9 +27,9 @@ describe("useTextColorUtility", () => {
 		useTextColorUtility(s, { inherit: "inherit", current: "currentColor" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-color\\:inherit {");
+		expect(css).toContain(String.raw`._text-color\:inherit {`);
 		expect(css).toContain("color: inherit;");
-		expect(css).toContain("._text-color\\:current {");
+		expect(css).toContain(String.raw`._text-color\:current {`);
 		expect(css).toContain("color: currentColor;");
 	});
 

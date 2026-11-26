@@ -28,10 +28,12 @@ export function useCodeDesignTokens(
 ): Partial<CodeElementResult> {
 	const result: Partial<CodeElementResult> = {};
 
-	if (config.fontFamily !== undefined)
+	if (config.fontFamily !== undefined) {
 		result.codeFontFamily = ctx.variable("code.font-family", config.fontFamily);
-	if (config.fontSize !== undefined)
+	}
+	if (config.fontSize !== undefined) {
 		result.codeFontSize = ctx.variable("code.font-size", config.fontSize);
+	}
 
 	return result;
 }

@@ -13,7 +13,9 @@ import { DTS_HEADER } from "./constants";
  * Exported selectors are always direct children of root since
  * _exportName is only set on module-level exports.
  */
-function collectExportedSelectors(children: ContainerChild[]): Selector[] {
+function collectExportedSelectors(
+	children: Array<ContainerChild>,
+): Array<Selector> {
 	return children.filter(
 		(child): child is Selector => isSelector(child) && !!child._exportName,
 	);
@@ -32,7 +34,7 @@ export function createRootConsumer(consume: ConsumeFunction) {
 		const hasRecipes = recipesToEmit.length > 0;
 		const hasSelectors = exportedSelectors.length > 0;
 
-		const parts: string[] = [
+		const parts: Array<string> = [
 			DTS_HEADER,
 			'import type { Styleframe } from "@styleframe/core";',
 			"",

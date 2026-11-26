@@ -120,13 +120,15 @@ async function handleImport(
 
 	if (perModeDocs && Object.keys(perModeDocs).length > 0) {
 		const modeNames = Object.keys(perModeDocs);
-		const allModes: string[] = [];
+		const allModes: Array<string> = [];
 		const variableMap = new Map<string, FigmaExportVariable>();
 
 		for (const modeName of modeNames) {
 			const modeDoc = perModeDocs[modeName]!;
 			const modeData = fromDTCG(modeDoc, { defaultModeName: modeName });
-			if (!allModes.includes(modeName)) allModes.push(modeName);
+			if (!allModes.includes(modeName)) {
+				allModes.push(modeName);
+			}
 			for (const v of modeData.variables) {
 				const existing = variableMap.get(v.name);
 				if (existing) {
@@ -151,7 +153,9 @@ async function handleImport(
 		// satisfy the ref from the in-memory uploaded document.
 		const baseRef = tokensRef ?? "tokens.json";
 		const fileLoader = async (ref: string): Promise<unknown> => {
-			if (ref === baseRef) return rawData;
+			if (ref === baseRef) {
+				return rawData;
+			}
 			throw new Error(
 				`Resolver references "${ref}" but only "${baseRef}" was uploaded`,
 			);
@@ -190,7 +194,9 @@ async function handleImport(
 	// Add additional modes
 	for (let i = 1; i < modes.length; i++) {
 		const modeName = modes[i];
-		if (!modeName) continue;
+		if (!modeName) {
+			continue;
+		}
 
 		const existingMode = existingModes.find((m) => m.name === modeName);
 		if (existingMode) {
@@ -215,7 +221,9 @@ async function handleImport(
 
 	// First pass: create all non-alias variables
 	for (const v of variables) {
-		if (v.aliasTo) continue; // Skip aliases for now
+		if (v.aliasTo) {
+			continue;
+		} // Skip aliases for now
 
 		const desiredType = getResolvedType(v.type);
 		const existing = existingVariables.find(
@@ -231,7 +239,9 @@ async function handleImport(
 			// created — a stale STRING `spacing/md` would silently reject a FLOAT
 			// `setValueForMode` and leave the displayed value at 0). Remove the
 			// stale binding and recreate with the desired type.
-			if (existing) existing.remove();
+			if (existing) {
+				existing.remove();
+			}
 			figmaVar = figma.variables.createVariable(
 				v.name,
 				collection,
@@ -247,7 +257,9 @@ async function handleImport(
 		// variable at its default 0/empty.
 		for (const [modeName, value] of Object.entries(v.values)) {
 			const modeId = modeIdMap.get(modeName);
-			if (!modeId) continue;
+			if (!modeId) {
+				continue;
+			}
 
 			if (isVariableAlias(value)) {
 				const aliasTarget = variableMap.get(value.id);
@@ -278,7 +290,9 @@ async function handleImport(
 
 	// Second pass: create alias variables
 	for (const v of variables) {
-		if (!v.aliasTo) continue;
+		if (!v.aliasTo) {
+			continue;
+		}
 
 		const targetVar = variableMap.get(styleframeToFigmaName(v.aliasTo));
 		if (!targetVar) {
@@ -303,7 +317,9 @@ async function handleImport(
 
 		for (const [modeName, value] of Object.entries(v.values)) {
 			const modeId = modeIdMap.get(modeName);
-			if (!modeId) continue;
+			if (!modeId) {
+				continue;
+			}
 
 			if (isVariableAlias(value)) {
 				const modeTargetVar = variableMap.get(value.id);
@@ -369,27 +385,33 @@ async function handleExport(
 	const modes = exportModes.map((m) => m.name);
 	const modeIdToName = new Map(exportModes.map((m) => [m.modeId, m.name]));
 
-	const variables: FigmaExportVariable[] = [];
+	const variables: Array<FigmaExportVariable> = [];
 	const variableIdToName = new Map<string, string>();
 
 	// First pass: build ID to name map
 	for (const varId of collection.variableIds) {
 		const figmaVar = await figma.variables.getVariableByIdAsync(varId);
-		if (!figmaVar) continue;
+		if (!figmaVar) {
+			continue;
+		}
 		variableIdToName.set(figmaVar.id, figmaVar.name);
 	}
 
 	// Second pass: export variables
 	for (const varId of collection.variableIds) {
 		const figmaVar = await figma.variables.getVariableByIdAsync(varId);
-		if (!figmaVar) continue;
+		if (!figmaVar) {
+			continue;
+		}
 
 		const values: Record<string, unknown> = {};
 		let aliasTo: string | undefined;
 
 		for (const [valModeId, value] of Object.entries(figmaVar.valuesByMode)) {
 			const modeName = modeIdToName.get(valModeId);
-			if (!modeName) continue;
+			if (!modeName) {
+				continue;
+			}
 
 			if (isVariableAlias(value)) {
 				const targetName = variableIdToName.get(value.id);
@@ -464,7 +486,9 @@ function convertToFigmaValue(
 	value: unknown,
 	type: string,
 ): VariableValue | null {
-	if (value === null || value === undefined) return null;
+	if (value === null || value === undefined) {
+		return null;
+	}
 
 	switch (type) {
 		case "COLOR": {

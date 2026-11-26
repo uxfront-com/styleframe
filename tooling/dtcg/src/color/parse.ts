@@ -14,7 +14,9 @@ import { culoriToDtcg } from "./culori-bridge";
 
 export function parse(input: string): DTCGColor | undefined {
 	const parsed = parseCss(input);
-	if (!parsed) return undefined;
+	if (!parsed) {
+		return undefined;
+	}
 	try {
 		return culoriToDtcg(
 			parsed as unknown as Parameters<typeof culoriToDtcg>[0],

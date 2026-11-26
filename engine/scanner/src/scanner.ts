@@ -14,7 +14,7 @@ export function quickScan(
 	content: string,
 	filePath = "inline.html",
 	utilities?: ScannerUtilitiesConfig,
-): ParsedUtility[] {
+): Array<ParsedUtility> {
 	const parseFn = utilities?.parse ?? parseUtilityClass;
 	const classNames = extractClasses(
 		content,
@@ -31,11 +31,11 @@ export function quickScan(
  * Useful for testing or one-off scans.
  */
 export function createContentScanner(
-	customExtractors?: Extractor[],
+	customExtractors?: Array<Extractor>,
 	utilities?: ScannerUtilitiesConfig,
-): (content: string, filePath?: string) => ParsedUtility[] {
+): (content: string, filePath?: string) => Array<ParsedUtility> {
 	const parseFn = utilities?.parse ?? parseUtilityClass;
-	return (content: string, filePath = "inline"): ParsedUtility[] => {
+	return (content: string, filePath = "inline"): Array<ParsedUtility> => {
 		const classNames = extractClasses(
 			content,
 			filePath,

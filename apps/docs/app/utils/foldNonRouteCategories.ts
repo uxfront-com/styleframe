@@ -10,17 +10,17 @@ import type { NonRouteCategoryMeta } from "../types/non-route-categories";
  * by the folders' numbers, after the pages that have none.
  */
 export function foldNonRouteCategories(
-	items: ContentNavigationItem[],
+	items: Array<ContentNavigationItem>,
 	categories: Record<string, NonRouteCategoryMeta>,
-): ContentNavigationItem[] {
+): Array<ContentNavigationItem> {
 	return items.map((node) => {
 		if (!node.children?.length) {
 			return node;
 		}
-		const passthrough: ContentNavigationItem[] = [];
+		const passthrough: Array<ContentNavigationItem> = [];
 		const groups = new Map<
 			string,
-			{ meta: NonRouteCategoryMeta; children: ContentNavigationItem[] }
+			{ meta: NonRouteCategoryMeta; children: Array<ContentNavigationItem> }
 		>();
 		for (const child of node.children) {
 			const dir = child.stem

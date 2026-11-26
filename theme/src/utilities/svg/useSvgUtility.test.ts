@@ -31,7 +31,7 @@ describe("useFillUtility", () => {
 		useFillUtility(s, { current: "currentColor" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._fill\\:current {");
+		expect(css).toContain(String.raw`._fill\:current {`);
 		expect(css).toContain("fill: currentColor;");
 	});
 
@@ -67,7 +67,7 @@ describe("useStrokeUtility", () => {
 		useStrokeUtility(s, { current: "currentColor" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._stroke\\:current {");
+		expect(css).toContain(String.raw`._stroke\:current {`);
 		expect(css).toContain("stroke: currentColor;");
 	});
 
@@ -103,7 +103,7 @@ describe("useStrokeWidthUtility", () => {
 		useStrokeWidthUtility(s, { "2": "2" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._stroke-width\\:2 {");
+		expect(css).toContain(String.raw`._stroke-width\:2 {`);
 		expect(css).toContain("stroke-width: 2;");
 	});
 

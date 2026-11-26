@@ -8,7 +8,9 @@ import type {
 
 function loaderFor(map: Record<string, unknown>): DTCGFileLoader {
 	return async (ref) => {
-		if (!(ref in map)) throw new Error(`unknown ref ${ref}`);
+		if (!(ref in map)) {
+			throw new Error(`unknown ref ${ref}`);
+		}
 		return map[ref];
 	};
 }

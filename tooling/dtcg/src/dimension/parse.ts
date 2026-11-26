@@ -12,8 +12,12 @@ const DIMENSION_PATTERN = /^(-?\d*\.?\d+)([a-zA-Z%]+)$/;
  */
 export function parse(input: string): DTCGDimension | undefined {
 	const match = input.trim().match(DIMENSION_PATTERN);
-	if (!match) return undefined;
+	if (!match) {
+		return undefined;
+	}
 	const value = Number.parseFloat(match[1] as string);
-	if (!Number.isFinite(value)) return undefined;
+	if (!Number.isFinite(value)) {
+		return undefined;
+	}
 	return { value, unit: match[2] as string };
 }

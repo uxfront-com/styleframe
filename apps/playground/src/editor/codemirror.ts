@@ -1,6 +1,7 @@
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
-import { Compartment, EditorState, type Extension } from "@codemirror/state";
+import { Compartment, EditorState } from "@codemirror/state";
+import type { Extension } from "@codemirror/state";
 import {
 	EditorView,
 	highlightActiveLine,
@@ -15,14 +16,19 @@ import {
 	indentWithTab,
 } from "@codemirror/commands";
 import { bracketMatching, indentOnInput } from "@codemirror/language";
-import { type PlaygroundEditorTheme, playgroundTheme } from "./theme";
+import { playgroundTheme } from "./theme";
+import type { PlaygroundEditorTheme } from "./theme";
 
 export type EditorLanguage = "typescript" | "tsx" | "css";
 
 /** Map a file path to its editor language by extension. */
 export function languageForPath(path: string): EditorLanguage {
-	if (path.endsWith(".css")) return "css";
-	if (path.endsWith(".tsx") || path.endsWith(".jsx")) return "tsx";
+	if (path.endsWith(".css")) {
+		return "css";
+	}
+	if (path.endsWith(".tsx") || path.endsWith(".jsx")) {
+		return "tsx";
+	}
 	return "typescript";
 }
 
@@ -85,7 +91,7 @@ export function createEditor(options: CreateEditorOptions): EditorView {
 		}
 	});
 
-	const extensions: Extension[] = [
+	const extensions: Array<Extension> = [
 		lineNumbers(),
 		highlightActiveLineGutter(),
 		highlightActiveLine(),
@@ -108,7 +114,9 @@ export function createEditor(options: CreateEditorOptions): EditorView {
 
 export function setEditorValue(view: EditorView, value: string): void {
 	const current = view.state.doc.toString();
-	if (current === value) return;
+	if (current === value) {
+		return;
+	}
 	view.dispatch({
 		changes: { from: 0, to: current.length, insert: value },
 	});

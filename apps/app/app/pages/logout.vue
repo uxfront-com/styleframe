@@ -24,9 +24,9 @@ onMounted(async () => {
 			// Redirect to login after successful sign out
 			await router.push("/login");
 		}
-	} catch (err) {
+	} catch (error_) {
 		error.value =
-			err instanceof Error ? err.message : "An error occurred during sign out";
+			error_ instanceof Error ? error_.message : "An error occurred during sign out";
 	}
 });
 </script>

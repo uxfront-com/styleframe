@@ -80,7 +80,7 @@ export function createUseSpacingUtility<
 	>(
 		s: Styleframe,
 		values?: T,
-		modifiers?: (ModifierFactory | ModifierFactory[])[],
+		modifiers?: Array<ModifierFactory | Array<ModifierFactory>>,
 		utilityOptions?: UseUtilityOptions,
 	): UtilityCreatorFn {
 		const resolvedName = utilityOptions?.name ?? utilityName;

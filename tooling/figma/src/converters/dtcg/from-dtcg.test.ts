@@ -373,8 +373,12 @@ describe("fromDTCGResolver (multi-mode)", () => {
 		};
 
 		const loader = async (ref: string) => {
-			if (ref === "light.json") return lightTokens;
-			if (ref === "dark.json") return darkTokens;
+			if (ref === "light.json") {
+				return lightTokens;
+			}
+			if (ref === "dark.json") {
+				return darkTokens;
+			}
 			throw new Error(`unknown ref ${ref}`);
 		};
 
@@ -427,7 +431,9 @@ describe("fromDTCGResolver (multi-mode)", () => {
 		};
 
 		const loader = async (ref: string) => {
-			if (ref === "base.json") return baseTokens;
+			if (ref === "base.json") {
+				return baseTokens;
+			}
 			throw new Error(`unknown ref ${ref}`);
 		};
 

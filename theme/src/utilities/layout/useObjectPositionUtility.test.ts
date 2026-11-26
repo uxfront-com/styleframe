@@ -27,7 +27,7 @@ describe("useObjectPositionUtility", () => {
 		useObjectPositionUtility(s, { "left-top": "left top" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._object-position\\:left-top {");
+		expect(css).toContain(String.raw`._object-position\:left-top {`);
 		expect(css).toContain("object-position: left top;");
 	});
 

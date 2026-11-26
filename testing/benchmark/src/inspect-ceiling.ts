@@ -17,14 +17,18 @@ import { styleframePage as sett } from "./pages/settings";
 
 const allPages = [dash, mktg, blog, ecom, sett];
 
-const gz = (s: string) =>
-	gzipSync(Buffer.from(s, "utf-8"), { level: 6 }).length;
+const gz = (s: string) => gzipSync(Buffer.from(s, "utf8"), { level: 6 }).length;
 
 const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const ids: string[] = [];
-for (let i = 0; i < chars.length; i++) ids.push(chars[i]!);
-for (let i = 0; i < chars.length; i++)
-	for (let j = 0; j < chars.length; j++) ids.push(chars[i]! + chars[j]!);
+const ids: Array<string> = [];
+for (let i = 0; i < chars.length; i++) {
+	ids.push(chars[i]!);
+}
+for (let i = 0; i < chars.length; i++) {
+	for (let j = 0; j < chars.length; j++) {
+		ids.push(chars[i]! + chars[j]!);
+	}
+}
 
 let totalOrig = 0;
 let totalCurrent = 0;
@@ -35,13 +39,20 @@ let totalOptimalRaw = 0;
 
 for (const html of allPages) {
 	const allClasses = new Set<string>();
-	for (const m of html.matchAll(/class="([^"]*)"/g))
-		for (const c of m[1]!.split(/\s+/)) if (c) allClasses.add(c);
+	for (const m of html.matchAll(/class="([^"]*)"/g)) {
+		for (const c of m[1]!.split(/\s+/)) {
+			if (c) {
+				allClasses.add(c);
+			}
+		}
+	}
 
 	const lookup = new Map<string, string>();
 	let idx = 0;
-	for (const c of allClasses) lookup.set(c, ids[idx++]!);
-	const optimal = html.replace(
+	for (const c of allClasses) {
+		lookup.set(c, ids[idx++]!);
+	}
+	const optimal = html.replaceAll(
 		/class="([^"]*)"/g,
 		(_, cl: string) =>
 			`class="${cl
@@ -56,7 +67,7 @@ for (const html of allPages) {
 	registerMatchedUtilities(s.root, matches);
 	const shortMap = generateShorteningMap(s.root);
 	const classLookup = buildClassNameLookup(s.root, shortMap);
-	const current = html.replace(
+	const current = html.replaceAll(
 		/class="([^"]*)"/g,
 		(_, cl: string) =>
 			`class="${cl

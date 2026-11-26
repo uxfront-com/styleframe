@@ -97,13 +97,15 @@ describe("spinner contrast", () => {
 		expect(overlay("#ffffff")).toBe("#404040");
 	});
 
-	const pages: Record<Theme, string[]> = {
+	const pages: Record<Theme, Array<string>> = {
 		light: [themes.light.background!, themes.light.surface!],
 		dark: [themes.dark.background!, themes.dark.surface!],
 	};
 
-	function surfaces(color: string, theme: Theme): string[] {
-		if (color === "light") return pages.light;
+	function surfaces(color: string, theme: Theme): Array<string> {
+		if (color === "light") {
+			return pages.light;
+		}
 		if (color === "dark") {
 			return [...pages.dark, ...[...pages.light, ...pages.dark].map(overlay)];
 		}

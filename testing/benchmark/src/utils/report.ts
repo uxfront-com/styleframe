@@ -3,7 +3,6 @@ import type {
 	BenchmarkReport,
 	PageResult,
 	SizeMeasurement,
-	TimingMeasurement,
 } from "../types";
 
 function kb(bytes: number): string {
@@ -14,22 +13,20 @@ function b(value: number): string {
 	return `${value.toLocaleString()} B`;
 }
 
-function ms(value: number): string {
-	return `${value.toFixed(0)} ms`;
-}
-
 function pct(value: number, baseline: number): string {
-	if (baseline === 0) return "—";
+	if (baseline === 0) {
+		return "—";
+	}
 	const diff = ((value - baseline) / baseline) * 100;
 	const sign = diff >= 0 ? "+" : "";
 	return `${sign}${diff.toFixed(1)}%`;
 }
 
-function row(cells: (string | number)[]): string {
+function row(cells: Array<string | number>): string {
 	return `| ${cells.join(" | ")} |`;
 }
 
-function gzippedTable(entries: BenchmarkEntry[]): string {
+function gzippedTable(entries: Array<BenchmarkEntry>): string {
 	const baseline = entries[0]?.size.gzippedTotalBytes ?? 0;
 	const lines = [
 		"| Configuration | HTML | CSS | Total | vs Tailwind |",
@@ -50,7 +47,7 @@ function gzippedTable(entries: BenchmarkEntry[]): string {
 	return lines.join("\n");
 }
 
-function rawTable(entries: BenchmarkEntry[]): string {
+function rawTable(entries: Array<BenchmarkEntry>): string {
 	const baselineRaw =
 		(entries[0]?.size.rawHtmlBytes ?? 0) + (entries[0]?.size.rawCssBytes ?? 0);
 	const lines = [
@@ -73,7 +70,7 @@ function rawTable(entries: BenchmarkEntry[]): string {
 	return lines.join("\n");
 }
 
-function densityTable(entries: BenchmarkEntry[]): string {
+function densityTable(entries: Array<BenchmarkEntry>): string {
 	const lines = [
 		"| Configuration | Total classes | Avg/el | P95/el |",
 		"|---|---|---|---|",
@@ -91,8 +88,10 @@ function densityTable(entries: BenchmarkEntry[]): string {
 	return lines.join("\n");
 }
 
-function aggregateEntries(pages: PageResult[]): BenchmarkEntry[] {
-	if (pages.length === 0) return [];
+function aggregateEntries(pages: Array<PageResult>): Array<BenchmarkEntry> {
+	if (pages.length === 0) {
+		return [];
+	}
 
 	const labels = pages[0]!.entries.map((e) => e.label);
 	return labels.map((label, i) => {
@@ -128,10 +127,10 @@ function aggregateEntries(pages: PageResult[]): BenchmarkEntry[] {
 
 export function formatReport(
 	report: BenchmarkReport,
-	pages: PageResult[],
+	pages: Array<PageResult>,
 ): string {
 	const aggregate = aggregateEntries(pages);
-	const sections: string[] = [
+	const sections: Array<string> = [
 		"# Styleframe vs Tailwind CSS Benchmark",
 		"",
 		`**Date:** ${report.date}`,

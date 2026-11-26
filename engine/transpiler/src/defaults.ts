@@ -7,5 +7,5 @@ export const defaultThemeSelectorFn: ThemeSelectorFn = ({ name }) => {
 };
 
 export const defaultVariableNameFn: VariableNameFn = ({ name }) => {
-	return name.replace(/^\.+|\.+$/g, "").replace(/\.+/g, "--");
+	return name.replaceAll(/^\.+|\.+$/g, "").replaceAll(/\.+/g, "--");
 };

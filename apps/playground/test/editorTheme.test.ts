@@ -8,13 +8,13 @@ import {
 	playgroundTheme,
 } from "@/editor/theme";
 
-const openEditors: EditorView[] = [];
+const openEditors: Array<EditorView> = [];
 
 function mount(
 	overrides: Partial<Parameters<typeof createEditor>[0]> = {},
 ): EditorView {
 	const parent = document.createElement("div");
-	document.body.appendChild(parent);
+	document.body.append(parent);
 	const view = createEditor({
 		parent,
 		doc: "const x = 1;",

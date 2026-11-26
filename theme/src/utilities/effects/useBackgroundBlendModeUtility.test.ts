@@ -30,7 +30,7 @@ describe("useBackgroundBlendModeUtility", () => {
 		useBackgroundBlendModeUtility(s, { screen: "screen" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-blend-mode\\:screen {");
+		expect(css).toContain(String.raw`._background-blend-mode\:screen {`);
 		expect(css).toContain("background-blend-mode: screen;");
 	});
 

@@ -682,7 +682,9 @@ describe("quickScan", () => {
 			{
 				pattern: /sf-[a-zA-Z][a-zA-Z0-9-]*/g,
 				parse: (className) => {
-					if (!className.startsWith("sf-")) return null;
+					if (!className.startsWith("sf-")) {
+						return null;
+					}
 					const parts = className.slice(3).split("-");
 					if (parts.length < 2) {
 						return {
@@ -693,8 +695,8 @@ describe("quickScan", () => {
 							isArbitrary: false,
 						};
 					}
-					const value = parts[parts.length - 1]!;
-					const name = parts[parts.length - 2]!;
+					const value = parts.at(-1)!;
+					const name = parts.at(-2)!;
 					const modifiers = parts.slice(0, -2);
 					return {
 						raw: className,
@@ -729,7 +731,9 @@ describe("createContentScanner", () => {
 	it("should support custom extractors", () => {
 		const customExtractor = (content: string) => {
 			const matches = content.match(/data-class="([^"]+)"/g);
-			if (!matches) return [];
+			if (!matches) {
+				return [];
+			}
 			return matches.flatMap((m) => {
 				const match = m.match(/data-class="([^"]+)"/);
 				return match ? match[1]!.split(" ") : [];
@@ -765,7 +769,9 @@ describe("createContentScanner", () => {
 		const scan = createContentScanner(undefined, {
 			pattern: /sf-[a-zA-Z][a-zA-Z0-9-]*/g,
 			parse: (className) => {
-				if (!className.startsWith("sf-")) return null;
+				if (!className.startsWith("sf-")) {
+					return null;
+				}
 				const parts = className.slice(3).split("-");
 				if (parts.length < 2) {
 					return {
@@ -776,8 +782,8 @@ describe("createContentScanner", () => {
 						isArbitrary: false,
 					};
 				}
-				const value = parts[parts.length - 1]!;
-				const name = parts[parts.length - 2]!;
+				const value = parts.at(-1)!;
+				const name = parts.at(-2)!;
 				const modifiers = parts.slice(0, -2);
 				return {
 					raw: className,
@@ -809,19 +815,21 @@ describe("createScanner with custom utilities", () => {
 		const customUtilities = {
 			pattern: /sf-[a-zA-Z][a-zA-Z0-9-]*/g,
 			parse: (className: string) => {
-				if (!className.startsWith("sf-")) return null;
+				if (!className.startsWith("sf-")) {
+					return null;
+				}
 				const parts = className.slice(3).split("-");
 				if (parts.length < 2) {
 					return {
 						raw: className,
 						name: parts[0]!,
 						value: "default",
-						modifiers: [] as string[],
+						modifiers: [] as Array<string>,
 						isArbitrary: false,
 					};
 				}
-				const value = parts[parts.length - 1]!;
-				const name = parts[parts.length - 2]!;
+				const value = parts.at(-1)!;
+				const name = parts.at(-2)!;
 				const modifiers = parts.slice(0, -2);
 				return {
 					raw: className,
@@ -864,19 +872,21 @@ describe("createScanner with custom utilities", () => {
 			utilities: {
 				pattern: /sf-[a-zA-Z][a-zA-Z0-9-]*/g,
 				parse: (className: string) => {
-					if (!className.startsWith("sf-")) return null;
+					if (!className.startsWith("sf-")) {
+						return null;
+					}
 					const parts = className.slice(3).split("-");
 					if (parts.length < 2) {
 						return {
 							raw: className,
 							name: parts[0]!,
 							value: "default",
-							modifiers: [] as string[],
+							modifiers: [] as Array<string>,
 							isArbitrary: false,
 						};
 					}
-					const value = parts[parts.length - 1]!;
-					const name = parts[parts.length - 2]!;
+					const value = parts.at(-1)!;
+					const name = parts.at(-2)!;
 					const modifiers = parts.slice(0, -2);
 					return {
 						raw: className,

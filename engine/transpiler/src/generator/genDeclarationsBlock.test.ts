@@ -155,8 +155,8 @@ describe("genDeclarationsBlock", () => {
 
 	it("should handle declarations with special characters", () => {
 		const result = genDeclarationsBlock([
-			"content: '\\2022';",
-			"content: '\\00a0';",
+			String.raw`content: '\2022';`,
+			String.raw`content: '\00a0';`,
 		]);
 		expect(result).toBe("{\n\tcontent: '\\2022';\n\tcontent: '\\00a0';\n}");
 	});
@@ -242,7 +242,7 @@ describe("genDeclarationsBlock", () => {
 	it("should handle declarations with newlines in values", () => {
 		const result = genDeclarationsBlock([
 			"white-space: pre-wrap;",
-			"content: 'Line 1\\A Line 2';",
+			String.raw`content: 'Line 1\A Line 2';`,
 		]);
 		expect(result).toBe(
 			"{\n\twhite-space: pre-wrap;\n\tcontent: 'Line 1\\A Line 2';\n}",

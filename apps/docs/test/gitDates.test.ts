@@ -30,7 +30,7 @@ describe("readGitDates", () => {
 	const root = mkdtempSync(join(tmpdir(), "git-dates-"));
 	afterAll(() => rmSync(root, { recursive: true, force: true }));
 
-	const git = (cwd: string, args: string[], date = "2026-01-01") =>
+	const git = (cwd: string, args: Array<string>, date = "2026-01-01") =>
 		execFileSync("git", args, {
 			cwd,
 			stdio: "ignore",

@@ -21,12 +21,16 @@ const MAX_SUGGESTION_DISTANCE = 2;
 
 type ScopeToken = Root | Theme | Selector | AtRule | Utility;
 
-type ReportFn = (reference: string, path: string[], scope: Container) => void;
+type ReportFn = (
+	reference: string,
+	path: Array<string>,
+	scope: Container,
+) => void;
 
 type UtilityProblems = {
 	utility: string;
 	key: string;
-	problems: Array<{ reference: string; path: string[]; scope: Container }>;
+	problems: Array<{ reference: string; path: Array<string>; scope: Container }>;
 };
 
 /**
@@ -34,12 +38,12 @@ type UtilityProblems = {
  * references that resolve to no variable, theme overrides of variables that
  * aren't defined at root, and variables defined twice. Never throws.
  */
-export function validate(instance: Styleframe): Diagnostic[] {
+export function validate(instance: Styleframe): Array<Diagnostic> {
 	const { root } = instance;
 	const severity: DiagnosticSeverity = instance.options.strict
 		? "error"
 		: "warning";
-	const diagnostics: Diagnostic[] = [];
+	const diagnostics: Array<Diagnostic> = [];
 
 	const reportUnresolved: ReportFn = (reference, path, scope) => {
 		// A namespace fallback resolves when the utility is created, so a
@@ -80,9 +84,11 @@ export function validate(instance: Styleframe): Diagnostic[] {
 	for (const recipe of root.recipes) {
 		const visitBlock = (
 			block: VariantDeclarationsBlock | null | undefined,
-			path: string[],
+			path: Array<string>,
 		) => {
-			if (!block) return;
+			if (!block) {
+				return;
+			}
 
 			for (const [key, value] of Object.entries(block)) {
 				if (
@@ -106,10 +112,12 @@ export function validate(instance: Styleframe): Diagnostic[] {
 		const visitDeclaration = (
 			utilityKey: string,
 			value: TokenValue,
-			path: string[],
+			path: Array<string>,
 		) => {
 			const factory = findUtilityFactory(root, utilityKey);
-			if (!factory) return;
+			if (!factory) {
+				return;
+			}
 
 			for (const key of Object.keys(factory.autogenerate(value))) {
 				const id = `${factory.name}|${key}`;
@@ -136,7 +144,9 @@ export function validate(instance: Styleframe): Diagnostic[] {
 	}
 
 	for (const [id, { utility, key, problems }] of utilityProblems) {
-		if (covered.has(id)) continue;
+		if (covered.has(id)) {
+			continue;
+		}
 
 		for (const problem of problems) {
 			reportUnresolved(
@@ -153,7 +163,9 @@ export function validate(instance: Styleframe): Diagnostic[] {
 		const prefix = `theme "${theme.name}"`;
 
 		for (const variable of theme.variables) {
-			if (rootNames.includes(variable.name)) continue;
+			if (rootNames.includes(variable.name)) {
+				continue;
+			}
 
 			const suggestion = findSuggestion(variable.name, rootNames);
 			diagnostics.push({
@@ -172,7 +184,9 @@ export function validate(instance: Styleframe): Diagnostic[] {
 
 	// Variables defined twice, recorded when variable() overwrote them
 	for (const record of root._records ?? []) {
-		if (record.type !== "duplicate-variable") continue;
+		if (record.type !== "duplicate-variable") {
+			continue;
+		}
 
 		const [first, last] = record.values;
 		diagnostics.push({
@@ -196,7 +210,7 @@ function collectUtilityProblems(root: Root): Map<string, UtilityProblems> {
 		utility: string,
 		key: string,
 		reference: string,
-		path: string[],
+		path: Array<string>,
 		scope: Container,
 	) => {
 		const id = `${utility}|${key}`;
@@ -213,7 +227,9 @@ function collectUtilityProblems(root: Root): Map<string, UtilityProblems> {
 	};
 
 	for (const child of root.children) {
-		if (child.type !== "utility") continue;
+		if (child.type !== "utility") {
+			continue;
+		}
 
 		walkContainer(child, [], root, (reference, path, scope) =>
 			addProblem(child.name, child.value, reference, path, scope),
@@ -222,7 +238,9 @@ function collectUtilityProblems(root: Root): Map<string, UtilityProblems> {
 
 	// Namespace fallbacks that found no variable and fell back to the key
 	for (const record of root._records ?? []) {
-		if (record.type !== "unresolved-utility-value") continue;
+		if (record.type !== "unresolved-utility-value") {
+			continue;
+		}
 
 		addProblem(record.utility, record.key, record.reference, [], root);
 	}
@@ -232,11 +250,11 @@ function collectUtilityProblems(root: Root): Map<string, UtilityProblems> {
 
 function walkContainer(
 	container: Container,
-	path: string[],
+	path: Array<string>,
 	root: Root,
 	report: ReportFn,
 ): void {
-	const checkValue = (value: TokenValue, valuePath: string[]) => {
+	const checkValue = (value: TokenValue, valuePath: Array<string>) => {
 		for (const reference of collectReferences(value)) {
 			if (!isDefined(reference.name, container, root)) {
 				report(reference.name, valuePath, container);
@@ -262,10 +280,10 @@ function walkContainer(
 function walkChild(
 	child: ContainerChild,
 	parent: Container,
-	path: string[],
+	path: Array<string>,
 	root: Root,
 	report: ReportFn,
-	checkValue: (value: TokenValue, path: string[]) => void,
+	checkValue: (value: TokenValue, path: Array<string>) => void,
 ): void {
 	if (child.type === "variable") {
 		checkValue(child.value, [...path, `variable "${child.name}"`]);
@@ -273,7 +291,9 @@ function walkChild(
 	}
 
 	// Utilities generated at root are checked by collectUtilityProblems
-	if (child.type === "utility" && parent === root) return;
+	if (child.type === "utility" && parent === root) {
+		return;
+	}
 
 	walkContainer(child, [...path, ...describeToken(child)], root, report);
 }
@@ -282,7 +302,7 @@ function walkChild(
  * Collects the references that must resolve. A reference with a fallback
  * resolves to its fallback, so only the references inside the fallback count.
  */
-function collectReferences(value: TokenValue): Reference[] {
+function collectReferences(value: TokenValue): Array<Reference> {
 	if (isRef(value)) {
 		return value.fallback != null ? collectReferences(value.fallback) : [value];
 	}
@@ -307,17 +327,21 @@ function isDefined(name: string, scope: Container, root: Root): boolean {
 	);
 }
 
-function collectVisibleNames(scope: Container, root: Root): string[] {
+function collectVisibleNames(scope: Container, root: Root): Array<string> {
 	const names = new Set<string>();
 	let current: Container | undefined = scope;
 	while (current) {
-		for (const variable of current.variables) names.add(variable.name);
+		for (const variable of current.variables) {
+			names.add(variable.name);
+		}
 		current = current.parentId
 			? root._registry.get(current.parentId)
 			: undefined;
 	}
 
-	for (const variable of root.variables) names.add(variable.name);
+	for (const variable of root.variables) {
+		names.add(variable.name);
+	}
 
 	return [...names];
 }
@@ -326,15 +350,15 @@ function findUtilityFactory(
 	root: Root,
 	name: string,
 ): UtilityFactory | undefined {
-	const kebabName = name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+	const kebabName = name.replaceAll(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 	return (
 		root.utilities.find((utility) => utility.name === name) ??
 		root.utilities.find((utility) => utility.name === kebabName)
 	);
 }
 
-function describeScope(scopeId: string, root: Root): string[] {
-	const path: string[] = [];
+function describeScope(scopeId: string, root: Root): Array<string> {
+	const path: Array<string> = [];
 	let current = root._registry.get(scopeId) as ScopeToken | undefined;
 	while (current && current.type !== "root") {
 		path.unshift(...describeToken(current));
@@ -346,7 +370,7 @@ function describeScope(scopeId: string, root: Root): string[] {
 	return path;
 }
 
-function describeToken(token: Exclude<ScopeToken, Root>): string[] {
+function describeToken(token: Exclude<ScopeToken, Root>): Array<string> {
 	switch (token.type) {
 		case "theme":
 			return [`theme "${token.name}"`];
@@ -360,21 +384,29 @@ function describeToken(token: Exclude<ScopeToken, Root>): string[] {
 }
 
 function formatValue(value: TokenValue): string {
-	if (isRef(value)) return `@${value.name}`;
-	if (isCSS(value)) return value.value.map(formatValue).join("");
-	if (Array.isArray(value)) return value.map(formatValue).join(", ");
+	if (isRef(value)) {
+		return `@${value.name}`;
+	}
+	if (isCSS(value)) {
+		return value.value.map(formatValue).join("");
+	}
+	if (Array.isArray(value)) {
+		return value.map(formatValue).join(", ");
+	}
 	return String(value);
 }
 
 function findSuggestion(
 	name: string,
-	candidates: string[],
+	candidates: Array<string>,
 ): string | undefined {
 	let best: string | undefined;
 	let bestDistance = MAX_SUGGESTION_DISTANCE + 1;
 
 	for (const candidate of candidates) {
-		if (candidate === name) continue;
+		if (candidate === name) {
+			continue;
+		}
 
 		const distance = editDistance(name, candidate);
 		if (distance < bestDistance) {

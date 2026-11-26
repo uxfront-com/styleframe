@@ -392,9 +392,12 @@ describe("useInputDateRecipe", () => {
 					(child) =>
 						child.type === "selector" &&
 						(child as { query: string }).query === ".input-date-field",
-				) as unknown as {
-					children: { rule?: string; declarations: Record<string, unknown> }[];
-				}[]
+				) as unknown as Array<{
+					children: Array<{
+						rule?: string;
+						declarations: Record<string, unknown>;
+					}>;
+				}>
 			)
 				.flatMap((selector) => selector.children)
 				.filter((child) => child.rule === "(any-pointer: coarse)");
@@ -476,7 +479,7 @@ describe("useInputDateRecipe separator colors", () => {
 		) as unknown as
 			| {
 					declarations: Slot;
-					children: { query: string; declarations: Slot }[];
+					children: Array<{ query: string; declarations: Slot }>;
 			  }
 			| undefined;
 	}

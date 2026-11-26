@@ -27,7 +27,7 @@ describe("useColumnsUtility", () => {
 		useColumnsUtility(s, { "3": "3" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._columns\\:3 {");
+		expect(css).toContain(String.raw`._columns\:3 {`);
 		expect(css).toContain("columns: 3;");
 	});
 

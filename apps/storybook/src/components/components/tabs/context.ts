@@ -1,4 +1,5 @@
-import { type InjectionKey, inject, type ComputedRef, type Ref } from "vue";
+import { inject } from "vue";
+import type { InjectionKey, ComputedRef, Ref } from "vue";
 
 export type TabsColor = "light" | "dark" | "neutral";
 export type TabsVariant = "line" | "pill" | "soft";

@@ -11,7 +11,7 @@ import {
 // UXFront" as in the docs, the page's sections, and the links the docs header
 // has.
 defineProps<{
-	nav?: UxNavItem[];
+	nav?: Array<UxNavItem>;
 	navLabel?: string;
 }>();
 

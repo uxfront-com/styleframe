@@ -18,12 +18,12 @@ declare module "nuxt/schema" {
 			title: string;
 			bottom: {
 				title: string;
-				links: {
+				links: Array<{
 					icon: string;
 					label: string;
 					to: string;
 					target: string;
-				}[];
+				}>;
 			};
 		};
 		github:

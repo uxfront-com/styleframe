@@ -1,4 +1,3 @@
-import type { createRefFunction } from "./tokens";
 import { isRef } from "./typeGuards";
 import type { Reference, TokenValue } from "./types";
 import type { UtilitySelectorFn } from "./types/options";
@@ -8,7 +7,7 @@ export interface TransformUtilityKeyOptions {
 	/** Transforms the key used in the utility class name */
 	replacer?: (key: string) => string;
 	/** Namespace prepended to the reference name (e.g., "spacing" makes "@sm" resolve to ref("spacing.sm")) */
-	namespace?: string | string[];
+	namespace?: string | Array<string>;
 }
 
 export function transformUtilityKey(

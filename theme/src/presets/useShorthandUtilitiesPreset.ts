@@ -1,8 +1,6 @@
 import type { Styleframe } from "@styleframe/core";
-import {
-	type UtilitiesPresetConfig,
-	useUtilitiesPreset,
-} from "./useUtilitiesPreset";
+import { useUtilitiesPreset } from "./useUtilitiesPreset";
+import type { UtilitiesPresetConfig } from "./useUtilitiesPreset";
 
 /**
  * TailwindCSS-style shorthand name mappings.

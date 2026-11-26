@@ -27,7 +27,7 @@ describe("useBackgroundAttachmentUtility", () => {
 		useBackgroundAttachmentUtility(s, { local: "local" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-attachment\\:local {");
+		expect(css).toContain(String.raw`._background-attachment\:local {`);
 		expect(css).toContain("background-attachment: local;");
 	});
 

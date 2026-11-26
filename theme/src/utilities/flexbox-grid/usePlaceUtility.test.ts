@@ -31,7 +31,7 @@ describe("usePlaceContentUtility", () => {
 		usePlaceContentUtility(s, { center: "center" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._place-content\\:center {");
+		expect(css).toContain(String.raw`._place-content\:center {`);
 		expect(css).toContain("place-content: center;");
 	});
 
@@ -67,7 +67,7 @@ describe("usePlaceItemsUtility", () => {
 		usePlaceItemsUtility(s, { baseline: "baseline" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._place-items\\:baseline {");
+		expect(css).toContain(String.raw`._place-items\:baseline {`);
 		expect(css).toContain("place-items: baseline;");
 	});
 
@@ -103,7 +103,7 @@ describe("usePlaceSelfUtility", () => {
 		usePlaceSelfUtility(s, { stretch: "stretch" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._place-self\\:stretch {");
+		expect(css).toContain(String.raw`._place-self\:stretch {`);
 		expect(css).toContain("place-self: stretch;");
 	});
 

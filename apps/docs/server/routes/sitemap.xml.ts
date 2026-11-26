@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 	const pages = (await queryCollection(
 		event,
 		"docs" as never,
-	).all()) as DocsPage[];
+	).all()) as Array<DocsPage>;
 	const entries = await queryCollection(event, "changelog")
 		.order("date", "DESC")
 		.all();
@@ -77,5 +77,5 @@ const XML_ENTITIES: Record<string, string> = {
 };
 
 function escapeXml(value: string) {
-	return value.replace(/[&<>"']/g, (char) => XML_ENTITIES[char]!);
+	return value.replaceAll(/[&<>"']/g, (char) => XML_ENTITIES[char]!);
 }

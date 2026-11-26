@@ -8,7 +8,7 @@ const toast = useToast();
 const loading = ref(false);
 const success = ref(false);
 
-const fields: AuthFormField[] = [
+const fields: Array<AuthFormField> = [
 	{
 		name: "key",
 		type: "text" as const,

@@ -7,7 +7,9 @@ import type { FigmaRGBA, FigmaVariableType } from "../types";
  */
 export function cssColorToFigma(value: string): FigmaRGBA | null {
 	const parsed = parse(value);
-	if (!parsed) return null;
+	if (!parsed) {
+		return null;
+	}
 
 	// culori returns values in 0-1 range for r, g, b
 	// and alpha is also 0-1
@@ -50,7 +52,9 @@ export interface ParsedDimension {
 
 export function parseDimension(value: string): ParsedDimension | null {
 	const match = value.match(/^(-?\d*\.?\d+)(px|rem|em|%|vh|vw|vmin|vmax|ch)?$/);
-	if (!match) return null;
+	if (!match) {
+		return null;
+	}
 
 	return {
 		value: Number.parseFloat(match[1] ?? "0"),
@@ -66,7 +70,9 @@ export function dimensionToPixels(
 	baseFontSize: number = 16,
 ): number | null {
 	const parsed = parseDimension(value);
-	if (!parsed) return null;
+	if (!parsed) {
+		return null;
+	}
 
 	switch (parsed.unit) {
 		case "px":
@@ -108,13 +114,27 @@ export function pixelsToDimension(
  */
 export function isColorValue(value: string): boolean {
 	// Check for common color formats
-	if (value.startsWith("#")) return true;
-	if (value.startsWith("rgb")) return true;
-	if (value.startsWith("hsl")) return true;
-	if (value.startsWith("oklch")) return true;
-	if (value.startsWith("oklab")) return true;
-	if (value.startsWith("lch")) return true;
-	if (value.startsWith("lab")) return true;
+	if (value.startsWith("#")) {
+		return true;
+	}
+	if (value.startsWith("rgb")) {
+		return true;
+	}
+	if (value.startsWith("hsl")) {
+		return true;
+	}
+	if (value.startsWith("oklch")) {
+		return true;
+	}
+	if (value.startsWith("oklab")) {
+		return true;
+	}
+	if (value.startsWith("lch")) {
+		return true;
+	}
+	if (value.startsWith("lab")) {
+		return true;
+	}
 
 	// Try to parse with culori
 	const parsed = parse(value);
@@ -132,11 +152,19 @@ export function isDimensionValue(value: string): boolean {
  * Detect the Figma variable type from a Styleframe value
  */
 export function detectFigmaType(value: unknown): FigmaVariableType {
-	if (typeof value === "boolean") return "BOOLEAN";
-	if (typeof value === "number") return "FLOAT";
+	if (typeof value === "boolean") {
+		return "BOOLEAN";
+	}
+	if (typeof value === "number") {
+		return "FLOAT";
+	}
 	if (typeof value === "string") {
-		if (isColorValue(value)) return "COLOR";
-		if (isDimensionValue(value)) return "FLOAT";
+		if (isColorValue(value)) {
+			return "COLOR";
+		}
+		if (isDimensionValue(value)) {
+			return "FLOAT";
+		}
 		return "STRING";
 	}
 	return "STRING";
@@ -150,9 +178,15 @@ export function styleframeValueToFigma(
 	type: FigmaVariableType,
 	baseFontSize: number = 16,
 ): FigmaRGBA | number | string | boolean | null {
-	if (typeof value === "boolean") return value;
-	if (typeof value === "number") return value;
-	if (typeof value !== "string") return null;
+	if (typeof value === "boolean") {
+		return value;
+	}
+	if (typeof value === "number") {
+		return value;
+	}
+	if (typeof value !== "string") {
+		return null;
+	}
 
 	switch (type) {
 		case "COLOR": {

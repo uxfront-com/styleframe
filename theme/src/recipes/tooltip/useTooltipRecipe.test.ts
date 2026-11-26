@@ -77,10 +77,20 @@ function findSelector(
 
 // Writes a resolved declaration value back as the `@token` string it came from.
 function toText(value: unknown): string {
-	if (typeof value === "string") return value;
-	const token = value as { type: string; name?: string; value?: unknown[] };
-	if (token.type === "reference") return `@${token.name}`;
-	if (token.type === "css") return token.value!.map(toText).join("");
+	if (typeof value === "string") {
+		return value;
+	}
+	const token = value as {
+		type: string;
+		name?: string;
+		value?: Array<unknown>;
+	};
+	if (token.type === "reference") {
+		return `@${token.name}`;
+	}
+	if (token.type === "css") {
+		return token.value!.map(toText).join("");
+	}
 	return String(value);
 }
 

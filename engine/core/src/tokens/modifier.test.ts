@@ -118,7 +118,7 @@ describe("applyModifiers", () => {
 	});
 
 	it("should pass accumulated declarations from inner modifier to outer modifier", () => {
-		const receivedDeclarations: any[] = [];
+		const receivedDeclarations: Array<any> = [];
 
 		const modifiers = new Map<string, ModifierFactory>([
 			[

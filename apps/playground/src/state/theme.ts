@@ -5,17 +5,19 @@ export type ResolvedTheme = "light" | "dark";
 
 export const THEME_STORAGE_KEY = "sf-playground-theme";
 const THEME_ATTRIBUTE = "data-theme";
-const THEME_MODES: readonly ThemeMode[] = ["auto", "light", "dark"];
+const THEME_MODES: ReadonlyArray<ThemeMode> = ["auto", "light", "dark"];
 
 function isThemeMode(value: unknown): value is ThemeMode {
 	return (
 		typeof value === "string" &&
-		(THEME_MODES as readonly string[]).includes(value)
+		(THEME_MODES as ReadonlyArray<string>).includes(value)
 	);
 }
 
 export function readStoredMode(): ThemeMode {
-	if (typeof localStorage === "undefined") return "auto";
+	if (typeof localStorage === "undefined") {
+		return "auto";
+	}
 	try {
 		const raw = localStorage.getItem(THEME_STORAGE_KEY);
 		return isThemeMode(raw) ? raw : "auto";
@@ -25,7 +27,9 @@ export function readStoredMode(): ThemeMode {
 }
 
 function writeStoredMode(value: ThemeMode): void {
-	if (typeof localStorage === "undefined") return;
+	if (typeof localStorage === "undefined") {
+		return;
+	}
 	try {
 		if (value === "auto") {
 			localStorage.removeItem(THEME_STORAGE_KEY);
@@ -48,12 +52,16 @@ export function systemPrefersDark(): boolean {
 }
 
 export function resolveTheme(mode: ThemeMode): ResolvedTheme {
-	if (mode === "auto") return systemPrefersDark() ? "dark" : "light";
+	if (mode === "auto") {
+		return systemPrefersDark() ? "dark" : "light";
+	}
 	return mode;
 }
 
 function applyToDom(mode: ThemeMode, resolved: ResolvedTheme): void {
-	if (typeof document === "undefined") return;
+	if (typeof document === "undefined") {
+		return;
+	}
 	const html = document.documentElement;
 	if (mode === "auto") {
 		html.removeAttribute(THEME_ATTRIBUTE);
@@ -63,13 +71,17 @@ function applyToDom(mode: ThemeMode, resolved: ResolvedTheme): void {
 	// Mirror the resolved theme onto #app so any `[data-theme='dark'] &`
 	// selector targeting the app root matches, regardless of mode.
 	const app = document.getElementById("app");
-	if (app) app.setAttribute(THEME_ATTRIBUTE, resolved);
+	if (app) {
+		app.setAttribute(THEME_ATTRIBUTE, resolved);
+	}
 }
 
 const mode = ref<ThemeMode>(readStoredMode());
 const systemIsDark = ref<boolean>(systemPrefersDark());
 const resolved = computed<ResolvedTheme>(() => {
-	if (mode.value === "auto") return systemIsDark.value ? "dark" : "light";
+	if (mode.value === "auto") {
+		return systemIsDark.value ? "dark" : "light";
+	}
 	return mode.value;
 });
 
@@ -78,7 +90,9 @@ let mediaListener: ((event: MediaQueryListEvent) => void) | null = null;
 let initialized = false;
 
 function ensureInitialized(): void {
-	if (initialized) return;
+	if (initialized) {
+		return;
+	}
 	initialized = true;
 	mode.value = readStoredMode();
 	systemIsDark.value = systemPrefersDark();
@@ -90,7 +104,9 @@ function ensureInitialized(): void {
 		mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 		mediaListener = (event) => {
 			systemIsDark.value = event.matches;
-			if (mode.value === "auto") applyToDom(mode.value, resolved.value);
+			if (mode.value === "auto") {
+				applyToDom(mode.value, resolved.value);
+			}
 		};
 		mediaQuery.addEventListener("change", mediaListener);
 	}

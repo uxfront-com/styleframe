@@ -27,7 +27,7 @@ describe("useAspectRatioUtility", () => {
 		useAspectRatioUtility(s, { video: "16 / 9" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._aspect-ratio\\:video {");
+		expect(css).toContain(String.raw`._aspect-ratio\:video {`);
 		expect(css).toContain("aspect-ratio: 16 / 9;");
 	});
 

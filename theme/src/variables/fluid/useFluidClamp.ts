@@ -4,7 +4,8 @@ import type {
 	Variable,
 } from "@styleframe/core";
 import { isVariable } from "@styleframe/core";
-import { type RangeInput, normalizeRange } from "../../utils/normalizeRange";
+import { normalizeRange } from "../../utils/normalizeRange";
+import type { RangeInput } from "../../utils/normalizeRange";
 
 /**
  * Create a fluid value that interpolates between a min and max as the

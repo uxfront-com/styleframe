@@ -34,7 +34,9 @@ export function dtcgToCulori(color: DTCGColor): CuloriColor {
 
 	for (let i = 0; i < 3; i++) {
 		const dtcgValue = color.components[i];
-		if (dtcgValue === undefined) continue;
+		if (dtcgValue === undefined) {
+			continue;
+		}
 		const numericValue = dtcgComponentToNumber(dtcgValue);
 		if (numericValue !== undefined) {
 			const scaled = numericValue / (meta.componentScales[i] ?? 1);

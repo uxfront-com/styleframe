@@ -11,8 +11,8 @@ import {
 } from "./matcher";
 
 function createMockRoot(
-	utilities: UtilityFactory[] = [],
-	modifiers: ModifierFactory[] = [],
+	utilities: Array<UtilityFactory> = [],
+	modifiers: Array<ModifierFactory> = [],
 ): Root {
 	return {
 		type: "root",
@@ -36,7 +36,7 @@ function createMockRoot(
 
 function createMockUtilityFactory(
 	name: string,
-	values: Array<{ key: string; modifiers: string[] }> = [],
+	values: Array<{ key: string; modifiers: Array<string> }> = [],
 ): UtilityFactory {
 	return {
 		type: "utility",
@@ -48,7 +48,7 @@ function createMockUtilityFactory(
 	};
 }
 
-function createMockModifier(keys: string[]): ModifierFactory {
+function createMockModifier(keys: Array<string>): ModifierFactory {
 	return {
 		type: "modifier",
 		key: keys,
@@ -58,7 +58,7 @@ function createMockModifier(keys: string[]): ModifierFactory {
 
 describe("matchUtilities", () => {
 	it("should match parsed utility to factory", () => {
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			{
 				raw: "_margin:sm",
 				name: "margin",
@@ -81,7 +81,7 @@ describe("matchUtilities", () => {
 	});
 
 	it("should return null factory when utility not found", () => {
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			{
 				raw: "_unknown:value",
 				name: "unknown",
@@ -100,7 +100,7 @@ describe("matchUtilities", () => {
 	});
 
 	it("should match modifiers", () => {
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			{
 				raw: "_hover:margin:sm",
 				name: "margin",
@@ -125,7 +125,7 @@ describe("matchUtilities", () => {
 	});
 
 	it("should handle multi-key modifiers", () => {
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			{
 				raw: "_sm:margin:md",
 				name: "margin",
@@ -150,7 +150,7 @@ describe("matchUtilities", () => {
 	});
 
 	it("should mark non-existent value as not existing", () => {
-		const parsed: ParsedUtility[] = [
+		const parsed: Array<ParsedUtility> = [
 			{
 				raw: "_margin:xl",
 				name: "margin",
@@ -182,7 +182,7 @@ describe("generateUtilitySelector", () => {
 			modifiers: [],
 		});
 
-		expect(selector).toBe("._margin\\:sm");
+		expect(selector).toBe(String.raw`._margin\:sm`);
 	});
 
 	it("should generate selector with default value", () => {
@@ -202,7 +202,7 @@ describe("generateUtilitySelector", () => {
 			modifiers: ["hover"],
 		});
 
-		expect(selector).toBe("._hover\\:margin\\:sm");
+		expect(selector).toBe(String.raw`._hover\:margin\:sm`);
 	});
 
 	it("should escape special characters", () => {
@@ -212,7 +212,7 @@ describe("generateUtilitySelector", () => {
 			modifiers: [],
 		});
 
-		expect(selector).toBe("._margin\\:\\[16px\\]");
+		expect(selector).toBe(String.raw`._margin\:\[16px\]`);
 	});
 });
 
@@ -245,7 +245,7 @@ describe("classNameFromUtilityOptions", () => {
 		}: {
 			name: string;
 			value: string;
-			modifiers: string[];
+			modifiers: Array<string>;
 		}) => {
 			const parts = [
 				...modifiers,
@@ -270,7 +270,7 @@ describe("classNameFromUtilityOptions", () => {
 		}: {
 			name: string;
 			value: string;
-			modifiers: string[];
+			modifiers: Array<string>;
 		}) => {
 			const parts = [
 				...modifiers,
@@ -296,7 +296,7 @@ describe("generateUtilitySelector", () => {
 		}: {
 			name: string;
 			value: string;
-			modifiers: string[];
+			modifiers: Array<string>;
 		}) => `sf-${name}-${value}`;
 
 		const selector = generateUtilitySelector(
@@ -364,7 +364,7 @@ describe("createUtilityFilter", () => {
 		}: {
 			name: string;
 			value: string;
-			modifiers: string[];
+			modifiers: Array<string>;
 		}) => {
 			const parts = [
 				...modifiers,

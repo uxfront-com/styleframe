@@ -1,4 +1,3 @@
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs";
@@ -13,7 +12,7 @@ import {
 	runPlaywright,
 } from "./commands";
 
-const __dirname = fileURLToPath(import.meta.url);
+const __dirname = import.meta.filename;
 
 const packageDir = path.join(__dirname, "..", "..");
 const workspaceDir = path.join(packageDir, "..", "..");

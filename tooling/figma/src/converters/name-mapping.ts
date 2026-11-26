@@ -3,7 +3,7 @@
  * @example "color.primary" → "color/primary"
  */
 export function styleframeToFigmaName(name: string): string {
-	return name.replace(/\./g, "/");
+	return name.replaceAll(".", "/");
 }
 
 /**
@@ -11,7 +11,7 @@ export function styleframeToFigmaName(name: string): string {
  * @example "color/primary" → "color.primary"
  */
 export function figmaToStyleframeName(name: string): string {
-	return name.replace(/\//g, ".");
+	return name.replaceAll("/", ".");
 }
 
 /**
@@ -32,7 +32,7 @@ export function extractCategory(name: string): string {
 export function extractKey(name: string): string {
 	const separator = name.includes("/") ? "/" : ".";
 	const parts = name.split(separator);
-	return parts[parts.length - 1] ?? "";
+	return parts.at(-1) ?? "";
 }
 
 /**
@@ -57,7 +57,7 @@ export function toVariableIdentifier(name: string): string {
  * @example "--color--primary" → "color.primary"
  */
 export function cssVariableToStyleframeName(cssName: string): string {
-	return cssName.replace(/^--/, "").replace(/--/g, ".");
+	return cssName.replace(/^--/, "").replaceAll("--", ".");
 }
 
 /**
@@ -65,5 +65,5 @@ export function cssVariableToStyleframeName(cssName: string): string {
  * @example "color.primary" → "--color--primary"
  */
 export function styleframeToCssVariable(name: string): string {
-	return `--${name.replace(/\./g, "--")}`;
+	return `--${name.replaceAll(".", "--")}`;
 }

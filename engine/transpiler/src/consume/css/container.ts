@@ -19,9 +19,9 @@ export function createContainerConsumer(consume: ConsumeFunction) {
 	return function consumeContainer(
 		query: string,
 		instance: {
-			variables?: Variable[];
+			variables?: Array<Variable>;
 			declarations?: DeclarationsBlock;
-			children?: ContainerChild[];
+			children?: Array<ContainerChild>;
 		},
 		options: StyleframeOptions,
 	): string {

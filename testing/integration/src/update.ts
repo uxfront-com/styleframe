@@ -1,9 +1,8 @@
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs";
 import { addStyleframeConfig, buildVite } from "./commands";
 
-const __dirname = fileURLToPath(import.meta.url);
+const __dirname = import.meta.filename;
 
 const packageDir = path.join(__dirname, "..", "..");
 const appDir = path.join(packageDir, ".app");

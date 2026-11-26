@@ -25,7 +25,7 @@ watchEffect(() => {
 	}
 });
 
-const fields: AuthFormField[] = [
+const fields: Array<AuthFormField> = [
 	{
 		name: "email",
 		type: "text" as const,
@@ -58,7 +58,7 @@ const providers = [
 					redirectTo: `${window.location.origin}/confirm`,
 				},
 			});
-			if (error) displayError(error);
+			if (error) {displayError(error);}
 		},
 	},
 ];
@@ -68,7 +68,7 @@ const signIn = async (email: string, password: string) => {
 		email,
 		password,
 	});
-	if (error) displayError(error);
+	if (error) {displayError(error);}
 };
 
 const signUp = async (email: string, password: string) => {

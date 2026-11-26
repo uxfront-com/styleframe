@@ -25,11 +25,12 @@ export function useAddressDesignTokens(
 ): Partial<AddressElementResult> {
 	const result: Partial<AddressElementResult> = {};
 
-	if (config.marginBottom !== undefined)
+	if (config.marginBottom !== undefined) {
 		result.addressMarginBottom = ctx.variable(
 			"address.margin-bottom",
 			config.marginBottom,
 		);
+	}
 
 	return result;
 }

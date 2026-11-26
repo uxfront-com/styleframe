@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch } from "vue";
 import { tabs } from "virtual:styleframe";
-import {
-	type TabsColor,
-	type TabsOrientation,
-	type TabsSize,
-	type TabsVariant,
-	tabsInjectionKey,
-} from "./context";
+import { tabsInjectionKey } from './context';
+import type { TabsColor, TabsOrientation, TabsSize, TabsVariant } from './context';
 
 const props = withDefaults(
 	defineProps<{

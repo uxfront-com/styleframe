@@ -43,16 +43,21 @@ export function useBodyDesignTokens(
 ): Partial<BodyElementResult> {
 	const result: Partial<BodyElementResult> = {};
 
-	if (config.color !== undefined)
+	if (config.color !== undefined) {
 		result.bodyColor = ctx.variable("body.color", config.color);
-	if (config.background !== undefined)
+	}
+	if (config.background !== undefined) {
 		result.bodyBackground = ctx.variable("body.background", config.background);
-	if (config.fontFamily !== undefined)
+	}
+	if (config.fontFamily !== undefined) {
 		result.bodyFontFamily = ctx.variable("body.font-family", config.fontFamily);
-	if (config.fontSize !== undefined)
+	}
+	if (config.fontSize !== undefined) {
 		result.bodyFontSize = ctx.variable("body.font-size", config.fontSize);
-	if (config.lineHeight !== undefined)
+	}
+	if (config.lineHeight !== undefined) {
 		result.bodyLineHeight = ctx.variable("body.line-height", config.lineHeight);
+	}
 
 	return result;
 }

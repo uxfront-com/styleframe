@@ -1,7 +1,5 @@
-import {
-	type RecipeConfig,
-	createUseRecipe,
-} from "../../utils/createUseRecipe";
+import { createUseRecipe } from "../../utils/createUseRecipe";
+import type { RecipeConfig } from "../../utils/createUseRecipe";
 
 /**
  * Shared recipe-definition builders for sectioned overlay components

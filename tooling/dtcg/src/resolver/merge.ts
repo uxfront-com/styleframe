@@ -17,8 +17,12 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function mergeNodes(left: unknown, right: unknown): unknown {
-	if (!isPlainObject(left) || !isPlainObject(right)) return right;
-	if (isToken(left) || isToken(right)) return right;
+	if (!isPlainObject(left) || !isPlainObject(right)) {
+		return right;
+	}
+	if (isToken(left) || isToken(right)) {
+		return right;
+	}
 	const out: Record<string, unknown> = { ...left };
 	for (const [key, rightValue] of Object.entries(right)) {
 		if (key in out) {

@@ -11,7 +11,7 @@ import type { InspectSnapshot } from "./types";
 
 // The transpiler's defaults, which core can't import
 const defaultVariableNameFn: VariableNameFn = ({ name }) =>
-	name.replace(/^\.+|\.+$/g, "").replace(/\.+/g, "--");
+	name.replaceAll(/^\.+|\.+$/g, "").replaceAll(/\.+/g, "--");
 
 const defaultThemeSelectorFn: ThemeSelectorFn = ({ name }) =>
 	`.${name}-theme, [data-theme="${name}"]`;
@@ -83,7 +83,7 @@ function toProperty(name: string, options: StyleframeOptions): string {
 	const variableNameFn = options.variables?.name ?? defaultVariableNameFn;
 	const emitted = variableNameFn({ name });
 	const normalized = emitted.startsWith("--") ? emitted.slice(2) : emitted;
-	const safe = normalized.replace(/[^a-zA-Z0-9_\-\u0080-\uFFFF]/g, "-");
+	const safe = normalized.replaceAll(/[^a-zA-Z0-9_\-\u0080-\uFFFF]/g, "-");
 
 	return `--${safe || "unknown-variable"}`;
 }

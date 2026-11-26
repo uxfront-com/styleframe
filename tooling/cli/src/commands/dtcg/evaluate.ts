@@ -127,8 +127,11 @@ function evaluateCss(
 	css: StyleframeCSS,
 	context: EvaluateContext,
 ): EvaluatedValue {
-	const parts: { kind: "literal" | "value"; text: string; numeric?: number }[] =
-		[];
+	const parts: Array<{
+		kind: "literal" | "value";
+		text: string;
+		numeric?: number;
+	}> = [];
 	let unevaluable = false;
 	let unevaluableReason: string | undefined;
 
@@ -166,7 +169,9 @@ function evaluateCss(
 	// whitespace, parentheses, and arithmetic operators; every value must be
 	// numeric. Literals can carry numeric constants (e.g. `") * 4"`).
 	const isPureArithmetic = parts.every((p) => {
-		if (p.kind === "value") return p.numeric !== undefined;
+		if (p.kind === "value") {
+			return p.numeric !== undefined;
+		}
 		return /^[\d.\s+\-*/()]*$/.test(p.text);
 	});
 
@@ -176,11 +181,11 @@ function evaluateCss(
 			if (typeof result === "number" && Number.isFinite(result)) {
 				return { resolved: result };
 			}
-		} catch (err) {
+		} catch (error) {
 			return {
 				resolved: null,
 				cssExpression: folded,
-				reason: `Arithmetic evaluation failed: ${(err as Error).message}`,
+				reason: `Arithmetic evaluation failed: ${(error as Error).message}`,
 			};
 		}
 	}
@@ -230,22 +235,24 @@ function substituteFluidUnits(
 	maxViewport: number,
 ): { rebased: string; substituted: boolean } | null {
 	let substituted = false;
-	let rebased = expression.replace(/\bcalc\b/g, "");
+	let rebased = expression.replaceAll(/\bcalc\b/g, "");
 	if (rebased.includes("100vw")) {
-		rebased = rebased.replace(/100vw/g, String(maxViewport));
+		rebased = rebased.replaceAll("100vw", String(maxViewport));
 		substituted = true;
 	}
 	if (/(-?\d*\.?\d+)\s*rem/.test(rebased)) {
-		rebased = rebased.replace(/(-?\d*\.?\d+)\s*rem/g, "($1 * 16)");
+		rebased = rebased.replaceAll(/(-?\d*\.?\d+)\s*rem/g, "($1 * 16)");
 		substituted = true;
 	}
 	if (/(-?\d*\.?\d+)\s*px/.test(rebased)) {
-		rebased = rebased.replace(/(-?\d*\.?\d+)\s*px/g, "$1");
+		rebased = rebased.replaceAll(/(-?\d*\.?\d+)\s*px/g, "$1");
 		substituted = true;
 	}
 	// If any non-digit/operator literals remain (vh, %, ch, em, etc.), the
 	// expression isn't safely arithmetic — let the caller emit it verbatim.
-	if (/[a-zA-Z%]/.test(rebased)) return null;
+	if (/[a-zA-Z%]/.test(rebased)) {
+		return null;
+	}
 	return { rebased, substituted };
 }
 
@@ -259,7 +266,6 @@ function safeArithmetic(expression: string): number {
 	}
 	// Function constructor in a sandboxed string with no identifiers — the
 	// regex above guarantees only digits, dots, whitespace, and operators.
-	// eslint-disable-next-line no-new-func
 	const fn = new Function(`return (${expression});`);
 	return fn() as number;
 }

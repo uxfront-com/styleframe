@@ -40,8 +40,8 @@ describe("useFormStateModifiers", () => {
 		createOpacity({ 50: "0.5" }, [disabled]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._opacity\\:50 {");
-		expect(css).toContain("._disabled\\:opacity\\:50 {");
+		expect(css).toContain(String.raw`._opacity\:50 {`);
+		expect(css).toContain(String.raw`._disabled\:opacity\:50 {`);
 	});
 
 	it("should generate correct CSS class names for invalid modifier", () => {
@@ -54,8 +54,8 @@ describe("useFormStateModifiers", () => {
 		createBorderColor({ red: "red" }, [invalid]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._border-color\\:red {");
-		expect(css).toContain("._invalid\\:border-color\\:red {");
+		expect(css).toContain(String.raw`._border-color\:red {`);
+		expect(css).toContain(String.raw`._invalid\:border-color\:red {`);
 	});
 
 	it("should generate correct CSS class names for placeholder-shown modifier", () => {
@@ -68,8 +68,8 @@ describe("useFormStateModifiers", () => {
 		createColor({ muted: "#999" }, [placeholderShown]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._color\\:muted {");
-		expect(css).toContain("._placeholder-shown\\:color\\:muted {");
+		expect(css).toContain(String.raw`._color\:muted {`);
+		expect(css).toContain(String.raw`._placeholder-shown\:color\:muted {`);
 	});
 
 	it("should generate correct CSS class names for readonly alias modifier", () => {
@@ -82,8 +82,8 @@ describe("useFormStateModifiers", () => {
 		createOpacity({ 50: "0.5" }, [readonly]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._opacity\\:50 {");
-		expect(css).toContain("._readonly\\:opacity\\:50 {");
+		expect(css).toContain(String.raw`._opacity\:50 {`);
+		expect(css).toContain(String.raw`._readonly\:opacity\:50 {`);
 	});
 
 	it("should target the readonly attribute with the readonly-attr modifier", () => {
@@ -96,7 +96,7 @@ describe("useFormStateModifiers", () => {
 		create({ text: "text" }, [readonlyAttr]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._readonly-attr\\:cursor\\:text {");
+		expect(css).toContain(String.raw`._readonly-attr\:cursor\:text {`);
 		expect(css).toContain("&[readonly] {");
 	});
 

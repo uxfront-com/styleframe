@@ -592,7 +592,7 @@ h1, h2, h3 {
 				scanner: true,
 			});
 
-			expect(result).toContain("_color\\:primary");
+			expect(result).toContain(String.raw`_color\:primary`);
 			expect(result).not.toContain("_dark:color");
 			expect(result).not.toContain("_focus:color");
 			expect(result).not.toContain("_dark:focus:color");

@@ -14,13 +14,15 @@ function ref(name: string, fallback?: TokenValue): Reference {
 		: { type: "reference", name, fallback };
 }
 
-function css(...parts: (string | TokenValue)[]): CSS {
-	return { type: "css", value: parts as TokenValue[] };
+function css(...parts: Array<string | TokenValue>): CSS {
+	return { type: "css", value: parts as Array<TokenValue> };
 }
 
-function ctx(...vars: Variable[]) {
+function ctx(...vars: Array<Variable>) {
 	const map = new Map<string, Variable>();
-	for (const variable of vars) map.set(variable.name, variable);
+	for (const variable of vars) {
+		map.set(variable.name, variable);
+	}
 	return { variables: map };
 }
 

@@ -27,7 +27,7 @@ describe("useVisibilityUtility", () => {
 		useVisibilityUtility(s, { invisible: "hidden" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._visibility\\:invisible {");
+		expect(css).toContain(String.raw`._visibility\:invisible {`);
 		expect(css).toContain("visibility: hidden;");
 	});
 

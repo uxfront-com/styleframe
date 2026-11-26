@@ -9,12 +9,14 @@ import type { PluginGlobalState } from "./state";
  */
 export function reportDiagnostics(
 	state: PluginGlobalState,
-	diagnostics: Diagnostic[] = [],
+	diagnostics: Array<Diagnostic> = [],
 	silent = false,
 ): void {
 	for (const { code, path, message } of diagnostics) {
 		const key = `${code} ${path} ${message}`;
-		if (state.reportedDiagnostics.has(key)) continue;
+		if (state.reportedDiagnostics.has(key)) {
+			continue;
+		}
 
 		state.reportedDiagnostics.add(key);
 		if (!silent) {

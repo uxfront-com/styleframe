@@ -1,6 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -22,7 +21,7 @@ import { describe, expect, it } from "vitest";
  * side but not the other is caught before it ever reaches the build.
  */
 
-const testDir = dirname(fileURLToPath(import.meta.url));
+const testDir = import.meta.dirname;
 const repoRoot = resolve(testDir, "../../..");
 
 const STORYBOOK_SHIM_DIR = join(repoRoot, "apps/storybook/stories/components");
@@ -57,8 +56,10 @@ function componentName(fileName: string): string {
 	return fileName.slice(0, -SHIM_SUFFIX.length);
 }
 
-function playgroundRecipeFiles(): string[] {
-	if (!existsSync(PLAYGROUND_RECIPE_DIR)) return [];
+function playgroundRecipeFiles(): Array<string> {
+	if (!existsSync(PLAYGROUND_RECIPE_DIR)) {
+		return [];
+	}
 	return readdirSync(PLAYGROUND_RECIPE_DIR)
 		.filter((file) => file.endsWith(SHIM_SUFFIX))
 		.sort();
@@ -151,11 +152,15 @@ describe("playground ↔ storybook recipe registration parity", () => {
  * that some playground `*.styleframe.ts` file exports.
  */
 
-function playgroundStyleframeFiles(dir: string): string[] {
+function playgroundStyleframeFiles(dir: string): Array<string> {
 	return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-		if (entry.name === "node_modules" || entry.name.startsWith(".")) return [];
+		if (entry.name === "node_modules" || entry.name.startsWith(".")) {
+			return [];
+		}
 		const path = join(dir, entry.name);
-		if (entry.isDirectory()) return playgroundStyleframeFiles(path);
+		if (entry.isDirectory()) {
+			return playgroundStyleframeFiles(path);
+		}
 		return entry.name.endsWith(SHIM_SUFFIX) ? [path] : [];
 	});
 }
@@ -171,7 +176,7 @@ function playgroundExports(): Set<string> {
 	return names;
 }
 
-function renderedComponents(): string[] {
+function renderedComponents(): Array<string> {
 	const app = readFileSync(join(PLAYGROUND_DIR, "src/App.vue"), "utf8");
 	const queue = [
 		...app.matchAll(/from\s+"@storybook-components\/([^"]+)"/g),
@@ -179,7 +184,9 @@ function renderedComponents(): string[] {
 	const seen = new Set<string>();
 	while (queue.length > 0) {
 		const file = queue.shift() as string;
-		if (seen.has(file)) continue;
+		if (seen.has(file)) {
+			continue;
+		}
 		seen.add(file);
 		const source = readFileSync(file, "utf8");
 		for (const match of source.matchAll(/from\s+"(\.{1,2}\/[^"]+\.vue)"/g)) {
@@ -189,7 +196,7 @@ function renderedComponents(): string[] {
 	return [...seen].sort();
 }
 
-function virtualStyleframeImports(source: string): string[] {
+function virtualStyleframeImports(source: string): Array<string> {
 	return [
 		...source.matchAll(/import\s*\{([^}]*)\}\s*from\s+"virtual:styleframe"/g),
 	].flatMap((match) =>

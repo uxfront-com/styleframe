@@ -27,7 +27,7 @@ describe("useTextUnderlineOffsetUtility", () => {
 		useTextUnderlineOffsetUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-underline-offset\\:auto {");
+		expect(css).toContain(String.raw`._text-underline-offset\:auto {`);
 		expect(css).toContain("text-underline-offset: auto;");
 	});
 

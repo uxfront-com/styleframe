@@ -27,7 +27,9 @@ export function buildClassNameLookup(
 
 	const processChildren = (children: Root["children"]) => {
 		for (const child of children) {
-			if (child.type !== "utility") continue;
+			if (child.type !== "utility") {
+				continue;
+			}
 
 			const opts: UtilitySelectorOptions = {
 				name: child.name,

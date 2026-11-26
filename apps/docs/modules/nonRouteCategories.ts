@@ -10,8 +10,10 @@ function readNavigationConfig(text: string): Record<string, string | boolean> {
 	const cfg: Record<string, string | boolean> = {};
 	for (const line of text.split(/\r?\n/)) {
 		const match = line.match(/^([\w-]+):\s*(.*)$/);
-		if (!match) continue;
-		const value = match[2]!.trim().replace(/^["']|["']$/g, "");
+		if (!match) {
+			continue;
+		}
+		const value = match[2]!.trim().replaceAll(/^["']|["']$/g, "");
 		cfg[match[1]!] =
 			value === "true" ? true : value === "false" ? false : value;
 	}
@@ -91,11 +93,11 @@ export default defineNuxtModule({
 				content.stem = docsStem(relParts.join("/"));
 			}
 			// Never rewrite the folder config files' paths.
-			if (relParts[relParts.length - 1] === ".navigation") {
+			if (relParts.at(-1) === ".navigation") {
 				return;
 			}
 			// Distance-from-end of each non-route ancestor segment in the URL.
-			const offsets: number[] = [];
+			const offsets: Array<number> = [];
 			for (let i = relParts.length - 1; i > 0; i--) {
 				if (nonRouteDirs.has(relParts.slice(0, i).join("/"))) {
 					offsets.push(relParts.length - i);

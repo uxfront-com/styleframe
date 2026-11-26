@@ -27,7 +27,7 @@ describe("useIsolationUtility", () => {
 		useIsolationUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._isolation\\:auto {");
+		expect(css).toContain(String.raw`._isolation\:auto {`);
 		expect(css).toContain("isolation: auto;");
 	});
 

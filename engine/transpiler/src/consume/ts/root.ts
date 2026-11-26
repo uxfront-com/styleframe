@@ -12,7 +12,9 @@ import type { ConsumeFunction, TranspileContext } from "../../types";
  * Exported selectors are always direct children of root since
  * _exportName is only set on module-level exports.
  */
-function collectExportedSelectors(children: ContainerChild[]): Selector[] {
+function collectExportedSelectors(
+	children: Array<ContainerChild>,
+): Array<Selector> {
 	return children.filter(
 		(child): child is Selector => isSelector(child) && !!child._exportName,
 	);
@@ -39,7 +41,7 @@ export function createRootConsumer(consume: ConsumeFunction) {
 			return "";
 		}
 
-		const parts: string[] = [];
+		const parts: Array<string> = [];
 
 		if (hasRecipes) {
 			const importParts = [

@@ -32,8 +32,8 @@ describe("useContainerQueryModifiers", () => {
 		createDisplay({ flex: "flex" }, [containerMd]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:flex {");
-		expect(css).toContain("._container-md\\:display\\:flex {");
+		expect(css).toContain(String.raw`._display\:flex {`);
+		expect(css).toContain(String.raw`._container-md\:display\:flex {`);
 	});
 
 	it("should transpile to a valid @container block sized to the breakpoint", () => {

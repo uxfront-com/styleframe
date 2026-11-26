@@ -38,8 +38,8 @@ describe("useMediaPreferenceModifiers", () => {
 		createBg({ primary: "#006cff" }, [dark]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:primary {");
-		expect(css).toContain("._dark\\:background-color\\:primary {");
+		expect(css).toContain(String.raw`._background-color\:primary {`);
+		expect(css).toContain(String.raw`._dark\:background-color\:primary {`);
 	});
 
 	it("should generate dark modifier with theme selectors only (no media query)", () => {
@@ -67,8 +67,10 @@ describe("useMediaPreferenceModifiers", () => {
 		createTransition({ 0: "0s" }, [motionReduce]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._transition-duration\\:0 {");
-		expect(css).toContain("._motion-reduce\\:transition-duration\\:0 {");
+		expect(css).toContain(String.raw`._transition-duration\:0 {`);
+		expect(css).toContain(
+			String.raw`._motion-reduce\:transition-duration\:0 {`,
+		);
 	});
 
 	it("should generate correct CSS class names for print modifier", () => {
@@ -81,8 +83,8 @@ describe("useMediaPreferenceModifiers", () => {
 		createDisplay({ none: "none" }, [print]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:none {");
-		expect(css).toContain("._print\\:display\\:none {");
+		expect(css).toContain(String.raw`._display\:none {`);
+		expect(css).toContain(String.raw`._print\:display\:none {`);
 	});
 
 	it("should generate correct CSS class names for portrait modifier", () => {
@@ -95,8 +97,8 @@ describe("useMediaPreferenceModifiers", () => {
 		createDisplay({ flex: "flex" }, [portrait]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:flex {");
-		expect(css).toContain("._portrait\\:display\\:flex {");
+		expect(css).toContain(String.raw`._display\:flex {`);
+		expect(css).toContain(String.raw`._portrait\:display\:flex {`);
 	});
 
 	it("should wrap hover-capable styles in a hover media query", () => {
@@ -109,7 +111,9 @@ describe("useMediaPreferenceModifiers", () => {
 		create({ primary: "#006cff" }, [hoverCapable]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._hover-capable\\:background-color\\:primary {");
+		expect(css).toContain(
+			String.raw`._hover-capable\:background-color\:primary {`,
+		);
 		expect(css).toContain("@media (hover: hover) {");
 	});
 
@@ -123,7 +127,9 @@ describe("useMediaPreferenceModifiers", () => {
 		create({ touch: "44px" }, [anyPointerCoarse]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._any-pointer-coarse\\:min-height\\:touch {");
+		expect(css).toContain(
+			String.raw`._any-pointer-coarse\:min-height\:touch {`,
+		);
 		expect(css).toContain("@media (any-pointer: coarse) {");
 	});
 

@@ -325,8 +325,8 @@ describe("genReferenceVariable", () => {
 	});
 
 	it("should handle unicode escape sequences in fallback", () => {
-		const result = genReferenceVariable("unicode", "'\\2022'");
-		expect(result).toBe("var(--unicode, '\\2022')");
+		const result = genReferenceVariable("unicode", String.raw`'\2022'`);
+		expect(result).toBe(String.raw`var(--unicode, '\2022')`);
 	});
 
 	it("should handle data URI as fallback", () => {

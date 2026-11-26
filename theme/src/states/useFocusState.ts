@@ -34,26 +34,30 @@ export function useFocusDesignTokens(
 ): Partial<FocusStateResult> {
 	const result: Partial<FocusStateResult> = {};
 
-	if (config.outlineColor !== undefined)
+	if (config.outlineColor !== undefined) {
 		result.focusOutlineColor = ctx.variable(
 			"focus.outline-color",
 			config.outlineColor,
 		);
-	if (config.outlineWidth !== undefined)
+	}
+	if (config.outlineWidth !== undefined) {
 		result.focusOutlineWidth = ctx.variable(
 			"focus.outline-width",
 			config.outlineWidth,
 		);
-	if (config.outlineStyle !== undefined)
+	}
+	if (config.outlineStyle !== undefined) {
 		result.focusOutlineStyle = ctx.variable(
 			"focus.outline-style",
 			config.outlineStyle,
 		);
-	if (config.outlineOffset !== undefined)
+	}
+	if (config.outlineOffset !== undefined) {
 		result.focusOutlineOffset = ctx.variable(
 			"focus.outline-offset",
 			config.outlineOffset,
 		);
+	}
 
 	return result;
 }

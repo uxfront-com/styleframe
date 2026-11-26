@@ -3,5 +3,5 @@
  * and escaping special characters.
  */
 export function classNameToCssSelector(className: string): string {
-	return `.${className.replace(/[[\].#()%,:/]/g, "\\$&")}`;
+	return `.${className.replaceAll(/[[\].#()%,:/]/g, String.raw`\$&`)}`;
 }

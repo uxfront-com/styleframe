@@ -50,9 +50,9 @@ describe("useMarginUtility", () => {
 		useMarginUtility(s, { sm: "8px", md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:sm {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
 		expect(css).toContain("margin: 8px;");
-		expect(css).toContain("._margin\\:md {");
+		expect(css).toContain(String.raw`._margin\:md {`);
 		expect(css).toContain("margin: 16px;");
 	});
 
@@ -62,7 +62,7 @@ describe("useMarginUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._margin {");
-		expect(css).not.toContain("._margin\\:default");
+		expect(css).not.toContain(String.raw`._margin\:default`);
 	});
 
 	it("should handle 'auto' value", () => {
@@ -131,7 +131,7 @@ describe("useMarginInlineUtility", () => {
 		useMarginInlineUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-inline\\:auto {");
+		expect(css).toContain(String.raw`._margin-inline\:auto {`);
 		expect(css).toContain("margin-left: auto;");
 		expect(css).toContain("margin-right: auto;");
 	});
@@ -154,7 +154,7 @@ describe("useMarginBlockUtility", () => {
 		useMarginBlockUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-block\\:lg {");
+		expect(css).toContain(String.raw`._margin-block\:lg {`);
 		expect(css).toContain("margin-top: 24px;");
 		expect(css).toContain("margin-bottom: 24px;");
 	});
@@ -174,7 +174,7 @@ describe("useMarginTopUtility", () => {
 		useMarginTopUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-top\\:md {");
+		expect(css).toContain(String.raw`._margin-top\:md {`);
 		expect(css).toContain("margin-top: 16px;");
 	});
 });
@@ -193,7 +193,7 @@ describe("useMarginRightUtility", () => {
 		useMarginRightUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-right\\:auto {");
+		expect(css).toContain(String.raw`._margin-right\:auto {`);
 		expect(css).toContain("margin-right: auto;");
 	});
 });
@@ -212,7 +212,7 @@ describe("useMarginBottomUtility", () => {
 		useMarginBottomUtility(s, { xl: "32px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-bottom\\:xl {");
+		expect(css).toContain(String.raw`._margin-bottom\:xl {`);
 		expect(css).toContain("margin-bottom: 32px;");
 	});
 });
@@ -231,7 +231,7 @@ describe("useMarginLeftUtility", () => {
 		useMarginLeftUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-left\\:md {");
+		expect(css).toContain(String.raw`._margin-left\:md {`);
 		expect(css).toContain("margin-left: 16px;");
 	});
 });
@@ -250,7 +250,7 @@ describe("useMarginInlineStartUtility", () => {
 		useMarginInlineStartUtility(s, { md: "16px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-inline-start\\:md {");
+		expect(css).toContain(String.raw`._margin-inline-start\:md {`);
 		expect(css).toContain("margin-inline-start: 16px;");
 	});
 });
@@ -269,7 +269,7 @@ describe("useMarginInlineEndUtility", () => {
 		useMarginInlineEndUtility(s, { xl: "32px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-inline-end\\:xl {");
+		expect(css).toContain(String.raw`._margin-inline-end\:xl {`);
 		expect(css).toContain("margin-inline-end: 32px;");
 	});
 });
@@ -291,7 +291,7 @@ describe("useMarginXUtility", () => {
 		useMarginXUtility(s, { auto: "auto" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-x\\:auto {");
+		expect(css).toContain(String.raw`._margin-x\:auto {`);
 		expect(css).toContain("margin-left: auto;");
 		expect(css).toContain("margin-right: auto;");
 	});
@@ -314,7 +314,7 @@ describe("useMarginYUtility", () => {
 		useMarginYUtility(s, { lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-y\\:lg {");
+		expect(css).toContain(String.raw`._margin-y\:lg {`);
 		expect(css).toContain("margin-top: 24px;");
 		expect(css).toContain("margin-bottom: 24px;");
 	});

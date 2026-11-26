@@ -1,12 +1,15 @@
-import type { Styleframe, StyleframeOptions } from "@styleframe/core";
-import { registerRecipeUtilities } from "@styleframe/core";
-import {
+import type {
+	Styleframe,
+	StyleframeOptions,
 	createAtRuleFunction,
 	createCssFunction,
 	createRecipeFunction,
 	createRefFunction,
 	createSelectorFunction,
 	createThemeFunction,
+} from "@styleframe/core";
+import { registerRecipeUtilities } from "@styleframe/core";
+import {
 	createUtilityFunction,
 	createVariableFunction,
 	styleframe,
@@ -1345,7 +1348,7 @@ declare module "virtual:styleframe.css" {
 				ctx.variable("color.missing", "#000");
 			});
 
-			const error = await transpile(strict).catch((e: unknown) => e);
+			const error = await transpile(strict).catch((error_: unknown) => error_);
 
 			expect(error).toBeInstanceOf(Error);
 			const { message } = error as Error;

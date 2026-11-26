@@ -32,7 +32,7 @@ describe("useFontVariantNumericUtility", () => {
 		useFontVariantNumericUtility(s, { "lining-nums": "lining-nums" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-variant-numeric\\:lining-nums {");
+		expect(css).toContain(String.raw`._font-variant-numeric\:lining-nums {`);
 		expect(css).toContain("font-variant-numeric: lining-nums;");
 	});
 

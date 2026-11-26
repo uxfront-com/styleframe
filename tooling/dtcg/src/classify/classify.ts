@@ -25,7 +25,6 @@ import {
 	isDurationValue,
 	isGradientValue,
 	isShadowValue,
-	isStrokeStyleValue,
 	isTransitionValue,
 	isTypographyValue,
 } from "../guards/values";
@@ -88,12 +87,14 @@ const FONT_WEIGHT_KEYWORDS: ReadonlySet<string> = new Set([
  * Figma plugin emits slash-notation.
  */
 function normalisePath(path: string | undefined): string {
-	return (path ?? "").toLowerCase().replace(/\//g, ".");
+	return (path ?? "").toLowerCase().replaceAll("/", ".");
 }
 
 function pathHasSegment(path: string | undefined, segment: string): boolean {
 	const l = normalisePath(path);
-	if (l.length === 0) return false;
+	if (l.length === 0) {
+		return false;
+	}
 	return (
 		l === segment ||
 		l.startsWith(`${segment}.`) ||
@@ -107,8 +108,12 @@ function pathContains(path: string | undefined, needle: string): boolean {
 }
 
 function numericPathType(path: string | undefined): DTCGTokenType | undefined {
-	if (!path) return undefined;
-	if (pathHasSegment(path, "duration")) return "duration";
+	if (!path) {
+		return undefined;
+	}
+	if (pathHasSegment(path, "duration")) {
+		return "duration";
+	}
 	if (pathContains(path, "font-weight") || pathContains(path, "fontweight")) {
 		return "fontWeight";
 	}
@@ -127,7 +132,9 @@ function classifyStringByPath(
 	value: string,
 	path: string | undefined,
 ): Classification | undefined {
-	if (!path) return undefined;
+	if (!path) {
+		return undefined;
+	}
 	if (pathContains(path, "font-family") || pathContains(path, "fontfamily")) {
 		return { type: "fontFamily", value };
 	}
@@ -144,7 +151,9 @@ function classifyStringByPath(
 		pathContains(path, "border-style") ||
 		pathContains(path, "outline-style")
 	) {
-		if (STROKE_STYLE_KEYWORDS.has(value)) return { type: "strokeStyle", value };
+		if (STROKE_STYLE_KEYWORDS.has(value)) {
+			return { type: "strokeStyle", value };
+		}
 	}
 	return undefined;
 }
@@ -153,23 +162,43 @@ export function classifyValue(
 	raw: unknown,
 	options: ClassifyOptions = {},
 ): Classification | undefined {
-	if (raw === null || raw === undefined) return undefined;
+	if (raw === null || raw === undefined) {
+		return undefined;
+	}
 
 	// Aliases carry no inherent type — caller must stamp from target.
-	if (isAlias(raw)) return undefined;
+	if (isAlias(raw)) {
+		return undefined;
+	}
 
 	// Canonical-shape objects come first so we don't re-parse them.
-	if (isColorValue(raw)) return { type: "color", value: raw };
-	if (isDimensionValue(raw)) return { type: "dimension", value: raw };
-	if (isDurationValue(raw)) return { type: "duration", value: raw };
+	if (isColorValue(raw)) {
+		return { type: "color", value: raw };
+	}
+	if (isDimensionValue(raw)) {
+		return { type: "dimension", value: raw };
+	}
+	if (isDurationValue(raw)) {
+		return { type: "duration", value: raw };
+	}
 	if (isCubicBezierValue(raw)) {
 		return { type: "cubicBezier", value: raw as unknown as DTCGTokenValue };
 	}
-	if (isShadowValue(raw)) return { type: "shadow", value: raw };
-	if (isGradientValue(raw)) return { type: "gradient", value: raw };
-	if (isBorderValue(raw)) return { type: "border", value: raw };
-	if (isTransitionValue(raw)) return { type: "transition", value: raw };
-	if (isTypographyValue(raw)) return { type: "typography", value: raw };
+	if (isShadowValue(raw)) {
+		return { type: "shadow", value: raw };
+	}
+	if (isGradientValue(raw)) {
+		return { type: "gradient", value: raw };
+	}
+	if (isBorderValue(raw)) {
+		return { type: "border", value: raw };
+	}
+	if (isTransitionValue(raw)) {
+		return { type: "transition", value: raw };
+	}
+	if (isTypographyValue(raw)) {
+		return { type: "typography", value: raw };
+	}
 
 	if (typeof raw === "number" && Number.isFinite(raw)) {
 		return { type: numericPathType(options.path) ?? "number", value: raw };
@@ -177,7 +206,9 @@ export function classifyValue(
 
 	if (typeof raw === "string") {
 		// Empty string → cannot classify
-		if (raw.length === 0) return undefined;
+		if (raw.length === 0) {
+			return undefined;
+		}
 
 		// Path hint can override value detection in narrow, well-defined cases:
 		// a numeric font-weight string like "700" under font-weight/* should be
@@ -185,9 +216,12 @@ export function classifyValue(
 		const pathHint = options.path;
 		if (pathHint && pathContains(pathHint, "font-weight")) {
 			const num = Number(raw);
-			if (Number.isFinite(num)) return { type: "fontWeight", value: num };
-			if (FONT_WEIGHT_KEYWORDS.has(raw))
+			if (Number.isFinite(num)) {
+				return { type: "fontWeight", value: num };
+			}
+			if (FONT_WEIGHT_KEYWORDS.has(raw)) {
 				return { type: "fontWeight", value: raw };
+			}
 		}
 
 		// Only forward to culori strings that structurally resemble a CSS color:
@@ -198,24 +232,31 @@ export function classifyValue(
 			raw[0] === "#" || raw.includes("(") || /^[a-zA-Z]/.test(raw)
 				? parseColor(raw)
 				: undefined;
-		if (colorParsed) return { type: "color", value: colorParsed };
+		if (colorParsed) {
+			return { type: "color", value: colorParsed };
+		}
 
 		if (CUBIC_BEZIER_PATTERN.test(raw)) {
 			const bezier = parseCubicBezier(raw);
-			if (bezier)
+			if (bezier) {
 				return {
 					type: "cubicBezier",
 					value: bezier as unknown as DTCGTokenValue,
 				};
+			}
 		}
 
 		const duration = parseDuration(raw);
-		if (duration) return { type: "duration", value: duration };
+		if (duration) {
+			return { type: "duration", value: duration };
+		}
 
 		// Dimension is matched after duration so "200ms" doesn't fall through
 		// to dimension matching (the dimension regex would also accept it).
 		const dimension = parseDimension(raw);
-		if (dimension) return { type: "dimension", value: dimension };
+		if (dimension) {
+			return { type: "dimension", value: dimension };
+		}
 
 		// Keyword classification is path-conditional: many CSS keywords are
 		// valid in multiple contexts (`"normal"` works for font-weight,
@@ -240,8 +281,12 @@ export function classifyValue(
 }
 
 function hasStrokeStylePath(path: string | undefined): boolean {
-	if (path === undefined) return true; // back-compat: pure-value detection
-	if (isLikelyFontFamily(path)) return false;
+	if (path === undefined) {
+		return true;
+	} // back-compat: pure-value detection
+	if (isLikelyFontFamily(path)) {
+		return false;
+	}
 	return (
 		pathContains(path, "border-style") ||
 		pathContains(path, "outline-style") ||
@@ -250,7 +295,9 @@ function hasStrokeStylePath(path: string | undefined): boolean {
 }
 
 function hasFontWeightPath(path: string | undefined): boolean {
-	if (path === undefined) return true; // back-compat: pure-value detection
+	if (path === undefined) {
+		return true;
+	} // back-compat: pure-value detection
 	return pathContains(path, "font-weight") || pathContains(path, "fontweight");
 }
 

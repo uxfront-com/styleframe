@@ -2,33 +2,37 @@ import { gzipSync } from "node:zlib";
 import type { SizeMeasurement } from "../types";
 
 export function measureBytes(content: string): number {
-	return Buffer.byteLength(content, "utf-8");
+	return Buffer.byteLength(content, "utf8");
 }
 
 export function measureGzipBytes(content: string): number {
-	return gzipSync(Buffer.from(content, "utf-8"), { level: 6 }).length;
+	return gzipSync(Buffer.from(content, "utf8"), { level: 6 }).length;
 }
 
 const CLASS_ATTR_RE = /class="([^"]*)"/g;
 
-export function extractClassAttributes(html: string): string[] {
+export function extractClassAttributes(html: string): Array<string> {
 	const matches = html.matchAll(CLASS_ATTR_RE);
-	const result: string[] = [];
+	const result: Array<string> = [];
 	for (const m of matches) {
 		const value = m[1];
-		if (value && value.trim().length > 0) result.push(value);
+		if (value && value.trim().length > 0) {
+			result.push(value);
+		}
 	}
 	return result;
 }
 
-export function classCountsPerElement(html: string): number[] {
+export function classCountsPerElement(html: string): Array<number> {
 	return extractClassAttributes(html).map(
 		(attr) => attr.trim().split(/\s+/).length,
 	);
 }
 
-export function p95(values: number[]): number {
-	if (values.length === 0) return 0;
+export function p95(values: Array<number>): number {
+	if (values.length === 0) {
+		return 0;
+	}
 	const sorted = [...values].sort((a, b) => a - b);
 	const index = Math.ceil(sorted.length * 0.95) - 1;
 	return sorted[Math.max(0, Math.min(sorted.length - 1, index))] ?? 0;

@@ -28,7 +28,9 @@ interface ResolveOptions {
 }
 
 function deepClone<T>(value: T): T {
-	if (value === null || typeof value !== "object") return value;
+	if (value === null || typeof value !== "object") {
+		return value;
+	}
 	if (Array.isArray(value)) {
 		return value.map((v) => deepClone(v)) as unknown as T;
 	}
@@ -48,7 +50,7 @@ function resolveValue(
 	doc: DTCGDocument,
 	value: unknown,
 	originPath: string,
-	visited: string[],
+	visited: Array<string>,
 	strict: boolean,
 ): unknown {
 	if (isAlias(value)) {
@@ -58,7 +60,9 @@ function resolveValue(
 		}
 		const targetToken = lookupToken(doc, target);
 		if (!targetToken) {
-			if (strict) throw new UnknownReferenceError(originPath, target);
+			if (strict) {
+				throw new UnknownReferenceError(originPath, target);
+			}
 			return value;
 		}
 		return resolveValue(
@@ -103,7 +107,9 @@ function resolveTreeInPlace(
 	}
 
 	for (const [key, child] of Object.entries(node)) {
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (child !== null && typeof child === "object" && !Array.isArray(child)) {
 			resolveTreeInPlace(
 				doc,

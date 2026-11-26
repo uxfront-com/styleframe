@@ -4,7 +4,7 @@
  * It imports the config directly and returns the same instance.
  */
 export function generateExtensionModule(configPath: string): string {
-	const normalizedPath = configPath.replace(/\\/g, "/");
+	const normalizedPath = configPath.replaceAll("\\", "/");
 	return `
 import config from '${normalizedPath}';
 

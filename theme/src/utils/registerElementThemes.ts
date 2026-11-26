@@ -9,7 +9,9 @@ export function registerElementThemes<T>(
 	themes: Record<string, T> | undefined,
 	applyDesignTokens: (ctx: DeclarationsCallbackContext, config: T) => void,
 ): void {
-	if (!themes) return;
+	if (!themes) {
+		return;
+	}
 	for (const [themeName, overrides] of Object.entries(themes)) {
 		s.theme(themeName, (ctx) => {
 			applyDesignTokens(ctx, overrides);

@@ -30,7 +30,7 @@ describe("useBackgroundOriginUtility", () => {
 		useBackgroundOriginUtility(s, { border: "border-box" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-origin\\:border {");
+		expect(css).toContain(String.raw`._background-origin\:border {`);
 		expect(css).toContain("background-origin: border-box;");
 	});
 

@@ -22,7 +22,7 @@ describe("siteGraph", () => {
 		description: "A type-safe styling engine.",
 		sameAs: ["https://github.com/uxfront-com/styleframe"],
 		codeRepository: "https://github.com/uxfront-com/styleframe",
-	})["@graph"] as Record<string, unknown>[];
+	})["@graph"] as Array<Record<string, unknown>>;
 
 	it("describes the site, its publisher and the library", () => {
 		expect(graph.map((node) => node["@type"])).toEqual([

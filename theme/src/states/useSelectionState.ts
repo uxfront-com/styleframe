@@ -33,13 +33,15 @@ export function useSelectionDesignTokens(
 ): Partial<SelectionStateResult> {
 	const result: Partial<SelectionStateResult> = {};
 
-	if (config.background !== undefined)
+	if (config.background !== undefined) {
 		result.selectionBackground = ctx.variable(
 			"selection.background",
 			config.background,
 		);
-	if (config.color !== undefined)
+	}
+	if (config.color !== undefined) {
 		result.selectionColor = ctx.variable("selection.color", config.color);
+	}
 
 	return result;
 }

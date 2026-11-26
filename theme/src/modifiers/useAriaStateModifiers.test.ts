@@ -37,8 +37,8 @@ describe("useAriaStateModifiers", () => {
 		createDisplay({ block: "block" }, [ariaExpanded]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:block {");
-		expect(css).toContain("._aria-expanded\\:display\\:block {");
+		expect(css).toContain(String.raw`._display\:block {`);
+		expect(css).toContain(String.raw`._aria-expanded\:display\:block {`);
 	});
 
 	it("should generate correct CSS class names for aria-disabled modifier", () => {
@@ -51,8 +51,8 @@ describe("useAriaStateModifiers", () => {
 		createOpacity({ 50: "0.5" }, [ariaDisabled]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._opacity\\:50 {");
-		expect(css).toContain("._aria-disabled\\:opacity\\:50 {");
+		expect(css).toContain(String.raw`._opacity\:50 {`);
+		expect(css).toContain(String.raw`._aria-disabled\:opacity\:50 {`);
 	});
 
 	it("should generate correct CSS class names for aria-selected modifier", () => {
@@ -65,8 +65,10 @@ describe("useAriaStateModifiers", () => {
 		createBg({ blue: "blue" }, [ariaSelected]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._background-color\\:blue {");
-		expect(css).toContain("._aria-selected\\:background-color\\:blue {");
+		expect(css).toContain(String.raw`._background-color\:blue {`);
+		expect(css).toContain(
+			String.raw`._aria-selected\:background-color\:blue {`,
+		);
 	});
 
 	it("should target aria-invalid true with the aria-invalid modifier", () => {
@@ -79,7 +81,7 @@ describe("useAriaStateModifiers", () => {
 		create({ error: "red" }, [ariaInvalid]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._aria-invalid\\:border-color\\:error {");
+		expect(css).toContain(String.raw`._aria-invalid\:border-color\:error {`);
 		expect(css).toContain('&[aria-invalid="true"] {');
 	});
 

@@ -28,13 +28,15 @@ export function useAbbrDesignTokens(
 ): Partial<AbbrElementResult> {
 	const result: Partial<AbbrElementResult> = {};
 
-	if (config.cursor !== undefined)
+	if (config.cursor !== undefined) {
 		result.abbrCursor = ctx.variable("abbr.cursor", config.cursor);
-	if (config.textDecoration !== undefined)
+	}
+	if (config.textDecoration !== undefined) {
 		result.abbrTextDecoration = ctx.variable(
 			"abbr.text-decoration",
 			config.textDecoration,
 		);
+	}
 
 	return result;
 }

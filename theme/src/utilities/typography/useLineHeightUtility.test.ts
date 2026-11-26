@@ -27,9 +27,9 @@ describe("useLineHeightUtility", () => {
 		useLineHeightUtility(s, { none: "1", tight: "1.25", normal: "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._line-height\\:none {");
+		expect(css).toContain(String.raw`._line-height\:none {`);
 		expect(css).toContain("line-height: 1;");
-		expect(css).toContain("._line-height\\:tight {");
+		expect(css).toContain(String.raw`._line-height\:tight {`);
 		expect(css).toContain("line-height: 1.25;");
 	});
 

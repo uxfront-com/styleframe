@@ -50,7 +50,7 @@ function deferredUpdateContrastRatios() {
 }
 
 function updateContrastRatios() {
-	if (!previewEl.value) return;
+	if (!previewEl.value) {return;}
 
 	const bg = getComputedStyle(previewEl.value).backgroundColor;
 	const fg = getComputedStyle(previewEl.value).color;

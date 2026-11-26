@@ -1,4 +1,3 @@
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 import {
 	buildPackages,
@@ -10,7 +9,7 @@ import {
 	buildVite,
 } from "./commands";
 
-const __dirname = fileURLToPath(import.meta.url);
+const __dirname = import.meta.filename;
 
 const packageDir = path.join(__dirname, "..", "..");
 const workspaceDir = path.join(packageDir, "..", "..");

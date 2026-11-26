@@ -27,7 +27,7 @@ describe("useLetterSpacingUtility", () => {
 		useLetterSpacingUtility(s, { tighter: "-0.05em", wider: "0.1em" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._letter-spacing\\:tighter {");
+		expect(css).toContain(String.raw`._letter-spacing\:tighter {`);
 		expect(css).toContain("letter-spacing: -0.05em;");
 	});
 

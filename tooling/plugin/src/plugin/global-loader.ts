@@ -4,8 +4,8 @@ import {
 	createSharedJiti,
 	loadExtensionModule,
 	loadModule,
-	type ExportInfo,
 } from "@styleframe/loader";
+import type { ExportInfo } from "@styleframe/loader";
 import type { Jiti } from "jiti";
 import fs from "node:fs";
 import os from "node:os";
@@ -151,7 +151,7 @@ export async function loadStyleframeFile(
  */
 export async function loadAllStyleframeFiles(
 	state: PluginGlobalState,
-	files: string[],
+	files: Array<string>,
 	sharedJiti?: Jiti,
 ): Promise<void> {
 	for (let i = 0; i < files.length; i++) {
@@ -192,9 +192,9 @@ export function createPersistentJiti(
  */
 export async function reloadAll(
 	state: PluginGlobalState,
-	files: string[],
+	files: Array<string>,
 	sharedJiti?: Jiti,
-	filesToInvalidate?: string[],
+	filesToInvalidate?: Array<string>,
 ): Promise<void> {
 	// Save current state before resetting, so we can restore on failure
 	const previousGlobalInstance = state.globalInstance;
@@ -212,7 +212,7 @@ export async function reloadAll(
 	// Additionally invalidate any changed dependencies from the importree graph.
 	// Unchanged transitive dependencies (theme composables, etc.) stay cached.
 	const configPath = state.configFile?.path;
-	const entryFiles = [configPath, ...files].filter(Boolean) as string[];
+	const entryFiles = [configPath, ...files].filter(Boolean) as Array<string>;
 	const allFilesToInvalidate = filesToInvalidate
 		? [...new Set([...entryFiles, ...filesToInvalidate])]
 		: entryFiles;

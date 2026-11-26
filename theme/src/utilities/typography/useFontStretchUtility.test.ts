@@ -27,7 +27,7 @@ describe("useFontStretchUtility", () => {
 		useFontStretchUtility(s, { "semi-condensed": "semi-condensed" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._font-stretch\\:semi-condensed {");
+		expect(css).toContain(String.raw`._font-stretch\:semi-condensed {`);
 		expect(css).toContain("font-stretch: semi-condensed;");
 	});
 

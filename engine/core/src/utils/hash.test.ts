@@ -40,7 +40,7 @@ describe("hashValue", () => {
 	});
 
 	it("should handle long strings", () => {
-		const long = "a".repeat(10000);
+		const long = "a".repeat(10_000);
 		const result = hashValue(long);
 		expect(result).toMatch(/^[0-9a-f]{7}$/);
 	});

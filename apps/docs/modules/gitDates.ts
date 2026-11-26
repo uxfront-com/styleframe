@@ -38,7 +38,7 @@ export function readGitDates(cwd: string): {
 	dates: Record<string, string>;
 	missing?: string;
 } {
-	const git = (...args: string[]) =>
+	const git = (...args: Array<string>) =>
 		execFileSync("git", ["-c", "core.quotePath=false", ...args], {
 			cwd,
 			encoding: "utf8",

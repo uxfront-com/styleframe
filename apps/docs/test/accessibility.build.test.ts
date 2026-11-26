@@ -56,7 +56,7 @@ describe.each(AUDITED)("/%s", (page) => {
 	it("names the sidebar's framework select by its label", () => {
 		const select = html.match(/<button[^>]*role="combobox"[^>]*>/)?.[0] ?? "";
 		const label = attr(select, "aria-labelledby") ?? "";
-		const id = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		const id = label.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
 		const named = html.match(
 			new RegExp(`<[a-z]+[^>]*\\sid="${id}"[^>]*>([^<]*)<`),
 		);
@@ -106,7 +106,7 @@ describe("code colours", () => {
 	const blocks = [...html.matchAll(/[{"]([^{}"]*--shiki-[^{}"]*)[}"]/g)]
 		.map((m) => m[1]!)
 		.filter((block) => !/--shiki-[a-z]+-bg:/.test(block));
-	const colours = (...modes: string[]) => [
+	const colours = (...modes: Array<string>) => [
 		...new Set(
 			blocks.flatMap((block) =>
 				[
@@ -149,7 +149,7 @@ type Triple = [number, number, number];
 
 function hexToRgb(hex: string): Triple {
 	return [1, 3, 5].map(
-		(i) => parseInt(hex.slice(i, i + 2), 16) / 255,
+		(i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255,
 	) as Triple;
 }
 

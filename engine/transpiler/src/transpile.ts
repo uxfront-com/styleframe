@@ -94,7 +94,7 @@ export async function transpile(
 	return output;
 }
 
-function formatDiagnostics(diagnostics: Diagnostic[]): string {
+function formatDiagnostics(diagnostics: Array<Diagnostic>): string {
 	const count = `${diagnostics.length} ${diagnostics.length === 1 ? "problem" : "problems"}`;
 	const lines = diagnostics.map(
 		({ code, path, message }) => `  ${code} ${path}: ${message}`,
@@ -107,7 +107,9 @@ function createCSSOptions(
 	options: StyleframeOptions,
 	context: TranspileContext,
 ): StyleframeOptions {
-	if (!context.shortMap) return options;
+	if (!context.shortMap) {
+		return options;
+	}
 
 	const baseSelectorFn =
 		options.utilities?.selector ?? defaultUtilitySelectorFn;

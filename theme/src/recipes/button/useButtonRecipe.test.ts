@@ -19,9 +19,11 @@ function createInstance() {
 
 /** Every declarations block of the recipe, with the key it sits under. */
 function blocks(recipe: ReturnType<typeof useButtonRecipe>) {
-	const result: { name: string; key: string; declarations: Slot }[] = [];
+	const result: Array<{ name: string; key: string; declarations: Slot }> = [];
 	const visit = (name: string, css: Slot | undefined) => {
-		if (!css) return;
+		if (!css) {
+			return;
+		}
 		result.push({ name, key: "", declarations: css });
 		for (const [key, value] of Object.entries(css)) {
 			if (typeof value === "object" && value !== null) {
@@ -44,7 +46,7 @@ function blocks(recipe: ReturnType<typeof useButtonRecipe>) {
 	return result;
 }
 
-const stateKeys = [
+const stateKeys = new Set([
 	"&:hover-capable:hover",
 	"&:dark:hover-capable:hover",
 	"&:active",
@@ -57,7 +59,7 @@ const stateKeys = [
 	"&:disabled",
 	"&:aria-disabled",
 	"&:data-loading",
-];
+]);
 
 describe("useButtonRecipe", () => {
 	it("should create a recipe with correct metadata", () => {
@@ -129,7 +131,9 @@ describe("useButtonRecipe", () => {
 			textUnderlineOffset: "4px",
 		});
 		for (const cv of recipe.compoundVariants!) {
-			if (cv.match.variant !== "link") continue;
+			if (cv.match.variant !== "link") {
+				continue;
+			}
 			for (const value of Object.values(cv.css as Slot)) {
 				if (typeof value === "object") {
 					expect(value).not.toHaveProperty("textDecoration");
@@ -223,7 +227,9 @@ describe("useButtonRecipe", () => {
 		];
 
 		for (const block of blocks(recipe)) {
-			if (!stateKeys.includes(block.key)) continue;
+			if (!stateKeys.has(block.key)) {
+				continue;
+			}
 			for (const property of sizing) {
 				expect(
 					block.declarations,
@@ -244,7 +250,9 @@ describe("useButtonRecipe", () => {
 		expect(recipe.base!["&:aria-disabled"]).toEqual(recipe.base!["&:disabled"]);
 		expect(recipe.base!["&:data-loading"]).toEqual({ cursor: "progress" });
 		for (const cv of recipe.compoundVariants!) {
-			if (!cv.match.color) continue;
+			if (!cv.match.color) {
+				continue;
+			}
 			const css = cv.css as Slot;
 			expect(
 				css["&:aria-pressed"],
@@ -329,11 +337,11 @@ describe("useButtonRecipe", () => {
 
 		for (const utility of ["background", "color"]) {
 			for (const [state, reset] of [
-				["hover-capable\\:hover", "disabled"],
+				[String.raw`hover-capable\:hover`, "disabled"],
 				["active", "disabled"],
 				["aria-pressed", "aria-disabled"],
-				["dark\\:hover-capable\\:hover", "dark\\:disabled"],
-				["dark\\:aria-pressed", "dark\\:aria-disabled"],
+				[String.raw`dark\:hover-capable\:hover`, String.raw`dark\:disabled`],
+				[String.raw`dark\:aria-pressed`, String.raw`dark\:aria-disabled`],
 			]) {
 				const lastState = css.lastIndexOf(`._${state}\\:${utility}\\:`);
 				const firstReset = css.indexOf(`._${reset}\\:${utility}\\:`);
@@ -342,8 +350,12 @@ describe("useButtonRecipe", () => {
 			}
 		}
 		expect(
-			css.lastIndexOf("._hover-capable\\:hover\\:text-decoration-thickness"),
-		).toBeLessThan(css.indexOf("._disabled\\:text-decoration-thickness"));
+			css.lastIndexOf(
+				String.raw`._hover-capable\:hover\:text-decoration-thickness`,
+			),
+		).toBeLessThan(
+			css.indexOf(String.raw`._disabled\:text-decoration-thickness`),
+		);
 		expect(recipe.compoundVariants!.slice(-resets.length)).toEqual(resets);
 		for (const cv of pairs) {
 			const css = cv.css as Slot;
@@ -385,7 +397,9 @@ describe("useButtonRecipe", () => {
 		});
 		for (const cv of recipe.compoundVariants!) {
 			const css = cv.css as Slot;
-			if (!("color" in css)) continue;
+			if (!("color" in css)) {
+				continue;
+			}
 			const name = `${cv.match.color}/${cv.match.variant}`;
 			expect(css["&:hover-capable:hover"], name).toHaveProperty("color");
 			if ("color" in ((css["&:dark"] ?? {}) as Slot)) {
@@ -399,7 +413,9 @@ describe("useButtonRecipe", () => {
 		const recipe = useButtonRecipe(s);
 
 		for (const block of blocks(recipe)) {
-			if (!block.key.includes("hover")) continue;
+			if (!block.key.includes("hover")) {
+				continue;
+			}
 			expect(block.key, block.name).toMatch(/^&:(dark:)?hover-capable:hover$/);
 		}
 
@@ -472,7 +488,9 @@ describe("useButtonRecipe", () => {
 				"transform",
 				"rotate",
 			]) {
-				if (block.name === "base" && block.key === "") continue;
+				if (block.name === "base" && block.key === "") {
+					continue;
+				}
 				expect(block.declarations, block.name).not.toHaveProperty(property);
 			}
 		}
@@ -521,7 +539,7 @@ describe("useButtonRecipe", () => {
 
 			const block = recipe.variants!.size[size].paddingTop as string;
 			expect(recipe.variants!.size[size].paddingBottom).toBe(block);
-			const step = block.replace("@", "").replace(".", "\\.");
+			const step = block.replace("@", "").replace(".", String.raw`\.`);
 
 			// The size's block padding utility and the icon-only inline padding
 			// compute the same length.
@@ -620,7 +638,7 @@ describe("useButtonRecipe", () => {
 		for (const selector of selectors) {
 			// Every one uses only the hooks Inkline renders.
 			expect(
-				selector.replace(
+				selector.replaceAll(
 					/\.button|\[data-icon-only\]|\[data-size="(?:xs|sm|lg|xl|md)"\]|\[data-slot="(?:leading|label|trailing)"\]|:where\(|:is\(|[ ,>*)]/g,
 					"",
 				),

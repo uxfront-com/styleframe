@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-	heights: string[];
+	heights: Array<string>;
 }>();
 </script>
 

@@ -27,7 +27,7 @@ describe("useGapUtility", () => {
 		useGapUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gap\\:2 {");
+		expect(css).toContain(String.raw`._gap\:2 {`);
 		expect(css).toContain("gap: 0.5rem;");
 	});
 
@@ -53,7 +53,7 @@ describe("useGapXUtility", () => {
 		useGapXUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gap-x\\:2 {");
+		expect(css).toContain(String.raw`._gap-x\:2 {`);
 		expect(css).toContain("column-gap: 0.5rem;");
 	});
 });
@@ -72,7 +72,7 @@ describe("useGapYUtility", () => {
 		useGapYUtility(s, { "2": "0.5rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._gap-y\\:2 {");
+		expect(css).toContain(String.raw`._gap-y\:2 {`);
 		expect(css).toContain("row-gap: 0.5rem;");
 	});
 });

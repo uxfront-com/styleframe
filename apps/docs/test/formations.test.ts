@@ -43,8 +43,8 @@ describe("device", () => {
 	it("holds one device still without motion", async () => {
 		const shader = await device({ label: "Fluid design" }).shader();
 		const at = (local: number, motion: boolean) => {
-			const values: number[][] = [];
-			const record = (_: unknown, ...v: number[]) => values.push(v);
+			const values: Array<Array<number>> = [];
+			const record = (_: unknown, ...v: Array<number>) => values.push(v);
 			const gl = { uniform1f: record, uniform2f: record };
 			shader.update?.(
 				{ gl: gl as unknown as WebGL2RenderingContext, get: () => ({}) },

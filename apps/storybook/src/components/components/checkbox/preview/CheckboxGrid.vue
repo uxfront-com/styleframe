@@ -2,14 +2,14 @@
 import Checkbox from "../Checkbox.vue";
 
 const colors = ["neutral", "light", "dark"] as const;
-const states: {
+const states: Array<{
 	label: string;
 	checked?: boolean;
 	indeterminate?: boolean;
 	disabled?: boolean;
 	readonly?: boolean;
 	invalid?: boolean;
-}[] = [
+}> = [
 	{ label: "unchecked" },
 	{ label: "checked", checked: true },
 	{ label: "indeterminate", indeterminate: true },

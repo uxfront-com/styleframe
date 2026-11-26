@@ -27,7 +27,7 @@ describe("useFlexDirectionUtility", () => {
 		useFlexDirectionUtility(s, { "row-reverse": "row-reverse" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex-direction\\:row-reverse {");
+		expect(css).toContain(String.raw`._flex-direction\:row-reverse {`);
 		expect(css).toContain("flex-direction: row-reverse;");
 	});
 

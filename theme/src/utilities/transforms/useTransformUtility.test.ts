@@ -51,7 +51,7 @@ describe("useBackfaceVisibilityUtility", () => {
 		useBackfaceVisibilityUtility(s, { hidden: "hidden" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._backface-visibility\\:hidden {");
+		expect(css).toContain(String.raw`._backface-visibility\:hidden {`);
 		expect(css).toContain("backface-visibility: hidden;");
 	});
 
@@ -99,7 +99,7 @@ describe("usePerspectiveUtility", () => {
 		usePerspectiveUtility(s, { md: "1000px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._perspective\\:md {");
+		expect(css).toContain(String.raw`._perspective\:md {`);
 		expect(css).toContain("perspective: 1000px;");
 	});
 
@@ -135,7 +135,7 @@ describe("usePerspectiveOriginUtility", () => {
 		usePerspectiveOriginUtility(s, { "top-left": "top left" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._perspective-origin\\:top-left {");
+		expect(css).toContain(String.raw`._perspective-origin\:top-left {`);
 		expect(css).toContain("perspective-origin: top left;");
 	});
 
@@ -185,7 +185,7 @@ describe("useRotateUtility", () => {
 		useRotateUtility(s, { "45": "45deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._rotate\\:45 {");
+		expect(css).toContain(String.raw`._rotate\:45 {`);
 		expect(css).toContain("--transform-rotate: 45deg;");
 	});
 
@@ -225,7 +225,7 @@ describe("useRotateXUtility", () => {
 		useRotateXUtility(s, { "45": "45deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._rotate-x\\:45 {");
+		expect(css).toContain(String.raw`._rotate-x\:45 {`);
 		expect(css).toContain("--transform-rotate-x: 45deg;");
 	});
 
@@ -265,7 +265,7 @@ describe("useRotateYUtility", () => {
 		useRotateYUtility(s, { "45": "45deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._rotate-y\\:45 {");
+		expect(css).toContain(String.raw`._rotate-y\:45 {`);
 		expect(css).toContain("--transform-rotate-y: 45deg;");
 	});
 
@@ -306,7 +306,7 @@ describe("useScaleUtility", () => {
 		useScaleUtility(s, { "150": "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scale\\:150 {");
+		expect(css).toContain(String.raw`._scale\:150 {`);
 		expect(css).toContain("--transform-scale-x: 1.5;");
 		expect(css).toContain("--transform-scale-y: 1.5;");
 	});
@@ -337,7 +337,7 @@ describe("useScaleXUtility", () => {
 		useScaleXUtility(s, { "150": "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scale-x\\:150 {");
+		expect(css).toContain(String.raw`._scale-x\:150 {`);
 		expect(css).toContain("--transform-scale-x: 1.5;");
 	});
 });
@@ -360,7 +360,7 @@ describe("useScaleYUtility", () => {
 		useScaleYUtility(s, { "150": "1.5" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scale-y\\:150 {");
+		expect(css).toContain(String.raw`._scale-y\:150 {`);
 		expect(css).toContain("--transform-scale-y: 1.5;");
 	});
 });
@@ -393,7 +393,7 @@ describe("useSkewXUtility", () => {
 		useSkewXUtility(s, { "12": "12deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._skew-x\\:12 {");
+		expect(css).toContain(String.raw`._skew-x\:12 {`);
 		expect(css).toContain("--transform-skew-x: 12deg;");
 	});
 
@@ -433,7 +433,7 @@ describe("useSkewYUtility", () => {
 		useSkewYUtility(s, { "12": "12deg" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._skew-y\\:12 {");
+		expect(css).toContain(String.raw`._skew-y\:12 {`);
 		expect(css).toContain("--transform-skew-y: 12deg;");
 	});
 
@@ -469,7 +469,7 @@ describe("useTransformOriginUtility", () => {
 		useTransformOriginUtility(s, { "top-left": "top left" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._transform-origin\\:top-left {");
+		expect(css).toContain(String.raw`._transform-origin\:top-left {`);
 		expect(css).toContain("transform-origin: top left;");
 	});
 
@@ -515,7 +515,7 @@ describe("useTransformStyleUtility", () => {
 		useTransformStyleUtility(s, { "3d": "preserve-3d" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._transform-style\\:3d {");
+		expect(css).toContain(String.raw`._transform-style\:3d {`);
 		expect(css).toContain("transform-style: preserve-3d;");
 	});
 
@@ -566,7 +566,7 @@ describe("useTranslateUtility", () => {
 		useTranslateUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._translate\\:4 {");
+		expect(css).toContain(String.raw`._translate\:4 {`);
 		expect(css).toContain("--transform-translate-x: 1rem;");
 		expect(css).toContain("--transform-translate-y: 1rem;");
 	});
@@ -597,7 +597,7 @@ describe("useTranslateXUtility", () => {
 		useTranslateXUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._translate-x\\:4 {");
+		expect(css).toContain(String.raw`._translate-x\:4 {`);
 		expect(css).toContain("--transform-translate-x: 1rem;");
 	});
 });
@@ -620,7 +620,7 @@ describe("useTranslateYUtility", () => {
 		useTranslateYUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._translate-y\\:4 {");
+		expect(css).toContain(String.raw`._translate-y\:4 {`);
 		expect(css).toContain("--transform-translate-y: 1rem;");
 	});
 });
@@ -643,7 +643,7 @@ describe("useTranslateZUtility", () => {
 		useTranslateZUtility(s, { "4": "1rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._translate-z\\:4 {");
+		expect(css).toContain(String.raw`._translate-z\:4 {`);
 		expect(css).toContain("--transform-translate-z: 1rem;");
 	});
 });

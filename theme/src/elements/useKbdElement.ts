@@ -49,29 +49,36 @@ export function useKbdDesignTokens(
 ): Partial<KbdElementResult> {
 	const result: Partial<KbdElementResult> = {};
 
-	if (config.background !== undefined)
+	if (config.background !== undefined) {
 		result.kbdBackground = ctx.variable("kbd.background", config.background);
-	if (config.color !== undefined)
+	}
+	if (config.color !== undefined) {
 		result.kbdColor = ctx.variable("kbd.color", config.color);
-	if (config.fontFamily !== undefined)
+	}
+	if (config.fontFamily !== undefined) {
 		result.kbdFontFamily = ctx.variable("kbd.font-family", config.fontFamily);
-	if (config.fontSize !== undefined)
+	}
+	if (config.fontSize !== undefined) {
 		result.kbdFontSize = ctx.variable("kbd.font-size", config.fontSize);
-	if (config.borderRadius !== undefined)
+	}
+	if (config.borderRadius !== undefined) {
 		result.kbdBorderRadius = ctx.variable(
 			"kbd.border-radius",
 			config.borderRadius,
 		);
-	if (config.paddingBlock !== undefined)
+	}
+	if (config.paddingBlock !== undefined) {
 		result.kbdPaddingBlock = ctx.variable(
 			"kbd.padding-block",
 			config.paddingBlock,
 		);
-	if (config.paddingInline !== undefined)
+	}
+	if (config.paddingInline !== undefined) {
 		result.kbdPaddingInline = ctx.variable(
 			"kbd.padding-inline",
 			config.paddingInline,
 		);
+	}
 
 	return result;
 }

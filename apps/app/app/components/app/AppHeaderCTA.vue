@@ -3,7 +3,7 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
 
-const items = computed<NavigationMenuItem[]>(() => []);
+const items = computed<Array<NavigationMenuItem>>(() => []);
 </script>
 
 <template>

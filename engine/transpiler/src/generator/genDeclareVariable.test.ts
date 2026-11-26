@@ -307,8 +307,8 @@ describe("genDeclareVariable", () => {
 	});
 
 	it("should handle unicode escape sequences", () => {
-		const result = genDeclareVariable("unicode", "'\\2022'");
-		expect(result).toBe("--unicode: '\\2022';");
+		const result = genDeclareVariable("unicode", String.raw`'\2022'`);
+		expect(result).toBe(String.raw`--unicode: '\2022';`);
 	});
 
 	it("should handle data URI values", () => {

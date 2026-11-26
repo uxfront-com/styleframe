@@ -51,7 +51,7 @@ describe("useAccentColorUtility", () => {
 		useAccentColorUtility(s, { primary: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._accent-color\\:primary {");
+		expect(css).toContain(String.raw`._accent-color\:primary {`);
 		expect(css).toContain("accent-color: blue;");
 	});
 
@@ -87,7 +87,7 @@ describe("useAppearanceUtility", () => {
 		useAppearanceUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._appearance\\:none {");
+		expect(css).toContain(String.raw`._appearance\:none {`);
 		expect(css).toContain("appearance: none;");
 	});
 
@@ -178,7 +178,7 @@ describe("useCaretColorUtility", () => {
 		useCaretColorUtility(s, { primary: "blue" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._caret-color\\:primary {");
+		expect(css).toContain(String.raw`._caret-color\:primary {`);
 		expect(css).toContain("caret-color: blue;");
 	});
 
@@ -214,7 +214,7 @@ describe("useColorSchemeUtility", () => {
 		useColorSchemeUtility(s, { dark: "dark" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._color-scheme\\:dark {");
+		expect(css).toContain(String.raw`._color-scheme\:dark {`);
 		expect(css).toContain("color-scheme: dark;");
 	});
 
@@ -260,7 +260,7 @@ describe("useCursorUtility", () => {
 		useCursorUtility(s, { pointer: "pointer" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._cursor\\:pointer {");
+		expect(css).toContain(String.raw`._cursor\:pointer {`);
 		expect(css).toContain("cursor: pointer;");
 	});
 
@@ -306,7 +306,7 @@ describe("usePointerEventsUtility", () => {
 		usePointerEventsUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._pointer-events\\:none {");
+		expect(css).toContain(String.raw`._pointer-events\:none {`);
 		expect(css).toContain("pointer-events: none;");
 	});
 
@@ -352,7 +352,7 @@ describe("useResizeUtility", () => {
 		useResizeUtility(s, { y: "vertical" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._resize\\:y {");
+		expect(css).toContain(String.raw`._resize\:y {`);
 		expect(css).toContain("resize: vertical;");
 	});
 
@@ -398,7 +398,7 @@ describe("useScrollBehaviorUtility", () => {
 		useScrollBehaviorUtility(s, { smooth: "smooth" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._scroll-behavior\\:smooth {");
+		expect(css).toContain(String.raw`._scroll-behavior\:smooth {`);
 		expect(css).toContain("scroll-behavior: smooth;");
 	});
 
@@ -444,7 +444,7 @@ describe("useTouchActionUtility", () => {
 		useTouchActionUtility(s, { manipulation: "manipulation" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._touch-action\\:manipulation {");
+		expect(css).toContain(String.raw`._touch-action\:manipulation {`);
 		expect(css).toContain("touch-action: manipulation;");
 	});
 
@@ -490,7 +490,7 @@ describe("useUserSelectUtility", () => {
 		useUserSelectUtility(s, { none: "none" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._user-select\\:none {");
+		expect(css).toContain(String.raw`._user-select\:none {`);
 		expect(css).toContain("user-select: none;");
 	});
 
@@ -536,7 +536,7 @@ describe("useWillChangeUtility", () => {
 		useWillChangeUtility(s, { transform: "transform" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._will-change\\:transform {");
+		expect(css).toContain(String.raw`._will-change\:transform {`);
 		expect(css).toContain("will-change: transform;");
 	});
 

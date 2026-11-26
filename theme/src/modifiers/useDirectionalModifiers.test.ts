@@ -29,8 +29,8 @@ describe("useDirectionalModifiers", () => {
 		createMarginLeft({ sm: "0.5rem" }, [rtl]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin-left\\:sm {");
-		expect(css).toContain("._rtl\\:margin-left\\:sm {");
+		expect(css).toContain(String.raw`._margin-left\:sm {`);
+		expect(css).toContain(String.raw`._rtl\:margin-left\:sm {`);
 	});
 
 	it("should generate correct CSS class names for ltr modifier", () => {
@@ -43,8 +43,8 @@ describe("useDirectionalModifiers", () => {
 		createTextAlign({ left: "left" }, [ltr]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._text-align\\:left {");
-		expect(css).toContain("._ltr\\:text-align\\:left {");
+		expect(css).toContain(String.raw`._text-align\:left {`);
+		expect(css).toContain(String.raw`._ltr\:text-align\:left {`);
 	});
 
 	it("should work with utility creation", () => {

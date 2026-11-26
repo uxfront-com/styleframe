@@ -30,7 +30,7 @@ describe("useContainerTypeUtility", () => {
 		useContainerTypeUtility(s, { "inline-size": "inline-size" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._container-type\\:inline-size {");
+		expect(css).toContain(String.raw`._container-type\:inline-size {`);
 		expect(css).toContain("container-type: inline-size;");
 	});
 
@@ -59,7 +59,7 @@ describe("useContainerNameUtility", () => {
 		useContainerNameUtility(s, { sidebar: "sidebar" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._container-name\\:sidebar {");
+		expect(css).toContain(String.raw`._container-name\:sidebar {`);
 		expect(css).toContain("container-name: sidebar;");
 	});
 

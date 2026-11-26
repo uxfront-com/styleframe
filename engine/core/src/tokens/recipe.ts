@@ -320,7 +320,7 @@ export function generateRecipeRuntime<
  */
 type UtilityEntry = {
 	value: TokenValue;
-	modifiers: string[]; // compound modifier as array, e.g., ['hover', 'focus'] for 'hover:focus'
+	modifiers: Array<string>; // compound modifier as array, e.g., ['hover', 'focus'] for 'hover:focus'
 };
 
 /**
@@ -341,8 +341,12 @@ function isModifierBlock(
  * interchangeably with bare modifier names ("hover").
  */
 function stripSelectorPrefix(key: string): string {
-	if (key.startsWith("&::")) return key.slice(3);
-	if (key.startsWith("&:")) return key.slice(2);
+	if (key.startsWith("&::")) {
+		return key.slice(3);
+	}
+	if (key.startsWith("&:")) {
+		return key.slice(2);
+	}
 	return key;
 }
 
@@ -355,12 +359,12 @@ function stripSelectorPrefix(key: string): string {
  */
 function collectDeclarationsValues(
 	declarations: VariantDeclarationsBlock,
-	utilityEntriesMap: Map<string, UtilityEntry[]>,
+	utilityEntriesMap: Map<string, Array<UtilityEntry>>,
 ): void {
 	const addUtilityEntry = (
 		utilityKey: string,
 		value: TokenValue,
-		modifiers: string[],
+		modifiers: Array<string>,
 	) => {
 		let entries = utilityEntriesMap.get(utilityKey);
 		if (!entries) {
@@ -399,7 +403,7 @@ function getUtilityFactory(
 		return exactMatch;
 	}
 
-	const kebabName = name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+	const kebabName = name.replaceAll(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 	return root.utilities.find((utility) => utility.name === kebabName);
 }
 
@@ -440,7 +444,7 @@ function getUtilityFactory(
  */
 export function processRecipeUtilities(recipe: Recipe, root: Root): void {
 	// Map of utility key -> entries with values and modifier combinations
-	const utilityEntriesMap = new Map<string, UtilityEntry[]>();
+	const utilityEntriesMap = new Map<string, Array<UtilityEntry>>();
 
 	// 1. Process base declarations
 	if (recipe.base) {
@@ -483,7 +487,7 @@ export function processRecipeUtilities(recipe: Recipe, root: Root): void {
 
 		for (const entry of entries) {
 			// Resolve modifier factories from modifier keys (using cache)
-			const modifierFactories: ModifierFactory[] = [];
+			const modifierFactories: Array<ModifierFactory> = [];
 			for (const modifier of entry.modifiers) {
 				if (!modifierCache.has(modifier)) {
 					try {

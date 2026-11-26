@@ -1,11 +1,7 @@
-import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
+import type { DTCGResolverDocument } from "@styleframe/dtcg";
 import type { FigmaExportFormat } from "../../types";
-import {
-	extractDTCGVariables,
-	isDTCGFormat,
-	isDTCGResolver,
-	type PreviewVariable,
-} from "../shared";
+import { extractDTCGVariables, isDTCGFormat, isDTCGResolver } from "../shared";
+import type { PreviewVariable } from "../shared";
 
 interface Collection {
 	id: string;
@@ -17,8 +13,6 @@ interface Collection {
 // DOM Elements
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".panel");
-const importPanel = document.getElementById("import-panel")!;
-const exportPanel = document.getElementById("export-panel")!;
 
 // Import elements
 const fileDropZone = document.getElementById("file-drop-zone")!;
@@ -51,7 +45,7 @@ const downloadBtn = document.getElementById(
 const exportStatus = document.getElementById("export-status")!;
 
 let currentMode: "import" | "export" = "import";
-let collections: Collection[] = [];
+let collections: Array<Collection> = [];
 
 /**
  * Initialize the UI
@@ -127,9 +121,11 @@ function handleDrop(e: DragEvent): void {
 	fileDropZone.classList.remove("drag-over");
 
 	const fileList = e.dataTransfer?.files;
-	if (!fileList || fileList.length === 0) return;
+	if (!fileList || fileList.length === 0) {
+		return;
+	}
 
-	const jsonFiles: File[] = [];
+	const jsonFiles: Array<File> = [];
 	for (let i = 0; i < fileList.length; i++) {
 		const file = fileList[i]!;
 		if (file.type === "application/json" || file.name.endsWith(".json")) {
@@ -150,9 +146,13 @@ function handleDrop(e: DragEvent): void {
  */
 function handleFileSelect(): void {
 	const fileList = fileInput.files;
-	if (!fileList || fileList.length === 0) return;
-	const files: File[] = [];
-	for (let i = 0; i < fileList.length; i++) files.push(fileList[i]!);
+	if (!fileList || fileList.length === 0) {
+		return;
+	}
+	const files: Array<File> = [];
+	for (let i = 0; i < fileList.length; i++) {
+		files.push(fileList[i]!);
+	}
 	processFiles(files);
 }
 
@@ -172,7 +172,7 @@ function readFileAsText(file: File): Promise<string> {
  * Process one or more dropped/selected files. Auto-classifies each as
  * a resolver or a token document, accumulating into the shared state.
  */
-async function processFiles(files: File[]): Promise<void> {
+async function processFiles(files: Array<File>): Promise<void> {
 	hideStatus(importStatus);
 
 	try {
@@ -196,7 +196,9 @@ async function processFiles(files: File[]): Promise<void> {
 		}
 
 		const allNames = loadedTokenFiles.map((f) => f.name);
-		if (loadedResolverData) allNames.push("(resolver)");
+		if (loadedResolverData) {
+			allNames.push("(resolver)");
+		}
 
 		fileDropZone
 			.querySelector(".file-drop-content")
@@ -219,15 +221,19 @@ async function processFiles(files: File[]): Promise<void> {
 /**
  * Merge preview variables from all loaded token files (de-duplicated).
  */
-function getMergedPreviewVariables(): PreviewVariable[] {
+function getMergedPreviewVariables(): Array<PreviewVariable> {
 	const seen = new Map<string, PreviewVariable>();
 	for (const { data } of loadedTokenFiles) {
 		const vars = getPreviewVariables(data);
 		for (const v of vars) {
-			if (!seen.has(v.name)) seen.set(v.name, v);
+			if (!seen.has(v.name)) {
+				seen.set(v.name, v);
+			}
 		}
 	}
-	if (seen.size === 0) throw new Error("No variables found in files");
+	if (seen.size === 0) {
+		throw new Error("No variables found in files");
+	}
 	return [...seen.values()];
 }
 
@@ -253,7 +259,7 @@ function handleFileClear(e: Event): void {
 /**
  * Get preview variables from either DTCG or legacy format
  */
-function getPreviewVariables(data: unknown): PreviewVariable[] {
+function getPreviewVariables(data: unknown): Array<PreviewVariable> {
 	if (typeof data !== "object" || data === null) {
 		throw new Error("Invalid format: expected an object");
 	}
@@ -281,7 +287,7 @@ function getPreviewVariables(data: unknown): PreviewVariable[] {
 /**
  * Render the variable preview
  */
-function renderPreview(variables: PreviewVariable[]): void {
+function renderPreview(variables: Array<PreviewVariable>): void {
 	if (variables.length === 0) {
 		importPreview.innerHTML =
 			'<div class="preview-empty">No variables found in file</div>';
@@ -345,11 +351,15 @@ function extractModeName(data: unknown, filename: string): string {
 		const ext = (data as Record<string, unknown>).$extensions;
 		if (typeof ext === "object" && ext !== null) {
 			const figmaMode = (ext as Record<string, unknown>)["com.figma.modeName"];
-			if (typeof figmaMode === "string") return figmaMode;
+			if (typeof figmaMode === "string") {
+				return figmaMode;
+			}
 			const sfExt = (ext as Record<string, unknown>)["dev.styleframe"];
 			if (typeof sfExt === "object" && sfExt !== null) {
 				const modeName = (sfExt as Record<string, unknown>).modeName;
-				if (typeof modeName === "string") return modeName;
+				if (typeof modeName === "string") {
+					return modeName;
+				}
 			}
 		}
 	}
@@ -397,7 +407,9 @@ function handleExport(): void {
  */
 function handleCopy(): void {
 	const text = exportOutput.value;
-	if (!text) return;
+	if (!text) {
+		return;
+	}
 
 	const originalHTML = copyBtn.innerHTML;
 	const checkmarkIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
@@ -415,7 +427,7 @@ function handleCopy(): void {
 			textarea.value = text;
 			textarea.style.position = "fixed";
 			textarea.style.opacity = "0";
-			document.body.appendChild(textarea);
+			document.body.append(textarea);
 			textarea.select();
 			const success = document.execCommand("copy");
 			document.body.removeChild(textarea);
@@ -442,14 +454,16 @@ function handleCopy(): void {
  */
 function handleDownload(): void {
 	const text = exportOutput.value;
-	if (!text) return;
+	if (!text) {
+		return;
+	}
 
 	const blob = new Blob([text], { type: "application/json" });
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement("a");
 	a.href = url;
 	a.download = "tokens.json";
-	document.body.appendChild(a);
+	document.body.append(a);
 	a.click();
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
@@ -458,7 +472,7 @@ function handleDownload(): void {
 /**
  * Update collections dropdown
  */
-function updateCollections(newCollections: Collection[]): void {
+function updateCollections(newCollections: Array<Collection>): void {
 	collections = newCollections;
 
 	if (collections.length === 0) {
@@ -503,7 +517,9 @@ function hideStatus(element: HTMLElement): void {
  */
 window.onmessage = (event: MessageEvent) => {
 	const msg = event.data.pluginMessage;
-	if (!msg) return;
+	if (!msg) {
+		return;
+	}
 
 	switch (msg.type) {
 		case "set-mode":

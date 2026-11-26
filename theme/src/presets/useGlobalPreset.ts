@@ -1,41 +1,5 @@
 import type { Styleframe } from "@styleframe/core";
 import {
-	type AbbrElementConfig,
-	type AbbrElementResult,
-	type AddressElementConfig,
-	type AddressElementResult,
-	type BodyElementConfig,
-	type BodyElementResult,
-	type CaptionElementConfig,
-	type CaptionElementResult,
-	type CodeElementConfig,
-	type CodeElementResult,
-	type DdElementConfig,
-	type DdElementResult,
-	type DlElementConfig,
-	type DlElementResult,
-	type DtElementConfig,
-	type DtElementResult,
-	type HeadingElementConfig,
-	type HeadingElementResult,
-	type HrElementConfig,
-	type HrElementResult,
-	type KbdElementConfig,
-	type KbdElementResult,
-	type LinkElementConfig,
-	type LinkElementResult,
-	type MarkElementConfig,
-	type MarkElementResult,
-	type OlElementConfig,
-	type OlElementResult,
-	type ParagraphElementConfig,
-	type ParagraphElementResult,
-	type PreElementConfig,
-	type PreElementResult,
-	type SampElementConfig,
-	type SampElementResult,
-	type UlElementConfig,
-	type UlElementResult,
 	useAbbrElement,
 	useAddressElement,
 	useBodyElement,
@@ -60,13 +24,50 @@ import {
 	useSummaryElement,
 	useUlElement,
 } from "../elements";
-import {
-	type FocusStateConfig,
-	type FocusStateResult,
-	type SelectionStateConfig,
-	type SelectionStateResult,
-	useFocusState,
-	useSelectionState,
+import type {
+	AbbrElementConfig,
+	AbbrElementResult,
+	AddressElementConfig,
+	AddressElementResult,
+	BodyElementConfig,
+	BodyElementResult,
+	CaptionElementConfig,
+	CaptionElementResult,
+	CodeElementConfig,
+	CodeElementResult,
+	DdElementConfig,
+	DdElementResult,
+	DlElementConfig,
+	DlElementResult,
+	DtElementConfig,
+	DtElementResult,
+	HeadingElementConfig,
+	HeadingElementResult,
+	HrElementConfig,
+	HrElementResult,
+	KbdElementConfig,
+	KbdElementResult,
+	LinkElementConfig,
+	LinkElementResult,
+	MarkElementConfig,
+	MarkElementResult,
+	OlElementConfig,
+	OlElementResult,
+	ParagraphElementConfig,
+	ParagraphElementResult,
+	PreElementConfig,
+	PreElementResult,
+	SampElementConfig,
+	SampElementResult,
+	UlElementConfig,
+	UlElementResult,
+} from "../elements";
+import { useFocusState, useSelectionState } from "../states";
+import type {
+	FocusStateConfig,
+	FocusStateResult,
+	SelectionStateConfig,
+	SelectionStateResult,
 } from "../states";
 import type { WithThemes } from "../types";
 
@@ -204,7 +205,9 @@ function getElementThemes<T>(
 	configThemes: Record<string, GlobalThemeOverrides> | undefined,
 	key: keyof GlobalThemeOverrides,
 ): Record<string, T> | undefined {
-	if (!configThemes) return undefined;
+	if (!configThemes) {
+		return undefined;
+	}
 	let result: Record<string, T> | undefined;
 	for (const [themeName, overrides] of Object.entries(configThemes)) {
 		const elementOverride = overrides[key];
@@ -224,9 +227,15 @@ function mergeElementThemes<T>(
 	elementThemes: Record<string, T> | undefined,
 	centralThemes: Record<string, T> | undefined,
 ): Record<string, T> | undefined {
-	if (!elementThemes && !centralThemes) return undefined;
-	if (!elementThemes) return centralThemes;
-	if (!centralThemes) return elementThemes;
+	if (!elementThemes && !centralThemes) {
+		return undefined;
+	}
+	if (!elementThemes) {
+		return centralThemes;
+	}
+	if (!centralThemes) {
+		return elementThemes;
+	}
 
 	const merged: Record<string, T> = {};
 	const themeNames = new Set([
@@ -429,11 +438,21 @@ export function useGlobalPreset(
 	}
 
 	// ── Elements without variables ──
-	if (config.img !== false) useImgElement(s);
-	if (config.iframe !== false) useIframeElement(s);
-	if (config.output !== false) useOutputElement(s);
-	if (config.legend !== false) useLegendElement(s);
-	if (config.summary !== false) useSummaryElement(s);
+	if (config.img !== false) {
+		useImgElement(s);
+	}
+	if (config.iframe !== false) {
+		useIframeElement(s);
+	}
+	if (config.output !== false) {
+		useOutputElement(s);
+	}
+	if (config.legend !== false) {
+		useLegendElement(s);
+	}
+	if (config.summary !== false) {
+		useSummaryElement(s);
+	}
 
 	return result;
 }

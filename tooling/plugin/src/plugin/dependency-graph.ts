@@ -1,9 +1,5 @@
-import {
-	importree,
-	getAffectedFiles,
-	type ImportTree,
-	type ImportEdge,
-} from "importree";
+import { importree, getAffectedFiles } from "importree";
+import type { ImportTree, ImportEdge } from "importree";
 
 export interface DependencyGraph {
 	trackedFiles: Set<string>;
@@ -26,7 +22,7 @@ export function createDependencyGraph(): DependencyGraph {
  */
 export async function buildDependencyGraph(
 	configPath: string,
-	styleframeFiles: string[],
+	styleframeFiles: Array<string>,
 	aliases?: Record<string, string>,
 ): Promise<DependencyGraph> {
 	const graph = createDependencyGraph();
@@ -52,10 +48,10 @@ export async function buildDependencyGraph(
 	return graph;
 }
 
-function mergeImportTrees(trees: ImportTree[]): ImportTree {
+function mergeImportTrees(trees: Array<ImportTree>): ImportTree {
 	const files = new Set<string>();
-	const graph: Record<string, ImportEdge[]> = {};
-	const reverseGraph: Record<string, ImportEdge[]> = {};
+	const graph: Record<string, Array<ImportEdge>> = {};
+	const reverseGraph: Record<string, Array<ImportEdge>> = {};
 	const externals = new Set<string>();
 
 	for (const tree of trees) {
@@ -102,7 +98,7 @@ function mergeImportTrees(trees: ImportTree[]): ImportTree {
 export function getFilesToInvalidate(
 	depGraph: DependencyGraph,
 	changedFile: string,
-): string[] {
+): Array<string> {
 	if (!depGraph.mergedTree) {
 		return [changedFile];
 	}

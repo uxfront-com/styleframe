@@ -45,33 +45,39 @@ export function useCaptionDesignTokens(
 ): Partial<CaptionElementResult> {
 	const result: Partial<CaptionElementResult> = {};
 
-	if (config.color !== undefined)
+	if (config.color !== undefined) {
 		result.captionColor = ctx.variable("caption.color", config.color);
-	if (config.paddingTop !== undefined)
+	}
+	if (config.paddingTop !== undefined) {
 		result.captionPaddingTop = ctx.variable(
 			"caption.padding-top",
 			config.paddingTop,
 		);
-	if (config.paddingRight !== undefined)
+	}
+	if (config.paddingRight !== undefined) {
 		result.captionPaddingRight = ctx.variable(
 			"caption.padding-right",
 			config.paddingRight,
 		);
-	if (config.paddingBottom !== undefined)
+	}
+	if (config.paddingBottom !== undefined) {
 		result.captionPaddingBottom = ctx.variable(
 			"caption.padding-bottom",
 			config.paddingBottom,
 		);
-	if (config.paddingLeft !== undefined)
+	}
+	if (config.paddingLeft !== undefined) {
 		result.captionPaddingLeft = ctx.variable(
 			"caption.padding-left",
 			config.paddingLeft,
 		);
-	if (config.textAlign !== undefined)
+	}
+	if (config.textAlign !== undefined) {
 		result.captionTextAlign = ctx.variable(
 			"caption.text-align",
 			config.textAlign,
 		);
+	}
 
 	return result;
 }

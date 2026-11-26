@@ -35,11 +35,11 @@ export async function activateLicense(
 		}
 
 		return response || { success: false, error: "No response from server" };
-	} catch (err) {
+	} catch (error) {
 		return {
 			success: false,
 			error:
-				err instanceof Error ? err.message : "An unexpected error occurred",
+				error instanceof Error ? error.message : "An unexpected error occurred",
 		};
 	}
 }

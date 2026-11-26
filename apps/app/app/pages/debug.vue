@@ -38,8 +38,8 @@ const copyToClipboard = async () => {
 			JSON.stringify(configData.value, null, 2),
 		);
 		alert("Config copied to clipboard!");
-	} catch (err) {
-		console.error("Failed to copy:", err);
+	} catch (error) {
+		console.error("Failed to copy:", error);
 	}
 };
 </script>

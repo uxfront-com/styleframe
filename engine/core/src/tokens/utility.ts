@@ -25,7 +25,7 @@ import { trackReferenceUsage } from "./resolve";
  * against root.variables to pick the first namespace with a defined variable.
  */
 function createNamespaceAutogenerate(
-	namespaces: string[],
+	namespaces: Array<string>,
 	root: Root,
 ): UtilityAutogenerateFn {
 	const baseTransform = transformUtilityKey({ namespace: namespaces });
@@ -101,15 +101,17 @@ function createNamespaceAutogenerate(
  * For mixed cases (multi-key + others), takes the cartesian product.
  */
 function expandModifierGroup(
-	group: ModifierFactory[],
-): Map<string, ModifierFactory>[] {
+	group: Array<ModifierFactory>,
+): Array<Map<string, ModifierFactory>> {
 	// Start with a single empty map
-	let results: Map<string, ModifierFactory>[] = [new Map()];
+	let results: Array<Map<string, ModifierFactory>> = [new Map()];
 
 	for (const modifier of group) {
-		if (!isModifier(modifier)) continue;
+		if (!isModifier(modifier)) {
+			continue;
+		}
 
-		const newResults: Map<string, ModifierFactory>[] = [];
+		const newResults: Array<Map<string, ModifierFactory>> = [];
 		for (const modKey of modifier.key) {
 			for (const existing of results) {
 				const copy = new Map(existing);
@@ -130,7 +132,7 @@ export function createUtilityFunction(parent: Container, root: Root) {
 		factory: UtilityCallbackFn,
 		options: {
 			autogenerate?: UtilityAutogenerateFn;
-			namespace?: string | string[];
+			namespace?: string | Array<string>;
 		} = {},
 	): UtilityCreatorFn {
 		const existingFactory = root.utilities.find((f) => f.name === name);

@@ -16,7 +16,7 @@ type Node = {
 	query?: string;
 	name?: string;
 	declarations: Record<string, unknown>;
-	children: Node[];
+	children: Array<Node>;
 };
 
 /**

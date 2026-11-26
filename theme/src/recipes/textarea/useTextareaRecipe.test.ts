@@ -475,10 +475,10 @@ describe("useTextareaRecipe", () => {
 					(child as { query: string }).query === ".textarea-field",
 			) as
 				| {
-						children: {
+						children: Array<{
 							query: string;
 							declarations: Record<string, unknown>;
-						}[];
+						}>;
 				  }
 				| undefined;
 
@@ -582,7 +582,7 @@ describe("Open Components rules", () => {
 		query?: string;
 		rule?: string;
 		declarations: Record<string, unknown>;
-		children: Node[];
+		children: Array<Node>;
 	};
 
 	function createPresetInstance(options?: Parameters<typeof styleframe>[0]) {
@@ -595,13 +595,13 @@ describe("Open Components rules", () => {
 	}
 
 	const selectors = (s: ReturnType<typeof styleframe>) =>
-		s.root.children.filter((child) => child.type === "selector") as Node[];
+		s.root.children.filter((child) => child.type === "selector") as Array<Node>;
 
 	function find(s: ReturnType<typeof styleframe>, query: string) {
 		return selectors(s).filter((child) => child.query === query);
 	}
 
-	function media(nodes: Node[], rule: string) {
+	function media(nodes: Array<Node>, rule: string) {
 		return nodes
 			.flatMap((node) => node.children)
 			.find((child) => child.type === "at-rule" && child.rule === rule);
@@ -634,7 +634,7 @@ describe("Open Components rules", () => {
 	const css = (cv: { css?: unknown }) => cv.css as Record<string, unknown>;
 
 	// Every key of a declarations block, nested blocks included.
-	function keys(block: Record<string, unknown>): string[] {
+	function keys(block: Record<string, unknown>): Array<string> {
 		return Object.entries(block).flatMap(([key, value]) =>
 			value && typeof value === "object" && !("type" in value)
 				? [key, ...keys(value as Record<string, unknown>)]

@@ -6,9 +6,9 @@ export interface DiscoveryOptions {
 	/** Base directory for glob resolution */
 	cwd: string;
 	/** Glob patterns for files to include */
-	include: string[];
+	include: Array<string>;
 	/** Glob patterns for files to exclude */
-	exclude: string[];
+	exclude: Array<string>;
 }
 
 /**
@@ -16,7 +16,7 @@ export interface DiscoveryOptions {
  */
 export async function discoverStyleframeFiles(
 	options: DiscoveryOptions,
-): Promise<string[]> {
+): Promise<Array<string>> {
 	const patterns =
 		options.include.length > 0 ? options.include : ["**/*.styleframe.ts"];
 
@@ -33,9 +33,9 @@ export async function discoverStyleframeFiles(
  * Sort files by the specified load order strategy
  */
 export function sortByLoadOrder(
-	files: string[],
+	files: Array<string>,
 	strategy: "alphabetical" | "depth-first",
-): string[] {
+): Array<string> {
 	const sorted = [...files];
 
 	switch (strategy) {

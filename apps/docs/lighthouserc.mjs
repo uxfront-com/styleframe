@@ -17,11 +17,11 @@ export const collect = {
 
 export const matrix = [
 	{
-		matchingUrlPattern: "^http://localhost:\\d+/$",
+		matchingUrlPattern: String.raw`^http://localhost:\d+/$`,
 		categories: ["performance", "accessibility", "best-practices", "seo"],
 	},
 	{
-		matchingUrlPattern: "^http://localhost:\\d+/docs/",
+		matchingUrlPattern: String.raw`^http://localhost:\d+/docs/`,
 		categories: ["accessibility", "best-practices", "seo"],
 	},
 ];

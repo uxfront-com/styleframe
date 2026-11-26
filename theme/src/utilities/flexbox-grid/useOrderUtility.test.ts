@@ -27,7 +27,7 @@ describe("useOrderUtility", () => {
 		useOrderUtility(s, { first: "-9999" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._order\\:first {");
+		expect(css).toContain(String.raw`._order\:first {`);
 		expect(css).toContain("order: -9999;");
 	});
 

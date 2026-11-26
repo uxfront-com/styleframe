@@ -140,7 +140,7 @@ describe("useSwitchFieldRecipe", () => {
 			recipe.base,
 			...Object.values(recipe.variants!).flatMap((axis) => Object.values(axis)),
 			...recipe.compoundVariants!.map((v) => v.css),
-		] as Block[];
+		] as Array<Block>;
 		for (const block of blocks) {
 			for (const [key, value] of Object.entries(block)) {
 				if (typeof value === "object" && key !== "&:focus-visible") {
@@ -204,7 +204,7 @@ describe("useSwitchFieldRecipe", () => {
 		);
 		expect(forced.length).toBeGreaterThan(0);
 		for (const selector of forced) {
-			for (const atRule of selector.children as AtRule[]) {
+			for (const atRule of selector.children as Array<AtRule>) {
 				for (const property of sizing) {
 					expect(atRule.declarations, selector.query).not.toHaveProperty(
 						property,

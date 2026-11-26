@@ -16,11 +16,11 @@ function ref(name: string): Reference {
 	return { type: "reference", name };
 }
 
-function css(...parts: (string | TokenValue)[]): CSS {
-	return { type: "css", value: parts as TokenValue[] };
+function css(...parts: Array<string | TokenValue>): CSS {
+	return { type: "css", value: parts as Array<TokenValue> };
 }
 
-function theme(name: string, variables: Variable[]): Theme {
+function theme(name: string, variables: Array<Variable>): Theme {
 	return {
 		type: "theme",
 		id: `theme:${name}`,
@@ -31,7 +31,7 @@ function theme(name: string, variables: Variable[]): Theme {
 	};
 }
 
-function makeRoot(variables: Variable[], themes: Theme[] = []): Root {
+function makeRoot(variables: Array<Variable>, themes: Array<Theme> = []): Root {
 	return {
 		type: "root",
 		id: "root",
@@ -317,10 +317,9 @@ describe("buildDTCG", () => {
 		);
 		const { resolver } = buildDTCG(root);
 		expect(resolver).toBeDefined();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const darkContext = resolver!.modifiers!["theme"]!.contexts[
 			"Dark"
-		] as unknown as Record<string, unknown>[];
+		] as unknown as Array<Record<string, unknown>>;
 		expect(darkContext).toHaveLength(1);
 		const overrideDoc = darkContext[0] as Record<string, unknown>;
 		const bc = overrideDoc["border-color"] as Record<string, unknown>;

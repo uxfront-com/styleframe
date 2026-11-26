@@ -38,7 +38,9 @@ function* walkNode(
 		yield { path: currentPath, token: rootToken as DTCGAnyToken };
 	}
 	for (const [key, child] of Object.entries(node)) {
-		if (key.startsWith("$")) continue;
+		if (key.startsWith("$")) {
+			continue;
+		}
 		if (child !== null && typeof child === "object" && !Array.isArray(child)) {
 			yield* walkNode(
 				child as Record<string, unknown>,

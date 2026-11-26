@@ -14,7 +14,7 @@ export function createUtilityConsumer(consume: ConsumeFunction) {
 		instance: Utility,
 		options: StyleframeOptions,
 	): string {
-		const result: string[] = [];
+		const result: Array<string> = [];
 
 		const utilitySelectorFn =
 			options.utilities?.selector ?? defaultUtilitySelectorFn;

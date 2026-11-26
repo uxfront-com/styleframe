@@ -32,7 +32,7 @@ describe("useAnchorNameUtility", () => {
 		useAnchorNameUtility(s, { toggle: "--toggle" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._anchor-name\\:toggle {");
+		expect(css).toContain(String.raw`._anchor-name\:toggle {`);
 		expect(css).toContain("anchor-name: --toggle;");
 	});
 
@@ -58,7 +58,7 @@ describe("usePositionAnchorUtility", () => {
 		usePositionAnchorUtility(s, { toggle: "--toggle" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._position-anchor\\:toggle {");
+		expect(css).toContain(String.raw`._position-anchor\:toggle {`);
 		expect(css).toContain("position-anchor: --toggle;");
 	});
 
@@ -84,7 +84,7 @@ describe("usePositionAreaUtility", () => {
 		usePositionAreaUtility(s, { "bottom-right": "bottom right" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._position-area\\:bottom-right {");
+		expect(css).toContain(String.raw`._position-area\:bottom-right {`);
 		expect(css).toContain("position-area: bottom right;");
 	});
 
@@ -112,7 +112,7 @@ describe("usePositionTryFallbacksUtility", () => {
 		usePositionTryFallbacksUtility(s, { "flip-block": "flip-block" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._position-try-fallbacks\\:flip-block {");
+		expect(css).toContain(String.raw`._position-try-fallbacks\:flip-block {`);
 		expect(css).toContain("position-try-fallbacks: flip-block;");
 	});
 

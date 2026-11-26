@@ -30,8 +30,8 @@ describe("useOtherStateModifiers", () => {
 		createDisplay({ block: "block" }, [open]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._display\\:block {");
-		expect(css).toContain("._open\\:display\\:block {");
+		expect(css).toContain(String.raw`._display\:block {`);
+		expect(css).toContain(String.raw`._open\:display\:block {`);
 	});
 
 	it("should generate correct CSS class names for inert modifier", () => {
@@ -44,8 +44,8 @@ describe("useOtherStateModifiers", () => {
 		createOpacity({ 50: "0.5" }, [inert]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._opacity\\:50 {");
-		expect(css).toContain("._inert\\:opacity\\:50 {");
+		expect(css).toContain(String.raw`._opacity\:50 {`);
+		expect(css).toContain(String.raw`._inert\:opacity\:50 {`);
 	});
 
 	it("should target the data-loading attribute with the data-loading modifier", () => {
@@ -58,7 +58,7 @@ describe("useOtherStateModifiers", () => {
 		create({ progress: "progress" }, [dataLoading]);
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._data-loading\\:cursor\\:progress {");
+		expect(css).toContain(String.raw`._data-loading\:cursor\:progress {`);
 		expect(css).toContain("&[data-loading] {");
 	});
 

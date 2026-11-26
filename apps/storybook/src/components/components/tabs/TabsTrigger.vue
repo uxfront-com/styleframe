@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { tabsTrigger } from "virtual:styleframe";
-import {
-	type TabsColor,
-	type TabsOrientation,
-	type TabsSize,
-	type TabsVariant,
-	useTabsContext,
-} from "./context";
+import { useTabsContext } from './context';
+import type { TabsColor, TabsOrientation, TabsSize, TabsVariant } from './context';
 
 const props = withDefaults(
 	defineProps<{
@@ -42,7 +37,7 @@ const classes = computed(() =>
 );
 
 function select() {
-	if (props.disabled) return;
+	if (props.disabled) {return;}
 	ctx?.setActive(props.value);
 }
 </script>

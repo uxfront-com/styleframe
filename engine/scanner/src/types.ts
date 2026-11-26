@@ -6,6 +6,7 @@ import type {
 	UtilitySelectorFn,
 	UtilitySelectorOptions,
 } from "@styleframe/core";
+import type { ImportScanResult } from "./imports";
 
 export type { UtilitySelectorFn, UtilitySelectorOptions };
 
@@ -33,9 +34,9 @@ export interface ScannerUtilitiesConfig {
  */
 export interface ScannerConfig {
 	/** Glob patterns for files to scan */
-	content: string[];
+	content: Array<string>;
 	/** Custom extraction functions */
-	extractors?: Extractor[];
+	extractors?: Array<Extractor>;
 	/** Base directory for glob resolution (defaults to process.cwd()) */
 	cwd?: string;
 	/** Custom utility class syntax configuration */
@@ -53,7 +54,7 @@ export interface ParsedUtility {
 	/** Value key (e.g., "sm", "primary", "[16px]") */
 	value: string;
 	/** Applied modifiers in order (e.g., ["hover", "dark"]) */
-	modifiers: string[];
+	modifiers: Array<string>;
 	/** Whether this uses arbitrary value syntax [value] */
 	isArbitrary: boolean;
 	/** The arbitrary value if isArbitrary is true (e.g., "16px") */
@@ -69,7 +70,7 @@ export interface UtilityMatch {
 	/** The matched utility factory, or null if not found */
 	factory: UtilityFactory | null;
 	/** Matched modifier factories */
-	modifierFactories: ModifierFactory[];
+	modifierFactories: Array<ModifierFactory>;
 	/** Whether the utility value exists in the factory */
 	exists: boolean;
 }
@@ -83,7 +84,7 @@ export interface FileScanResult {
 	/** Set of raw class names found */
 	classes: Set<string>;
 	/** Parsed utility classes */
-	parsed: ParsedUtility[];
+	parsed: Array<ParsedUtility>;
 	/** Timestamp of last scan */
 	lastScanned: number;
 }
@@ -97,13 +98,13 @@ export interface ScanResult {
 	/** All unique class names found */
 	allClasses: Set<string>;
 	/** All parsed utilities */
-	allParsed: ParsedUtility[];
+	allParsed: Array<ParsedUtility>;
 }
 
 /**
  * Custom extractor function type
  */
-export type Extractor = (content: string, filePath: string) => string[];
+export type Extractor = (content: string, filePath: string) => Array<string>;
 
 /**
  * Cache entry for a scanned file
@@ -144,16 +145,13 @@ export interface Scanner {
 	/** Scan a single file */
 	scanFile(filePath: string): Promise<FileScanResult>;
 	/** Scan content string directly */
-	scanContent(content: string, filePath?: string): ParsedUtility[];
+	scanContent(content: string, filePath?: string): Array<ParsedUtility>;
 	/** Match parsed utilities against a root instance */
-	match(parsed: ParsedUtility[], root: Root): UtilityMatch[];
+	match(parsed: Array<ParsedUtility>, root: Root): Array<UtilityMatch>;
 	/** Scan all content files for imports of a specific module */
-	scanImports(moduleId: string): Promise<import("./imports").ImportScanResult>;
+	scanImports(moduleId: string): Promise<ImportScanResult>;
 	/** Scan a single file for imports of a specific module */
-	scanFileImports(
-		filePath: string,
-		moduleId: string,
-	): import("./imports").ImportScanResult;
+	scanFileImports(filePath: string, moduleId: string): ImportScanResult;
 	/** Start watching content files for changes */
 	watch(callback: (result: ScanResult) => void): () => void;
 	/** Invalidate cache for a file or all files */

@@ -12,7 +12,7 @@ import type {
 	Variable,
 } from "../types";
 
-export function mergeVariablesArray(a: Variable[], b: Variable[]) {
+export function mergeVariablesArray(a: Array<Variable>, b: Array<Variable>) {
 	const variables = [...a];
 	for (const newVariable of b) {
 		const existingVariable = variables.find(
@@ -29,7 +29,7 @@ export function mergeVariablesArray(a: Variable[], b: Variable[]) {
 	return variables;
 }
 
-export function mergeThemesArray(a: Theme[], b: Theme[]) {
+export function mergeThemesArray(a: Array<Theme>, b: Array<Theme>) {
 	const themes = [...a];
 	for (const themeToBeAdded of b) {
 		const existingTheme = themes.find(
@@ -59,7 +59,7 @@ export function mergeContainers<T extends Container>(a: T, b: T) {
 			} else if (key === "themes" && isRoot(acc) && isRoot(a) && isRoot(b)) {
 				acc.themes = mergeThemesArray(a.themes, b.themes);
 			} else if (Array.isArray(a[key as keyof T])) {
-				acc[key as keyof T] = (a[key as keyof T] as unknown[]).concat(
+				acc[key as keyof T] = (a[key as keyof T] as Array<unknown>).concat(
 					b[key as keyof T],
 				) as T[keyof T];
 			}
@@ -73,7 +73,7 @@ export function mergeContainers<T extends Container>(a: T, b: T) {
 	);
 }
 
-function registerChildren(children: ContainerChild[], root: Root) {
+function registerChildren(children: Array<ContainerChild>, root: Root) {
 	for (const child of children) {
 		if ("id" in child && typeof child.id === "string") {
 			root._registry.set(child.id, child as Container);
@@ -94,7 +94,7 @@ export function rebuildRegistry(root: Root) {
 	}
 }
 
-export function merge(base: Styleframe, ...instances: Styleframe[]) {
+export function merge(base: Styleframe, ...instances: Array<Styleframe>) {
 	return instances.reduce((prev, curr) => {
 		const result = {
 			...prev,

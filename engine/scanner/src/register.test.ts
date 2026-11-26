@@ -23,7 +23,7 @@ describe("registerMatchedUtilities", () => {
 		utility("margin", ({ value }) => ({ margin: value }));
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "margin", value: "spacing.sm" }),
 				factory,
@@ -45,7 +45,7 @@ describe("registerMatchedUtilities", () => {
 		utility("margin", ({ value }) => ({ margin: value }));
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({
 					name: "margin",
@@ -72,7 +72,7 @@ describe("registerMatchedUtilities", () => {
 		utility("padding", ({ value }) => ({ padding: value }));
 
 		const factory = s.root.utilities.find((u) => u.name === "padding")!;
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({
 					name: "padding",
@@ -104,7 +104,7 @@ describe("registerMatchedUtilities", () => {
 		utility("margin", ({ value }) => ({ margin: value }));
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({
 					name: "margin",
@@ -145,7 +145,7 @@ describe("registerMatchedUtilities", () => {
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
 		const valueCountBefore = factory.values.length;
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "margin", value: "sm" }),
 				factory,
@@ -172,7 +172,7 @@ describe("registerMatchedUtilities", () => {
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "margin", value: "sm" }),
 				factory,
@@ -197,7 +197,7 @@ describe("registerMatchedUtilities", () => {
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({
 					name: "margin",
@@ -230,7 +230,7 @@ describe("registerMatchedUtilities", () => {
 	it("does not track matches without a factory", () => {
 		const s = styleframe();
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "unknown", value: "sm" }),
 				factory: null,
@@ -247,7 +247,7 @@ describe("registerMatchedUtilities", () => {
 	it("skips matches with no factory", () => {
 		const s = styleframe();
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "unknown-utility", value: "sm" }),
 				factory: null,
@@ -269,7 +269,7 @@ describe("registerMatchedUtilities", () => {
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({ name: "margin", value: "sm" }),
 				factory,
@@ -304,7 +304,7 @@ describe("registerMatchedUtilities", () => {
 
 		const factory = s.root.utilities.find((u) => u.name === "margin")!;
 
-		const matches: UtilityMatch[] = [
+		const matches: Array<UtilityMatch> = [
 			{
 				parsed: createParsedUtility({
 					name: "margin",

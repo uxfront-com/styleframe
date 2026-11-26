@@ -27,7 +27,7 @@ describe("useFlexWrapUtility", () => {
 		useFlexWrapUtility(s, { "wrap-reverse": "wrap-reverse" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._flex-wrap\\:wrap-reverse {");
+		expect(css).toContain(String.raw`._flex-wrap\:wrap-reverse {`);
 		expect(css).toContain("flex-wrap: wrap-reverse;");
 	});
 

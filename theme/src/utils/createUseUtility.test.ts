@@ -1,4 +1,4 @@
-import type { ModifierFactory, Utility } from "@styleframe/core";
+import type { Utility } from "@styleframe/core";
 import { isUtility, styleframe } from "@styleframe/core";
 import { consumeCSS } from "@styleframe/transpiler";
 import { createUseUtility } from "./createUseUtility";
@@ -197,7 +197,7 @@ describe("createUseUtility", () => {
 
 		const css = consumeCSS(s.root, s.options);
 		expect(css).toContain("._display {");
-		expect(css).not.toContain("._display\\:default");
+		expect(css).not.toContain(String.raw`._display\:default`);
 	});
 
 	it("should handle empty values object", () => {
@@ -248,7 +248,7 @@ describe("createUseUtility", () => {
 		useMargin(s, { sm: "8px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._margin\\:sm {");
+		expect(css).toContain(String.raw`._margin\:sm {`);
 		expect(css).toContain("margin: 8px;");
 	});
 
@@ -260,9 +260,9 @@ describe("createUseUtility", () => {
 		usePadding(s, { sm: "8px", md: "16px", lg: "24px" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._padding\\:sm {");
-		expect(css).toContain("._padding\\:md {");
-		expect(css).toContain("._padding\\:lg {");
+		expect(css).toContain(String.raw`._padding\:sm {`);
+		expect(css).toContain(String.raw`._padding\:md {`);
+		expect(css).toContain(String.raw`._padding\:lg {`);
 	});
 
 	it("should handle special characters in values", () => {
@@ -273,8 +273,8 @@ describe("createUseUtility", () => {
 		useSpacing(s, { "1/2": "0.125rem", "2.5": "0.625rem" });
 
 		const css = consumeCSS(s.root, s.options);
-		expect(css).toContain("._p\\:1\\/2 {");
-		expect(css).toContain("._p\\:2\\.5 {");
+		expect(css).toContain(String.raw`._p\:1\/2 {`);
+		expect(css).toContain(String.raw`._p\:2\.5 {`);
 	});
 
 	it("should apply single modifier to utilities", () => {
@@ -520,7 +520,7 @@ describe("createUseUtility", () => {
 			useMargin(s, { sm: "8px" }, undefined, { name: "m" });
 
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain("._m\\:sm {");
+			expect(css).toContain(String.raw`._m\:sm {`);
 			expect(css).not.toContain("._margin");
 		});
 
@@ -544,11 +544,11 @@ describe("createUseUtility", () => {
 			useMarginUtility(s, { sm: "0.5rem", md: "1rem", lg: "1.5rem" });
 
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain("._margin\\:sm {");
+			expect(css).toContain(String.raw`._margin\:sm {`);
 			expect(css).toContain("margin: 0.5rem;");
-			expect(css).toContain("._margin\\:md {");
+			expect(css).toContain(String.raw`._margin\:md {`);
 			expect(css).toContain("margin: 1rem;");
-			expect(css).toContain("._margin\\:lg {");
+			expect(css).toContain(String.raw`._margin\:lg {`);
 			expect(css).toContain("margin: 1.5rem;");
 		});
 
@@ -594,9 +594,9 @@ describe("createUseUtility", () => {
 			});
 
 			const css = consumeCSS(s.root, s.options);
-			expect(css).toContain("._font-size\\:xs {");
+			expect(css).toContain(String.raw`._font-size\:xs {`);
 			expect(css).toContain("font-size: 0.75rem;");
-			expect(css).toContain("._font-size\\:base {");
+			expect(css).toContain(String.raw`._font-size\:base {`);
 			expect(css).toContain("font-size: 1rem;");
 		});
 

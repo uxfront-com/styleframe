@@ -9,7 +9,7 @@ import { isRef } from "@styleframe/core";
 import { scalePowerValues } from "../values";
 export function useScalePowersDesignTokens<
 	Context extends DeclarationsCallbackContext,
-	T extends readonly number[],
+	T extends ReadonlyArray<number>,
 >(
 	s: Context,
 	scale: Variable | Reference,
@@ -20,7 +20,7 @@ export function useScalePowersDesignTokens<
 	for (const power of powers) {
 		const absPower = Math.abs(power);
 		const operator = power > 0 ? " * " : " / ";
-		const value: TokenValue[] = [];
+		const value: Array<TokenValue> = [];
 
 		if (power <= 0) {
 			value.push("1");

@@ -156,7 +156,9 @@ export const playgroundHighlightStyleDark = HighlightStyle.define([
 
 export type PlaygroundEditorTheme = "light" | "dark";
 
-export function playgroundTheme(resolved: PlaygroundEditorTheme): Extension[] {
+export function playgroundTheme(
+	resolved: PlaygroundEditorTheme,
+): Array<Extension> {
 	return resolved === "dark"
 		? [
 				playgroundEditorThemeDark,

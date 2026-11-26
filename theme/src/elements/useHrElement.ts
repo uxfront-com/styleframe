@@ -34,14 +34,18 @@ export function useHrDesignTokens(
 ): Partial<HrElementResult> {
 	const result: Partial<HrElementResult> = {};
 
-	if (config.borderColor !== undefined)
+	if (config.borderColor !== undefined) {
 		result.hrBorderColor = ctx.variable("hr.border-color", config.borderColor);
-	if (config.borderWidth !== undefined)
+	}
+	if (config.borderWidth !== undefined) {
 		result.hrBorderWidth = ctx.variable("hr.border-width", config.borderWidth);
-	if (config.borderStyle !== undefined)
+	}
+	if (config.borderStyle !== undefined) {
 		result.hrBorderStyle = ctx.variable("hr.border-style", config.borderStyle);
-	if (config.margin !== undefined)
+	}
+	if (config.margin !== undefined) {
 		result.hrMargin = ctx.variable("hr.margin", config.margin);
+	}
 
 	return result;
 }

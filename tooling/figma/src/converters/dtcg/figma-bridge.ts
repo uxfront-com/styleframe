@@ -7,17 +7,19 @@
  */
 
 import {
-	type Classification,
 	classifyValue,
 	color as dtcgColor,
 	dimension as dtcgDimension,
 	duration as dtcgDuration,
-	type DTCGAlias,
-	type DTCGColor,
-	type DTCGDimension,
-	type DTCGDuration,
-	type DTCGTokenType,
 	isAlias,
+} from "@styleframe/dtcg";
+import type {
+	Classification,
+	DTCGAlias,
+	DTCGColor,
+	DTCGDimension,
+	DTCGDuration,
+	DTCGTokenType,
 } from "@styleframe/dtcg";
 import type {
 	FigmaExportVariable,
@@ -95,7 +97,9 @@ export function classifyFigmaVariable(
 	variable: FigmaExportVariable,
 	modeValue: unknown,
 ): Classification | undefined {
-	if (isAlias(modeValue)) return undefined;
+	if (isAlias(modeValue)) {
+		return undefined;
+	}
 	// Convert Figma RGBA to canonical DTCG color first so the classifier
 	// recognises it as a color.
 	const normalised = isFigmaRgbaShape(modeValue)
@@ -160,7 +164,9 @@ export function figmaRgbaToDtcgColor(rgba: FigmaRGBA): DTCGColor {
 		colorSpace: "srgb",
 		components: [rgba.r, rgba.g, rgba.b],
 	};
-	if (rgba.a !== undefined && rgba.a < 1) color.alpha = rgba.a;
+	if (rgba.a !== undefined && rgba.a < 1) {
+		color.alpha = rgba.a;
+	}
 	color.hex = dtcgColor.format(color);
 	return color;
 }
@@ -219,7 +225,7 @@ export function floatToDtcgDuration(value: number): DTCGDuration {
  * @example dtcgPathToFigma("color.primary") // "color/primary"
  */
 export function dtcgPathToFigma(path: string): string {
-	return path.replace(/\./g, "/");
+	return path.replaceAll(".", "/");
 }
 
 /**
@@ -228,7 +234,7 @@ export function dtcgPathToFigma(path: string): string {
  * @example figmaPathToDtcg("color/primary") // "color.primary"
  */
 export function figmaPathToDtcg(path: string): string {
-	return path.replace(/\//g, ".");
+	return path.replaceAll("/", ".");
 }
 
 /**
@@ -351,8 +357,12 @@ function isDimensionObject(
 }
 
 function stringify(value: unknown): string {
-	if (typeof value === "string") return value;
-	if (value === null || value === undefined) return "";
+	if (typeof value === "string") {
+		return value;
+	}
+	if (value === null || value === undefined) {
+		return "";
+	}
 	try {
 		return JSON.stringify(value);
 	} catch {

@@ -63,7 +63,7 @@ function isFigmaColor(value: FigmaVariableValue): value is FigmaRGBA {
 function parseVariables(
 	data: FigmaExportFormat,
 	options: FigmaToStyleframeOptions,
-): { variables: ParsedVariable[]; themes: ParsedTheme[] } {
+): { variables: Array<ParsedVariable>; themes: Array<ParsedTheme> } {
 	const { useRem = false, baseFontSize = 16, defaultModeName } = options;
 
 	const defaultMode = defaultModeName || data.modes[0] || "Default";
@@ -75,8 +75,8 @@ function parseVariables(
 		nameMap.set(v.name, figmaToStyleframeName(v.name));
 	}
 
-	const variables: ParsedVariable[] = [];
-	const themeVariablesMap = new Map<string, ParsedVariable[]>();
+	const variables: Array<ParsedVariable> = [];
+	const themeVariablesMap = new Map<string, Array<ParsedVariable>>();
 
 	for (const themeName of themeNames) {
 		themeVariablesMap.set(themeName, []);
@@ -87,13 +87,19 @@ function parseVariables(
 		const category = extractCategory(styleframeName);
 		const defaultValue = variable.values[defaultMode];
 
-		if (defaultValue === undefined) continue;
+		if (defaultValue === undefined) {
+			continue;
+		}
 
 		// Determine type
 		let type: ParsedVariable["type"] = "string";
-		if (variable.type === "COLOR") type = "color";
-		else if (variable.type === "FLOAT") type = "number";
-		else if (variable.type === "BOOLEAN") type = "boolean";
+		if (variable.type === "COLOR") {
+			type = "color";
+		} else if (variable.type === "FLOAT") {
+			type = "number";
+		} else if (variable.type === "BOOLEAN") {
+			type = "boolean";
+		}
 
 		// Check if it's a reference
 		const isReference = isVariableAlias(defaultValue);
@@ -138,7 +144,9 @@ function parseVariables(
 		// Process theme overrides
 		for (const themeName of themeNames) {
 			const themeValue = variable.values[themeName];
-			if (themeValue === undefined) continue;
+			if (themeValue === undefined) {
+				continue;
+			}
 
 			// Check if the value differs from default
 			const isThemeReference = isVariableAlias(themeValue);
@@ -181,7 +189,7 @@ function parseVariables(
 		}
 	}
 
-	const themes: ParsedTheme[] = [];
+	const themes: Array<ParsedTheme> = [];
 	for (const [name, vars] of themeVariablesMap) {
 		if (vars.length > 0) {
 			themes.push({ name: name.toLowerCase(), variables: vars });
@@ -195,9 +203,9 @@ function parseVariables(
  * Group variables by category
  */
 function groupByCategory(
-	variables: ParsedVariable[],
-): Map<string, ParsedVariable[]> {
-	const groups = new Map<string, ParsedVariable[]>();
+	variables: Array<ParsedVariable>,
+): Map<string, Array<ParsedVariable>> {
+	const groups = new Map<string, Array<ParsedVariable>>();
 	for (const v of variables) {
 		const existing = groups.get(v.category) || [];
 		existing.push(v);
@@ -211,18 +219,22 @@ function groupByCategory(
  */
 function generateComposableCode(
 	category: string,
-	variables: ParsedVariable[],
+	variables: Array<ParsedVariable>,
 	instanceName: string,
-): { code: string; identifiers: string[]; composable: string } | null {
+): { code: string; identifiers: Array<string>; composable: string } | null {
 	const composableName = COMPOSABLE_MAP[category];
-	if (!composableName) return null;
+	if (!composableName) {
+		return null;
+	}
 
 	// Filter out references - composables don't handle them
 	const nonRefVars = variables.filter((v) => !v.isReference);
-	if (nonRefVars.length === 0) return null;
+	if (nonRefVars.length === 0) {
+		return null;
+	}
 
-	const identifiers: string[] = [];
-	const valueEntries: string[] = [];
+	const identifiers: Array<string> = [];
+	const valueEntries: Array<string> = [];
 
 	for (const v of nonRefVars) {
 		const key = v.name.split(".").slice(1).join(".") || v.name;
@@ -267,7 +279,7 @@ function generateVariableCode(variable: ParsedVariable): string | null {
  * Generate theme block code
  */
 function generateThemeCode(theme: ParsedTheme, instanceName: string): string {
-	const lines: string[] = [];
+	const lines: Array<string> = [];
 	lines.push(`theme("${theme.name}", (ctx) => {`);
 
 	for (const v of theme.variables) {
@@ -292,9 +304,9 @@ export function generateStyleframeCode(
 
 	const { variables, themes } = parseVariables(data, options);
 	const grouped = groupByCategory(variables);
-	const imports: string[] = ["styleframe"];
+	const imports: Array<string> = ["styleframe"];
 	const usedComposables = new Set<string>();
-	const lines: string[] = [];
+	const lines: Array<string> = [];
 
 	// Generate variable declarations
 	const generatedIdentifiers = new Set<string>();
@@ -322,7 +334,9 @@ export function generateStyleframeCode(
 		// Generate remaining variables (references or non-composable)
 		for (const v of vars) {
 			const identifier = toVariableIdentifier(v.name);
-			if (generatedIdentifiers.has(identifier)) continue;
+			if (generatedIdentifiers.has(identifier)) {
+				continue;
+			}
 
 			if (!useComposables || v.isReference || !COMPOSABLE_MAP[category]) {
 				const code = generateVariableCode(v);
