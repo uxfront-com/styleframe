@@ -51,13 +51,13 @@
 		"culori": "catalog:"
 	},
 	"devDependencies": {
-		"@figma/plugin-typings": "^1.128.0",
+		"@figma/plugin-typings": "^1.143.0",
 		"@styleframe/config-typescript": "workspace:^",
 		"@vitest/coverage-v8": "catalog:",
 		"tsdown": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-singlefile": "^2.3.3",
+		"vite-plugin-singlefile": "^2.3.4",
 		"vitest": "catalog:"
 	}
 }
