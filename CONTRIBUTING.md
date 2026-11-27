@@ -172,16 +172,25 @@ Adhere to the linting guidelines and the conventions documented in [AGENTS.md](A
 
 ### Formatting
 
-Formatting is handled automatically by [Oxfmt](https://oxc.rs/docs/guide/usage/formatter).
+Formatting is handled automatically by [Oxfmt](https://oxc.rs/docs/guide/usage/formatter), with the shared [`@uxfront/oxfmt-config`](https://www.npmjs.com/package/@uxfront/oxfmt-config) in `oxfmt.config.mts`, so Styleframe reads like the other UXFront repositories.
 
-- Tabs for indentation
-- Double quotes for strings
-- Bracket spacing enabled
-- Run `pnpm format` to auto-fix formatting issues
+- Tabs for indentation, a print width of 100 and double quotes for strings
+- Run `pnpm format` to fix formatting and `pnpm format:check` to check it, as CI does
+
+Styleframe keeps two of its own options:
+
+- **Embedded CSS stays as it is** (`embeddedLanguageFormatting: "off"`). The content of a `css` tagged template is a value the engine parses, so formatting it would change the CSS it emits.
+- **Markdown is left out** (`**/*.md`). The docs are MDC, which Oxfmt would rewrite, and Changesets writes `CHANGELOG.md` and `.changeset/*.md`.
+
+The whole repository was reformatted in one commit, listed in `.git-blame-ignore-revs`. GitHub's blame view skips it already. To make your local `git blame` skip it too, run this once in your clone:
+
+```bash
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
 
 ### Linting
 
-Linting is handled by [Oxlint](https://oxc.rs/docs/guide/usage/linter).
+Linting is handled by [Oxlint](https://oxc.rs/docs/guide/usage/linter), with the shared [`@uxfront/oxlint-config`](https://www.npmjs.com/package/@uxfront/oxlint-config) in `oxlint.config.mts`. Each rule Styleframe turns off has its reason in a comment beside it.
 
 - Run `pnpm lint` to check for linting issues
 - Pre-commit hooks will automatically format and lint staged files
