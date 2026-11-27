@@ -12,13 +12,16 @@ import { describe, expect, it } from "vitest";
  *
  * The prerendered pages redirect with a refresh, which the static hosts serve.
  * The Workers build also writes each redirect to dist/_redirects, with a 301,
- * so that part runs only after `WORKERS_CI=1 pnpm build`.
+ * so that part runs only after `WORKERS_CI=1 pnpm build`. A Workers build
+ * writes its pages to dist/ too, so after one alone, the test reads them there.
  *
  * Requires a prior build, like og-images.build.test.ts.
  */
 
-const OUTPUT = fileURLToPath(new URL("../.output/public", import.meta.url));
-const REDIRECTS = fileURLToPath(new URL("../dist/_redirects", import.meta.url));
+const STATIC = fileURLToPath(new URL("../.output/public", import.meta.url));
+const WORKERS = fileURLToPath(new URL("../dist", import.meta.url));
+const OUTPUT = existsSync(STATIC) ? STATIC : WORKERS;
+const REDIRECTS = join(WORKERS, "_redirects");
 
 const INKLINE = "https://inkline.io/docs/react/recipes";
 

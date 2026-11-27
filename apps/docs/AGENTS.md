@@ -56,9 +56,9 @@ content/home/               # The homepage's code samples, highlighted at build 
 
 - **Getting Started** → `01.getting-started/`, with `08.tooling/`, `09.integrations/` and `10.migration/` below it
 - **API Reference** → `02.api/`
-- **Theme** → `03.design-tokens/`, `04.elements/`, `06.utilities/` and `07.modifiers/`, shown as three tabs: Design Tokens, Elements, and Utilities (with Modifiers)
+- **Theme** → `03.design-tokens/`, `04.elements/`, `06.utilities/` and `07.modifiers/`, shown as three tabs: Design Tokens, Elements and Utilities (with Modifiers)
 
-The component recipe pages, once `05.components/`, moved to Inkline's docs with `@inkline/theme` in `@styleframe/theme` 4.0.0. `routeRules` in `nuxt.config.ts` redirects each former page, `/docs/theme/components/<slug>`, to its page at `https://inkline.io/docs/react/recipes/<slug>` with its own 301, and `test/component-redirects.build.test.ts` checks them.
+The component recipe pages, once `05.components/`, moved to Inkline's docs with `@inkline/theme` in `@styleframe/theme` 4.0.0. The `routeRules` in `nuxt.config.ts` redirect each former page, `/docs/theme/components/<slug>`, to its page at `https://inkline.io/docs/react/recipes/<slug>` with its own 301, and `test/component-redirects.build.test.ts` checks them.
 
 **Numbering convention:** Directories and files use `NN.` prefixes for ordering (e.g., `01.introduction.md`, `06.colors.md`). Index files use `00.index.md`. Subdirectories follow the same pattern.
 
