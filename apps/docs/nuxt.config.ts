@@ -153,6 +153,12 @@ export default defineNuxtConfig({
 		enabled: false,
 	},
 
+	// Every page sets its own structured data (useSiteHead, useDocsHead), so
+	// Docus's nuxt-schema-org adds no default WebSite and WebPage beside it.
+	schemaOrg: {
+		defaults: false,
+	},
+
 	// Images are served as they are. The site is static, and IPX, which resizes
 	// them otherwise, never answers the prerenderer, so the build stops before
 	// it writes the site.
