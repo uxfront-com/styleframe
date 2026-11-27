@@ -61,6 +61,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 Styleframe is a type-safe, composable CSS-in-TypeScript framework for building design systems. It compiles design tokens, utility classes, component recipes, and themes into CSS, TypeScript runtime code, and type declarations.
 
+Read the [UXFront vision](https://raw.githubusercontent.com/uxfront-com/.github/main/VISION.md) before you plan, build or write docs here. It says how Styleframe, Open Components, Unframework and Inkline fit together, and why anything that names a component, like a component recipe, belongs to Inkline rather than Styleframe.
+
 ## Architecture Overview
 
 ```
