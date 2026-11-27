@@ -24,7 +24,7 @@ function readNavigationConfig(text: string): Record<string, string | boolean> {
 /**
  * Makes category folders "non-route": a folder whose `.navigation.yml` sets
  * `route: false` still groups its pages in the sidebar, but its name is dropped
- * from the page URL (e.g. `/docs/theme/components/actions/button` -> `/docs/theme/components/button`).
+ * from the page URL (e.g. `/docs/theme/elements/base/body` -> `/docs/theme/elements/body`).
  *
  * The non-route segment is removed from each page's `path` at parse time, and the
  * category metadata is published to `appConfig` so the client can rebuild the
@@ -41,7 +41,7 @@ export default defineNuxtModule({
 		const contentRoot = resolve("../content");
 
 		// Scan every `.navigation.yml` for `route: false`.
-		const nonRouteDirs = new Set<string>(); // e.g. "docs/05.components/02.actions"
+		const nonRouteDirs = new Set<string>(); // e.g. "docs/04.elements/02.base"
 		const categories: Record<string, NonRouteCategoryMeta> = {};
 		const walk = (abs: string) => {
 			for (const entry of readdirSync(abs, { withFileTypes: true })) {
@@ -83,7 +83,7 @@ export default defineNuxtModule({
 				return;
 			}
 			// Source path relative to the content root, sans extension:
-			// e.g. "docs/05.components/02.actions/00.button".
+			// e.g. "docs/04.elements/02.base/00.body".
 			const relParts = relative(contentRoot, file.path)
 				.replaceAll("\\", "/")
 				.replace(/\.[^/.]+$/, "")

@@ -49,6 +49,67 @@ const landingRawRoutes = readdirSync(resolve("./content/landing"))
 	.filter((file) => file.endsWith(".md"))
 	.map((file) => `/raw/${file}`);
 
+// The component recipe pages moved to Inkline's docs with @inkline/theme in
+// @styleframe/theme 4.0.0. Each former page, and the index, keeps its own 301
+// to its new page, with no wildcard: the Cloudflare preset copies a `/**`
+// target into _redirects as it's written, so a wildcard rule would send every
+// page to a literal `/recipes/**`. React is the first framework Inkline's docs
+// list, as its own /docs redirect has it.
+const INKLINE_RECIPES_URL = "https://inkline.io/docs/react/recipes";
+const MOVED_COMPONENT_PAGES = [
+	"accordion",
+	"avatar",
+	"avatar-group",
+	"badge",
+	"breadcrumb",
+	"button",
+	"calendar",
+	"callout",
+	"card",
+	"chat-message",
+	"checkbox",
+	"checkbox-group",
+	"chip",
+	"color-picker",
+	"context-menu",
+	"drawer",
+	"dropdown",
+	"field-group",
+	"hamburger-menu",
+	"input",
+	"input-date",
+	"media",
+	"modal",
+	"nav",
+	"otp",
+	"page-hero",
+	"pagination",
+	"placeholder",
+	"popover",
+	"progress",
+	"radio",
+	"radio-group",
+	"select",
+	"sidebar",
+	"skeleton",
+	"slider",
+	"spinner",
+	"switch",
+	"tabs",
+	"textarea",
+	"toast",
+	"toggle",
+	"toggle-group",
+	"tooltip",
+];
+const componentRedirects = Object.fromEntries([
+	["/docs/theme/components", { redirect: { to: INKLINE_RECIPES_URL, statusCode: 301 } }],
+	...MOVED_COMPONENT_PAGES.map((slug) => [
+		`/docs/theme/components/${slug}`,
+		{ redirect: { to: `${INKLINE_RECIPES_URL}/${slug}`, statusCode: 301 } },
+	]),
+]);
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
@@ -188,6 +249,7 @@ export default defineNuxtConfig({
 		"/docs": {
 			redirect: { to: "/docs/getting-started/introduction", statusCode: 301 },
 		},
+		...componentRedirects,
 		// The pages' Markdown copies, for agents, stay out of search results:
 		// the pages themselves are the ones to rank.
 		"/raw/**": { headers: { "X-Robots-Tag": "noindex" } },

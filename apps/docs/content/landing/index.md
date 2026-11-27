@@ -11,7 +11,7 @@ Author tokens, themes, utilities and recipes in TypeScript, and ship zero-runtim
 
 ```ts [styleframe.config.ts]
 import { styleframe } from 'styleframe';
-import { useDesignTokensPreset, useGlobalPreset, useModifiersPreset, useSanitizePreset, useUtilitiesPreset, useButtonRecipe } from '@styleframe/theme';
+import { useDesignTokensPreset, useGlobalPreset, useModifiersPreset, useSanitizePreset, useUtilitiesPreset } from '@styleframe/theme';
 
 const s = styleframe();
 
@@ -25,8 +25,6 @@ useSanitizePreset(s);
 useGlobalPreset(s);
 useUtilitiesPreset(s);
 useModifiersPreset(s);
-
-useButtonRecipe(s);
 
 export default s;
 ```

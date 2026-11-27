@@ -4,7 +4,7 @@ title: styleframe.config.ts
 
 ```ts
 import { styleframe } from 'styleframe';
-import { useDesignTokensPreset, useGlobalPreset, useModifiersPreset, useSanitizePreset, useUtilitiesPreset, useButtonRecipe } from '@styleframe/theme';
+import { useDesignTokensPreset, useGlobalPreset, useModifiersPreset, useSanitizePreset, useUtilitiesPreset } from '@styleframe/theme';
 
 const s = styleframe();
 
@@ -18,8 +18,6 @@ useSanitizePreset(s);
 useGlobalPreset(s);
 useUtilitiesPreset(s);
 useModifiersPreset(s);
-
-useButtonRecipe(s);
 
 export default s;
 ```
