@@ -1,6 +1,6 @@
 {
 	"name": "@styleframe/cli",
-	"version": "4.2.0",
+	"version": "4.2.1",
 	"description": "A command-line interface for styleframe.",
 	"keywords": [
 		"cli",
@@ -58,11 +58,11 @@
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",
-		"@styleframe/config-vite": "workspace:^3.1.1",
-		"@styleframe/core": "workspace:^3.8.0",
+		"@styleframe/config-vite": "workspace:^3.1.3",
+		"@styleframe/core": "workspace:^3.8.1",
 		"@styleframe/license": "catalog:",
 		"@styleframe/loader": "workspace:^3.0.5",
-		"@styleframe/theme": "workspace:^3.11.0",
+		"@styleframe/theme": "workspace:^4.0.0",
 		"@vitest/coverage-v8": "catalog:",
 		"tsx": "catalog:",
 		"typescript": "catalog:",

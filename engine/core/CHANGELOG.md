@@ -1,5 +1,11 @@
 # @styleframe/core
 
+## 3.8.1
+
+### Patch Changes
+
+- [#443](https://github.com/uxfront-com/styleframe/pull/443) [`9c6f764`](https://github.com/uxfront-com/styleframe/commit/9c6f76465b3431bd742edcc8bacc553418b568d0) Thanks [@alexgrozav](https://github.com/alexgrozav)! - Update the third-party dependencies, which raises some of the ranges you install. The core package now needs `csstype` `^3.2.4`, the CLI needs `magicast` `^0.5.5` and the bundler plugin needs `unplugin` `^3.7.0`. The shared Vite config now expects `vite` `^8.3.8` and `unplugin-dts` `^1.1.2` as peers, so a project on an older Vite sees a peer warning. The Figma plugin's export now skips Easing and Timing variables, which Figma added and Styleframe has no token type for yet, where before it passed them on with a type that nothing reads.
+
 ## 3.8.0
 
 ### Minor Changes
