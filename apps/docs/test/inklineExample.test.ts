@@ -16,6 +16,12 @@ function query(url: string) {
 	return { parsed, params: parsed.searchParams };
 }
 
+describe("INKLINE_PREVIEW_ORIGIN", () => {
+	it("is Inkline's preview host", () => {
+		expect(INKLINE_PREVIEW_ORIGIN).toBe("https://preview.inkline.io");
+	});
+});
+
 describe("inklineExampleUrl", () => {
 	it("points at the preview's embed page", () => {
 		const { parsed } = query(inklineExampleUrl({ example, target: "vue", theme: "light" }));
