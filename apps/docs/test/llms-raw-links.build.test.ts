@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -38,5 +38,15 @@ describe("llms.txt raw links", () => {
 
 	it.each(links)("%s is in the static output", (path) => {
 		expect(existsSync(join(OUTPUT, path))).toBe(true);
+	});
+
+	// Agents read the changelog's Markdown, like the docs pages', and not the
+	// HTML around it.
+	it.each(
+		readdirSync(fileURLToPath(new URL("../content/changelog", import.meta.url))).filter((file) =>
+			file.endsWith(".md"),
+		),
+	)("links the Markdown copy of changelog/%s", (file) => {
+		expect(links).toContain(`/raw/changelog/${file}`);
 	});
 });

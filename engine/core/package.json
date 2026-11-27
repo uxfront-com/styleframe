@@ -48,7 +48,7 @@
 		"test:dev": "vitest --watch"
 	},
 	"dependencies": {
-		"csstype": "^3.2.3"
+		"csstype": "^3.2.4"
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",

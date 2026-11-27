@@ -6,7 +6,7 @@ import { fromDTCG, fromDTCGResolver } from "../converters/dtcg/from-dtcg";
 import { toDTCG } from "../converters/dtcg/to-dtcg";
 import { figmaToStyleframeName, styleframeToFigmaName } from "../converters/name-mapping";
 import type { FigmaExportFormat, FigmaExportVariable, FigmaRGBA } from "../types";
-import { isDTCGFormat } from "./shared";
+import { isDTCGFormat, isFigmaVariableType } from "./shared";
 
 /**
  * Message types for plugin <-> UI communication
@@ -376,6 +376,12 @@ async function handleExport(collectionId?: string, modeId?: string): Promise<voi
 			continue;
 		}
 
+		// Easing and timing variables have no Styleframe token type yet.
+		const type = figmaVar.resolvedType;
+		if (!isFigmaVariableType(type)) {
+			continue;
+		}
+
 		const values: Record<string, unknown> = {};
 		let aliasTo: string | undefined;
 
@@ -392,14 +398,14 @@ async function handleExport(collectionId?: string, modeId?: string): Promise<voi
 				}
 				values[modeName] = value;
 			} else {
-				values[modeName] = convertFromFigmaValue(value, figmaVar.resolvedType);
+				values[modeName] = convertFromFigmaValue(value, type);
 			}
 		}
 
 		variables.push({
 			name: figmaVar.name,
 			styleframeName: figmaToStyleframeName(figmaVar.name),
-			type: figmaVar.resolvedType,
+			type,
 			values: values as Record<string, FigmaExportVariable["values"][string]>,
 			aliasTo,
 			description: figmaVar.description || undefined,

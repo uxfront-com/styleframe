@@ -192,12 +192,13 @@ describe("homepage", () => {
 
 	it("blocks its first paint on no stylesheet", () => {
 		// @uxfront/layer-ui takes the stylesheets out of the head and loads them
-		// after the first paint: the entry one, and the chunk ones the docs make
-		// the build write.
+		// after the first paint: the entry one, and any chunk one the build links.
+		// The page's own component styles are inlined in the head, so it links
+		// no chunk stylesheet for them.
 		expect(head).not.toMatch(/<link rel="stylesheet"/);
 		const deferred = html.match(/\["\/_nuxt\/[^\]]*\.css"\]/)?.[0] ?? "";
 		expect(deferred).toMatch(/"\/_nuxt\/entry\.[\w-]+\.css"/);
-		expect(deferred).toMatch(/"\/_nuxt\/(?!entry\.)[\w.-]+\.css"/);
+		expect(head).toMatch(/<style>[^<]*\.ux-traits\[data-v-[\w-]+\]\{/);
 	});
 });
 

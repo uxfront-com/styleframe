@@ -54,7 +54,7 @@
 		"@styleframe/figma": "workspace:^",
 		"citty": "^0.2.2",
 		"consola": "catalog:",
-		"magicast": "^0.5.3"
+		"magicast": "^0.5.5"
 	},
 	"devDependencies": {
 		"@styleframe/config-typescript": "workspace:^3.0.1",

@@ -4,6 +4,9 @@ import { HERO_VIEWS } from "~/lib/formations";
 import { FIGMA_PLUGIN_URL, FIGMA_URL } from "~/data/site";
 
 const PLUGIN_DOCS_URL = "/docs/getting-started/integrations/figma-plugin";
+// Bound, not a static attribute: vue-tsc 3.3.14 reads the `//` of a static
+// URL on a component as a comment, then types the bindings after it as refs.
+const DTCG_URL = "https://www.designtokens.org/";
 
 useSiteHead({
 	title: "Figma Plugin - Design Tokens Sync - styleframe",
@@ -203,7 +206,7 @@ npx styleframe figma export \\
 			role="Export"
 			title="Export Figma Variables to Styleframe"
 			:steps="exporting.length"
-			href="https://www.designtokens.org/"
+			:href="DTCG_URL"
 			link-label="Learn about DTCG Format"
 		>
 			<template #lead>

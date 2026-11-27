@@ -1,6 +1,8 @@
 import { applyInheritance, isToken, walk } from "@styleframe/dtcg";
 import type { DTCGDocument, DTCGResolverDocument } from "@styleframe/dtcg";
 
+import type { FigmaVariableType } from "../types";
+
 /**
  * True iff `data` looks like a DTCG token document. Distinguishes against
  * the legacy Figma export format (which has top-level `collection`,
@@ -68,4 +70,20 @@ export function extractDTCGVariables(doc: DTCGDocument): Array<PreviewVariable> 
 		});
 	}
 	return variables;
+}
+
+const FIGMA_VARIABLE_TYPES: ReadonlySet<string> = new Set<FigmaVariableType>([
+	"COLOR",
+	"FLOAT",
+	"STRING",
+	"BOOLEAN",
+]);
+
+/**
+ * True iff Styleframe can export a Figma variable of this resolved type.
+ * Figma also has `EASING` and `TIMING` variables, which have no Styleframe
+ * token type yet.
+ */
+export function isFigmaVariableType(type: string): type is FigmaVariableType {
+	return FIGMA_VARIABLE_TYPES.has(type);
 }
