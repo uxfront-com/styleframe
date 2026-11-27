@@ -19,7 +19,6 @@
 ## Storybook (`apps/storybook/`)
 
 - Stories in `apps/storybook/src/stories/`
-- Each recipe needs a corresponding story
 - Use Storybook 10 + Vue 3
 - Stories should showcase all variants
 - See `apps/storybook/AGENTS.md`
@@ -40,4 +39,3 @@
 
 - All apps must use Styleframe for styling
 - Document new features in docs site when adding them
-- Update Storybook stories when updating recipes

@@ -18,13 +18,9 @@
 
 ## Recipes
 
-- Recipe implementations: `theme/src/recipes/` (e.g., `theme/src/recipes/button.ts`, `theme/src/recipes/badge.ts`)
-- Recipe entry point: `theme/src/recipes/index.ts`
-- Always include base styles, variants, and defaultVariants
-- Use compound variants for complex interactions
-- Test recipes: `theme/test/recipes/`
-- Document recipes: `apps/docs/content/docs/recipes/`
-- Showcase in Storybook: `apps/storybook/src/stories/recipes/` (e.g., `apps/storybook/src/stories/recipes/Button.stories.ts`)
+- The theme ships no component recipes: they moved to `@inkline/theme` in 4.0.0
+- `createUseRecipe` (`theme/src/utils/createUseRecipe.ts`) stays, for writing recipe composables
+- A recipe written with it includes base styles, variants, and defaultVariants
 
 ## Testing
 
