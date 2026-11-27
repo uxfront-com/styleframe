@@ -119,9 +119,14 @@ export default defineNuxtConfig({
 
 	// robots.txt: Docus's one group lets every crawler in, and these name the AI
 	// crawlers. Nothing is disallowed, not even /raw/, so crawlers can read the
-	// noindex those pages send.
+	// noindex those pages send. It names only the site's own AI crawlers and
+	// says nothing about AI training, so Docus's agent discovery adds neither
+	// its crawler groups nor a Content-Signal line.
 	robots: {
 		groups: AI_CRAWLERS.map((userAgent) => ({ userAgent, allow: "/" })),
+	},
+	agentDiscovery: {
+		robots: { aiPolicy: false },
 	},
 
 	llms: {
