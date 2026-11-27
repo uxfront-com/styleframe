@@ -25,6 +25,10 @@ From simple UI styles to full Design Systems, write code using Styleframe's powe
 - **Framework agnostic** — Works with React, Vue, Svelte, Solid, Astro, and any modern frontend stack.
 - **Figma sync** — Free, bidirectional design token sync between code and Figma using the [W3C DTCG format](https://styleframe.dev/docs/tooling/figma-plugin).
 
+## Where this fits
+
+Styleframe is the styles layer of the UXFront projects: it gives you the means to style a design system, like design tokens, themes, utilities, modifiers and `recipe()`, rather than a design system of its own. Its docs site builds on UXFront's shared site kit, and [Inkline](https://inkline.io), the UI library, builds on Styleframe: each Inkline component takes its look from a recipe written with Styleframe, follows its [Open Components](https://opencomponents.dev) standard and is compiled to every framework by [Unframework](https://unframework.dev). Anything that names a component belongs to Inkline, so the component recipes that ship in `@styleframe/theme` today are moving to a theme package of Inkline's own, `@inkline/theme`. The [UXFront vision](https://github.com/uxfront-com/.github/blob/main/VISION.md) says how the five projects connect and what each one's docs keep.
+
 ## Quick Start
 
 Use the CLI to initialize Styleframe in your project:
