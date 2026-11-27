@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import Button from "@storybook-components/button/Button.vue";
-import Badge from "@storybook-components/badge/Badge.vue";
-import Callout from "@storybook-components/callout/Callout.vue";
 import {
 	button,
 	badge,
 	callout,
+	calloutIcon,
+	calloutContent,
+	calloutTitle,
+	calloutDescription,
+	calloutDismiss,
 	playgroundButtonRecipe,
 	playgroundBadgeRecipe,
 	playgroundCalloutRecipe,
@@ -118,13 +120,14 @@ onMounted(() => {
 					{{ capitalize(variant) }}
 				</h3>
 				<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
-					<Button
+					<button
 						v-for="color in buttonColors"
 						:key="color"
-						:color="color"
-						:variant="variant"
-						:label="capitalize(color)"
-					/>
+						type="button"
+						:class="button({ color, variant })"
+					>
+						{{ capitalize(color) }}
+					</button>
 				</div>
 			</template>
 
@@ -132,21 +135,20 @@ onMounted(() => {
 				Sizes
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
-				<Button
-					v-for="size in buttonSizes"
-					:key="size"
-					:size="size"
-					:label="`Size ${size.toUpperCase()}`"
-				/>
+				<button v-for="size in buttonSizes" :key="size" type="button" :class="button({ size })">
+					Size {{ size.toUpperCase() }}
+				</button>
 			</div>
 
 			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Disabled
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center">
-				<Button label="Disabled Solid" disabled />
-				<Button variant="outline" label="Disabled Outline" disabled />
-				<Button variant="ghost" label="Disabled Ghost" disabled />
+				<button type="button" :class="button()" disabled>Disabled Solid</button>
+				<button type="button" :class="button({ variant: 'outline' })" disabled>
+					Disabled Outline
+				</button>
+				<button type="button" :class="button({ variant: 'ghost' })" disabled>Disabled Ghost</button>
 			</div>
 		</section>
 
@@ -158,32 +160,31 @@ onMounted(() => {
 				Solid
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
-				<Badge
-					v-for="color in badgeColors"
-					:key="color"
-					:color="color"
-					:label="capitalize(color)"
-				/>
+				<span v-for="color in badgeColors" :key="color" :class="badge({ color })">
+					{{ capitalize(color) }}
+				</span>
 			</div>
 
 			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Outline
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center _margin-bottom:lg">
-				<Badge
+				<span
 					v-for="color in badgeColors"
 					:key="color"
-					:color="color"
-					variant="outline"
-					:label="capitalize(color)"
-				/>
+					:class="badge({ color, variant: 'outline' })"
+				>
+					{{ capitalize(color) }}
+				</span>
 			</div>
 
 			<h3 class="_font-size:md _font-weight:medium _color:secondary _margin:[0] _margin-bottom:sm">
 				Sizes
 			</h3>
 			<div class="_display:flex _flex-wrap:wrap _gap:sm _align-items:center">
-				<Badge v-for="size in badgeSizes" :key="size" :size="size" :label="size.toUpperCase()" />
+				<span v-for="size in badgeSizes" :key="size" :class="badge({ size })">
+					{{ size.toUpperCase() }}
+				</span>
 			</div>
 		</section>
 
@@ -205,7 +206,7 @@ onMounted(() => {
 						</p>
 					</div>
 					<div class="card__footer">
-						<Button variant="ghost" label="Learn More" />
+						<button type="button" :class="button({ variant: 'ghost' })">Learn More</button>
 					</div>
 				</div>
 
@@ -220,7 +221,7 @@ onMounted(() => {
 						</p>
 					</div>
 					<div class="card__footer">
-						<Button variant="ghost" label="Explore Tokens" />
+						<button type="button" :class="button({ variant: 'ghost' })">Explore Tokens</button>
 					</div>
 				</div>
 
@@ -235,7 +236,7 @@ onMounted(() => {
 						</p>
 					</div>
 					<div class="card__footer">
-						<Button variant="ghost" label="View Recipes" />
+						<button type="button" :class="button({ variant: 'ghost' })">View Recipes</button>
 					</div>
 				</div>
 			</div>
@@ -245,15 +246,14 @@ onMounted(() => {
 		<section class="_margin-bottom:2xl">
 			<h2 class="_font-size:2xl _font-weight:semibold _margin:[0] _margin-bottom:lg">Alerts</h2>
 			<div class="_display:flex _flex-direction:column _gap:md">
-				<Callout
-					v-for="color in alertColors"
-					:key="color"
-					:color="color"
-					:title="alertConfig[color].title"
-					:description="alertConfig[color].message"
-					:icon="alertConfig[color].icon"
-					dismissible
-				/>
+				<div v-for="color in alertColors" :key="color" :class="callout({ color })" role="alert">
+					<span :class="calloutIcon()" aria-hidden="true">{{ alertConfig[color].icon }}</span>
+					<div :class="calloutContent()">
+						<div :class="calloutTitle()">{{ alertConfig[color].title }}</div>
+						<div :class="calloutDescription()">{{ alertConfig[color].message }}</div>
+					</div>
+					<button type="button" :class="calloutDismiss()" aria-label="Dismiss">&times;</button>
+				</div>
 			</div>
 		</section>
 
@@ -346,8 +346,10 @@ onMounted(() => {
 							</p>
 						</div>
 						<div class="card__footer">
-							<Button color="primary" label="Primary" />
-							<Button color="primary" variant="outline" label="Outline" />
+							<button type="button" :class="button({ color: 'primary' })">Primary</button>
+							<button type="button" :class="button({ color: 'primary', variant: 'outline' })">
+								Outline
+							</button>
 						</div>
 					</div>
 

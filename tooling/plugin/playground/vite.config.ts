@@ -22,10 +22,6 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@styleframe/theme": path.resolve(__dirname, "../../../theme/src/index.ts"),
-			"@storybook-components": path.resolve(
-				__dirname,
-				"../../../apps/storybook/src/components/components",
-			),
 		},
 	},
 });

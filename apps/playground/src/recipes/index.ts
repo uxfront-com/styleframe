@@ -4,6 +4,7 @@ export * from "./useEditorShellRecipe";
 export * from "./useErrorBannerRecipe";
 export * from "./useFileTabRecipe";
 export * from "./useFileTreeRecipe";
+export * from "./useRunButtonRecipe";
 export * from "./useSplitPaneRecipe";
 export * from "./useStatusBarRecipe";
 export * from "./useTabListRecipe";

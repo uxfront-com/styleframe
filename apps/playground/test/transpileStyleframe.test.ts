@@ -1,9 +1,4 @@
-import {
-	useButtonRecipe,
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "@styleframe/theme";
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "@styleframe/theme";
 import { styleframe } from "styleframe";
 import { describe, expect, it } from "vitest";
 
@@ -15,7 +10,11 @@ describe("transpileStyleframe", () => {
 		useDesignTokensPreset(s);
 		useUtilitiesPreset(s);
 		useModifiersPreset(s);
-		useButtonRecipe(s);
+		s.recipe({
+			name: "button",
+			base: { paddingInline: "@0.75" },
+			variants: { color: { primary: { background: "@color.primary" } } },
+		});
 		const result = await transpileStyleframe(s);
 		expect(result.css).toContain(":root");
 		expect(result.ts).toContain("createRecipe");

@@ -33,16 +33,19 @@ describe("usePlaygroundState", () => {
 
 		expect(state.files[CONFIG_PATH]!.length).toBeGreaterThan(0);
 		expect(state.files["src/App.tsx"]!.length).toBeGreaterThan(0);
-		expect(state.files["src/components/Card/Card.tsx"]!.length).toBeGreaterThan(0);
 		expect(state.files["src/App.styleframe.ts"]).toContain(".ui-kit");
-		expect(state.files["src/components/Card/Card.styleframe.ts"]).toContain("useCardRecipe");
-		expect(state.files["src/components/Button/Button.styleframe.ts"]).toContain("useButtonRecipe");
-		// UI-kit component samples
-		expect(state.files["src/components/Badge/Badge.styleframe.ts"]).toContain("useBadgeRecipe");
-		expect(state.files["src/components/Spinner/Spinner.styleframe.ts"]).toContain(
-			"useSpinnerRecipe",
+		// The default project ships one component, a Button with its own recipe.
+		expect(Object.keys(state.files).sort()).toEqual([
+			"src/App.styleframe.ts",
+			"src/App.tsx",
+			"src/components/Button/Button.styleframe.ts",
+			"src/components/Button/Button.tsx",
+			CONFIG_PATH,
+		]);
+		expect(state.files["src/components/Button/Button.styleframe.ts"]).toContain("recipe({");
+		expect(state.files["src/components/Button/Button.styleframe.ts"]).not.toContain(
+			"@styleframe/theme",
 		);
-		expect(state.files["src/components/Input/Input.tsx"]).toContain("input-field");
 		expect(state.activePath).toBe(CONFIG_PATH);
 		expect(state.activeOutput).toBe("preview");
 		expect(state.error).toBeNull();

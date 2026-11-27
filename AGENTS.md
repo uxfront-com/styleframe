@@ -92,7 +92,7 @@ All `*.styleframe.ts` extension files share one `Styleframe` instance from `styl
 - `transpiler/` — @styleframe/transpiler — AST-to-CSS/TS/DTS code generation
 
 **Theme** (`theme/`):
-- @styleframe/theme — Design token composables, modifiers, utilities, recipes, presets
+- @styleframe/theme — Design token composables, modifiers, utilities, presets (the component recipes moved to `@inkline/theme` in 4.0.0)
 
 **Tooling** (`tooling/`):
 - `cli/` — @styleframe/cli — CLI for init, build, and Figma sync
@@ -394,14 +394,22 @@ Typography, Backgrounds, Borders, Effects, Filters, Flexbox & Grid, Layout, Sizi
 
 ### Recipes
 
+The theme ships no component recipes since 4.0.0: they're in `@inkline/theme`, with the same names and options. Write your own with `s.recipe()`, or with `createUseRecipe` for a composable that takes overrides:
+
 ```ts
-import { useButtonRecipe, useBadgeRecipe } from '@styleframe/theme';
+import { createUseRecipe } from '@styleframe/theme';
 
-useButtonRecipe(s);  // Colors: primary/secondary/success/info/warning/error
-                     // Variants: solid/outline/soft/subtle/ghost/link
-                     // Sizes: xs/sm/md/lg/xl
+export const useExampleButtonRecipe = createUseRecipe('example-button', {
+    base: { paddingInline: '@0.75', borderRadius: '@border-radius.md' },
+    variants: {
+        color: {
+            primary: { background: '@color.primary', color: '@color.white' },
+        },
+    },
+    defaultVariants: { color: 'primary' },
+});
 
-useBadgeRecipe(s);   // Colors: same, Variants: solid/outline/soft/subtle, Sizes: same
+useExampleButtonRecipe(s);
 ```
 
 ### Shorthand Utilities
@@ -459,12 +467,17 @@ styleframe({
 ```ts
 // button.styleframe.ts
 import { styleframe } from 'virtual:styleframe';
-import { useButtonRecipe } from '@styleframe/theme';
 
 const s = styleframe();
-const { selector } = s;
+const { recipe, selector } = s;
 
-export const button = useButtonRecipe(s);
+export const button = recipe({
+    name: 'button',
+    base: { paddingInline: '@0.75', borderRadius: '@border-radius.md' },
+    variants: {
+        color: { primary: { background: '@color.primary', color: '@color.white' } },
+    },
+});
 
 selector('.button-grid', {
     display: 'flex',
@@ -493,7 +506,7 @@ const classes = button({ color: 'primary', size: 'md' });
 | Variables | `use<Context>Variables()` | `useColorVariables(s)` |
 | Selectors | `use<Context>Selectors()` | `useButtonSelectors(s)` |
 | Utilities | `use<Context>Utilities()` | `useSpacingUtilities(s)` |
-| Recipes | `use<Context>Recipe()` | `useButtonRecipe(s)` |
+| Recipes | `use<Context>Recipe()` | `useExampleButtonRecipe(s)` |
 
 All composable variables MUST use `{ default: true }`:
 

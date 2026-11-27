@@ -120,8 +120,11 @@ describe("useDocsSections().sidebars", () => {
 		stem,
 	});
 
-	// A navigation tree with every section, and Components' pages in their
-	// category folders, as Nuxt Content builds it from the URLs.
+	// The Theme section's folders, as in DOCS_SECTIONS.
+	const THEME_FOLDERS = ["03.design-tokens", "04.elements", "06.utilities", "07.modifiers"];
+
+	// A navigation tree with every section, and a page of each Theme folder in a
+	// category folder, as Nuxt Content builds it from the URLs.
 	const navigation: Array<ContentNavigationItem> = [
 		{
 			title: "Getting Started",
@@ -144,25 +147,26 @@ describe("useDocsSections().sidebars", () => {
 			title: "Theme",
 			path: "/docs/theme",
 			stem: "docs/3.theme",
-			children: ["design-tokens", "elements", "components", "utilities", "modifiers"].map(
-				(folder, index) => ({
-					title: folder,
-					path: `/docs/theme/${folder}`,
-					stem: `docs/3.theme/0${index + 3}.${folder}`,
-					children: [
-						page(`/docs/theme/${folder}/overview`, `docs/3.theme/0${index + 3}.${folder}/00.index`),
-						page(
-							`/docs/theme/${folder}/button`,
-							`docs/3.theme/0${index + 3}.${folder}/02.actions/01.button`,
-						),
-					],
-				}),
-			),
+			children: THEME_FOLDERS.map((folder) => ({
+				title: folder.replace(/^\d+\./, ""),
+				path: `/docs/theme/${folder.replace(/^\d+\./, "")}`,
+				stem: `docs/3.theme/${folder}`,
+				children: [
+					page(
+						`/docs/theme/${folder.replace(/^\d+\./, "")}/overview`,
+						`docs/3.theme/${folder}/00.index`,
+					),
+					page(
+						`/docs/theme/${folder.replace(/^\d+\./, "")}/button`,
+						`docs/3.theme/${folder}/02.actions/01.button`,
+					),
+				],
+			})),
 		},
 	];
 	const nonRouteCategories = Object.fromEntries(
-		["design-tokens", "elements", "components", "utilities", "modifiers"].map((folder, index) => [
-			`docs/3.theme/0${index + 3}.${folder}/02.actions`,
+		THEME_FOLDERS.map((folder) => [
+			`docs/3.theme/${folder}/02.actions`,
 			{ title: "Actions", order: 2 },
 		]),
 	);
@@ -193,16 +197,15 @@ describe("useDocsSections().sidebars", () => {
 		"API Reference": "/docs/api/variables",
 		"Design Tokens": "/docs/theme/design-tokens/overview",
 		Elements: "/docs/theme/elements/overview",
-		Components: "/docs/theme/components/button",
 		Utilities: "/docs/theme/utilities/overview",
 	};
 
 	it("lists every section, with only the reader's open", async () => {
-		const { sidebars } = await sectionsAt(pages.Components);
+		const { sidebars } = await sectionsAt(pages.Elements);
 		expect(sidebars.value.map((section) => section.label)).toEqual(Object.keys(pages));
 		expect(
 			sidebars.value.filter((section) => section.active).map((section) => section.label),
-		).toEqual(["Components"]);
+		).toEqual(["Elements"]);
 	});
 
 	it.each(Object.entries(pages))("gives %s the tree its sidebar shows", async (label, path) => {

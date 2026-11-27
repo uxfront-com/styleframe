@@ -17,7 +17,7 @@ export const DOCS_SECTIONS = [
 	{
 		key: "theme",
 		slug: "theme",
-		folder: ["03.design-tokens", "04.elements", "05.components", "06.utilities", "07.modifiers"],
+		folder: ["03.design-tokens", "04.elements", "06.utilities", "07.modifiers"],
 		label: "Theme",
 		icon: "i-lucide-palette",
 	},
@@ -108,12 +108,6 @@ export const THEME_SUBSECTIONS = [
 		label: "Elements",
 		icon: "i-lucide-type",
 		folders: ["elements"],
-	},
-	{
-		slug: "components",
-		label: "Components",
-		icon: "i-lucide-box",
-		folders: ["components"],
 	},
 	{
 		slug: "utilities",

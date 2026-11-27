@@ -1,7 +1,6 @@
 export * from "./elements";
 export * from "./modifiers";
 export * from "./presets";
-export * from "./recipes";
 export * from "./sanitize";
 export * from "./states";
 export * from "./types";

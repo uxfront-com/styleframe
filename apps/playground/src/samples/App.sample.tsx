@@ -1,28 +1,10 @@
 import "virtual:styleframe.css";
-import Avatar from "./components/Avatar/Avatar";
-import Badge from "./components/Badge/Badge";
 import Button from "./components/Button/Button";
-import Callout from "./components/Callout/Callout";
-import Card from "./components/Card/Card";
-import Checkbox from "./components/Checkbox/Checkbox";
-import Input from "./components/Input/Input";
-import Spinner from "./components/Spinner/Spinner";
 
-const COLORS = [
-	"primary",
-	"secondary",
-	"success",
-	"info",
-	"warning",
-	"error",
-	"neutral",
-	"light",
-	"dark",
-] as const;
-const BUTTON_VARIANTS = ["solid", "outline", "soft", "subtle", "ghost", "link"] as const;
-const BADGE_VARIANTS = ["solid", "outline", "soft", "subtle"] as const;
-const SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
-const CARD_VARIANTS = ["solid", "soft", "subtle"] as const;
+// The axes of the Button recipe in components/Button/Button.styleframe.ts.
+const COLORS = ["primary", "secondary", "success", "error", "neutral"] as const;
+const BUTTON_VARIANTS = ["solid", "outline", "soft"] as const;
+const SIZES = ["sm", "md", "lg"] as const;
 
 // Color scales generated for every base color by the design-token preset.
 // (neutral / light / dark are surface colors without a 50–950 ramp.)
@@ -46,8 +28,8 @@ export default function App() {
 				<header className="ui-kit-header">
 					<h1 className="ui-kit-title">Styleframe UI Kit</h1>
 					<p className="ui-kit-subtitle">
-						Components, tokens, and utilities generated from <code>styleframe.config.ts</code>. Edit
-						the config or any component on the left, then press <kbd>Cmd+S</kbd> (macOS) or{" "}
+						A Button recipe, tokens, and utilities generated from <code>styleframe.config.ts</code>.
+						Edit the config or the Button on the left, then press <kbd>Cmd+S</kbd> (macOS) or{" "}
 						<kbd>Ctrl+S</kbd> (otherwise).
 					</p>
 				</header>
@@ -106,110 +88,6 @@ export default function App() {
 								{size}
 							</Button>
 						))}
-					</div>
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Badges</h2>
-					{BADGE_VARIANTS.map((variant) => (
-						<div key={variant} className="ui-kit-row">
-							<span className="ui-kit-label">{variant}</span>
-							{COLORS.map((color) => (
-								<Badge key={color} color={color} variant={variant}>
-									{color}
-								</Badge>
-							))}
-						</div>
-					))}
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Avatars</h2>
-					<div className="ui-kit-row">
-						<span className="ui-kit-label">sizes</span>
-						{SIZES.map((size) => (
-							<Avatar key={size} size={size}>
-								SF
-							</Avatar>
-						))}
-					</div>
-					<div className="ui-kit-row">
-						<span className="ui-kit-label">colors</span>
-						<Avatar color="primary" variant="solid">
-							AB
-						</Avatar>
-						<Avatar color="primary" variant="soft">
-							CD
-						</Avatar>
-						<Avatar color="neutral">EF</Avatar>
-						<Avatar color="dark">GH</Avatar>
-						<Avatar shape="square" color="primary" variant="solid">
-							IJ
-						</Avatar>
-					</div>
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Callouts</h2>
-					<div className="ui-kit-stack">
-						<Callout color="info" variant="soft">
-							Heads up — this is an informational message.
-						</Callout>
-						<Callout color="success" variant="soft">
-							Success — your changes have been saved.
-						</Callout>
-						<Callout color="warning" variant="soft">
-							Warning — double-check before continuing.
-						</Callout>
-						<Callout color="error" variant="soft">
-							Error — something went wrong.
-						</Callout>
-					</div>
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Cards</h2>
-					<div className="ui-kit-cards">
-						{CARD_VARIANTS.map((variant) => (
-							<Card
-								key={variant}
-								variant={variant}
-								header={<strong>{variant} card</strong>}
-								footer={<Button size="sm">Action</Button>}
-							>
-								<p className="_margin:0">
-									A {variant} card built from the card recipe with header, body, and footer parts.
-								</p>
-							</Card>
-						))}
-					</div>
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Form controls</h2>
-					<div className="ui-kit-row">
-						<span className="ui-kit-label">input</span>
-						<Input placeholder="Type here…" />
-						<Input size="sm" placeholder="Small" />
-						<Input invalid defaultValue="Invalid value" />
-						<Input disabled placeholder="Disabled" />
-					</div>
-					<div className="ui-kit-row">
-						<span className="ui-kit-label">checkbox</span>
-						<Checkbox defaultChecked>Checked</Checkbox>
-						<Checkbox>Unchecked</Checkbox>
-						<Checkbox disabled>Disabled</Checkbox>
-					</div>
-				</section>
-
-				<section className="ui-kit-section">
-					<h2 className="ui-kit-section-title">Spinners</h2>
-					<div className="ui-kit-row">
-						<span className="ui-kit-label">sizes</span>
-						<Spinner size="sm" />
-						<Spinner size="md" />
-						<Spinner size="lg" />
-						<Spinner color="neutral" />
 					</div>
 				</section>
 

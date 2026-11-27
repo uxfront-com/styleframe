@@ -14,7 +14,7 @@ interface DocsPage {
 }
 
 /**
- * Finds the docs page served at `path`, like `/docs/theme/components/button`,
+ * Finds the docs page served at `path`, like `/docs/theme/elements/body`,
  * and reads its source file. Its `stem` is its file with its section in front
  * (see docsStem). The site is static: this runs on `pnpm dev` and when the
  * pages are prerendered, both from the app's directory.

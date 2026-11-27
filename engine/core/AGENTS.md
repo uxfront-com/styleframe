@@ -392,7 +392,7 @@ When building reusable composable functions:
 | Variables | `use<Context>Variables()` | `useColorVariables(s)` |
 | Selectors | `use<Context>Selectors()` | `useButtonSelectors(s)` |
 | Utilities | `use<Context>Utilities()` | `useSpacingUtilities(s)` |
-| Recipes | `use<Context>Recipe()` | `useButtonRecipe(s)` |
+| Recipes | `use<Context>Recipe()` | `useExampleButtonRecipe(s)` |
 
 Composable variables must use `{ default: true }` to prevent overwriting:
 
