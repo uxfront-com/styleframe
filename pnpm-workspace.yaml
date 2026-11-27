@@ -26,7 +26,7 @@ catalog:
   jsdom: ^29.1.1
   lint-staged: ^17.6.2
   npm-run-all2: ^9.1.0
-  nuxt: 4.6.4
+  nuxt: ^4.6.4
   oxfmt: ^0.80.0
   oxlint: ^1.95.0
   playwright: ^1.65.1
@@ -76,7 +76,7 @@ catalogs:
     "@nuxt/eslint": 1.17.0
     "@nuxt/fonts": 1.2.0
     "@nuxt/image": 1.11.0
-    "@nuxt/kit": 4.4.8
+    "@nuxt/kit": 4.6.4
     "@nuxt/schema": 4.6.4
     "@nuxt/scripts": 0.11.13
     "@nuxt/test-utils": 3.19.2
@@ -98,7 +98,7 @@ catalogs:
     git-url-parse: 16.1.0
     minimark: 0.2.0
     motion-v: 1.7.2
-    nuxt: 4.4.8
+    nuxt: 4.6.4
     nuxt-llms: 0.3.2
     nuxt-og-image: 6.6.0
     pkg-types: 2.4.0
