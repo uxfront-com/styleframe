@@ -1,10 +1,10 @@
 # @styleframe/theme
 
-Design token composables and presets for Styleframe. Provides type-safe functions that create CSS custom properties, utility classes, modifiers, and component recipes for building design systems.
+Design token composables and presets for Styleframe. Provides type-safe functions that create CSS custom properties, utility classes, modifiers and presets for building design systems. The component recipes moved to `@inkline/theme` in 4.0.0.
 
 ## Package Overview
 
-`@styleframe/theme` is the token layer of Styleframe. It exports composable functions (`use*`) that register design tokens (CSS custom properties), utility classes, modifiers, and recipes on a Styleframe instance. Every composable takes a Styleframe instance `s` as its first argument and returns typed token objects.
+`@styleframe/theme` is the token layer of Styleframe. It exports composable functions (`use*`) that register design tokens (CSS custom properties), utility classes and modifiers on a Styleframe instance. Every composable takes a Styleframe instance `s` as its first argument and returns typed token objects.
 
 **Peer dependency:** `@styleframe/core` (v3.0.1+)
 **Dependencies:** `culori` (color conversion), `defu` (object defaults), `scule` (string casing)
@@ -21,7 +21,6 @@ src/
 ├── variables/        # use* composables that create CSS custom properties
 ├── modifiers/        # Pseudo-class, pseudo-element, and state modifiers
 ├── utilities/        # use*Utility composables that create utility classes
-├── recipes/          # useButtonRecipe, useBadgeRecipe
 ├── presets/          # useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset, useShorthandUtilitiesPreset
 └── utils/            # Factory functions (createUseVariable, createUseUtility, etc.)
 ```
@@ -186,25 +185,7 @@ Directional variants: `useMarginTopUtility`, `useMarginInlineUtility`, `usePaddi
 
 ## Recipes
 
-Pre-built component recipes with color, variant, and size support.
-
-```ts
-import { useButtonRecipe, useBadgeRecipe } from '@styleframe/theme';
-
-useButtonRecipe(s);
-// Colors: primary, secondary, success, info, warning, error
-// Variants: solid, outline, soft, subtle, ghost, link
-// Sizes: xs, sm, md, lg, xl
-// Defaults: color=primary, variant=solid, size=md
-
-useBadgeRecipe(s);
-// Colors: primary, secondary, success, info, warning, error
-// Variants: solid, outline, soft, subtle
-// Sizes: xs, sm, md, lg, xl
-// Defaults: color=primary, variant=solid, size=sm
-```
-
-Both accept an optional config object for overriding defaults and a `{ filter }` option to include specific variants.
+The theme ships no component recipes: they moved to `@inkline/theme` in 4.0.0. Write your own with `s.recipe()`, or with `createUseRecipe` (see Factory Functions below) when you want a composable that takes overrides and a `{ filter }` option.
 
 ---
 

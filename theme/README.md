@@ -1,6 +1,8 @@
 # @styleframe/theme
 
-Ready-made building blocks for a Styleframe design system: design tokens, element styles, modifiers, utilities and recipes for components like buttons, badges and cards. The presets register each group in one call, so a working system takes a few lines.
+Ready-made building blocks for a Styleframe design system: design tokens, element styles, modifiers and utilities. The presets register each group in one call, so a working system takes a few lines.
+
+The component recipes, like the button and badge recipes, moved to `@inkline/theme` in 4.0.0, with the same names and options. To write your own, use `recipe()` or `createUseRecipe`, which stay here.
 
 ## Install
 
@@ -13,23 +15,27 @@ Once you use a recipe, the `index.ts` a build writes imports `@styleframe/runtim
 
 ## Usage
 
-Call the presets before any recipe, with the design tokens first: the utilities reference the token names, and the recipes use the modifiers and utilities.
+Call the presets before any recipe, with the design tokens first: the utilities reference the token names, and a recipe uses the modifiers and utilities.
 
 ```ts
 import { styleframe } from "styleframe";
-import {
-	useButtonRecipe,
-	useDesignTokensPreset,
-	useModifiersPreset,
-	useUtilitiesPreset,
-} from "@styleframe/theme";
+import { useDesignTokensPreset, useModifiersPreset, useUtilitiesPreset } from "@styleframe/theme";
 
 const s = styleframe();
 
 useDesignTokensPreset(s, { colors: { primary: "#4f46e5" } });
 useModifiersPreset(s);
 useUtilitiesPreset(s);
-useButtonRecipe(s);
+
+s.recipe({
+	name: "button",
+	base: { paddingInline: "@0.75", borderRadius: "@border-radius.md" },
+	variants: {
+		color: {
+			primary: { background: "@color.primary", color: "@color.white" },
+		},
+	},
+});
 
 export default s;
 ```
