@@ -71,12 +71,6 @@ selector(".ui-kit-row", {
 	gap: "@spacing.sm",
 });
 
-selector(".ui-kit-stack", {
-	display: "flex",
-	flexDirection: "column",
-	gap: "@spacing.sm",
-});
-
 selector(".ui-kit-label", {
 	minWidth: "5rem",
 	fontSize: "@font-size.sm",
@@ -88,18 +82,6 @@ selector(".ui-kit-grid", {
 	display: "flex",
 	flexWrap: "wrap",
 	gap: "@spacing.md",
-});
-
-// Card grid — each direct child shares the available width.
-selector(".ui-kit-cards", {
-	display: "flex",
-	flexWrap: "wrap",
-	gap: "@spacing.md",
-});
-
-selector(".ui-kit-cards > *", {
-	flex: "1 1 16rem",
-	maxWidth: "20rem",
 });
 
 // Token swatches

@@ -2,40 +2,22 @@ import type { ReactNode } from "react";
 import { button } from "virtual:styleframe";
 
 interface ButtonProps {
-	color?:
-		| "primary"
-		| "secondary"
-		| "success"
-		| "info"
-		| "warning"
-		| "error"
-		| "light"
-		| "dark"
-		| "neutral";
-	variant?: "solid" | "outline" | "soft" | "subtle" | "ghost" | "link";
-	size?: "xs" | "sm" | "md" | "lg" | "xl";
+	color?: "primary" | "secondary" | "success" | "error" | "neutral";
+	variant?: "solid" | "outline" | "soft";
+	size?: "sm" | "md" | "lg";
 	disabled?: boolean;
 	children?: ReactNode;
 }
 
 export default function Button({
-	color = "primary",
+	color = "neutral",
 	variant = "solid",
 	size = "md",
 	disabled,
 	children,
 }: ButtonProps) {
-	// `neutral` is the recipe default, so only set color for the others.
 	return (
-		<button
-			type="button"
-			className={button({
-				variant,
-				size,
-				...(color !== "neutral" && { color }),
-			})}
-			disabled={disabled}
-		>
+		<button type="button" className={button({ color, variant, size })} disabled={disabled}>
 			{children}
 		</button>
 	);

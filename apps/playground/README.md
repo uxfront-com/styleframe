@@ -35,15 +35,14 @@ Two reasons, both load-bearing:
 
 The **project tree** (far right) lists every file. Hovering an item reveals an **⋯ menu**: files offer _Delete_; folders offer _Delete_, _Create new file_, and _Create new folder_ (scoped to that folder). The header has _New file_ / _New folder_ buttons for the root. The config (`styleframe.config.ts`) and entry (`src/App.tsx`) files, and any folder containing them, are protected. New `.tsx` files are seeded with a minimal React component; new `.styleframe.ts` files with an extension stub.
 
-The default project mirrors a real Styleframe app — a small **UI Kit**: `src/App.tsx` is a gallery that lays out each component's variants (Buttons, Badges, Avatars, Callouts, Cards, form controls, Spinners) plus a colors and a utility-class section.
+The default project mirrors a real Styleframe app, a small **UI Kit**: `src/App.tsx` is a gallery that lays out the Button's variants, plus a colours and a utility-class section. The Button defines its own recipe with `recipe()`, so you can see and edit every style it uses.
 
 ```
 styleframe.config.ts                       # the complete default design-token config
 src/App.tsx                                # entry — the UI Kit gallery
 src/App.styleframe.ts                      # registers the .ui-kit gallery layout styles
 src/components/Button/Button.tsx           # component (recipe wrapper)
-src/components/Button/Button.styleframe.ts # registers the button recipe
-src/components/{Badge,Avatar,Callout,Card,Input,Checkbox,Spinner}/…   # one folder per component
+src/components/Button/Button.styleframe.ts # defines and registers the button recipe
 ```
 
 ## Pipeline

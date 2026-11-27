@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import {
-	button,
+	pgRunButton,
 	pgThemeToggle,
 	pgToolbar,
 	pgToolbarSection,
@@ -168,7 +168,7 @@ onBeforeUnmount(() => {
 			</button>
 			<button
 				type="button"
-				:class="button({ color: 'primary', variant: 'solid', size: 'sm' })"
+				:class="pgRunButton()"
 				:disabled="running || !canRun"
 				aria-label="Run (Ctrl/Cmd+S)"
 				title="Run (Ctrl/Cmd+S)"
