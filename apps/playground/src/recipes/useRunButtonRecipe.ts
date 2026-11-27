@@ -27,7 +27,7 @@ export const useRunButtonRecipe = createUseRecipe("pg-run-button", {
 		userSelect: "none",
 		transitionProperty: "color, background-color, border-color",
 		transitionTimingFunction: "@easing.ease-in-out",
-		transitionDuration: "150ms",
+		transitionDuration: "@duration.fast",
 		"&:hover-capable:hover": {
 			background: "@color.primary-shade-50",
 		},

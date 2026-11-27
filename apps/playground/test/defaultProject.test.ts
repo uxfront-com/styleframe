@@ -1,3 +1,4 @@
+import { validate } from "styleframe";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { initRealEsbuild } from "./helpers/esbuild";
@@ -36,6 +37,8 @@ describe("the default project", () => {
 		const button = instance.root.recipes.find((recipe) => recipe.name === "button");
 		expect(button).toBeDefined();
 		expect(Object.keys(button?.variants ?? {})).toEqual(["color", "variant", "size"]);
+		// Every token reference and modifier in the shipped files resolves.
+		expect(validate(instance)).toEqual([]);
 
 		const sources = Object.entries(files)
 			.filter(([path]) => path !== CONFIG_PATH && !isStyleframeFile(path))
