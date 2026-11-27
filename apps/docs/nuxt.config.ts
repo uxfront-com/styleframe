@@ -280,6 +280,10 @@ export default defineNuxtConfig({
 				"/pricing",
 				"/scanner",
 				"/figma",
+				// Nothing links the former component pages either, so the crawler
+				// would find their refresh pages only by chance. They come from
+				// the same list as their routeRules, so the two can't drift.
+				...Object.keys(componentRedirects),
 			],
 			failOnError: true,
 		},
