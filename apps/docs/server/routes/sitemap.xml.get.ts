@@ -23,8 +23,10 @@ interface DocsPage {
  * rather than guess. Then the changelog, which is last modified with its newest
  * entry, and each entry, on the day it was published.
  *
- * Nitro keeps the first handler for a route, and it scans the app's server/
- * before the layers'. Docus still adds the route to the prerendered ones.
+ * Docus's @nuxtjs/sitemap registers its own `/sitemap.xml` for every method,
+ * after the scanned routes, so it would replace a route without one. This one
+ * is for GET, which the router picks before a route for every method. Docus
+ * still adds the route to the prerendered ones.
  */
 export default defineEventHandler(async (event) => {
 	const { siteUrl } = useRuntimeConfig(event).public;
