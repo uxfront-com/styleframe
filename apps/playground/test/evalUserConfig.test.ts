@@ -21,13 +21,12 @@ describe("evalUserConfig", () => {
 				useDesignTokensPreset,
 				useUtilitiesPreset,
 				useModifiersPreset,
-				useCardRecipe,
 			} from "@styleframe/theme";
 			const s = styleframe();
 			useDesignTokensPreset(s);
 			useUtilitiesPreset(s);
 			useModifiersPreset(s);
-			const card = useCardRecipe(s);
+			s.recipe({ name: "card", base: { padding: "@1", borderRadius: "@border-radius.md" } });
 			export default s;
 		`;
 		const instance = await evalUserConfig(compiled);
@@ -56,9 +55,11 @@ describe("evalStyleframeFile", () => {
 		evalStyleframeFile(
 			`
 			import { styleframe } from "virtual:styleframe";
-			import { useCardRecipe } from "@styleframe/theme";
 			const s = styleframe();
-			export const cardRecipe = useCardRecipe(s);
+			export const cardRecipe = s.recipe({
+				name: "card",
+				base: { padding: "@1", borderRadius: "@border-radius.md" },
+			});
 		`,
 			base,
 		);

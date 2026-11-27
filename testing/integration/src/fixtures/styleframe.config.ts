@@ -1,6 +1,5 @@
 import {
 	createMultiplierAutogenerate,
-	useBadgeRecipe,
 	useDesignTokensPreset,
 	useModifiersPreset,
 	useUtilitiesPreset,
@@ -93,7 +92,68 @@ const createCustomSpacing = s.utility(
 createCustomSpacing(["@sm", "@md", "@1.5", "auto"]);
 
 // ── Recipe test ─────────────────────────────────────────────────────────────
-export const badge = useBadgeRecipe(s);
+const badgeColors = ["primary", "error", "success"] as const;
+
+export const badge = s.recipe({
+	name: "badge",
+	base: {
+		display: "inline-flex",
+		alignItems: "center",
+		fontWeight: "@font-weight.medium",
+		borderWidth: "@border-width.thin",
+		borderStyle: "@border-style.solid",
+		borderRadius: "@border-radius.md",
+		paddingInline: "@0.375",
+	},
+	variants: {
+		color: {
+			primary: {},
+			error: {},
+			success: {},
+		},
+		variant: {
+			solid: {},
+			outline: {},
+			soft: {},
+		},
+		size: {
+			sm: { fontSize: "@font-size.2xs" },
+			md: { fontSize: "@font-size.xs" },
+			lg: { fontSize: "@font-size.sm" },
+		},
+	},
+	defaultVariants: {
+		color: "primary",
+		variant: "solid",
+		size: "md",
+	},
+	compoundVariants: badgeColors.flatMap((color) => [
+		{
+			match: { color, variant: "solid" as const },
+			css: {
+				background: `@color.${color}`,
+				borderColor: `@color.${color}`,
+				color: "@color.white",
+			},
+		},
+		{
+			match: { color, variant: "outline" as const },
+			css: {
+				background: "transparent",
+				borderColor: `@color.${color}`,
+				color: `@color.${color}`,
+			},
+		},
+		{
+			match: { color, variant: "soft" as const },
+			css: {
+				background: `@color.${color}-100`,
+				borderColor: "transparent",
+				color: `@color.${color}-700`,
+			},
+		},
+	]),
+});
 
 // ── Tree-shaking test: unused recipes with unique marker values ─────────────
 const { recipe } = s;

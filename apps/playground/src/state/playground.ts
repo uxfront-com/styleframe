@@ -3,22 +3,8 @@ import { reactive, readonly } from "vue";
 import type { ScanResult } from "@/pipeline/scanAndRegisterUtilities";
 import appSample from "@/samples/App.sample.tsx?raw";
 import appStyleframeSample from "@/samples/App.styleframe.sample.ts?raw";
-import avatarSample from "@/samples/Avatar.sample.tsx?raw";
-import avatarStyleframeSample from "@/samples/Avatar.styleframe.sample.ts?raw";
-import badgeSample from "@/samples/Badge.sample.tsx?raw";
-import badgeStyleframeSample from "@/samples/Badge.styleframe.sample.ts?raw";
 import buttonSample from "@/samples/Button.sample.tsx?raw";
 import buttonStyleframeSample from "@/samples/Button.styleframe.sample.ts?raw";
-import calloutSample from "@/samples/Callout.sample.tsx?raw";
-import calloutStyleframeSample from "@/samples/Callout.styleframe.sample.ts?raw";
-import cardSample from "@/samples/Card.sample.tsx?raw";
-import cardStyleframeSample from "@/samples/Card.styleframe.sample.ts?raw";
-import checkboxSample from "@/samples/Checkbox.sample.tsx?raw";
-import checkboxStyleframeSample from "@/samples/Checkbox.styleframe.sample.ts?raw";
-import inputSample from "@/samples/Input.sample.tsx?raw";
-import inputStyleframeSample from "@/samples/Input.styleframe.sample.ts?raw";
-import spinnerSample from "@/samples/Spinner.sample.tsx?raw";
-import spinnerStyleframeSample from "@/samples/Spinner.styleframe.sample.ts?raw";
 import configSample from "@/samples/styleframe.config.sample.ts?raw";
 
 /** The file that exports the Styleframe instance as its default export. */
@@ -50,22 +36,8 @@ const initialFiles: Record<string, string> = {
 	[CONFIG_PATH]: configSample,
 	"src/App.tsx": appSample,
 	"src/App.styleframe.ts": appStyleframeSample,
-	"src/components/Avatar/Avatar.tsx": avatarSample,
-	"src/components/Avatar/Avatar.styleframe.ts": avatarStyleframeSample,
-	"src/components/Badge/Badge.tsx": badgeSample,
-	"src/components/Badge/Badge.styleframe.ts": badgeStyleframeSample,
 	"src/components/Button/Button.tsx": buttonSample,
 	"src/components/Button/Button.styleframe.ts": buttonStyleframeSample,
-	"src/components/Callout/Callout.tsx": calloutSample,
-	"src/components/Callout/Callout.styleframe.ts": calloutStyleframeSample,
-	"src/components/Card/Card.tsx": cardSample,
-	"src/components/Card/Card.styleframe.ts": cardStyleframeSample,
-	"src/components/Checkbox/Checkbox.tsx": checkboxSample,
-	"src/components/Checkbox/Checkbox.styleframe.ts": checkboxStyleframeSample,
-	"src/components/Input/Input.tsx": inputSample,
-	"src/components/Input/Input.styleframe.ts": inputStyleframeSample,
-	"src/components/Spinner/Spinner.tsx": spinnerSample,
-	"src/components/Spinner/Spinner.styleframe.ts": spinnerStyleframeSample,
 };
 
 const state = reactive<PlaygroundState>({

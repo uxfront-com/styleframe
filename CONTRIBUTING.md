@@ -215,7 +215,7 @@ Linting is handled by [Oxlint](https://oxc.rs/docs/guide/usage/linter), with the
    | `engine/runtime` | `@styleframe/runtime` | Browser-side recipe class generation |
    | `engine/scanner` | `@styleframe/scanner` | Content scanning for utility extraction |
    | `engine/styleframe` | `styleframe` | Barrel package re-exporting all APIs |
-   | `theme` | `@styleframe/theme` | Design tokens, modifiers, utilities, recipes |
+   | `theme` | `@styleframe/theme` | Design tokens, modifiers, utilities, presets |
    | `tooling/plugin` | `@styleframe/plugin` | Build tool integration (Vite, Webpack, Nuxt, etc.) |
    | `tooling/cli` | `@styleframe/cli` | CLI for init, build, and DTCG sync |
    | `tooling/figma` | `@styleframe/figma` | Figma variable sync |

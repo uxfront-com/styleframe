@@ -1,4 +1,3 @@
-import { useButtonRecipe } from "@styleframe/theme";
 import { styleframe } from "virtual:styleframe";
 
 import {
@@ -38,6 +37,7 @@ import {
 	useFileTreeTwistyRecipe,
 	useHmrDotRecipe,
 	useHmrIndicatorRecipe,
+	useRunButtonRecipe,
 	useSplitPaneDividerRecipe,
 	useSplitPanePaneRecipe,
 	useSplitPaneRecipe,
@@ -68,7 +68,7 @@ export const pgErrorBannerClose = useErrorBannerCloseRecipe(s);
 export const pgToolbar = useToolbarRecipe(s);
 export const pgToolbarSection = useToolbarSectionRecipe(s);
 export const pgThemeToggle = useThemeToggleRecipe(s);
-export const button = useButtonRecipe(s);
+export const pgRunButton = useRunButtonRecipe(s);
 
 export const pgBrandMark = useBrandMarkRecipe(s);
 export const pgBrandLink = useBrandLinkRecipe(s);

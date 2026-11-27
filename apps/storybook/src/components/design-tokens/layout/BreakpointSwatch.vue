@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { breakpointSwatchBar, breakpointSwatchTrack } from "virtual:styleframe";
 import SwatchRow from "../../primitives/SwatchRow.vue";
-import Progress from "../../components/progress/Progress.vue";
-import ProgressBar from "../../components/progress/ProgressBar.vue";
 
 const props = defineProps<{
 	name: string;
@@ -19,8 +18,15 @@ const percentage = computed(() =>
 
 <template>
 	<SwatchRow :name="name" :value="value" uppercase>
-		<Progress size="xs" :value="percentage">
-			<ProgressBar color="primary" size="xs" :value="percentage" />
-		</Progress>
+		<div
+			:class="breakpointSwatchTrack()"
+			role="progressbar"
+			:aria-label="`${name} breakpoint`"
+			:aria-valuenow="Math.round(percentage)"
+			:aria-valuemin="0"
+			:aria-valuemax="100"
+		>
+			<div :class="breakpointSwatchBar()" :style="{ width: `${percentage}%` }" />
+		</div>
 	</SwatchRow>
 </template>
