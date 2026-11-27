@@ -6,8 +6,8 @@ This directory contains the Styleframe documentation site, styleframe.dev. It ru
 
 - **Docus only on the docs and the changelog.** `app/app.vue` mounts Docus's shell (header, sidebar, search) on `/docs/**` and `/changelog/**`. Every other page brings its own layout, built from the UXFront kit (`@uxfront/ui`, `@uxfront/scene`).
 - **URLs come from `app/constants/sections.ts`.** `content.config.ts` replaces Docus's `docs` collection with one source per folder, so `03.design-tokens/06.colors.md` is served at `/docs/theme/design-tokens/colors`. Keep the collection name `docs`: Docus's pages, `server/lib/docs.ts` and the sitemap query it. `modules/nonRouteCategories.ts` gives each page a `stem` from its file with its section in front (`docsStem()`), because Nuxt Content orders the sidebar and the previous and next links by stem.
-- **Category folders aren't in the URL.** A folder whose `.navigation.yml` sets `route: false`, like `05.components/02.actions/`, is a sidebar group only: `modules/nonRouteCategories.ts` drops it from its pages' paths, and `app/utils/foldNonRouteCategories.ts` groups the sidebar by it again.
-- **Sections are tabs below the header.** `useDocsSections()` turns the navigation into Getting Started, API Reference and Theme's four sub-sections (Design Tokens, Elements, Components, Utilities), and the overrides of Docus's `AppHeaderBottom`, `AppHeaderBody` (the header's menu on smaller screens), `DocsAsideLeftBody` and `DocsAsideMobileBar` show them.
+- **Category folders aren't in the URL.** A folder whose `.navigation.yml` sets `route: false`, like `04.elements/02.base/`, is a sidebar group only: `modules/nonRouteCategories.ts` drops it from its pages' paths, and `app/utils/foldNonRouteCategories.ts` groups the sidebar by it again.
+- **Sections are tabs below the header.** `useDocsSections()` turns the navigation into Getting Started, API Reference and Theme's three sub-sections (Design Tokens, Elements, Utilities), and the overrides of Docus's `AppHeaderBottom`, `AppHeaderBody` (the header's menu on smaller screens), `DocsAsideLeftBody` and `DocsAsideMobileBar` show them.
 - **The docs page is Docus's, with one change.** `app/pages/[[lang]]/[...slug].vue` builds "Edit this page" from the page's file (`docsSourceStem()`), not its section-prefixed `stem`.
 - **The header and page menu are ours.** `docsTheme.headerLinks` in `app/app.config.ts` lists the Docs and Changelog links, which `@uxfront/layer-docs` shows in the header (`AppHeaderLinks`), and `DocsPageHeaderLinks.vue` leaves out Docus's MCP items, since the static site serves no MCP server. Shared URLs live in `app/data/site.ts`.
 - **The framework switcher comes from `@uxfront/layer-docs`.** `docsTheme.frameworks` in `app/app.config.ts` lists React, Vanilla (`other`) and Vue, which are the slot names `::framework-switcher` blocks use.
@@ -41,7 +41,6 @@ content/docs/
 ├── 02.api/                 # Core API reference (variables, selectors, utilities, recipes, etc.)
 ├── 03.design-tokens/       # Color, spacing, typography, scale, breakpoint tokens
 ├── 04.elements/            # HTML element base styles, in category folders (base, typography, …)
-├── 05.components/          # Component recipes, in category folders (actions, navigation, …)
 ├── 06.utilities/           # Utility categories (spacing, layout, typography, etc.)
 ├── 07.modifiers/           # Pseudo-state, form-state, aria, structural, etc.
 ├── 08.tooling/             # CLI, scanner and agents
@@ -57,7 +56,9 @@ content/home/               # The homepage's code samples, highlighted at build 
 
 - **Getting Started** → `01.getting-started/`, with `08.tooling/`, `09.integrations/` and `10.migration/` below it
 - **API Reference** → `02.api/`
-- **Theme** → `03.design-tokens/`, `04.elements/`, `05.components/`, `06.utilities/` and `07.modifiers/`, shown as four tabs: Design Tokens, Elements, Components, and Utilities (with Modifiers)
+- **Theme** → `03.design-tokens/`, `04.elements/`, `06.utilities/` and `07.modifiers/`, shown as three tabs: Design Tokens, Elements and Utilities (with Modifiers)
+
+The component recipe pages, once `05.components/`, moved to Inkline's docs with `@inkline/theme` in `@styleframe/theme` 4.0.0. The `routeRules` in `nuxt.config.ts` redirect each former page, `/docs/theme/components/<slug>`, to its page at `https://inkline.io/docs/react/recipes/<slug>` with its own 301, and `test/component-redirects.build.test.ts` checks them.
 
 **Numbering convention:** Directories and files use `NN.` prefixes for ordering (e.g., `01.introduction.md`, `06.colors.md`). Index files use `00.index.md`. Subdirectories follow the same pattern.
 
@@ -187,12 +188,12 @@ More content.
 ::
 ```
 
-### Story Previews (Component demos)
+### Story Previews (Storybook demos)
 
 ```markdown
 ::story-preview
 ---
-story: theme-recipes-feedback-badge--default
+story: theme-elements-body--default
 panel: true
 ---
 ::
@@ -218,7 +219,7 @@ Embeds one example from Inkline's deployed preview, by its URL alone. The docs t
 - `target`: the framework the preview renders. Defaults to `vue`.
 - `height`: a fixed height in pixels. Without it, the frame takes the height of its content.
 
-The frame loads when it comes near the viewport, starts in the page's color mode and follows later mode changes without reloading. The Button page uses it, and every other page keeps `::story-preview`.
+The frame loads when it comes near the viewport, starts in the page's color mode and follows later mode changes without reloading. No page uses it since the component pages moved to Inkline's docs, and the element pages keep `::story-preview`.
 
 ### Accordion (FAQ)
 
@@ -270,16 +271,6 @@ Document modifier composables. Each modifier gets its own H2 with tabbed Code/Ou
 2. Batch function (e.g., `usePseudoStateModifiers`)
 3. CSS selector mapping table
 4. Combined modifier examples
-
-### Component Pages (`05.components/`)
-
-Document pre-built recipes. Include:
-1. Registration with `useButtonRecipe(s)` etc.
-2. Story preview component for visual demo
-3. Variant tables (colors, sizes, styles)
-4. Framework-specific usage tabs (React, Vue)
-5. Accessibility section with WCAG guidelines
-6. Customization and filtering options
 
 ---
 

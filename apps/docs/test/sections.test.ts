@@ -19,7 +19,6 @@ describe("docsFolderPrefix", () => {
 			"02.api": "/docs/api",
 			"03.design-tokens": "/docs/theme/design-tokens",
 			"04.elements": "/docs/theme/elements",
-			"05.components": "/docs/theme/components",
 			"06.utilities": "/docs/theme/utilities",
 			"07.modifiers": "/docs/theme/modifiers",
 		});
@@ -38,7 +37,7 @@ describe("docsStem", () => {
 		],
 		["docs/08.tooling/01.cli", "docs/1.getting-started/08.tooling/01.cli"],
 		["docs/02.api/11.recipes/00.index", "docs/2.api/02.api/11.recipes/00.index"],
-		["docs/05.components/02.actions", "docs/3.theme/05.components/02.actions"],
+		["docs/04.elements/02.base", "docs/3.theme/04.elements/02.base"],
 	])("puts the section in front of %s", (file, stem) => {
 		expect(docsStem(file)).toBe(stem);
 		expect(docsSourceStem(stem)).toBe(file);

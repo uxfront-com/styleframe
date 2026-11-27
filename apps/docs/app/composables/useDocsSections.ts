@@ -27,7 +27,7 @@ function firstPagePath(items: Array<ContentNavigationItem> | undefined): string 
  * The docs' sections, as tabs below the header, the sidebar of the one the
  * reader is in, and every section's sidebar for the header's menu. Docus
  * makes a tab of each top-level folder of the navigation: Getting Started,
- * API Reference and Theme. Theme splits into its four
+ * API Reference and Theme. Theme splits into its three
  * sub-sections here (`THEME_SUBSECTIONS`), each with its own sidebar, and the
  * sidebar groups pages by their category folders (`foldNonRouteCategories`)
  * and lists a page like Z-Index as a page, not a group (`flattenNavigation`).
