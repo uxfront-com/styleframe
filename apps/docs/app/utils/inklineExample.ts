@@ -2,7 +2,7 @@
  * The origin of Inkline's deployed preview. The URL is the only link between
  * the docs and Inkline: the docs take no package dependency on it.
  */
-export const INKLINE_PREVIEW_ORIGIN = "https://inkline-preview.blue-water-0397.workers.dev";
+export const INKLINE_PREVIEW_ORIGIN = "https://preview.inkline.io";
 
 export type InklineExampleTheme = "light" | "dark";
 
