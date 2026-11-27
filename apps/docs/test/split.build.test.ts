@@ -106,9 +106,18 @@ describe.each(Object.entries(CODE))("/%s", (page, ids) => {
 // Every UXFront page frames its content at @uxfront/ui's default 1920px:
 // past that width the gutter grows by half the extra, from the kit's base
 // gutter. The site overrides neither, so it frames once. The error page
-// renders from 404.html, which loads the entry stylesheet.
-const FRAME =
-	"--ux-frame:1920px;--ux-gutter-base:clamp(1.25rem,3.2vw,3rem);--ux-gutter:max(var(--ux-gutter-base),calc((100vw - var(--ux-frame))/2 + var(--ux-gutter-base)))";
+// renders from 404.html, which loads the entry stylesheet. Minifiers print
+// the half as `calc(…/2 + …)` or as `.5 * (…) + …`, with or without a space
+// after each comma.
+const FRAME = new RegExp(
+	[
+		"--ux-frame:1920px;",
+		String.raw`--ux-gutter-base:clamp\(1\.25rem, ?3\.2vw, ?3rem\);`,
+		String.raw`--ux-gutter:max\(var\(--ux-gutter-base\), ?`,
+		String.raw`(?:calc\(\(100vw - var\(--ux-frame\)\)/2 \+ var\(--ux-gutter-base\)\)`,
+		String.raw`|\.5 \* \(100vw - var\(--ux-frame\)\) \+ var\(--ux-gutter-base\))\)`,
+	].join(""),
+);
 
 describe("the 1920px frame", () => {
 	it.each([
@@ -123,7 +132,7 @@ describe("the 1920px frame", () => {
 		"cookies",
 	])("frames /%s", (page) => {
 		const html = read(page);
-		expect(html).toContain(FRAME);
+		expect(html).toMatch(FRAME);
 		expect(html).not.toMatch(/\.ux-site\{--ux-gutter:/);
 	});
 
@@ -132,7 +141,7 @@ describe("the 1920px frame", () => {
 		const entry = html.match(/href="\/(_nuxt\/entry\.[\w-]+\.css)"/)?.[1];
 		expect(entry).toBeDefined();
 		const css = readFileSync(join(OUTPUT, entry!), "utf8");
-		expect(css).toContain(FRAME);
+		expect(css).toMatch(FRAME);
 	});
 });
 
