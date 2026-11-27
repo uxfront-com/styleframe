@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@nuxt/content": "catalog:docs",
+		"@nuxt/fonts": "catalog:docs",
 		"@uxfront/layer-docs": "catalog:docs",
 		"@uxfront/layer-ui": "catalog:docs",
 		"@uxfront/scene": "catalog:docs",

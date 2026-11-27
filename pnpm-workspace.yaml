@@ -51,6 +51,10 @@ catalogs:
     "@iconify-json/simple-icons": ^1.2.103
     "@iconify-json/vscode-icons": ^1.2.100
     "@nuxt/content": ^3.17.0
+    # @uxfront/layer-ui's range. Nuxt otherwise loads the @nuxt/fonts pnpm
+    # hoisted, the nuxt catalog's 1.x, which writes fonts to /_nuxt/fonts/,
+    # where the layer's critical-path plugin doesn't move them out of the head.
+    "@nuxt/fonts": ^0.14.0
     "@nuxt/kit": ^4.6.4
     "@uxfront/layer-docs": ^0.9.1
     "@uxfront/layer-ui": ^0.1.11
