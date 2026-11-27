@@ -155,3 +155,13 @@ packageExtensions:
     peerDependenciesMeta:
       "@farmfe/core":
         optional: true
+  # Its types import vite without declaring it, so @styleframe/plugin's
+  # typecheck read whichever vite pnpm hoisted. When that copy was built for
+  # another @types/node than the plugin's own, `addVitePlugin` rejected the
+  # plugin's Vite plugin. As a peer, it resolves the importer's vite.
+  "@nuxt/schema":
+    peerDependencies:
+      vite: "*"
+    peerDependenciesMeta:
+      vite:
+        optional: true
