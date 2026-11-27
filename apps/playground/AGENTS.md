@@ -107,7 +107,7 @@ Manual verification: run `pnpm dev:playground`, create a file from the tree, imp
 
 ## Related
 
-- `src/samples/Button.styleframe.sample.ts` — the default project's one recipe, written with `recipe()`.
+- `src/samples/Button.styleframe.sample.ts`: the default project's one recipe, written with `recipe()`.
 - `engine/transpiler/src/transpile.ts` — `transpile(instance)` consumed by `src/pipeline/transpileStyleframe.ts`.
 - `engine/runtime/src/runtime.ts` — `createRecipe` consumed by the preview's generated runtime module.
 - `apps/storybook/` — mirror setup for Vite + Vue + `@styleframe/plugin`.

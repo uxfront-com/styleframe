@@ -20,7 +20,7 @@
 
 - The theme ships no component recipes: they moved to `@inkline/theme` in 4.0.0
 - `createUseRecipe` (`theme/src/utils/createUseRecipe.ts`) stays, for writing recipe composables
-- A recipe written with it includes base styles, variants, and defaultVariants
+- A recipe written with it includes base styles, variants and defaultVariants
 
 ## Testing
 

@@ -4,7 +4,7 @@ Design token composables and presets for Styleframe. Provides type-safe function
 
 ## Package Overview
 
-`@styleframe/theme` is the token layer of Styleframe. It exports composable functions (`use*`) that register design tokens (CSS custom properties), utility classes and modifiers on a Styleframe instance. Every composable takes a Styleframe instance `s` as its first argument and returns typed token objects.
+The `@styleframe/theme` package is the token layer of Styleframe. It exports composable functions (`use*`) that register design tokens (CSS custom properties), utility classes and modifiers on a Styleframe instance. Every composable takes a Styleframe instance `s` as its first argument and returns typed token objects.
 
 **Peer dependency:** `@styleframe/core` (v3.0.1+)
 **Dependencies:** `culori` (color conversion), `defu` (object defaults), `scule` (string casing)
