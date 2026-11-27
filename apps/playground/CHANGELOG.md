@@ -1,5 +1,13 @@
 # @styleframe/playground
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [[`8aa710f`](https://github.com/uxfront-com/styleframe/commit/8aa710f586185f2461b412590376e63839282587), [`9c6f764`](https://github.com/uxfront-com/styleframe/commit/9c6f76465b3431bd742edcc8bacc553418b568d0)]:
+  - @styleframe/theme@4.0.0
+  - @styleframe/core@3.8.1
+
 ## 0.1.9
 
 ### Patch Changes

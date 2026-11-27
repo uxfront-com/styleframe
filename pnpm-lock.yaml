@@ -821,7 +821,7 @@ importers:
         specifier: workspace:^3.0.1
         version: link:../../config/typescript
       '@styleframe/config-vite':
-        specifier: workspace:^3.1.2
+        specifier: workspace:^3.1.3
         version: link:../../config/vite
       '@styleframe/license':
         specifier: 'catalog:'
@@ -1093,10 +1093,10 @@ importers:
         specifier: workspace:^3.0.2
         version: link:../../config/typescript
       '@styleframe/config-vite':
-        specifier: workspace:^3.1.2
+        specifier: workspace:^3.1.3
         version: link:../../config/vite
       '@styleframe/theme':
-        specifier: workspace:^3.11.0
+        specifier: workspace:^4.0.0
         version: link:../../theme
       '@types/node':
         specifier: 'catalog:'
@@ -1148,10 +1148,10 @@ importers:
         specifier: workspace:^3.0.1
         version: link:../config/typescript
       '@styleframe/config-vite':
-        specifier: workspace:^3.1.2
+        specifier: workspace:^3.1.3
         version: link:../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.8.0
+        specifier: workspace:^3.8.1
         version: link:../engine/core
       '@styleframe/transpiler':
         specifier: workspace:^3.5.1
@@ -1194,10 +1194,10 @@ importers:
         specifier: workspace:^3.0.1
         version: link:../../config/typescript
       '@styleframe/config-vite':
-        specifier: workspace:^3.1.1
+        specifier: workspace:^3.1.3
         version: link:../../config/vite
       '@styleframe/core':
-        specifier: workspace:^3.8.0
+        specifier: workspace:^3.8.1
         version: link:../../engine/core
       '@styleframe/license':
         specifier: 'catalog:'
@@ -1206,7 +1206,7 @@ importers:
         specifier: workspace:^3.0.5
         version: link:../../engine/loader
       '@styleframe/theme':
-        specifier: workspace:^3.11.0
+        specifier: workspace:^4.0.0
         version: link:../../theme
       '@vitest/coverage-v8':
         specifier: 'catalog:'
@@ -1377,7 +1377,7 @@ importers:
         specifier: workspace:^3.2.3
         version: link:../../../engine/runtime
       '@styleframe/theme':
-        specifier: workspace:^3.11.0
+        specifier: workspace:^4.0.0
         version: link:../../../theme
       '@vitejs/plugin-vue':
         specifier: catalog:nuxt
