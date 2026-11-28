@@ -14,16 +14,16 @@ catalog:
   "@uxfront/oxfmt-config": ^0.2.0
   "@uxfront/oxlint-config": ^0.2.0
   "@uxfront/typescript-config": ^0.2.0
-  "@vitest/coverage-v8": ^4.1.8
-  bumpp: ^10.4.1
-  chokidar: ^4.0.3
+  "@vitest/coverage-v8": ^5.1.0
+  bumpp: ^12.3.0
+  chokidar: ^6.0.0
   consola: ^3.4.2
   culori: ^4.0.2
   defu: 6.1.7
   husky: ^9.1.7
   importree: ^2.0.1
   jiti: ^2.7.0
-  jsdom: ^29.1.1
+  jsdom: ^31.0.1
   lint-staged: ^17.6.2
   npm-run-all2: ^9.1.0
   nuxt: ^4.6.4
@@ -40,7 +40,7 @@ catalog:
   vite: ^8.3.8
   vite-plugin-dts: ^5.1.2
   vite-plugin-node: ^8.0.0
-  vitest: ^4.1.8
+  vitest: ^5.1.0
   zod: ^4.6.7
 
 catalogs:
@@ -54,21 +54,21 @@ catalogs:
     # @uxfront/layer-ui's range. Nuxt otherwise loads the @nuxt/fonts pnpm
     # hoisted, the nuxt catalog's 1.x, which writes fonts to /_nuxt/fonts/,
     # where the layer's critical-path plugin doesn't move them out of the head.
-    "@nuxt/fonts": ^0.14.0
+    "@nuxt/fonts": ^1.2.0
     "@nuxt/kit": ^4.6.4
     "@uxfront/layer-docs": ^0.9.1
     "@uxfront/layer-ui": ^0.1.11
     "@uxfront/scene": ^0.5.1
     "@uxfront/site-checks": 0.1.0
     "@uxfront/ui": ^0.9.1
-    "@vueuse/core": ^14.4.0
+    "@vueuse/core": ^15.0.0
     docus: ^5.15.0
     # Nitro 2 runs h3 1, but Nuxt can find the docs server's h3 types through
     # pnpm's hoisting, which may pick the h3 2 of Docus's MCP toolkit and fail
     # the typecheck. The app's own h3 keeps both on 1.
-    h3: ^1.15.11
+    h3: ^2.0.8
     nuxt: ^4.5.2
-    vue-router: ^5.3.1
+    vue-router: ^5.5.1
   nuxt:
     "@iconify-json/devicon": 1.2.84
     "@iconify-json/lucide": 1.2.112
@@ -79,32 +79,32 @@ catalogs:
     "@nuxt/content": 3.14.0
     "@nuxt/eslint": 1.17.0
     "@nuxt/fonts": 1.2.0
-    "@nuxt/image": 1.11.0
+    "@nuxt/image": 2.2.1
     "@nuxt/kit": 4.6.4
     "@nuxt/schema": 4.6.4
-    "@nuxt/scripts": 0.11.13
-    "@nuxt/test-utils": 3.19.2
+    "@nuxt/scripts": 1.3.12
+    "@nuxt/test-utils": 4.4.0
     "@nuxt/ui": 4.13.1
     "@nuxtjs/i18n": 10.6.0
     "@nuxtjs/mdc": 0.23.4
-    "@nuxtjs/robots": 6.1.1
+    "@nuxtjs/robots": 7.0.2
     "@nuxtjs/sitemap": 9.1.0
     "@nuxtjs/supabase": 2.1.0
     "@supabase/supabase-js": ^2.119.2
-    "@unhead/vue": 2.0.19
+    "@unhead/vue": 3.4.3
     "@vitejs/plugin-vue": ^6.0.11
     "@vue/tsconfig": ^0.9.1
     "@vueuse/core": 14.3.0
-    better-sqlite3: ^12.10.1
+    better-sqlite3: ^13.1.1
     c12: 3.3.4
 
     exsolve: 1.2.0
     git-url-parse: 16.1.0
-    minimark: 0.2.0
-    motion-v: 1.7.2
+    minimark: 1.0.0
+    motion-v: 2.12.0
     nuxt: 4.6.4
     nuxt-llms: 0.3.2
-    nuxt-og-image: 6.6.0
+    nuxt-og-image: 7.0.7
     pkg-types: 2.4.0
     posthog-js: 1.454.0
     tailwindcss: 4.3.5
