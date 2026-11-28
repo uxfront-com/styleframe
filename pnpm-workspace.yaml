@@ -26,7 +26,7 @@ catalog:
   jsdom: ^29.1.1
   lint-staged: ^17.6.2
   npm-run-all2: ^9.1.0
-  nuxt: ^4.6.4
+  nuxt: ^4.7.0
   oxfmt: ^0.80.0
   oxlint: ^1.95.0
   playwright: ^1.65.1
@@ -47,15 +47,15 @@ catalogs:
   # The docs app (apps/docs) runs on Open Components' setup, at its versions: Docus
   # on the UXFront layers. The other apps stay on `nuxt`, and share its `vue`.
   docs:
-    "@iconify-json/lucide": ^1.2.158
-    "@iconify-json/simple-icons": ^1.2.103
-    "@iconify-json/vscode-icons": ^1.2.100
-    "@nuxt/content": ^3.17.0
+    "@iconify-json/lucide": ^1.2.159
+    "@iconify-json/simple-icons": ^1.2.104
+    "@iconify-json/vscode-icons": 1.2.100
+    "@nuxt/content": 3.17.0
     # @uxfront/layer-ui's range. Nuxt otherwise loads the @nuxt/fonts pnpm
     # hoisted, the nuxt catalog's 1.x, which writes fonts to /_nuxt/fonts/,
     # where the layer's critical-path plugin doesn't move them out of the head.
     "@nuxt/fonts": ^0.14.0
-    "@nuxt/kit": ^4.6.4
+    "@nuxt/kit": ^4.7.0
     "@uxfront/layer-docs": ^0.9.1
     "@uxfront/layer-ui": ^0.1.11
     "@uxfront/scene": ^0.5.1
@@ -81,7 +81,7 @@ catalogs:
     "@nuxt/fonts": 1.2.0
     "@nuxt/image": 1.11.0
     "@nuxt/kit": 4.6.4
-    "@nuxt/schema": 4.6.4
+    "@nuxt/schema": 4.7.0
     "@nuxt/scripts": 0.11.13
     "@nuxt/test-utils": 3.19.2
     "@nuxt/ui": 4.13.1
@@ -106,7 +106,7 @@ catalogs:
     nuxt-llms: 0.3.2
     nuxt-og-image: 6.6.0
     pkg-types: 2.4.0
-    posthog-js: 1.454.0
+    posthog-js: 1.454.5
     tailwindcss: 4.3.5
     typescript: ^6.0.3
     ufo: 1.6.4
