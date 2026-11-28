@@ -26,7 +26,7 @@
 		"@storybook/vue3-vite": "^10.6.8",
 		"@types/node": "catalog:",
 		"@vitejs/plugin-vue": "catalog:nuxt",
-		"@vitest/browser-playwright": "^4.1.8",
+		"@vitest/browser-playwright": "^5.1.0",
 		"@vitest/coverage-v8": "catalog:",
 		"@vue/tsconfig": "catalog:nuxt",
 		"@vueless/storybook-dark-mode": "^10.0.8",
